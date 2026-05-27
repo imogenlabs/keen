@@ -17,7 +17,7 @@ func newDashboardItemsGetDashboardPropertyKeysCmd(flags *rootFlags) *cobra.Comma
 		Use:         "get-dashboard-property-keys <dashboardId> <itemId>",
 		Short:       "Returns the keys of all properties for a dashboard item. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli dashboard items get-dashboard-property-keys 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "items.get-dashboard-property-keys", "pp:method": "GET", "pp:path": "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "items.get-dashboard-property-keys", "pp:method": "GET", "pp:path": "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newDashboardItemsGetDashboardPropertyKeysCmd(flags *rootFlags) *cobra.Comma
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties"
+			path := "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties"
 			path = replacePathParam(path, "dashboardId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("itemId is required\nUsage: %s <%s>", cmd.CommandPath(), "itemId"))

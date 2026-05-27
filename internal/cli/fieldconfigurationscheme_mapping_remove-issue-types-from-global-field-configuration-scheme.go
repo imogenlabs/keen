@@ -21,7 +21,7 @@ func newFieldconfigurationschemeMappingRemoveIssueTypesFromGlobalFieldConfigurat
 		Aliases:     []string{"create"},
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli fieldconfigurationscheme mapping remove-issue-types-from-global-field-configuration-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "mapping.remove-issue-types-from-global-field-configuration-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/fieldconfigurationscheme/{id}/mapping/delete"},
+		Annotations: map[string]string{"pp:endpoint": "mapping.remove-issue-types-from-global-field-configuration-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/fieldconfigurationscheme/{id}/mapping/delete"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newFieldconfigurationschemeMappingRemoveIssueTypesFromGlobalFieldConfigurat
 				return err
 			}
 
-			path := "/rest/api/2/fieldconfigurationscheme/{id}/mapping/delete"
+			path := "/rest/api/3/fieldconfigurationscheme/{id}/mapping/delete"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

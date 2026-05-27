@@ -21,7 +21,7 @@ func newJqlUpdatePrecomputationsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-precomputations",
 		Short:       "Update the precomputation value of a function created by a Forge/Connect app.",
 		Example:     "  jira-pp-cli-pp-cli jql update-precomputations",
-		Annotations: map[string]string{"pp:endpoint": "jql.update-precomputations", "pp:method": "POST", "pp:path": "/rest/api/2/jql/function/computation"},
+		Annotations: map[string]string{"pp:endpoint": "jql.update-precomputations", "pp:method": "POST", "pp:path": "/rest/api/3/jql/function/computation"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -30,7 +30,7 @@ func newJqlUpdatePrecomputationsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/jql/function/computation"
+			path := "/rest/api/3/jql/function/computation"
 			params := map[string]string{}
 			if flagSkipNotFoundPrecomputations != false {
 				params["skipNotFoundPrecomputations"] = fmt.Sprintf("%v", flagSkipNotFoundPrecomputations)

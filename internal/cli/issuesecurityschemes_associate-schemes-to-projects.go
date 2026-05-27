@@ -23,7 +23,7 @@ func newIssuesecurityschemesAssociateSchemesToProjectsCmd(flags *rootFlags) *cob
 		Aliases:     []string{"update"},
 		Short:       "Associates an issue security scheme with a project and remaps security levels of issues to the new levels, if provided.",
 		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes associate-schemes-to-projects --project-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.associate-schemes-to-projects", "pp:method": "PUT", "pp:path": "/rest/api/2/issuesecurityschemes/project"},
+		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.associate-schemes-to-projects", "pp:method": "PUT", "pp:path": "/rest/api/3/issuesecurityschemes/project"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("project-id") && !flags.dryRun {
@@ -38,7 +38,7 @@ func newIssuesecurityschemesAssociateSchemesToProjectsCmd(flags *rootFlags) *cob
 				return err
 			}
 
-			path := "/rest/api/2/issuesecurityschemes/project"
+			path := "/rest/api/3/issuesecurityschemes/project"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

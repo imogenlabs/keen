@@ -18,14 +18,14 @@ func newMypreferencesGetLocaleCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns the locale for the user.",
 		Example:     "  jira-pp-cli-pp-cli mypreferences get-locale",
-		Annotations: map[string]string{"pp:endpoint": "mypreferences.get-locale", "pp:method": "GET", "pp:path": "/rest/api/2/mypreferences/locale", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "mypreferences.get-locale", "pp:method": "GET", "pp:path": "/rest/api/3/mypreferences/locale", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/mypreferences/locale"
+			path := "/rest/api/3/mypreferences/locale"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "mypreferences", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

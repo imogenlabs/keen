@@ -23,14 +23,14 @@ func newIssuesecurityschemesGetSecurityLevelsCmd(flags *rootFlags) *cobra.Comman
 		Use:         "get-security-levels",
 		Short:       "Returns a [paginated](#pagination) list of issue security levels.",
 		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes get-security-levels",
-		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.get-security-levels", "pp:method": "GET", "pp:path": "/rest/api/2/issuesecurityschemes/level", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.get-security-levels", "pp:method": "GET", "pp:path": "/rest/api/3/issuesecurityschemes/level", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/issuesecurityschemes/level"
+			path := "/rest/api/3/issuesecurityschemes/level"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "issuesecurityschemes", path, map[string]string{
 				"startAt":     fmt.Sprintf("%v", flagStartAt),
 				"maxResults":  fmt.Sprintf("%v", flagMaxResults),

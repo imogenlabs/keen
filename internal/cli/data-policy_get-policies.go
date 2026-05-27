@@ -19,14 +19,14 @@ func newDataPolicyGetPoliciesCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns data policies for the projects specified in the request.",
 		Example:     "  jira-pp-cli-pp-cli data-policy get-policies",
-		Annotations: map[string]string{"pp:endpoint": "data-policy.get-policies", "pp:method": "GET", "pp:path": "/rest/api/2/data-policy/project", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "data-policy.get-policies", "pp:method": "GET", "pp:path": "/rest/api/3/data-policy/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/data-policy/project"
+			path := "/rest/api/3/data-policy/project"
 			params := map[string]string{}
 			if flagIds != "" {
 				params["ids"] = fmt.Sprintf("%v", flagIds)

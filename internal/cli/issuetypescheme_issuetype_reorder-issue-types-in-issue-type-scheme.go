@@ -22,7 +22,7 @@ func newIssuetypeschemeIssuetypeReorderIssueTypesInIssueTypeSchemeCmd(flags *roo
 		Use:         "reorder-issue-types-in-issue-type-scheme <issueTypeSchemeId>",
 		Short:       "Changes the order of issue types in an issue type scheme.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescheme issuetype reorder-issue-types-in-issue-type-scheme 42",
-		Annotations: map[string]string{"pp:endpoint": "issuetype.reorder-issue-types-in-issue-type-scheme", "pp:method": "PUT", "pp:path": "/rest/api/2/issuetypescheme/{issueTypeSchemeId}/issuetype/move"},
+		Annotations: map[string]string{"pp:endpoint": "issuetype.reorder-issue-types-in-issue-type-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/issuetypescheme/{issueTypeSchemeId}/issuetype/move"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -37,7 +37,7 @@ func newIssuetypeschemeIssuetypeReorderIssueTypesInIssueTypeSchemeCmd(flags *roo
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescheme/{issueTypeSchemeId}/issuetype/move"
+			path := "/rest/api/3/issuetypescheme/{issueTypeSchemeId}/issuetype/move"
 			path = replacePathParam(path, "issueTypeSchemeId", args[0])
 			params := map[string]string{}
 			var body map[string]any

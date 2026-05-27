@@ -18,14 +18,14 @@ func newPermissionsGetAllCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns all permissions, including: * global permissions. * project permissions. * global permissions added by plugins.",
 		Example:     "  jira-pp-cli-pp-cli permissions get-all",
-		Annotations: map[string]string{"pp:endpoint": "permissions.get-all", "pp:method": "GET", "pp:path": "/rest/api/2/permissions", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "permissions.get-all", "pp:method": "GET", "pp:path": "/rest/api/3/permissions", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/permissions"
+			path := "/rest/api/3/permissions"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "permissions", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

@@ -20,7 +20,7 @@ func newIssueGetCreateMetaTypesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-create-meta-types <projectIdOrKey>",
 		Short:       "Returns a page of issue type metadata for a specified project.",
 		Example:     "  jira-pp-cli-pp-cli issue get-create-meta-types your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "issue.get-create-meta-types", "pp:method": "GET", "pp:path": "/rest/api/2/issue/createmeta/{projectIdOrKey}/issuetypes", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issue.get-create-meta-types", "pp:method": "GET", "pp:path": "/rest/api/3/issue/createmeta/{projectIdOrKey}/issuetypes", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -30,7 +30,7 @@ func newIssueGetCreateMetaTypesCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/createmeta/{projectIdOrKey}/issuetypes"
+			path := "/rest/api/3/issue/createmeta/{projectIdOrKey}/issuetypes"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "issue", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

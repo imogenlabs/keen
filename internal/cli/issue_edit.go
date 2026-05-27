@@ -68,7 +68,7 @@ func newIssueEditCmd(flags *rootFlags) *cobra.Command {
 		Use:         "edit <issueIdOrKey>",
 		Short:       "Edits an issue. Issue properties may be updated as part of the edit.",
 		Example:     "  jira-pp-cli-pp-cli issue edit your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "issue.edit", "pp:method": "PUT", "pp:path": "/rest/api/2/issue/{issueIdOrKey}"},
+		Annotations: map[string]string{"pp:endpoint": "issue.edit", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/{issueIdOrKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -80,7 +80,7 @@ func newIssueEditCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}"
+			path := "/rest/api/3/issue/{issueIdOrKey}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			if flagNotifyUsers != false {

@@ -20,7 +20,7 @@ func newIssuesecurityschemesSetDefaultLevelsCmd(flags *rootFlags) *cobra.Command
 		Use:         "set-default-levels",
 		Short:       "Sets default issue security levels for schemes.",
 		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes set-default-levels",
-		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.set-default-levels", "pp:method": "PUT", "pp:path": "/rest/api/2/issuesecurityschemes/level/default"},
+		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.set-default-levels", "pp:method": "PUT", "pp:path": "/rest/api/3/issuesecurityschemes/level/default"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("default-values") && !flags.dryRun {
@@ -32,7 +32,7 @@ func newIssuesecurityschemesSetDefaultLevelsCmd(flags *rootFlags) *cobra.Command
 				return err
 			}
 
-			path := "/rest/api/2/issuesecurityschemes/level/default"
+			path := "/rest/api/3/issuesecurityschemes/level/default"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

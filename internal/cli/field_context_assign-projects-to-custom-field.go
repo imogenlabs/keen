@@ -20,7 +20,7 @@ func newFieldContextAssignProjectsToCustomFieldCmd(flags *rootFlags) *cobra.Comm
 		Use:         "assign-projects-to-custom-field <fieldId> <contextId>",
 		Short:       "Assigns a custom field context to projects.",
 		Example:     "  jira-pp-cli-pp-cli field context assign-projects-to-custom-field 550e8400-e29b-41d4-a716-446655440000 42",
-		Annotations: map[string]string{"pp:endpoint": "context.assign-projects-to-custom-field", "pp:method": "PUT", "pp:path": "/rest/api/2/field/{fieldId}/context/{contextId}/project"},
+		Annotations: map[string]string{"pp:endpoint": "context.assign-projects-to-custom-field", "pp:method": "PUT", "pp:path": "/rest/api/3/field/{fieldId}/context/{contextId}/project"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -35,7 +35,7 @@ func newFieldContextAssignProjectsToCustomFieldCmd(flags *rootFlags) *cobra.Comm
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldId}/context/{contextId}/project"
+			path := "/rest/api/3/field/{fieldId}/context/{contextId}/project"
 			path = replacePathParam(path, "fieldId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("contextId is required\nUsage: %s <%s>", cmd.CommandPath(), "contextId"))

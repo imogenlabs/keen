@@ -24,7 +24,7 @@ func newUserFindBulkAssignableCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find-bulk-assignable",
 		Short:       "Returns a list of users who can be assigned issues in one or more projects.",
 		Example:     "  jira-pp-cli-pp-cli user find-bulk-assignable --project-keys your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "user.find-bulk-assignable", "pp:method": "GET", "pp:path": "/rest/api/2/user/assignable/multiProjectSearch", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.find-bulk-assignable", "pp:method": "GET", "pp:path": "/rest/api/3/user/assignable/multiProjectSearch", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("project-keys") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "project-keys")
@@ -34,7 +34,7 @@ func newUserFindBulkAssignableCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/assignable/multiProjectSearch"
+			path := "/rest/api/3/user/assignable/multiProjectSearch"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"query":       fmt.Sprintf("%v", flagQuery),
 				"username":    fmt.Sprintf("%v", flagUsername),

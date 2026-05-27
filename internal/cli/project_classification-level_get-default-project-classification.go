@@ -18,7 +18,7 @@ func newProjectClassificationLevelGetDefaultProjectClassificationCmd(flags *root
 		Aliases:     []string{"get"},
 		Short:       "Returns the default data classification for a project.",
 		Example:     "  jira-pp-cli-pp-cli project classification-level get-default-project-classification your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "classification-level.get-default-project-classification", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/classification-level/default", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "classification-level.get-default-project-classification", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/classification-level/default", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectClassificationLevelGetDefaultProjectClassificationCmd(flags *root
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/classification-level/default"
+			path := "/rest/api/3/project/{projectIdOrKey}/classification-level/default"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "classification-level", false, path, params, nil, cmd.ErrOrStderr())

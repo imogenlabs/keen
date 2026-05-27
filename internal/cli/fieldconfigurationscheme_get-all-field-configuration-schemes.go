@@ -22,14 +22,14 @@ func newFieldconfigurationschemeGetAllFieldConfigurationSchemesCmd(flags *rootFl
 		Aliases:     []string{"list"},
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli fieldconfigurationscheme get-all-field-configuration-schemes",
-		Annotations: map[string]string{"pp:endpoint": "fieldconfigurationscheme.get-all-field-configuration-schemes", "pp:method": "GET", "pp:path": "/rest/api/2/fieldconfigurationscheme", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "fieldconfigurationscheme.get-all-field-configuration-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/fieldconfigurationscheme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/fieldconfigurationscheme"
+			path := "/rest/api/3/fieldconfigurationscheme"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "fieldconfigurationscheme", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

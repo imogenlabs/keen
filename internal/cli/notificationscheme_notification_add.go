@@ -21,7 +21,7 @@ func newNotificationschemeNotificationAddCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Adds notifications to a notification scheme. You can add up to 1000 notifications per request.",
 		Example:     "  jira-pp-cli-pp-cli notificationscheme notification add 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "notification.add", "pp:method": "PUT", "pp:path": "/rest/api/2/notificationscheme/{id}/notification"},
+		Annotations: map[string]string{"pp:endpoint": "notification.add", "pp:method": "PUT", "pp:path": "/rest/api/3/notificationscheme/{id}/notification"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newNotificationschemeNotificationAddCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/notificationscheme/{id}/notification"
+			path := "/rest/api/3/notificationscheme/{id}/notification"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

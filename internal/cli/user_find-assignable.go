@@ -31,14 +31,14 @@ func newUserFindAssignableCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find-assignable",
 		Short:       "Returns a list of users that can be assigned to an issue.",
 		Example:     "  jira-pp-cli-pp-cli user find-assignable",
-		Annotations: map[string]string{"pp:endpoint": "user.find-assignable", "pp:method": "GET", "pp:path": "/rest/api/2/user/assignable/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.find-assignable", "pp:method": "GET", "pp:path": "/rest/api/3/user/assignable/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/user/assignable/search"
+			path := "/rest/api/3/user/assignable/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"query":              fmt.Sprintf("%v", flagQuery),
 				"sessionId":          fmt.Sprintf("%v", flagSessionId),

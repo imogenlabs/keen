@@ -18,14 +18,14 @@ func newApplicationPropertiesGetAdvancedSettingsCmd(flags *rootFlags) *cobra.Com
 		Aliases:     []string{"list"},
 		Short:       "Returns the application properties that are accessible on the *Advanced Settings* page.",
 		Example:     "  jira-pp-cli-pp-cli application-properties get-advanced-settings",
-		Annotations: map[string]string{"pp:endpoint": "application-properties.get-advanced-settings", "pp:method": "GET", "pp:path": "/rest/api/2/application-properties/advanced-settings", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "application-properties.get-advanced-settings", "pp:method": "GET", "pp:path": "/rest/api/3/application-properties/advanced-settings", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/application-properties/advanced-settings"
+			path := "/rest/api/3/application-properties/advanced-settings"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "application-properties", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

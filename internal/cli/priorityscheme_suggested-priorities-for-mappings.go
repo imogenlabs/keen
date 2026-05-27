@@ -25,7 +25,7 @@ func newPriorityschemeSuggestedPrioritiesForMappingsCmd(flags *rootFlags) *cobra
 		Use:         "suggested-priorities-for-mappings",
 		Short:       "Returns a [paginated](#pagination) list of priorities that would require mapping",
 		Example:     "  jira-pp-cli-pp-cli priorityscheme suggested-priorities-for-mappings",
-		Annotations: map[string]string{"pp:endpoint": "priorityscheme.suggested-priorities-for-mappings", "pp:method": "POST", "pp:path": "/rest/api/2/priorityscheme/mappings"},
+		Annotations: map[string]string{"pp:endpoint": "priorityscheme.suggested-priorities-for-mappings", "pp:method": "POST", "pp:path": "/rest/api/3/priorityscheme/mappings"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -34,7 +34,7 @@ func newPriorityschemeSuggestedPrioritiesForMappingsCmd(flags *rootFlags) *cobra
 				return err
 			}
 
-			path := "/rest/api/2/priorityscheme/mappings"
+			path := "/rest/api/3/priorityscheme/mappings"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

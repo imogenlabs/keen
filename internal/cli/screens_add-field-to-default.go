@@ -19,7 +19,7 @@ func newScreensAddFieldToDefaultCmd(flags *rootFlags) *cobra.Command {
 		Use:         "add-field-to-default <fieldId>",
 		Short:       "Adds a field to the default tab of the default screen.",
 		Example:     "  jira-pp-cli-pp-cli screens add-field-to-default 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "screens.add-field-to-default", "pp:method": "POST", "pp:path": "/rest/api/2/screens/addToDefault/{fieldId}"},
+		Annotations: map[string]string{"pp:endpoint": "screens.add-field-to-default", "pp:method": "POST", "pp:path": "/rest/api/3/screens/addToDefault/{fieldId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newScreensAddFieldToDefaultCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens/addToDefault/{fieldId}"
+			path := "/rest/api/3/screens/addToDefault/{fieldId}"
 			path = replacePathParam(path, "fieldId", args[0])
 			params := map[string]string{}
 			var body map[string]any

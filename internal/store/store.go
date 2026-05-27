@@ -4354,7 +4354,7 @@ func (s *Store) Search(query string, limit int) ([]json.RawMessage, error) {
 		`SELECT r.data FROM resources r
 		 JOIN resources_fts f ON r.id = f.id AND r.resource_type = f.resource_type
 		 WHERE resources_fts MATCH ?
-		 ORDER BY rank
+		 ORDER BY f.rank
 		 LIMIT ?`,
 		query, limit,
 	)
@@ -16227,9 +16227,9 @@ func (s *Store) SearchAddons(query string, limit int) ([]json.RawMessage, error)
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "addons" t
-		 JOIN "addons_fts" ON "addons_fts".rowid = t.rowid
-		 WHERE "addons_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "addons_fts" f ON f.rowid = t.rowid
+			 WHERE "addons_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16255,9 +16255,9 @@ func (s *Store) SearchAgile(query string, limit int) ([]json.RawMessage, error) 
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "agile" t
-		 JOIN "agile_fts" ON "agile_fts".rowid = t.rowid
-		 WHERE "agile_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "agile_fts" f ON f.rowid = t.rowid
+			 WHERE "agile_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16283,9 +16283,9 @@ func (s *Store) SearchAtlassianAccessGroups(query string, limit int) ([]json.Raw
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "atlassian_access_groups" t
-		 JOIN "atlassian_access_groups_fts" ON "atlassian_access_groups_fts".rowid = t.rowid
-		 WHERE "atlassian_access_groups_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "atlassian_access_groups_fts" f ON f.rowid = t.rowid
+			 WHERE "atlassian_access_groups_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16311,9 +16311,9 @@ func (s *Store) SearchAtlassianConnect(query string, limit int) ([]json.RawMessa
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "atlassian_connect" t
-		 JOIN "atlassian_connect_fts" ON "atlassian_connect_fts".rowid = t.rowid
-		 WHERE "atlassian_connect_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "atlassian_connect_fts" f ON f.rowid = t.rowid
+			 WHERE "atlassian_connect_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16339,9 +16339,9 @@ func (s *Store) SearchBuilds(query string, limit int) ([]json.RawMessage, error)
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "builds" t
-		 JOIN "builds_fts" ON "builds_fts".rowid = t.rowid
-		 WHERE "builds_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "builds_fts" f ON f.rowid = t.rowid
+			 WHERE "builds_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16367,9 +16367,9 @@ func (s *Store) SearchComponent(query string, limit int) ([]json.RawMessage, err
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "component" t
-		 JOIN "component_fts" ON "component_fts".rowid = t.rowid
-		 WHERE "component_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "component_fts" f ON f.rowid = t.rowid
+			 WHERE "component_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16395,9 +16395,9 @@ func (s *Store) SearchConfig(query string, limit int) ([]json.RawMessage, error)
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "config" t
-		 JOIN "config_fts" ON "config_fts".rowid = t.rowid
-		 WHERE "config_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "config_fts" f ON f.rowid = t.rowid
+			 WHERE "config_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16423,9 +16423,9 @@ func (s *Store) SearchDashboard(query string, limit int) ([]json.RawMessage, err
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "dashboard" t
-		 JOIN "dashboard_fts" ON "dashboard_fts".rowid = t.rowid
-		 WHERE "dashboard_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "dashboard_fts" f ON f.rowid = t.rowid
+			 WHERE "dashboard_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16451,9 +16451,9 @@ func (s *Store) SearchDeployments(query string, limit int) ([]json.RawMessage, e
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "deployments" t
-		 JOIN "deployments_fts" ON "deployments_fts".rowid = t.rowid
-		 WHERE "deployments_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "deployments_fts" f ON f.rowid = t.rowid
+			 WHERE "deployments_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16479,9 +16479,9 @@ func (s *Store) SearchDevinfo(query string, limit int) ([]json.RawMessage, error
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "devinfo" t
-		 JOIN "devinfo_fts" ON "devinfo_fts".rowid = t.rowid
-		 WHERE "devinfo_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "devinfo_fts" f ON f.rowid = t.rowid
+			 WHERE "devinfo_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16507,9 +16507,9 @@ func (s *Store) SearchDevopscomponents(query string, limit int) ([]json.RawMessa
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "devopscomponents" t
-		 JOIN "devopscomponents_fts" ON "devopscomponents_fts".rowid = t.rowid
-		 WHERE "devopscomponents_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "devopscomponents_fts" f ON f.rowid = t.rowid
+			 WHERE "devopscomponents_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16535,9 +16535,9 @@ func (s *Store) SearchFilter(query string, limit int) ([]json.RawMessage, error)
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "filter" t
-		 JOIN "filter_fts" ON "filter_fts".rowid = t.rowid
-		 WHERE "filter_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "filter_fts" f ON f.rowid = t.rowid
+			 WHERE "filter_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16563,9 +16563,9 @@ func (s *Store) SearchIssuesecurityschemes(query string, limit int) ([]json.RawM
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "issuesecurityschemes" t
-		 JOIN "issuesecurityschemes_fts" ON "issuesecurityschemes_fts".rowid = t.rowid
-		 WHERE "issuesecurityschemes_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "issuesecurityschemes_fts" f ON f.rowid = t.rowid
+			 WHERE "issuesecurityschemes_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16591,9 +16591,9 @@ func (s *Store) SearchIssuetype(query string, limit int) ([]json.RawMessage, err
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "issuetype" t
-		 JOIN "issuetype_fts" ON "issuetype_fts".rowid = t.rowid
-		 WHERE "issuetype_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "issuetype_fts" f ON f.rowid = t.rowid
+			 WHERE "issuetype_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16619,9 +16619,9 @@ func (s *Store) SearchJiraCloudPlatformVersion(query string, limit int) ([]json.
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "jira_cloud_platform_version" t
-		 JOIN "jira_cloud_platform_version_fts" ON "jira_cloud_platform_version_fts".rowid = t.rowid
-		 WHERE "jira_cloud_platform_version_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "jira_cloud_platform_version_fts" f ON f.rowid = t.rowid
+			 WHERE "jira_cloud_platform_version_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16647,9 +16647,9 @@ func (s *Store) SearchNotificationscheme(query string, limit int) ([]json.RawMes
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "notificationscheme" t
-		 JOIN "notificationscheme_fts" ON "notificationscheme_fts".rowid = t.rowid
-		 WHERE "notificationscheme_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "notificationscheme_fts" f ON f.rowid = t.rowid
+			 WHERE "notificationscheme_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16675,9 +16675,9 @@ func (s *Store) SearchOperations(query string, limit int) ([]json.RawMessage, er
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "operations" t
-		 JOIN "operations_fts" ON "operations_fts".rowid = t.rowid
-		 WHERE "operations_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "operations_fts" f ON f.rowid = t.rowid
+			 WHERE "operations_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16703,9 +16703,9 @@ func (s *Store) SearchPermissionscheme(query string, limit int) ([]json.RawMessa
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "permissionscheme" t
-		 JOIN "permissionscheme_fts" ON "permissionscheme_fts".rowid = t.rowid
-		 WHERE "permissionscheme_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "permissionscheme_fts" f ON f.rowid = t.rowid
+			 WHERE "permissionscheme_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16731,9 +16731,9 @@ func (s *Store) SearchPriority(query string, limit int) ([]json.RawMessage, erro
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "priority" t
-		 JOIN "priority_fts" ON "priority_fts".rowid = t.rowid
-		 WHERE "priority_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "priority_fts" f ON f.rowid = t.rowid
+			 WHERE "priority_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16759,9 +16759,9 @@ func (s *Store) SearchProducts(query string, limit int) ([]json.RawMessage, erro
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "products" t
-		 JOIN "products_fts" ON "products_fts".rowid = t.rowid
-		 WHERE "products_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "products_fts" f ON f.rowid = t.rowid
+			 WHERE "products_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16787,9 +16787,9 @@ func (s *Store) SearchProject(query string, limit int) ([]json.RawMessage, error
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "project" t
-		 JOIN "project_fts" ON "project_fts".rowid = t.rowid
-		 WHERE "project_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "project_fts" f ON f.rowid = t.rowid
+			 WHERE "project_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16815,9 +16815,9 @@ func (s *Store) SearchProjectCategory(query string, limit int) ([]json.RawMessag
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "project_category" t
-		 JOIN "project_category_fts" ON "project_category_fts".rowid = t.rowid
-		 WHERE "project_category_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "project_category_fts" f ON f.rowid = t.rowid
+			 WHERE "project_category_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16843,9 +16843,9 @@ func (s *Store) SearchProjectTemplate(query string, limit int) ([]json.RawMessag
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "project_template" t
-		 JOIN "project_template_fts" ON "project_template_fts".rowid = t.rowid
-		 WHERE "project_template_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "project_template_fts" f ON f.rowid = t.rowid
+			 WHERE "project_template_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16871,9 +16871,9 @@ func (s *Store) SearchResolution(query string, limit int) ([]json.RawMessage, er
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "resolution" t
-		 JOIN "resolution_fts" ON "resolution_fts".rowid = t.rowid
-		 WHERE "resolution_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "resolution_fts" f ON f.rowid = t.rowid
+			 WHERE "resolution_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16899,9 +16899,9 @@ func (s *Store) SearchRole(query string, limit int) ([]json.RawMessage, error) {
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "role" t
-		 JOIN "role_fts" ON "role_fts".rowid = t.rowid
-		 WHERE "role_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "role_fts" f ON f.rowid = t.rowid
+			 WHERE "role_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16927,9 +16927,9 @@ func (s *Store) SearchSecuritylevel(query string, limit int) ([]json.RawMessage,
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "securitylevel" t
-		 JOIN "securitylevel_fts" ON "securitylevel_fts".rowid = t.rowid
-		 WHERE "securitylevel_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "securitylevel_fts" f ON f.rowid = t.rowid
+			 WHERE "securitylevel_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16955,9 +16955,9 @@ func (s *Store) SearchStatus(query string, limit int) ([]json.RawMessage, error)
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "status" t
-		 JOIN "status_fts" ON "status_fts".rowid = t.rowid
-		 WHERE "status_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "status_fts" f ON f.rowid = t.rowid
+			 WHERE "status_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -16983,9 +16983,9 @@ func (s *Store) SearchStatuses(query string, limit int) ([]json.RawMessage, erro
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "statuses" t
-		 JOIN "statuses_fts" ON "statuses_fts".rowid = t.rowid
-		 WHERE "statuses_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "statuses_fts" f ON f.rowid = t.rowid
+			 WHERE "statuses_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -17011,9 +17011,9 @@ func (s *Store) SearchTask(query string, limit int) ([]json.RawMessage, error) {
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "task" t
-		 JOIN "task_fts" ON "task_fts".rowid = t.rowid
-		 WHERE "task_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "task_fts" f ON f.rowid = t.rowid
+			 WHERE "task_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -17039,9 +17039,9 @@ func (s *Store) SearchUser(query string, limit int) ([]json.RawMessage, error) {
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "user" t
-		 JOIN "user_fts" ON "user_fts".rowid = t.rowid
-		 WHERE "user_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "user_fts" f ON f.rowid = t.rowid
+			 WHERE "user_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -17067,9 +17067,9 @@ func (s *Store) SearchWiki(query string, limit int) ([]json.RawMessage, error) {
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "wiki" t
-		 JOIN "wiki_fts" ON "wiki_fts".rowid = t.rowid
-		 WHERE "wiki_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "wiki_fts" f ON f.rowid = t.rowid
+			 WHERE "wiki_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {
@@ -17095,9 +17095,9 @@ func (s *Store) SearchWorkflowscheme(query string, limit int) ([]json.RawMessage
 	}
 	rows, err := s.db.Query(
 		`SELECT t.data FROM "workflowscheme" t
-		 JOIN "workflowscheme_fts" ON "workflowscheme_fts".rowid = t.rowid
-		 WHERE "workflowscheme_fts" MATCH ?
-		 ORDER BY rank LIMIT ?`,
+		 JOIN "workflowscheme_fts" f ON f.rowid = t.rowid
+			 WHERE "workflowscheme_fts" MATCH ?
+			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)
 	if err != nil {

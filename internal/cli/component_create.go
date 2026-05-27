@@ -113,7 +113,7 @@ func newComponentCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates a component. Use components to provide containers for issues within a project.",
 		Example:     "  jira-pp-cli-pp-cli component create",
-		Annotations: map[string]string{"pp:endpoint": "component.create", "pp:method": "POST", "pp:path": "/rest/api/2/component"},
+		Annotations: map[string]string{"pp:endpoint": "component.create", "pp:method": "POST", "pp:path": "/rest/api/3/component"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -122,7 +122,7 @@ func newComponentCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/component"
+			path := "/rest/api/3/component"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

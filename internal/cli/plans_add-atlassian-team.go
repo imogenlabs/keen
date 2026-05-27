@@ -24,7 +24,7 @@ func newPlansAddAtlassianTeamCmd(flags *rootFlags) *cobra.Command {
 		Use:         "add-atlassian-team <planId>",
 		Short:       "Adds an existing Atlassian team to a plan and configures their plannning settings.",
 		Example:     "  jira-pp-cli-pp-cli plans add-atlassian-team 42 --id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "plans.add-atlassian-team", "pp:method": "POST", "pp:path": "/rest/api/2/plans/plan/{planId}/team/atlassian"},
+		Annotations: map[string]string{"pp:endpoint": "plans.add-atlassian-team", "pp:method": "POST", "pp:path": "/rest/api/3/plans/plan/{planId}/team/atlassian"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -42,7 +42,7 @@ func newPlansAddAtlassianTeamCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}/team/atlassian"
+			path := "/rest/api/3/plans/plan/{planId}/team/atlassian"
 			path = replacePathParam(path, "planId", args[0])
 			params := map[string]string{}
 			var body map[string]any

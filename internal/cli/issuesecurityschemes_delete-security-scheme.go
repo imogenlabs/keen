@@ -18,7 +18,7 @@ func newIssuesecurityschemesDeleteSecuritySchemeCmd(flags *rootFlags) *cobra.Com
 		Aliases:     []string{"delete"},
 		Short:       "Deletes an issue security scheme.",
 		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes delete-security-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.delete-security-scheme", "pp:method": "DELETE", "pp:path": "/rest/api/2/issuesecurityschemes/{schemeId}"},
+		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.delete-security-scheme", "pp:method": "DELETE", "pp:path": "/rest/api/3/issuesecurityschemes/{schemeId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newIssuesecurityschemesDeleteSecuritySchemeCmd(flags *rootFlags) *cobra.Com
 				return err
 			}
 
-			path := "/rest/api/2/issuesecurityschemes/{schemeId}"
+			path := "/rest/api/3/issuesecurityschemes/{schemeId}"
 			path = replacePathParam(path, "schemeId", args[0])
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)

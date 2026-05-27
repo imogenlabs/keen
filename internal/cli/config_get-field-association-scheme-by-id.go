@@ -18,7 +18,7 @@ func newConfigGetFieldAssociationSchemeByIdCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"get"},
 		Short:       "Endpoint for fetching a field association scheme by its ID **[Permissions](#permissions) required",
 		Example:     "  jira-pp-cli-pp-cli config get-field-association-scheme-by-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "config.get-field-association-scheme-by-id", "pp:method": "GET", "pp:path": "/rest/api/2/config/fieldschemes/{id}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "config.get-field-association-scheme-by-id", "pp:method": "GET", "pp:path": "/rest/api/3/config/fieldschemes/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newConfigGetFieldAssociationSchemeByIdCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes/{id}"
+			path := "/rest/api/3/config/fieldschemes/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "config", false, path, params, nil, cmd.ErrOrStderr())

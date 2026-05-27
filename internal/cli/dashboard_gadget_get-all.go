@@ -21,7 +21,7 @@ func newDashboardGadgetGetAllCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns a list of dashboard gadgets on a dashboard.",
 		Example:     "  jira-pp-cli-pp-cli dashboard gadget get-all 42",
-		Annotations: map[string]string{"pp:endpoint": "gadget.get-all", "pp:method": "GET", "pp:path": "/rest/api/2/dashboard/{dashboardId}/gadget", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "gadget.get-all", "pp:method": "GET", "pp:path": "/rest/api/3/dashboard/{dashboardId}/gadget", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newDashboardGadgetGetAllCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/{dashboardId}/gadget"
+			path := "/rest/api/3/dashboard/{dashboardId}/gadget"
 			path = replacePathParam(path, "dashboardId", args[0])
 			params := map[string]string{}
 			if flagModuleKey != "" {

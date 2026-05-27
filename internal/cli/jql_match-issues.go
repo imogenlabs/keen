@@ -21,7 +21,7 @@ func newJqlMatchIssuesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "match-issues",
 		Short:       "Checks whether one or more issues would be returned by one or more JQL queries.",
 		Example:     "  jira-pp-cli-pp-cli jql match-issues",
-		Annotations: map[string]string{"pp:endpoint": "jql.match-issues", "pp:method": "POST", "pp:path": "/rest/api/2/jql/match"},
+		Annotations: map[string]string{"pp:endpoint": "jql.match-issues", "pp:method": "POST", "pp:path": "/rest/api/3/jql/match"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("issue-ids") && !flags.dryRun {
@@ -36,7 +36,7 @@ func newJqlMatchIssuesCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/jql/match"
+			path := "/rest/api/3/jql/match"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

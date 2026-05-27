@@ -22,7 +22,7 @@ func newScreensTabsRenameScreenCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Updates the name of a screen tab.",
 		Example:     "  jira-pp-cli-pp-cli screens tabs rename-screen 42 42 --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "tabs.rename-screen", "pp:method": "PUT", "pp:path": "/rest/api/2/screens/{screenId}/tabs/{tabId}"},
+		Annotations: map[string]string{"pp:endpoint": "tabs.rename-screen", "pp:method": "PUT", "pp:path": "/rest/api/3/screens/{screenId}/tabs/{tabId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -37,7 +37,7 @@ func newScreensTabsRenameScreenCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens/{screenId}/tabs/{tabId}"
+			path := "/rest/api/3/screens/{screenId}/tabs/{tabId}"
 			path = replacePathParam(path, "screenId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("tabId is required\nUsage: %s <%s>", cmd.CommandPath(), "tabId"))

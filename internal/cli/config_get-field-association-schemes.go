@@ -23,14 +23,14 @@ func newConfigGetFieldAssociationSchemesCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "REST endpoint for retrieving a paginated list of field association schemes with optional filtering.",
 		Example:     "  jira-pp-cli-pp-cli config get-field-association-schemes",
-		Annotations: map[string]string{"pp:endpoint": "config.get-field-association-schemes", "pp:method": "GET", "pp:path": "/rest/api/2/config/fieldschemes", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "config.get-field-association-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/config/fieldschemes", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes"
+			path := "/rest/api/3/config/fieldschemes"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "config", path, map[string]string{
 				"projectId":  fmt.Sprintf("%v", flagProjectId),
 				"query":      fmt.Sprintf("%v", flagQuery),

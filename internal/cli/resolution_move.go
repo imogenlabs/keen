@@ -22,7 +22,7 @@ func newResolutionMoveCmd(flags *rootFlags) *cobra.Command {
 		Use:         "move",
 		Short:       "Changes the order of issue resolutions.",
 		Example:     "  jira-pp-cli-pp-cli resolution move",
-		Annotations: map[string]string{"pp:endpoint": "resolution.move", "pp:method": "PUT", "pp:path": "/rest/api/2/resolution/move"},
+		Annotations: map[string]string{"pp:endpoint": "resolution.move", "pp:method": "PUT", "pp:path": "/rest/api/3/resolution/move"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("ids") && !flags.dryRun {
@@ -34,7 +34,7 @@ func newResolutionMoveCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/resolution/move"
+			path := "/rest/api/3/resolution/move"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

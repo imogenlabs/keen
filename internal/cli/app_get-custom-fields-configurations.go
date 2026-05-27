@@ -28,7 +28,7 @@ func newAppGetCustomFieldsConfigurationsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Returns a [paginated](#pagination) list of configurations for list of custom fields of a [type](https://developer.",
 		Example:     "  jira-pp-cli-pp-cli app get-custom-fields-configurations",
-		Annotations: map[string]string{"pp:endpoint": "app.get-custom-fields-configurations", "pp:method": "POST", "pp:path": "/rest/api/2/app/field/context/configuration/list"},
+		Annotations: map[string]string{"pp:endpoint": "app.get-custom-fields-configurations", "pp:method": "POST", "pp:path": "/rest/api/3/app/field/context/configuration/list"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("field-ids-or-keys") && !flags.dryRun {
@@ -40,7 +40,7 @@ func newAppGetCustomFieldsConfigurationsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/app/field/context/configuration/list"
+			path := "/rest/api/3/app/field/context/configuration/list"
 			params := map[string]string{}
 			if flagId != "" {
 				params["id"] = fmt.Sprintf("%v", flagId)

@@ -21,7 +21,7 @@ func newFieldconfigurationFieldsUpdateConfigurationItemsCmd(flags *rootFlags) *c
 		Aliases:     []string{"update"},
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli fieldconfiguration fields update-configuration-items 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "fields.update-configuration-items", "pp:method": "PUT", "pp:path": "/rest/api/2/fieldconfiguration/{id}/fields"},
+		Annotations: map[string]string{"pp:endpoint": "fields.update-configuration-items", "pp:method": "PUT", "pp:path": "/rest/api/3/fieldconfiguration/{id}/fields"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newFieldconfigurationFieldsUpdateConfigurationItemsCmd(flags *rootFlags) *c
 				return err
 			}
 
-			path := "/rest/api/2/fieldconfiguration/{id}/fields"
+			path := "/rest/api/3/fieldconfiguration/{id}/fields"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

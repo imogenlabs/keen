@@ -21,7 +21,7 @@ func newIssueChangelogGetChangeLogsByIdsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Returns changelogs for an issue specified by a list of changelog IDs. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli issue changelog get-change-logs-by-ids your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "changelog.get-change-logs-by-ids", "pp:method": "POST", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/changelog/list"},
+		Annotations: map[string]string{"pp:endpoint": "changelog.get-change-logs-by-ids", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/changelog/list"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newIssueChangelogGetChangeLogsByIdsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/changelog/list"
+			path := "/rest/api/3/issue/{issueIdOrKey}/changelog/list"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

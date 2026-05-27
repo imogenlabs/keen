@@ -21,7 +21,7 @@ func newIssuetypescreenschemeMappingRemoveFromIssueTypeScreenSchemeCmd(flags *ro
 		Aliases:     []string{"create"},
 		Short:       "Removes issue type to screen scheme mappings from an issue type screen scheme.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescreenscheme mapping remove-from-issue-type-screen-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "mapping.remove-from-issue-type-screen-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/remove"},
+		Annotations: map[string]string{"pp:endpoint": "mapping.remove-from-issue-type-screen-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/remove"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newIssuetypescreenschemeMappingRemoveFromIssueTypeScreenSchemeCmd(flags *ro
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/remove"
+			path := "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/remove"
 			path = replacePathParam(path, "issueTypeScreenSchemeId", args[0])
 			params := map[string]string{}
 			var body map[string]any

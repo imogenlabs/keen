@@ -22,7 +22,7 @@ func newFieldconfigurationschemeAssignFieldConfigurationSchemeToProjectCmd(flags
 		Aliases:     []string{"update"},
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli fieldconfigurationscheme assign-field-configuration-scheme-to-project --project-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "fieldconfigurationscheme.assign-field-configuration-scheme-to-project", "pp:method": "PUT", "pp:path": "/rest/api/2/fieldconfigurationscheme/project"},
+		Annotations: map[string]string{"pp:endpoint": "fieldconfigurationscheme.assign-field-configuration-scheme-to-project", "pp:method": "PUT", "pp:path": "/rest/api/3/fieldconfigurationscheme/project"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("project-id") && !flags.dryRun {
@@ -34,7 +34,7 @@ func newFieldconfigurationschemeAssignFieldConfigurationSchemeToProjectCmd(flags
 				return err
 			}
 
-			path := "/rest/api/2/fieldconfigurationscheme/project"
+			path := "/rest/api/3/fieldconfigurationscheme/project"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

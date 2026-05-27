@@ -17,14 +17,14 @@ func newDataPolicyGetPolicyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-policy",
 		Short:       "Returns data policy for the workspace.",
 		Example:     "  jira-pp-cli-pp-cli data-policy get-policy",
-		Annotations: map[string]string{"pp:endpoint": "data-policy.get-policy", "pp:method": "GET", "pp:path": "/rest/api/2/data-policy", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "data-policy.get-policy", "pp:method": "GET", "pp:path": "/rest/api/3/data-policy", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/data-policy"
+			path := "/rest/api/3/data-policy"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "data-policy", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

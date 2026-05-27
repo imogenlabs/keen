@@ -18,7 +18,7 @@ func newApplicationroleGetApplicationRoleCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns an application role.",
 		Example:     "  jira-pp-cli-pp-cli applicationrole get-application-role your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "applicationrole.get-application-role", "pp:method": "GET", "pp:path": "/rest/api/2/applicationrole/{key}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "applicationrole.get-application-role", "pp:method": "GET", "pp:path": "/rest/api/3/applicationrole/{key}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newApplicationroleGetApplicationRoleCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/applicationrole/{key}"
+			path := "/rest/api/3/applicationrole/{key}"
 			path = replacePathParam(path, "key", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "applicationrole", false, path, params, nil, cmd.ErrOrStderr())

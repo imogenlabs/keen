@@ -22,7 +22,7 @@ func newFieldContextReorderCustomFieldOptionsCmd(flags *rootFlags) *cobra.Comman
 		Use:         "reorder-custom-field-options <fieldId> <contextId>",
 		Short:       "Changes the order of custom field options or cascading options in a context.",
 		Example:     "  jira-pp-cli-pp-cli field context reorder-custom-field-options 550e8400-e29b-41d4-a716-446655440000 42",
-		Annotations: map[string]string{"pp:endpoint": "context.reorder-custom-field-options", "pp:method": "PUT", "pp:path": "/rest/api/2/field/{fieldId}/context/{contextId}/option/move"},
+		Annotations: map[string]string{"pp:endpoint": "context.reorder-custom-field-options", "pp:method": "PUT", "pp:path": "/rest/api/3/field/{fieldId}/context/{contextId}/option/move"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -37,7 +37,7 @@ func newFieldContextReorderCustomFieldOptionsCmd(flags *rootFlags) *cobra.Comman
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldId}/context/{contextId}/option/move"
+			path := "/rest/api/3/field/{fieldId}/context/{contextId}/option/move"
 			path = replacePathParam(path, "fieldId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("contextId is required\nUsage: %s <%s>", cmd.CommandPath(), "contextId"))

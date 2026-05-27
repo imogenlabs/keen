@@ -26,7 +26,7 @@ func newAppGetCustomFieldConfigurationCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns a [paginated](#pagination) list of configurations for a custom field of a [type](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli app get-custom-field-configuration your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "app.get-custom-field-configuration", "pp:method": "GET", "pp:path": "/rest/api/2/app/field/{fieldIdOrKey}/context/configuration", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "app.get-custom-field-configuration", "pp:method": "GET", "pp:path": "/rest/api/3/app/field/{fieldIdOrKey}/context/configuration", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newAppGetCustomFieldConfigurationCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/app/field/{fieldIdOrKey}/context/configuration"
+			path := "/rest/api/3/app/field/{fieldIdOrKey}/context/configuration"
 			path = replacePathParam(path, "fieldIdOrKey", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "app", path, map[string]string{
 				"id":             fmt.Sprintf("%v", flagId),

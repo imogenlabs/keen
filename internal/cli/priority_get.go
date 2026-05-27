@@ -17,7 +17,7 @@ func newPriorityGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <id>",
 		Short:       "Returns an issue priority. **[Permissions](#permissions) required:** Permission to access Jira.",
 		Example:     "  jira-pp-cli-pp-cli priority get 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "priority.get", "pp:method": "GET", "pp:path": "/rest/api/2/priority/{id}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "priority.get", "pp:method": "GET", "pp:path": "/rest/api/3/priority/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newPriorityGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/priority/{id}"
+			path := "/rest/api/3/priority/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "priority", false, path, params, nil, cmd.ErrOrStderr())

@@ -23,7 +23,7 @@ func newIssuesecurityschemesCreateIssueSecuritySchemeCmd(flags *rootFlags) *cobr
 		Aliases:     []string{"create"},
 		Short:       "Creates a security scheme with security scheme levels and levels' members.",
 		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes create-issue-security-scheme --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.create-issue-security-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/issuesecurityschemes"},
+		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.create-issue-security-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/issuesecurityschemes"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -35,7 +35,7 @@ func newIssuesecurityschemesCreateIssueSecuritySchemeCmd(flags *rootFlags) *cobr
 				return err
 			}
 
-			path := "/rest/api/2/issuesecurityschemes"
+			path := "/rest/api/3/issuesecurityschemes"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

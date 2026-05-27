@@ -28,7 +28,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlPostCmd(flags *rootFlag
 		Aliases:     []string{"create"},
 		Short:       "Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ).",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-search and-reconsile-issues-using-jql-post",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.and-reconsile-issues-using-jql-post", "pp:method": "POST", "pp:path": "/rest/api/2/search/jql"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.and-reconsile-issues-using-jql-post", "pp:method": "POST", "pp:path": "/rest/api/3/search/jql"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -37,7 +37,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlPostCmd(flags *rootFlag
 				return err
 			}
 
-			path := "/rest/api/2/search/jql"
+			path := "/rest/api/3/search/jql"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

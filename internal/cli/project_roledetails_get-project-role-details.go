@@ -21,7 +21,7 @@ func newProjectRoledetailsGetProjectRoleDetailsCmd(flags *rootFlags) *cobra.Comm
 		Aliases:     []string{"get"},
 		Short:       "Returns all [project roles](https://support.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli project roledetails get-project-role-details your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "roledetails.get-project-role-details", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/roledetails", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "roledetails.get-project-role-details", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/roledetails", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newProjectRoledetailsGetProjectRoleDetailsCmd(flags *rootFlags) *cobra.Comm
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/roledetails"
+			path := "/rest/api/3/project/{projectIdOrKey}/roledetails"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			if flagCurrentMember != false {

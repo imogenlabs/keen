@@ -24,7 +24,7 @@ func newComponentFindForProjectsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of all components in a project, including global (Compass)",
 		Example:     "  jira-pp-cli-pp-cli component find-for-projects",
-		Annotations: map[string]string{"pp:endpoint": "component.find-for-projects", "pp:method": "GET", "pp:path": "/rest/api/2/component", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "component.find-for-projects", "pp:method": "GET", "pp:path": "/rest/api/3/component", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"description", "-description", "+description", "name", "-name", "+name"}
@@ -50,7 +50,7 @@ func newComponentFindForProjectsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/component"
+			path := "/rest/api/3/component"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "component", path, map[string]string{
 				"projectIdsOrKeys": fmt.Sprintf("%v", flagProjectIdsOrKeys),
 				"startAt":          fmt.Sprintf("%v", flagStartAt),

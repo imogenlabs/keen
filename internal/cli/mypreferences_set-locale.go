@@ -21,7 +21,7 @@ func newMypreferencesSetLocaleCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Deprecated, use [ Update a user profile](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli mypreferences set-locale",
-		Annotations: map[string]string{"pp:endpoint": "mypreferences.set-locale", "pp:method": "PUT", "pp:path": "/rest/api/2/mypreferences/locale"},
+		Annotations: map[string]string{"pp:endpoint": "mypreferences.set-locale", "pp:method": "PUT", "pp:path": "/rest/api/3/mypreferences/locale"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -30,7 +30,7 @@ func newMypreferencesSetLocaleCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/mypreferences/locale"
+			path := "/rest/api/3/mypreferences/locale"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

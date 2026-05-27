@@ -24,7 +24,7 @@ func newPriorityCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates an issue priority. Deprecation applies to iconUrl param in request body which will be sunset on 16th Mar 2025.",
 		Example:     "  jira-pp-cli-pp-cli priority create --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "priority.create", "pp:method": "POST", "pp:path": "/rest/api/2/priority"},
+		Annotations: map[string]string{"pp:endpoint": "priority.create", "pp:method": "POST", "pp:path": "/rest/api/3/priority"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -39,7 +39,7 @@ func newPriorityCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/priority"
+			path := "/rest/api/3/priority"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

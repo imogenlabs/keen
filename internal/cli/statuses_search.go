@@ -23,14 +23,14 @@ func newStatusesSearchCmd(flags *rootFlags) *cobra.Command {
 		Use:         "search",
 		Short:       "Returns a [paginated](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli statuses search",
-		Annotations: map[string]string{"pp:endpoint": "statuses.search", "pp:method": "GET", "pp:path": "/rest/api/2/statuses/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "statuses.search", "pp:method": "GET", "pp:path": "/rest/api/3/statuses/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/statuses/search"
+			path := "/rest/api/3/statuses/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "statuses", path, map[string]string{
 				"projectId":      fmt.Sprintf("%v", flagProjectId),
 				"startAt":        fmt.Sprintf("%v", flagStartAt),

@@ -22,7 +22,7 @@ func newWorkflowschemeAssignSchemeToProjectCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"update"},
 		Short:       "Assigns a workflow scheme to a project. This operation is performed only when there are no issues in the project.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme assign-scheme-to-project --project-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "workflowscheme.assign-scheme-to-project", "pp:method": "PUT", "pp:path": "/rest/api/2/workflowscheme/project"},
+		Annotations: map[string]string{"pp:endpoint": "workflowscheme.assign-scheme-to-project", "pp:method": "PUT", "pp:path": "/rest/api/3/workflowscheme/project"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("project-id") && !flags.dryRun {
@@ -34,7 +34,7 @@ func newWorkflowschemeAssignSchemeToProjectCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/project"
+			path := "/rest/api/3/workflowscheme/project"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

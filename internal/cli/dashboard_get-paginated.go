@@ -29,7 +29,7 @@ func newDashboardGetPaginatedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-paginated",
 		Short:       "Returns a [paginated](#pagination) list of dashboards.",
 		Example:     "  jira-pp-cli-pp-cli dashboard get-paginated",
-		Annotations: map[string]string{"pp:endpoint": "dashboard.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/2/dashboard/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "dashboard.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/dashboard/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"description", "-description", "+description", "favorite_count", "-favorite_count", "+favorite_count", "id", "-id", "+id", "is_favorite", "-is_favorite", "+is_favorite", "name", "-name", "+name", "owner", "-owner", "+owner"}
@@ -68,7 +68,7 @@ func newDashboardGetPaginatedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/search"
+			path := "/rest/api/3/dashboard/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "dashboard", path, map[string]string{
 				"dashboardName": fmt.Sprintf("%v", flagDashboardName),
 				"accountId":     fmt.Sprintf("%v", flagAccountId),

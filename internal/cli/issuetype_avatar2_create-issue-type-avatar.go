@@ -23,7 +23,7 @@ func newIssuetypeAvatar2CreateIssueTypeAvatarCmd(flags *rootFlags) *cobra.Comman
 		Aliases:     []string{"create"},
 		Short:       "Loads an avatar for the issue type. Specify the avatar's local file location in the body of the request.",
 		Example:     "  jira-pp-cli-pp-cli issuetype avatar2 create-issue-type-avatar 550e8400-e29b-41d4-a716-446655440000 --size 50",
-		Annotations: map[string]string{"pp:endpoint": "avatar2.create-issue-type-avatar", "pp:method": "POST", "pp:path": "/rest/api/2/issuetype/{id}/avatar2"},
+		Annotations: map[string]string{"pp:endpoint": "avatar2.create-issue-type-avatar", "pp:method": "POST", "pp:path": "/rest/api/3/issuetype/{id}/avatar2"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -38,7 +38,7 @@ func newIssuetypeAvatar2CreateIssueTypeAvatarCmd(flags *rootFlags) *cobra.Comman
 				return err
 			}
 
-			path := "/rest/api/2/issuetype/{id}/avatar2"
+			path := "/rest/api/3/issuetype/{id}/avatar2"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagX != 0 {

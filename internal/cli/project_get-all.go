@@ -21,14 +21,14 @@ func newProjectGetAllCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns all projects visible to the user.",
 		Example:     "  jira-pp-cli-pp-cli project get-all",
-		Annotations: map[string]string{"pp:endpoint": "project.get-all", "pp:method": "GET", "pp:path": "/rest/api/2/project", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project.get-all", "pp:method": "GET", "pp:path": "/rest/api/3/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/project"
+			path := "/rest/api/3/project"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

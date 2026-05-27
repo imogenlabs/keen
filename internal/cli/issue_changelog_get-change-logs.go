@@ -21,7 +21,7 @@ func newIssueChangelogGetChangeLogsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns a [paginated](#pagination) list of all changelogs for an issue sorted by date, starting from the oldest.",
 		Example:     "  jira-pp-cli-pp-cli issue changelog get-change-logs your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "changelog.get-change-logs", "pp:method": "GET", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/changelog", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "changelog.get-change-logs", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/changelog", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newIssueChangelogGetChangeLogsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/changelog"
+			path := "/rest/api/3/issue/{issueIdOrKey}/changelog"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "changelog", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

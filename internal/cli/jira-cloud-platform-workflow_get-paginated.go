@@ -26,7 +26,7 @@ func newJiraCloudPlatformWorkflowGetPaginatedCmd(flags *rootFlags) *cobra.Comman
 		Aliases:     []string{"list"},
 		Short:       "This will be removed on [June 1, 2026](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow get-paginated",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/2/workflow/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/workflow/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"name", "-name", "+name", "created", "-created", "+created", "updated", "+updated", "-updated"}
@@ -52,7 +52,7 @@ func newJiraCloudPlatformWorkflowGetPaginatedCmd(flags *rootFlags) *cobra.Comman
 				return err
 			}
 
-			path := "/rest/api/2/workflow/search"
+			path := "/rest/api/3/workflow/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "jira-cloud-platform-workflow", path, map[string]string{
 				"startAt":      fmt.Sprintf("%v", flagStartAt),
 				"maxResults":   fmt.Sprintf("%v", flagMaxResults),

@@ -19,7 +19,7 @@ func newConfigUpdateFieldAssociationSchemeItemParametersCmd(flags *rootFlags) *c
 		Use:         "update-field-association-scheme-item-parameters",
 		Short:       "Update field association item parameters in field association schemes.",
 		Example:     "  jira-pp-cli-pp-cli config update-field-association-scheme-item-parameters",
-		Annotations: map[string]string{"pp:endpoint": "config.update-field-association-scheme-item-parameters", "pp:method": "PUT", "pp:path": "/rest/api/2/config/fieldschemes/fields/parameters"},
+		Annotations: map[string]string{"pp:endpoint": "config.update-field-association-scheme-item-parameters", "pp:method": "PUT", "pp:path": "/rest/api/3/config/fieldschemes/fields/parameters"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -28,7 +28,7 @@ func newConfigUpdateFieldAssociationSchemeItemParametersCmd(flags *rootFlags) *c
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes/fields/parameters"
+			path := "/rest/api/3/config/fieldschemes/fields/parameters"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

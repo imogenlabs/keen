@@ -24,7 +24,7 @@ func newIssuetypescreenschemeGetIssueTypeScreenSchemesCmd(flags *rootFlags) *cob
 		Use:         "get-issue-type-screen-schemes",
 		Short:       "Returns a [paginated](#pagination) list of issue type screen schemes.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescreenscheme get-issue-type-screen-schemes",
-		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.get-issue-type-screen-schemes", "pp:method": "GET", "pp:path": "/rest/api/2/issuetypescreenscheme", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.get-issue-type-screen-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/issuetypescreenscheme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"name", "-name", "+name", "id", "-id", "+id"}
@@ -50,7 +50,7 @@ func newIssuetypescreenschemeGetIssueTypeScreenSchemesCmd(flags *rootFlags) *cob
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescreenscheme"
+			path := "/rest/api/3/issuetypescreenscheme"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "issuetypescreenscheme", path, map[string]string{
 				"startAt":     fmt.Sprintf("%v", flagStartAt),
 				"maxResults":  fmt.Sprintf("%v", flagMaxResults),

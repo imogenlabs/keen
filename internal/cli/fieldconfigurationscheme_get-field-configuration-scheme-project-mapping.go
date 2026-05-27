@@ -21,7 +21,7 @@ func newFieldconfigurationschemeGetFieldConfigurationSchemeProjectMappingCmd(fla
 		Use:         "get-field-configuration-scheme-project-mapping",
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli fieldconfigurationscheme get-field-configuration-scheme-project-mapping --project-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "fieldconfigurationscheme.get-field-configuration-scheme-project-mapping", "pp:method": "GET", "pp:path": "/rest/api/2/fieldconfigurationscheme/project", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "fieldconfigurationscheme.get-field-configuration-scheme-project-mapping", "pp:method": "GET", "pp:path": "/rest/api/3/fieldconfigurationscheme/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("project-id") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "project-id")
@@ -31,7 +31,7 @@ func newFieldconfigurationschemeGetFieldConfigurationSchemeProjectMappingCmd(fla
 				return err
 			}
 
-			path := "/rest/api/2/fieldconfigurationscheme/project"
+			path := "/rest/api/3/fieldconfigurationscheme/project"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "fieldconfigurationscheme", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

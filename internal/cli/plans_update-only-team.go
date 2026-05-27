@@ -19,7 +19,7 @@ func newPlansUpdateOnlyTeamCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-only-team <planId> <planOnlyTeamId>",
 		Short:       "Updates any of the following planning settings of a plan-only team using [JSON Patch](https://datatracker.ietf.",
 		Example:     "  jira-pp-cli-pp-cli plans update-only-team 42 42",
-		Annotations: map[string]string{"pp:endpoint": "plans.update-only-team", "pp:method": "PUT", "pp:path": "/rest/api/2/plans/plan/{planId}/team/planonly/{planOnlyTeamId}"},
+		Annotations: map[string]string{"pp:endpoint": "plans.update-only-team", "pp:method": "PUT", "pp:path": "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newPlansUpdateOnlyTeamCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}/team/planonly/{planOnlyTeamId}"
+			path := "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}"
 			path = replacePathParam(path, "planId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("planOnlyTeamId is required\nUsage: %s <%s>", cmd.CommandPath(), "planOnlyTeamId"))

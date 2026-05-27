@@ -22,7 +22,7 @@ func newJqlGetAutoCompletePostCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Returns reference data for JQL searches.",
 		Example:     "  jira-pp-cli-pp-cli jql get-auto-complete-post",
-		Annotations: map[string]string{"pp:endpoint": "jql.get-auto-complete-post", "pp:method": "POST", "pp:path": "/rest/api/2/jql/autocompletedata"},
+		Annotations: map[string]string{"pp:endpoint": "jql.get-auto-complete-post", "pp:method": "POST", "pp:path": "/rest/api/3/jql/autocompletedata"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -31,7 +31,7 @@ func newJqlGetAutoCompletePostCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/jql/autocompletedata"
+			path := "/rest/api/3/jql/autocompletedata"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

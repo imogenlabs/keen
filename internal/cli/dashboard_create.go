@@ -24,7 +24,7 @@ func newDashboardCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates a dashboard. **[Permissions](#permissions) required:** None.",
 		Example:     "  jira-pp-cli-pp-cli dashboard create --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "dashboard.create", "pp:method": "POST", "pp:path": "/rest/api/2/dashboard"},
+		Annotations: map[string]string{"pp:endpoint": "dashboard.create", "pp:method": "POST", "pp:path": "/rest/api/3/dashboard"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("edit-permissions") && !flags.dryRun {
@@ -42,7 +42,7 @@ func newDashboardCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard"
+			path := "/rest/api/3/dashboard"
 			params := map[string]string{}
 			if flagExtendAdminPermissions != false {
 				params["extendAdminPermissions"] = fmt.Sprintf("%v", flagExtendAdminPermissions)

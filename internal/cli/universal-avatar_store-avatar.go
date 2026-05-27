@@ -24,7 +24,7 @@ func newUniversalAvatarStoreAvatarCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Loads a custom avatar for a project, issue type or priority.",
 		Example:     "  jira-pp-cli-pp-cli universal-avatar store-avatar 550e8400-e29b-41d4-a716-446655440000 --type project --size 50",
-		Annotations: map[string]string{"pp:endpoint": "universal-avatar.store-avatar", "pp:method": "POST", "pp:path": "/rest/api/2/universal_avatar/type/{type}/owner/{entityId}"},
+		Annotations: map[string]string{"pp:endpoint": "universal-avatar.store-avatar", "pp:method": "POST", "pp:path": "/rest/api/3/universal_avatar/type/{type}/owner/{entityId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -52,7 +52,7 @@ func newUniversalAvatarStoreAvatarCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/universal_avatar/type/{type}/owner/{entityId}"
+			path := "/rest/api/3/universal_avatar/type/{type}/owner/{entityId}"
 			path = replacePathParam(path, "entityId", args[0])
 			path = replacePathParam(path, "type", fmt.Sprintf("%v", flagType))
 			params := map[string]string{}

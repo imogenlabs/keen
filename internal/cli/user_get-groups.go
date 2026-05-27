@@ -20,7 +20,7 @@ func newUserGetGroupsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-groups",
 		Short:       "Returns the groups to which a user belongs.",
 		Example:     "  jira-pp-cli-pp-cli user get-groups --account-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "user.get-groups", "pp:method": "GET", "pp:path": "/rest/api/2/user/groups", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.get-groups", "pp:method": "GET", "pp:path": "/rest/api/3/user/groups", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("account-id") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "account-id")
@@ -30,7 +30,7 @@ func newUserGetGroupsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/groups"
+			path := "/rest/api/3/user/groups"
 			params := map[string]string{}
 			if flagAccountId != "" {
 				params["accountId"] = fmt.Sprintf("%v", flagAccountId)

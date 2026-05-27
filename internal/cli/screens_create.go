@@ -21,7 +21,7 @@ func newScreensCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates a screen with a default field tab.",
 		Example:     "  jira-pp-cli-pp-cli screens create --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "screens.create", "pp:method": "POST", "pp:path": "/rest/api/2/screens"},
+		Annotations: map[string]string{"pp:endpoint": "screens.create", "pp:method": "POST", "pp:path": "/rest/api/3/screens"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -33,7 +33,7 @@ func newScreensCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens"
+			path := "/rest/api/3/screens"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

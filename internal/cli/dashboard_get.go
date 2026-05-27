@@ -17,7 +17,7 @@ func newDashboardGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <id>",
 		Short:       "Returns a dashboard. This operation can be accessed anonymously. **[Permissions](#permissions) required:** None.",
 		Example:     "  jira-pp-cli-pp-cli dashboard get 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "dashboard.get", "pp:method": "GET", "pp:path": "/rest/api/2/dashboard/{id}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "dashboard.get", "pp:method": "GET", "pp:path": "/rest/api/3/dashboard/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newDashboardGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/{id}"
+			path := "/rest/api/3/dashboard/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "dashboard", false, path, params, nil, cmd.ErrOrStderr())

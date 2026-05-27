@@ -18,7 +18,7 @@ func newProjectEmailGetProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns the [project's sender email address](https://confluence.atlassian.com/x/dolKLg).",
 		Example:     "  jira-pp-cli-pp-cli project email get-project 42",
-		Annotations: map[string]string{"pp:endpoint": "email.get-project", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectId}/email", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "email.get-project", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectId}/email", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectEmailGetProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectId}/email"
+			path := "/rest/api/3/project/{projectId}/email"
 			path = replacePathParam(path, "projectId", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "email", false, path, params, nil, cmd.ErrOrStderr())

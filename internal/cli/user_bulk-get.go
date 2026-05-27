@@ -24,7 +24,7 @@ func newUserBulkGetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of the users specified by one or more account IDs.",
 		Example:     "  jira-pp-cli-pp-cli user bulk-get --account-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "user.bulk-get", "pp:method": "GET", "pp:path": "/rest/api/2/user/bulk", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.bulk-get", "pp:method": "GET", "pp:path": "/rest/api/3/user/bulk", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("account-id") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "account-id")
@@ -34,7 +34,7 @@ func newUserBulkGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/bulk"
+			path := "/rest/api/3/user/bulk"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

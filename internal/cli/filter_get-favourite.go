@@ -18,14 +18,14 @@ func newFilterGetFavouriteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-favourite",
 		Short:       "Returns the visible favorite filters of the user. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli filter get-favourite",
-		Annotations: map[string]string{"pp:endpoint": "filter.get-favourite", "pp:method": "GET", "pp:path": "/rest/api/2/filter/favourite", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "filter.get-favourite", "pp:method": "GET", "pp:path": "/rest/api/3/filter/favourite", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/filter/favourite"
+			path := "/rest/api/3/filter/favourite"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

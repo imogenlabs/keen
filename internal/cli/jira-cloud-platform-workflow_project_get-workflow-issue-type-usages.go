@@ -22,7 +22,7 @@ func newJiraCloudPlatformWorkflowProjectGetWorkflowIssueTypeUsagesCmd(flags *roo
 		Aliases:     []string{"get"},
 		Short:       "Returns a page of issue types using a given workflow within a project.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow project get-workflow-issue-type-usages 550e8400-e29b-41d4-a716-446655440000 42",
-		Annotations: map[string]string{"pp:endpoint": "project.get-workflow-issue-type-usages", "pp:method": "GET", "pp:path": "/rest/api/2/workflow/{workflowId}/project/{projectId}/issueTypeUsages", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project.get-workflow-issue-type-usages", "pp:method": "GET", "pp:path": "/rest/api/3/workflow/{workflowId}/project/{projectId}/issueTypeUsages", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newJiraCloudPlatformWorkflowProjectGetWorkflowIssueTypeUsagesCmd(flags *roo
 				return err
 			}
 
-			path := "/rest/api/2/workflow/{workflowId}/project/{projectId}/issueTypeUsages"
+			path := "/rest/api/3/workflow/{workflowId}/project/{projectId}/issueTypeUsages"
 			path = replacePathParam(path, "workflowId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("projectId is required\nUsage: %s <%s>", cmd.CommandPath(), "projectId"))
@@ -97,7 +97,7 @@ func newJiraCloudPlatformWorkflowProjectGetWorkflowIssueTypeUsagesCmd(flags *roo
 }
 
 // fetchFullJiraCloudPlatformWorkflowProjectGetWorkflowIssueTypeUsagesIssueTypes returns every item
-// in the "issueTypes" sub-resource of GET /rest/api/2/workflow/{workflowId}/project/{projectId}/issueTypeUsages. The parent
+// in the "issueTypes" sub-resource of GET /rest/api/3/workflow/{workflowId}/project/{projectId}/issueTypeUsages. The parent
 // response embeds at most the first page of this sub-resource, so any
 // caller that treats the embed as complete silently truncates; this
 // companion calls the dedicated child endpoint and paginates until
@@ -106,7 +106,7 @@ func newJiraCloudPlatformWorkflowProjectGetWorkflowIssueTypeUsagesCmd(flags *roo
 func fetchFullJiraCloudPlatformWorkflowProjectGetWorkflowIssueTypeUsagesIssueTypes(ctx context.Context, c interface {
 	GetWithHeaders(ctx context.Context, path string, params map[string]string, headers map[string]string) (json.RawMessage, error)
 }, pathParams map[string]string) ([]json.RawMessage, error) {
-	childPath := "/rest/api/2/workflow/{workflowId}/project/{projectId}/issueTypeUsages/issueTypes"
+	childPath := "/rest/api/3/workflow/{workflowId}/project/{projectId}/issueTypeUsages/issueTypes"
 	for name, val := range pathParams {
 		childPath = replacePathParam(childPath, name, val)
 	}

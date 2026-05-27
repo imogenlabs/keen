@@ -18,14 +18,14 @@ func newAttachmentGetMetaCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns the attachment settings, that is, whether attachments are enabled and the maximum attachment size allowed.",
 		Example:     "  jira-pp-cli-pp-cli attachment get-meta",
-		Annotations: map[string]string{"pp:endpoint": "attachment.get-meta", "pp:method": "GET", "pp:path": "/rest/api/2/attachment/meta", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "attachment.get-meta", "pp:method": "GET", "pp:path": "/rest/api/3/attachment/meta", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/attachment/meta"
+			path := "/rest/api/3/attachment/meta"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "attachment", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

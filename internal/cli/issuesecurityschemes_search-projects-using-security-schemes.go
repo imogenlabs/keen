@@ -22,14 +22,14 @@ func newIssuesecurityschemesSearchProjectsUsingSecuritySchemesCmd(flags *rootFla
 		Use:         "search-projects-using-security-schemes",
 		Short:       "Returns a [paginated](#pagination) mapping of projects that are using security schemes.",
 		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes search-projects-using-security-schemes",
-		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.search-projects-using-security-schemes", "pp:method": "GET", "pp:path": "/rest/api/2/issuesecurityschemes/project", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.search-projects-using-security-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/issuesecurityschemes/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/issuesecurityschemes/project"
+			path := "/rest/api/3/issuesecurityschemes/project"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "issuesecurityschemes", path, map[string]string{
 				"startAt":               fmt.Sprintf("%v", flagStartAt),
 				"maxResults":            fmt.Sprintf("%v", flagMaxResults),

@@ -18,7 +18,7 @@ func newScreensAvailableFieldsGetAvailableScreenFieldsCmd(flags *rootFlags) *cob
 		Aliases:     []string{"get"},
 		Short:       "Returns the fields that can be added to a tab on a screen.",
 		Example:     "  jira-pp-cli-pp-cli screens available-fields get-available-screen-fields 42",
-		Annotations: map[string]string{"pp:endpoint": "available-fields.get-available-screen-fields", "pp:method": "GET", "pp:path": "/rest/api/2/screens/{screenId}/availableFields", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "available-fields.get-available-screen-fields", "pp:method": "GET", "pp:path": "/rest/api/3/screens/{screenId}/availableFields", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newScreensAvailableFieldsGetAvailableScreenFieldsCmd(flags *rootFlags) *cob
 				return err
 			}
 
-			path := "/rest/api/2/screens/{screenId}/availableFields"
+			path := "/rest/api/3/screens/{screenId}/availableFields"
 			path = replacePathParam(path, "screenId", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "available-fields", false, path, params, nil, cmd.ErrOrStderr())

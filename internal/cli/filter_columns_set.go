@@ -21,7 +21,7 @@ func newFilterColumnsSetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Sets the columns for a filter. Only navigable fields can be set as columns.",
 		Example:     "  jira-pp-cli-pp-cli filter columns set 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "columns.set", "pp:method": "PUT", "pp:path": "/rest/api/2/filter/{id}/columns"},
+		Annotations: map[string]string{"pp:endpoint": "columns.set", "pp:method": "PUT", "pp:path": "/rest/api/3/filter/{id}/columns"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -33,7 +33,7 @@ func newFilterColumnsSetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/filter/{id}/columns"
+			path := "/rest/api/3/filter/{id}/columns"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

@@ -20,7 +20,7 @@ func newUniversalAvatarGetAvatarImageByOwnerCmd(flags *rootFlags) *cobra.Command
 		Use:         "get-avatar-image-by-owner <entityId>",
 		Short:       "Returns the avatar image for a project, issue type or priority. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli universal-avatar get-avatar-image-by-owner 550e8400-e29b-41d4-a716-446655440000 --type issuetype",
-		Annotations: map[string]string{"pp:endpoint": "universal-avatar.get-avatar-image-by-owner", "pp:method": "GET", "pp:path": "/rest/api/2/universal_avatar/view/type/{type}/owner/{entityId}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "universal-avatar.get-avatar-image-by-owner", "pp:method": "GET", "pp:path": "/rest/api/3/universal_avatar/view/type/{type}/owner/{entityId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -69,7 +69,7 @@ func newUniversalAvatarGetAvatarImageByOwnerCmd(flags *rootFlags) *cobra.Command
 				return err
 			}
 
-			path := "/rest/api/2/universal_avatar/view/type/{type}/owner/{entityId}"
+			path := "/rest/api/3/universal_avatar/view/type/{type}/owner/{entityId}"
 			path = replacePathParam(path, "entityId", args[0])
 			path = replacePathParam(path, "type", fmt.Sprintf("%v", flagType))
 			headerOverrides := map[string]string{

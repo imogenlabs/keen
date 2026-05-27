@@ -24,7 +24,7 @@ func newIssuetypeschemeCreateIssueTypeSchemeCmd(flags *rootFlags) *cobra.Command
 		Aliases:     []string{"create"},
 		Short:       "Creates an issue type scheme.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescheme create-issue-type-scheme --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "issuetypescheme.create-issue-type-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/issuetypescheme"},
+		Annotations: map[string]string{"pp:endpoint": "issuetypescheme.create-issue-type-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/issuetypescheme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("issue-type-ids") && !flags.dryRun {
@@ -39,7 +39,7 @@ func newIssuetypeschemeCreateIssueTypeSchemeCmd(flags *rootFlags) *cobra.Command
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescheme"
+			path := "/rest/api/3/issuetypescheme"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

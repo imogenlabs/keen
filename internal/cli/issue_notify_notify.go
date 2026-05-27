@@ -33,7 +33,7 @@ func newIssueNotifyNotifyCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Creates an email notification for an issue and adds it to the mail queue.",
 		Example:     "  jira-pp-cli-pp-cli issue notify notify your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "notify.notify", "pp:method": "POST", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/notify"},
+		Annotations: map[string]string{"pp:endpoint": "notify.notify", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/notify"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -45,7 +45,7 @@ func newIssueNotifyNotifyCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/notify"
+			path := "/rest/api/3/issue/{issueIdOrKey}/notify"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

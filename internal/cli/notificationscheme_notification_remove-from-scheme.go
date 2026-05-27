@@ -18,7 +18,7 @@ func newNotificationschemeNotificationRemoveFromSchemeCmd(flags *rootFlags) *cob
 		Aliases:     []string{"delete"},
 		Short:       "Removes a notification from a notification scheme.",
 		Example:     "  jira-pp-cli-pp-cli notificationscheme notification remove-from-scheme 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "notification.remove-from-scheme", "pp:method": "DELETE", "pp:path": "/rest/api/2/notificationscheme/{notificationSchemeId}/notification/{notificationId}"},
+		Annotations: map[string]string{"pp:endpoint": "notification.remove-from-scheme", "pp:method": "DELETE", "pp:path": "/rest/api/3/notificationscheme/{notificationSchemeId}/notification/{notificationId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newNotificationschemeNotificationRemoveFromSchemeCmd(flags *rootFlags) *cob
 				return err
 			}
 
-			path := "/rest/api/2/notificationscheme/{notificationSchemeId}/notification/{notificationId}"
+			path := "/rest/api/3/notificationscheme/{notificationSchemeId}/notification/{notificationId}"
 			path = replacePathParam(path, "notificationSchemeId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("notificationId is required\nUsage: %s <%s>", cmd.CommandPath(), "notificationId"))

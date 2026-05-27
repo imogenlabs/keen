@@ -21,7 +21,7 @@ func newConfigCreateFieldAssociationSchemeCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create-field-association-scheme",
 		Short:       "Endpoint for creating a new field association scheme.",
 		Example:     "  jira-pp-cli-pp-cli config create-field-association-scheme --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "config.create-field-association-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/config/fieldschemes"},
+		Annotations: map[string]string{"pp:endpoint": "config.create-field-association-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/config/fieldschemes"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -33,7 +33,7 @@ func newConfigCreateFieldAssociationSchemeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes"
+			path := "/rest/api/3/config/fieldschemes"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

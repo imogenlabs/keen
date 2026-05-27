@@ -21,14 +21,14 @@ func newUserGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get",
 		Short:       "Returns a user. Privacy controls are applied to the response based on the user's preferences.",
 		Example:     "  jira-pp-cli-pp-cli user get",
-		Annotations: map[string]string{"pp:endpoint": "user.get", "pp:method": "GET", "pp:path": "/rest/api/2/user", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.get", "pp:method": "GET", "pp:path": "/rest/api/3/user", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/user"
+			path := "/rest/api/3/user"
 			params := map[string]string{}
 			if flagAccountId != "" {
 				params["accountId"] = fmt.Sprintf("%v", flagAccountId)

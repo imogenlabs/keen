@@ -19,7 +19,7 @@ func newFilterFavouriteDeleteForFilterCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Removes a filter as a favorite for the user.",
 		Example:     "  jira-pp-cli-pp-cli filter favourite delete-for-filter 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "favourite.delete-for-filter", "pp:method": "DELETE", "pp:path": "/rest/api/2/filter/{id}/favourite"},
+		Annotations: map[string]string{"pp:endpoint": "favourite.delete-for-filter", "pp:method": "DELETE", "pp:path": "/rest/api/3/filter/{id}/favourite"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -29,7 +29,7 @@ func newFilterFavouriteDeleteForFilterCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/filter/{id}/favourite"
+			path := "/rest/api/3/filter/{id}/favourite"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagExpand != "" {

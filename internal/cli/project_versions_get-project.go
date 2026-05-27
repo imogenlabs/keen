@@ -19,7 +19,7 @@ func newProjectVersionsGetProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns all versions in a project. The response is not paginated.",
 		Example:     "  jira-pp-cli-pp-cli project versions get-project your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "versions.get-project", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/versions", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "versions.get-project", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/versions", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -29,7 +29,7 @@ func newProjectVersionsGetProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/versions"
+			path := "/rest/api/3/project/{projectIdOrKey}/versions"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			if flagExpand != "" {

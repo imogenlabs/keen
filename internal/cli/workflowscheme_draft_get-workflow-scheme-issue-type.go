@@ -17,7 +17,7 @@ func newWorkflowschemeDraftGetWorkflowSchemeIssueTypeCmd(flags *rootFlags) *cobr
 		Use:         "get-workflow-scheme-issue-type <id> <issueType>",
 		Short:       "Returns the issue type-workflow mapping for an issue type in a workflow scheme's draft.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme draft get-workflow-scheme-issue-type 550e8400-e29b-41d4-a716-446655440000 example-value",
-		Annotations: map[string]string{"pp:endpoint": "draft.get-workflow-scheme-issue-type", "pp:method": "GET", "pp:path": "/rest/api/2/workflowscheme/{id}/draft/issuetype/{issueType}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "draft.get-workflow-scheme-issue-type", "pp:method": "GET", "pp:path": "/rest/api/3/workflowscheme/{id}/draft/issuetype/{issueType}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newWorkflowschemeDraftGetWorkflowSchemeIssueTypeCmd(flags *rootFlags) *cobr
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/{id}/draft/issuetype/{issueType}"
+			path := "/rest/api/3/workflowscheme/{id}/draft/issuetype/{issueType}"
 			path = replacePathParam(path, "id", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("issueType is required\nUsage: %s <%s>", cmd.CommandPath(), "issueType"))

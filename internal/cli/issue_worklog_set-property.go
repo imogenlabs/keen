@@ -19,7 +19,7 @@ func newIssueWorklogSetPropertyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "set-property <issueIdOrKey> <worklogId> <propertyKey>",
 		Short:       "Sets the value of a worklog property. Use this operation to store custom data against the worklog.",
 		Example:     "  jira-pp-cli-pp-cli issue worklog set-property your-token-here 550e8400-e29b-41d4-a716-446655440000 your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "worklog.set-property", "pp:method": "PUT", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}"},
+		Annotations: map[string]string{"pp:endpoint": "worklog.set-property", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newIssueWorklogSetPropertyCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}"
+			path := "/rest/api/3/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("worklogId is required\nUsage: %s <%s>", cmd.CommandPath(), "worklogId"))

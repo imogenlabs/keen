@@ -19,7 +19,7 @@ func newProjectGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <projectIdOrKey>",
 		Short:       "Returns the [project details](https://confluence.atlassian.com/x/ahLpNw) for a project.",
 		Example:     "  jira-pp-cli-pp-cli project get your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "project.get", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project.get", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -29,7 +29,7 @@ func newProjectGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}"
+			path := "/rest/api/3/project/{projectIdOrKey}"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			if flagExpand != "" {

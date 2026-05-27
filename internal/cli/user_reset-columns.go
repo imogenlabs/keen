@@ -19,14 +19,14 @@ func newUserResetColumnsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "reset-columns",
 		Short:       "Resets the default [ issue table columns](https://confluence.atlassian.com/x/XYdKLg) for the user to the system default.",
 		Example:     "  jira-pp-cli-pp-cli user reset-columns",
-		Annotations: map[string]string{"pp:endpoint": "user.reset-columns", "pp:method": "DELETE", "pp:path": "/rest/api/2/user/columns"},
+		Annotations: map[string]string{"pp:endpoint": "user.reset-columns", "pp:method": "DELETE", "pp:path": "/rest/api/3/user/columns"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/user/columns"
+			path := "/rest/api/3/user/columns"
 			params := map[string]string{}
 			if flagAccountId != "" {
 				params["accountId"] = fmt.Sprintf("%v", flagAccountId)

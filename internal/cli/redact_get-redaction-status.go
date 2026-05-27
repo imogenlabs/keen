@@ -18,7 +18,7 @@ func newRedactGetRedactionStatusCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Retrieves the current status of a redaction job ID.",
 		Example:     "  jira-pp-cli-pp-cli redact get-redaction-status 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "redact.get-redaction-status", "pp:method": "GET", "pp:path": "/rest/api/2/redact/status/{jobId}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "redact.get-redaction-status", "pp:method": "GET", "pp:path": "/rest/api/3/redact/status/{jobId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newRedactGetRedactionStatusCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/redact/status/{jobId}"
+			path := "/rest/api/3/redact/status/{jobId}"
 			path = replacePathParam(path, "jobId", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "redact", false, path, params, nil, cmd.ErrOrStderr())

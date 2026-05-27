@@ -21,7 +21,7 @@ func newConfigSearchFieldAssociationSchemeProjectsCmd(flags *rootFlags) *cobra.C
 		Use:         "search-field-association-scheme-projects <id>",
 		Short:       "REST Endpoint for searching for projects belonging to a given field association scheme **[Permissions](#permissions)",
 		Example:     "  jira-pp-cli-pp-cli config search-field-association-scheme-projects 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "config.search-field-association-scheme-projects", "pp:method": "GET", "pp:path": "/rest/api/2/config/fieldschemes/{id}/projects", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "config.search-field-association-scheme-projects", "pp:method": "GET", "pp:path": "/rest/api/3/config/fieldschemes/{id}/projects", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newConfigSearchFieldAssociationSchemeProjectsCmd(flags *rootFlags) *cobra.C
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes/{id}/projects"
+			path := "/rest/api/3/config/fieldschemes/{id}/projects"
 			path = replacePathParam(path, "id", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "config", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

@@ -22,7 +22,7 @@ func newWorkflowschemeDraftPublishWorkflowSchemeCmd(flags *rootFlags) *cobra.Com
 		Aliases:     []string{"create"},
 		Short:       "Publishes a draft workflow scheme.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme draft publish-workflow-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "draft.publish-workflow-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/workflowscheme/{id}/draft/publish"},
+		Annotations: map[string]string{"pp:endpoint": "draft.publish-workflow-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/workflowscheme/{id}/draft/publish"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newWorkflowschemeDraftPublishWorkflowSchemeCmd(flags *rootFlags) *cobra.Com
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/{id}/draft/publish"
+			path := "/rest/api/3/workflowscheme/{id}/draft/publish"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagValidateOnly != false {

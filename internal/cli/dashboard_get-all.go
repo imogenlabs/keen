@@ -22,7 +22,7 @@ func newDashboardGetAllCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a list of dashboards owned by or shared with the user.",
 		Example:     "  jira-pp-cli-pp-cli dashboard get-all",
-		Annotations: map[string]string{"pp:endpoint": "dashboard.get-all", "pp:method": "GET", "pp:path": "/rest/api/2/dashboard", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "dashboard.get-all", "pp:method": "GET", "pp:path": "/rest/api/3/dashboard", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("filter") {
 				allowedFilter := []string{"my", "favourite"}
@@ -42,7 +42,7 @@ func newDashboardGetAllCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard"
+			path := "/rest/api/3/dashboard"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "dashboard", path, map[string]string{
 				"filter":     fmt.Sprintf("%v", flagFilter),
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

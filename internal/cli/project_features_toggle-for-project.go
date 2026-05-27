@@ -21,7 +21,7 @@ func newProjectFeaturesToggleForProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Sets the state of a project feature.",
 		Example:     "  jira-pp-cli-pp-cli project features toggle-for-project your-token-here your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "features.toggle-for-project", "pp:method": "PUT", "pp:path": "/rest/api/2/project/{projectIdOrKey}/features/{featureKey}"},
+		Annotations: map[string]string{"pp:endpoint": "features.toggle-for-project", "pp:method": "PUT", "pp:path": "/rest/api/3/project/{projectIdOrKey}/features/{featureKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -33,7 +33,7 @@ func newProjectFeaturesToggleForProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/features/{featureKey}"
+			path := "/rest/api/3/project/{projectIdOrKey}/features/{featureKey}"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("featureKey is required\nUsage: %s <%s>", cmd.CommandPath(), "featureKey"))

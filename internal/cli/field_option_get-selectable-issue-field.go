@@ -21,7 +21,7 @@ func newFieldOptionGetSelectableIssueFieldCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-selectable-issue-field <fieldKey>",
 		Short:       "Returns a [paginated](#pagination)",
 		Example:     "  jira-pp-cli-pp-cli field option get-selectable-issue-field your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "option.get-selectable-issue-field", "pp:method": "GET", "pp:path": "/rest/api/2/field/{fieldKey}/option/suggestions/edit", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "option.get-selectable-issue-field", "pp:method": "GET", "pp:path": "/rest/api/3/field/{fieldKey}/option/suggestions/edit", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newFieldOptionGetSelectableIssueFieldCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldKey}/option/suggestions/edit"
+			path := "/rest/api/3/field/{fieldKey}/option/suggestions/edit"
 			path = replacePathParam(path, "fieldKey", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "option", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

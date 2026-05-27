@@ -23,7 +23,7 @@ func newWorkflowsCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Create workflows and related statuses.",
 		Example:     "  jira-pp-cli-pp-cli workflows create",
-		Annotations: map[string]string{"pp:endpoint": "workflows.create", "pp:method": "POST", "pp:path": "/rest/api/2/workflows/create"},
+		Annotations: map[string]string{"pp:endpoint": "workflows.create", "pp:method": "POST", "pp:path": "/rest/api/3/workflows/create"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("scope-project-id") && !flags.dryRun {
@@ -35,7 +35,7 @@ func newWorkflowsCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflows/create"
+			path := "/rest/api/3/workflows/create"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

@@ -38,7 +38,7 @@ func newProjectCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates a project based on a project type template, as shown in the following table",
 		Example:     "  jira-pp-cli-pp-cli project create --key your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "project.create", "pp:method": "POST", "pp:path": "/rest/api/2/project"},
+		Annotations: map[string]string{"pp:endpoint": "project.create", "pp:method": "POST", "pp:path": "/rest/api/3/project"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("key") && !flags.dryRun {
@@ -53,7 +53,7 @@ func newProjectCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project"
+			path := "/rest/api/3/project"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

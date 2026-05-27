@@ -25,14 +25,14 @@ func newGroupBulkGetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of groups.",
 		Example:     "  jira-pp-cli-pp-cli group bulk-get",
-		Annotations: map[string]string{"pp:endpoint": "group.bulk-get", "pp:method": "GET", "pp:path": "/rest/api/2/group/bulk", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "group.bulk-get", "pp:method": "GET", "pp:path": "/rest/api/3/group/bulk", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/group/bulk"
+			path := "/rest/api/3/group/bulk"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "group", path, map[string]string{
 				"startAt":        fmt.Sprintf("%v", flagStartAt),
 				"maxResults":     fmt.Sprintf("%v", flagMaxResults),

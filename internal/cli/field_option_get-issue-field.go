@@ -17,7 +17,7 @@ func newFieldOptionGetIssueFieldCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-issue-field <fieldKey> <optionId>",
 		Short:       "Returns an option from a select list issue field.",
 		Example:     "  jira-pp-cli-pp-cli field option get-issue-field your-token-here 42",
-		Annotations: map[string]string{"pp:endpoint": "option.get-issue-field", "pp:method": "GET", "pp:path": "/rest/api/2/field/{fieldKey}/option/{optionId}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "option.get-issue-field", "pp:method": "GET", "pp:path": "/rest/api/3/field/{fieldKey}/option/{optionId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newFieldOptionGetIssueFieldCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldKey}/option/{optionId}"
+			path := "/rest/api/3/field/{fieldKey}/option/{optionId}"
 			path = replacePathParam(path, "fieldKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("optionId is required\nUsage: %s <%s>", cmd.CommandPath(), "optionId"))

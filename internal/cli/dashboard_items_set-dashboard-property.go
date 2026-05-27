@@ -20,7 +20,7 @@ func newDashboardItemsSetDashboardPropertyCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Sets the value of a dashboard item property. Use this resource in apps to store custom data against a dashboard item.",
 		Example:     "  jira-pp-cli-pp-cli dashboard items set-dashboard-property 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "items.set-dashboard-property", "pp:method": "PUT", "pp:path": "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}"},
+		Annotations: map[string]string{"pp:endpoint": "items.set-dashboard-property", "pp:method": "PUT", "pp:path": "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newDashboardItemsSetDashboardPropertyCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}"
+			path := "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}"
 			path = replacePathParam(path, "dashboardId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("itemId is required\nUsage: %s <%s>", cmd.CommandPath(), "itemId"))

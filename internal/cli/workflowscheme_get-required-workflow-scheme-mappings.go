@@ -22,7 +22,7 @@ func newWorkflowschemeGetRequiredWorkflowSchemeMappingsCmd(flags *rootFlags) *co
 		Use:         "get-required-workflow-scheme-mappings",
 		Short:       "Gets the required status mappings for the desired changes to a workflow scheme.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme get-required-workflow-scheme-mappings --id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "workflowscheme.get-required-workflow-scheme-mappings", "pp:method": "POST", "pp:path": "/rest/api/2/workflowscheme/update/mappings"},
+		Annotations: map[string]string{"pp:endpoint": "workflowscheme.get-required-workflow-scheme-mappings", "pp:method": "POST", "pp:path": "/rest/api/3/workflowscheme/update/mappings"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("id") && !flags.dryRun {
@@ -37,7 +37,7 @@ func newWorkflowschemeGetRequiredWorkflowSchemeMappingsCmd(flags *rootFlags) *co
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/update/mappings"
+			path := "/rest/api/3/workflowscheme/update/mappings"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

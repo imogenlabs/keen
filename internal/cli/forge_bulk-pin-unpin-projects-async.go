@@ -27,7 +27,7 @@ func newForgeBulkPinUnpinProjectsAsyncCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Bulk pin or unpin an issue panel (added by a Forge app) to or from multiple projects. The operation runs asynchronously.",
 		Example:     "  jira-pp-cli-pp-cli forge bulk-pin-unpin-projects-async --module-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "forge.bulk-pin-unpin-projects-async", "pp:method": "POST", "pp:path": "/rest/api/2/forge/panel/action/bulk/async"},
+		Annotations: map[string]string{"pp:endpoint": "forge.bulk-pin-unpin-projects-async", "pp:method": "POST", "pp:path": "/rest/api/3/forge/panel/action/bulk/async"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("module-id") && !flags.dryRun {
@@ -42,7 +42,7 @@ func newForgeBulkPinUnpinProjectsAsyncCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/forge/panel/action/bulk/async"
+			path := "/rest/api/3/forge/panel/action/bulk/async"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {
@@ -86,7 +86,7 @@ func newForgeBulkPinUnpinProjectsAsyncCmd(flags *rootFlags) *cobra.Command {
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/api/2/task/{taskId}", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/task/{taskId}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

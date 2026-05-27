@@ -21,7 +21,7 @@ func newAppUpdateCustomFieldConfigurationCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Update the configuration for contexts of a custom field of a [type](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli app update-custom-field-configuration your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "app.update-custom-field-configuration", "pp:method": "PUT", "pp:path": "/rest/api/2/app/field/{fieldIdOrKey}/context/configuration"},
+		Annotations: map[string]string{"pp:endpoint": "app.update-custom-field-configuration", "pp:method": "PUT", "pp:path": "/rest/api/3/app/field/{fieldIdOrKey}/context/configuration"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newAppUpdateCustomFieldConfigurationCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/app/field/{fieldIdOrKey}/context/configuration"
+			path := "/rest/api/3/app/field/{fieldIdOrKey}/context/configuration"
 			path = replacePathParam(path, "fieldIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

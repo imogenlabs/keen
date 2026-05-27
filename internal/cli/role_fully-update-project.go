@@ -22,7 +22,7 @@ func newRoleFullyUpdateProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Updates the project role's name and description. You must include both a name and a description in the request.",
 		Example:     "  jira-pp-cli-pp-cli role fully-update-project 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "role.fully-update-project", "pp:method": "PUT", "pp:path": "/rest/api/2/role/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "role.fully-update-project", "pp:method": "PUT", "pp:path": "/rest/api/3/role/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newRoleFullyUpdateProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/role/{id}"
+			path := "/rest/api/3/role/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

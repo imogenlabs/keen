@@ -21,7 +21,7 @@ func newProjectRoleDeleteActorCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes actors from a project role for the project.",
 		Example:     "  jira-pp-cli-pp-cli project role delete-actor your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "role.delete-actor", "pp:method": "DELETE", "pp:path": "/rest/api/2/project/{projectIdOrKey}/role/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "role.delete-actor", "pp:method": "DELETE", "pp:path": "/rest/api/3/project/{projectIdOrKey}/role/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newProjectRoleDeleteActorCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/role/{id}"
+			path := "/rest/api/3/project/{projectIdOrKey}/role/{id}"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("id is required\nUsage: %s <%s>", cmd.CommandPath(), "id"))

@@ -1538,7 +1538,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/announcementBanner", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/announcementBanner", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("announcement-banner_set-banner",
@@ -1549,7 +1549,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("visibility", mcplib.Description("Visibility of the announcement banner. Can be public or private.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/announcementBanner", false, false, nil, []mcpParamBinding{{PublicName: "isDismissible", WireName: "isDismissible", Location: "body"}, {PublicName: "isEnabled", WireName: "isEnabled", Location: "body"}, {PublicName: "message", WireName: "message", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/announcementBanner", false, false, nil, []mcpParamBinding{{PublicName: "isDismissible", WireName: "isDismissible", Location: "body"}, {PublicName: "isEnabled", WireName: "isEnabled", Location: "body"}, {PublicName: "message", WireName: "message", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("app_get-custom-field-configuration",
@@ -1566,7 +1566,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/app/field/{fieldIdOrKey}/context/configuration", true, false, nil, []mcpParamBinding{{PublicName: "fieldIdOrKey", WireName: "fieldIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "fieldContextId", WireName: "fieldContextId", Location: "query"}, {PublicName: "issueId", WireName: "issueId", Location: "query"}, {PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/app/field/{fieldIdOrKey}/context/configuration", true, false, nil, []mcpParamBinding{{PublicName: "fieldIdOrKey", WireName: "fieldIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "fieldContextId", WireName: "fieldContextId", Location: "query"}, {PublicName: "issueId", WireName: "issueId", Location: "query"}, {PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("app_get-custom-fields-configurations",
@@ -1582,7 +1582,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/app/field/context/configuration/list", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "fieldContextId", WireName: "fieldContextId", Location: "query"}, {PublicName: "issueId", WireName: "issueId", Location: "query"}, {PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fieldIdsOrKeys", WireName: "fieldIdsOrKeys", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/app/field/context/configuration/list", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "fieldContextId", WireName: "fieldContextId", Location: "query"}, {PublicName: "issueId", WireName: "issueId", Location: "query"}, {PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fieldIdsOrKeys", WireName: "fieldIdsOrKeys", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("app_update-custom-field-configuration",
@@ -1591,7 +1591,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("configurations", mcplib.Required(), mcplib.Description("The list of custom field configuration details.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/app/field/{fieldIdOrKey}/context/configuration", false, false, nil, []mcpParamBinding{{PublicName: "fieldIdOrKey", WireName: "fieldIdOrKey", Location: "path"}, {PublicName: "configurations", WireName: "configurations", Location: "body"}}, []string{"fieldIdOrKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/app/field/{fieldIdOrKey}/context/configuration", false, false, nil, []mcpParamBinding{{PublicName: "fieldIdOrKey", WireName: "fieldIdOrKey", Location: "path"}, {PublicName: "configurations", WireName: "configurations", Location: "body"}}, []string{"fieldIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("app_update-custom-field-value",
@@ -1602,7 +1602,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("updates", mcplib.Description("The list of custom field update details.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/app/field/{fieldIdOrKey}/value", false, false, nil, []mcpParamBinding{{PublicName: "fieldIdOrKey", WireName: "fieldIdOrKey", Location: "path"}, {PublicName: "generateChangelog", WireName: "generateChangelog", Location: "query"}, {PublicName: "generateAppEvents", WireName: "generateAppEvents", Location: "query"}, {PublicName: "updates", WireName: "updates", Location: "body"}}, []string{"fieldIdOrKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/app/field/{fieldIdOrKey}/value", false, false, nil, []mcpParamBinding{{PublicName: "fieldIdOrKey", WireName: "fieldIdOrKey", Location: "path"}, {PublicName: "generateChangelog", WireName: "generateChangelog", Location: "query"}, {PublicName: "generateAppEvents", WireName: "generateAppEvents", Location: "query"}, {PublicName: "updates", WireName: "updates", Location: "body"}}, []string{"fieldIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("app_update-multiple-custom-field-values",
@@ -1613,7 +1613,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/app/field/value", false, false, nil, []mcpParamBinding{{PublicName: "generateChangelog", WireName: "generateChangelog", Location: "query"}, {PublicName: "generateAppEvents", WireName: "generateAppEvents", Location: "query"}, {PublicName: "updates", WireName: "updates", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/app/field/value", false, false, nil, []mcpParamBinding{{PublicName: "generateChangelog", WireName: "generateChangelog", Location: "query"}, {PublicName: "generateAppEvents", WireName: "generateAppEvents", Location: "query"}, {PublicName: "updates", WireName: "updates", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("app-access-settings_create-domain",
@@ -1681,7 +1681,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/application-properties/advanced-settings", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/application-properties/advanced-settings", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("application-properties_get-application-property",
@@ -1693,7 +1693,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/application-properties", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "permissionLevel", WireName: "permissionLevel", Location: "query"}, {PublicName: "keyFilter", WireName: "keyFilter", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/application-properties", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "permissionLevel", WireName: "permissionLevel", Location: "query"}, {PublicName: "keyFilter", WireName: "keyFilter", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("application-properties_set-application-property",
@@ -1703,7 +1703,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("value", mcplib.Description("The new value.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/application-properties/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/application-properties/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("applicationrole_get-all-application-roles",
@@ -1712,7 +1712,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/applicationrole", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/applicationrole", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("applicationrole_get-application-role",
@@ -1722,7 +1722,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/applicationrole/{key}", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "path"}}, []string{"key"}),
+		makeAPIHandler("GET", "/rest/api/3/applicationrole/{key}", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "path"}}, []string{"key"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("applications_get",
@@ -2130,7 +2130,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/attachment/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/attachment/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_get-content",
@@ -2141,7 +2141,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/attachment/content/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "redirect", WireName: "redirect", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/attachment/content/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "redirect", WireName: "redirect", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_get-meta",
@@ -2150,7 +2150,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/attachment/meta", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/attachment/meta", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_get-thumbnail",
@@ -2164,7 +2164,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/attachment/thumbnail/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "redirect", WireName: "redirect", Location: "query"}, {PublicName: "fallbackToDefault", WireName: "fallbackToDefault", Location: "query"}, {PublicName: "width", WireName: "width", Location: "query"}, {PublicName: "height", WireName: "height", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/attachment/thumbnail/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "redirect", WireName: "redirect", Location: "query"}, {PublicName: "fallbackToDefault", WireName: "fallbackToDefault", Location: "query"}, {PublicName: "width", WireName: "width", Location: "query"}, {PublicName: "height", WireName: "height", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_remove",
@@ -2173,7 +2173,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/attachment/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/attachment/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_expand_attachment-for-humans",
@@ -2183,7 +2183,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/attachment/{id}/expand/human", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/attachment/{id}/expand/human", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_expand_attachment-for-machines",
@@ -2193,7 +2193,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/attachment/{id}/expand/raw", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/attachment/{id}/expand/raw", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("auditing_get-audit-records",
@@ -2207,7 +2207,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/auditing/record", true, false, nil, []mcpParamBinding{{PublicName: "offset", WireName: "offset", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}, {PublicName: "filter", WireName: "filter", Location: "query"}, {PublicName: "from", WireName: "from", Location: "query"}, {PublicName: "to", WireName: "to", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/auditing/record", true, false, nil, []mcpParamBinding{{PublicName: "offset", WireName: "offset", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}, {PublicName: "filter", WireName: "filter", Location: "query"}, {PublicName: "from", WireName: "from", Location: "query"}, {PublicName: "to", WireName: "to", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("avatar_system_get-all-avatars",
@@ -2217,7 +2217,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/avatar/{type}/system", true, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}}, []string{"type"}),
+		makeAPIHandler("GET", "/rest/api/3/avatar/{type}/system", true, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}}, []string{"type"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("builds_delete-by-key",
@@ -2271,7 +2271,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/changelog/bulkfetch", false, false, nil, []mcpParamBinding{{PublicName: "fieldIds", WireName: "fieldIds", Location: "body"}, {PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "body"}, {PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/changelog/bulkfetch", false, false, nil, []mcpParamBinding{{PublicName: "fieldIds", WireName: "fieldIds", Location: "body"}, {PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "body"}, {PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("classification-levels_get-all-user-data",
@@ -2282,7 +2282,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/classification-levels", true, false, nil, []mcpParamBinding{{PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/classification-levels", true, false, nil, []mcpParamBinding{{PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("comment_get-by-ids",
@@ -2292,7 +2292,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/comment/list", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "ids", WireName: "ids", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/comment/list", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "ids", WireName: "ids", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("comment_properties_delete-comment-property",
@@ -2302,7 +2302,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/comment/{commentId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "commentId", WireName: "commentId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"commentId", "propertyKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/comment/{commentId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "commentId", WireName: "commentId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"commentId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("comment_properties_get-comment-property",
@@ -2313,7 +2313,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/comment/{commentId}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "commentId", WireName: "commentId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"commentId", "propertyKey"}),
+		makeAPIHandler("GET", "/rest/api/3/comment/{commentId}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "commentId", WireName: "commentId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"commentId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("comment_properties_get-comment-property-keys",
@@ -2323,7 +2323,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/comment/{commentId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "commentId", WireName: "commentId", Location: "path"}}, []string{"commentId"}),
+		makeAPIHandler("GET", "/rest/api/3/comment/{commentId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "commentId", WireName: "commentId", Location: "path"}}, []string{"commentId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("comment_properties_set-comment-property",
@@ -2332,7 +2332,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the property. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/comment/{commentId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "commentId", WireName: "commentId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"commentId", "propertyKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/comment/{commentId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "commentId", WireName: "commentId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"commentId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("component_create",
@@ -2356,7 +2356,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/component", false, false, nil, []mcpParamBinding{{PublicName: "ari", WireName: "ari", Location: "body"}, {PublicName: "assignee", WireName: "assignee", Location: "body"}, {PublicName: "assigneeType", WireName: "assigneeType", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "isAssigneeTypeValid", WireName: "isAssigneeTypeValid", Location: "body"}, {PublicName: "lead", WireName: "lead", Location: "body"}, {PublicName: "lead-account-id-2", WireName: "leadAccountId", Location: "body"}, {PublicName: "leadUserName", WireName: "leadUserName", Location: "body"}, {PublicName: "metadata", WireName: "metadata", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "realAssignee", WireName: "realAssignee", Location: "body"}, {PublicName: "realAssigneeType", WireName: "realAssigneeType", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/component", false, false, nil, []mcpParamBinding{{PublicName: "ari", WireName: "ari", Location: "body"}, {PublicName: "assignee", WireName: "assignee", Location: "body"}, {PublicName: "assigneeType", WireName: "assigneeType", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "isAssigneeTypeValid", WireName: "isAssigneeTypeValid", Location: "body"}, {PublicName: "lead", WireName: "lead", Location: "body"}, {PublicName: "lead-account-id-2", WireName: "leadAccountId", Location: "body"}, {PublicName: "leadUserName", WireName: "leadUserName", Location: "body"}, {PublicName: "metadata", WireName: "metadata", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "realAssignee", WireName: "realAssignee", Location: "body"}, {PublicName: "realAssigneeType", WireName: "realAssigneeType", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("component_delete",
@@ -2366,7 +2366,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/component/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "moveIssuesTo", WireName: "moveIssuesTo", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/component/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "moveIssuesTo", WireName: "moveIssuesTo", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("component_find-for-projects",
@@ -2380,7 +2380,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/component", true, false, nil, []mcpParamBinding{{PublicName: "projectIdsOrKeys", WireName: "projectIdsOrKeys", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/component", true, false, nil, []mcpParamBinding{{PublicName: "projectIdsOrKeys", WireName: "projectIdsOrKeys", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("component_get",
@@ -2390,7 +2390,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/component/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/component/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("component_update",
@@ -2414,7 +2414,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("self", mcplib.Description("The URL of the component.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/component/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "ari", WireName: "ari", Location: "body"}, {PublicName: "assignee", WireName: "assignee", Location: "body"}, {PublicName: "assigneeType", WireName: "assigneeType", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "isAssigneeTypeValid", WireName: "isAssigneeTypeValid", Location: "body"}, {PublicName: "lead", WireName: "lead", Location: "body"}, {PublicName: "lead-account-id-2", WireName: "leadAccountId", Location: "body"}, {PublicName: "leadUserName", WireName: "leadUserName", Location: "body"}, {PublicName: "metadata", WireName: "metadata", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "realAssignee", WireName: "realAssignee", Location: "body"}, {PublicName: "realAssigneeType", WireName: "realAssigneeType", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/component/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "ari", WireName: "ari", Location: "body"}, {PublicName: "assignee", WireName: "assignee", Location: "body"}, {PublicName: "assigneeType", WireName: "assigneeType", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "isAssigneeTypeValid", WireName: "isAssigneeTypeValid", Location: "body"}, {PublicName: "lead", WireName: "lead", Location: "body"}, {PublicName: "lead-account-id-2", WireName: "leadAccountId", Location: "body"}, {PublicName: "leadUserName", WireName: "leadUserName", Location: "body"}, {PublicName: "metadata", WireName: "metadata", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "realAssignee", WireName: "realAssignee", Location: "body"}, {PublicName: "realAssigneeType", WireName: "realAssigneeType", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("component_related-issue-counts_get-component-related-issues",
@@ -2424,14 +2424,14 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/component/{id}/relatedIssueCounts", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/component/{id}/relatedIssueCounts", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_associate-projects-to-field-association-schemes",
 			mcplib.WithDescription("Associate projects to field association schemes. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/config/fieldschemes/projects", false, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/config/fieldschemes/projects", false, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_clone-field-association-scheme",
@@ -2442,7 +2442,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/config/fieldschemes/{id}/clone", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/config/fieldschemes/{id}/clone", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_create-field-association-scheme",
@@ -2452,7 +2452,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/config/fieldschemes", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/config/fieldschemes", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_delete-field-association-scheme",
@@ -2461,7 +2461,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/config/fieldschemes/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/config/fieldschemes/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_get-field-association-scheme-by-id",
@@ -2471,7 +2471,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/config/fieldschemes/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/config/fieldschemes/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_get-field-association-scheme-item-parameters",
@@ -2482,7 +2482,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/config/fieldschemes/{id}/fields/{fieldId}/parameters", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "fieldId", WireName: "fieldId", Location: "path"}}, []string{"id", "fieldId"}),
+		makeAPIHandler("GET", "/rest/api/3/config/fieldschemes/{id}/fields/{fieldId}/parameters", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "fieldId", WireName: "fieldId", Location: "path"}}, []string{"id", "fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_get-field-association-schemes",
@@ -2495,7 +2495,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/config/fieldschemes", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/config/fieldschemes", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_get-projects-with-field-schemes",
@@ -2507,7 +2507,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/config/fieldschemes/projects", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/config/fieldschemes/projects", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_remove-field-association-scheme-item-parameters",
@@ -2515,7 +2515,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/config/fieldschemes/fields/parameters", false, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/config/fieldschemes/fields/parameters", false, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_remove-fields-associated-with-schemes",
@@ -2523,7 +2523,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/config/fieldschemes/fields", false, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/config/fieldschemes/fields", false, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_search-field-association-scheme-fields",
@@ -2536,7 +2536,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/config/fieldschemes/{id}/fields", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/config/fieldschemes/{id}/fields", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_search-field-association-scheme-projects",
@@ -2549,7 +2549,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/config/fieldschemes/{id}/projects", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/config/fieldschemes/{id}/projects", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_update-field-association-scheme",
@@ -2559,21 +2559,21 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name value to update")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/config/fieldschemes/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/config/fieldschemes/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_update-field-association-scheme-item-parameters",
 			mcplib.WithDescription("Update field association item parameters in field association schemes. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/config/fieldschemes/fields/parameters", false, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/config/fieldschemes/fields/parameters", false, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_update-fields-associated-with-schemes",
 			mcplib.WithDescription("Update fields associated with field association schemes. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/config/fieldschemes/fields", false, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/config/fieldschemes/fields", false, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("configuration_get",
@@ -2582,7 +2582,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/configuration", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/configuration", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("configuration_get-available-time-tracking-implementations",
@@ -2591,7 +2591,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/configuration/timetracking/list", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/configuration/timetracking/list", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("configuration_get-selected-time-tracking-implementation",
@@ -2600,7 +2600,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/configuration/timetracking", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/configuration/timetracking", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("configuration_get-shared-time-tracking",
@@ -2609,7 +2609,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/configuration/timetracking/options", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/configuration/timetracking/options", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("configuration_select-time-tracking-implementation",
@@ -2619,7 +2619,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("url", mcplib.Description("The URL of the configuration page for the time tracking provider app. For example, */example/config/url*.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/configuration/timetracking", false, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/configuration/timetracking", false, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("configuration_set-shared-time-tracking",
@@ -2630,7 +2630,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithNumber("workingHoursPerDay", mcplib.Required(), mcplib.Description("The number of hours in a working day.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/configuration/timetracking/options", false, false, nil, []mcpParamBinding{{PublicName: "defaultUnit", WireName: "defaultUnit", Location: "body"}, {PublicName: "timeFormat", WireName: "timeFormat", Location: "body"}, {PublicName: "workingDaysPerWeek", WireName: "workingDaysPerWeek", Location: "body"}, {PublicName: "workingHoursPerDay", WireName: "workingHoursPerDay", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/configuration/timetracking/options", false, false, nil, []mcpParamBinding{{PublicName: "defaultUnit", WireName: "defaultUnit", Location: "body"}, {PublicName: "timeFormat", WireName: "timeFormat", Location: "body"}, {PublicName: "workingDaysPerWeek", WireName: "workingDaysPerWeek", Location: "body"}, {PublicName: "workingHoursPerDay", WireName: "workingHoursPerDay", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("custom-field-option_get",
@@ -2640,7 +2640,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/customFieldOption/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/customFieldOption/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_bulk-edit",
@@ -2652,7 +2652,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("permissionDetails", mcplib.Description("The permission details to be changed.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/dashboard/bulk/edit", false, false, nil, []mcpParamBinding{{PublicName: "action", WireName: "action", Location: "body"}, {PublicName: "changeOwnerDetails", WireName: "changeOwnerDetails", Location: "body"}, {PublicName: "entityIds", WireName: "entityIds", Location: "body"}, {PublicName: "extendAdminPermissions", WireName: "extendAdminPermissions", Location: "body"}, {PublicName: "permissionDetails", WireName: "permissionDetails", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/dashboard/bulk/edit", false, false, nil, []mcpParamBinding{{PublicName: "action", WireName: "action", Location: "body"}, {PublicName: "changeOwnerDetails", WireName: "changeOwnerDetails", Location: "body"}, {PublicName: "entityIds", WireName: "entityIds", Location: "body"}, {PublicName: "extendAdminPermissions", WireName: "extendAdminPermissions", Location: "body"}, {PublicName: "permissionDetails", WireName: "permissionDetails", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_create",
@@ -2665,7 +2665,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/dashboard", false, false, nil, []mcpParamBinding{{PublicName: "extendAdminPermissions", WireName: "extendAdminPermissions", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/dashboard", false, false, nil, []mcpParamBinding{{PublicName: "extendAdminPermissions", WireName: "extendAdminPermissions", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_delete",
@@ -2674,7 +2674,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/dashboard/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/dashboard/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_get",
@@ -2684,7 +2684,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/dashboard/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/dashboard/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_get-all",
@@ -2696,7 +2696,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/dashboard", true, false, nil, []mcpParamBinding{{PublicName: "filter", WireName: "filter", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/dashboard", true, false, nil, []mcpParamBinding{{PublicName: "filter", WireName: "filter", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_get-all-available-gadgets",
@@ -2705,7 +2705,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/dashboard/gadgets", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/dashboard/gadgets", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_get-paginated",
@@ -2725,7 +2725,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/dashboard/search", true, false, nil, []mcpParamBinding{{PublicName: "dashboardName", WireName: "dashboardName", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "owner", WireName: "owner", Location: "query"}, {PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/dashboard/search", true, false, nil, []mcpParamBinding{{PublicName: "dashboardName", WireName: "dashboardName", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "owner", WireName: "owner", Location: "query"}, {PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_update",
@@ -2738,7 +2738,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("sharePermissions", mcplib.Required(), mcplib.Description("The share permissions for the dashboard.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/dashboard/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "extendAdminPermissions", WireName: "extendAdminPermissions", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/dashboard/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "extendAdminPermissions", WireName: "extendAdminPermissions", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_copy_dashboard",
@@ -2752,7 +2752,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/dashboard/{id}/copy", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "extendAdminPermissions", WireName: "extendAdminPermissions", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/dashboard/{id}/copy", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "extendAdminPermissions", WireName: "extendAdminPermissions", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_gadget_add",
@@ -2767,7 +2767,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/dashboard/{dashboardId}/gadget", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "color", WireName: "color", Location: "body"}, {PublicName: "ignoreUriAndModuleKeyValidation", WireName: "ignoreUriAndModuleKeyValidation", Location: "body"}, {PublicName: "moduleKey", WireName: "moduleKey", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "uri", WireName: "uri", Location: "body"}}, []string{"dashboardId"}),
+		makeAPIHandler("POST", "/rest/api/3/dashboard/{dashboardId}/gadget", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "color", WireName: "color", Location: "body"}, {PublicName: "ignoreUriAndModuleKeyValidation", WireName: "ignoreUriAndModuleKeyValidation", Location: "body"}, {PublicName: "moduleKey", WireName: "moduleKey", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "uri", WireName: "uri", Location: "body"}}, []string{"dashboardId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_gadget_get-all",
@@ -2780,7 +2780,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/dashboard/{dashboardId}/gadget", true, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "moduleKey", WireName: "moduleKey", Location: "query"}, {PublicName: "uri", WireName: "uri", Location: "query"}, {PublicName: "gadgetId", WireName: "gadgetId", Location: "query"}}, []string{"dashboardId"}),
+		makeAPIHandler("GET", "/rest/api/3/dashboard/{dashboardId}/gadget", true, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "moduleKey", WireName: "moduleKey", Location: "query"}, {PublicName: "uri", WireName: "uri", Location: "query"}, {PublicName: "gadgetId", WireName: "gadgetId", Location: "query"}}, []string{"dashboardId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_gadget_remove",
@@ -2790,7 +2790,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "gadgetId", WireName: "gadgetId", Location: "path"}}, []string{"dashboardId", "gadgetId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/dashboard/{dashboardId}/gadget/{gadgetId}", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "gadgetId", WireName: "gadgetId", Location: "path"}}, []string{"dashboardId", "gadgetId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_gadget_update",
@@ -2802,7 +2802,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("title", mcplib.Description("The title of the gadget.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "gadgetId", WireName: "gadgetId", Location: "path"}, {PublicName: "color", WireName: "color", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}}, []string{"dashboardId", "gadgetId"}),
+		makeAPIHandler("PUT", "/rest/api/3/dashboard/{dashboardId}/gadget/{gadgetId}", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "gadgetId", WireName: "gadgetId", Location: "path"}, {PublicName: "color", WireName: "color", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}}, []string{"dashboardId", "gadgetId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_items_delete-dashboard-property",
@@ -2813,7 +2813,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "itemId", WireName: "itemId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"dashboardId", "itemId", "propertyKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "itemId", WireName: "itemId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"dashboardId", "itemId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_items_get-dashboard-property",
@@ -2825,7 +2825,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "itemId", WireName: "itemId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"dashboardId", "itemId", "propertyKey"}),
+		makeAPIHandler("GET", "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "itemId", WireName: "itemId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"dashboardId", "itemId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_items_get-dashboard-property-keys",
@@ -2836,7 +2836,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "itemId", WireName: "itemId", Location: "path"}}, []string{"dashboardId", "itemId"}),
+		makeAPIHandler("GET", "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "itemId", WireName: "itemId", Location: "path"}}, []string{"dashboardId", "itemId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_items_set-dashboard-property",
@@ -2846,7 +2846,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the dashboard item property. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "itemId", WireName: "itemId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"dashboardId", "itemId", "propertyKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "dashboardId", WireName: "dashboardId", Location: "path"}, {PublicName: "itemId", WireName: "itemId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"dashboardId", "itemId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("data-policy_get-policies",
@@ -2856,7 +2856,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/data-policy/project", true, false, nil, []mcpParamBinding{{PublicName: "ids", WireName: "ids", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/data-policy/project", true, false, nil, []mcpParamBinding{{PublicName: "ids", WireName: "ids", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("data-policy_get-policy",
@@ -2865,7 +2865,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/data-policy", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/data-policy", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("deployments_delete-by-key",
@@ -3465,7 +3465,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/events", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/events", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("events-stream_poll-events",
@@ -3491,7 +3491,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/expression/analyse", false, false, nil, []mcpParamBinding{{PublicName: "check", WireName: "check", Location: "query"}, {PublicName: "contextVariables", WireName: "contextVariables", Location: "body"}, {PublicName: "expressions", WireName: "expressions", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/expression/analyse", false, false, nil, []mcpParamBinding{{PublicName: "check", WireName: "check", Location: "query"}, {PublicName: "contextVariables", WireName: "contextVariables", Location: "body"}, {PublicName: "expressions", WireName: "expressions", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("expression_evaluate-jira",
@@ -3502,7 +3502,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/expression/eval", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "context", WireName: "context", Location: "body"}, {PublicName: "expression", WireName: "expression", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/expression/eval", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "context", WireName: "context", Location: "body"}, {PublicName: "expression", WireName: "expression", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("expression_evaluate-jsisjira",
@@ -3513,7 +3513,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/expression/evaluate", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "context", WireName: "context", Location: "body"}, {PublicName: "expression", WireName: "expression", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/expression/evaluate", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "context", WireName: "context", Location: "body"}, {PublicName: "expression", WireName: "expression", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("featureflags_delete-feature-flag-by-id",
@@ -3562,7 +3562,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("fields", mcplib.Required(), mcplib.Description("Fields to associate/unassociate with projects.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/association", false, false, nil, []mcpParamBinding{{PublicName: "associationContexts", WireName: "associationContexts", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/field/association", false, false, nil, []mcpParamBinding{{PublicName: "associationContexts", WireName: "associationContexts", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_create-custom",
@@ -3574,7 +3574,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "searcherKey", WireName: "searcherKey", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/field", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "searcherKey", WireName: "searcherKey", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_delete-custom",
@@ -3583,7 +3583,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/field/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/field/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_get",
@@ -3592,7 +3592,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/field", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_get-paginated",
@@ -3609,7 +3609,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "type", WireName: "type", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "projectIds", WireName: "projectIds", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/field/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "type", WireName: "type", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "projectIds", WireName: "projectIds", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_get-trashed-paginated",
@@ -3624,7 +3624,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/search/trashed", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/field/search/trashed", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_remove-associations",
@@ -3634,7 +3634,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/field/association", false, false, nil, []mcpParamBinding{{PublicName: "associationContexts", WireName: "associationContexts", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/field/association", false, false, nil, []mcpParamBinding{{PublicName: "associationContexts", WireName: "associationContexts", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_update-custom",
@@ -3645,7 +3645,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("searcherKey", mcplib.Description("The searcher that defines the way the field is searched in Jira.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/{fieldId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "searcherKey", WireName: "searcherKey", Location: "body"}}, []string{"fieldId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "searcherKey", WireName: "searcherKey", Location: "body"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_association_get-field-project",
@@ -3657,7 +3657,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldId}/association/project", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/association/project", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_add-issue-types-to",
@@ -3667,7 +3667,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("issueTypeIds", mcplib.Required(), mcplib.Description("The list of issue type IDs.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/{fieldId}/context/{contextId}/issuetype", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/{contextId}/issuetype", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_assign-projects-to-custom-field",
@@ -3677,7 +3677,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("projectIds", mcplib.Required(), mcplib.Description("The IDs of projects.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/{fieldId}/context/{contextId}/project", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/{contextId}/project", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_create-custom-field",
@@ -3691,7 +3691,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field/{fieldId}/context", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{"fieldId"}),
+		makeAPIHandler("POST", "/rest/api/3/field/{fieldId}/context", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_create-custom-field-option",
@@ -3702,7 +3702,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field/{fieldId}/context/{contextId}/option", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "options", WireName: "options", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("POST", "/rest/api/3/field/{fieldId}/context/{contextId}/option", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "options", WireName: "options", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_delete-custom-field",
@@ -3712,7 +3712,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/field/{fieldId}/context/{contextId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/field/{fieldId}/context/{contextId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_delete-custom-field-option",
@@ -3723,7 +3723,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/field/{fieldId}/context/{contextId}/option/{optionId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}}, []string{"fieldId", "contextId", "optionId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/field/{fieldId}/context/{contextId}/option/{optionId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}}, []string{"fieldId", "contextId", "optionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-custom-field-for-projects-and-issue-types",
@@ -3735,7 +3735,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field/{fieldId}/context/mapping", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "mappings", WireName: "mappings", Location: "body"}}, []string{"fieldId"}),
+		makeAPIHandler("POST", "/rest/api/3/field/{fieldId}/context/mapping", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "mappings", WireName: "mappings", Location: "body"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-default-values",
@@ -3748,7 +3748,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldId}/context/defaultValue", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/context/defaultValue", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-for-field",
@@ -3763,7 +3763,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldId}/context", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "isAnyIssueType", WireName: "isAnyIssueType", Location: "query"}, {PublicName: "isGlobalContext", WireName: "isGlobalContext", Location: "query"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/context", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "isAnyIssueType", WireName: "isAnyIssueType", Location: "query"}, {PublicName: "isGlobalContext", WireName: "isGlobalContext", Location: "query"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-issue-type-mappings-for",
@@ -3776,7 +3776,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldId}/context/issuetypemapping", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/context/issuetypemapping", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-options-for",
@@ -3791,7 +3791,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldId}/context/{contextId}/option", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "query"}, {PublicName: "onlyOptions", WireName: "onlyOptions", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/context/{contextId}/option", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "query"}, {PublicName: "onlyOptions", WireName: "onlyOptions", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-project-mapping",
@@ -3804,7 +3804,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldId}/context/projectmapping", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/context/projectmapping", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_remove-custom-field-from-projects",
@@ -3815,7 +3815,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field/{fieldId}/context/{contextId}/project/remove", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("POST", "/rest/api/3/field/{fieldId}/context/{contextId}/project/remove", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_remove-issue-types-from",
@@ -3826,7 +3826,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field/{fieldId}/context/{contextId}/issuetype/remove", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("POST", "/rest/api/3/field/{fieldId}/context/{contextId}/issuetype/remove", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_reorder-custom-field-options",
@@ -3838,7 +3838,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("position", mcplib.Description("The position the custom field options should be moved to. Required if `after` isn't provided.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/{fieldId}/context/{contextId}/option/move", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "customFieldOptionIds", WireName: "customFieldOptionIds", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/{contextId}/option/move", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "customFieldOptionIds", WireName: "customFieldOptionIds", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_replace-custom-field-option",
@@ -3851,7 +3851,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/field/{fieldId}/context/{contextId}/option/{optionId}/issue", false, false, nil, []mcpParamBinding{{PublicName: "replaceWith", WireName: "replaceWith", Location: "query"}, {PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}}, []string{"fieldId", "optionId", "contextId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/field/{fieldId}/context/{contextId}/option/{optionId}/issue", false, false, nil, []mcpParamBinding{{PublicName: "replaceWith", WireName: "replaceWith", Location: "query"}, {PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}}, []string{"fieldId", "optionId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_set-default-values",
@@ -3860,7 +3860,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("defaultValues", mcplib.Description("Default values")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/{fieldId}/context/defaultValue", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "defaultValues", WireName: "defaultValues", Location: "body"}}, []string{"fieldId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/defaultValue", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "defaultValues", WireName: "defaultValues", Location: "body"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_update-custom-field",
@@ -3871,7 +3871,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the custom field context. The name must be unique. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/{fieldId}/context/{contextId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/{contextId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_update-custom-field-option",
@@ -3881,7 +3881,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("options", mcplib.Description("Details of the options to update.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/{fieldId}/context/{contextId}/option", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "options", WireName: "options", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/{contextId}/option", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "options", WireName: "options", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_contexts_get-for-field-deprecated",
@@ -3893,7 +3893,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldId}/contexts", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/contexts", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_option_create-issue-field",
@@ -3905,7 +3905,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field/{fieldKey}/option", false, false, nil, []mcpParamBinding{{PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "config", WireName: "config", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"fieldKey"}),
+		makeAPIHandler("POST", "/rest/api/3/field/{fieldKey}/option", false, false, nil, []mcpParamBinding{{PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "config", WireName: "config", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"fieldKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_option_delete-issue-field",
@@ -3915,7 +3915,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/field/{fieldKey}/option/{optionId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}}, []string{"fieldKey", "optionId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/field/{fieldKey}/option/{optionId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}}, []string{"fieldKey", "optionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_option_get-all-issue-field",
@@ -3927,7 +3927,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldKey}/option", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}}, []string{"fieldKey"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldKey}/option", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}}, []string{"fieldKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_option_get-issue-field",
@@ -3938,7 +3938,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldKey}/option/{optionId}", true, false, nil, []mcpParamBinding{{PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}}, []string{"fieldKey", "optionId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldKey}/option/{optionId}", true, false, nil, []mcpParamBinding{{PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}}, []string{"fieldKey", "optionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_option_get-selectable-issue-field",
@@ -3951,7 +3951,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldKey}/option/suggestions/edit", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}}, []string{"fieldKey"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldKey}/option/suggestions/edit", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}}, []string{"fieldKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_option_get-visible-issue-field",
@@ -3964,7 +3964,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldKey}/option/suggestions/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}}, []string{"fieldKey"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldKey}/option/suggestions/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}}, []string{"fieldKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_option_replace-issue-field",
@@ -3978,7 +3978,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/field/{fieldKey}/option/{optionId}/issue", false, false, nil, []mcpParamBinding{{PublicName: "replaceWith", WireName: "replaceWith", Location: "query"}, {PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "overrideScreenSecurity", WireName: "overrideScreenSecurity", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}}, []string{"fieldKey", "optionId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/field/{fieldKey}/option/{optionId}/issue", false, false, nil, []mcpParamBinding{{PublicName: "replaceWith", WireName: "replaceWith", Location: "query"}, {PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "overrideScreenSecurity", WireName: "overrideScreenSecurity", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}}, []string{"fieldKey", "optionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_option_update-issue-field",
@@ -3991,7 +3991,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("value", mcplib.Required(), mcplib.Description("The option's name, which is displayed in Jira.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/field/{fieldKey}/option/{optionId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}, {PublicName: "config", WireName: "config", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"fieldKey", "optionId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldKey}/option/{optionId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldKey", WireName: "fieldKey", Location: "path"}, {PublicName: "optionId", WireName: "optionId", Location: "path"}, {PublicName: "config", WireName: "config", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"fieldKey", "optionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_restore_custom-field",
@@ -4000,7 +4000,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field/{id}/restore", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/field/{id}/restore", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_screens_get-for-field",
@@ -4013,7 +4013,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/field/{fieldId}/screens", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"fieldId"}),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/screens", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_trash_custom-field",
@@ -4022,7 +4022,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/field/{id}/trash", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/field/{id}/trash", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfiguration_create-field-configuration",
@@ -4032,7 +4032,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/fieldconfiguration", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/fieldconfiguration", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfiguration_delete-field-configuration",
@@ -4041,7 +4041,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/fieldconfiguration/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/fieldconfiguration/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfiguration_get-all-field-configurations",
@@ -4055,7 +4055,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/fieldconfiguration", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "isDefault", WireName: "isDefault", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/fieldconfiguration", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "isDefault", WireName: "isDefault", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfiguration_update-field-configuration",
@@ -4065,7 +4065,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the field configuration. Must be unique.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/fieldconfiguration/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/fieldconfiguration/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfiguration_fields_get-configuration-items",
@@ -4077,7 +4077,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/fieldconfiguration/{id}/fields", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/fieldconfiguration/{id}/fields", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfiguration_fields_update-configuration-items",
@@ -4086,7 +4086,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("fieldConfigurationItems", mcplib.Required(), mcplib.Description("Details of fields in a field configuration.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/fieldconfiguration/{id}/fields", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "fieldConfigurationItems", WireName: "fieldConfigurationItems", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/fieldconfiguration/{id}/fields", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "fieldConfigurationItems", WireName: "fieldConfigurationItems", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_assign-field-configuration-scheme-to-project",
@@ -4095,7 +4095,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("projectId", mcplib.Required(), mcplib.Description("The ID of the project.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/fieldconfigurationscheme/project", false, false, nil, []mcpParamBinding{{PublicName: "fieldConfigurationSchemeId", WireName: "fieldConfigurationSchemeId", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/fieldconfigurationscheme/project", false, false, nil, []mcpParamBinding{{PublicName: "fieldConfigurationSchemeId", WireName: "fieldConfigurationSchemeId", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_create-field-configuration-scheme",
@@ -4105,7 +4105,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/fieldconfigurationscheme", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/fieldconfigurationscheme", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_delete-field-configuration-scheme",
@@ -4114,7 +4114,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/fieldconfigurationscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/fieldconfigurationscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_get-all-field-configuration-schemes",
@@ -4126,7 +4126,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/fieldconfigurationscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/fieldconfigurationscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_get-field-configuration-scheme-mappings",
@@ -4138,7 +4138,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/fieldconfigurationscheme/mapping", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fieldConfigurationSchemeId", WireName: "fieldConfigurationSchemeId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/fieldconfigurationscheme/mapping", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fieldConfigurationSchemeId", WireName: "fieldConfigurationSchemeId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_get-field-configuration-scheme-project-mapping",
@@ -4150,7 +4150,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/fieldconfigurationscheme/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/fieldconfigurationscheme/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_update-field-configuration-scheme",
@@ -4160,7 +4160,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the field configuration scheme. The name must be unique.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/fieldconfigurationscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/fieldconfigurationscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_mapping_remove-issue-types-from-global-field-configuration-scheme",
@@ -4170,7 +4170,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/fieldconfigurationscheme/{id}/mapping/delete", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/fieldconfigurationscheme/{id}/mapping/delete", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("fieldconfigurationscheme_mapping_set-field-configuration-scheme",
@@ -4179,7 +4179,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("mappings", mcplib.Required(), mcplib.Description("Field configuration to issue type mappings.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/fieldconfigurationscheme/{id}/mapping", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "mappings", WireName: "mappings", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/fieldconfigurationscheme/{id}/mapping", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "mappings", WireName: "mappings", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_create",
@@ -4204,7 +4204,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/filter", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideSharePermissions", WireName: "overrideSharePermissions", Location: "query"}, {PublicName: "approximateLastUsed", WireName: "approximateLastUsed", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "favourite", WireName: "favourite", Location: "body"}, {PublicName: "favouritedCount", WireName: "favouritedCount", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "searchUrl", WireName: "searchUrl", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}, {PublicName: "sharedUsers", WireName: "sharedUsers", Location: "body"}, {PublicName: "subscriptions", WireName: "subscriptions", Location: "body"}, {PublicName: "viewUrl", WireName: "viewUrl", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/filter", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideSharePermissions", WireName: "overrideSharePermissions", Location: "query"}, {PublicName: "approximateLastUsed", WireName: "approximateLastUsed", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "favourite", WireName: "favourite", Location: "body"}, {PublicName: "favouritedCount", WireName: "favouritedCount", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "searchUrl", WireName: "searchUrl", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}, {PublicName: "sharedUsers", WireName: "sharedUsers", Location: "body"}, {PublicName: "subscriptions", WireName: "subscriptions", Location: "body"}, {PublicName: "viewUrl", WireName: "viewUrl", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_delete",
@@ -4213,7 +4213,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/filter/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/filter/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_get",
@@ -4225,7 +4225,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/filter/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideSharePermissions", WireName: "overrideSharePermissions", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/filter/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideSharePermissions", WireName: "overrideSharePermissions", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_get-default-share-scope",
@@ -4234,7 +4234,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/filter/defaultShareScope", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/filter/defaultShareScope", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_get-favourite",
@@ -4244,7 +4244,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/filter/favourite", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/filter/favourite", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_get-my",
@@ -4255,7 +4255,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/filter/my", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "includeFavourites", WireName: "includeFavourites", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/filter/my", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "includeFavourites", WireName: "includeFavourites", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_get-paginated",
@@ -4277,7 +4277,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/filter/search", true, false, nil, []mcpParamBinding{{PublicName: "filterName", WireName: "filterName", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "owner", WireName: "owner", Location: "query"}, {PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideSharePermissions", WireName: "overrideSharePermissions", Location: "query"}, {PublicName: "isSubstringMatch", WireName: "isSubstringMatch", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/filter/search", true, false, nil, []mcpParamBinding{{PublicName: "filterName", WireName: "filterName", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "owner", WireName: "owner", Location: "query"}, {PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideSharePermissions", WireName: "overrideSharePermissions", Location: "query"}, {PublicName: "isSubstringMatch", WireName: "isSubstringMatch", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_set-default-share-scope",
@@ -4285,7 +4285,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("scope", mcplib.Required(), mcplib.Description("The scope of the default sharing for new filters and dashboards: * `AUTHENTICATED` Shared with all logged-in users.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/filter/defaultShareScope", false, false, nil, []mcpParamBinding{{PublicName: "scope", WireName: "scope", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/filter/defaultShareScope", false, false, nil, []mcpParamBinding{{PublicName: "scope", WireName: "scope", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_update",
@@ -4310,7 +4310,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("viewUrl", mcplib.Description("A URL to view the filter results in Jira, using the ID of the filter. For example, *https://your-domain.atlassian.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/filter/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideSharePermissions", WireName: "overrideSharePermissions", Location: "query"}, {PublicName: "approximateLastUsed", WireName: "approximateLastUsed", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "favourite", WireName: "favourite", Location: "body"}, {PublicName: "favouritedCount", WireName: "favouritedCount", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "searchUrl", WireName: "searchUrl", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}, {PublicName: "sharedUsers", WireName: "sharedUsers", Location: "body"}, {PublicName: "subscriptions", WireName: "subscriptions", Location: "body"}, {PublicName: "viewUrl", WireName: "viewUrl", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/filter/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideSharePermissions", WireName: "overrideSharePermissions", Location: "query"}, {PublicName: "approximateLastUsed", WireName: "approximateLastUsed", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "editPermissions", WireName: "editPermissions", Location: "body"}, {PublicName: "favourite", WireName: "favourite", Location: "body"}, {PublicName: "favouritedCount", WireName: "favouritedCount", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "searchUrl", WireName: "searchUrl", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "sharePermissions", WireName: "sharePermissions", Location: "body"}, {PublicName: "sharedUsers", WireName: "sharedUsers", Location: "body"}, {PublicName: "subscriptions", WireName: "subscriptions", Location: "body"}, {PublicName: "viewUrl", WireName: "viewUrl", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_columns_get",
@@ -4320,7 +4320,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/filter/{id}/columns", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/filter/{id}/columns", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_columns_reset",
@@ -4329,16 +4329,16 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/filter/{id}/columns", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/filter/{id}/columns", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_columns_set",
-			mcplib.WithDescription("Sets the columns for a filter. Only navigable fields can be set as columns. Use [Get fields](#api-rest-api-2-field-get) to get the list fields in Jira. A navigable field has `navigable` set to `true`. The parameters for this resource are expressed as HTML form data. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/2/filter/10000/columns` **[Permissions](#permissions) required:** Permission to access Jira, however, columns are only set for: * filters owned by the user. * filters shared with a group that the user is a member of. * filters shared with a private project that the user has *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for. * filters shared with a public project. * filters shared with the public. (public)"),
+			mcplib.WithDescription("Sets the columns for a filter. Only navigable fields can be set as columns. Use [Get fields](#api-rest-api-2-field-get) to get the list fields in Jira. A navigable field has `navigable` set to `true`. The parameters for this resource are expressed as HTML form data. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/3/filter/10000/columns` **[Permissions](#permissions) required:** Permission to access Jira, however, columns are only set for: * filters owned by the user. * filters shared with a group that the user is a member of. * filters shared with a private project that the user has *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for. * filters shared with a public project. * filters shared with the public. (public)"),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the filter.")),
 			mcplib.WithString("columns", mcplib.Description("Columns")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/filter/{id}/columns", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "columns", WireName: "columns", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/filter/{id}/columns", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "columns", WireName: "columns", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_favourite_delete-for-filter",
@@ -4348,7 +4348,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/filter/{id}/favourite", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/filter/{id}/favourite", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_favourite_set-for-filter",
@@ -4357,7 +4357,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about filter in the response.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/filter/{id}/favourite", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/filter/{id}/favourite", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_owner_change-filter",
@@ -4366,7 +4366,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("accountId", mcplib.Required(), mcplib.Description("The account ID of the new owner.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/filter/{id}/owner", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/filter/{id}/owner", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_permission_add-share",
@@ -4382,7 +4382,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/filter/{id}/permission", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "body"}, {PublicName: "groupId", WireName: "groupId", Location: "body"}, {PublicName: "groupname", WireName: "groupname", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "projectRoleId", WireName: "projectRoleId", Location: "body"}, {PublicName: "rights", WireName: "rights", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/filter/{id}/permission", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "body"}, {PublicName: "groupId", WireName: "groupId", Location: "body"}, {PublicName: "groupname", WireName: "groupname", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "projectRoleId", WireName: "projectRoleId", Location: "body"}, {PublicName: "rights", WireName: "rights", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_permission_delete-share",
@@ -4392,7 +4392,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/filter/{id}/permission/{permissionId}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "permissionId", WireName: "permissionId", Location: "path"}}, []string{"id", "permissionId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/filter/{id}/permission/{permissionId}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "permissionId", WireName: "permissionId", Location: "path"}}, []string{"id", "permissionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_permission_get-share",
@@ -4402,7 +4402,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/filter/{id}/permission", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/filter/{id}/permission", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_permission_get-share-filter",
@@ -4413,7 +4413,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/filter/{id}/permission/{permissionId}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "permissionId", WireName: "permissionId", Location: "path"}}, []string{"id", "permissionId"}),
+		makeAPIHandler("GET", "/rest/api/3/filter/{id}/permission/{permissionId}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "permissionId", WireName: "permissionId", Location: "path"}}, []string{"id", "permissionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("forge_bulk-pin-unpin-projects-async",
@@ -4423,7 +4423,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/forge/panel/action/bulk/async", false, false, nil, []mcpParamBinding{{PublicName: "moduleId", WireName: "moduleId", Location: "body"}, {PublicName: "projectList", WireName: "projectList", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/forge/panel/action/bulk/async", false, false, nil, []mcpParamBinding{{PublicName: "moduleId", WireName: "moduleId", Location: "body"}, {PublicName: "projectList", WireName: "projectList", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("forge_delete-app-property",
@@ -4471,7 +4471,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/group/user", false, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/group/user", false, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("group_bulk-get",
@@ -4486,7 +4486,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/group/bulk", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "groupName", WireName: "groupName", Location: "query"}, {PublicName: "accessType", WireName: "accessType", Location: "query"}, {PublicName: "applicationKey", WireName: "applicationKey", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/group/bulk", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "groupName", WireName: "groupName", Location: "query"}, {PublicName: "accessType", WireName: "accessType", Location: "query"}, {PublicName: "applicationKey", WireName: "applicationKey", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("group_create",
@@ -4495,7 +4495,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/group", false, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/group", false, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("group_get",
@@ -4507,7 +4507,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/group", true, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/group", true, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("group_get-users-from",
@@ -4521,7 +4521,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/group/member", true, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "includeInactiveUsers", WireName: "includeInactiveUsers", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/group/member", true, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "includeInactiveUsers", WireName: "includeInactiveUsers", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("group_remove",
@@ -4533,7 +4533,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/group", false, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "swapGroup", WireName: "swapGroup", Location: "query"}, {PublicName: "swapGroupId", WireName: "swapGroupId", Location: "query"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/group", false, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "swapGroup", WireName: "swapGroup", Location: "query"}, {PublicName: "swapGroupId", WireName: "swapGroupId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("group_remove-user-from",
@@ -4545,7 +4545,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/group/user", false, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/group/user", false, false, nil, []mcpParamBinding{{PublicName: "groupname", WireName: "groupname", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("groups_find",
@@ -4561,7 +4561,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/groups/picker", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "exclude", WireName: "exclude", Location: "query"}, {PublicName: "excludeId", WireName: "excludeId", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "caseInsensitive", WireName: "caseInsensitive", Location: "query"}, {PublicName: "userName", WireName: "userName", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/groups/picker", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "exclude", WireName: "exclude", Location: "query"}, {PublicName: "excludeId", WireName: "excludeId", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "caseInsensitive", WireName: "caseInsensitive", Location: "query"}, {PublicName: "userName", WireName: "userName", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("groupuserpicker_find-users-and-groups",
@@ -4579,7 +4579,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/groupuserpicker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "showAvatar", WireName: "showAvatar", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "avatarSize", WireName: "avatarSize", Location: "query"}, {PublicName: "caseInsensitive", WireName: "caseInsensitive", Location: "query"}, {PublicName: "excludeConnectAddons", WireName: "excludeConnectAddons", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/groupuserpicker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "showAvatar", WireName: "showAvatar", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "avatarSize", WireName: "avatarSize", Location: "query"}, {PublicName: "caseInsensitive", WireName: "caseInsensitive", Location: "query"}, {PublicName: "excludeConnectAddons", WireName: "excludeConnectAddons", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("instance_get-license",
@@ -4588,7 +4588,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/instance/license", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/instance/license", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("internal_get-worklogs-by-issue-id-and-worklog-id",
@@ -4605,7 +4605,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("issueIdsOrKeys", mcplib.Description("Issue ids or keys")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/archive", false, false, nil, []mcpParamBinding{{PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/archive", false, false, nil, []mcpParamBinding{{PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_archive-async",
@@ -4614,7 +4614,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/archive", false, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issue/archive", false, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-delete-property",
@@ -4625,7 +4625,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}, {PublicName: "currentValue", WireName: "currentValue", Location: "body"}, {PublicName: "entityIds", WireName: "entityIds", Location: "body"}}, []string{"propertyKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}, {PublicName: "currentValue", WireName: "currentValue", Location: "body"}, {PublicName: "entityIds", WireName: "entityIds", Location: "body"}}, []string{"propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-fetch",
@@ -4638,7 +4638,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/bulkfetch", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "body"}, {PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issue/bulkfetch", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "body"}, {PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-set-properties-by",
@@ -4647,7 +4647,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/properties/multi", false, false, nil, []mcpParamBinding{{PublicName: "issues", WireName: "issues", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issue/properties/multi", false, false, nil, []mcpParamBinding{{PublicName: "issues", WireName: "issues", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-set-properties-list",
@@ -4657,7 +4657,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/properties", false, false, nil, []mcpParamBinding{{PublicName: "entitiesIds", WireName: "entitiesIds", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issue/properties", false, false, nil, []mcpParamBinding{{PublicName: "entitiesIds", WireName: "entitiesIds", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-set-property",
@@ -4668,7 +4668,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("value", mcplib.Description("The value of the property. The value must be a [valid](https://tools.ietf.org/html/rfc4627), non-empty JSON blob.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}, {PublicName: "expression", WireName: "expression", Location: "body"}, {PublicName: "filter", WireName: "filter", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"propertyKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}, {PublicName: "expression", WireName: "expression", Location: "body"}, {PublicName: "filter", WireName: "filter", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_create",
@@ -4682,7 +4682,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue", false, false, nil, []mcpParamBinding{{PublicName: "updateHistory", WireName: "updateHistory", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "historyMetadata", WireName: "historyMetadata", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "transition", WireName: "transition", Location: "body"}, {PublicName: "update", WireName: "update", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issue", false, false, nil, []mcpParamBinding{{PublicName: "updateHistory", WireName: "updateHistory", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "historyMetadata", WireName: "historyMetadata", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "transition", WireName: "transition", Location: "body"}, {PublicName: "update", WireName: "update", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_create-bulk",
@@ -4691,7 +4691,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/bulk", false, false, nil, []mcpParamBinding{{PublicName: "issueUpdates", WireName: "issueUpdates", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issue/bulk", false, false, nil, []mcpParamBinding{{PublicName: "issueUpdates", WireName: "issueUpdates", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_delete",
@@ -4701,7 +4701,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "deleteSubtasks", WireName: "deleteSubtasks", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "deleteSubtasks", WireName: "deleteSubtasks", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_edit",
@@ -4719,7 +4719,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("update", mcplib.Description("A Map containing the field field name and a list of operations to perform on the issue...")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/{issueIdOrKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "overrideScreenSecurity", WireName: "overrideScreenSecurity", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "returnIssue", WireName: "returnIssue", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "historyMetadata", WireName: "historyMetadata", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "transition", WireName: "transition", Location: "body"}, {PublicName: "update", WireName: "update", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/{issueIdOrKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "overrideScreenSecurity", WireName: "overrideScreenSecurity", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "returnIssue", WireName: "returnIssue", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "historyMetadata", WireName: "historyMetadata", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "transition", WireName: "transition", Location: "body"}, {PublicName: "update", WireName: "update", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get",
@@ -4735,7 +4735,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "updateHistory", WireName: "updateHistory", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "updateHistory", WireName: "updateHistory", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get-create-meta",
@@ -4749,7 +4749,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/createmeta", true, false, nil, []mcpParamBinding{{PublicName: "projectIds", WireName: "projectIds", Location: "query"}, {PublicName: "projectKeys", WireName: "projectKeys", Location: "query"}, {PublicName: "issuetypeIds", WireName: "issuetypeIds", Location: "query"}, {PublicName: "issuetypeNames", WireName: "issuetypeNames", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issue/createmeta", true, false, nil, []mcpParamBinding{{PublicName: "projectIds", WireName: "projectIds", Location: "query"}, {PublicName: "projectKeys", WireName: "projectKeys", Location: "query"}, {PublicName: "issuetypeIds", WireName: "issuetypeIds", Location: "query"}, {PublicName: "issuetypeNames", WireName: "issuetypeNames", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get-create-meta-type-id",
@@ -4762,7 +4762,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/createmeta/{projectIdOrKey}/issuetypes/{issueTypeId}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"projectIdOrKey", "issueTypeId"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/createmeta/{projectIdOrKey}/issuetypes/{issueTypeId}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"projectIdOrKey", "issueTypeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get-create-meta-types",
@@ -4774,7 +4774,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/createmeta/{projectIdOrKey}/issuetypes", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/createmeta/{projectIdOrKey}/issuetypes", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get-is-watching-bulk",
@@ -4783,7 +4783,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/watching", false, false, nil, []mcpParamBinding{{PublicName: "issueIds", WireName: "issueIds", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issue/watching", false, false, nil, []mcpParamBinding{{PublicName: "issueIds", WireName: "issueIds", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get-limit-report",
@@ -4793,7 +4793,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/limit/report", true, false, nil, []mcpParamBinding{{PublicName: "isReturningKeys", WireName: "isReturningKeys", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issue/limit/report", true, false, nil, []mcpParamBinding{{PublicName: "isReturningKeys", WireName: "isReturningKeys", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get-picker-resource",
@@ -4808,7 +4808,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/picker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "currentJQL", WireName: "currentJQL", Location: "query"}, {PublicName: "currentIssueKey", WireName: "currentIssueKey", Location: "query"}, {PublicName: "currentProjectId", WireName: "currentProjectId", Location: "query"}, {PublicName: "showSubTasks", WireName: "showSubTasks", Location: "query"}, {PublicName: "showSubTaskParent", WireName: "showSubTaskParent", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issue/picker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "currentJQL", WireName: "currentJQL", Location: "query"}, {PublicName: "currentIssueKey", WireName: "currentIssueKey", Location: "query"}, {PublicName: "currentProjectId", WireName: "currentProjectId", Location: "query"}, {PublicName: "showSubTasks", WireName: "showSubTasks", Location: "query"}, {PublicName: "showSubTaskParent", WireName: "showSubTaskParent", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_unarchive",
@@ -4816,7 +4816,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("issueIdsOrKeys", mcplib.Description("Issue ids or keys")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/unarchive", false, false, nil, []mcpParamBinding{{PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/unarchive", false, false, nil, []mcpParamBinding{{PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_assignee_assign-issue",
@@ -4840,16 +4840,16 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("timeZone", mcplib.Description("The time zone specified in the user's profile.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/{issueIdOrKey}/assignee", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "body"}, {PublicName: "accountType", WireName: "accountType", Location: "body"}, {PublicName: "active", WireName: "active", Location: "body"}, {PublicName: "appType", WireName: "appType", Location: "body"}, {PublicName: "applicationRoles", WireName: "applicationRoles", Location: "body"}, {PublicName: "avatarUrls", WireName: "avatarUrls", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "emailAddress", WireName: "emailAddress", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "groups", WireName: "groups", Location: "body"}, {PublicName: "guest", WireName: "guest", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "locale", WireName: "locale", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "timeZone", WireName: "timeZone", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/{issueIdOrKey}/assignee", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "body"}, {PublicName: "accountType", WireName: "accountType", Location: "body"}, {PublicName: "active", WireName: "active", Location: "body"}, {PublicName: "appType", WireName: "appType", Location: "body"}, {PublicName: "applicationRoles", WireName: "applicationRoles", Location: "body"}, {PublicName: "avatarUrls", WireName: "avatarUrls", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "emailAddress", WireName: "emailAddress", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "groups", WireName: "groups", Location: "body"}, {PublicName: "guest", WireName: "guest", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "locale", WireName: "locale", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "timeZone", WireName: "timeZone", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_attachments_add",
-			mcplib.WithDescription("Adds one or more attachments to an issue. Attachments are posted as multipart/form-data ([RFC 1867](https://www.ietf.org/rfc/rfc1867.txt)). Note that: * The request must have a `X-Atlassian-Token: no-check` header, if not it is blocked. See [Special headers](#special-request-headers) for more information. * The name of the multipart/form-data parameter that contains the attachments must be `file`. The following examples upload a file called *myfile.txt* to the issue *TEST-123*: #### curl #### curl --location --request POST 'https://your-domain.atlassian.net/rest/api/2/issue/TEST-123/attachments' -u 'email@example.com:<api_token>' -H 'X-Atlassian-Token: no-check' --form 'file=@'myfile.txt'' #### Node.js #### // This code sample uses the 'node-fetch' and 'form-data' libraries: // https://www.npmjs.com/package/node-fetch // https://www.npmjs.com/package/form-data const fetch = require('node-fetch'); const FormData = require('form-data'); const fs = require('fs'); const filePath = 'myfile.txt'; const form = new FormData(); const stats = fs.statSync(filePath); const fileSizeInBytes = stats.size; const fileStream = fs.createReadStream(filePath); form.append('file', fileStream, {knownLength: fileSizeInBytes}); fetch('https://your-domain.atlassian.net/rest/api/2/issue/TEST-123/attachments', { method: 'POST', body: form, headers: { 'Authorization': `Basic ${Buffer.from( 'email@example.com:' ).toString('base64')}`, 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } }) .then(response => { console.log( `Response: ${response.status} ${response.statusText}` ); return response.text(); }) .then(text => console.log(text)) .catch(err => console.error(err)); #### Java #### // This code sample uses the 'Unirest' library: // http://unirest.io/java.html HttpResponse response = Unirest.post('https://your-domain.atlassian.net/rest/api/2/issue/{issueIdOrKey}/attachments') .basicAuth('email@example.com', '') .header('Accept', 'application/json') .header('X-Atlassian-Token', 'no-check') .field('file', new File('myfile.txt')) .asJson(); System.out.println(response.getBody()); #### Python #### # This code sample uses the 'requests' library: # http://docs.python-requests.org import requests from requests.auth import HTTPBasicAuth import json url = 'https://your-domain.atlassian.net/rest/api/2/issue/{issueIdOrKey}/attachments' auth = HTTPBasicAuth('email@example.com', '') headers = { 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } response = requests.request( 'POST', url, headers = headers, auth = auth, files = { 'file': ('myfile.txt', open('myfile.txt','rb'), 'application-type') } ) print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(',', ': '))) #### PHP #### // This code sample uses the 'Unirest' library: // http://unirest.io/php.html UnirestRequest::auth('email@example.com', ''); $headers = array( 'Accept' => 'application/json', 'X-Atlassian-Token' => 'no-check' ); $parameters = array( 'file' => File::add('myfile.txt') ); $response = UnirestRequest::post( 'https://your-domain.atlassian.net/rest/api/2/issue/{issueIdOrKey}/attachments', $headers, $parameters ); var_dump($response) #### Forge #### // This sample uses Atlassian Forge and the `form-data` library. // https://developer.atlassian.com/platform/forge/ // https://www.npmjs.com/package/form-data import api from '@forge/api'; import FormData from 'form-data'; const form = new FormData(); form.append('file', fileStream, {knownLength: fileSizeInBytes}); const response = await api.asApp().requestJira('/rest/api/2/issue/{issueIdOrKey}/attachments', { method: 'POST', body: form, headers: { 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } }); console.log(`Response: ${response.status} ${response.statusText}`); console.log(await response.json()); Tip: Use a client library. Many client libraries have classes for handling multipart POST operations. For example, in Java, the Apache HTTP Components library provides a [MultiPartEntity](http://hc.apache.org/httpcomponents-client-ga/httpmime/apidocs/org/apache/http/entity/mime/MultipartEntity.html) class for multipart POST operations. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse Projects* and *Create attachments* [ project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
+			mcplib.WithDescription("Adds one or more attachments to an issue. Attachments are posted as multipart/form-data ([RFC 1867](https://www.ietf.org/rfc/rfc1867.txt)). Note that: * The request must have a `X-Atlassian-Token: no-check` header, if not it is blocked. See [Special headers](#special-request-headers) for more information. * The name of the multipart/form-data parameter that contains the attachments must be `file`. The following examples upload a file called *myfile.txt* to the issue *TEST-123*: #### curl #### curl --location --request POST 'https://your-domain.atlassian.net/rest/api/3/issue/TEST-123/attachments' -u 'email@example.com:<api_token>' -H 'X-Atlassian-Token: no-check' --form 'file=@'myfile.txt'' #### Node.js #### // This code sample uses the 'node-fetch' and 'form-data' libraries: // https://www.npmjs.com/package/node-fetch // https://www.npmjs.com/package/form-data const fetch = require('node-fetch'); const FormData = require('form-data'); const fs = require('fs'); const filePath = 'myfile.txt'; const form = new FormData(); const stats = fs.statSync(filePath); const fileSizeInBytes = stats.size; const fileStream = fs.createReadStream(filePath); form.append('file', fileStream, {knownLength: fileSizeInBytes}); fetch('https://your-domain.atlassian.net/rest/api/3/issue/TEST-123/attachments', { method: 'POST', body: form, headers: { 'Authorization': `Basic ${Buffer.from( 'email@example.com:' ).toString('base64')}`, 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } }) .then(response => { console.log( `Response: ${response.status} ${response.statusText}` ); return response.text(); }) .then(text => console.log(text)) .catch(err => console.error(err)); #### Java #### // This code sample uses the 'Unirest' library: // http://unirest.io/java.html HttpResponse response = Unirest.post('https://your-domain.atlassian.net/rest/api/3/issue/{issueIdOrKey}/attachments') .basicAuth('email@example.com', '') .header('Accept', 'application/json') .header('X-Atlassian-Token', 'no-check') .field('file', new File('myfile.txt')) .asJson(); System.out.println(response.getBody()); #### Python #### # This code sample uses the 'requests' library: # http://docs.python-requests.org import requests from requests.auth import HTTPBasicAuth import json url = 'https://your-domain.atlassian.net/rest/api/3/issue/{issueIdOrKey}/attachments' auth = HTTPBasicAuth('email@example.com', '') headers = { 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } response = requests.request( 'POST', url, headers = headers, auth = auth, files = { 'file': ('myfile.txt', open('myfile.txt','rb'), 'application-type') } ) print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(',', ': '))) #### PHP #### // This code sample uses the 'Unirest' library: // http://unirest.io/php.html UnirestRequest::auth('email@example.com', ''); $headers = array( 'Accept' => 'application/json', 'X-Atlassian-Token' => 'no-check' ); $parameters = array( 'file' => File::add('myfile.txt') ); $response = UnirestRequest::post( 'https://your-domain.atlassian.net/rest/api/3/issue/{issueIdOrKey}/attachments', $headers, $parameters ); var_dump($response) #### Forge #### // This sample uses Atlassian Forge and the `form-data` library. // https://developer.atlassian.com/platform/forge/ // https://www.npmjs.com/package/form-data import api from '@forge/api'; import FormData from 'form-data'; const form = new FormData(); form.append('file', fileStream, {knownLength: fileSizeInBytes}); const response = await api.asApp().requestJira('/rest/api/3/issue/{issueIdOrKey}/attachments', { method: 'POST', body: form, headers: { 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } }); console.log(`Response: ${response.status} ${response.statusText}`); console.log(await response.json()); Tip: Use a client library. Many client libraries have classes for handling multipart POST operations. For example, in Java, the Apache HTTP Components library provides a [MultiPartEntity](http://hc.apache.org/httpcomponents-client-ga/httpmime/apidocs/org/apache/http/entity/mime/MultipartEntity.html) class for multipart POST operations. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse Projects* and *Create attachments* [ project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
 			mcplib.WithString("issueIdOrKey", mcplib.Required(), mcplib.Description("The ID or key of the issue that attachments are added to.")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/attachments", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/attachments", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_changelog_get-change-logs",
@@ -4861,7 +4861,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/changelog", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/changelog", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_changelog_get-change-logs-by-ids",
@@ -4871,7 +4871,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/changelog/list", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "changelogIds", WireName: "changelogIds", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/changelog/list", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "changelogIds", WireName: "changelogIds", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_comment_add",
@@ -4893,7 +4893,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/comment", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "body", WireName: "body", Location: "body"}, {PublicName: "created", WireName: "created", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "jsdAuthorCanSeeRequest", WireName: "jsdAuthorCanSeeRequest", Location: "body"}, {PublicName: "jsdPublic", WireName: "jsdPublic", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "renderedBody", WireName: "renderedBody", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateAuthor", WireName: "updateAuthor", Location: "body"}, {PublicName: "updated", WireName: "updated", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/comment", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "body", WireName: "body", Location: "body"}, {PublicName: "created", WireName: "created", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "jsdAuthorCanSeeRequest", WireName: "jsdAuthorCanSeeRequest", Location: "body"}, {PublicName: "jsdPublic", WireName: "jsdPublic", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "renderedBody", WireName: "renderedBody", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateAuthor", WireName: "updateAuthor", Location: "body"}, {PublicName: "updated", WireName: "updated", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_comment_delete",
@@ -4903,7 +4903,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/comment/{id}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"issueIdOrKey", "id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/comment/{id}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"issueIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_comment_get",
@@ -4917,7 +4917,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/comment", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/comment", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_comment_get-issue",
@@ -4929,7 +4929,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/comment/{id}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueIdOrKey", "id"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/comment/{id}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_comment_update",
@@ -4953,7 +4953,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("visibility", mcplib.Description("The group or role to which this comment is visible. Optional on create and update.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/{issueIdOrKey}/comment/{id}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "body", WireName: "body", Location: "body"}, {PublicName: "created", WireName: "created", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "jsdAuthorCanSeeRequest", WireName: "jsdAuthorCanSeeRequest", Location: "body"}, {PublicName: "jsdPublic", WireName: "jsdPublic", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "renderedBody", WireName: "renderedBody", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateAuthor", WireName: "updateAuthor", Location: "body"}, {PublicName: "updated", WireName: "updated", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{"issueIdOrKey", "id"}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/{issueIdOrKey}/comment/{id}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "body", WireName: "body", Location: "body"}, {PublicName: "created", WireName: "created", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "jsdAuthorCanSeeRequest", WireName: "jsdAuthorCanSeeRequest", Location: "body"}, {PublicName: "jsdPublic", WireName: "jsdPublic", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "renderedBody", WireName: "renderedBody", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateAuthor", WireName: "updateAuthor", Location: "body"}, {PublicName: "updated", WireName: "updated", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{"issueIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_editmeta_get-edit-issue-meta",
@@ -4965,7 +4965,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/editmeta", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "overrideScreenSecurity", WireName: "overrideScreenSecurity", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/editmeta", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "overrideScreenSecurity", WireName: "overrideScreenSecurity", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_notify_notify",
@@ -4979,7 +4979,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/notify", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "htmlBody", WireName: "htmlBody", Location: "body"}, {PublicName: "restrict", WireName: "restrict", Location: "body"}, {PublicName: "subject", WireName: "subject", Location: "body"}, {PublicName: "textBody", WireName: "textBody", Location: "body"}, {PublicName: "to", WireName: "to", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/notify", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "htmlBody", WireName: "htmlBody", Location: "body"}, {PublicName: "restrict", WireName: "restrict", Location: "body"}, {PublicName: "subject", WireName: "subject", Location: "body"}, {PublicName: "textBody", WireName: "textBody", Location: "body"}, {PublicName: "to", WireName: "to", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_properties_delete-issue-property",
@@ -4989,7 +4989,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "propertyKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_properties_get-issue-property",
@@ -5000,7 +5000,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "propertyKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_properties_get-issue-property-keys",
@@ -5010,7 +5010,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/properties", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/properties", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_properties_set-issue-property",
@@ -5019,7 +5019,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the issue property. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/{issueIdOrKey}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "propertyKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/{issueIdOrKey}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_remotelink_create-or-update-remote-issue-link",
@@ -5032,7 +5032,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/remotelink", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "application", WireName: "application", Location: "body"}, {PublicName: "globalId", WireName: "globalId", Location: "body"}, {PublicName: "object", WireName: "object", Location: "body"}, {PublicName: "relationship", WireName: "relationship", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/remotelink", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "application", WireName: "application", Location: "body"}, {PublicName: "globalId", WireName: "globalId", Location: "body"}, {PublicName: "object", WireName: "object", Location: "body"}, {PublicName: "relationship", WireName: "relationship", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_remotelink_delete-remote-issue-link-by-global-id",
@@ -5042,7 +5042,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/remotelink", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "globalId", WireName: "globalId", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/remotelink", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "globalId", WireName: "globalId", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_remotelink_delete-remote-issue-link-by-id",
@@ -5052,7 +5052,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "linkId", WireName: "linkId", Location: "path"}}, []string{"issueIdOrKey", "linkId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/remotelink/{linkId}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "linkId", WireName: "linkId", Location: "path"}}, []string{"issueIdOrKey", "linkId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_remotelink_get-remote-issue-link-by-id",
@@ -5063,7 +5063,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "linkId", WireName: "linkId", Location: "path"}}, []string{"issueIdOrKey", "linkId"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/remotelink/{linkId}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "linkId", WireName: "linkId", Location: "path"}}, []string{"issueIdOrKey", "linkId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_remotelink_get-remote-issue-links",
@@ -5074,7 +5074,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/remotelink", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "globalId", WireName: "globalId", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/remotelink", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "globalId", WireName: "globalId", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_remotelink_update-remote-issue-link",
@@ -5087,7 +5087,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("relationship", mcplib.Description("Description of the relationship between the issue and the linked item.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "linkId", WireName: "linkId", Location: "path"}, {PublicName: "application", WireName: "application", Location: "body"}, {PublicName: "globalId", WireName: "globalId", Location: "body"}, {PublicName: "object", WireName: "object", Location: "body"}, {PublicName: "relationship", WireName: "relationship", Location: "body"}}, []string{"issueIdOrKey", "linkId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/{issueIdOrKey}/remotelink/{linkId}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "linkId", WireName: "linkId", Location: "path"}, {PublicName: "application", WireName: "application", Location: "body"}, {PublicName: "globalId", WireName: "globalId", Location: "body"}, {PublicName: "object", WireName: "object", Location: "body"}, {PublicName: "relationship", WireName: "relationship", Location: "body"}}, []string{"issueIdOrKey", "linkId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_transitions_do",
@@ -5101,7 +5101,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/transitions", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "historyMetadata", WireName: "historyMetadata", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "transition", WireName: "transition", Location: "body"}, {PublicName: "update", WireName: "update", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/transitions", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "historyMetadata", WireName: "historyMetadata", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "transition", WireName: "transition", Location: "body"}, {PublicName: "update", WireName: "update", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_transitions_get",
@@ -5116,7 +5116,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/transitions", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "transitionId", WireName: "transitionId", Location: "query"}, {PublicName: "skipRemoteOnlyCondition", WireName: "skipRemoteOnlyCondition", Location: "query"}, {PublicName: "includeUnavailableTransitions", WireName: "includeUnavailableTransitions", Location: "query"}, {PublicName: "sortByOpsBarAndStatus", WireName: "sortByOpsBarAndStatus", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/transitions", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "transitionId", WireName: "transitionId", Location: "query"}, {PublicName: "skipRemoteOnlyCondition", WireName: "skipRemoteOnlyCondition", Location: "query"}, {PublicName: "includeUnavailableTransitions", WireName: "includeUnavailableTransitions", Location: "query"}, {PublicName: "sortByOpsBarAndStatus", WireName: "sortByOpsBarAndStatus", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_votes_add",
@@ -5125,7 +5125,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/votes", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/votes", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_votes_get",
@@ -5135,7 +5135,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/votes", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/votes", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_votes_remove",
@@ -5144,7 +5144,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/votes", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/votes", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_watchers_add",
@@ -5153,7 +5153,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/watchers", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/watchers", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_watchers_get-issue",
@@ -5163,7 +5163,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/watchers", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/watchers", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_watchers_remove",
@@ -5174,7 +5174,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/watchers", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/watchers", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_add",
@@ -5202,7 +5202,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/worklog", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "newEstimate", WireName: "newEstimate", Location: "query"}, {PublicName: "reduceBy", WireName: "reduceBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "comment", WireName: "comment", Location: "body"}, {PublicName: "created", WireName: "created", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issueId", WireName: "issueId", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "started", WireName: "started", Location: "body"}, {PublicName: "timeSpent", WireName: "timeSpent", Location: "body"}, {PublicName: "timeSpentSeconds", WireName: "timeSpentSeconds", Location: "body"}, {PublicName: "updateAuthor", WireName: "updateAuthor", Location: "body"}, {PublicName: "updated", WireName: "updated", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/worklog", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "newEstimate", WireName: "newEstimate", Location: "query"}, {PublicName: "reduceBy", WireName: "reduceBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "comment", WireName: "comment", Location: "body"}, {PublicName: "created", WireName: "created", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issueId", WireName: "issueId", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "started", WireName: "started", Location: "body"}, {PublicName: "timeSpent", WireName: "timeSpent", Location: "body"}, {PublicName: "timeSpentSeconds", WireName: "timeSpentSeconds", Location: "body"}, {PublicName: "updateAuthor", WireName: "updateAuthor", Location: "body"}, {PublicName: "updated", WireName: "updated", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_bulk-delete",
@@ -5214,7 +5214,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/worklog", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "ids", WireName: "ids", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/worklog", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "ids", WireName: "ids", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_bulk-move",
@@ -5227,7 +5227,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issue/{issueIdOrKey}/worklog/move", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "ids", WireName: "ids", Location: "body"}, {PublicName: "issue-id-or-key-2", WireName: "issueIdOrKey", Location: "body"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/issue/{issueIdOrKey}/worklog/move", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "ids", WireName: "ids", Location: "body"}, {PublicName: "issue-id-or-key-2", WireName: "issueIdOrKey", Location: "body"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_delete",
@@ -5242,7 +5242,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/worklog/{id}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "newEstimate", WireName: "newEstimate", Location: "query"}, {PublicName: "increaseBy", WireName: "increaseBy", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}}, []string{"issueIdOrKey", "id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/worklog/{id}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "newEstimate", WireName: "newEstimate", Location: "query"}, {PublicName: "increaseBy", WireName: "increaseBy", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}}, []string{"issueIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_delete-property",
@@ -5253,7 +5253,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "worklogId", WireName: "worklogId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "worklogId", "propertyKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "worklogId", WireName: "worklogId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "worklogId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_get",
@@ -5265,7 +5265,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/worklog/{id}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueIdOrKey", "id"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/worklog/{id}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_get-issue",
@@ -5280,7 +5280,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/worklog", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "startedAfter", WireName: "startedAfter", Location: "query"}, {PublicName: "startedBefore", WireName: "startedBefore", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/worklog", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "startedAfter", WireName: "startedAfter", Location: "query"}, {PublicName: "startedBefore", WireName: "startedBefore", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_get-property",
@@ -5292,7 +5292,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "worklogId", WireName: "worklogId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "worklogId", "propertyKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "worklogId", WireName: "worklogId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "worklogId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_get-property-keys",
@@ -5303,7 +5303,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "worklogId", WireName: "worklogId", Location: "path"}}, []string{"issueIdOrKey", "worklogId"}),
+		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}/worklog/{worklogId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "worklogId", WireName: "worklogId", Location: "path"}}, []string{"issueIdOrKey", "worklogId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_set-property",
@@ -5313,7 +5313,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the issue property. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "worklogId", WireName: "worklogId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "worklogId", "propertyKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "worklogId", WireName: "worklogId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueIdOrKey", "worklogId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_worklog_update",
@@ -5340,7 +5340,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("visibility", mcplib.Description("Details about any restrictions in the visibility of the worklog. Optional when creating or updating a worklog.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issue/{issueIdOrKey}/worklog/{id}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "newEstimate", WireName: "newEstimate", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "comment", WireName: "comment", Location: "body"}, {PublicName: "created", WireName: "created", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "issueId", WireName: "issueId", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "started", WireName: "started", Location: "body"}, {PublicName: "timeSpent", WireName: "timeSpent", Location: "body"}, {PublicName: "timeSpentSeconds", WireName: "timeSpentSeconds", Location: "body"}, {PublicName: "updateAuthor", WireName: "updateAuthor", Location: "body"}, {PublicName: "updated", WireName: "updated", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{"issueIdOrKey", "id"}),
+		makeAPIHandler("PUT", "/rest/api/3/issue/{issueIdOrKey}/worklog/{id}", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "notifyUsers", WireName: "notifyUsers", Location: "query"}, {PublicName: "adjustEstimate", WireName: "adjustEstimate", Location: "query"}, {PublicName: "newEstimate", WireName: "newEstimate", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "overrideEditableFlag", WireName: "overrideEditableFlag", Location: "query"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "comment", WireName: "comment", Location: "body"}, {PublicName: "created", WireName: "created", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "issueId", WireName: "issueId", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "started", WireName: "started", Location: "body"}, {PublicName: "timeSpent", WireName: "timeSpent", Location: "body"}, {PublicName: "timeSpentSeconds", WireName: "timeSpentSeconds", Location: "body"}, {PublicName: "updateAuthor", WireName: "updateAuthor", Location: "body"}, {PublicName: "updated", WireName: "updated", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{"issueIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue-link_delete",
@@ -5349,7 +5349,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issueLink/{linkId}", false, false, nil, []mcpParamBinding{{PublicName: "linkId", WireName: "linkId", Location: "path"}}, []string{"linkId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issueLink/{linkId}", false, false, nil, []mcpParamBinding{{PublicName: "linkId", WireName: "linkId", Location: "path"}}, []string{"linkId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue-link_get",
@@ -5359,11 +5359,11 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issueLink/{linkId}", true, false, nil, []mcpParamBinding{{PublicName: "linkId", WireName: "linkId", Location: "path"}}, []string{"linkId"}),
+		makeAPIHandler("GET", "/rest/api/3/issueLink/{linkId}", true, false, nil, []mcpParamBinding{{PublicName: "linkId", WireName: "linkId", Location: "path"}}, []string{"linkId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue-link_link-issues",
-			mcplib.WithDescription("Creates a link between two issues. Use this operation to indicate a relationship between two issues and optionally add a comment to the from (outward) issue. To use this resource the site must have [Issue Linking](https://confluence.atlassian.com/x/yoXKM) enabled. This resource returns nothing on the creation of an issue link. To obtain the ID of the issue link, use `https://your-domain.atlassian.net/rest/api/2/issue/[linked issue key]?fields=issuelinks`. If the link request duplicates a link, the response indicates that the issue link was created. If the request included a comment, the comment is added. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse project* [project permission](https://confluence.atlassian.com/x/yodKLg) for all the projects containing the issues to be linked, * *Link issues* [project permission](https://confluence.atlassian.com/x/yodKLg) on the project containing the from (outward) issue, * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If the comment has visibility restrictions, belongs to the group or has the role visibility is restricted to. (public)"),
+			mcplib.WithDescription("Creates a link between two issues. Use this operation to indicate a relationship between two issues and optionally add a comment to the from (outward) issue. To use this resource the site must have [Issue Linking](https://confluence.atlassian.com/x/yoXKM) enabled. This resource returns nothing on the creation of an issue link. To obtain the ID of the issue link, use `https://your-domain.atlassian.net/rest/api/3/issue/[linked issue key]?fields=issuelinks`. If the link request duplicates a link, the response indicates that the issue link was created. If the request included a comment, the comment is added. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse project* [project permission](https://confluence.atlassian.com/x/yodKLg) for all the projects containing the issues to be linked, * *Link issues* [project permission](https://confluence.atlassian.com/x/yodKLg) on the project containing the from (outward) issue, * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If the comment has visibility restrictions, belongs to the group or has the role visibility is restricted to. (public)"),
 			mcplib.WithString("comment", mcplib.Description("A comment.")),
 			mcplib.WithString("inwardIssue", mcplib.Required(), mcplib.Description("The ID or key of a linked issue.")),
 			mcplib.WithString("outwardIssue", mcplib.Required(), mcplib.Description("The ID or key of a linked issue.")),
@@ -5371,7 +5371,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issueLink", false, false, nil, []mcpParamBinding{{PublicName: "comment", WireName: "comment", Location: "body"}, {PublicName: "inwardIssue", WireName: "inwardIssue", Location: "body"}, {PublicName: "outwardIssue", WireName: "outwardIssue", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issueLink", false, false, nil, []mcpParamBinding{{PublicName: "comment", WireName: "comment", Location: "body"}, {PublicName: "inwardIssue", WireName: "inwardIssue", Location: "body"}, {PublicName: "outwardIssue", WireName: "outwardIssue", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue-link-type_create",
@@ -5384,7 +5384,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issueLinkType", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inward", WireName: "inward", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "outward", WireName: "outward", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issueLinkType", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inward", WireName: "inward", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "outward", WireName: "outward", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue-link-type_delete",
@@ -5393,7 +5393,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issueLinkType/{issueLinkTypeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueLinkTypeId", WireName: "issueLinkTypeId", Location: "path"}}, []string{"issueLinkTypeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issueLinkType/{issueLinkTypeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueLinkTypeId", WireName: "issueLinkTypeId", Location: "path"}}, []string{"issueLinkTypeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue-link-type_get",
@@ -5402,7 +5402,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issueLinkType", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issueLinkType", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue-link-type_get-issuelinktype",
@@ -5412,7 +5412,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issueLinkType/{issueLinkTypeId}", true, false, nil, []mcpParamBinding{{PublicName: "issueLinkTypeId", WireName: "issueLinkTypeId", Location: "path"}}, []string{"issueLinkTypeId"}),
+		makeAPIHandler("GET", "/rest/api/3/issueLinkType/{issueLinkTypeId}", true, false, nil, []mcpParamBinding{{PublicName: "issueLinkTypeId", WireName: "issueLinkTypeId", Location: "path"}}, []string{"issueLinkTypeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issue-link-type_update",
@@ -5425,7 +5425,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("self", mcplib.Description("The URL of the issue link type. Read only.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issueLinkType/{issueLinkTypeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueLinkTypeId", WireName: "issueLinkTypeId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inward", WireName: "inward", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "outward", WireName: "outward", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"issueLinkTypeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issueLinkType/{issueLinkTypeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueLinkTypeId", WireName: "issueLinkTypeId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inward", WireName: "inward", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "outward", WireName: "outward", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"issueLinkTypeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issues_export-archived",
@@ -5437,7 +5437,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("reporters", mcplib.Description("List archived issues where the reporter is a specified account ID.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issues/archive/export", false, false, nil, []mcpParamBinding{{PublicName: "archivedBy", WireName: "archivedBy", Location: "body"}, {PublicName: "archivedDateRange", WireName: "archivedDateRange", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "projects", WireName: "projects", Location: "body"}, {PublicName: "reporters", WireName: "reporters", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/issues/archive/export", false, false, nil, []mcpParamBinding{{PublicName: "archivedBy", WireName: "archivedBy", Location: "body"}, {PublicName: "archivedDateRange", WireName: "archivedDateRange", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "projects", WireName: "projects", Location: "body"}, {PublicName: "reporters", WireName: "reporters", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_associate-schemes-to-projects",
@@ -5447,7 +5447,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("schemeId", mcplib.Required(), mcplib.Description("The ID of the issue security scheme. Providing null will clear the association with the issue security scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuesecurityschemes/project", false, false, nil, []mcpParamBinding{{PublicName: "oldToNewSecurityLevelMappings", WireName: "oldToNewSecurityLevelMappings", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "schemeId", WireName: "schemeId", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/issuesecurityschemes/project", false, false, nil, []mcpParamBinding{{PublicName: "oldToNewSecurityLevelMappings", WireName: "oldToNewSecurityLevelMappings", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "schemeId", WireName: "schemeId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_create-issue-security-scheme",
@@ -5458,7 +5458,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issuesecurityschemes", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "levels", WireName: "levels", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issuesecurityschemes", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "levels", WireName: "levels", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_delete-security-scheme",
@@ -5467,7 +5467,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issuesecurityschemes/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}}, []string{"schemeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issuesecurityschemes/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_get-issue-security-scheme",
@@ -5477,7 +5477,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuesecurityschemes/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/issuesecurityschemes/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_get-issue-security-schemes",
@@ -5486,7 +5486,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuesecurityschemes", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuesecurityschemes", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_get-security-level-members",
@@ -5501,7 +5501,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuesecurityschemes/level/member", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "query"}, {PublicName: "levelId", WireName: "levelId", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuesecurityschemes/level/member", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "query"}, {PublicName: "levelId", WireName: "levelId", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_get-security-levels",
@@ -5515,7 +5515,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuesecurityschemes/level", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuesecurityschemes/level", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_search-projects-using-security-schemes",
@@ -5528,7 +5528,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuesecurityschemes/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "issueSecuritySchemeId", WireName: "issueSecuritySchemeId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuesecurityschemes/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "issueSecuritySchemeId", WireName: "issueSecuritySchemeId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_search-security-schemes",
@@ -5541,7 +5541,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuesecurityschemes/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuesecurityschemes/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_set-default-levels",
@@ -5549,7 +5549,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("defaultValues", mcplib.Required(), mcplib.Description("List of objects with issue security scheme ID and new default level ID.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuesecurityschemes/level/default", false, false, nil, []mcpParamBinding{{PublicName: "defaultValues", WireName: "defaultValues", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/issuesecurityschemes/level/default", false, false, nil, []mcpParamBinding{{PublicName: "defaultValues", WireName: "defaultValues", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_update-issue-security-scheme",
@@ -5559,7 +5559,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the security scheme scheme. Must be unique.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuesecurityschemes/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuesecurityschemes/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_level_add-security",
@@ -5568,7 +5568,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("levels", mcplib.Description("The list of scheme levels which should be added to the security scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuesecurityschemes/{schemeId}/level", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levels", WireName: "levels", Location: "body"}}, []string{"schemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuesecurityschemes/{schemeId}/level", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levels", WireName: "levels", Location: "body"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_level_add-security-members",
@@ -5578,7 +5578,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("members", mcplib.Description("The list of level members which should be added to the issue security scheme level.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuesecurityschemes/{schemeId}/level/{levelId}/member", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levelId", WireName: "levelId", Location: "path"}, {PublicName: "members", WireName: "members", Location: "body"}}, []string{"schemeId", "levelId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}/member", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levelId", WireName: "levelId", Location: "path"}, {PublicName: "members", WireName: "members", Location: "body"}}, []string{"schemeId", "levelId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_level_remove",
@@ -5589,7 +5589,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issuesecurityschemes/{schemeId}/level/{levelId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levelId", WireName: "levelId", Location: "path"}, {PublicName: "replaceWith", WireName: "replaceWith", Location: "query"}}, []string{"schemeId", "levelId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levelId", WireName: "levelId", Location: "path"}, {PublicName: "replaceWith", WireName: "replaceWith", Location: "query"}}, []string{"schemeId", "levelId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_level_remove-member-from-security",
@@ -5600,7 +5600,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issuesecurityschemes/{schemeId}/level/{levelId}/member/{memberId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levelId", WireName: "levelId", Location: "path"}, {PublicName: "memberId", WireName: "memberId", Location: "path"}}, []string{"schemeId", "levelId", "memberId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}/member/{memberId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levelId", WireName: "levelId", Location: "path"}, {PublicName: "memberId", WireName: "memberId", Location: "path"}}, []string{"schemeId", "levelId", "memberId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_level_update-security",
@@ -5611,7 +5611,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the issue security scheme level. Must be unique.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuesecurityschemes/{schemeId}/level/{levelId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levelId", WireName: "levelId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"schemeId", "levelId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "levelId", WireName: "levelId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"schemeId", "levelId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_members_get-issue-security-level",
@@ -5625,7 +5625,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuesecurityschemes/{issueSecuritySchemeId}/members", true, false, nil, []mcpParamBinding{{PublicName: "issueSecuritySchemeId", WireName: "issueSecuritySchemeId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "issueSecurityLevelId", WireName: "issueSecurityLevelId", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueSecuritySchemeId"}),
+		makeAPIHandler("GET", "/rest/api/3/issuesecurityschemes/{issueSecuritySchemeId}/members", true, false, nil, []mcpParamBinding{{PublicName: "issueSecuritySchemeId", WireName: "issueSecuritySchemeId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "issueSecurityLevelId", WireName: "issueSecurityLevelId", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"issueSecuritySchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_create-issue-type",
@@ -5637,7 +5637,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issuetype", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "hierarchyLevel", WireName: "hierarchyLevel", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issuetype", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "hierarchyLevel", WireName: "hierarchyLevel", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_delete-issue-type",
@@ -5647,7 +5647,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issuetype/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "alternativeIssueTypeId", WireName: "alternativeIssueTypeId", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issuetype/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "alternativeIssueTypeId", WireName: "alternativeIssueTypeId", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_get-issue-all-types",
@@ -5656,7 +5656,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetype", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuetype", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_get-issue-type",
@@ -5666,7 +5666,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetype/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/issuetype/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_get-issue-types-for-project",
@@ -5677,7 +5677,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetype/project", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "level", WireName: "level", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuetype/project", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "level", WireName: "level", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_update-issue-type",
@@ -5688,7 +5688,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The unique name for the issue type. The maximum length is 60 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetype/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetype/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_alternatives_get-issue-types",
@@ -5698,11 +5698,11 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetype/{id}/alternatives", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/issuetype/{id}/alternatives", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_avatar2_create-issue-type-avatar",
-			mcplib.WithDescription("Loads an avatar for the issue type. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST --user email@example.com:<api_token> --header 'X-Atlassian-Token: no-check' --header 'Content-Type: image/< image_type>' --data-binary '<@/path/to/file/with/your/avatar>' --url 'https://your-domain.atlassian.net/rest/api/2/issuetype/{issueTypeId}'This` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar, use [ Update issue type](#api-rest-api-2-issuetype-id-put) to set it as the issue type's displayed avatar. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Loads an avatar for the issue type. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST --user email@example.com:<api_token> --header 'X-Atlassian-Token: no-check' --header 'Content-Type: image/< image_type>' --data-binary '<@/path/to/file/with/your/avatar>' --url 'https://your-domain.atlassian.net/rest/api/3/issuetype/{issueTypeId}'This` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar, use [ Update issue type](#api-rest-api-2-issuetype-id-put) to set it as the issue type's displayed avatar. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the issue type.")),
 			mcplib.WithNumber("x", mcplib.Description("The X coordinate of the top-left corner of the crop region.")),
 			mcplib.WithNumber("y", mcplib.Description("The Y coordinate of the top-left corner of the crop region.")),
@@ -5710,7 +5710,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issuetype/{id}/avatar2", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "x", WireName: "x", Location: "query"}, {PublicName: "y", WireName: "y", Location: "query"}, {PublicName: "size", WireName: "size", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/issuetype/{id}/avatar2", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "x", WireName: "x", Location: "query"}, {PublicName: "y", WireName: "y", Location: "query"}, {PublicName: "size", WireName: "size", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_properties_delete-issue-type-property",
@@ -5720,7 +5720,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issuetype/{issueTypeId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueTypeId", "propertyKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issuetype/{issueTypeId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueTypeId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_properties_get-issue-type-property",
@@ -5731,7 +5731,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetype/{issueTypeId}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueTypeId", "propertyKey"}),
+		makeAPIHandler("GET", "/rest/api/3/issuetype/{issueTypeId}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueTypeId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_properties_get-issue-type-property-keys",
@@ -5741,7 +5741,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetype/{issueTypeId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}}, []string{"issueTypeId"}),
+		makeAPIHandler("GET", "/rest/api/3/issuetype/{issueTypeId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}}, []string{"issueTypeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_properties_set-issue-type-property",
@@ -5750,7 +5750,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the issue type property. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetype/{issueTypeId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueTypeId", "propertyKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetype/{issueTypeId}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"issueTypeId", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_assign-issue-type-scheme-to-project",
@@ -5759,7 +5759,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("projectId", mcplib.Required(), mcplib.Description("The ID of the project.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetypescheme/project", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetypescheme/project", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_create-issue-type-scheme",
@@ -5771,7 +5771,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issuetypescheme", false, false, nil, []mcpParamBinding{{PublicName: "defaultIssueTypeId", WireName: "defaultIssueTypeId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issuetypescheme", false, false, nil, []mcpParamBinding{{PublicName: "defaultIssueTypeId", WireName: "defaultIssueTypeId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_delete-issue-type-scheme",
@@ -5780,7 +5780,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issuetypescheme/{issueTypeSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}}, []string{"issueTypeSchemeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issuetypescheme/{issueTypeSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}}, []string{"issueTypeSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_get-all-issue-type-schemes",
@@ -5795,7 +5795,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetypescheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuetypescheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_get-issue-type-scheme-for-projects",
@@ -5807,7 +5807,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetypescheme/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuetypescheme/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_get-issue-type-schemes-mapping",
@@ -5819,7 +5819,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetypescheme/mapping", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuetypescheme/mapping", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_update-issue-type-scheme",
@@ -5830,7 +5830,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the issue type scheme. The name must be unique. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetypescheme/{issueTypeSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}, {PublicName: "defaultIssueTypeId", WireName: "defaultIssueTypeId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"issueTypeSchemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetypescheme/{issueTypeSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}, {PublicName: "defaultIssueTypeId", WireName: "defaultIssueTypeId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"issueTypeSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_issuetype_add-issue-types-to-issue-type-scheme",
@@ -5839,7 +5839,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("issueTypeIds", mcplib.Required(), mcplib.Description("The list of issue type IDs.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetypescheme/{issueTypeSchemeId}/issuetype", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"issueTypeSchemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetypescheme/{issueTypeSchemeId}/issuetype", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"issueTypeSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_issuetype_remove-issue-type-from-issue-type-scheme",
@@ -5849,7 +5849,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issuetypescheme/{issueTypeSchemeId}/issuetype/{issueTypeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}}, []string{"issueTypeSchemeId", "issueTypeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issuetypescheme/{issueTypeSchemeId}/issuetype/{issueTypeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "path"}}, []string{"issueTypeSchemeId", "issueTypeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescheme_issuetype_reorder-issue-types-in-issue-type-scheme",
@@ -5860,7 +5860,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("position", mcplib.Description("The position the issue types should be moved to. Required if `after` isn't provided.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetypescheme/{issueTypeSchemeId}/issuetype/move", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}, {PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{"issueTypeSchemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetypescheme/{issueTypeSchemeId}/issuetype/move", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeSchemeId", WireName: "issueTypeSchemeId", Location: "path"}, {PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{"issueTypeSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_assign-issue-type-screen-scheme-to-project",
@@ -5869,7 +5869,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("projectId", mcplib.Description("The ID of the project.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetypescreenscheme/project", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetypescreenscheme/project", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_create-issue-type-screen-scheme",
@@ -5880,7 +5880,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issuetypescreenscheme", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/issuetypescreenscheme", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_delete-issue-type-screen-scheme",
@@ -5889,7 +5889,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}}, []string{"issueTypeScreenSchemeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}}, []string{"issueTypeScreenSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_get-issue-type-screen-scheme-mappings",
@@ -5901,7 +5901,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetypescreenscheme/mapping", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuetypescreenscheme/mapping", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_get-issue-type-screen-scheme-project-associations",
@@ -5913,7 +5913,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetypescreenscheme/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuetypescreenscheme/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_get-issue-type-screen-schemes",
@@ -5928,7 +5928,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetypescreenscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/issuetypescreenscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_update-issue-type-screen-scheme",
@@ -5938,7 +5938,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the issue type screen scheme. The name must be unique. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"issueTypeScreenSchemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"issueTypeScreenSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_mapping_append-for-issue-type-screen-scheme",
@@ -5947,7 +5947,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("issueTypeMappings", mcplib.Required(), mcplib.Description("The list of issue type to screen scheme mappings.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}}, []string{"issueTypeScreenSchemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}}, []string{"issueTypeScreenSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_mapping_remove-from-issue-type-screen-scheme",
@@ -5957,7 +5957,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/remove", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"issueTypeScreenSchemeId"}),
+		makeAPIHandler("POST", "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/remove", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"issueTypeScreenSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_mapping_update-default-screen-scheme",
@@ -5966,7 +5966,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("screenSchemeId", mcplib.Required(), mcplib.Description("The ID of the screen scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/default", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "screenSchemeId", WireName: "screenSchemeId", Location: "body"}}, []string{"issueTypeScreenSchemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/default", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "screenSchemeId", WireName: "screenSchemeId", Location: "body"}}, []string{"issueTypeScreenSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetypescreenscheme_project_get-for-issue-type-screen-scheme",
@@ -5979,7 +5979,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/project", true, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{"issueTypeScreenSchemeId"}),
+		makeAPIHandler("GET", "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/project", true, false, nil, []mcpParamBinding{{PublicName: "issueTypeScreenSchemeId", WireName: "issueTypeScreenSchemeId", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{"issueTypeScreenSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_and-reconsile-issues-using-jql",
@@ -5997,7 +5997,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/search/jql", true, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}, {PublicName: "reconcileIssues", WireName: "reconcileIssues", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/search/jql", true, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}, {PublicName: "reconcileIssues", WireName: "reconcileIssues", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_and-reconsile-issues-using-jql-post",
@@ -6013,7 +6013,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/search/jql", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "reconcileIssues", WireName: "reconcileIssues", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/search/jql", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "reconcileIssues", WireName: "reconcileIssues", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_count-issues",
@@ -6022,7 +6022,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/search/approximate-count", false, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/search/approximate-count", false, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_for-issues-using-jql",
@@ -6040,7 +6040,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/search", true, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "validateQuery", WireName: "validateQuery", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/search", true, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "validateQuery", WireName: "validateQuery", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_for-issues-using-jql-post",
@@ -6056,7 +6056,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/search", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "startAt", WireName: "startAt", Location: "body"}, {PublicName: "validateQuery", WireName: "validateQuery", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/search", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "startAt", WireName: "startAt", Location: "body"}, {PublicName: "validateQuery", WireName: "validateQuery", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_create",
@@ -6083,7 +6083,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/version", false, false, nil, []mcpParamBinding{{PublicName: "approvers", WireName: "approvers", Location: "body"}, {PublicName: "archived", WireName: "archived", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "driver", WireName: "driver", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issuesStatusForFixVersion", WireName: "issuesStatusForFixVersion", Location: "body"}, {PublicName: "moveUnfixedIssuesTo", WireName: "moveUnfixedIssuesTo", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "operations", WireName: "operations", Location: "body"}, {PublicName: "overdue", WireName: "overdue", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "releaseDate", WireName: "releaseDate", Location: "body"}, {PublicName: "released", WireName: "released", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "startDate", WireName: "startDate", Location: "body"}, {PublicName: "userReleaseDate", WireName: "userReleaseDate", Location: "body"}, {PublicName: "userStartDate", WireName: "userStartDate", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/version", false, false, nil, []mcpParamBinding{{PublicName: "approvers", WireName: "approvers", Location: "body"}, {PublicName: "archived", WireName: "archived", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "driver", WireName: "driver", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issuesStatusForFixVersion", WireName: "issuesStatusForFixVersion", Location: "body"}, {PublicName: "moveUnfixedIssuesTo", WireName: "moveUnfixedIssuesTo", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "operations", WireName: "operations", Location: "body"}, {PublicName: "overdue", WireName: "overdue", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "releaseDate", WireName: "releaseDate", Location: "body"}, {PublicName: "released", WireName: "released", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "startDate", WireName: "startDate", Location: "body"}, {PublicName: "userReleaseDate", WireName: "userReleaseDate", Location: "body"}, {PublicName: "userStartDate", WireName: "userStartDate", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_delete",
@@ -6094,7 +6094,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/version/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "moveFixIssuesTo", WireName: "moveFixIssuesTo", Location: "query"}, {PublicName: "moveAffectedIssuesTo", WireName: "moveAffectedIssuesTo", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/version/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "moveFixIssuesTo", WireName: "moveFixIssuesTo", Location: "query"}, {PublicName: "moveAffectedIssuesTo", WireName: "moveAffectedIssuesTo", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_get",
@@ -6105,7 +6105,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/version/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/version/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_update",
@@ -6132,7 +6132,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("userStartDate", mcplib.Description("The date on which work on this version is expected to start")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/version/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "approvers", WireName: "approvers", Location: "body"}, {PublicName: "archived", WireName: "archived", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "driver", WireName: "driver", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "issuesStatusForFixVersion", WireName: "issuesStatusForFixVersion", Location: "body"}, {PublicName: "moveUnfixedIssuesTo", WireName: "moveUnfixedIssuesTo", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "operations", WireName: "operations", Location: "body"}, {PublicName: "overdue", WireName: "overdue", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "releaseDate", WireName: "releaseDate", Location: "body"}, {PublicName: "released", WireName: "released", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "startDate", WireName: "startDate", Location: "body"}, {PublicName: "userReleaseDate", WireName: "userReleaseDate", Location: "body"}, {PublicName: "userStartDate", WireName: "userStartDate", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/version/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "approvers", WireName: "approvers", Location: "body"}, {PublicName: "archived", WireName: "archived", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "driver", WireName: "driver", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "issuesStatusForFixVersion", WireName: "issuesStatusForFixVersion", Location: "body"}, {PublicName: "moveUnfixedIssuesTo", WireName: "moveUnfixedIssuesTo", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "operations", WireName: "operations", Location: "body"}, {PublicName: "overdue", WireName: "overdue", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "releaseDate", WireName: "releaseDate", Location: "body"}, {PublicName: "released", WireName: "released", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "startDate", WireName: "startDate", Location: "body"}, {PublicName: "userReleaseDate", WireName: "userReleaseDate", Location: "body"}, {PublicName: "userStartDate", WireName: "userStartDate", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_mergeto_merge-versions",
@@ -6141,7 +6141,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("moveIssuesTo", mcplib.Required(), mcplib.Description("The ID of the version to merge into.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/version/{id}/mergeto/{moveIssuesTo}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "moveIssuesTo", WireName: "moveIssuesTo", Location: "path"}}, []string{"id", "moveIssuesTo"}),
+		makeAPIHandler("PUT", "/rest/api/3/version/{id}/mergeto/{moveIssuesTo}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "moveIssuesTo", WireName: "moveIssuesTo", Location: "path"}}, []string{"id", "moveIssuesTo"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_move_version",
@@ -6152,7 +6152,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/version/{id}/move", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/version/{id}/move", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_related-issue-counts_get-version-related-issues",
@@ -6162,7 +6162,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/version/{id}/relatedIssueCounts", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/version/{id}/relatedIssueCounts", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_relatedwork_create-related-work",
@@ -6176,7 +6176,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/version/{id}/relatedwork", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "category", WireName: "category", Location: "body"}, {PublicName: "issueId", WireName: "issueId", Location: "body"}, {PublicName: "relatedWorkId", WireName: "relatedWorkId", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/version/{id}/relatedwork", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "category", WireName: "category", Location: "body"}, {PublicName: "issueId", WireName: "issueId", Location: "body"}, {PublicName: "relatedWorkId", WireName: "relatedWorkId", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_relatedwork_delete-related-work",
@@ -6186,7 +6186,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/version/{versionId}/relatedwork/{relatedWorkId}", false, false, nil, []mcpParamBinding{{PublicName: "versionId", WireName: "versionId", Location: "path"}, {PublicName: "relatedWorkId", WireName: "relatedWorkId", Location: "path"}}, []string{"versionId", "relatedWorkId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/version/{versionId}/relatedwork/{relatedWorkId}", false, false, nil, []mcpParamBinding{{PublicName: "versionId", WireName: "versionId", Location: "path"}, {PublicName: "relatedWorkId", WireName: "relatedWorkId", Location: "path"}}, []string{"versionId", "relatedWorkId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_relatedwork_get-related-work",
@@ -6196,7 +6196,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/version/{id}/relatedwork", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/version/{id}/relatedwork", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_relatedwork_update-related-work",
@@ -6209,7 +6209,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("url", mcplib.Description("The URL of the related work. Will be null for the native release note related work item, but is otherwise required.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/version/{id}/relatedwork", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "category", WireName: "category", Location: "body"}, {PublicName: "issueId", WireName: "issueId", Location: "body"}, {PublicName: "relatedWorkId", WireName: "relatedWorkId", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/version/{id}/relatedwork", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "category", WireName: "category", Location: "body"}, {PublicName: "issueId", WireName: "issueId", Location: "body"}, {PublicName: "relatedWorkId", WireName: "relatedWorkId", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_remove-and-swap_delete-and-replace-version",
@@ -6221,7 +6221,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/version/{id}/removeAndSwap", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "customFieldReplacementList", WireName: "customFieldReplacementList", Location: "body"}, {PublicName: "moveAffectedIssuesTo", WireName: "moveAffectedIssuesTo", Location: "body"}, {PublicName: "moveFixIssuesTo", WireName: "moveFixIssuesTo", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/version/{id}/removeAndSwap", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "customFieldReplacementList", WireName: "customFieldReplacementList", Location: "body"}, {PublicName: "moveAffectedIssuesTo", WireName: "moveAffectedIssuesTo", Location: "body"}, {PublicName: "moveFixIssuesTo", WireName: "moveFixIssuesTo", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_unresolved-issue-count_get-version-unresolved-issues",
@@ -6231,7 +6231,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/version/{id}/unresolvedIssueCount", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/version/{id}/unresolvedIssueCount", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_create-transition-property",
@@ -6246,7 +6246,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "key-2", WireName: "key", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"transitionId"}),
+		makeAPIHandler("POST", "/rest/api/3/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "key-2", WireName: "key", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"transitionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_delete-inactive",
@@ -6255,7 +6255,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflow/{entityId}", false, false, nil, []mcpParamBinding{{PublicName: "entityId", WireName: "entityId", Location: "path"}}, []string{"entityId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflow/{entityId}", false, false, nil, []mcpParamBinding{{PublicName: "entityId", WireName: "entityId", Location: "path"}}, []string{"entityId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_delete-transition-property",
@@ -6267,7 +6267,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}}, []string{"transitionId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}}, []string{"transitionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_delete-transition-rule-configurations",
@@ -6275,7 +6275,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflows", mcplib.Required(), mcplib.Description("The list of workflows with transition rules to delete.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflow/rule/config/delete", false, false, nil, []mcpParamBinding{{PublicName: "workflows", WireName: "workflows", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/workflow/rule/config/delete", false, false, nil, []mcpParamBinding{{PublicName: "workflows", WireName: "workflows", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_get-paginated",
@@ -6291,7 +6291,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflow/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "isActive", WireName: "isActive", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/workflow/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "isActive", WireName: "isActive", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_get-transition-properties",
@@ -6305,7 +6305,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflow/transitions/{transitionId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "includeReservedKeys", WireName: "includeReservedKeys", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}}, []string{"transitionId"}),
+		makeAPIHandler("GET", "/rest/api/3/workflow/transitions/{transitionId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "includeReservedKeys", WireName: "includeReservedKeys", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}}, []string{"transitionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_get-transition-rule-configurations",
@@ -6322,7 +6322,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflow/rule/config", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "types", WireName: "types", Location: "query"}, {PublicName: "keys", WireName: "keys", Location: "query"}, {PublicName: "workflowNames", WireName: "workflowNames", Location: "query"}, {PublicName: "withTags", WireName: "withTags", Location: "query"}, {PublicName: "draft", WireName: "draft", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/workflow/rule/config", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "types", WireName: "types", Location: "query"}, {PublicName: "keys", WireName: "keys", Location: "query"}, {PublicName: "workflowNames", WireName: "workflowNames", Location: "query"}, {PublicName: "withTags", WireName: "withTags", Location: "query"}, {PublicName: "draft", WireName: "draft", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_list-history",
@@ -6332,7 +6332,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflow/history/list", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "workflowId", WireName: "workflowId", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflow/history/list", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "workflowId", WireName: "workflowId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_read-from-history",
@@ -6342,7 +6342,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflow/history", false, false, nil, []mcpParamBinding{{PublicName: "version", WireName: "version", Location: "body"}, {PublicName: "workflowId", WireName: "workflowId", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflow/history", false, false, nil, []mcpParamBinding{{PublicName: "version", WireName: "version", Location: "body"}, {PublicName: "workflowId", WireName: "workflowId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_update-transition-property",
@@ -6356,7 +6356,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("value", mcplib.Required(), mcplib.Description("The value of the transition property.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "key-2", WireName: "key", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"transitionId"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "key-2", WireName: "key", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"transitionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_update-transition-rule-configurations",
@@ -6364,7 +6364,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflows", mcplib.Required(), mcplib.Description("The list of workflows with transition rules to update.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflow/rule/config", false, false, nil, []mcpParamBinding{{PublicName: "workflows", WireName: "workflows", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/workflow/rule/config", false, false, nil, []mcpParamBinding{{PublicName: "workflows", WireName: "workflows", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_project_get-workflow-issue-type-usages",
@@ -6377,7 +6377,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflow/{workflowId}/project/{projectId}/issueTypeUsages", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "path"}, {PublicName: "projectId", WireName: "projectId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"workflowId", "projectId"}),
+		makeAPIHandler("GET", "/rest/api/3/workflow/{workflowId}/project/{projectId}/issueTypeUsages", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "path"}, {PublicName: "projectId", WireName: "projectId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"workflowId", "projectId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_project-usages_get-for-workflow",
@@ -6389,7 +6389,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflow/{workflowId}/projectUsages", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"workflowId"}),
+		makeAPIHandler("GET", "/rest/api/3/workflow/{workflowId}/projectUsages", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"workflowId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_workflow-schemes_get-usages-for-workflow",
@@ -6401,7 +6401,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflow/{workflowId}/workflowSchemes", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"workflowId"}),
+		makeAPIHandler("GET", "/rest/api/3/workflow/{workflowId}/workflowSchemes", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"workflowId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_get-auto-complete",
@@ -6410,7 +6410,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/jql/autocompletedata", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/jql/autocompletedata", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_get-auto-complete-post",
@@ -6420,7 +6420,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/jql/autocompletedata", false, false, nil, []mcpParamBinding{{PublicName: "includeCollapsedFields", WireName: "includeCollapsedFields", Location: "body"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/jql/autocompletedata", false, false, nil, []mcpParamBinding{{PublicName: "includeCollapsedFields", WireName: "includeCollapsedFields", Location: "body"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_get-field-auto-complete-for-query-string",
@@ -6433,7 +6433,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/jql/autocompletedata/suggestions", true, false, nil, []mcpParamBinding{{PublicName: "fieldName", WireName: "fieldName", Location: "query"}, {PublicName: "fieldValue", WireName: "fieldValue", Location: "query"}, {PublicName: "predicateName", WireName: "predicateName", Location: "query"}, {PublicName: "predicateValue", WireName: "predicateValue", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/jql/autocompletedata/suggestions", true, false, nil, []mcpParamBinding{{PublicName: "fieldName", WireName: "fieldName", Location: "query"}, {PublicName: "fieldValue", WireName: "fieldValue", Location: "query"}, {PublicName: "predicateName", WireName: "predicateName", Location: "query"}, {PublicName: "predicateValue", WireName: "predicateValue", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_get-precomputations",
@@ -6446,7 +6446,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/jql/function/computation", true, false, nil, []mcpParamBinding{{PublicName: "functionKey", WireName: "functionKey", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/jql/function/computation", true, false, nil, []mcpParamBinding{{PublicName: "functionKey", WireName: "functionKey", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_get-precomputations-by-id",
@@ -6456,7 +6456,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/jql/function/computation/search", false, false, nil, []mcpParamBinding{{PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "precomputationIDs", WireName: "precomputationIDs", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/jql/function/computation/search", false, false, nil, []mcpParamBinding{{PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "precomputationIDs", WireName: "precomputationIDs", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_match-issues",
@@ -6466,7 +6466,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/jql/match", false, false, nil, []mcpParamBinding{{PublicName: "issueIds", WireName: "issueIds", Location: "body"}, {PublicName: "jqls", WireName: "jqls", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/jql/match", false, false, nil, []mcpParamBinding{{PublicName: "issueIds", WireName: "issueIds", Location: "body"}, {PublicName: "jqls", WireName: "jqls", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_migrate-queries",
@@ -6475,7 +6475,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/jql/pdcleaner", false, false, nil, []mcpParamBinding{{PublicName: "queryStrings", WireName: "queryStrings", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/jql/pdcleaner", false, false, nil, []mcpParamBinding{{PublicName: "queryStrings", WireName: "queryStrings", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_parse-queries",
@@ -6485,7 +6485,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/jql/parse", false, false, nil, []mcpParamBinding{{PublicName: "validation", WireName: "validation", Location: "query"}, {PublicName: "queries", WireName: "queries", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/jql/parse", false, false, nil, []mcpParamBinding{{PublicName: "validation", WireName: "validation", Location: "query"}, {PublicName: "queries", WireName: "queries", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_sanitise-queries",
@@ -6494,7 +6494,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/jql/sanitize", false, false, nil, []mcpParamBinding{{PublicName: "queries", WireName: "queries", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/jql/sanitize", false, false, nil, []mcpParamBinding{{PublicName: "queries", WireName: "queries", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_update-precomputations",
@@ -6504,7 +6504,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/jql/function/computation", false, false, nil, []mcpParamBinding{{PublicName: "skipNotFoundPrecomputations", WireName: "skipNotFoundPrecomputations", Location: "query"}, {PublicName: "values", WireName: "values", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/jql/function/computation", false, false, nil, []mcpParamBinding{{PublicName: "skipNotFoundPrecomputations", WireName: "skipNotFoundPrecomputations", Location: "query"}, {PublicName: "values", WireName: "values", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("label_get-all",
@@ -6515,7 +6515,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/label", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/label", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("license_get-approximate-application-count",
@@ -6525,7 +6525,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/license/approximateLicenseCount/product/{applicationKey}", true, false, nil, []mcpParamBinding{{PublicName: "applicationKey", WireName: "applicationKey", Location: "path"}}, []string{"applicationKey"}),
+		makeAPIHandler("GET", "/rest/api/3/license/approximateLicenseCount/product/{applicationKey}", true, false, nil, []mcpParamBinding{{PublicName: "applicationKey", WireName: "applicationKey", Location: "path"}}, []string{"applicationKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("license_get-approximate-count",
@@ -6534,7 +6534,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/license/approximateLicenseCount", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/license/approximateLicenseCount", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("license-types_get",
@@ -6570,7 +6570,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/mypermissions", true, false, nil, []mcpParamBinding{{PublicName: "projectKey", WireName: "projectKey", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueKey", WireName: "issueKey", Location: "query"}, {PublicName: "issueId", WireName: "issueId", Location: "query"}, {PublicName: "permissions", WireName: "permissions", Location: "query"}, {PublicName: "projectUuid", WireName: "projectUuid", Location: "query"}, {PublicName: "projectConfigurationUuid", WireName: "projectConfigurationUuid", Location: "query"}, {PublicName: "commentId", WireName: "commentId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/mypermissions", true, false, nil, []mcpParamBinding{{PublicName: "projectKey", WireName: "projectKey", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueKey", WireName: "issueKey", Location: "query"}, {PublicName: "issueId", WireName: "issueId", Location: "query"}, {PublicName: "permissions", WireName: "permissions", Location: "query"}, {PublicName: "projectUuid", WireName: "projectUuid", Location: "query"}, {PublicName: "projectConfigurationUuid", WireName: "projectConfigurationUuid", Location: "query"}, {PublicName: "commentId", WireName: "commentId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("mypreferences_get-locale",
@@ -6579,7 +6579,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/mypreferences/locale", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/mypreferences/locale", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("mypreferences_get-preference",
@@ -6589,7 +6589,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/mypreferences", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/mypreferences", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("mypreferences_remove-preference",
@@ -6598,7 +6598,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/mypreferences", false, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/mypreferences", false, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("mypreferences_set-locale",
@@ -6606,7 +6606,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("locale", mcplib.Description("The locale code.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/mypreferences/locale", false, false, nil, []mcpParamBinding{{PublicName: "locale", WireName: "locale", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/mypreferences/locale", false, false, nil, []mcpParamBinding{{PublicName: "locale", WireName: "locale", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("mypreferences_set-preference",
@@ -6614,7 +6614,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The key of the preference. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/mypreferences", false, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/mypreferences", false, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("myself_get-current-user",
@@ -6624,7 +6624,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/myself", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/myself", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("notificationscheme_create-notification-scheme",
@@ -6635,7 +6635,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/notificationscheme", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "notificationSchemeEvents", WireName: "notificationSchemeEvents", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/notificationscheme", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "notificationSchemeEvents", WireName: "notificationSchemeEvents", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("notificationscheme_delete-notification-scheme",
@@ -6644,7 +6644,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/notificationscheme/{notificationSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "notificationSchemeId", WireName: "notificationSchemeId", Location: "path"}}, []string{"notificationSchemeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/notificationscheme/{notificationSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "notificationSchemeId", WireName: "notificationSchemeId", Location: "path"}}, []string{"notificationSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("notificationscheme_get-notification-scheme",
@@ -6655,7 +6655,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/notificationscheme/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/notificationscheme/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("notificationscheme_get-notification-scheme-to-project-mappings",
@@ -6668,7 +6668,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/notificationscheme/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "notificationSchemeId", WireName: "notificationSchemeId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/notificationscheme/project", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "notificationSchemeId", WireName: "notificationSchemeId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("notificationscheme_get-notification-schemes",
@@ -6683,7 +6683,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/notificationscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/notificationscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("notificationscheme_update-notification-scheme",
@@ -6693,7 +6693,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the notification scheme. Must be unique.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/notificationscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/notificationscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("notificationscheme_notification_add",
@@ -6702,7 +6702,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("notificationSchemeEvents", mcplib.Required(), mcplib.Description("The list of notifications which should be added to the notification scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/notificationscheme/{id}/notification", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "notificationSchemeEvents", WireName: "notificationSchemeEvents", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/notificationscheme/{id}/notification", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "notificationSchemeEvents", WireName: "notificationSchemeEvents", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("notificationscheme_notification_remove-from-scheme",
@@ -6712,7 +6712,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/notificationscheme/{notificationSchemeId}/notification/{notificationId}", false, false, nil, []mcpParamBinding{{PublicName: "notificationSchemeId", WireName: "notificationSchemeId", Location: "path"}, {PublicName: "notificationId", WireName: "notificationId", Location: "path"}}, []string{"notificationSchemeId", "notificationId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/notificationscheme/{notificationSchemeId}/notification/{notificationId}", false, false, nil, []mcpParamBinding{{PublicName: "notificationSchemeId", WireName: "notificationSchemeId", Location: "path"}, {PublicName: "notificationId", WireName: "notificationId", Location: "path"}}, []string{"notificationSchemeId", "notificationId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("operations_delete-entity-by-property",
@@ -6822,7 +6822,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/permissions", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/permissions", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissions_get-bulk",
@@ -6833,7 +6833,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/permissions/check", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "body"}, {PublicName: "globalPermissions", WireName: "globalPermissions", Location: "body"}, {PublicName: "projectPermissions", WireName: "projectPermissions", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/permissions/check", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "body"}, {PublicName: "globalPermissions", WireName: "globalPermissions", Location: "body"}, {PublicName: "projectPermissions", WireName: "projectPermissions", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissions_get-permitted-projects",
@@ -6842,7 +6842,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/permissions/project", false, false, nil, []mcpParamBinding{{PublicName: "permissions", WireName: "permissions", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/permissions/project", false, false, nil, []mcpParamBinding{{PublicName: "permissions", WireName: "permissions", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_create-permission-scheme",
@@ -6858,7 +6858,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/permissionscheme", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "expand-2", WireName: "expand", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "permissions", WireName: "permissions", Location: "body"}, {PublicName: "scope", WireName: "scope", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/permissionscheme", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "expand-2", WireName: "expand", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "permissions", WireName: "permissions", Location: "body"}, {PublicName: "scope", WireName: "scope", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_delete-permission-scheme",
@@ -6867,7 +6867,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/permissionscheme/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}}, []string{"schemeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/permissionscheme/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_get-all-permission-schemes",
@@ -6877,7 +6877,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/permissionscheme", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/permissionscheme", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_get-permission-scheme",
@@ -6888,7 +6888,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/permissionscheme/{schemeId}", true, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"schemeId"}),
+		makeAPIHandler("GET", "/rest/api/3/permissionscheme/{schemeId}", true, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_update-permission-scheme",
@@ -6904,7 +6904,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("self", mcplib.Description("The URL of the permission scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/permissionscheme/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "expand-2", WireName: "expand", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "permissions", WireName: "permissions", Location: "body"}, {PublicName: "scope", WireName: "scope", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"schemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/permissionscheme/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "expand-2", WireName: "expand", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "permissions", WireName: "permissions", Location: "body"}, {PublicName: "scope", WireName: "scope", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_permission_create-grant",
@@ -6918,7 +6918,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/permissionscheme/{schemeId}/permission", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "holder", WireName: "holder", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "permission", WireName: "permission", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"schemeId"}),
+		makeAPIHandler("POST", "/rest/api/3/permissionscheme/{schemeId}/permission", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "holder", WireName: "holder", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "permission", WireName: "permission", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_permission_delete-scheme-entity",
@@ -6928,7 +6928,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/permissionscheme/{schemeId}/permission/{permissionId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "permissionId", WireName: "permissionId", Location: "path"}}, []string{"schemeId", "permissionId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/permissionscheme/{schemeId}/permission/{permissionId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "permissionId", WireName: "permissionId", Location: "path"}}, []string{"schemeId", "permissionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_permission_get-scheme-grant",
@@ -6940,7 +6940,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/permissionscheme/{schemeId}/permission/{permissionId}", true, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "permissionId", WireName: "permissionId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"schemeId", "permissionId"}),
+		makeAPIHandler("GET", "/rest/api/3/permissionscheme/{schemeId}/permission/{permissionId}", true, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "permissionId", WireName: "permissionId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"schemeId", "permissionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_permission_get-scheme-grants",
@@ -6951,7 +6951,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/permissionscheme/{schemeId}/permission", true, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"schemeId"}),
+		makeAPIHandler("GET", "/rest/api/3/permissionscheme/{schemeId}/permission", true, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_add-atlassian-team",
@@ -6965,7 +6965,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/plans/plan/{planId}/team/atlassian", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "capacity", WireName: "capacity", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issueSourceId", WireName: "issueSourceId", Location: "body"}, {PublicName: "planningStyle", WireName: "planningStyle", Location: "body"}, {PublicName: "sprintLength", WireName: "sprintLength", Location: "body"}}, []string{"planId"}),
+		makeAPIHandler("POST", "/rest/api/3/plans/plan/{planId}/team/atlassian", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "capacity", WireName: "capacity", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issueSourceId", WireName: "issueSourceId", Location: "body"}, {PublicName: "planningStyle", WireName: "planningStyle", Location: "body"}, {PublicName: "sprintLength", WireName: "sprintLength", Location: "body"}}, []string{"planId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_archive",
@@ -6973,7 +6973,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithNumber("planId", mcplib.Required(), mcplib.Description("The ID of the plan.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/plans/plan/{planId}/archive", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}}, []string{"planId"}),
+		makeAPIHandler("PUT", "/rest/api/3/plans/plan/{planId}/archive", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}}, []string{"planId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_create",
@@ -6990,7 +6990,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/plans/plan", false, false, nil, []mcpParamBinding{{PublicName: "useGroupId", WireName: "useGroupId", Location: "query"}, {PublicName: "crossProjectReleases", WireName: "crossProjectReleases", Location: "body"}, {PublicName: "customFields", WireName: "customFields", Location: "body"}, {PublicName: "exclusionRules", WireName: "exclusionRules", Location: "body"}, {PublicName: "issueSources", WireName: "issueSources", Location: "body"}, {PublicName: "leadAccountId", WireName: "leadAccountId", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "permissions", WireName: "permissions", Location: "body"}, {PublicName: "scheduling", WireName: "scheduling", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/plans/plan", false, false, nil, []mcpParamBinding{{PublicName: "useGroupId", WireName: "useGroupId", Location: "query"}, {PublicName: "crossProjectReleases", WireName: "crossProjectReleases", Location: "body"}, {PublicName: "customFields", WireName: "customFields", Location: "body"}, {PublicName: "exclusionRules", WireName: "exclusionRules", Location: "body"}, {PublicName: "issueSources", WireName: "issueSources", Location: "body"}, {PublicName: "leadAccountId", WireName: "leadAccountId", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "permissions", WireName: "permissions", Location: "body"}, {PublicName: "scheduling", WireName: "scheduling", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_create-only-team",
@@ -7005,7 +7005,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/plans/plan/{planId}/team/planonly", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "capacity", WireName: "capacity", Location: "body"}, {PublicName: "issueSourceId", WireName: "issueSourceId", Location: "body"}, {PublicName: "memberAccountIds", WireName: "memberAccountIds", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "planningStyle", WireName: "planningStyle", Location: "body"}, {PublicName: "sprintLength", WireName: "sprintLength", Location: "body"}}, []string{"planId"}),
+		makeAPIHandler("POST", "/rest/api/3/plans/plan/{planId}/team/planonly", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "capacity", WireName: "capacity", Location: "body"}, {PublicName: "issueSourceId", WireName: "issueSourceId", Location: "body"}, {PublicName: "memberAccountIds", WireName: "memberAccountIds", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "planningStyle", WireName: "planningStyle", Location: "body"}, {PublicName: "sprintLength", WireName: "sprintLength", Location: "body"}}, []string{"planId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_delete-only-team",
@@ -7015,7 +7015,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/plans/plan/{planId}/team/planonly/{planOnlyTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "planOnlyTeamId", WireName: "planOnlyTeamId", Location: "path"}}, []string{"planId", "planOnlyTeamId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "planOnlyTeamId", WireName: "planOnlyTeamId", Location: "path"}}, []string{"planId", "planOnlyTeamId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_duplicate",
@@ -7025,7 +7025,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/plans/plan/{planId}/duplicate", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"planId"}),
+		makeAPIHandler("POST", "/rest/api/3/plans/plan/{planId}/duplicate", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"planId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_get",
@@ -7038,7 +7038,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/plans/plan", true, false, nil, []mcpParamBinding{{PublicName: "includeTrashed", WireName: "includeTrashed", Location: "query"}, {PublicName: "includeArchived", WireName: "includeArchived", Location: "query"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/plans/plan", true, false, nil, []mcpParamBinding{{PublicName: "includeTrashed", WireName: "includeTrashed", Location: "query"}, {PublicName: "includeArchived", WireName: "includeArchived", Location: "query"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_get-atlassian-team",
@@ -7049,7 +7049,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/plans/plan/{planId}/team/atlassian/{atlassianTeamId}", true, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "atlassianTeamId", WireName: "atlassianTeamId", Location: "path"}}, []string{"planId", "atlassianTeamId"}),
+		makeAPIHandler("GET", "/rest/api/3/plans/plan/{planId}/team/atlassian/{atlassianTeamId}", true, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "atlassianTeamId", WireName: "atlassianTeamId", Location: "path"}}, []string{"planId", "atlassianTeamId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_get-only-team",
@@ -7060,7 +7060,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/plans/plan/{planId}/team/planonly/{planOnlyTeamId}", true, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "planOnlyTeamId", WireName: "planOnlyTeamId", Location: "path"}}, []string{"planId", "planOnlyTeamId"}),
+		makeAPIHandler("GET", "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}", true, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "planOnlyTeamId", WireName: "planOnlyTeamId", Location: "path"}}, []string{"planId", "planOnlyTeamId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_get-plan",
@@ -7071,7 +7071,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/plans/plan/{planId}", true, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "useGroupId", WireName: "useGroupId", Location: "query"}}, []string{"planId"}),
+		makeAPIHandler("GET", "/rest/api/3/plans/plan/{planId}", true, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "useGroupId", WireName: "useGroupId", Location: "query"}}, []string{"planId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_get-teams",
@@ -7083,7 +7083,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/plans/plan/{planId}/team", true, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"planId"}),
+		makeAPIHandler("GET", "/rest/api/3/plans/plan/{planId}/team", true, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"planId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_remove-atlassian-team",
@@ -7093,7 +7093,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/plans/plan/{planId}/team/atlassian/{atlassianTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "atlassianTeamId", WireName: "atlassianTeamId", Location: "path"}}, []string{"planId", "atlassianTeamId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/plans/plan/{planId}/team/atlassian/{atlassianTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "atlassianTeamId", WireName: "atlassianTeamId", Location: "path"}}, []string{"planId", "atlassianTeamId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_trash",
@@ -7101,7 +7101,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithNumber("planId", mcplib.Required(), mcplib.Description("The ID of the plan.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/plans/plan/{planId}/trash", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}}, []string{"planId"}),
+		makeAPIHandler("PUT", "/rest/api/3/plans/plan/{planId}/trash", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}}, []string{"planId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_update",
@@ -7110,7 +7110,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithBoolean("useGroupId", mcplib.Description("Whether to accept group IDs instead of group names. Group names are deprecated.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/plans/plan/{planId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "useGroupId", WireName: "useGroupId", Location: "query"}}, []string{"planId"}),
+		makeAPIHandler("PUT", "/rest/api/3/plans/plan/{planId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "useGroupId", WireName: "useGroupId", Location: "query"}}, []string{"planId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_update-atlassian-team",
@@ -7119,7 +7119,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("atlassianTeamId", mcplib.Required(), mcplib.Description("The ID of the Atlassian team.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/plans/plan/{planId}/team/atlassian/{atlassianTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "atlassianTeamId", WireName: "atlassianTeamId", Location: "path"}}, []string{"planId", "atlassianTeamId"}),
+		makeAPIHandler("PUT", "/rest/api/3/plans/plan/{planId}/team/atlassian/{atlassianTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "atlassianTeamId", WireName: "atlassianTeamId", Location: "path"}}, []string{"planId", "atlassianTeamId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("plans_update-only-team",
@@ -7128,7 +7128,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithNumber("planOnlyTeamId", mcplib.Required(), mcplib.Description("The ID of the plan-only team.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/plans/plan/{planId}/team/planonly/{planOnlyTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "planOnlyTeamId", WireName: "planOnlyTeamId", Location: "path"}}, []string{"planId", "planOnlyTeamId"}),
+		makeAPIHandler("PUT", "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "planOnlyTeamId", WireName: "planOnlyTeamId", Location: "path"}}, []string{"planId", "planOnlyTeamId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("policies_create-policy",
@@ -7241,7 +7241,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/priority", false, false, nil, []mcpParamBinding{{PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "iconUrl", WireName: "iconUrl", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "statusColor", WireName: "statusColor", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/priority", false, false, nil, []mcpParamBinding{{PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "iconUrl", WireName: "iconUrl", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "statusColor", WireName: "statusColor", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_delete",
@@ -7250,7 +7250,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/priority/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/priority/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_get",
@@ -7260,7 +7260,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/priority/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/priority/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_get-priorities",
@@ -7269,7 +7269,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/priority", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/priority", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_move-priorities",
@@ -7279,7 +7279,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("position", mcplib.Description("The position for issue priorities to be moved to. Required if `after` isn't provided.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/priority/move", false, false, nil, []mcpParamBinding{{PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "ids", WireName: "ids", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/priority/move", false, false, nil, []mcpParamBinding{{PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "ids", WireName: "ids", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_search-priorities",
@@ -7295,7 +7295,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/priority/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "priorityName", WireName: "priorityName", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/priority/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "priorityName", WireName: "priorityName", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_set-default",
@@ -7303,7 +7303,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the new default issue priority. Must be an existing ID or null.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/priority/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/priority/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_update",
@@ -7316,7 +7316,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("statusColor", mcplib.Description("The status color of the priority in 3-digit or 6-digit hexadecimal format.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/priority/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "iconUrl", WireName: "iconUrl", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "statusColor", WireName: "statusColor", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/priority/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "iconUrl", WireName: "iconUrl", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "statusColor", WireName: "statusColor", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_create-priority-scheme",
@@ -7330,7 +7330,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/priorityscheme", false, false, nil, []mcpParamBinding{{PublicName: "defaultPriorityId", WireName: "defaultPriorityId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "mappings", WireName: "mappings", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "priorityIds", WireName: "priorityIds", Location: "body"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/priorityscheme", false, false, nil, []mcpParamBinding{{PublicName: "defaultPriorityId", WireName: "defaultPriorityId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "mappings", WireName: "mappings", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "priorityIds", WireName: "priorityIds", Location: "body"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_delete-priority-scheme",
@@ -7339,7 +7339,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/priorityscheme/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}}, []string{"schemeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/priorityscheme/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_get-available-priorities-by-priority-scheme",
@@ -7353,7 +7353,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/priorityscheme/priorities/available", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "query"}, {PublicName: "exclude", WireName: "exclude", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/priorityscheme/priorities/available", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "query"}, {PublicName: "exclude", WireName: "exclude", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_get-priority-schemes",
@@ -7370,7 +7370,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/priorityscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "priorityId", WireName: "priorityId", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "query"}, {PublicName: "schemeName", WireName: "schemeName", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/priorityscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "priorityId", WireName: "priorityId", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "query"}, {PublicName: "schemeName", WireName: "schemeName", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_suggested-priorities-for-mappings",
@@ -7383,7 +7383,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/priorityscheme/mappings", false, false, nil, []mcpParamBinding{{PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "priorities", WireName: "priorities", Location: "body"}, {PublicName: "projects", WireName: "projects", Location: "body"}, {PublicName: "schemeId", WireName: "schemeId", Location: "body"}, {PublicName: "startAt", WireName: "startAt", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/priorityscheme/mappings", false, false, nil, []mcpParamBinding{{PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "priorities", WireName: "priorities", Location: "body"}, {PublicName: "projects", WireName: "projects", Location: "body"}, {PublicName: "schemeId", WireName: "schemeId", Location: "body"}, {PublicName: "startAt", WireName: "startAt", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_update-priority-scheme",
@@ -7397,7 +7397,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("projects", mcplib.Description("The projects in the scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/priorityscheme/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "defaultPriorityId", WireName: "defaultPriorityId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "mappings", WireName: "mappings", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "priorities", WireName: "priorities", Location: "body"}, {PublicName: "projects", WireName: "projects", Location: "body"}}, []string{"schemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/priorityscheme/{schemeId}", false, false, nil, []mcpParamBinding{{PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "defaultPriorityId", WireName: "defaultPriorityId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "mappings", WireName: "mappings", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "priorities", WireName: "priorities", Location: "body"}, {PublicName: "projects", WireName: "projects", Location: "body"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_priorities_get-by-priority-scheme",
@@ -7409,7 +7409,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/priorityscheme/{schemeId}/priorities", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "path"}}, []string{"schemeId"}),
+		makeAPIHandler("GET", "/rest/api/3/priorityscheme/{schemeId}/priorities", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "path"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_projects_get-by-priority-scheme",
@@ -7423,7 +7423,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/priorityscheme/{schemeId}/projects", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{"schemeId"}),
+		makeAPIHandler("GET", "/rest/api/3/priorityscheme/{schemeId}/projects", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "schemeId", WireName: "schemeId", Location: "path"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{"schemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("products_get",
@@ -7541,7 +7541,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/project", false, false, nil, []mcpParamBinding{{PublicName: "assigneeType", WireName: "assigneeType", Location: "body"}, {PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "categoryId", WireName: "categoryId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "fieldConfigurationScheme", WireName: "fieldConfigurationScheme", Location: "body"}, {PublicName: "fieldScheme", WireName: "fieldScheme", Location: "body"}, {PublicName: "issueSecurityScheme", WireName: "issueSecurityScheme", Location: "body"}, {PublicName: "issueTypeScheme", WireName: "issueTypeScheme", Location: "body"}, {PublicName: "issueTypeScreenScheme", WireName: "issueTypeScreenScheme", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "lead", WireName: "lead", Location: "body"}, {PublicName: "leadAccountId", WireName: "leadAccountId", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "notificationScheme", WireName: "notificationScheme", Location: "body"}, {PublicName: "permissionScheme", WireName: "permissionScheme", Location: "body"}, {PublicName: "projectTemplateKey", WireName: "projectTemplateKey", Location: "body"}, {PublicName: "projectTypeKey", WireName: "projectTypeKey", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}, {PublicName: "workflowScheme", WireName: "workflowScheme", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/project", false, false, nil, []mcpParamBinding{{PublicName: "assigneeType", WireName: "assigneeType", Location: "body"}, {PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "categoryId", WireName: "categoryId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "fieldConfigurationScheme", WireName: "fieldConfigurationScheme", Location: "body"}, {PublicName: "fieldScheme", WireName: "fieldScheme", Location: "body"}, {PublicName: "issueSecurityScheme", WireName: "issueSecurityScheme", Location: "body"}, {PublicName: "issueTypeScheme", WireName: "issueTypeScheme", Location: "body"}, {PublicName: "issueTypeScreenScheme", WireName: "issueTypeScreenScheme", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "lead", WireName: "lead", Location: "body"}, {PublicName: "leadAccountId", WireName: "leadAccountId", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "notificationScheme", WireName: "notificationScheme", Location: "body"}, {PublicName: "permissionScheme", WireName: "permissionScheme", Location: "body"}, {PublicName: "projectTemplateKey", WireName: "projectTemplateKey", Location: "body"}, {PublicName: "projectTypeKey", WireName: "projectTypeKey", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}, {PublicName: "workflowScheme", WireName: "workflowScheme", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_delete",
@@ -7551,7 +7551,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/project/{projectIdOrKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "enableUndo", WireName: "enableUndo", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/project/{projectIdOrKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "enableUndo", WireName: "enableUndo", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_get",
@@ -7563,7 +7563,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_get-accessible-type-by-key",
@@ -7573,7 +7573,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/type/{projectTypeKey}/accessible", true, false, nil, []mcpParamBinding{{PublicName: "projectTypeKey", WireName: "projectTypeKey", Location: "path"}}, []string{"projectTypeKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/type/{projectTypeKey}/accessible", true, false, nil, []mcpParamBinding{{PublicName: "projectTypeKey", WireName: "projectTypeKey", Location: "path"}}, []string{"projectTypeKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_get-all",
@@ -7585,7 +7585,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "recent", WireName: "recent", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/project", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "recent", WireName: "recent", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_get-all-accessible-types",
@@ -7594,7 +7594,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/type/accessible", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/project/type/accessible", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_get-all-types",
@@ -7603,7 +7603,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/type", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/project/type", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_get-recent",
@@ -7614,7 +7614,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/recent", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/project/recent", true, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_get-type-by-key",
@@ -7624,7 +7624,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/type/{projectTypeKey}", true, false, nil, []mcpParamBinding{{PublicName: "projectTypeKey", WireName: "projectTypeKey", Location: "path"}}, []string{"projectTypeKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/type/{projectTypeKey}", true, false, nil, []mcpParamBinding{{PublicName: "projectTypeKey", WireName: "projectTypeKey", Location: "path"}}, []string{"projectTypeKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_search",
@@ -7646,7 +7646,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "keys", WireName: "keys", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "typeKey", WireName: "typeKey", Location: "query"}, {PublicName: "categoryId", WireName: "categoryId", Location: "query"}, {PublicName: "action", WireName: "action", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "propertyQuery", WireName: "propertyQuery", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/project/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "keys", WireName: "keys", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "typeKey", WireName: "typeKey", Location: "query"}, {PublicName: "categoryId", WireName: "categoryId", Location: "query"}, {PublicName: "action", WireName: "action", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "propertyQuery", WireName: "propertyQuery", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_update",
@@ -7668,7 +7668,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("url", mcplib.Description("A link to information about this project, such as project documentation")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project/{projectIdOrKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "assigneeType", WireName: "assigneeType", Location: "body"}, {PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "categoryId", WireName: "categoryId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "issueSecurityScheme", WireName: "issueSecurityScheme", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "lead", WireName: "lead", Location: "body"}, {PublicName: "leadAccountId", WireName: "leadAccountId", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "notificationScheme", WireName: "notificationScheme", Location: "body"}, {PublicName: "permissionScheme", WireName: "permissionScheme", Location: "body"}, {PublicName: "releasedProjectKeys", WireName: "releasedProjectKeys", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/project/{projectIdOrKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "assigneeType", WireName: "assigneeType", Location: "body"}, {PublicName: "avatarId", WireName: "avatarId", Location: "body"}, {PublicName: "categoryId", WireName: "categoryId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "issueSecurityScheme", WireName: "issueSecurityScheme", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "lead", WireName: "lead", Location: "body"}, {PublicName: "leadAccountId", WireName: "leadAccountId", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "notificationScheme", WireName: "notificationScheme", Location: "body"}, {PublicName: "permissionScheme", WireName: "permissionScheme", Location: "body"}, {PublicName: "releasedProjectKeys", WireName: "releasedProjectKeys", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_archive_project",
@@ -7677,7 +7677,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/project/{projectIdOrKey}/archive", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/project/{projectIdOrKey}/archive", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_avatar_delete-project",
@@ -7687,7 +7687,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/project/{projectIdOrKey}/avatar/{id}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"projectIdOrKey", "id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/project/{projectIdOrKey}/avatar/{id}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"projectIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_avatar_update-project",
@@ -7702,11 +7702,11 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("urls", mcplib.Description("The list of avatar icon URLs.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project/{projectIdOrKey}/avatar", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "fileName", WireName: "fileName", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "isDeletable", WireName: "isDeletable", Location: "body"}, {PublicName: "isSelected", WireName: "isSelected", Location: "body"}, {PublicName: "isSystemAvatar", WireName: "isSystemAvatar", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "urls", WireName: "urls", Location: "body"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/project/{projectIdOrKey}/avatar", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "fileName", WireName: "fileName", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "isDeletable", WireName: "isDeletable", Location: "body"}, {PublicName: "isSelected", WireName: "isSelected", Location: "body"}, {PublicName: "isSystemAvatar", WireName: "isSystemAvatar", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "urls", WireName: "urls", Location: "body"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_avatar2_create-project-avatar",
-			mcplib.WithDescription("Loads an avatar for a project. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST ` `--user email@example.com:<api_token> ` `--header 'X-Atlassian-Token: no-check' ` `--header 'Content-Type: image/< image_type>' ` `--data-binary '<@/path/to/file/with/your/avatar>' ` `--url 'https://your-domain.atlassian.net/rest/api/2/project/{projectIdOrKey}/avatar2'` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar use [Set project avatar](#api-rest-api-2-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar. **[Permissions](#permissions) required:** *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg). (public)"),
+			mcplib.WithDescription("Loads an avatar for a project. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST ` `--user email@example.com:<api_token> ` `--header 'X-Atlassian-Token: no-check' ` `--header 'Content-Type: image/< image_type>' ` `--data-binary '<@/path/to/file/with/your/avatar>' ` `--url 'https://your-domain.atlassian.net/rest/api/3/project/{projectIdOrKey}/avatar2'` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar use [Set project avatar](#api-rest-api-2-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar. **[Permissions](#permissions) required:** *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg). (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The ID or (case-sensitive) key of the project.")),
 			mcplib.WithNumber("x", mcplib.Description("The X coordinate of the top-left corner of the crop region.")),
 			mcplib.WithNumber("y", mcplib.Description("The Y coordinate of the top-left corner of the crop region.")),
@@ -7714,7 +7714,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/project/{projectIdOrKey}/avatar2", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "x", WireName: "x", Location: "query"}, {PublicName: "y", WireName: "y", Location: "query"}, {PublicName: "size", WireName: "size", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/project/{projectIdOrKey}/avatar2", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "x", WireName: "x", Location: "query"}, {PublicName: "y", WireName: "y", Location: "query"}, {PublicName: "size", WireName: "size", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_avatars_get-all-project",
@@ -7724,7 +7724,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/avatars", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/avatars", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_classification-config_get-project",
@@ -7734,7 +7734,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/classification-config", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/classification-config", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_classification-level_get-default-project-classification",
@@ -7744,7 +7744,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/classification-level/default", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/classification-level/default", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_classification-level_remove-default-project-classification",
@@ -7753,7 +7753,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/project/{projectIdOrKey}/classification-level/default", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/project/{projectIdOrKey}/classification-level/default", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_classification-level_update-default-project-classification",
@@ -7762,7 +7762,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the project classification.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project/{projectIdOrKey}/classification-level/default", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/project/{projectIdOrKey}/classification-level/default", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_component_get-project-paginated",
@@ -7777,7 +7777,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/component", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "componentSource", WireName: "componentSource", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/component", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "componentSource", WireName: "componentSource", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_components_get-project",
@@ -7788,7 +7788,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/components", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "componentSource", WireName: "componentSource", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/components", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "componentSource", WireName: "componentSource", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_delete_project-asynchronously",
@@ -7797,7 +7797,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/project/{projectIdOrKey}/delete", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/project/{projectIdOrKey}/delete", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_email_get-project",
@@ -7807,7 +7807,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectId}/email", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "path"}}, []string{"projectId"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectId}/email", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "path"}}, []string{"projectId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_email_update-project",
@@ -7817,7 +7817,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("emailAddressStatus", mcplib.Description("When using a custom domain, the status of the email address.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project/{projectId}/email", false, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "path"}, {PublicName: "emailAddress", WireName: "emailAddress", Location: "body"}, {PublicName: "emailAddressStatus", WireName: "emailAddressStatus", Location: "body"}}, []string{"projectId"}),
+		makeAPIHandler("PUT", "/rest/api/3/project/{projectId}/email", false, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "path"}, {PublicName: "emailAddress", WireName: "emailAddress", Location: "body"}, {PublicName: "emailAddressStatus", WireName: "emailAddressStatus", Location: "body"}}, []string{"projectId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_features_get-for-project",
@@ -7827,7 +7827,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/features", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/features", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_features_toggle-for-project",
@@ -7837,7 +7837,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("state", mcplib.Description("The feature state.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project/{projectIdOrKey}/features/{featureKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "featureKey", WireName: "featureKey", Location: "path"}, {PublicName: "state", WireName: "state", Location: "body"}}, []string{"projectIdOrKey", "featureKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/project/{projectIdOrKey}/features/{featureKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "featureKey", WireName: "featureKey", Location: "path"}, {PublicName: "state", WireName: "state", Location: "body"}}, []string{"projectIdOrKey", "featureKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_hierarchy_get",
@@ -7847,7 +7847,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectId}/hierarchy", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "path"}}, []string{"projectId"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectId}/hierarchy", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "path"}}, []string{"projectId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_issuesecuritylevelscheme_get-project-issue-security-scheme",
@@ -7857,7 +7857,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectKeyOrId}/issuesecuritylevelscheme", true, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}}, []string{"projectKeyOrId"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectKeyOrId}/issuesecuritylevelscheme", true, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}}, []string{"projectKeyOrId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_notificationscheme_get-notification-scheme-for-project",
@@ -7868,7 +7868,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectKeyOrId}/notificationscheme", true, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"projectKeyOrId"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectKeyOrId}/notificationscheme", true, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"projectKeyOrId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_permissionscheme_assign-permission-scheme",
@@ -7878,7 +7878,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the permission scheme to associate with the project.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project/{projectKeyOrId}/permissionscheme", false, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "id", WireName: "id", Location: "body"}}, []string{"projectKeyOrId"}),
+		makeAPIHandler("PUT", "/rest/api/3/project/{projectKeyOrId}/permissionscheme", false, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "id", WireName: "id", Location: "body"}}, []string{"projectKeyOrId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_permissionscheme_get-assigned-permission-scheme",
@@ -7889,7 +7889,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectKeyOrId}/permissionscheme", true, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"projectKeyOrId"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectKeyOrId}/permissionscheme", true, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"projectKeyOrId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_properties_delete-project-property",
@@ -7899,7 +7899,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"projectIdOrKey", "propertyKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"projectIdOrKey", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_properties_get-project-property",
@@ -7910,7 +7910,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"projectIdOrKey", "propertyKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"projectIdOrKey", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_properties_get-project-property-keys",
@@ -7920,7 +7920,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/properties", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/properties", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_properties_set-project-property",
@@ -7929,7 +7929,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the project property. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"projectIdOrKey", "propertyKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"projectIdOrKey", "propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_restore_restore",
@@ -7938,7 +7938,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/project/{projectIdOrKey}/restore", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("POST", "/rest/api/3/project/{projectIdOrKey}/restore", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_add-actor-users",
@@ -7951,7 +7951,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/project/{projectIdOrKey}/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "group", WireName: "group", Location: "body"}, {PublicName: "groupId", WireName: "groupId", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"projectIdOrKey", "id"}),
+		makeAPIHandler("POST", "/rest/api/3/project/{projectIdOrKey}/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "group", WireName: "group", Location: "body"}, {PublicName: "groupId", WireName: "groupId", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"projectIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_delete-actor",
@@ -7964,7 +7964,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/project/{projectIdOrKey}/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "user", WireName: "user", Location: "query"}, {PublicName: "group", WireName: "group", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}}, []string{"projectIdOrKey", "id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/project/{projectIdOrKey}/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "user", WireName: "user", Location: "query"}, {PublicName: "group", WireName: "group", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}}, []string{"projectIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_get-project",
@@ -7974,7 +7974,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/role", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/role", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_get-project-project",
@@ -7986,7 +7986,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/role/{id}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "excludeInactiveUsers", WireName: "excludeInactiveUsers", Location: "query"}}, []string{"projectIdOrKey", "id"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/role/{id}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "excludeInactiveUsers", WireName: "excludeInactiveUsers", Location: "query"}}, []string{"projectIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_set-actors",
@@ -7997,7 +7997,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithNumber("id-2", mcplib.Description("The ID of the project role.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project/{projectIdOrKey}/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "categorisedActors", WireName: "categorisedActors", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}}, []string{"projectIdOrKey", "id"}),
+		makeAPIHandler("PUT", "/rest/api/3/project/{projectIdOrKey}/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "categorisedActors", WireName: "categorisedActors", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}}, []string{"projectIdOrKey", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_roledetails_get-project-role-details",
@@ -8010,7 +8010,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/roledetails", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "currentMember", WireName: "currentMember", Location: "query"}, {PublicName: "excludeConnectAddons", WireName: "excludeConnectAddons", Location: "query"}, {PublicName: "excludeOtherServiceRoles", WireName: "excludeOtherServiceRoles", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/roledetails", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "currentMember", WireName: "currentMember", Location: "query"}, {PublicName: "excludeConnectAddons", WireName: "excludeConnectAddons", Location: "query"}, {PublicName: "excludeOtherServiceRoles", WireName: "excludeOtherServiceRoles", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_securitylevel_get-security-levels-for-project",
@@ -8020,7 +8020,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectKeyOrId}/securitylevel", true, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}}, []string{"projectKeyOrId"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectKeyOrId}/securitylevel", true, false, nil, []mcpParamBinding{{PublicName: "projectKeyOrId", WireName: "projectKeyOrId", Location: "path"}}, []string{"projectKeyOrId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_statuses_get-all",
@@ -8030,7 +8030,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/statuses", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/statuses", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_version_get-project-paginated",
@@ -8046,7 +8046,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/version", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/version", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project_versions_get-project",
@@ -8057,7 +8057,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project/{projectIdOrKey}/versions", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"projectIdOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/project/{projectIdOrKey}/versions", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-category_create",
@@ -8069,7 +8069,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/projectCategory", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/projectCategory", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-category_get-all-project-categories",
@@ -8078,7 +8078,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/projectCategory", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/projectCategory", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-category_get-by-id",
@@ -8088,7 +8088,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/projectCategory/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/projectCategory/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-category_remove",
@@ -8097,7 +8097,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/projectCategory/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/projectCategory/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-category_update",
@@ -8109,7 +8109,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("self", mcplib.Description("The URL of the project category.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/projectCategory/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/projectCategory/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-template_create-project-with-custom-template",
@@ -8119,7 +8119,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/project-template", false, false, nil, []mcpParamBinding{{PublicName: "details", WireName: "details", Location: "body"}, {PublicName: "template", WireName: "template", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/project-template", false, false, nil, []mcpParamBinding{{PublicName: "details", WireName: "details", Location: "body"}, {PublicName: "template", WireName: "template", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-template_edit-template",
@@ -8130,7 +8130,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("templateName", mcplib.Description("The name of the template")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/project-template/edit-template", false, false, nil, []mcpParamBinding{{PublicName: "templateDescription", WireName: "templateDescription", Location: "body"}, {PublicName: "templateGenerationOptions", WireName: "templateGenerationOptions", Location: "body"}, {PublicName: "templateKey", WireName: "templateKey", Location: "body"}, {PublicName: "templateName", WireName: "templateName", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/project-template/edit-template", false, false, nil, []mcpParamBinding{{PublicName: "templateDescription", WireName: "templateDescription", Location: "body"}, {PublicName: "templateGenerationOptions", WireName: "templateGenerationOptions", Location: "body"}, {PublicName: "templateKey", WireName: "templateKey", Location: "body"}, {PublicName: "templateName", WireName: "templateName", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-template_live-template",
@@ -8141,7 +8141,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/project-template/live-template", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "templateKey", WireName: "templateKey", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/project-template/live-template", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "templateKey", WireName: "templateKey", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-template_remove-template",
@@ -8150,7 +8150,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/project-template/remove-template", false, false, nil, []mcpParamBinding{{PublicName: "templateKey", WireName: "templateKey", Location: "query"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/project-template/remove-template", false, false, nil, []mcpParamBinding{{PublicName: "templateKey", WireName: "templateKey", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("project-template_save-template",
@@ -8161,7 +8161,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/project-template/save-template", false, false, nil, []mcpParamBinding{{PublicName: "templateDescription", WireName: "templateDescription", Location: "body"}, {PublicName: "templateFromProjectRequest", WireName: "templateFromProjectRequest", Location: "body"}, {PublicName: "templateName", WireName: "templateName", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/project-template/save-template", false, false, nil, []mcpParamBinding{{PublicName: "templateDescription", WireName: "templateDescription", Location: "body"}, {PublicName: "templateFromProjectRequest", WireName: "templateFromProjectRequest", Location: "body"}, {PublicName: "templateName", WireName: "templateName", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("projects_get-fields",
@@ -8175,7 +8175,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/projects/fields", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "workTypeId", WireName: "workTypeId", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/projects/fields", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "workTypeId", WireName: "workTypeId", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("projectvalidate_get-valid-project-key",
@@ -8185,7 +8185,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/projectvalidate/validProjectKey", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/projectvalidate/validProjectKey", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("projectvalidate_get-valid-project-name",
@@ -8195,7 +8195,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/projectvalidate/validProjectName", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/projectvalidate/validProjectName", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("projectvalidate_validate-project-key",
@@ -8205,7 +8205,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/projectvalidate/key", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/projectvalidate/key", true, false, nil, []mcpParamBinding{{PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("redact_get-redaction-status",
@@ -8215,7 +8215,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/redact/status/{jobId}", true, false, nil, []mcpParamBinding{{PublicName: "jobId", WireName: "jobId", Location: "path"}}, []string{"jobId"}),
+		makeAPIHandler("GET", "/rest/api/3/redact/status/{jobId}", true, false, nil, []mcpParamBinding{{PublicName: "jobId", WireName: "jobId", Location: "path"}}, []string{"jobId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("redact_redact",
@@ -8224,7 +8224,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/redact", false, false, nil, []mcpParamBinding{{PublicName: "redactions", WireName: "redactions", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/redact", false, false, nil, []mcpParamBinding{{PublicName: "redactions", WireName: "redactions", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("remotelinks_delete-remote-link-by-id",
@@ -8275,7 +8275,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/resolution", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/resolution", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("resolution_delete",
@@ -8285,7 +8285,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/resolution/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "replaceWith", WireName: "replaceWith", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/resolution/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "replaceWith", WireName: "replaceWith", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("resolution_get",
@@ -8294,7 +8294,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/resolution", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/resolution", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("resolution_get-id",
@@ -8304,7 +8304,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/resolution/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/resolution/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("resolution_move",
@@ -8314,7 +8314,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("position", mcplib.Description("The position for issue resolutions to be moved to. Required if `after` isn't provided.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/resolution/move", false, false, nil, []mcpParamBinding{{PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "ids", WireName: "ids", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/resolution/move", false, false, nil, []mcpParamBinding{{PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "ids", WireName: "ids", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("resolution_search",
@@ -8327,7 +8327,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/resolution/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/resolution/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "onlyDefault", WireName: "onlyDefault", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("resolution_set-default",
@@ -8335,7 +8335,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the new default issue resolution. Must be an existing ID or null.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/resolution/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/resolution/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("resolution_update",
@@ -8345,7 +8345,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the resolution. Must be unique.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/resolution/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/resolution/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_create-project",
@@ -8355,7 +8355,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/role", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/role", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_delete-project",
@@ -8365,7 +8365,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "swap", WireName: "swap", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "swap", WireName: "swap", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_fully-update-project",
@@ -8375,7 +8375,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the project role.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_get-all-project",
@@ -8384,7 +8384,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/role", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/role", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_get-project-by-id",
@@ -8394,7 +8394,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/role/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/role/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_partial-update-project",
@@ -8405,7 +8405,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/role/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_actors_add-project-role-to-role",
@@ -8417,7 +8417,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/role/{id}/actors", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "group", WireName: "group", Location: "body"}, {PublicName: "groupId", WireName: "groupId", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/role/{id}/actors", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "group", WireName: "group", Location: "body"}, {PublicName: "groupId", WireName: "groupId", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_actors_delete-project-role-from-role",
@@ -8429,7 +8429,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/role/{id}/actors", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "user", WireName: "user", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "group", WireName: "group", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/role/{id}/actors", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "user", WireName: "user", Location: "query"}, {PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "group", WireName: "group", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("role_actors_get-project-role-for-role",
@@ -8439,7 +8439,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/role/{id}/actors", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/role/{id}/actors", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_add-field-to-default",
@@ -8448,7 +8448,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/screens/addToDefault/{fieldId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}}, []string{"fieldId"}),
+		makeAPIHandler("POST", "/rest/api/3/screens/addToDefault/{fieldId}", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_create",
@@ -8458,7 +8458,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/screens", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/screens", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_delete",
@@ -8467,7 +8467,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/screens/{screenId}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}}, []string{"screenId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/screens/{screenId}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}}, []string{"screenId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_get",
@@ -8482,7 +8482,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/screens", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "scope", WireName: "scope", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/screens", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "scope", WireName: "scope", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_get-bulk-tabs",
@@ -8495,7 +8495,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/screens/tabs", true, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "query"}, {PublicName: "tabId", WireName: "tabId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResult", WireName: "maxResult", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/screens/tabs", true, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "query"}, {PublicName: "tabId", WireName: "tabId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResult", WireName: "maxResult", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_update",
@@ -8505,7 +8505,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the screen. The name must be unique. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/screens/{screenId}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"screenId"}),
+		makeAPIHandler("PUT", "/rest/api/3/screens/{screenId}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"screenId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_available-fields_get-available-screen-fields",
@@ -8515,7 +8515,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/screens/{screenId}/availableFields", true, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}}, []string{"screenId"}),
+		makeAPIHandler("GET", "/rest/api/3/screens/{screenId}/availableFields", true, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}}, []string{"screenId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_add-screen",
@@ -8526,7 +8526,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/screens/{screenId}/tabs", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"screenId"}),
+		makeAPIHandler("POST", "/rest/api/3/screens/{screenId}/tabs", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"screenId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_add-screen-field",
@@ -8538,7 +8538,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "skipFieldAssociation", WireName: "skipFieldAssociation", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "body"}}, []string{"screenId", "tabId"}),
+		makeAPIHandler("POST", "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "skipFieldAssociation", WireName: "skipFieldAssociation", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "body"}}, []string{"screenId", "tabId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_delete-screen",
@@ -8548,7 +8548,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/screens/{screenId}/tabs/{tabId}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}}, []string{"screenId", "tabId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/screens/{screenId}/tabs/{tabId}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}}, []string{"screenId", "tabId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_get-all-screen",
@@ -8559,7 +8559,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/screens/{screenId}/tabs", true, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "projectKey", WireName: "projectKey", Location: "query"}}, []string{"screenId"}),
+		makeAPIHandler("GET", "/rest/api/3/screens/{screenId}/tabs", true, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "projectKey", WireName: "projectKey", Location: "query"}}, []string{"screenId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_get-all-screen-fields",
@@ -8571,7 +8571,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields", true, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "projectKey", WireName: "projectKey", Location: "query"}}, []string{"screenId", "tabId"}),
+		makeAPIHandler("GET", "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields", true, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "projectKey", WireName: "projectKey", Location: "query"}}, []string{"screenId", "tabId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_move-screen",
@@ -8582,7 +8582,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/screens/{screenId}/tabs/{tabId}/move/{pos}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "pos", WireName: "pos", Location: "path"}}, []string{"screenId", "tabId", "pos"}),
+		makeAPIHandler("POST", "/rest/api/3/screens/{screenId}/tabs/{tabId}/move/{pos}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "pos", WireName: "pos", Location: "path"}}, []string{"screenId", "tabId", "pos"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_move-screen-field",
@@ -8595,7 +8595,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields/{id}/move", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{"screenId", "tabId", "id"}),
+		makeAPIHandler("POST", "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields/{id}/move", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "after", WireName: "after", Location: "body"}, {PublicName: "position", WireName: "position", Location: "body"}}, []string{"screenId", "tabId", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_remove-screen-field",
@@ -8606,7 +8606,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields/{id}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"screenId", "tabId", "id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields/{id}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"screenId", "tabId", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screens_tabs_rename-screen",
@@ -8617,7 +8617,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the screen tab. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/screens/{screenId}/tabs/{tabId}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"screenId", "tabId"}),
+		makeAPIHandler("PUT", "/rest/api/3/screens/{screenId}/tabs/{tabId}", false, false, nil, []mcpParamBinding{{PublicName: "screenId", WireName: "screenId", Location: "path"}, {PublicName: "tabId", WireName: "tabId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"screenId", "tabId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screenscheme_create-screen-scheme",
@@ -8628,7 +8628,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/screenscheme", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "screens", WireName: "screens", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/screenscheme", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "screens", WireName: "screens", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screenscheme_delete-screen-scheme",
@@ -8637,7 +8637,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/screenscheme/{screenSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "screenSchemeId", WireName: "screenSchemeId", Location: "path"}}, []string{"screenSchemeId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/screenscheme/{screenSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "screenSchemeId", WireName: "screenSchemeId", Location: "path"}}, []string{"screenSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screenscheme_get-screen-schemes",
@@ -8652,7 +8652,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/screenscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/screenscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "id", WireName: "id", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("screenscheme_update-screen-scheme",
@@ -8663,7 +8663,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("screens", mcplib.Description("The IDs of the screens for the screen types of the screen scheme. Only screens used in classic projects are accepted.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/screenscheme/{screenSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "screenSchemeId", WireName: "screenSchemeId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "screens", WireName: "screens", Location: "body"}}, []string{"screenSchemeId"}),
+		makeAPIHandler("PUT", "/rest/api/3/screenscheme/{screenSchemeId}", false, false, nil, []mcpParamBinding{{PublicName: "screenSchemeId", WireName: "screenSchemeId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "screens", WireName: "screens", Location: "body"}}, []string{"screenSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("security_delete-linked-workspaces",
@@ -8748,7 +8748,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/securitylevel/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/securitylevel/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("server-info_get",
@@ -8757,7 +8757,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/serverInfo", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/serverInfo", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("servicedeskapi_add-customers",
@@ -9589,15 +9589,15 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/settings/columns", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/settings/columns", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("settings_set-issue-navigator-default-columns",
-			mcplib.WithDescription("Sets the default issue navigator columns. The `columns` parameter accepts a navigable field value and is expressed as HTML form data. To specify multiple columns, pass multiple `columns` parameters. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/2/settings/columns` If no column details are sent, then all default columns are removed. A navigable field is one that can be used as a column on the issue navigator. Find details of navigable issue columns using [Get fields](#api-rest-api-2-field-get). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Sets the default issue navigator columns. The `columns` parameter accepts a navigable field value and is expressed as HTML form data. To specify multiple columns, pass multiple `columns` parameters. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/3/settings/columns` If no column details are sent, then all default columns are removed. A navigable field is one that can be used as a column on the issue navigator. Find details of navigable issue columns using [Get fields](#api-rest-api-2-field-get). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("columns", mcplib.Description("Columns")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/settings/columns", false, false, nil, []mcpParamBinding{{PublicName: "columns", WireName: "columns", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/settings/columns", false, false, nil, []mcpParamBinding{{PublicName: "columns", WireName: "columns", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("software_get-approximate-issue-count-for-backlog",
@@ -9766,7 +9766,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/status/{idOrName}", true, false, nil, []mcpParamBinding{{PublicName: "idOrName", WireName: "idOrName", Location: "path"}}, []string{"idOrName"}),
+		makeAPIHandler("GET", "/rest/api/3/status/{idOrName}", true, false, nil, []mcpParamBinding{{PublicName: "idOrName", WireName: "idOrName", Location: "path"}}, []string{"idOrName"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("status_get-statuses",
@@ -9775,7 +9775,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/status", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/status", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuscategory_get-status-categories",
@@ -9784,7 +9784,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/statuscategory", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/statuscategory", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuscategory_get-status-category",
@@ -9794,7 +9794,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/statuscategory/{idOrKey}", true, false, nil, []mcpParamBinding{{PublicName: "idOrKey", WireName: "idOrKey", Location: "path"}}, []string{"idOrKey"}),
+		makeAPIHandler("GET", "/rest/api/3/statuscategory/{idOrKey}", true, false, nil, []mcpParamBinding{{PublicName: "idOrKey", WireName: "idOrKey", Location: "path"}}, []string{"idOrKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_create",
@@ -9804,7 +9804,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/statuses", false, false, nil, []mcpParamBinding{{PublicName: "scope", WireName: "scope", Location: "body"}, {PublicName: "statuses", WireName: "statuses", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/statuses", false, false, nil, []mcpParamBinding{{PublicName: "scope", WireName: "scope", Location: "body"}, {PublicName: "statuses", WireName: "statuses", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_delete-by-id",
@@ -9813,7 +9813,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/statuses", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "query"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/statuses", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_get-by-id",
@@ -9823,7 +9823,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/statuses", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/statuses", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_get-by-name",
@@ -9834,7 +9834,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/statuses/byNames", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/statuses/byNames", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_search",
@@ -9848,7 +9848,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/statuses/search", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "searchString", WireName: "searchString", Location: "query"}, {PublicName: "statusCategory", WireName: "statusCategory", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/statuses/search", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "searchString", WireName: "searchString", Location: "query"}, {PublicName: "statusCategory", WireName: "statusCategory", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_update",
@@ -9856,7 +9856,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("statuses", mcplib.Required(), mcplib.Description("The list of statuses that will be updated.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/statuses", false, false, nil, []mcpParamBinding{{PublicName: "statuses", WireName: "statuses", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/statuses", false, false, nil, []mcpParamBinding{{PublicName: "statuses", WireName: "statuses", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_project_get-issue-type-usages-for-status",
@@ -9869,7 +9869,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/statuses/{statusId}/project/{projectId}/issueTypeUsages", true, false, nil, []mcpParamBinding{{PublicName: "statusId", WireName: "statusId", Location: "path"}, {PublicName: "projectId", WireName: "projectId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"statusId", "projectId"}),
+		makeAPIHandler("GET", "/rest/api/3/statuses/{statusId}/project/{projectId}/issueTypeUsages", true, false, nil, []mcpParamBinding{{PublicName: "statusId", WireName: "statusId", Location: "path"}, {PublicName: "projectId", WireName: "projectId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"statusId", "projectId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_project-usages_get-for-status",
@@ -9881,7 +9881,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/statuses/{statusId}/projectUsages", true, false, nil, []mcpParamBinding{{PublicName: "statusId", WireName: "statusId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"statusId"}),
+		makeAPIHandler("GET", "/rest/api/3/statuses/{statusId}/projectUsages", true, false, nil, []mcpParamBinding{{PublicName: "statusId", WireName: "statusId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"statusId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_workflow-usages_get-for-status",
@@ -9893,7 +9893,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/statuses/{statusId}/workflowUsages", true, false, nil, []mcpParamBinding{{PublicName: "statusId", WireName: "statusId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"statusId"}),
+		makeAPIHandler("GET", "/rest/api/3/statuses/{statusId}/workflowUsages", true, false, nil, []mcpParamBinding{{PublicName: "statusId", WireName: "statusId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"statusId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("task_get",
@@ -9903,7 +9903,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/task/{taskId}", true, false, nil, []mcpParamBinding{{PublicName: "taskId", WireName: "taskId", Location: "path"}}, []string{"taskId"}),
+		makeAPIHandler("GET", "/rest/api/3/task/{taskId}", true, false, nil, []mcpParamBinding{{PublicName: "taskId", WireName: "taskId", Location: "path"}}, []string{"taskId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("task_cancel_task",
@@ -9912,7 +9912,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/task/{taskId}/cancel", false, false, nil, []mcpParamBinding{{PublicName: "taskId", WireName: "taskId", Location: "path"}}, []string{"taskId"}),
+		makeAPIHandler("POST", "/rest/api/3/task/{taskId}/cancel", false, false, nil, []mcpParamBinding{{PublicName: "taskId", WireName: "taskId", Location: "path"}}, []string{"taskId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("ui-modifications_create",
@@ -9924,7 +9924,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/uiModifications", false, false, nil, []mcpParamBinding{{PublicName: "contexts", WireName: "contexts", Location: "body"}, {PublicName: "data", WireName: "data", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/uiModifications", false, false, nil, []mcpParamBinding{{PublicName: "contexts", WireName: "contexts", Location: "body"}, {PublicName: "data", WireName: "data", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("ui-modifications_delete",
@@ -9933,7 +9933,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/uiModifications/{uiModificationId}", false, false, nil, []mcpParamBinding{{PublicName: "uiModificationId", WireName: "uiModificationId", Location: "path"}}, []string{"uiModificationId"}),
+		makeAPIHandler("DELETE", "/rest/api/3/uiModifications/{uiModificationId}", false, false, nil, []mcpParamBinding{{PublicName: "uiModificationId", WireName: "uiModificationId", Location: "path"}}, []string{"uiModificationId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("ui-modifications_get",
@@ -9945,7 +9945,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/uiModifications", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/uiModifications", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("ui-modifications_update",
@@ -9957,7 +9957,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("name", mcplib.Description("The name of the UI modification. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/uiModifications/{uiModificationId}", false, false, nil, []mcpParamBinding{{PublicName: "uiModificationId", WireName: "uiModificationId", Location: "path"}, {PublicName: "contexts", WireName: "contexts", Location: "body"}, {PublicName: "data", WireName: "data", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"uiModificationId"}),
+		makeAPIHandler("PUT", "/rest/api/3/uiModifications/{uiModificationId}", false, false, nil, []mcpParamBinding{{PublicName: "uiModificationId", WireName: "uiModificationId", Location: "path"}, {PublicName: "contexts", WireName: "contexts", Location: "body"}, {PublicName: "data", WireName: "data", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"uiModificationId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("universal-avatar_delete-avatar",
@@ -9968,7 +9968,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/universal_avatar/type/{type}/owner/{owningObjectId}/avatar/{id}", false, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "owningObjectId", WireName: "owningObjectId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"type", "owningObjectId", "id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/universal_avatar/type/{type}/owner/{owningObjectId}/avatar/{id}", false, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "owningObjectId", WireName: "owningObjectId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}}, []string{"type", "owningObjectId", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("universal-avatar_get-avatar-image-by-id",
@@ -9981,7 +9981,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/universal_avatar/view/type/{type}/avatar/{id}", true, true, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "size", WireName: "size", Location: "query"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{"type", "id"}),
+		makeAPIHandler("GET", "/rest/api/3/universal_avatar/view/type/{type}/avatar/{id}", true, true, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "size", WireName: "size", Location: "query"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{"type", "id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("universal-avatar_get-avatar-image-by-owner",
@@ -9994,7 +9994,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/universal_avatar/view/type/{type}/owner/{entityId}", true, true, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "entityId", WireName: "entityId", Location: "path"}, {PublicName: "size", WireName: "size", Location: "query"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{"type", "entityId"}),
+		makeAPIHandler("GET", "/rest/api/3/universal_avatar/view/type/{type}/owner/{entityId}", true, true, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "entityId", WireName: "entityId", Location: "path"}, {PublicName: "size", WireName: "size", Location: "query"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{"type", "entityId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("universal-avatar_get-avatar-image-by-type",
@@ -10006,7 +10006,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/universal_avatar/view/type/{type}", true, true, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "size", WireName: "size", Location: "query"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{"type"}),
+		makeAPIHandler("GET", "/rest/api/3/universal_avatar/view/type/{type}", true, true, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "size", WireName: "size", Location: "query"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{"type"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("universal-avatar_get-avatars",
@@ -10017,11 +10017,11 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/universal_avatar/type/{type}/owner/{entityId}", true, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "entityId", WireName: "entityId", Location: "path"}}, []string{"type", "entityId"}),
+		makeAPIHandler("GET", "/rest/api/3/universal_avatar/type/{type}/owner/{entityId}", true, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "entityId", WireName: "entityId", Location: "path"}}, []string{"type", "entityId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("universal-avatar_store-avatar",
-			mcplib.WithDescription("Loads a custom avatar for a project, issue type or priority. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST ` `--user email@example.com:<api_token> ` `--header 'X-Atlassian-Token: no-check' ` `--header 'Content-Type: image/< image_type>' ` `--data-binary '<@/path/to/file/with/your/avatar>' ` `--url 'https://your-domain.atlassian.net/rest/api/2/universal_avatar/type/{type}/owner/{entityId}'` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar use: * [Update issue type](#api-rest-api-2-issuetype-id-put) to set it as the issue type's displayed avatar. * [Set project avatar](#api-rest-api-2-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar. * [Update priority](#api-rest-api-2-priority-id-put) to set it as the priority's displayed avatar. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Loads a custom avatar for a project, issue type or priority. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST ` `--user email@example.com:<api_token> ` `--header 'X-Atlassian-Token: no-check' ` `--header 'Content-Type: image/< image_type>' ` `--data-binary '<@/path/to/file/with/your/avatar>' ` `--url 'https://your-domain.atlassian.net/rest/api/3/universal_avatar/type/{type}/owner/{entityId}'` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar use: * [Update issue type](#api-rest-api-2-issuetype-id-put) to set it as the issue type's displayed avatar. * [Set project avatar](#api-rest-api-2-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar. * [Update priority](#api-rest-api-2-priority-id-put) to set it as the priority's displayed avatar. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("type", mcplib.Required(), mcplib.Description("The avatar type.")),
 			mcplib.WithString("entityId", mcplib.Required(), mcplib.Description("The ID of the item the avatar is associated with.")),
 			mcplib.WithNumber("x", mcplib.Description("The X coordinate of the top-left corner of the crop region.")),
@@ -10030,7 +10030,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/universal_avatar/type/{type}/owner/{entityId}", false, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "entityId", WireName: "entityId", Location: "path"}, {PublicName: "x", WireName: "x", Location: "query"}, {PublicName: "y", WireName: "y", Location: "query"}, {PublicName: "size", WireName: "size", Location: "query"}}, []string{"type", "entityId"}),
+		makeAPIHandler("POST", "/rest/api/3/universal_avatar/type/{type}/owner/{entityId}", false, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "entityId", WireName: "entityId", Location: "path"}, {PublicName: "x", WireName: "x", Location: "query"}, {PublicName: "y", WireName: "y", Location: "query"}, {PublicName: "size", WireName: "size", Location: "query"}}, []string{"type", "entityId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_bulk-get",
@@ -10044,7 +10044,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/bulk", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/bulk", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_bulk-get-migration",
@@ -10057,7 +10057,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/bulk/migration", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/bulk/migration", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_create",
@@ -10073,7 +10073,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/user", false, false, nil, []mcpParamBinding{{PublicName: "applicationKeys", WireName: "applicationKeys", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "emailAddress", WireName: "emailAddress", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "password", WireName: "password", Location: "body"}, {PublicName: "products", WireName: "products", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/user", false, false, nil, []mcpParamBinding{{PublicName: "applicationKeys", WireName: "applicationKeys", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "emailAddress", WireName: "emailAddress", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "password", WireName: "password", Location: "body"}, {PublicName: "products", WireName: "products", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_delete-property",
@@ -10085,7 +10085,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/user/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "userKey", WireName: "userKey", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"propertyKey"}),
+		makeAPIHandler("DELETE", "/rest/api/3/user/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "userKey", WireName: "userKey", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find",
@@ -10100,7 +10100,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/search", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "property", WireName: "property", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/search", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "property", WireName: "property", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-assignable",
@@ -10122,7 +10122,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/assignable/search", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "sessionId", WireName: "sessionId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "project", WireName: "project", Location: "query"}, {PublicName: "issueKey", WireName: "issueKey", Location: "query"}, {PublicName: "issueId", WireName: "issueId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "actionDescriptorId", WireName: "actionDescriptorId", Location: "query"}, {PublicName: "recommend", WireName: "recommend", Location: "query"}, {PublicName: "accountType", WireName: "accountType", Location: "query"}, {PublicName: "appType", WireName: "appType", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/assignable/search", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "sessionId", WireName: "sessionId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "project", WireName: "project", Location: "query"}, {PublicName: "issueKey", WireName: "issueKey", Location: "query"}, {PublicName: "issueId", WireName: "issueId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "actionDescriptorId", WireName: "actionDescriptorId", Location: "query"}, {PublicName: "recommend", WireName: "recommend", Location: "query"}, {PublicName: "accountType", WireName: "accountType", Location: "query"}, {PublicName: "appType", WireName: "appType", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-bulk-assignable",
@@ -10137,7 +10137,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/assignable/multiProjectSearch", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "projectKeys", WireName: "projectKeys", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/assignable/multiProjectSearch", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "projectKeys", WireName: "projectKeys", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-by-query",
@@ -10149,7 +10149,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/search/query", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/search/query", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-for-picker",
@@ -10165,7 +10165,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/picker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "showAvatar", WireName: "showAvatar", Location: "query"}, {PublicName: "exclude", WireName: "exclude", Location: "query"}, {PublicName: "excludeAccountIds", WireName: "excludeAccountIds", Location: "query"}, {PublicName: "avatarSize", WireName: "avatarSize", Location: "query"}, {PublicName: "excludeConnectUsers", WireName: "excludeConnectUsers", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/picker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "showAvatar", WireName: "showAvatar", Location: "query"}, {PublicName: "exclude", WireName: "exclude", Location: "query"}, {PublicName: "excludeAccountIds", WireName: "excludeAccountIds", Location: "query"}, {PublicName: "avatarSize", WireName: "avatarSize", Location: "query"}, {PublicName: "excludeConnectUsers", WireName: "excludeConnectUsers", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-keys-by-query",
@@ -10177,7 +10177,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/search/query/key", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResult", WireName: "maxResult", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/search/query/key", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResult", WireName: "maxResult", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-with-all-permissions",
@@ -10194,7 +10194,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/permission/search", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "permissions", WireName: "permissions", Location: "query"}, {PublicName: "issueKey", WireName: "issueKey", Location: "query"}, {PublicName: "projectKey", WireName: "projectKey", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/permission/search", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "permissions", WireName: "permissions", Location: "query"}, {PublicName: "issueKey", WireName: "issueKey", Location: "query"}, {PublicName: "projectKey", WireName: "projectKey", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-with-browse-permission",
@@ -10210,7 +10210,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/viewissue/search", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "issueKey", WireName: "issueKey", Location: "query"}, {PublicName: "projectKey", WireName: "projectKey", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/viewissue/search", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "issueKey", WireName: "issueKey", Location: "query"}, {PublicName: "projectKey", WireName: "projectKey", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_get",
@@ -10223,7 +10223,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_get-default-columns",
@@ -10234,7 +10234,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/columns", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/columns", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_get-email",
@@ -10244,7 +10244,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/email", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/email", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_get-email-bulk",
@@ -10254,7 +10254,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/email/bulk", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/email/bulk", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_get-groups",
@@ -10266,7 +10266,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/groups", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/groups", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_get-property",
@@ -10279,7 +10279,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "userKey", WireName: "userKey", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"propertyKey"}),
+		makeAPIHandler("GET", "/rest/api/3/user/properties/{propertyKey}", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "userKey", WireName: "userKey", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_get-property-keys",
@@ -10291,7 +10291,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/user/properties", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "userKey", WireName: "userKey", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/user/properties", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "userKey", WireName: "userKey", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_remove",
@@ -10302,7 +10302,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/user", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/user", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_reset-columns",
@@ -10312,16 +10312,16 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/user/columns", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/user/columns", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_set-columns",
-			mcplib.WithDescription("Sets the default [ issue table columns](https://confluence.atlassian.com/x/XYdKLg) for the user. If an account ID is not passed, the calling user's default columns are set. If no column details are sent, then all default columns are removed. The parameters for this resource are expressed as HTML form data. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/2/user/columns?accountId=5b10ac8d82e05b22cc7d4ef5'` **[Permissions](#permissions) required:** * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to set the columns on any user. * Permission to access Jira, to set the calling user's columns. (public)"),
+			mcplib.WithDescription("Sets the default [ issue table columns](https://confluence.atlassian.com/x/XYdKLg) for the user. If an account ID is not passed, the calling user's default columns are set. If no column details are sent, then all default columns are removed. The parameters for this resource are expressed as HTML form data. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/3/user/columns?accountId=5b10ac8d82e05b22cc7d4ef5'` **[Permissions](#permissions) required:** * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to set the columns on any user. * Permission to access Jira, to set the calling user's columns. (public)"),
 			mcplib.WithString("accountId", mcplib.Description("The account ID of the user, which uniquely identifies the user across all Atlassian products.")),
 			mcplib.WithString("columns", mcplib.Description("Columns")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/user/columns", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "columns", WireName: "columns", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/user/columns", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "columns", WireName: "columns", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("user_set-property",
@@ -10332,7 +10332,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the user's property. The maximum length is 255 characters.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/user/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "userKey", WireName: "userKey", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"propertyKey"}),
+		makeAPIHandler("PUT", "/rest/api/3/user/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "userKey", WireName: "userKey", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"propertyKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("users_get-all",
@@ -10344,7 +10344,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/users/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/users/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("users_get-all-default",
@@ -10356,7 +10356,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/users", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/users", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("vendors_addons_get",
@@ -11227,7 +11227,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/webhook", false, false, nil, []mcpParamBinding{{PublicName: "webhookIds", WireName: "webhookIds", Location: "body"}}, []string{}),
+		makeAPIHandler("DELETE", "/rest/api/3/webhook", false, false, nil, []mcpParamBinding{{PublicName: "webhookIds", WireName: "webhookIds", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("webhook_get-dynamic-for-app",
@@ -11238,7 +11238,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/webhook", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/webhook", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("webhook_get-failed",
@@ -11249,7 +11249,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/webhook/failed", true, false, nil, []mcpParamBinding{{PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "after", WireName: "after", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/webhook/failed", true, false, nil, []mcpParamBinding{{PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "after", WireName: "after", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("webhook_refresh",
@@ -11257,7 +11257,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("webhookIds", mcplib.Required(), mcplib.Description("A list of webhook IDs.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/webhook/refresh", false, false, nil, []mcpParamBinding{{PublicName: "webhookIds", WireName: "webhookIds", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/webhook/refresh", false, false, nil, []mcpParamBinding{{PublicName: "webhookIds", WireName: "webhookIds", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("webhook_register-dynamic",
@@ -11267,7 +11267,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/webhook", false, false, nil, []mcpParamBinding{{PublicName: "url", WireName: "url", Location: "body"}, {PublicName: "webhooks", WireName: "webhooks", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/webhook", false, false, nil, []mcpParamBinding{{PublicName: "url", WireName: "url", Location: "body"}, {PublicName: "webhooks", WireName: "webhooks", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_add-content-watcher",
@@ -12451,7 +12451,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflows/capabilities", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/workflows/capabilities", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_create",
@@ -12462,7 +12462,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflows/create", false, false, nil, []mcpParamBinding{{PublicName: "scope", WireName: "scope", Location: "body"}, {PublicName: "statuses", WireName: "statuses", Location: "body"}, {PublicName: "workflows", WireName: "workflows", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflows/create", false, false, nil, []mcpParamBinding{{PublicName: "scope", WireName: "scope", Location: "body"}, {PublicName: "statuses", WireName: "statuses", Location: "body"}, {PublicName: "workflows", WireName: "workflows", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_get-default-editor",
@@ -12471,7 +12471,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflows/defaultEditor", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/workflows/defaultEditor", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_read",
@@ -12482,7 +12482,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflows", false, false, nil, []mcpParamBinding{{PublicName: "projectAndIssueTypes", WireName: "projectAndIssueTypes", Location: "body"}, {PublicName: "workflowIds", WireName: "workflowIds", Location: "body"}, {PublicName: "workflowNames", WireName: "workflowNames", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflows", false, false, nil, []mcpParamBinding{{PublicName: "projectAndIssueTypes", WireName: "projectAndIssueTypes", Location: "body"}, {PublicName: "workflowIds", WireName: "workflowIds", Location: "body"}, {PublicName: "workflowNames", WireName: "workflowNames", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_read-previews",
@@ -12494,7 +12494,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflows/preview", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "workflowIds", WireName: "workflowIds", Location: "body"}, {PublicName: "workflowNames", WireName: "workflowNames", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflows/preview", false, false, nil, []mcpParamBinding{{PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "workflowIds", WireName: "workflowIds", Location: "body"}, {PublicName: "workflowNames", WireName: "workflowNames", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_search",
@@ -12510,7 +12510,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflows/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "scope", WireName: "scope", Location: "query"}, {PublicName: "isActive", WireName: "isActive", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/workflows/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "scope", WireName: "scope", Location: "query"}, {PublicName: "isActive", WireName: "isActive", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_update",
@@ -12520,7 +12520,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflows/update", false, false, nil, []mcpParamBinding{{PublicName: "statuses", WireName: "statuses", Location: "body"}, {PublicName: "workflows", WireName: "workflows", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflows/update", false, false, nil, []mcpParamBinding{{PublicName: "statuses", WireName: "statuses", Location: "body"}, {PublicName: "workflows", WireName: "workflows", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_validate-create",
@@ -12530,7 +12530,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflows/create/validation", false, false, nil, []mcpParamBinding{{PublicName: "payload", WireName: "payload", Location: "body"}, {PublicName: "validationOptions", WireName: "validationOptions", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflows/create/validation", false, false, nil, []mcpParamBinding{{PublicName: "payload", WireName: "payload", Location: "body"}, {PublicName: "validationOptions", WireName: "validationOptions", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_validate-update",
@@ -12540,7 +12540,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflows/update/validation", false, false, nil, []mcpParamBinding{{PublicName: "payload", WireName: "payload", Location: "body"}, {PublicName: "validationOptions", WireName: "validationOptions", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflows/update/validation", false, false, nil, []mcpParamBinding{{PublicName: "payload", WireName: "payload", Location: "body"}, {PublicName: "validationOptions", WireName: "validationOptions", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_assign-scheme-to-project",
@@ -12549,7 +12549,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflowSchemeId", mcplib.Description("The ID of the workflow scheme. If the workflow scheme ID is `null`, the operation assigns the default workflow scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/project", false, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "workflowSchemeId", WireName: "workflowSchemeId", Location: "body"}}, []string{}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/project", false, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "workflowSchemeId", WireName: "workflowSchemeId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_create-workflow-scheme",
@@ -12570,7 +12570,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflowscheme", false, false, nil, []mcpParamBinding{{PublicName: "defaultWorkflow", WireName: "defaultWorkflow", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "draft", WireName: "draft", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "lastModified", WireName: "lastModified", Location: "body"}, {PublicName: "lastModifiedUser", WireName: "lastModifiedUser", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "originalDefaultWorkflow", WireName: "originalDefaultWorkflow", Location: "body"}, {PublicName: "originalIssueTypeMappings", WireName: "originalIssueTypeMappings", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflowscheme", false, false, nil, []mcpParamBinding{{PublicName: "defaultWorkflow", WireName: "defaultWorkflow", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "draft", WireName: "draft", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "lastModified", WireName: "lastModified", Location: "body"}, {PublicName: "lastModifiedUser", WireName: "lastModifiedUser", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "originalDefaultWorkflow", WireName: "originalDefaultWorkflow", Location: "body"}, {PublicName: "originalIssueTypeMappings", WireName: "originalIssueTypeMappings", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_delete-workflow-scheme",
@@ -12579,7 +12579,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflowscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflowscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_get-all-workflow-schemes",
@@ -12590,7 +12590,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_get-required-workflow-scheme-mappings",
@@ -12601,7 +12601,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflowscheme/update/mappings", false, false, nil, []mcpParamBinding{{PublicName: "defaultWorkflowId", WireName: "defaultWorkflowId", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "workflowsForIssueTypes", WireName: "workflowsForIssueTypes", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflowscheme/update/mappings", false, false, nil, []mcpParamBinding{{PublicName: "defaultWorkflowId", WireName: "defaultWorkflowId", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "workflowsForIssueTypes", WireName: "workflowsForIssueTypes", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_get-workflow-scheme",
@@ -12612,7 +12612,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "returnDraftIfExists", WireName: "returnDraftIfExists", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "returnDraftIfExists", WireName: "returnDraftIfExists", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_get-workflow-scheme-project-associations",
@@ -12622,7 +12622,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/project", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/project", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_read-workflow-schemes",
@@ -12632,7 +12632,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflowscheme/read", false, false, nil, []mcpParamBinding{{PublicName: "projectIds", WireName: "projectIds", Location: "body"}, {PublicName: "workflowSchemeIds", WireName: "workflowSchemeIds", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflowscheme/read", false, false, nil, []mcpParamBinding{{PublicName: "projectIds", WireName: "projectIds", Location: "body"}, {PublicName: "workflowSchemeIds", WireName: "workflowSchemeIds", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_switch-workflow-scheme-for-project",
@@ -12643,7 +12643,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflowscheme/project/switch", false, false, nil, []mcpParamBinding{{PublicName: "mappingsByIssueTypeOverride", WireName: "mappingsByIssueTypeOverride", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "targetSchemeId", WireName: "targetSchemeId", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflowscheme/project/switch", false, false, nil, []mcpParamBinding{{PublicName: "mappingsByIssueTypeOverride", WireName: "mappingsByIssueTypeOverride", Location: "body"}, {PublicName: "projectId", WireName: "projectId", Location: "body"}, {PublicName: "targetSchemeId", WireName: "targetSchemeId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_update-schemes",
@@ -12659,7 +12659,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflowscheme/update", false, false, nil, []mcpParamBinding{{PublicName: "defaultWorkflowId", WireName: "defaultWorkflowId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "statusMappingsByIssueTypeOverride", WireName: "statusMappingsByIssueTypeOverride", Location: "body"}, {PublicName: "statusMappingsByWorkflows", WireName: "statusMappingsByWorkflows", Location: "body"}, {PublicName: "version", WireName: "version", Location: "body"}, {PublicName: "workflowsForIssueTypes", WireName: "workflowsForIssueTypes", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/workflowscheme/update", false, false, nil, []mcpParamBinding{{PublicName: "defaultWorkflowId", WireName: "defaultWorkflowId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "statusMappingsByIssueTypeOverride", WireName: "statusMappingsByIssueTypeOverride", Location: "body"}, {PublicName: "statusMappingsByWorkflows", WireName: "statusMappingsByWorkflows", Location: "body"}, {PublicName: "version", WireName: "version", Location: "body"}, {PublicName: "workflowsForIssueTypes", WireName: "workflowsForIssueTypes", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_update-workflow-scheme",
@@ -12680,7 +12680,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithBoolean("updateDraftIfNeeded", mcplib.Description("Whether to create or update a draft workflow scheme when updating an active workflow scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "defaultWorkflow", WireName: "defaultWorkflow", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "draft", WireName: "draft", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "lastModified", WireName: "lastModified", Location: "body"}, {PublicName: "lastModifiedUser", WireName: "lastModifiedUser", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "originalDefaultWorkflow", WireName: "originalDefaultWorkflow", Location: "body"}, {PublicName: "originalIssueTypeMappings", WireName: "originalIssueTypeMappings", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "defaultWorkflow", WireName: "defaultWorkflow", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "draft", WireName: "draft", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "lastModified", WireName: "lastModified", Location: "body"}, {PublicName: "lastModifiedUser", WireName: "lastModifiedUser", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "originalDefaultWorkflow", WireName: "originalDefaultWorkflow", Location: "body"}, {PublicName: "originalIssueTypeMappings", WireName: "originalIssueTypeMappings", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_createdraft_create-workflow-scheme-draft-from-parent",
@@ -12689,7 +12689,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflowscheme/{id}/createdraft", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/workflowscheme/{id}/createdraft", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_default_delete-workflow",
@@ -12699,7 +12699,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflowscheme/{id}/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflowscheme/{id}/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_default_get-workflow",
@@ -12710,7 +12710,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{id}/default", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "returnDraftIfExists", WireName: "returnDraftIfExists", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{id}/default", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "returnDraftIfExists", WireName: "returnDraftIfExists", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_default_update-workflow",
@@ -12720,7 +12720,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflow", mcplib.Required(), mcplib.Description("The name of the workflow to set as the default workflow.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/{id}/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/{id}/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_delete-default-workflow",
@@ -12729,7 +12729,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflowscheme/{id}/draft/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflowscheme/{id}/draft/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_delete-workflow-mapping",
@@ -12739,7 +12739,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflowscheme/{id}/draft/workflow", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflowscheme/{id}/draft/workflow", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_delete-workflow-scheme",
@@ -12748,7 +12748,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflowscheme/{id}/draft", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflowscheme/{id}/draft", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_delete-workflow-scheme-issue-type",
@@ -12758,7 +12758,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflowscheme/{id}/draft/issuetype/{issueType}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}}, []string{"id", "issueType"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflowscheme/{id}/draft/issuetype/{issueType}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}}, []string{"id", "issueType"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_get-default-workflow",
@@ -12768,7 +12768,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{id}/draft/default", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{id}/draft/default", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_get-workflow",
@@ -12779,7 +12779,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{id}/draft/workflow", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{id}/draft/workflow", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_get-workflow-scheme",
@@ -12789,7 +12789,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{id}/draft", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{id}/draft", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_get-workflow-scheme-issue-type",
@@ -12800,7 +12800,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{id}/draft/issuetype/{issueType}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}}, []string{"id", "issueType"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{id}/draft/issuetype/{issueType}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}}, []string{"id", "issueType"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_publish-workflow-scheme",
@@ -12811,7 +12811,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/workflowscheme/{id}/draft/publish", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "validateOnly", WireName: "validateOnly", Location: "query"}, {PublicName: "statusMappings", WireName: "statusMappings", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("POST", "/rest/api/3/workflowscheme/{id}/draft/publish", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "validateOnly", WireName: "validateOnly", Location: "query"}, {PublicName: "statusMappings", WireName: "statusMappings", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_set-workflow-scheme-issue-type",
@@ -12823,7 +12823,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflow", mcplib.Description("The name of the workflow.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/{id}/draft/issuetype/{issueType}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}, {PublicName: "issue-type-2", WireName: "issueType", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id", "issueType"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/{id}/draft/issuetype/{issueType}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}, {PublicName: "issue-type-2", WireName: "issueType", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id", "issueType"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_update-default-workflow",
@@ -12833,7 +12833,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflow", mcplib.Required(), mcplib.Description("The name of the workflow to set as the default workflow.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/{id}/draft/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/{id}/draft/default", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_update-workflow-mapping",
@@ -12846,7 +12846,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflow", mcplib.Description("The name of the workflow. Optional if updating the workflow-issue types mapping.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/{id}/draft/workflow", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "defaultMapping", WireName: "defaultMapping", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/{id}/draft/workflow", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "defaultMapping", WireName: "defaultMapping", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_update-workflow-scheme",
@@ -12867,7 +12867,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithBoolean("updateDraftIfNeeded", mcplib.Description("Whether to create or update a draft workflow scheme when updating an active workflow scheme.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/{id}/draft", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "defaultWorkflow", WireName: "defaultWorkflow", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "draft", WireName: "draft", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "lastModified", WireName: "lastModified", Location: "body"}, {PublicName: "lastModifiedUser", WireName: "lastModifiedUser", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "originalDefaultWorkflow", WireName: "originalDefaultWorkflow", Location: "body"}, {PublicName: "originalIssueTypeMappings", WireName: "originalIssueTypeMappings", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/{id}/draft", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "defaultWorkflow", WireName: "defaultWorkflow", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "draft", WireName: "draft", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "issueTypeMappings", WireName: "issueTypeMappings", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "lastModified", WireName: "lastModified", Location: "body"}, {PublicName: "lastModifiedUser", WireName: "lastModifiedUser", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "originalDefaultWorkflow", WireName: "originalDefaultWorkflow", Location: "body"}, {PublicName: "originalIssueTypeMappings", WireName: "originalIssueTypeMappings", Location: "body"}, {PublicName: "self", WireName: "self", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_issuetype_delete-workflow-scheme-issue-type",
@@ -12878,7 +12878,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflowscheme/{id}/issuetype/{issueType}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "query"}}, []string{"id", "issueType"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflowscheme/{id}/issuetype/{issueType}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "query"}}, []string{"id", "issueType"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_issuetype_get-workflow-scheme-issue-type",
@@ -12890,7 +12890,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{id}/issuetype/{issueType}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}, {PublicName: "returnDraftIfExists", WireName: "returnDraftIfExists", Location: "query"}}, []string{"id", "issueType"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{id}/issuetype/{issueType}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}, {PublicName: "returnDraftIfExists", WireName: "returnDraftIfExists", Location: "query"}}, []string{"id", "issueType"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_issuetype_set-workflow-scheme-issue-type",
@@ -12902,7 +12902,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflow", mcplib.Description("The name of the workflow.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/{id}/issuetype/{issueType}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}, {PublicName: "issue-type-2", WireName: "issueType", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id", "issueType"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/{id}/issuetype/{issueType}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "issueType", WireName: "issueType", Location: "path"}, {PublicName: "issue-type-2", WireName: "issueType", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id", "issueType"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_project-usages_get-for-workflow-scheme",
@@ -12914,7 +12914,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{workflowSchemeId}/projectUsages", true, false, nil, []mcpParamBinding{{PublicName: "workflowSchemeId", WireName: "workflowSchemeId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"workflowSchemeId"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{workflowSchemeId}/projectUsages", true, false, nil, []mcpParamBinding{{PublicName: "workflowSchemeId", WireName: "workflowSchemeId", Location: "path"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"workflowSchemeId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_workflow_delete-mapping",
@@ -12925,7 +12925,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "/rest/api/2/workflowscheme/{id}/workflow", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("DELETE", "/rest/api/3/workflowscheme/{id}/workflow", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_workflow_get",
@@ -12937,7 +12937,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/workflowscheme/{id}/workflow", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "returnDraftIfExists", WireName: "returnDraftIfExists", Location: "query"}}, []string{"id"}),
+		makeAPIHandler("GET", "/rest/api/3/workflowscheme/{id}/workflow", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "returnDraftIfExists", WireName: "returnDraftIfExists", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_workflow_update-mapping",
@@ -12950,7 +12950,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("workflow", mcplib.Description("The name of the workflow. Optional if updating the workflow-issue types mapping.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/2/workflowscheme/{id}/workflow", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "defaultMapping", WireName: "defaultMapping", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id"}),
+		makeAPIHandler("PUT", "/rest/api/3/workflowscheme/{id}/workflow", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "defaultMapping", WireName: "defaultMapping", Location: "body"}, {PublicName: "issueTypes", WireName: "issueTypes", Location: "body"}, {PublicName: "updateDraftIfNeeded", WireName: "updateDraftIfNeeded", Location: "body"}, {PublicName: "workflow", WireName: "workflow", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("worklog_get-for-ids",
@@ -12960,7 +12960,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/2/worklog/list", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "ids", WireName: "ids", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/worklog/list", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "ids", WireName: "ids", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("worklog_get-ids-of-deleted-since",
@@ -12970,7 +12970,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/worklog/deleted", true, false, nil, []mcpParamBinding{{PublicName: "since", WireName: "since", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/worklog/deleted", true, false, nil, []mcpParamBinding{{PublicName: "since", WireName: "since", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("worklog_get-ids-of-modified-since",
@@ -12981,7 +12981,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/2/worklog/updated", true, false, nil, []mcpParamBinding{{PublicName: "since", WireName: "since", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/worklog/updated", true, false, nil, []mcpParamBinding{{PublicName: "since", WireName: "since", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workspaces_query-v2",

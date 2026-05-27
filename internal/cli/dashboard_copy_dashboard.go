@@ -25,7 +25,7 @@ func newDashboardCopyDashboardCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Copies a dashboard. Any values provided in the `dashboard` parameter replace those in the copied dashboard.",
 		Example:     "  jira-pp-cli-pp-cli dashboard copy dashboard 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "copy.dashboard", "pp:method": "POST", "pp:path": "/rest/api/2/dashboard/{id}/copy"},
+		Annotations: map[string]string{"pp:endpoint": "copy.dashboard", "pp:method": "POST", "pp:path": "/rest/api/3/dashboard/{id}/copy"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -46,7 +46,7 @@ func newDashboardCopyDashboardCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/{id}/copy"
+			path := "/rest/api/3/dashboard/{id}/copy"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagExtendAdminPermissions != false {

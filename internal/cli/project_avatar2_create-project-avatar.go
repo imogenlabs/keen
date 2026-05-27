@@ -23,7 +23,7 @@ func newProjectAvatar2CreateProjectAvatarCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Loads an avatar for a project. Specify the avatar's local file location in the body of the request.",
 		Example:     "  jira-pp-cli-pp-cli project avatar2 create-project-avatar your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "avatar2.create-project-avatar", "pp:method": "POST", "pp:path": "/rest/api/2/project/{projectIdOrKey}/avatar2"},
+		Annotations: map[string]string{"pp:endpoint": "avatar2.create-project-avatar", "pp:method": "POST", "pp:path": "/rest/api/3/project/{projectIdOrKey}/avatar2"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -35,7 +35,7 @@ func newProjectAvatar2CreateProjectAvatarCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/avatar2"
+			path := "/rest/api/3/project/{projectIdOrKey}/avatar2"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			if flagX != 0 {

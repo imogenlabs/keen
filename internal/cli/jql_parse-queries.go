@@ -21,7 +21,7 @@ func newJqlParseQueriesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "parse-queries",
 		Short:       "Parses and validates JQL queries. Validation is performed in context of the current user.",
 		Example:     "  jira-pp-cli-pp-cli jql parse-queries --validation strict",
-		Annotations: map[string]string{"pp:endpoint": "jql.parse-queries", "pp:method": "POST", "pp:path": "/rest/api/2/jql/parse"},
+		Annotations: map[string]string{"pp:endpoint": "jql.parse-queries", "pp:method": "POST", "pp:path": "/rest/api/3/jql/parse"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("validation") {
 				allowedValidation := []string{"strict", "warn", "none"}
@@ -46,7 +46,7 @@ func newJqlParseQueriesCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/jql/parse"
+			path := "/rest/api/3/jql/parse"
 			params := map[string]string{}
 			if flagValidation != "" {
 				params["validation"] = fmt.Sprintf("%v", flagValidation)

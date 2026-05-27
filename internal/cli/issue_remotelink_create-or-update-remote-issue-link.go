@@ -31,7 +31,7 @@ func newIssueRemotelinkCreateOrUpdateRemoteIssueLinkCmd(flags *rootFlags) *cobra
 		Aliases:     []string{"create"},
 		Short:       "Creates or updates a remote issue link for an issue.",
 		Example:     "  jira-pp-cli-pp-cli issue remotelink create-or-update-remote-issue-link your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "remotelink.create-or-update-remote-issue-link", "pp:method": "POST", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/remotelink"},
+		Annotations: map[string]string{"pp:endpoint": "remotelink.create-or-update-remote-issue-link", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/remotelink"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -49,7 +49,7 @@ func newIssueRemotelinkCreateOrUpdateRemoteIssueLinkCmd(flags *rootFlags) *cobra
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/remotelink"
+			path := "/rest/api/3/issue/{issueIdOrKey}/remotelink"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

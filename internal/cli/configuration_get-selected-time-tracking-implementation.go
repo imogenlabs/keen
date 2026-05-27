@@ -17,14 +17,14 @@ func newConfigurationGetSelectedTimeTrackingImplementationCmd(flags *rootFlags) 
 		Use:         "get-selected-time-tracking-implementation",
 		Short:       "Returns the time tracking provider that is currently selected.",
 		Example:     "  jira-pp-cli-pp-cli configuration get-selected-time-tracking-implementation",
-		Annotations: map[string]string{"pp:endpoint": "configuration.get-selected-time-tracking-implementation", "pp:method": "GET", "pp:path": "/rest/api/2/configuration/timetracking", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "configuration.get-selected-time-tracking-implementation", "pp:method": "GET", "pp:path": "/rest/api/3/configuration/timetracking", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/configuration/timetracking"
+			path := "/rest/api/3/configuration/timetracking"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "configuration", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

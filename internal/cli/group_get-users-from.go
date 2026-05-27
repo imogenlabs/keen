@@ -23,14 +23,14 @@ func newGroupGetUsersFromCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-users-from",
 		Short:       "Returns a [paginated](#pagination) list of all users in a group.",
 		Example:     "  jira-pp-cli-pp-cli group get-users-from",
-		Annotations: map[string]string{"pp:endpoint": "group.get-users-from", "pp:method": "GET", "pp:path": "/rest/api/2/group/member", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "group.get-users-from", "pp:method": "GET", "pp:path": "/rest/api/3/group/member", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/group/member"
+			path := "/rest/api/3/group/member"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "group", path, map[string]string{
 				"groupname":            fmt.Sprintf("%v", flagGroupname),
 				"groupId":              fmt.Sprintf("%v", flagGroupId),

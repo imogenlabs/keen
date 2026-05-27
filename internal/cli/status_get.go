@@ -17,7 +17,7 @@ func newStatusGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <idOrName>",
 		Short:       "Returns a status. The status must be associated with an active workflow to be returned.",
 		Example:     "  jira-pp-cli-pp-cli status get example-resource",
-		Annotations: map[string]string{"pp:endpoint": "status.get", "pp:method": "GET", "pp:path": "/rest/api/2/status/{idOrName}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "status.get", "pp:method": "GET", "pp:path": "/rest/api/3/status/{idOrName}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newStatusGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/status/{idOrName}"
+			path := "/rest/api/3/status/{idOrName}"
 			path = replacePathParam(path, "idOrName", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "status", false, path, params, nil, cmd.ErrOrStderr())

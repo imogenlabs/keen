@@ -22,7 +22,7 @@ func newIssueCommentGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <issueIdOrKey>",
 		Short:       "Returns all comments for an issue. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli issue comment get your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "comment.get", "pp:method": "GET", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/comment", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "comment.get", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/comment", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -51,7 +51,7 @@ func newIssueCommentGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/comment"
+			path := "/rest/api/3/issue/{issueIdOrKey}/comment"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "comment", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

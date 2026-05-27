@@ -18,7 +18,7 @@ func newDashboardItemsDeleteDashboardPropertyCmd(flags *rootFlags) *cobra.Comman
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a dashboard item property. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli dashboard items delete-dashboard-property 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "items.delete-dashboard-property", "pp:method": "DELETE", "pp:path": "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}"},
+		Annotations: map[string]string{"pp:endpoint": "items.delete-dashboard-property", "pp:method": "DELETE", "pp:path": "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newDashboardItemsDeleteDashboardPropertyCmd(flags *rootFlags) *cobra.Comman
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}"
+			path := "/rest/api/3/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}"
 			path = replacePathParam(path, "dashboardId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("itemId is required\nUsage: %s <%s>", cmd.CommandPath(), "itemId"))

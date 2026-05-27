@@ -17,7 +17,7 @@ func newIssueVotesGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <issueIdOrKey>",
 		Short:       "Returns details about the votes on an issue.",
 		Example:     "  jira-pp-cli-pp-cli issue votes get your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "votes.get", "pp:method": "GET", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/votes", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "votes.get", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/votes", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newIssueVotesGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/votes"
+			path := "/rest/api/3/issue/{issueIdOrKey}/votes"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "votes", false, path, params, nil, cmd.ErrOrStderr())

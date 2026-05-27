@@ -26,7 +26,7 @@ func newJiraCloudPlatformWorkflowCreateTransitionPropertyCmd(flags *rootFlags) *
 		Aliases:     []string{"create"},
 		Short:       "This will be removed on [June 1, 2026](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow create-transition-property 42 --key your-token-here --workflow-name example-resource --value example-value",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.create-transition-property", "pp:method": "POST", "pp:path": "/rest/api/2/workflow/transitions/{transitionId}/properties"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.create-transition-property", "pp:method": "POST", "pp:path": "/rest/api/3/workflow/transitions/{transitionId}/properties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -60,7 +60,7 @@ func newJiraCloudPlatformWorkflowCreateTransitionPropertyCmd(flags *rootFlags) *
 				return err
 			}
 
-			path := "/rest/api/2/workflow/transitions/{transitionId}/properties"
+			path := "/rest/api/3/workflow/transitions/{transitionId}/properties"
 			path = replacePathParam(path, "transitionId", args[0])
 			params := map[string]string{}
 			if flagKey != "" {

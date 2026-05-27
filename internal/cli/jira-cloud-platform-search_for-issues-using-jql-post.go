@@ -27,7 +27,7 @@ func newJiraCloudPlatformSearchForIssuesUsingJqlPostCmd(flags *rootFlags) *cobra
 		Use:         "for-issues-using-jql-post",
 		Short:       "Endpoint is currently being removed. [More details](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-search for-issues-using-jql-post",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.for-issues-using-jql-post", "pp:method": "POST", "pp:path": "/rest/api/2/search"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.for-issues-using-jql-post", "pp:method": "POST", "pp:path": "/rest/api/3/search"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -36,7 +36,7 @@ func newJiraCloudPlatformSearchForIssuesUsingJqlPostCmd(flags *rootFlags) *cobra
 				return err
 			}
 
-			path := "/rest/api/2/search"
+			path := "/rest/api/3/search"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

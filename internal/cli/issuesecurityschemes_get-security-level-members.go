@@ -24,14 +24,14 @@ func newIssuesecurityschemesGetSecurityLevelMembersCmd(flags *rootFlags) *cobra.
 		Use:         "get-security-level-members",
 		Short:       "Returns a [paginated](#pagination) list of issue security level members.",
 		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes get-security-level-members",
-		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.get-security-level-members", "pp:method": "GET", "pp:path": "/rest/api/2/issuesecurityschemes/level/member", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.get-security-level-members", "pp:method": "GET", "pp:path": "/rest/api/3/issuesecurityschemes/level/member", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/issuesecurityschemes/level/member"
+			path := "/rest/api/3/issuesecurityschemes/level/member"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "issuesecurityschemes", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

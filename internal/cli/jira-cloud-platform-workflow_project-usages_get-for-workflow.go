@@ -22,7 +22,7 @@ func newJiraCloudPlatformWorkflowProjectUsagesGetForWorkflowCmd(flags *rootFlags
 		Aliases:     []string{"get"},
 		Short:       "Returns a page of projects using a given workflow.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow project-usages get-for-workflow 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "project-usages.get-for-workflow", "pp:method": "GET", "pp:path": "/rest/api/2/workflow/{workflowId}/projectUsages", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project-usages.get-for-workflow", "pp:method": "GET", "pp:path": "/rest/api/3/workflow/{workflowId}/projectUsages", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newJiraCloudPlatformWorkflowProjectUsagesGetForWorkflowCmd(flags *rootFlags
 				return err
 			}
 
-			path := "/rest/api/2/workflow/{workflowId}/projectUsages"
+			path := "/rest/api/3/workflow/{workflowId}/projectUsages"
 			path = replacePathParam(path, "workflowId", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "project-usages", path, map[string]string{
 				"nextPageToken": fmt.Sprintf("%v", flagNextPageToken),
@@ -93,7 +93,7 @@ func newJiraCloudPlatformWorkflowProjectUsagesGetForWorkflowCmd(flags *rootFlags
 }
 
 // fetchFullJiraCloudPlatformWorkflowProjectUsagesGetForWorkflowProjects returns every item
-// in the "projects" sub-resource of GET /rest/api/2/workflow/{workflowId}/projectUsages. The parent
+// in the "projects" sub-resource of GET /rest/api/3/workflow/{workflowId}/projectUsages. The parent
 // response embeds at most the first page of this sub-resource, so any
 // caller that treats the embed as complete silently truncates; this
 // companion calls the dedicated child endpoint and paginates until
@@ -102,7 +102,7 @@ func newJiraCloudPlatformWorkflowProjectUsagesGetForWorkflowCmd(flags *rootFlags
 func fetchFullJiraCloudPlatformWorkflowProjectUsagesGetForWorkflowProjects(ctx context.Context, c interface {
 	GetWithHeaders(ctx context.Context, path string, params map[string]string, headers map[string]string) (json.RawMessage, error)
 }, pathParams map[string]string) ([]json.RawMessage, error) {
-	childPath := "/rest/api/2/workflow/{workflowId}/projectUsages/projects"
+	childPath := "/rest/api/3/workflow/{workflowId}/projectUsages/projects"
 	for name, val := range pathParams {
 		childPath = replacePathParam(childPath, name, val)
 	}

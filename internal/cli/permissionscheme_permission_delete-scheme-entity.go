@@ -18,7 +18,7 @@ func newPermissionschemePermissionDeleteSchemeEntityCmd(flags *rootFlags) *cobra
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a permission grant from a permission scheme. See [About permission schemes and grants](..",
 		Example:     "  jira-pp-cli-pp-cli permissionscheme permission delete-scheme-entity 42 42",
-		Annotations: map[string]string{"pp:endpoint": "permission.delete-scheme-entity", "pp:method": "DELETE", "pp:path": "/rest/api/2/permissionscheme/{schemeId}/permission/{permissionId}"},
+		Annotations: map[string]string{"pp:endpoint": "permission.delete-scheme-entity", "pp:method": "DELETE", "pp:path": "/rest/api/3/permissionscheme/{schemeId}/permission/{permissionId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newPermissionschemePermissionDeleteSchemeEntityCmd(flags *rootFlags) *cobra
 				return err
 			}
 
-			path := "/rest/api/2/permissionscheme/{schemeId}/permission/{permissionId}"
+			path := "/rest/api/3/permissionscheme/{schemeId}/permission/{permissionId}"
 			path = replacePathParam(path, "schemeId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("permissionId is required\nUsage: %s <%s>", cmd.CommandPath(), "permissionId"))

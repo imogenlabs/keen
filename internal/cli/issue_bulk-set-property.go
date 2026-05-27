@@ -24,7 +24,7 @@ func newIssueBulkSetPropertyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "bulk-set-property <propertyKey>",
 		Short:       "Sets a property value on multiple issues.",
 		Example:     "  jira-pp-cli-pp-cli issue bulk-set-property your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "issue.bulk-set-property", "pp:method": "PUT", "pp:path": "/rest/api/2/issue/properties/{propertyKey}"},
+		Annotations: map[string]string{"pp:endpoint": "issue.bulk-set-property", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newIssueBulkSetPropertyCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/properties/{propertyKey}"
+			path := "/rest/api/3/issue/properties/{propertyKey}"
 			path = replacePathParam(path, "propertyKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

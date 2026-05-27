@@ -22,7 +22,7 @@ func newWebhookRegisterDynamicCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Registers webhooks.",
 		Example:     "  jira-pp-cli-pp-cli webhook register-dynamic --url https://example.com/resource",
-		Annotations: map[string]string{"pp:endpoint": "webhook.register-dynamic", "pp:method": "POST", "pp:path": "/rest/api/2/webhook"},
+		Annotations: map[string]string{"pp:endpoint": "webhook.register-dynamic", "pp:method": "POST", "pp:path": "/rest/api/3/webhook"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("url") && !flags.dryRun {
@@ -37,7 +37,7 @@ func newWebhookRegisterDynamicCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/webhook"
+			path := "/rest/api/3/webhook"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

@@ -17,7 +17,7 @@ func newFilterPermissionGetShareFilterCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-share-filter <id> <permissionId>",
 		Short:       "Returns a share permission for a filter.",
 		Example:     "  jira-pp-cli-pp-cli filter permission get-share-filter 550e8400-e29b-41d4-a716-446655440000 42",
-		Annotations: map[string]string{"pp:endpoint": "permission.get-share-filter", "pp:method": "GET", "pp:path": "/rest/api/2/filter/{id}/permission/{permissionId}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "permission.get-share-filter", "pp:method": "GET", "pp:path": "/rest/api/3/filter/{id}/permission/{permissionId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newFilterPermissionGetShareFilterCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/filter/{id}/permission/{permissionId}"
+			path := "/rest/api/3/filter/{id}/permission/{permissionId}"
 			path = replacePathParam(path, "id", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("permissionId is required\nUsage: %s <%s>", cmd.CommandPath(), "permissionId"))

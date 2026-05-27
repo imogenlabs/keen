@@ -22,14 +22,14 @@ func newUsersGetAllCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a list of all users, including active users",
 		Example:     "  jira-pp-cli-pp-cli users get-all",
-		Annotations: map[string]string{"pp:endpoint": "users.get-all", "pp:method": "GET", "pp:path": "/rest/api/2/users/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "users.get-all", "pp:method": "GET", "pp:path": "/rest/api/3/users/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/users/search"
+			path := "/rest/api/3/users/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "users", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

@@ -20,7 +20,7 @@ func newCommentPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns a [paginated](#pagination) list of comments specified by a list of comment IDs.",
 		Long:        "Returns a [paginated](#pagination) list of comments specified by a list of comment IDs.",
 		Example:     "  jira-pp-cli-pp-cli comment",
-		Annotations: map[string]string{"pp:endpoint": "comment.get-by-ids", "pp:method": "POST", "pp:path": "/rest/api/2/comment/list"},
+		Annotations: map[string]string{"pp:endpoint": "comment.get-by-ids", "pp:method": "POST", "pp:path": "/rest/api/3/comment/list"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("ids") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "ids")
@@ -30,7 +30,7 @@ func newCommentPromotedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/comment/list"
+			path := "/rest/api/3/comment/list"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

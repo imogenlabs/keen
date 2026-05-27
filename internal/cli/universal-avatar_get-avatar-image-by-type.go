@@ -20,7 +20,7 @@ func newUniversalAvatarGetAvatarImageByTypeCmd(flags *rootFlags) *cobra.Command 
 		Use:         "get-avatar-image-by-type",
 		Short:       "Returns the default project, issue type or priority avatar image. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli universal-avatar get-avatar-image-by-type --type issuetype",
-		Annotations: map[string]string{"pp:endpoint": "universal-avatar.get-avatar-image-by-type", "pp:method": "GET", "pp:path": "/rest/api/2/universal_avatar/view/type/{type}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "universal-avatar.get-avatar-image-by-type", "pp:method": "GET", "pp:path": "/rest/api/3/universal_avatar/view/type/{type}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("type") {
 				allowedType := []string{"issuetype", "project", "priority"}
@@ -66,7 +66,7 @@ func newUniversalAvatarGetAvatarImageByTypeCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/universal_avatar/view/type/{type}"
+			path := "/rest/api/3/universal_avatar/view/type/{type}"
 			path = replacePathParam(path, "type", fmt.Sprintf("%v", flagType))
 			headerOverrides := map[string]string{
 				"X-Printing-Press-Binary-Response": "true",

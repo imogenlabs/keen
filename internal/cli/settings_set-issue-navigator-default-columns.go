@@ -21,7 +21,7 @@ func newSettingsSetIssueNavigatorDefaultColumnsCmd(flags *rootFlags) *cobra.Comm
 		Aliases:     []string{"update"},
 		Short:       "Sets the default issue navigator columns.",
 		Example:     "  jira-pp-cli-pp-cli settings set-issue-navigator-default-columns",
-		Annotations: map[string]string{"pp:endpoint": "settings.set-issue-navigator-default-columns", "pp:method": "PUT", "pp:path": "/rest/api/2/settings/columns"},
+		Annotations: map[string]string{"pp:endpoint": "settings.set-issue-navigator-default-columns", "pp:method": "PUT", "pp:path": "/rest/api/3/settings/columns"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -30,7 +30,7 @@ func newSettingsSetIssueNavigatorDefaultColumnsCmd(flags *rootFlags) *cobra.Comm
 				return err
 			}
 
-			path := "/rest/api/2/settings/columns"
+			path := "/rest/api/3/settings/columns"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

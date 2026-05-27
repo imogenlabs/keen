@@ -22,7 +22,7 @@ func newAppUpdateMultipleCustomFieldValuesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-multiple-custom-field-values",
 		Short:       "Updates the value of one or more custom fields on one or more issues.",
 		Example:     "  jira-pp-cli-pp-cli app update-multiple-custom-field-values",
-		Annotations: map[string]string{"pp:endpoint": "app.update-multiple-custom-field-values", "pp:method": "POST", "pp:path": "/rest/api/2/app/field/value"},
+		Annotations: map[string]string{"pp:endpoint": "app.update-multiple-custom-field-values", "pp:method": "POST", "pp:path": "/rest/api/3/app/field/value"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -31,7 +31,7 @@ func newAppUpdateMultipleCustomFieldValuesCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/app/field/value"
+			path := "/rest/api/3/app/field/value"
 			params := map[string]string{}
 			if flagGenerateChangelog != false {
 				params["generateChangelog"] = fmt.Sprintf("%v", flagGenerateChangelog)

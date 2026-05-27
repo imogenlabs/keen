@@ -70,7 +70,7 @@ func newFilterCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates a filter. The filter is shared according to the [default share scope](#api-rest-api-2-filter-post).",
 		Example:     "  jira-pp-cli-pp-cli filter create --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "filter.create", "pp:method": "POST", "pp:path": "/rest/api/2/filter"},
+		Annotations: map[string]string{"pp:endpoint": "filter.create", "pp:method": "POST", "pp:path": "/rest/api/3/filter"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -82,7 +82,7 @@ func newFilterCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/filter"
+			path := "/rest/api/3/filter"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

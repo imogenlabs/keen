@@ -17,14 +17,14 @@ func newDashboardGetAllAvailableGadgetsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-all-available-gadgets",
 		Short:       "Gets a list of all available gadgets that can be added to all dashboards.",
 		Example:     "  jira-pp-cli-pp-cli dashboard get-all-available-gadgets",
-		Annotations: map[string]string{"pp:endpoint": "dashboard.get-all-available-gadgets", "pp:method": "GET", "pp:path": "/rest/api/2/dashboard/gadgets", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "dashboard.get-all-available-gadgets", "pp:method": "GET", "pp:path": "/rest/api/3/dashboard/gadgets", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/gadgets"
+			path := "/rest/api/3/dashboard/gadgets"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "dashboard", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

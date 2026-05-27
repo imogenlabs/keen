@@ -23,7 +23,7 @@ func newNotificationschemeCreateNotificationSchemeCmd(flags *rootFlags) *cobra.C
 		Aliases:     []string{"create"},
 		Short:       "Creates a notification scheme with notifications. You can create up to 1000 notifications per request.",
 		Example:     "  jira-pp-cli-pp-cli notificationscheme create-notification-scheme --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "notificationscheme.create-notification-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/notificationscheme"},
+		Annotations: map[string]string{"pp:endpoint": "notificationscheme.create-notification-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/notificationscheme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -35,7 +35,7 @@ func newNotificationschemeCreateNotificationSchemeCmd(flags *rootFlags) *cobra.C
 				return err
 			}
 
-			path := "/rest/api/2/notificationscheme"
+			path := "/rest/api/3/notificationscheme"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

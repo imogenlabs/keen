@@ -18,7 +18,7 @@ func newJiraCloudPlatformVersionRelatedworkDeleteRelatedWorkCmd(flags *rootFlags
 		Aliases:     []string{"delete"},
 		Short:       "Deletes the given related work for the given version. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version relatedwork delete-related-work 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "relatedwork.delete-related-work", "pp:method": "DELETE", "pp:path": "/rest/api/2/version/{versionId}/relatedwork/{relatedWorkId}"},
+		Annotations: map[string]string{"pp:endpoint": "relatedwork.delete-related-work", "pp:method": "DELETE", "pp:path": "/rest/api/3/version/{versionId}/relatedwork/{relatedWorkId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newJiraCloudPlatformVersionRelatedworkDeleteRelatedWorkCmd(flags *rootFlags
 				return err
 			}
 
-			path := "/rest/api/2/version/{versionId}/relatedwork/{relatedWorkId}"
+			path := "/rest/api/3/version/{versionId}/relatedwork/{relatedWorkId}"
 			path = replacePathParam(path, "versionId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("relatedWorkId is required\nUsage: %s <%s>", cmd.CommandPath(), "relatedWorkId"))

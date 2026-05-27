@@ -19,14 +19,14 @@ func newPermissionschemeGetAllPermissionSchemesCmd(flags *rootFlags) *cobra.Comm
 		Aliases:     []string{"list"},
 		Short:       "Returns all permission schemes.",
 		Example:     "  jira-pp-cli-pp-cli permissionscheme get-all-permission-schemes",
-		Annotations: map[string]string{"pp:endpoint": "permissionscheme.get-all-permission-schemes", "pp:method": "GET", "pp:path": "/rest/api/2/permissionscheme", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "permissionscheme.get-all-permission-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/permissionscheme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/permissionscheme"
+			path := "/rest/api/3/permissionscheme"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

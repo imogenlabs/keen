@@ -17,7 +17,7 @@ func newIssueRemotelinkDeleteRemoteIssueLinkByIdCmd(flags *rootFlags) *cobra.Com
 		Use:         "delete-remote-issue-link-by-id <issueIdOrKey> <linkId>",
 		Short:       "Deletes a remote issue link from an issue. This operation requires [issue linking to be active](https://confluence.",
 		Example:     "  jira-pp-cli-pp-cli issue remotelink delete-remote-issue-link-by-id your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "remotelink.delete-remote-issue-link-by-id", "pp:method": "DELETE", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}"},
+		Annotations: map[string]string{"pp:endpoint": "remotelink.delete-remote-issue-link-by-id", "pp:method": "DELETE", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/remotelink/{linkId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newIssueRemotelinkDeleteRemoteIssueLinkByIdCmd(flags *rootFlags) *cobra.Com
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}"
+			path := "/rest/api/3/issue/{issueIdOrKey}/remotelink/{linkId}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("linkId is required\nUsage: %s <%s>", cmd.CommandPath(), "linkId"))

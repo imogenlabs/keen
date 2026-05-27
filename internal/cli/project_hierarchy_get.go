@@ -17,7 +17,7 @@ func newProjectHierarchyGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <projectId>",
 		Short:       "Get the issue type hierarchy for a next-gen project.",
 		Example:     "  jira-pp-cli-pp-cli project hierarchy get 42",
-		Annotations: map[string]string{"pp:endpoint": "hierarchy.get", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectId}/hierarchy", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "hierarchy.get", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectId}/hierarchy", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newProjectHierarchyGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectId}/hierarchy"
+			path := "/rest/api/3/project/{projectId}/hierarchy"
 			path = replacePathParam(path, "projectId", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "hierarchy", false, path, params, nil, cmd.ErrOrStderr())

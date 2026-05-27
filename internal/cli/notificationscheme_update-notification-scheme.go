@@ -22,7 +22,7 @@ func newNotificationschemeUpdateNotificationSchemeCmd(flags *rootFlags) *cobra.C
 		Aliases:     []string{"update"},
 		Short:       "Updates a notification scheme.",
 		Example:     "  jira-pp-cli-pp-cli notificationscheme update-notification-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "notificationscheme.update-notification-scheme", "pp:method": "PUT", "pp:path": "/rest/api/2/notificationscheme/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "notificationscheme.update-notification-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/notificationscheme/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newNotificationschemeUpdateNotificationSchemeCmd(flags *rootFlags) *cobra.C
 				return err
 			}
 
-			path := "/rest/api/2/notificationscheme/{id}"
+			path := "/rest/api/3/notificationscheme/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

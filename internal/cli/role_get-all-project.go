@@ -18,14 +18,14 @@ func newRoleGetAllProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Gets a list of all project roles, complete with project role details and default actors.",
 		Example:     "  jira-pp-cli-pp-cli role get-all-project",
-		Annotations: map[string]string{"pp:endpoint": "role.get-all-project", "pp:method": "GET", "pp:path": "/rest/api/2/role", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "role.get-all-project", "pp:method": "GET", "pp:path": "/rest/api/3/role", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/role"
+			path := "/rest/api/3/role"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "role", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

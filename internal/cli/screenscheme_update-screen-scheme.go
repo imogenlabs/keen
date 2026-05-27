@@ -26,7 +26,7 @@ func newScreenschemeUpdateScreenSchemeCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Updates a screen scheme. Only screen schemes used in classic projects can be updated.",
 		Example:     "  jira-pp-cli-pp-cli screenscheme update-screen-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "screenscheme.update-screen-scheme", "pp:method": "PUT", "pp:path": "/rest/api/2/screenscheme/{screenSchemeId}"},
+		Annotations: map[string]string{"pp:endpoint": "screenscheme.update-screen-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/screenscheme/{screenSchemeId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -38,7 +38,7 @@ func newScreenschemeUpdateScreenSchemeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screenscheme/{screenSchemeId}"
+			path := "/rest/api/3/screenscheme/{screenSchemeId}"
 			path = replacePathParam(path, "screenSchemeId", args[0])
 			params := map[string]string{}
 			var body map[string]any

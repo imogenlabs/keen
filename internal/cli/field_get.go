@@ -18,14 +18,14 @@ func newFieldGetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns system and custom issue fields according to the following rules",
 		Example:     "  jira-pp-cli-pp-cli field get",
-		Annotations: map[string]string{"pp:endpoint": "field.get", "pp:method": "GET", "pp:path": "/rest/api/2/field", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "field.get", "pp:method": "GET", "pp:path": "/rest/api/3/field", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/field"
+			path := "/rest/api/3/field"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "field", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

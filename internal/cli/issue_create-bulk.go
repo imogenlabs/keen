@@ -20,7 +20,7 @@ func newIssueCreateBulkCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create-bulk",
 		Short:       "Creates upto **50** issues and, where the option to create subtasks is enabled in Jira, subtasks.",
 		Example:     "  jira-pp-cli-pp-cli issue create-bulk",
-		Annotations: map[string]string{"pp:endpoint": "issue.create-bulk", "pp:method": "POST", "pp:path": "/rest/api/2/issue/bulk"},
+		Annotations: map[string]string{"pp:endpoint": "issue.create-bulk", "pp:method": "POST", "pp:path": "/rest/api/3/issue/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -29,7 +29,7 @@ func newIssueCreateBulkCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/bulk"
+			path := "/rest/api/3/issue/bulk"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

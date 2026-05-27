@@ -19,7 +19,7 @@ func newAvatarSystemGetAllAvatarsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns a list of system avatar details by owner type, where the owner types are issue type, project, user or priority.",
 		Example:     "  jira-pp-cli-pp-cli avatar system get-all-avatars --type issuetype",
-		Annotations: map[string]string{"pp:endpoint": "system.get-all-avatars", "pp:method": "GET", "pp:path": "/rest/api/2/avatar/{type}/system", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "system.get-all-avatars", "pp:method": "GET", "pp:path": "/rest/api/3/avatar/{type}/system", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("type") {
 				allowedType := []string{"issuetype", "project", "user", "priority"}
@@ -39,7 +39,7 @@ func newAvatarSystemGetAllAvatarsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/avatar/{type}/system"
+			path := "/rest/api/3/avatar/{type}/system"
 			path = replacePathParam(path, "type", fmt.Sprintf("%v", flagType))
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "system", false, path, params, nil, cmd.ErrOrStderr())

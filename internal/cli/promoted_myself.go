@@ -19,14 +19,14 @@ func newMyselfPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns details for the current user. **[Permissions](#permissions) required:** Permission to access Jira.",
 		Long:        "Returns details for the current user. **[Permissions](#permissions) required:** Permission to access Jira.",
 		Example:     "  jira-pp-cli-pp-cli myself",
-		Annotations: map[string]string{"pp:endpoint": "myself.get-current-user", "pp:method": "GET", "pp:path": "/rest/api/2/myself", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "myself.get-current-user", "pp:method": "GET", "pp:path": "/rest/api/3/myself", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/myself"
+			path := "/rest/api/3/myself"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

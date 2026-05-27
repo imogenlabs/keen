@@ -20,7 +20,7 @@ func newProjectRestoreRestoreCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Restores a project that has been archived or placed in the Jira recycle bin.",
 		Example:     "  jira-pp-cli-pp-cli project restore restore your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "restore.restore", "pp:method": "POST", "pp:path": "/rest/api/2/project/{projectIdOrKey}/restore"},
+		Annotations: map[string]string{"pp:endpoint": "restore.restore", "pp:method": "POST", "pp:path": "/rest/api/3/project/{projectIdOrKey}/restore"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newProjectRestoreRestoreCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/restore"
+			path := "/rest/api/3/project/{projectIdOrKey}/restore"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

@@ -19,7 +19,7 @@ func newUniversalAvatarDeleteAvatarCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes an avatar from a project, issue type or priority.",
 		Example:     "  jira-pp-cli-pp-cli universal-avatar delete-avatar 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --type project",
-		Annotations: map[string]string{"pp:endpoint": "universal-avatar.delete-avatar", "pp:method": "DELETE", "pp:path": "/rest/api/2/universal_avatar/type/{type}/owner/{owningObjectId}/avatar/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "universal-avatar.delete-avatar", "pp:method": "DELETE", "pp:path": "/rest/api/3/universal_avatar/type/{type}/owner/{owningObjectId}/avatar/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -42,7 +42,7 @@ func newUniversalAvatarDeleteAvatarCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/universal_avatar/type/{type}/owner/{owningObjectId}/avatar/{id}"
+			path := "/rest/api/3/universal_avatar/type/{type}/owner/{owningObjectId}/avatar/{id}"
 			path = replacePathParam(path, "owningObjectId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("id is required\nUsage: %s <%s>", cmd.CommandPath(), "id"))

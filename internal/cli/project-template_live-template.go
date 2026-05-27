@@ -20,14 +20,14 @@ func newProjectTemplateLiveTemplateCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Get custom template This API endpoint allows you to get a live custom project template details by either templateKey or",
 		Example:     "  jira-pp-cli-pp-cli project-template live-template",
-		Annotations: map[string]string{"pp:endpoint": "project-template.live-template", "pp:method": "GET", "pp:path": "/rest/api/2/project-template/live-template", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project-template.live-template", "pp:method": "GET", "pp:path": "/rest/api/3/project-template/live-template", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/project-template/live-template"
+			path := "/rest/api/3/project-template/live-template"
 			params := map[string]string{}
 			if flagProjectId != "" {
 				params["projectId"] = fmt.Sprintf("%v", flagProjectId)

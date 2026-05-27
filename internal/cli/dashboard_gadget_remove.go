@@ -18,7 +18,7 @@ func newDashboardGadgetRemoveCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Removes a dashboard gadget from a dashboard.",
 		Example:     "  jira-pp-cli-pp-cli dashboard gadget remove 42 42",
-		Annotations: map[string]string{"pp:endpoint": "gadget.remove", "pp:method": "DELETE", "pp:path": "/rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}"},
+		Annotations: map[string]string{"pp:endpoint": "gadget.remove", "pp:method": "DELETE", "pp:path": "/rest/api/3/dashboard/{dashboardId}/gadget/{gadgetId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newDashboardGadgetRemoveCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}"
+			path := "/rest/api/3/dashboard/{dashboardId}/gadget/{gadgetId}"
 			path = replacePathParam(path, "dashboardId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("gadgetId is required\nUsage: %s <%s>", cmd.CommandPath(), "gadgetId"))

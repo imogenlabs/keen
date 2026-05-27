@@ -21,7 +21,7 @@ func newJqlGetPrecomputationsByIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-precomputations-by-id",
 		Short:       "Returns function precomputations by IDs, along with information about when they were created, updated, and last used.",
 		Example:     "  jira-pp-cli-pp-cli jql get-precomputations-by-id",
-		Annotations: map[string]string{"pp:endpoint": "jql.get-precomputations-by-id", "pp:method": "POST", "pp:path": "/rest/api/2/jql/function/computation/search"},
+		Annotations: map[string]string{"pp:endpoint": "jql.get-precomputations-by-id", "pp:method": "POST", "pp:path": "/rest/api/3/jql/function/computation/search"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				var parsedOrderBy any
@@ -36,7 +36,7 @@ func newJqlGetPrecomputationsByIdCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/jql/function/computation/search"
+			path := "/rest/api/3/jql/function/computation/search"
 			params := map[string]string{}
 			if flagOrderBy != "" {
 				params["orderBy"] = fmt.Sprintf("%v", flagOrderBy)

@@ -22,7 +22,7 @@ func newProjectPermissionschemeAssignPermissionSchemeCmd(flags *rootFlags) *cobr
 		Aliases:     []string{"update"},
 		Short:       "Assigns a permission scheme with a project. See [Managing project permissions](https://confluence.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli project permissionscheme assign-permission-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "permissionscheme.assign-permission-scheme", "pp:method": "PUT", "pp:path": "/rest/api/2/project/{projectKeyOrId}/permissionscheme"},
+		Annotations: map[string]string{"pp:endpoint": "permissionscheme.assign-permission-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/project/{projectKeyOrId}/permissionscheme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -37,7 +37,7 @@ func newProjectPermissionschemeAssignPermissionSchemeCmd(flags *rootFlags) *cobr
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectKeyOrId}/permissionscheme"
+			path := "/rest/api/3/project/{projectKeyOrId}/permissionscheme"
 			path = replacePathParam(path, "projectKeyOrId", args[0])
 			params := map[string]string{}
 			if flagExpand != "" {

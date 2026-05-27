@@ -21,7 +21,7 @@ func newFieldContextAddIssueTypesToCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Adds issue types to a custom field context, appending the issue types to the issue types list.",
 		Example:     "  jira-pp-cli-pp-cli field context add-issue-types-to 550e8400-e29b-41d4-a716-446655440000 42",
-		Annotations: map[string]string{"pp:endpoint": "context.add-issue-types-to", "pp:method": "PUT", "pp:path": "/rest/api/2/field/{fieldId}/context/{contextId}/issuetype"},
+		Annotations: map[string]string{"pp:endpoint": "context.add-issue-types-to", "pp:method": "PUT", "pp:path": "/rest/api/3/field/{fieldId}/context/{contextId}/issuetype"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newFieldContextAddIssueTypesToCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldId}/context/{contextId}/issuetype"
+			path := "/rest/api/3/field/{fieldId}/context/{contextId}/issuetype"
 			path = replacePathParam(path, "fieldId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("contextId is required\nUsage: %s <%s>", cmd.CommandPath(), "contextId"))

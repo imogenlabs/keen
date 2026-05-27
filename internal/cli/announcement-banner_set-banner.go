@@ -24,7 +24,7 @@ func newAnnouncementBannerSetBannerCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Updates the announcement banner configuration.",
 		Example:     "  jira-pp-cli-pp-cli announcement-banner set-banner",
-		Annotations: map[string]string{"pp:endpoint": "announcement-banner.set-banner", "pp:method": "PUT", "pp:path": "/rest/api/2/announcementBanner"},
+		Annotations: map[string]string{"pp:endpoint": "announcement-banner.set-banner", "pp:method": "PUT", "pp:path": "/rest/api/3/announcementBanner"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -33,7 +33,7 @@ func newAnnouncementBannerSetBannerCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/announcementBanner"
+			path := "/rest/api/3/announcementBanner"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

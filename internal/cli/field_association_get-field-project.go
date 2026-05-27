@@ -21,7 +21,7 @@ func newFieldAssociationGetFieldProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns a [paginated](#pagination) list of project associations for the given custom field.",
 		Example:     "  jira-pp-cli-pp-cli field association get-field-project 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "association.get-field-project", "pp:method": "GET", "pp:path": "/rest/api/2/field/{fieldId}/association/project", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "association.get-field-project", "pp:method": "GET", "pp:path": "/rest/api/3/field/{fieldId}/association/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newFieldAssociationGetFieldProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldId}/association/project"
+			path := "/rest/api/3/field/{fieldId}/association/project"
 			path = replacePathParam(path, "fieldId", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "association", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

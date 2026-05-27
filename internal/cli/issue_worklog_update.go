@@ -63,7 +63,7 @@ func newIssueWorklogUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update <issueIdOrKey> <id>",
 		Short:       "Updates a worklog. Time tracking must be enabled in Jira, otherwise this operation returns an error.",
 		Example:     "  jira-pp-cli-pp-cli issue worklog update your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "worklog.update", "pp:method": "PUT", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/worklog/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "worklog.update", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/worklog/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -88,7 +88,7 @@ func newIssueWorklogUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/worklog/{id}"
+			path := "/rest/api/3/issue/{issueIdOrKey}/worklog/{id}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("id is required\nUsage: %s <%s>", cmd.CommandPath(), "id"))

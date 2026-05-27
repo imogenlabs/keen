@@ -21,7 +21,7 @@ func newJiraCloudPlatformWorkflowReadFromHistoryCmd(flags *rootFlags) *cobra.Com
 		Use:         "read-from-history",
 		Short:       "Returns a workflow and related statuses for a specified workflow id and version number.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow read-from-history",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.read-from-history", "pp:method": "POST", "pp:path": "/rest/api/2/workflow/history"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.read-from-history", "pp:method": "POST", "pp:path": "/rest/api/3/workflow/history"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -30,7 +30,7 @@ func newJiraCloudPlatformWorkflowReadFromHistoryCmd(flags *rootFlags) *cobra.Com
 				return err
 			}
 
-			path := "/rest/api/2/workflow/history"
+			path := "/rest/api/3/workflow/history"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

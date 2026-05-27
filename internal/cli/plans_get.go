@@ -23,14 +23,14 @@ func newPlansGetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of plans.",
 		Example:     "  jira-pp-cli-pp-cli plans get",
-		Annotations: map[string]string{"pp:endpoint": "plans.get", "pp:method": "GET", "pp:path": "/rest/api/2/plans/plan", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "plans.get", "pp:method": "GET", "pp:path": "/rest/api/3/plans/plan", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan"
+			path := "/rest/api/3/plans/plan"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "plans", path, map[string]string{
 				"includeTrashed":  fmt.Sprintf("%v", flagIncludeTrashed),
 				"includeArchived": fmt.Sprintf("%v", flagIncludeArchived),

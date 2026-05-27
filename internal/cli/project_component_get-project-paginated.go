@@ -24,7 +24,7 @@ func newProjectComponentGetProjectPaginatedCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"get"},
 		Short:       "Returns a [paginated](#pagination) list of all components in a project.",
 		Example:     "  jira-pp-cli-pp-cli project component get-project-paginated your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "component.get-project-paginated", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/component", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "component.get-project-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/component", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -66,7 +66,7 @@ func newProjectComponentGetProjectPaginatedCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/component"
+			path := "/rest/api/3/project/{projectIdOrKey}/component"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "component", path, map[string]string{
 				"startAt":         fmt.Sprintf("%v", flagStartAt),

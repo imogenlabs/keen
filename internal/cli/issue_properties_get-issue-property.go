@@ -18,7 +18,7 @@ func newIssuePropertiesGetIssuePropertyCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns the key and value of an issue's property. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli issue properties get-issue-property your-token-here your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "properties.get-issue-property", "pp:method": "GET", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/properties/{propertyKey}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "properties.get-issue-property", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/properties/{propertyKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newIssuePropertiesGetIssuePropertyCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/properties/{propertyKey}"
+			path := "/rest/api/3/issue/{issueIdOrKey}/properties/{propertyKey}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("propertyKey is required\nUsage: %s <%s>", cmd.CommandPath(), "propertyKey"))

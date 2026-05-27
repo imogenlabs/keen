@@ -29,7 +29,7 @@ func newPriorityschemeUpdatePrioritySchemeCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Updates a priority scheme.",
 		Example:     "  jira-pp-cli-pp-cli priorityscheme update-priority-scheme 42",
-		Annotations: map[string]string{"pp:endpoint": "priorityscheme.update-priority-scheme", "pp:method": "PUT", "pp:path": "/rest/api/2/priorityscheme/{schemeId}"},
+		Annotations: map[string]string{"pp:endpoint": "priorityscheme.update-priority-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/priorityscheme/{schemeId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -53,7 +53,7 @@ func newPriorityschemeUpdatePrioritySchemeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/priorityscheme/{schemeId}"
+			path := "/rest/api/3/priorityscheme/{schemeId}"
 			path = replacePathParam(path, "schemeId", args[0])
 			params := map[string]string{}
 			var body map[string]any

@@ -20,7 +20,7 @@ func newIssueWatchersAddCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Adds a user as a watcher of an issue by passing the account ID of the user. For example, `'5b10ac8d82e05b22cc7d4ef5'`.",
 		Example:     "  jira-pp-cli-pp-cli issue watchers add your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "watchers.add", "pp:method": "POST", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/watchers"},
+		Annotations: map[string]string{"pp:endpoint": "watchers.add", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/watchers"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newIssueWatchersAddCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/watchers"
+			path := "/rest/api/3/issue/{issueIdOrKey}/watchers"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

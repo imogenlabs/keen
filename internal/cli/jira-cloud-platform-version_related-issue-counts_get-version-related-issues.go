@@ -18,7 +18,7 @@ func newJiraCloudPlatformVersionRelatedIssueCountsGetVersionRelatedIssuesCmd(fla
 		Aliases:     []string{"get"},
 		Short:       "Returns the following counts for a version: * Number of issues where the `fixVersion` is set to the version.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version related-issue-counts get-version-related-issues 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "related-issue-counts.get-version-related-issues", "pp:method": "GET", "pp:path": "/rest/api/2/version/{id}/relatedIssueCounts", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "related-issue-counts.get-version-related-issues", "pp:method": "GET", "pp:path": "/rest/api/3/version/{id}/relatedIssueCounts", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newJiraCloudPlatformVersionRelatedIssueCountsGetVersionRelatedIssuesCmd(fla
 				return err
 			}
 
-			path := "/rest/api/2/version/{id}/relatedIssueCounts"
+			path := "/rest/api/3/version/{id}/relatedIssueCounts"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "related-issue-counts", false, path, params, nil, cmd.ErrOrStderr())

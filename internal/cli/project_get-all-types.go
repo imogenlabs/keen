@@ -17,14 +17,14 @@ func newProjectGetAllTypesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-all-types",
 		Short:       "Returns all [project types](https://confluence.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli project get-all-types",
-		Annotations: map[string]string{"pp:endpoint": "project.get-all-types", "pp:method": "GET", "pp:path": "/rest/api/2/project/type", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project.get-all-types", "pp:method": "GET", "pp:path": "/rest/api/3/project/type", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/project/type"
+			path := "/rest/api/3/project/type"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "project", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

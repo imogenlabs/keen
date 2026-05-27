@@ -31,7 +31,7 @@ func newFilterGetPaginatedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-paginated",
 		Short:       "Returns a [paginated](#pagination) list of filters.",
 		Example:     "  jira-pp-cli-pp-cli filter get-paginated",
-		Annotations: map[string]string{"pp:endpoint": "filter.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/2/filter/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "filter.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/filter/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"description", "-description", "+description", "favourite_count", "-favourite_count", "+favourite_count", "id", "-id", "+id", "is_favourite", "-is_favourite", "+is_favourite", "name", "-name", "+name", "owner", "-owner", "+owner", "is_shared", "-is_shared", "+is_shared"}
@@ -57,7 +57,7 @@ func newFilterGetPaginatedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/filter/search"
+			path := "/rest/api/3/filter/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "filter", path, map[string]string{
 				"filterName":               fmt.Sprintf("%v", flagFilterName),
 				"accountId":                fmt.Sprintf("%v", flagAccountId),

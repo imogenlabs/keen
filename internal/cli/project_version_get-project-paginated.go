@@ -25,7 +25,7 @@ func newProjectVersionGetProjectPaginatedCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns a [paginated](#pagination) list of all versions in a project.",
 		Example:     "  jira-pp-cli-pp-cli project version get-project-paginated your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "version.get-project-paginated", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/version", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "version.get-project-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/version", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -54,7 +54,7 @@ func newProjectVersionGetProjectPaginatedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/version"
+			path := "/rest/api/3/project/{projectIdOrKey}/version"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "version", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

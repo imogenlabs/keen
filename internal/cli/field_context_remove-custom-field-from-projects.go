@@ -20,7 +20,7 @@ func newFieldContextRemoveCustomFieldFromProjectsCmd(flags *rootFlags) *cobra.Co
 		Use:         "remove-custom-field-from-projects <fieldId> <contextId>",
 		Short:       "Removes a custom field context from projects. A custom field context without any projects applies to all projects.",
 		Example:     "  jira-pp-cli-pp-cli field context remove-custom-field-from-projects 550e8400-e29b-41d4-a716-446655440000 42",
-		Annotations: map[string]string{"pp:endpoint": "context.remove-custom-field-from-projects", "pp:method": "POST", "pp:path": "/rest/api/2/field/{fieldId}/context/{contextId}/project/remove"},
+		Annotations: map[string]string{"pp:endpoint": "context.remove-custom-field-from-projects", "pp:method": "POST", "pp:path": "/rest/api/3/field/{fieldId}/context/{contextId}/project/remove"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -35,7 +35,7 @@ func newFieldContextRemoveCustomFieldFromProjectsCmd(flags *rootFlags) *cobra.Co
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldId}/context/{contextId}/project/remove"
+			path := "/rest/api/3/field/{fieldId}/context/{contextId}/project/remove"
 			path = replacePathParam(path, "fieldId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("contextId is required\nUsage: %s <%s>", cmd.CommandPath(), "contextId"))

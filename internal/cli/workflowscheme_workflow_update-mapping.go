@@ -25,7 +25,7 @@ func newWorkflowschemeWorkflowUpdateMappingCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"update"},
 		Short:       "Sets the issue types for a workflow in a workflow scheme.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme workflow update-mapping 550e8400-e29b-41d4-a716-446655440000 --workflow-name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "workflow.update-mapping", "pp:method": "PUT", "pp:path": "/rest/api/2/workflowscheme/{id}/workflow"},
+		Annotations: map[string]string{"pp:endpoint": "workflow.update-mapping", "pp:method": "PUT", "pp:path": "/rest/api/3/workflowscheme/{id}/workflow"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -40,7 +40,7 @@ func newWorkflowschemeWorkflowUpdateMappingCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/{id}/workflow"
+			path := "/rest/api/3/workflowscheme/{id}/workflow"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagWorkflowName != "" {

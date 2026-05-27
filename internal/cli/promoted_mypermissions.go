@@ -26,14 +26,14 @@ func newMypermissionsPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns a list of permissions indicating which permissions the user has.",
 		Long:        "Returns a list of permissions indicating which permissions the user has.",
 		Example:     "  jira-pp-cli-pp-cli mypermissions",
-		Annotations: map[string]string{"pp:endpoint": "mypermissions.get-my-permissions", "pp:method": "GET", "pp:path": "/rest/api/2/mypermissions", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "mypermissions.get-my-permissions", "pp:method": "GET", "pp:path": "/rest/api/3/mypermissions", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/mypermissions"
+			path := "/rest/api/3/mypermissions"
 			params := map[string]string{}
 			if flagProjectKey != "" {
 				params["projectKey"] = fmt.Sprintf("%v", flagProjectKey)

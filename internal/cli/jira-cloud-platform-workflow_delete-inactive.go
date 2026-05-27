@@ -18,7 +18,7 @@ func newJiraCloudPlatformWorkflowDeleteInactiveCmd(flags *rootFlags) *cobra.Comm
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a workflow. The workflow cannot be deleted if it is: * an active workflow. * a system workflow.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow delete-inactive 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.delete-inactive", "pp:method": "DELETE", "pp:path": "/rest/api/2/workflow/{entityId}"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.delete-inactive", "pp:method": "DELETE", "pp:path": "/rest/api/3/workflow/{entityId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newJiraCloudPlatformWorkflowDeleteInactiveCmd(flags *rootFlags) *cobra.Comm
 				return err
 			}
 
-			path := "/rest/api/2/workflow/{entityId}"
+			path := "/rest/api/3/workflow/{entityId}"
 			path = replacePathParam(path, "entityId", args[0])
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)

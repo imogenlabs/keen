@@ -20,7 +20,7 @@ func newJiraCloudPlatformVersionMergetoMergeVersionsCmd(flags *rootFlags) *cobra
 		Aliases:     []string{"update"},
 		Short:       "Merges two project versions.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version mergeto merge-versions 550e8400-e29b-41d4-a716-446655440000 example-value",
-		Annotations: map[string]string{"pp:endpoint": "mergeto.merge-versions", "pp:method": "PUT", "pp:path": "/rest/api/2/version/{id}/mergeto/{moveIssuesTo}"},
+		Annotations: map[string]string{"pp:endpoint": "mergeto.merge-versions", "pp:method": "PUT", "pp:path": "/rest/api/3/version/{id}/mergeto/{moveIssuesTo}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newJiraCloudPlatformVersionMergetoMergeVersionsCmd(flags *rootFlags) *cobra
 				return err
 			}
 
-			path := "/rest/api/2/version/{id}/mergeto/{moveIssuesTo}"
+			path := "/rest/api/3/version/{id}/mergeto/{moveIssuesTo}"
 			path = replacePathParam(path, "id", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("moveIssuesTo is required\nUsage: %s <%s>", cmd.CommandPath(), "moveIssuesTo"))

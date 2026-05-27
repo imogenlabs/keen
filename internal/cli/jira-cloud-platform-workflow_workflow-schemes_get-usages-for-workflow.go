@@ -22,7 +22,7 @@ func newJiraCloudPlatformWorkflowWorkflowSchemesGetUsagesForWorkflowCmd(flags *r
 		Aliases:     []string{"get"},
 		Short:       "Returns a page of workflow schemes using a given workflow.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow workflow-schemes get-usages-for-workflow 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "workflow-schemes.get-usages-for-workflow", "pp:method": "GET", "pp:path": "/rest/api/2/workflow/{workflowId}/workflowSchemes", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "workflow-schemes.get-usages-for-workflow", "pp:method": "GET", "pp:path": "/rest/api/3/workflow/{workflowId}/workflowSchemes", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newJiraCloudPlatformWorkflowWorkflowSchemesGetUsagesForWorkflowCmd(flags *r
 				return err
 			}
 
-			path := "/rest/api/2/workflow/{workflowId}/workflowSchemes"
+			path := "/rest/api/3/workflow/{workflowId}/workflowSchemes"
 			path = replacePathParam(path, "workflowId", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "workflow-schemes", path, map[string]string{
 				"nextPageToken": fmt.Sprintf("%v", flagNextPageToken),
@@ -93,7 +93,7 @@ func newJiraCloudPlatformWorkflowWorkflowSchemesGetUsagesForWorkflowCmd(flags *r
 }
 
 // fetchFullJiraCloudPlatformWorkflowWorkflowSchemesGetUsagesForWorkflowWorkflowSchemes returns every item
-// in the "workflowSchemes" sub-resource of GET /rest/api/2/workflow/{workflowId}/workflowSchemes. The parent
+// in the "workflowSchemes" sub-resource of GET /rest/api/3/workflow/{workflowId}/workflowSchemes. The parent
 // response embeds at most the first page of this sub-resource, so any
 // caller that treats the embed as complete silently truncates; this
 // companion calls the dedicated child endpoint and paginates until
@@ -102,7 +102,7 @@ func newJiraCloudPlatformWorkflowWorkflowSchemesGetUsagesForWorkflowCmd(flags *r
 func fetchFullJiraCloudPlatformWorkflowWorkflowSchemesGetUsagesForWorkflowWorkflowSchemes(ctx context.Context, c interface {
 	GetWithHeaders(ctx context.Context, path string, params map[string]string, headers map[string]string) (json.RawMessage, error)
 }, pathParams map[string]string) ([]json.RawMessage, error) {
-	childPath := "/rest/api/2/workflow/{workflowId}/workflowSchemes/workflowSchemes"
+	childPath := "/rest/api/3/workflow/{workflowId}/workflowSchemes/workflowSchemes"
 	for name, val := range pathParams {
 		childPath = replacePathParam(childPath, name, val)
 	}

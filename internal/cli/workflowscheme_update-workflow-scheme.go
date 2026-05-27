@@ -58,7 +58,7 @@ func newWorkflowschemeUpdateWorkflowSchemeCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-workflow-scheme <id>",
 		Short:       "Updates a company-manged project workflow scheme, including the name, default workflow, issue type to project mappings",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme update-workflow-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "workflowscheme.update-workflow-scheme", "pp:method": "PUT", "pp:path": "/rest/api/2/workflowscheme/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "workflowscheme.update-workflow-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/workflowscheme/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -70,7 +70,7 @@ func newWorkflowschemeUpdateWorkflowSchemeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/{id}"
+			path := "/rest/api/3/workflowscheme/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

@@ -18,14 +18,14 @@ func newStatuscategoryGetStatusCategoriesCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a list of all status categories. **[Permissions](#permissions) required:** Permission to access Jira.",
 		Example:     "  jira-pp-cli-pp-cli statuscategory get-status-categories",
-		Annotations: map[string]string{"pp:endpoint": "statuscategory.get-status-categories", "pp:method": "GET", "pp:path": "/rest/api/2/statuscategory", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "statuscategory.get-status-categories", "pp:method": "GET", "pp:path": "/rest/api/3/statuscategory", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/statuscategory"
+			path := "/rest/api/3/statuscategory"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "statuscategory", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

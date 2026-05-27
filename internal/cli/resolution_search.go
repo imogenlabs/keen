@@ -22,14 +22,14 @@ func newResolutionSearchCmd(flags *rootFlags) *cobra.Command {
 		Use:         "search",
 		Short:       "Returns a [paginated](#pagination) list of resolutions.",
 		Example:     "  jira-pp-cli-pp-cli resolution search",
-		Annotations: map[string]string{"pp:endpoint": "resolution.search", "pp:method": "GET", "pp:path": "/rest/api/2/resolution/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "resolution.search", "pp:method": "GET", "pp:path": "/rest/api/3/resolution/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/resolution/search"
+			path := "/rest/api/3/resolution/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "resolution", path, map[string]string{
 				"startAt":     fmt.Sprintf("%v", flagStartAt),
 				"maxResults":  fmt.Sprintf("%v", flagMaxResults),

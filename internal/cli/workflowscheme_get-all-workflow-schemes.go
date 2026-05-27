@@ -21,14 +21,14 @@ func newWorkflowschemeGetAllWorkflowSchemesCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of all workflow schemes, not including draft workflow schemes.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme get-all-workflow-schemes",
-		Annotations: map[string]string{"pp:endpoint": "workflowscheme.get-all-workflow-schemes", "pp:method": "GET", "pp:path": "/rest/api/2/workflowscheme", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "workflowscheme.get-all-workflow-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/workflowscheme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme"
+			path := "/rest/api/3/workflowscheme"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "workflowscheme", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

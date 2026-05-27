@@ -22,14 +22,14 @@ func newUiModificationsGetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Gets UI modifications. UI modifications can only be retrieved by Forge apps.",
 		Example:     "  jira-pp-cli-pp-cli ui-modifications get",
-		Annotations: map[string]string{"pp:endpoint": "ui-modifications.get", "pp:method": "GET", "pp:path": "/rest/api/2/uiModifications", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "ui-modifications.get", "pp:method": "GET", "pp:path": "/rest/api/3/uiModifications", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/uiModifications"
+			path := "/rest/api/3/uiModifications"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "ui-modifications", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

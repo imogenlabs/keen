@@ -23,7 +23,7 @@ func newDashboardGadgetUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update <dashboardId> <gadgetId>",
 		Short:       "Changes the title, position, and color of the gadget on a dashboard. **[Permissions](#permissions) required:** None.",
 		Example:     "  jira-pp-cli-pp-cli dashboard gadget update 42 42",
-		Annotations: map[string]string{"pp:endpoint": "gadget.update", "pp:method": "PUT", "pp:path": "/rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}"},
+		Annotations: map[string]string{"pp:endpoint": "gadget.update", "pp:method": "PUT", "pp:path": "/rest/api/3/dashboard/{dashboardId}/gadget/{gadgetId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -41,7 +41,7 @@ func newDashboardGadgetUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}"
+			path := "/rest/api/3/dashboard/{dashboardId}/gadget/{gadgetId}"
 			path = replacePathParam(path, "dashboardId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("gadgetId is required\nUsage: %s <%s>", cmd.CommandPath(), "gadgetId"))

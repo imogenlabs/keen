@@ -18,7 +18,7 @@ func newFieldOptionDeleteIssueFieldCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes an option from a select list issue field.",
 		Example:     "  jira-pp-cli-pp-cli field option delete-issue-field your-token-here 42",
-		Annotations: map[string]string{"pp:endpoint": "option.delete-issue-field", "pp:method": "DELETE", "pp:path": "/rest/api/2/field/{fieldKey}/option/{optionId}"},
+		Annotations: map[string]string{"pp:endpoint": "option.delete-issue-field", "pp:method": "DELETE", "pp:path": "/rest/api/3/field/{fieldKey}/option/{optionId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newFieldOptionDeleteIssueFieldCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldKey}/option/{optionId}"
+			path := "/rest/api/3/field/{fieldKey}/option/{optionId}"
 			path = replacePathParam(path, "fieldKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("optionId is required\nUsage: %s <%s>", cmd.CommandPath(), "optionId"))

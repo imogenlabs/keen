@@ -18,7 +18,7 @@ func newProjectAvatarDeleteProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a custom avatar from a project. Note that system avatars cannot be deleted.",
 		Example:     "  jira-pp-cli-pp-cli project avatar delete-project your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "avatar.delete-project", "pp:method": "DELETE", "pp:path": "/rest/api/2/project/{projectIdOrKey}/avatar/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "avatar.delete-project", "pp:method": "DELETE", "pp:path": "/rest/api/3/project/{projectIdOrKey}/avatar/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectAvatarDeleteProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/avatar/{id}"
+			path := "/rest/api/3/project/{projectIdOrKey}/avatar/{id}"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("id is required\nUsage: %s <%s>", cmd.CommandPath(), "id"))

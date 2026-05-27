@@ -18,14 +18,14 @@ func newProjectCategoryGetAllProjectCategoriesCmd(flags *rootFlags) *cobra.Comma
 		Aliases:     []string{"list"},
 		Short:       "Returns all project categories. **[Permissions](#permissions) required:** Permission to access Jira.",
 		Example:     "  jira-pp-cli-pp-cli project-category get-all-project-categories",
-		Annotations: map[string]string{"pp:endpoint": "project-category.get-all-project-categories", "pp:method": "GET", "pp:path": "/rest/api/2/projectCategory", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project-category.get-all-project-categories", "pp:method": "GET", "pp:path": "/rest/api/3/projectCategory", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/projectCategory"
+			path := "/rest/api/3/projectCategory"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "project-category", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

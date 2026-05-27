@@ -19,7 +19,7 @@ func newIssueRemotelinkDeleteRemoteIssueLinkByGlobalIdCmd(flags *rootFlags) *cob
 		Aliases:     []string{"delete"},
 		Short:       "Deletes the remote issue link from the issue using the link's global ID.",
 		Example:     "  jira-pp-cli-pp-cli issue remotelink delete-remote-issue-link-by-global-id your-token-here --global-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "remotelink.delete-remote-issue-link-by-global-id", "pp:method": "DELETE", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/remotelink"},
+		Annotations: map[string]string{"pp:endpoint": "remotelink.delete-remote-issue-link-by-global-id", "pp:method": "DELETE", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/remotelink"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newIssueRemotelinkDeleteRemoteIssueLinkByGlobalIdCmd(flags *rootFlags) *cob
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/remotelink"
+			path := "/rest/api/3/issue/{issueIdOrKey}/remotelink"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			if flagGlobalId != "" {

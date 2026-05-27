@@ -18,7 +18,7 @@ func newJiraCloudPlatformVersionUnresolvedIssueCountGetVersionUnresolvedIssuesCm
 		Aliases:     []string{"get"},
 		Short:       "Returns counts of the issues and unresolved issues for the project version. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version unresolved-issue-count get-version-unresolved-issues 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "unresolved-issue-count.get-version-unresolved-issues", "pp:method": "GET", "pp:path": "/rest/api/2/version/{id}/unresolvedIssueCount", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "unresolved-issue-count.get-version-unresolved-issues", "pp:method": "GET", "pp:path": "/rest/api/3/version/{id}/unresolvedIssueCount", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newJiraCloudPlatformVersionUnresolvedIssueCountGetVersionUnresolvedIssuesCm
 				return err
 			}
 
-			path := "/rest/api/2/version/{id}/unresolvedIssueCount"
+			path := "/rest/api/3/version/{id}/unresolvedIssueCount"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "unresolved-issue-count", false, path, params, nil, cmd.ErrOrStderr())

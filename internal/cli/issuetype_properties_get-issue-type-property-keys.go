@@ -17,7 +17,7 @@ func newIssuetypePropertiesGetIssueTypePropertyKeysCmd(flags *rootFlags) *cobra.
 		Use:         "get-issue-type-property-keys <issueTypeId>",
 		Short:       "Returns all the [issue type property](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli issuetype properties get-issue-type-property-keys 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "properties.get-issue-type-property-keys", "pp:method": "GET", "pp:path": "/rest/api/2/issuetype/{issueTypeId}/properties", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "properties.get-issue-type-property-keys", "pp:method": "GET", "pp:path": "/rest/api/3/issuetype/{issueTypeId}/properties", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newIssuetypePropertiesGetIssueTypePropertyKeysCmd(flags *rootFlags) *cobra.
 				return err
 			}
 
-			path := "/rest/api/2/issuetype/{issueTypeId}/properties"
+			path := "/rest/api/3/issuetype/{issueTypeId}/properties"
 			path = replacePathParam(path, "issueTypeId", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "properties", false, path, params, nil, cmd.ErrOrStderr())

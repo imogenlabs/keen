@@ -19,14 +19,14 @@ func newWorklogGetIdsOfModifiedSinceCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-ids-of-modified-since",
 		Short:       "Returns a list of IDs and update timestamps for worklogs updated after a date and time.",
 		Example:     "  jira-pp-cli-pp-cli worklog get-ids-of-modified-since",
-		Annotations: map[string]string{"pp:endpoint": "worklog.get-ids-of-modified-since", "pp:method": "GET", "pp:path": "/rest/api/2/worklog/updated", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "worklog.get-ids-of-modified-since", "pp:method": "GET", "pp:path": "/rest/api/3/worklog/updated", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/worklog/updated"
+			path := "/rest/api/3/worklog/updated"
 			params := map[string]string{}
 			if flagSince != 0 {
 				params["since"] = fmt.Sprintf("%v", flagSince)

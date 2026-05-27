@@ -26,7 +26,7 @@ func newScreenschemeCreateScreenSchemeCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Creates a screen scheme.",
 		Example:     "  jira-pp-cli-pp-cli screenscheme create-screen-scheme --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "screenscheme.create-screen-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/screenscheme"},
+		Annotations: map[string]string{"pp:endpoint": "screenscheme.create-screen-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/screenscheme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -41,7 +41,7 @@ func newScreenschemeCreateScreenSchemeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screenscheme"
+			path := "/rest/api/3/screenscheme"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

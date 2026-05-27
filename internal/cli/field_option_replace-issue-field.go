@@ -21,7 +21,7 @@ func newFieldOptionReplaceIssueFieldCmd(flags *rootFlags) *cobra.Command {
 		Use:         "replace-issue-field <fieldKey> <optionId>",
 		Short:       "Deselects an issue-field select-list option from all issues where it is selected.",
 		Example:     "  jira-pp-cli-pp-cli field option replace-issue-field your-token-here 42",
-		Annotations: map[string]string{"pp:endpoint": "option.replace-issue-field", "pp:method": "DELETE", "pp:path": "/rest/api/2/field/{fieldKey}/option/{optionId}/issue"},
+		Annotations: map[string]string{"pp:endpoint": "option.replace-issue-field", "pp:method": "DELETE", "pp:path": "/rest/api/3/field/{fieldKey}/option/{optionId}/issue"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newFieldOptionReplaceIssueFieldCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldKey}/option/{optionId}/issue"
+			path := "/rest/api/3/field/{fieldKey}/option/{optionId}/issue"
 			path = replacePathParam(path, "fieldKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("optionId is required\nUsage: %s <%s>", cmd.CommandPath(), "optionId"))

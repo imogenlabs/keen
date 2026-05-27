@@ -25,7 +25,7 @@ func newIssuetypeschemeGetAllIssueTypeSchemesCmd(flags *rootFlags) *cobra.Comman
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of issue type schemes.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescheme get-all-issue-type-schemes",
-		Annotations: map[string]string{"pp:endpoint": "issuetypescheme.get-all-issue-type-schemes", "pp:method": "GET", "pp:path": "/rest/api/2/issuetypescheme", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuetypescheme.get-all-issue-type-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/issuetypescheme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"name", "-name", "+name", "id", "-id", "+id"}
@@ -51,7 +51,7 @@ func newIssuetypeschemeGetAllIssueTypeSchemesCmd(flags *rootFlags) *cobra.Comman
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescheme"
+			path := "/rest/api/3/issuetypescheme"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "issuetypescheme", path, map[string]string{
 				"startAt":     fmt.Sprintf("%v", flagStartAt),
 				"maxResults":  fmt.Sprintf("%v", flagMaxResults),

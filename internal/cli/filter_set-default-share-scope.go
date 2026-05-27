@@ -20,7 +20,7 @@ func newFilterSetDefaultShareScopeCmd(flags *rootFlags) *cobra.Command {
 		Use:         "set-default-share-scope",
 		Short:       "Sets the default sharing for new filters and dashboards for a user.",
 		Example:     "  jira-pp-cli-pp-cli filter set-default-share-scope --scope GLOBAL",
-		Annotations: map[string]string{"pp:endpoint": "filter.set-default-share-scope", "pp:method": "PUT", "pp:path": "/rest/api/2/filter/defaultShareScope"},
+		Annotations: map[string]string{"pp:endpoint": "filter.set-default-share-scope", "pp:method": "PUT", "pp:path": "/rest/api/3/filter/defaultShareScope"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("scope") && !flags.dryRun {
@@ -32,7 +32,7 @@ func newFilterSetDefaultShareScopeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/filter/defaultShareScope"
+			path := "/rest/api/3/filter/defaultShareScope"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

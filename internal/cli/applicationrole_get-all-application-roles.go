@@ -18,14 +18,14 @@ func newApplicationroleGetAllApplicationRolesCmd(flags *rootFlags) *cobra.Comman
 		Aliases:     []string{"list"},
 		Short:       "Returns all application roles.",
 		Example:     "  jira-pp-cli-pp-cli applicationrole get-all-application-roles",
-		Annotations: map[string]string{"pp:endpoint": "applicationrole.get-all-application-roles", "pp:method": "GET", "pp:path": "/rest/api/2/applicationrole", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "applicationrole.get-all-application-roles", "pp:method": "GET", "pp:path": "/rest/api/3/applicationrole", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/applicationrole"
+			path := "/rest/api/3/applicationrole"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "applicationrole", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

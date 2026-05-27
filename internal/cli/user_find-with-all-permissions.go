@@ -26,7 +26,7 @@ func newUserFindWithAllPermissionsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find-with-all-permissions",
 		Short:       "Returns a list of users who fulfill these criteria: * their user attributes match a search string.",
 		Example:     "  jira-pp-cli-pp-cli user find-with-all-permissions --permissions example-value",
-		Annotations: map[string]string{"pp:endpoint": "user.find-with-all-permissions", "pp:method": "GET", "pp:path": "/rest/api/2/user/permission/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.find-with-all-permissions", "pp:method": "GET", "pp:path": "/rest/api/3/user/permission/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("permissions") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "permissions")
@@ -36,7 +36,7 @@ func newUserFindWithAllPermissionsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/permission/search"
+			path := "/rest/api/3/user/permission/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"query":       fmt.Sprintf("%v", flagQuery),
 				"username":    fmt.Sprintf("%v", flagUsername),

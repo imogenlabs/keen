@@ -20,7 +20,7 @@ func newConfigAssociateProjectsToFieldAssociationSchemesCmd(flags *rootFlags) *c
 		Aliases:     []string{"update"},
 		Short:       "Associate projects to field association schemes.",
 		Example:     "  jira-pp-cli-pp-cli config associate-projects-to-field-association-schemes",
-		Annotations: map[string]string{"pp:endpoint": "config.associate-projects-to-field-association-schemes", "pp:method": "PUT", "pp:path": "/rest/api/2/config/fieldschemes/projects"},
+		Annotations: map[string]string{"pp:endpoint": "config.associate-projects-to-field-association-schemes", "pp:method": "PUT", "pp:path": "/rest/api/3/config/fieldschemes/projects"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -29,7 +29,7 @@ func newConfigAssociateProjectsToFieldAssociationSchemesCmd(flags *rootFlags) *c
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes/projects"
+			path := "/rest/api/3/config/fieldschemes/projects"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

@@ -18,7 +18,7 @@ func newFieldconfigurationDeleteFieldConfigurationCmd(flags *rootFlags) *cobra.C
 		Aliases:     []string{"delete"},
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli fieldconfiguration delete-field-configuration 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "fieldconfiguration.delete-field-configuration", "pp:method": "DELETE", "pp:path": "/rest/api/2/fieldconfiguration/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "fieldconfiguration.delete-field-configuration", "pp:method": "DELETE", "pp:path": "/rest/api/3/fieldconfiguration/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newFieldconfigurationDeleteFieldConfigurationCmd(flags *rootFlags) *cobra.C
 				return err
 			}
 
-			path := "/rest/api/2/fieldconfiguration/{id}"
+			path := "/rest/api/3/fieldconfiguration/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)

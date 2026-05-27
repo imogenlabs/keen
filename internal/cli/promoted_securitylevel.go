@@ -18,14 +18,14 @@ func newSecuritylevelPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns details of an issue security level.",
 		Long:        "Returns details of an issue security level.",
 		Example:     "  jira-pp-cli-pp-cli securitylevel 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "securitylevel.get-issue-security-level", "pp:method": "GET", "pp:path": "/rest/api/2/securitylevel/{id}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "securitylevel.get-issue-security-level", "pp:method": "GET", "pp:path": "/rest/api/3/securitylevel/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/securitylevel/{id}"
+			path := "/rest/api/3/securitylevel/{id}"
 			if len(args) < 1 {
 				// JSON envelope: {error, usage}. Written first; the
 				// usageErr return preserves exit code 2 across modes.

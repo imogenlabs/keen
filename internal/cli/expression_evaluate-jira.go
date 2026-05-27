@@ -30,7 +30,7 @@ func newExpressionEvaluateJiraCmd(flags *rootFlags) *cobra.Command {
 		Use:         "evaluate-jira",
 		Short:       "Endpoint is currently being removed. [More details](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli expression evaluate-jira --expression example-value",
-		Annotations: map[string]string{"pp:endpoint": "expression.evaluate-jira", "pp:method": "POST", "pp:path": "/rest/api/2/expression/eval"},
+		Annotations: map[string]string{"pp:endpoint": "expression.evaluate-jira", "pp:method": "POST", "pp:path": "/rest/api/3/expression/eval"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("expression") && !flags.dryRun {
@@ -42,7 +42,7 @@ func newExpressionEvaluateJiraCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/expression/eval"
+			path := "/rest/api/3/expression/eval"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

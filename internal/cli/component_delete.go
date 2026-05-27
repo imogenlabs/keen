@@ -18,7 +18,7 @@ func newComponentDeleteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete <id>",
 		Short:       "Deletes a component. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli component delete 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "component.delete", "pp:method": "DELETE", "pp:path": "/rest/api/2/component/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "component.delete", "pp:method": "DELETE", "pp:path": "/rest/api/3/component/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newComponentDeleteCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/component/{id}"
+			path := "/rest/api/3/component/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagMoveIssuesTo != "" {

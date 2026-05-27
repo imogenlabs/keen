@@ -23,7 +23,7 @@ func newIssuetypeUpdateIssueTypeCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Updates the issue type.",
 		Example:     "  jira-pp-cli-pp-cli issuetype update-issue-type 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "issuetype.update-issue-type", "pp:method": "PUT", "pp:path": "/rest/api/2/issuetype/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "issuetype.update-issue-type", "pp:method": "PUT", "pp:path": "/rest/api/3/issuetype/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -35,7 +35,7 @@ func newIssuetypeUpdateIssueTypeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issuetype/{id}"
+			path := "/rest/api/3/issuetype/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

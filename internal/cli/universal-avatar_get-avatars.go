@@ -18,7 +18,7 @@ func newUniversalAvatarGetAvatarsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-avatars <entityId>",
 		Short:       "Returns the system and custom avatars for a project, issue type or priority. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli universal-avatar get-avatars 550e8400-e29b-41d4-a716-446655440000 --type project",
-		Annotations: map[string]string{"pp:endpoint": "universal-avatar.get-avatars", "pp:method": "GET", "pp:path": "/rest/api/2/universal_avatar/type/{type}/owner/{entityId}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "universal-avatar.get-avatars", "pp:method": "GET", "pp:path": "/rest/api/3/universal_avatar/type/{type}/owner/{entityId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -41,7 +41,7 @@ func newUniversalAvatarGetAvatarsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/universal_avatar/type/{type}/owner/{entityId}"
+			path := "/rest/api/3/universal_avatar/type/{type}/owner/{entityId}"
 			path = replacePathParam(path, "entityId", args[0])
 			path = replacePathParam(path, "type", fmt.Sprintf("%v", flagType))
 			params := map[string]string{}

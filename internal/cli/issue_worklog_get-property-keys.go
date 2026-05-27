@@ -17,7 +17,7 @@ func newIssueWorklogGetPropertyKeysCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-property-keys <issueIdOrKey> <worklogId>",
 		Short:       "Returns the keys of all properties for a worklog. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli issue worklog get-property-keys your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "worklog.get-property-keys", "pp:method": "GET", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "worklog.get-property-keys", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/worklog/{worklogId}/properties", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newIssueWorklogGetPropertyKeysCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties"
+			path := "/rest/api/3/issue/{issueIdOrKey}/worklog/{worklogId}/properties"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("worklogId is required\nUsage: %s <%s>", cmd.CommandPath(), "worklogId"))

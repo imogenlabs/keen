@@ -26,7 +26,7 @@ func newFieldGetPaginatedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-paginated",
 		Short:       "Returns a [paginated](#pagination) list of fields for Classic Jira projects.",
 		Example:     "  jira-pp-cli-pp-cli field get-paginated",
-		Annotations: map[string]string{"pp:endpoint": "field.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/2/field/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "field.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/field/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"contextsCount", "-contextsCount", "+contextsCount", "lastUsed", "-lastUsed", "+lastUsed", "name", "-name", "+name", "screensCount", "-screensCount", "+screensCount", "projectsCount", "-projectsCount", "+projectsCount"}
@@ -52,7 +52,7 @@ func newFieldGetPaginatedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/search"
+			path := "/rest/api/3/field/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "field", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

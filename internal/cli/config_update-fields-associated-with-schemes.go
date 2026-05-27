@@ -19,7 +19,7 @@ func newConfigUpdateFieldsAssociatedWithSchemesCmd(flags *rootFlags) *cobra.Comm
 		Use:         "update-fields-associated-with-schemes",
 		Short:       "Update fields associated with field association schemes.",
 		Example:     "  jira-pp-cli-pp-cli config update-fields-associated-with-schemes",
-		Annotations: map[string]string{"pp:endpoint": "config.update-fields-associated-with-schemes", "pp:method": "PUT", "pp:path": "/rest/api/2/config/fieldschemes/fields"},
+		Annotations: map[string]string{"pp:endpoint": "config.update-fields-associated-with-schemes", "pp:method": "PUT", "pp:path": "/rest/api/3/config/fieldschemes/fields"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -28,7 +28,7 @@ func newConfigUpdateFieldsAssociatedWithSchemesCmd(flags *rootFlags) *cobra.Comm
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes/fields"
+			path := "/rest/api/3/config/fieldschemes/fields"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

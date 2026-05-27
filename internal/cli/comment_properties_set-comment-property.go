@@ -20,7 +20,7 @@ func newCommentPropertiesSetCommentPropertyCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"update"},
 		Short:       "Creates or updates the value of a property for a comment. Use this resource to store custom data against a comment.",
 		Example:     "  jira-pp-cli-pp-cli comment properties set-comment-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "properties.set-comment-property", "pp:method": "PUT", "pp:path": "/rest/api/2/comment/{commentId}/properties/{propertyKey}"},
+		Annotations: map[string]string{"pp:endpoint": "properties.set-comment-property", "pp:method": "PUT", "pp:path": "/rest/api/3/comment/{commentId}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newCommentPropertiesSetCommentPropertyCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/comment/{commentId}/properties/{propertyKey}"
+			path := "/rest/api/3/comment/{commentId}/properties/{propertyKey}"
 			path = replacePathParam(path, "commentId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("propertyKey is required\nUsage: %s <%s>", cmd.CommandPath(), "propertyKey"))

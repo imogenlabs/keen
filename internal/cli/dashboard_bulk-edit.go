@@ -26,7 +26,7 @@ func newDashboardBulkEditCmd(flags *rootFlags) *cobra.Command {
 		Use:         "bulk-edit",
 		Short:       "Bulk edit dashboards. Maximum number of dashboards to be edited at the same time is 100.",
 		Example:     "  jira-pp-cli-pp-cli dashboard bulk-edit --action changeOwner",
-		Annotations: map[string]string{"pp:endpoint": "dashboard.bulk-edit", "pp:method": "PUT", "pp:path": "/rest/api/2/dashboard/bulk/edit"},
+		Annotations: map[string]string{"pp:endpoint": "dashboard.bulk-edit", "pp:method": "PUT", "pp:path": "/rest/api/3/dashboard/bulk/edit"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("action") && !flags.dryRun {
@@ -53,7 +53,7 @@ func newDashboardBulkEditCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/dashboard/bulk/edit"
+			path := "/rest/api/3/dashboard/bulk/edit"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

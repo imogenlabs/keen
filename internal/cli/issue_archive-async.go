@@ -20,7 +20,7 @@ func newIssueArchiveAsyncCmd(flags *rootFlags) *cobra.Command {
 		Use:         "archive-async",
 		Short:       "Enables admins to archive up to 100,000 issues in a single request using JQL",
 		Example:     "  jira-pp-cli-pp-cli issue archive-async",
-		Annotations: map[string]string{"pp:endpoint": "issue.archive-async", "pp:method": "POST", "pp:path": "/rest/api/2/issue/archive"},
+		Annotations: map[string]string{"pp:endpoint": "issue.archive-async", "pp:method": "POST", "pp:path": "/rest/api/3/issue/archive"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -29,7 +29,7 @@ func newIssueArchiveAsyncCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/archive"
+			path := "/rest/api/3/issue/archive"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

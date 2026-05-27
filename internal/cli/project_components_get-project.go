@@ -19,7 +19,7 @@ func newProjectComponentsGetProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns all components in a project.",
 		Example:     "  jira-pp-cli-pp-cli project components get-project your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "components.get-project", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/components", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "components.get-project", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/components", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -42,7 +42,7 @@ func newProjectComponentsGetProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/components"
+			path := "/rest/api/3/project/{projectIdOrKey}/components"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			if flagComponentSource != "" {

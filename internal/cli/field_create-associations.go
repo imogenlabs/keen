@@ -22,7 +22,7 @@ func newFieldCreateAssociationsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Associates fields with projects. Fields will be associated with each issue type on the requested projects.",
 		Example:     "  jira-pp-cli-pp-cli field create-associations",
-		Annotations: map[string]string{"pp:endpoint": "field.create-associations", "pp:method": "PUT", "pp:path": "/rest/api/2/field/association"},
+		Annotations: map[string]string{"pp:endpoint": "field.create-associations", "pp:method": "PUT", "pp:path": "/rest/api/3/field/association"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("association-contexts") && !flags.dryRun {
@@ -37,7 +37,7 @@ func newFieldCreateAssociationsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/association"
+			path := "/rest/api/3/field/association"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

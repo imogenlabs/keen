@@ -34,7 +34,7 @@ func newPermissionschemeCreatePermissionSchemeCmd(flags *rootFlags) *cobra.Comma
 		Aliases:     []string{"create"},
 		Short:       "Creates a new permission scheme. You can create a permission scheme with or without defining a set of permission grants.",
 		Example:     "  jira-pp-cli-pp-cli permissionscheme create-permission-scheme --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "permissionscheme.create-permission-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/permissionscheme"},
+		Annotations: map[string]string{"pp:endpoint": "permissionscheme.create-permission-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/permissionscheme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -46,7 +46,7 @@ func newPermissionschemeCreatePermissionSchemeCmd(flags *rootFlags) *cobra.Comma
 				return err
 			}
 
-			path := "/rest/api/2/permissionscheme"
+			path := "/rest/api/3/permissionscheme"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

@@ -21,14 +21,14 @@ func newIssuetypeschemeGetIssueTypeSchemesMappingCmd(flags *rootFlags) *cobra.Co
 		Use:         "get-issue-type-schemes-mapping",
 		Short:       "Returns a [paginated](#pagination) list of issue type scheme items.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescheme get-issue-type-schemes-mapping",
-		Annotations: map[string]string{"pp:endpoint": "issuetypescheme.get-issue-type-schemes-mapping", "pp:method": "GET", "pp:path": "/rest/api/2/issuetypescheme/mapping", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuetypescheme.get-issue-type-schemes-mapping", "pp:method": "GET", "pp:path": "/rest/api/3/issuetypescheme/mapping", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescheme/mapping"
+			path := "/rest/api/3/issuetypescheme/mapping"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "issuetypescheme", path, map[string]string{
 				"startAt":           fmt.Sprintf("%v", flagStartAt),
 				"maxResults":        fmt.Sprintf("%v", flagMaxResults),

@@ -17,7 +17,7 @@ func newScreensDeleteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete <screenId>",
 		Short:       "Deletes a screen. A screen cannot be deleted if it is used in a screen scheme, workflow, or workflow draft.",
 		Example:     "  jira-pp-cli-pp-cli screens delete 42",
-		Annotations: map[string]string{"pp:endpoint": "screens.delete", "pp:method": "DELETE", "pp:path": "/rest/api/2/screens/{screenId}"},
+		Annotations: map[string]string{"pp:endpoint": "screens.delete", "pp:method": "DELETE", "pp:path": "/rest/api/3/screens/{screenId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newScreensDeleteCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens/{screenId}"
+			path := "/rest/api/3/screens/{screenId}"
 			path = replacePathParam(path, "screenId", args[0])
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)

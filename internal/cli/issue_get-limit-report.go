@@ -18,14 +18,14 @@ func newIssueGetLimitReportCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-limit-report",
 		Short:       "Returns all issues breaching and approaching per-issue limits.",
 		Example:     "  jira-pp-cli-pp-cli issue get-limit-report",
-		Annotations: map[string]string{"pp:endpoint": "issue.get-limit-report", "pp:method": "GET", "pp:path": "/rest/api/2/issue/limit/report", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issue.get-limit-report", "pp:method": "GET", "pp:path": "/rest/api/3/issue/limit/report", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/issue/limit/report"
+			path := "/rest/api/3/issue/limit/report"
 			params := map[string]string{}
 			if flagIsReturningKeys != false {
 				params["isReturningKeys"] = fmt.Sprintf("%v", flagIsReturningKeys)

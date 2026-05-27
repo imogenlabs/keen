@@ -18,7 +18,7 @@ func newProjectPropertiesDeleteProjectPropertyCmd(flags *rootFlags) *cobra.Comma
 		Aliases:     []string{"delete"},
 		Short:       "Deletes the [property](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli project properties delete-project-property your-token-here your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "properties.delete-project-property", "pp:method": "DELETE", "pp:path": "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}"},
+		Annotations: map[string]string{"pp:endpoint": "properties.delete-project-property", "pp:method": "DELETE", "pp:path": "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectPropertiesDeleteProjectPropertyCmd(flags *rootFlags) *cobra.Comma
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}"
+			path := "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("propertyKey is required\nUsage: %s <%s>", cmd.CommandPath(), "propertyKey"))

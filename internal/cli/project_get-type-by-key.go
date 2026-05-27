@@ -18,7 +18,7 @@ func newProjectGetTypeByKeyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-type-by-key",
 		Short:       "Returns a [project type](https://confluence.atlassian.com/x/Var1Nw). This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli project get-type-by-key --project-type-key software",
-		Annotations: map[string]string{"pp:endpoint": "project.get-type-by-key", "pp:method": "GET", "pp:path": "/rest/api/2/project/type/{projectTypeKey}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project.get-type-by-key", "pp:method": "GET", "pp:path": "/rest/api/3/project/type/{projectTypeKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("project-type-key") {
 				allowedProjectTypeKey := []string{"software", "service_desk", "business", "product_discovery"}
@@ -38,7 +38,7 @@ func newProjectGetTypeByKeyCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/type/{projectTypeKey}"
+			path := "/rest/api/3/project/type/{projectTypeKey}"
 			path = replacePathParam(path, "projectTypeKey", fmt.Sprintf("%v", flagProjectTypeKey))
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "project", false, path, params, nil, cmd.ErrOrStderr())

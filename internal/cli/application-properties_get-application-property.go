@@ -20,14 +20,14 @@ func newApplicationPropertiesGetApplicationPropertyCmd(flags *rootFlags) *cobra.
 		Use:         "get-application-property",
 		Short:       "Returns all application properties or an application property.",
 		Example:     "  jira-pp-cli-pp-cli application-properties get-application-property",
-		Annotations: map[string]string{"pp:endpoint": "application-properties.get-application-property", "pp:method": "GET", "pp:path": "/rest/api/2/application-properties", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "application-properties.get-application-property", "pp:method": "GET", "pp:path": "/rest/api/3/application-properties", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/application-properties"
+			path := "/rest/api/3/application-properties"
 			params := map[string]string{}
 			if flagKey != "" {
 				params["key"] = fmt.Sprintf("%v", flagKey)

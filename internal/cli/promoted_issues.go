@@ -24,7 +24,7 @@ func newIssuesPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Enables admins to retrieve details of all archived issues.",
 		Long:        "Enables admins to retrieve details of all archived issues.",
 		Example:     "  jira-pp-cli-pp-cli issues",
-		Annotations: map[string]string{"pp:endpoint": "issues.export-archived", "pp:method": "PUT", "pp:path": "/rest/api/2/issues/archive/export"},
+		Annotations: map[string]string{"pp:endpoint": "issues.export-archived", "pp:method": "PUT", "pp:path": "/rest/api/3/issues/archive/export"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("archived-date-range-date-after") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "archived-date-range-date-after")
@@ -37,7 +37,7 @@ func newIssuesPromotedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issues/archive/export"
+			path := "/rest/api/3/issues/archive/export"
 			params := map[string]string{}
 			// HasStore + non-GET falls through to a live API call here
 			// rather than through resolveRead (GET-only internally); a

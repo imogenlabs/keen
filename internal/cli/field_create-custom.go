@@ -24,7 +24,7 @@ func newFieldCreateCustomCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Creates a custom field.",
 		Example:     "  jira-pp-cli-pp-cli field create-custom --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "field.create-custom", "pp:method": "POST", "pp:path": "/rest/api/2/field"},
+		Annotations: map[string]string{"pp:endpoint": "field.create-custom", "pp:method": "POST", "pp:path": "/rest/api/3/field"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -39,7 +39,7 @@ func newFieldCreateCustomCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field"
+			path := "/rest/api/3/field"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

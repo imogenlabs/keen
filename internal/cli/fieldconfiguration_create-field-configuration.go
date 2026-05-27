@@ -22,7 +22,7 @@ func newFieldconfigurationCreateFieldConfigurationCmd(flags *rootFlags) *cobra.C
 		Aliases:     []string{"create"},
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli fieldconfiguration create-field-configuration --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "fieldconfiguration.create-field-configuration", "pp:method": "POST", "pp:path": "/rest/api/2/fieldconfiguration"},
+		Annotations: map[string]string{"pp:endpoint": "fieldconfiguration.create-field-configuration", "pp:method": "POST", "pp:path": "/rest/api/3/fieldconfiguration"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -34,7 +34,7 @@ func newFieldconfigurationCreateFieldConfigurationCmd(flags *rootFlags) *cobra.C
 				return err
 			}
 
-			path := "/rest/api/2/fieldconfiguration"
+			path := "/rest/api/3/fieldconfiguration"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

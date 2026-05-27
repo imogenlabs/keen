@@ -21,7 +21,7 @@ func newUniversalAvatarGetAvatarImageByIdCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns a project, issue type or priority avatar image by ID. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli universal-avatar get-avatar-image-by-id 550e8400-e29b-41d4-a716-446655440000 --type issuetype",
-		Annotations: map[string]string{"pp:endpoint": "universal-avatar.get-avatar-image-by-id", "pp:method": "GET", "pp:path": "/rest/api/2/universal_avatar/view/type/{type}/avatar/{id}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "universal-avatar.get-avatar-image-by-id", "pp:method": "GET", "pp:path": "/rest/api/3/universal_avatar/view/type/{type}/avatar/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -70,7 +70,7 @@ func newUniversalAvatarGetAvatarImageByIdCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/universal_avatar/view/type/{type}/avatar/{id}"
+			path := "/rest/api/3/universal_avatar/view/type/{type}/avatar/{id}"
 			path = replacePathParam(path, "id", args[0])
 			path = replacePathParam(path, "type", fmt.Sprintf("%v", flagType))
 			headerOverrides := map[string]string{

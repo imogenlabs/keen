@@ -21,7 +21,7 @@ func newWebhookDeleteByIdCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Removes webhooks by ID. Only webhooks registered by the calling app are removed.",
 		Example:     "  jira-pp-cli-pp-cli webhook delete-by-id",
-		Annotations: map[string]string{"pp:endpoint": "webhook.delete-by-id", "pp:method": "DELETE", "pp:path": "/rest/api/2/webhook"},
+		Annotations: map[string]string{"pp:endpoint": "webhook.delete-by-id", "pp:method": "DELETE", "pp:path": "/rest/api/3/webhook"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("webhook-ids") && !flags.dryRun {
@@ -33,7 +33,7 @@ func newWebhookDeleteByIdCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/webhook"
+			path := "/rest/api/3/webhook"
 			var body map[string]any
 			if stdinBody {
 				stdinData, err := io.ReadAll(os.Stdin)

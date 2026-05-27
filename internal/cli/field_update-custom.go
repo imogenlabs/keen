@@ -22,7 +22,7 @@ func newFieldUpdateCustomCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-custom <fieldId>",
 		Short:       "Updates a custom field.",
 		Example:     "  jira-pp-cli-pp-cli field update-custom 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "field.update-custom", "pp:method": "PUT", "pp:path": "/rest/api/2/field/{fieldId}"},
+		Annotations: map[string]string{"pp:endpoint": "field.update-custom", "pp:method": "PUT", "pp:path": "/rest/api/3/field/{fieldId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newFieldUpdateCustomCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldId}"
+			path := "/rest/api/3/field/{fieldId}"
 			path = replacePathParam(path, "fieldId", args[0])
 			params := map[string]string{}
 			var body map[string]any

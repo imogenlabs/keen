@@ -20,7 +20,7 @@ func newProjectDeleteProjectAsynchronouslyCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Deletes a project asynchronously.",
 		Example:     "  jira-pp-cli-pp-cli project delete project-asynchronously your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "delete.project-asynchronously", "pp:method": "POST", "pp:path": "/rest/api/2/project/{projectIdOrKey}/delete"},
+		Annotations: map[string]string{"pp:endpoint": "delete.project-asynchronously", "pp:method": "POST", "pp:path": "/rest/api/3/project/{projectIdOrKey}/delete"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newProjectDeleteProjectAsynchronouslyCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/delete"
+			path := "/rest/api/3/project/{projectIdOrKey}/delete"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

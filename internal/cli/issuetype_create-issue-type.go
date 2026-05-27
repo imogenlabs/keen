@@ -24,7 +24,7 @@ func newIssuetypeCreateIssueTypeCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Creates an issue type.",
 		Example:     "  jira-pp-cli-pp-cli issuetype create-issue-type --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "issuetype.create-issue-type", "pp:method": "POST", "pp:path": "/rest/api/2/issuetype"},
+		Annotations: map[string]string{"pp:endpoint": "issuetype.create-issue-type", "pp:method": "POST", "pp:path": "/rest/api/3/issuetype"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("name") && !flags.dryRun {
@@ -36,7 +36,7 @@ func newIssuetypeCreateIssueTypeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issuetype"
+			path := "/rest/api/3/issuetype"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

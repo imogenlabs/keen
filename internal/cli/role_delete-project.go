@@ -19,7 +19,7 @@ func newRoleDeleteProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a project role. You must specify a replacement project role if you wish to delete a project role that is in use.",
 		Example:     "  jira-pp-cli-pp-cli role delete-project 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "role.delete-project", "pp:method": "DELETE", "pp:path": "/rest/api/2/role/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "role.delete-project", "pp:method": "DELETE", "pp:path": "/rest/api/3/role/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -29,7 +29,7 @@ func newRoleDeleteProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/role/{id}"
+			path := "/rest/api/3/role/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagSwap != 0 {

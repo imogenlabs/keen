@@ -18,14 +18,14 @@ func newCustomFieldOptionPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns a custom field option. For example, an option in a select list.",
 		Long:        "Returns a custom field option. For example, an option in a select list.",
 		Example:     "  jira-pp-cli-pp-cli custom-field-option 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "custom-field-option.get", "pp:method": "GET", "pp:path": "/rest/api/2/customFieldOption/{id}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "custom-field-option.get", "pp:method": "GET", "pp:path": "/rest/api/3/customFieldOption/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/customFieldOption/{id}"
+			path := "/rest/api/3/customFieldOption/{id}"
 			if len(args) < 1 {
 				// JSON envelope: {error, usage}. Written first; the
 				// usageErr return preserves exit code 2 across modes.

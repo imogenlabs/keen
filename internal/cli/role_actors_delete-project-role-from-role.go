@@ -21,7 +21,7 @@ func newRoleActorsDeleteProjectRoleFromRoleCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"delete"},
 		Short:       "Deletes the [default actors](#api-rest-api-2-resolution-get) from a project role.",
 		Example:     "  jira-pp-cli-pp-cli role actors delete-project-role-from-role 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "actors.delete-project-role-from-role", "pp:method": "DELETE", "pp:path": "/rest/api/2/role/{id}/actors"},
+		Annotations: map[string]string{"pp:endpoint": "actors.delete-project-role-from-role", "pp:method": "DELETE", "pp:path": "/rest/api/3/role/{id}/actors"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newRoleActorsDeleteProjectRoleFromRoleCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/role/{id}/actors"
+			path := "/rest/api/3/role/{id}/actors"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagUser != "" {

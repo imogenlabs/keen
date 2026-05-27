@@ -41,7 +41,7 @@ func newJiraCloudPlatformVersionCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates a project version. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version create",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-version.create", "pp:method": "POST", "pp:path": "/rest/api/2/version"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-version.create", "pp:method": "POST", "pp:path": "/rest/api/3/version"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -50,7 +50,7 @@ func newJiraCloudPlatformVersionCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/version"
+			path := "/rest/api/3/version"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

@@ -22,14 +22,14 @@ func newUserBulkGetMigrationCmd(flags *rootFlags) *cobra.Command {
 		Use:         "bulk-get-migration",
 		Short:       "Returns the account IDs for the users specified in the `key` or `username` parameters.",
 		Example:     "  jira-pp-cli-pp-cli user bulk-get-migration",
-		Annotations: map[string]string{"pp:endpoint": "user.bulk-get-migration", "pp:method": "GET", "pp:path": "/rest/api/2/user/bulk/migration", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.bulk-get-migration", "pp:method": "GET", "pp:path": "/rest/api/3/user/bulk/migration", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/user/bulk/migration"
+			path := "/rest/api/3/user/bulk/migration"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

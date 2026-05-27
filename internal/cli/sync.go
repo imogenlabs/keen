@@ -1990,85 +1990,85 @@ func syncResourcePath(resource string) (string, error) {
 		"addons-search-brief":       "/addons/search/brief",
 		"agile":                     "/rest/agile/1.0/board",
 		"agile-1-0-epic-none-issue": "/rest/agile/1.0/epic/none/issue",
-		"application-properties":    "/rest/api/2/application-properties",
-		"application-properties-advanced-settings": "/rest/api/2/application-properties/advanced-settings",
-		"applicationrole":                          "/rest/api/2/applicationrole",
+		"application-properties":    "/rest/api/3/application-properties",
+		"application-properties-advanced-settings": "/rest/api/3/application-properties/advanced-settings",
+		"applicationrole":                          "/rest/api/3/applicationrole",
 		"applications":                             "/applications",
 		"assets":                                   "/assets",
 		"atlassian-connect":                        "/rest/atlassian-connect/1/app/module/dynamic",
-		"auditing":                                 "/rest/api/2/auditing/record",
-		"classification-levels":                    "/rest/api/2/classification-levels",
-		"component":                                "/rest/api/2/component",
-		"config":                                   "/rest/api/2/config/fieldschemes",
-		"configuration":                            "/rest/api/2/configuration/timetracking/list",
-		"dashboard":                                "/rest/api/2/dashboard",
-		"dashboard-gadgets":                        "/rest/api/2/dashboard/gadgets",
-		"data-policy":                              "/rest/api/2/data-policy/project",
-		"events":                                   "/rest/api/2/events",
-		"field":                                    "/rest/api/2/field",
-		"field-search-trashed":                     "/rest/api/2/field/search/trashed",
-		"fieldconfiguration":                       "/rest/api/2/fieldconfiguration",
-		"fieldconfigurationscheme":                 "/rest/api/2/fieldconfigurationscheme",
-		"fieldconfigurationscheme-mapping":         "/rest/api/2/fieldconfigurationscheme/mapping",
-		"filter":                                   "/rest/api/2/filter/my",
-		"filter-favourite":                         "/rest/api/2/filter/favourite",
+		"auditing":                                 "/rest/api/3/auditing/record",
+		"classification-levels":                    "/rest/api/3/classification-levels",
+		"component":                                "/rest/api/3/component",
+		"config":                                   "/rest/api/3/config/fieldschemes",
+		"configuration":                            "/rest/api/3/configuration/timetracking/list",
+		"dashboard":                                "/rest/api/3/dashboard",
+		"dashboard-gadgets":                        "/rest/api/3/dashboard/gadgets",
+		"data-policy":                              "/rest/api/3/data-policy/project",
+		"events":                                   "/rest/api/3/events",
+		"field":                                    "/rest/api/3/field",
+		"field-search-trashed":                     "/rest/api/3/field/search/trashed",
+		"fieldconfiguration":                       "/rest/api/3/fieldconfiguration",
+		"fieldconfigurationscheme":                 "/rest/api/3/fieldconfigurationscheme",
+		"fieldconfigurationscheme-mapping":         "/rest/api/3/fieldconfigurationscheme/mapping",
+		"filter":                                   "/rest/api/3/filter/my",
+		"filter-favourite":                         "/rest/api/3/filter/favourite",
 		"forge":                                    "/rest/forge/1/app/properties",
-		"group":                                    "/rest/api/2/group/bulk",
-		"group-member":                             "/rest/api/2/group/member",
-		"groups":                                   "/rest/api/2/groups/picker",
-		"issuesecurityschemes":                     "/rest/api/2/issuesecurityschemes",
-		"issuesecurityschemes-level":               "/rest/api/2/issuesecurityschemes/level",
-		"issuesecurityschemes-level-member":        "/rest/api/2/issuesecurityschemes/level/member",
-		"issuesecurityschemes-project":             "/rest/api/2/issuesecurityschemes/project",
-		"issuetype":                                "/rest/api/2/issuetype",
-		"issuetypescheme":                          "/rest/api/2/issuetypescheme",
-		"issuetypescheme-mapping":                  "/rest/api/2/issuetypescheme/mapping",
-		"issuetypescreenscheme":                    "/rest/api/2/issuetypescreenscheme",
-		"issuetypescreenscheme-mapping":            "/rest/api/2/issuetypescreenscheme/mapping",
-		"jira-cloud-platform-search":               "/rest/api/2/search",
-		"jira-cloud-platform-search-jql":           "/rest/api/2/search/jql",
-		"jira-cloud-platform-workflow":             "/rest/api/2/workflow/search",
-		"jql":                                      "/rest/api/2/jql/function/computation",
-		"jql-autocompletedata-suggestions":         "/rest/api/2/jql/autocompletedata/suggestions",
-		"label":                                    "/rest/api/2/label",
+		"group":                                    "/rest/api/3/group/bulk",
+		"group-member":                             "/rest/api/3/group/member",
+		"groups":                                   "/rest/api/3/groups/picker",
+		"issuesecurityschemes":                     "/rest/api/3/issuesecurityschemes",
+		"issuesecurityschemes-level":               "/rest/api/3/issuesecurityschemes/level",
+		"issuesecurityschemes-level-member":        "/rest/api/3/issuesecurityschemes/level/member",
+		"issuesecurityschemes-project":             "/rest/api/3/issuesecurityschemes/project",
+		"issuetype":                                "/rest/api/3/issuetype",
+		"issuetypescheme":                          "/rest/api/3/issuetypescheme",
+		"issuetypescheme-mapping":                  "/rest/api/3/issuetypescheme/mapping",
+		"issuetypescreenscheme":                    "/rest/api/3/issuetypescreenscheme",
+		"issuetypescreenscheme-mapping":            "/rest/api/3/issuetypescreenscheme/mapping",
+		"jira-cloud-platform-search":               "/rest/api/3/search",
+		"jira-cloud-platform-search-jql":           "/rest/api/3/search/jql",
+		"jira-cloud-platform-workflow":             "/rest/api/3/workflow/search",
+		"jql":                                      "/rest/api/3/jql/function/computation",
+		"jql-autocompletedata-suggestions":         "/rest/api/3/jql/autocompletedata/suggestions",
+		"label":                                    "/rest/api/3/label",
 		"license-types":                            "/licenseTypes",
-		"notificationscheme":                       "/rest/api/2/notificationscheme",
-		"notificationscheme-project":               "/rest/api/2/notificationscheme/project",
+		"notificationscheme":                       "/rest/api/3/notificationscheme",
+		"notificationscheme-project":               "/rest/api/3/notificationscheme/project",
 		"orgs":                                     "/v1/orgs",
-		"permissions":                              "/rest/api/2/permissions",
-		"permissionscheme":                         "/rest/api/2/permissionscheme",
-		"plans":                                    "/rest/api/2/plans/plan",
-		"priority":                                 "/rest/api/2/priority",
-		"priorityscheme":                           "/rest/api/2/priorityscheme",
+		"permissions":                              "/rest/api/3/permissions",
+		"permissionscheme":                         "/rest/api/3/permissionscheme",
+		"plans":                                    "/rest/api/3/plans/plan",
+		"priority":                                 "/rest/api/3/priority",
+		"priorityscheme":                           "/rest/api/3/priorityscheme",
 		"products":                                 "/products",
-		"project":                                  "/rest/api/2/project",
-		"project-category":                         "/rest/api/2/projectCategory",
-		"project-recent":                           "/rest/api/2/project/recent",
-		"project-type":                             "/rest/api/2/project/type",
-		"project-type-accessible":                  "/rest/api/2/project/type/accessible",
-		"resolution":                               "/rest/api/2/resolution",
-		"role":                                     "/rest/api/2/role",
-		"screens":                                  "/rest/api/2/screens",
-		"screenscheme":                             "/rest/api/2/screenscheme",
+		"project":                                  "/rest/api/3/project",
+		"project-category":                         "/rest/api/3/projectCategory",
+		"project-recent":                           "/rest/api/3/project/recent",
+		"project-type":                             "/rest/api/3/project/type",
+		"project-type-accessible":                  "/rest/api/3/project/type/accessible",
+		"resolution":                               "/rest/api/3/resolution",
+		"role":                                     "/rest/api/3/role",
+		"screens":                                  "/rest/api/3/screens",
+		"screenscheme":                             "/rest/api/3/screenscheme",
 		"servicedeskapi":                           "/rest/servicedeskapi/request",
 		"servicedeskapi-assets-workspace":          "/rest/servicedeskapi/assets/workspace",
 		"servicedeskapi-insight-workspace":         "/rest/servicedeskapi/insight/workspace",
 		"servicedeskapi-organization":              "/rest/servicedeskapi/organization",
 		"servicedeskapi-requesttype":               "/rest/servicedeskapi/requesttype",
 		"servicedeskapi-servicedesk":               "/rest/servicedeskapi/servicedesk",
-		"settings":                                 "/rest/api/2/settings/columns",
+		"settings":                                 "/rest/api/3/settings/columns",
 		"software":                                 "/rest/software/1.0/epic/none/issue",
-		"status":                                   "/rest/api/2/status",
-		"statuscategory":                           "/rest/api/2/statuscategory",
-		"statuses":                                 "/rest/api/2/statuses/search",
-		"ui-modifications":                         "/rest/api/2/uiModifications",
-		"user":                                     "/rest/api/2/user/search",
-		"user-bulk-migration":                      "/rest/api/2/user/bulk/migration",
-		"user-columns":                             "/rest/api/2/user/columns",
-		"user-properties":                          "/rest/api/2/user/properties",
-		"users":                                    "/rest/api/2/users",
-		"webhook":                                  "/rest/api/2/webhook",
-		"webhook-failed":                           "/rest/api/2/webhook/failed",
+		"status":                                   "/rest/api/3/status",
+		"statuscategory":                           "/rest/api/3/statuscategory",
+		"statuses":                                 "/rest/api/3/statuses/search",
+		"ui-modifications":                         "/rest/api/3/uiModifications",
+		"user":                                     "/rest/api/3/user/search",
+		"user-bulk-migration":                      "/rest/api/3/user/bulk/migration",
+		"user-columns":                             "/rest/api/3/user/columns",
+		"user-properties":                          "/rest/api/3/user/properties",
+		"users":                                    "/rest/api/3/users",
+		"webhook":                                  "/rest/api/3/webhook",
+		"webhook-failed":                           "/rest/api/3/webhook/failed",
 		"wiki":                                     "/wiki/rest/api/audit",
 		"wiki-rest-api-audit-since":                "/wiki/rest/api/audit/since",
 		"wiki-rest-api-content-states":             "/wiki/rest/api/content-states",
@@ -2077,8 +2077,8 @@ func syncResourcePath(resource string) (string, error) {
 		"wiki-rest-api-settings-theme":             "/wiki/rest/api/settings/theme",
 		"wiki-rest-api-template-blueprint":         "/wiki/rest/api/template/blueprint",
 		"wiki-rest-api-template-page":              "/wiki/rest/api/template/page",
-		"workflows":                                "/rest/api/2/workflows/search",
-		"workflowscheme":                           "/rest/api/2/workflowscheme",
+		"workflows":                                "/rest/api/3/workflows/search",
+		"workflowscheme":                           "/rest/api/3/workflowscheme",
 	}
 	if p, ok := paths[resource]; ok {
 		return p, nil
@@ -2120,7 +2120,7 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "applications_versions", ParentTable: "applications", ParentIDParam: "applicationKey", PathTemplate: "/applications/{applicationKey}/versions", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "applicationKey", Field: "key"},
 		}},
-		{Name: "association", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/2/field/{fieldId}/association/project", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "association", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/association/project", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "atlassian_access_events", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v1/orgs/{orgId}/events", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2129,19 +2129,19 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "atlassian_access_users", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v1/orgs/{orgId}/users", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "orgId", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/2/field/{fieldId}/context", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/2/field/{fieldId}/context/defaultValue", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValue", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/2/field/{fieldId}/context/issuetypemapping", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/issuetypemapping", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/2/field/{fieldId}/context/projectmapping", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/projectmapping", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "contexts", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/2/field/{fieldId}/contexts", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "contexts", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/contexts", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "directories", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v2/orgs/{orgId}/directories", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2156,10 +2156,10 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "feedbacks", ParentTable: "addons", ParentIDParam: "addonKey", PathTemplate: "/addons/{addonKey}/feedbacks", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "addonKey", Field: "key"},
 		}},
-		{Name: "field_screens", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/2/field/{fieldId}/screens", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "field_screens", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/screens", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "fields", ParentTable: "fieldconfiguration", ParentIDParam: "id", PathTemplate: "/rest/api/2/fieldconfiguration/{id}/fields", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "fields", ParentTable: "fieldconfiguration", ParentIDParam: "id", PathTemplate: "/rest/api/3/fieldconfiguration/{id}/fields", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "id", Field: "id"},
 		}},
 		{Name: "groups_role_assignments", ParentTable: "groups", ParentIDParam: "groupId", PathTemplate: "/v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/role-assignments", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2167,48 +2167,48 @@ func dependentResourceDefs() []dependentResourceDef {
 			{Param: "directoryId", Field: "directories_id"},
 			{Param: "groupId", Field: "id"},
 		}},
-		{Name: "issuetypescreenscheme_project", ParentTable: "issuetypescreenscheme", ParentIDParam: "issueTypeScreenSchemeId", PathTemplate: "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/project", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "issuetypescreenscheme_project", ParentTable: "issuetypescreenscheme", ParentIDParam: "issueTypeScreenSchemeId", PathTemplate: "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/project", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "issueTypeScreenSchemeId", Field: "id"},
 		}},
-		{Name: "jira_cloud_platform_workflow_project_usages", ParentTable: "jira-cloud-platform-workflow", ParentIDParam: "workflowId", PathTemplate: "/rest/api/2/workflow/{workflowId}/projectUsages", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "jira_cloud_platform_workflow_project_usages", ParentTable: "jira-cloud-platform-workflow", ParentIDParam: "workflowId", PathTemplate: "/rest/api/3/workflow/{workflowId}/projectUsages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "workflowId", Field: "workflow_id"},
 		}},
-		{Name: "members", ParentTable: "issuesecurityschemes", ParentIDParam: "issueSecuritySchemeId", PathTemplate: "/rest/api/2/issuesecurityschemes/{issueSecuritySchemeId}/members", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "members", ParentTable: "issuesecurityschemes", ParentIDParam: "issueSecuritySchemeId", PathTemplate: "/rest/api/3/issuesecurityschemes/{issueSecuritySchemeId}/members", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "issueSecuritySchemeId", Field: "id"},
 		}},
-		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/2/field/{fieldKey}/option/suggestions/search", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/search", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
 		}},
-		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/2/field/{fieldKey}/option", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
 		}},
-		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/2/field/{fieldKey}/option/suggestions/edit", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/edit", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
 		}},
 		{Name: "policies", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v1/orgs/{orgId}/policies", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "orgId", Field: "id"},
 		}},
-		{Name: "priorities", ParentTable: "priorityscheme", ParentIDParam: "schemeId", PathTemplate: "/rest/api/2/priorityscheme/{schemeId}/priorities", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "priorities", ParentTable: "priorityscheme", ParentIDParam: "schemeId", PathTemplate: "/rest/api/3/priorityscheme/{schemeId}/priorities", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "schemeId", Field: "id"},
 		}},
-		{Name: "priorityscheme_projects", ParentTable: "priorityscheme", ParentIDParam: "schemeId", PathTemplate: "/rest/api/2/priorityscheme/{schemeId}/projects", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "priorityscheme_projects", ParentTable: "priorityscheme", ParentIDParam: "schemeId", PathTemplate: "/rest/api/3/priorityscheme/{schemeId}/projects", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "schemeId", Field: "id"},
 		}},
-		{Name: "project_component", ParentTable: "project", ParentIDParam: "projectIdOrKey", PathTemplate: "/rest/api/2/project/{projectIdOrKey}/component", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "project_component", ParentTable: "project", ParentIDParam: "projectIdOrKey", PathTemplate: "/rest/api/3/project/{projectIdOrKey}/component", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "projectIdOrKey", Field: "key"},
 		}},
-		{Name: "project_issue_type_usages", ParentTable: "project", ParentIDParam: "projectId", PathTemplate: "/rest/api/2/workflow/{workflowId}/project/{projectId}/issueTypeUsages", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "project_issue_type_usages", ParentTable: "project", ParentIDParam: "projectId", PathTemplate: "/rest/api/3/workflow/{workflowId}/project/{projectId}/issueTypeUsages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "workflowId", Field: "workflow_id"},
 			{Param: "projectId", Field: "id"},
 		}},
-		{Name: "project_issue_type_usages", ParentTable: "project", ParentIDParam: "projectId", PathTemplate: "/rest/api/2/statuses/{statusId}/project/{projectId}/issueTypeUsages", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "project_issue_type_usages", ParentTable: "project", ParentIDParam: "projectId", PathTemplate: "/rest/api/3/statuses/{statusId}/project/{projectId}/issueTypeUsages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "statusId", Field: "statuses_id"},
 			{Param: "projectId", Field: "id"},
 		}},
 		{Name: "reviews", ParentTable: "addons", ParentIDParam: "addonKey", PathTemplate: "/addons/{addonKey}/reviews", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "addonKey", Field: "key"},
 		}},
-		{Name: "statuses_project_usages", ParentTable: "statuses", ParentIDParam: "statusId", PathTemplate: "/rest/api/2/statuses/{statusId}/projectUsages", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "statuses_project_usages", ParentTable: "statuses", ParentIDParam: "statusId", PathTemplate: "/rest/api/3/statuses/{statusId}/projectUsages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "statusId", Field: "id"},
 		}},
 		{Name: "users_last_active_dates", ParentTable: "users", ParentIDParam: "accountId", PathTemplate: "/v1/orgs/{orgId}/directory/users/{accountId}/last-active-dates", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2220,7 +2220,7 @@ func dependentResourceDefs() []dependentResourceDef {
 			{Param: "directoryId", Field: "directories_id"},
 			{Param: "accountId", Field: "id"},
 		}},
-		{Name: "version", ParentTable: "project", ParentIDParam: "projectIdOrKey", PathTemplate: "/rest/api/2/project/{projectIdOrKey}/version", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "version", ParentTable: "project", ParentIDParam: "projectIdOrKey", PathTemplate: "/rest/api/3/project/{projectIdOrKey}/version", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "projectIdOrKey", Field: "key"},
 		}},
 		{Name: "wiki", ParentTable: "user", ParentIDParam: "userId", PathTemplate: "/wiki/rest/api/user/{userId}/property", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2229,16 +2229,16 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "wiki", ParentTable: "group", ParentIDParam: "groupId", PathTemplate: "/wiki/rest/api/group/{groupId}/membersByGroupId", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "groupId", Field: "id"},
 		}},
-		{Name: "workflow_schemes", ParentTable: "jira-cloud-platform-workflow", ParentIDParam: "workflowId", PathTemplate: "/rest/api/2/workflow/{workflowId}/workflowSchemes", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "workflow_schemes", ParentTable: "jira-cloud-platform-workflow", ParentIDParam: "workflowId", PathTemplate: "/rest/api/3/workflow/{workflowId}/workflowSchemes", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "workflowId", Field: "workflow_id"},
 		}},
-		{Name: "workflow_usages", ParentTable: "statuses", ParentIDParam: "statusId", PathTemplate: "/rest/api/2/statuses/{statusId}/workflowUsages", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "workflow_usages", ParentTable: "statuses", ParentIDParam: "statusId", PathTemplate: "/rest/api/3/statuses/{statusId}/workflowUsages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "statusId", Field: "id"},
 		}},
-		{Name: "workflowscheme_project_usages", ParentTable: "workflowscheme", ParentIDParam: "workflowSchemeId", PathTemplate: "/rest/api/2/workflowscheme/{workflowSchemeId}/projectUsages", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "workflowscheme_project_usages", ParentTable: "workflowscheme", ParentIDParam: "workflowSchemeId", PathTemplate: "/rest/api/3/workflowscheme/{workflowSchemeId}/projectUsages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "workflowSchemeId", Field: "id"},
 		}},
-		{Name: "context_option", ParentTable: "context", ParentIDParam: "contextId", PathTemplate: "/rest/api/2/field/{fieldId}/context/{contextId}/option", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context_option", ParentTable: "context", ParentIDParam: "contextId", PathTemplate: "/rest/api/3/field/{fieldId}/context/{contextId}/option", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "field_id"},
 			{Param: "contextId", Field: "id"},
 		}},
@@ -2250,7 +2250,7 @@ func dependentResourceDefs() []dependentResourceDef {
 			{Param: "orgId", Field: "orgs_id"},
 			{Param: "directoryId", Field: "id"},
 		}},
-		{Name: "plans", ParentTable: "plans", ParentIDParam: "planId", PathTemplate: "/rest/api/2/plans/plan/{planId}/team", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "plans", ParentTable: "plans", ParentIDParam: "planId", PathTemplate: "/rest/api/3/plans/plan/{planId}/team", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "planId", Field: "plan_id"},
 		}},
 	}

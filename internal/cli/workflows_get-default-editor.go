@@ -17,14 +17,14 @@ func newWorkflowsGetDefaultEditorCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-default-editor",
 		Short:       "Get the user's default workflow editor. This can be either the new editor or the legacy editor.",
 		Example:     "  jira-pp-cli-pp-cli workflows get-default-editor",
-		Annotations: map[string]string{"pp:endpoint": "workflows.get-default-editor", "pp:method": "GET", "pp:path": "/rest/api/2/workflows/defaultEditor", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "workflows.get-default-editor", "pp:method": "GET", "pp:path": "/rest/api/3/workflows/defaultEditor", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/workflows/defaultEditor"
+			path := "/rest/api/3/workflows/defaultEditor"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "workflows", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

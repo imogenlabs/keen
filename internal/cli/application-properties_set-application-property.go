@@ -22,7 +22,7 @@ func newApplicationPropertiesSetApplicationPropertyCmd(flags *rootFlags) *cobra.
 		Aliases:     []string{"update"},
 		Short:       "Changes the value of an application property. For example, you can change the value of the `jira.clone.",
 		Example:     "  jira-pp-cli-pp-cli application-properties set-application-property 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "application-properties.set-application-property", "pp:method": "PUT", "pp:path": "/rest/api/2/application-properties/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "application-properties.set-application-property", "pp:method": "PUT", "pp:path": "/rest/api/3/application-properties/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newApplicationPropertiesSetApplicationPropertyCmd(flags *rootFlags) *cobra.
 				return err
 			}
 
-			path := "/rest/api/2/application-properties/{id}"
+			path := "/rest/api/3/application-properties/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

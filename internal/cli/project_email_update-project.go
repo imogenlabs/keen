@@ -22,7 +22,7 @@ func newProjectEmailUpdateProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Sets the [project's sender email address](https://confluence.atlassian.com/x/dolKLg).",
 		Example:     "  jira-pp-cli-pp-cli project email update-project 42",
-		Annotations: map[string]string{"pp:endpoint": "email.update-project", "pp:method": "PUT", "pp:path": "/rest/api/2/project/{projectId}/email"},
+		Annotations: map[string]string{"pp:endpoint": "email.update-project", "pp:method": "PUT", "pp:path": "/rest/api/3/project/{projectId}/email"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newProjectEmailUpdateProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectId}/email"
+			path := "/rest/api/3/project/{projectId}/email"
 			path = replacePathParam(path, "projectId", args[0])
 			params := map[string]string{}
 			var body map[string]any

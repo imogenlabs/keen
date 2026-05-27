@@ -18,14 +18,14 @@ func newSettingsGetIssueNavigatorDefaultColumnsCmd(flags *rootFlags) *cobra.Comm
 		Aliases:     []string{"list"},
 		Short:       "Returns the default issue navigator columns.",
 		Example:     "  jira-pp-cli-pp-cli settings get-issue-navigator-default-columns",
-		Annotations: map[string]string{"pp:endpoint": "settings.get-issue-navigator-default-columns", "pp:method": "GET", "pp:path": "/rest/api/2/settings/columns", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "settings.get-issue-navigator-default-columns", "pp:method": "GET", "pp:path": "/rest/api/3/settings/columns", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/settings/columns"
+			path := "/rest/api/3/settings/columns"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "settings", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

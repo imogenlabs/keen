@@ -20,7 +20,7 @@ func newProjectPropertiesSetProjectPropertyCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"update"},
 		Short:       "Sets the value of the [project property](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli project properties set-project-property your-token-here your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "properties.set-project-property", "pp:method": "PUT", "pp:path": "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}"},
+		Annotations: map[string]string{"pp:endpoint": "properties.set-project-property", "pp:method": "PUT", "pp:path": "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newProjectPropertiesSetProjectPropertyCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}"
+			path := "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("propertyKey is required\nUsage: %s <%s>", cmd.CommandPath(), "propertyKey"))

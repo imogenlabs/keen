@@ -20,14 +20,14 @@ func newWebhookGetFailedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-failed",
 		Short:       "Returns webhooks that have recently failed to be delivered to the requesting app after the maximum number of retries.",
 		Example:     "  jira-pp-cli-pp-cli webhook get-failed",
-		Annotations: map[string]string{"pp:endpoint": "webhook.get-failed", "pp:method": "GET", "pp:path": "/rest/api/2/webhook/failed", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "webhook.get-failed", "pp:method": "GET", "pp:path": "/rest/api/3/webhook/failed", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/webhook/failed"
+			path := "/rest/api/3/webhook/failed"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "webhook", path, map[string]string{
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),
 				"after":      fmt.Sprintf("%v", flagAfter),

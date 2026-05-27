@@ -21,14 +21,14 @@ func newUsersGetAllDefaultCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-all-default",
 		Short:       "Returns a list of all users, including active users",
 		Example:     "  jira-pp-cli-pp-cli users get-all-default",
-		Annotations: map[string]string{"pp:endpoint": "users.get-all-default", "pp:method": "GET", "pp:path": "/rest/api/2/users", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "users.get-all-default", "pp:method": "GET", "pp:path": "/rest/api/3/users", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/users"
+			path := "/rest/api/3/users"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "users", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),

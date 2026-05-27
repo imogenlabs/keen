@@ -25,7 +25,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 		Use:         "search",
 		Short:       "Returns a [paginated](#pagination) list of global and project workflows.",
 		Example:     "  jira-pp-cli-pp-cli workflows search",
-		Annotations: map[string]string{"pp:endpoint": "workflows.search", "pp:method": "GET", "pp:path": "/rest/api/2/workflows/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "workflows.search", "pp:method": "GET", "pp:path": "/rest/api/3/workflows/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				var parsedOrderBy any
@@ -38,7 +38,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflows/search"
+			path := "/rest/api/3/workflows/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "workflows", path, map[string]string{
 				"startAt":     fmt.Sprintf("%v", flagStartAt),
 				"maxResults":  fmt.Sprintf("%v", flagMaxResults),

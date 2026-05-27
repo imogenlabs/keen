@@ -21,7 +21,7 @@ func newPriorityschemePrioritiesGetByPrioritySchemeCmd(flags *rootFlags) *cobra.
 		Aliases:     []string{"get"},
 		Short:       "Returns a [paginated](#pagination) list of priorities by scheme.",
 		Example:     "  jira-pp-cli-pp-cli priorityscheme priorities get-by-priority-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "priorities.get-by-priority-scheme", "pp:method": "GET", "pp:path": "/rest/api/2/priorityscheme/{schemeId}/priorities", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "priorities.get-by-priority-scheme", "pp:method": "GET", "pp:path": "/rest/api/3/priorityscheme/{schemeId}/priorities", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newPriorityschemePrioritiesGetByPrioritySchemeCmd(flags *rootFlags) *cobra.
 				return err
 			}
 
-			path := "/rest/api/2/priorityscheme/{schemeId}/priorities"
+			path := "/rest/api/3/priorityscheme/{schemeId}/priorities"
 			path = replacePathParam(path, "schemeId", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "priorities", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

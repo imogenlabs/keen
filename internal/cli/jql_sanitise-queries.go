@@ -20,7 +20,7 @@ func newJqlSanitiseQueriesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "sanitise-queries",
 		Short:       "Sanitizes one or more JQL queries by converting readable details into IDs where a user doesn't have permission to view",
 		Example:     "  jira-pp-cli-pp-cli jql sanitise-queries",
-		Annotations: map[string]string{"pp:endpoint": "jql.sanitise-queries", "pp:method": "POST", "pp:path": "/rest/api/2/jql/sanitize"},
+		Annotations: map[string]string{"pp:endpoint": "jql.sanitise-queries", "pp:method": "POST", "pp:path": "/rest/api/3/jql/sanitize"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("queries") && !flags.dryRun {
@@ -32,7 +32,7 @@ func newJqlSanitiseQueriesCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/jql/sanitize"
+			path := "/rest/api/3/jql/sanitize"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

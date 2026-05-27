@@ -18,7 +18,7 @@ func newWorkflowschemeGetWorkflowSchemeProjectAssociationsCmd(flags *rootFlags) 
 		Use:         "get-workflow-scheme-project-associations",
 		Short:       "Returns a list of the workflow schemes associated with a list of projects.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme get-workflow-scheme-project-associations --project-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "workflowscheme.get-workflow-scheme-project-associations", "pp:method": "GET", "pp:path": "/rest/api/2/workflowscheme/project", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "workflowscheme.get-workflow-scheme-project-associations", "pp:method": "GET", "pp:path": "/rest/api/3/workflowscheme/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("project-id") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "project-id")
@@ -28,7 +28,7 @@ func newWorkflowschemeGetWorkflowSchemeProjectAssociationsCmd(flags *rootFlags) 
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/project"
+			path := "/rest/api/3/workflowscheme/project"
 			params := map[string]string{}
 			if flagProjectId != "" {
 				params["projectId"] = fmt.Sprintf("%v", flagProjectId)

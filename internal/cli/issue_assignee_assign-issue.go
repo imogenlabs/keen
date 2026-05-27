@@ -47,7 +47,7 @@ func newIssueAssigneeAssignIssueCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Assigns an issue to a user.",
 		Example:     "  jira-pp-cli-pp-cli issue assignee assign-issue your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "assignee.assign-issue", "pp:method": "PUT", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/assignee"},
+		Annotations: map[string]string{"pp:endpoint": "assignee.assign-issue", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/assignee"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -59,7 +59,7 @@ func newIssueAssigneeAssignIssueCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/assignee"
+			path := "/rest/api/3/issue/{issueIdOrKey}/assignee"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

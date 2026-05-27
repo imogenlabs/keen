@@ -17,14 +17,14 @@ func newConfigRemoveFieldAssociationSchemeItemParametersCmd(flags *rootFlags) *c
 		Use:         "remove-field-association-scheme-item-parameters",
 		Short:       "Remove field association parameters overrides for work types.",
 		Example:     "  jira-pp-cli-pp-cli config remove-field-association-scheme-item-parameters",
-		Annotations: map[string]string{"pp:endpoint": "config.remove-field-association-scheme-item-parameters", "pp:method": "DELETE", "pp:path": "/rest/api/2/config/fieldschemes/fields/parameters"},
+		Annotations: map[string]string{"pp:endpoint": "config.remove-field-association-scheme-item-parameters", "pp:method": "DELETE", "pp:path": "/rest/api/3/config/fieldschemes/fields/parameters"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes/fields/parameters"
+			path := "/rest/api/3/config/fieldschemes/fields/parameters"
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)
 			if err != nil {

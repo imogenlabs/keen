@@ -18,14 +18,14 @@ func newIssuetypeGetIssueAllTypesCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns all issue types. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli issuetype get-issue-all-types",
-		Annotations: map[string]string{"pp:endpoint": "issuetype.get-issue-all-types", "pp:method": "GET", "pp:path": "/rest/api/2/issuetype", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuetype.get-issue-all-types", "pp:method": "GET", "pp:path": "/rest/api/3/issuetype", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/issuetype"
+			path := "/rest/api/3/issuetype"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "issuetype", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

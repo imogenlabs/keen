@@ -25,7 +25,7 @@ func newUserFindForPickerCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find-for-picker",
 		Short:       "Returns a list of users whose attributes match the query term.",
 		Example:     "  jira-pp-cli-pp-cli user find-for-picker --query example-value",
-		Annotations: map[string]string{"pp:endpoint": "user.find-for-picker", "pp:method": "GET", "pp:path": "/rest/api/2/user/picker", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.find-for-picker", "pp:method": "GET", "pp:path": "/rest/api/3/user/picker", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("query") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "query")
@@ -35,7 +35,7 @@ func newUserFindForPickerCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/picker"
+			path := "/rest/api/3/user/picker"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"query":               fmt.Sprintf("%v", flagQuery),
 				"maxResults":          fmt.Sprintf("%v", flagMaxResults),

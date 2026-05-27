@@ -19,7 +19,7 @@ func newPlansArchiveCmd(flags *rootFlags) *cobra.Command {
 		Use:         "archive <planId>",
 		Short:       "Archives a plan. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.",
 		Example:     "  jira-pp-cli-pp-cli plans archive 42",
-		Annotations: map[string]string{"pp:endpoint": "plans.archive", "pp:method": "PUT", "pp:path": "/rest/api/2/plans/plan/{planId}/archive"},
+		Annotations: map[string]string{"pp:endpoint": "plans.archive", "pp:method": "PUT", "pp:path": "/rest/api/3/plans/plan/{planId}/archive"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newPlansArchiveCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}/archive"
+			path := "/rest/api/3/plans/plan/{planId}/archive"
 			path = replacePathParam(path, "planId", args[0])
 			params := map[string]string{}
 			var body map[string]any

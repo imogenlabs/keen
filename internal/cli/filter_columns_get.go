@@ -17,7 +17,7 @@ func newFilterColumnsGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <id>",
 		Short:       "Returns the columns configured for a filter.",
 		Example:     "  jira-pp-cli-pp-cli filter columns get 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "columns.get", "pp:method": "GET", "pp:path": "/rest/api/2/filter/{id}/columns", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "columns.get", "pp:method": "GET", "pp:path": "/rest/api/3/filter/{id}/columns", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newFilterColumnsGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/filter/{id}/columns"
+			path := "/rest/api/3/filter/{id}/columns"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "columns", false, path, params, nil, cmd.ErrOrStderr())

@@ -19,7 +19,7 @@ func newPermissionschemePermissionGetSchemeGrantCmd(flags *rootFlags) *cobra.Com
 		Aliases:     []string{"get"},
 		Short:       "Returns a permission grant. **[Permissions](#permissions) required:** Permission to access Jira.",
 		Example:     "  jira-pp-cli-pp-cli permissionscheme permission get-scheme-grant 42 42",
-		Annotations: map[string]string{"pp:endpoint": "permission.get-scheme-grant", "pp:method": "GET", "pp:path": "/rest/api/2/permissionscheme/{schemeId}/permission/{permissionId}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "permission.get-scheme-grant", "pp:method": "GET", "pp:path": "/rest/api/3/permissionscheme/{schemeId}/permission/{permissionId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -29,7 +29,7 @@ func newPermissionschemePermissionGetSchemeGrantCmd(flags *rootFlags) *cobra.Com
 				return err
 			}
 
-			path := "/rest/api/2/permissionscheme/{schemeId}/permission/{permissionId}"
+			path := "/rest/api/3/permissionscheme/{schemeId}/permission/{permissionId}"
 			path = replacePathParam(path, "schemeId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("permissionId is required\nUsage: %s <%s>", cmd.CommandPath(), "permissionId"))

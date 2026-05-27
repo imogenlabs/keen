@@ -18,7 +18,7 @@ func newJiraCloudPlatformVersionRelatedworkGetRelatedWorkCmd(flags *rootFlags) *
 		Aliases:     []string{"get"},
 		Short:       "Returns related work items for the given version id. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version relatedwork get-related-work 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "relatedwork.get-related-work", "pp:method": "GET", "pp:path": "/rest/api/2/version/{id}/relatedwork", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "relatedwork.get-related-work", "pp:method": "GET", "pp:path": "/rest/api/3/version/{id}/relatedwork", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newJiraCloudPlatformVersionRelatedworkGetRelatedWorkCmd(flags *rootFlags) *
 				return err
 			}
 
-			path := "/rest/api/2/version/{id}/relatedwork"
+			path := "/rest/api/3/version/{id}/relatedwork"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "relatedwork", false, path, params, nil, cmd.ErrOrStderr())

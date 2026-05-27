@@ -18,7 +18,7 @@ func newIssueDeleteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete <issueIdOrKey>",
 		Short:       "Deletes an issue. An issue cannot be deleted if it has one or more subtasks.",
 		Example:     "  jira-pp-cli-pp-cli issue delete your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "issue.delete", "pp:method": "DELETE", "pp:path": "/rest/api/2/issue/{issueIdOrKey}"},
+		Annotations: map[string]string{"pp:endpoint": "issue.delete", "pp:method": "DELETE", "pp:path": "/rest/api/3/issue/{issueIdOrKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -41,7 +41,7 @@ func newIssueDeleteCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}"
+			path := "/rest/api/3/issue/{issueIdOrKey}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			if flagDeleteSubtasks != "" {

@@ -19,7 +19,7 @@ func newPlansUpdateAtlassianTeamCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-atlassian-team <planId> <atlassianTeamId>",
 		Short:       "Updates any of the following planning settings of an Atlassian team in a plan using [JSON Patch](https://datatracker.",
 		Example:     "  jira-pp-cli-pp-cli plans update-atlassian-team 42 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "plans.update-atlassian-team", "pp:method": "PUT", "pp:path": "/rest/api/2/plans/plan/{planId}/team/atlassian/{atlassianTeamId}"},
+		Annotations: map[string]string{"pp:endpoint": "plans.update-atlassian-team", "pp:method": "PUT", "pp:path": "/rest/api/3/plans/plan/{planId}/team/atlassian/{atlassianTeamId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newPlansUpdateAtlassianTeamCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}/team/atlassian/{atlassianTeamId}"
+			path := "/rest/api/3/plans/plan/{planId}/team/atlassian/{atlassianTeamId}"
 			path = replacePathParam(path, "planId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("atlassianTeamId is required\nUsage: %s <%s>", cmd.CommandPath(), "atlassianTeamId"))

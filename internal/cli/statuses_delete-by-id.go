@@ -19,7 +19,7 @@ func newStatusesDeleteByIdCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes statuses by ID. **[Permissions](#permissions) required:** * *Administer projects* [project permission.",
 		Example:     "  jira-pp-cli-pp-cli statuses delete-by-id --id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "statuses.delete-by-id", "pp:method": "DELETE", "pp:path": "/rest/api/2/statuses"},
+		Annotations: map[string]string{"pp:endpoint": "statuses.delete-by-id", "pp:method": "DELETE", "pp:path": "/rest/api/3/statuses"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("id") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "id")
@@ -29,7 +29,7 @@ func newStatusesDeleteByIdCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/statuses"
+			path := "/rest/api/3/statuses"
 			params := map[string]string{}
 			if flagId != "" {
 				params["id"] = fmt.Sprintf("%v", flagId)

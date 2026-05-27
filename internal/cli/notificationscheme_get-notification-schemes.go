@@ -24,14 +24,14 @@ func newNotificationschemeGetNotificationSchemesCmd(flags *rootFlags) *cobra.Com
 		Use:         "get-notification-schemes",
 		Short:       "Returns a [paginated](#pagination) list of [notification schemes](https://confluence.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli notificationscheme get-notification-schemes",
-		Annotations: map[string]string{"pp:endpoint": "notificationscheme.get-notification-schemes", "pp:method": "GET", "pp:path": "/rest/api/2/notificationscheme", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "notificationscheme.get-notification-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/notificationscheme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/notificationscheme"
+			path := "/rest/api/3/notificationscheme"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "notificationscheme", path, map[string]string{
 				"startAt":     fmt.Sprintf("%v", flagStartAt),
 				"maxResults":  fmt.Sprintf("%v", flagMaxResults),

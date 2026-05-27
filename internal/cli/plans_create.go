@@ -39,7 +39,7 @@ func newPlansCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates a plan. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.",
 		Example:     "  jira-pp-cli-pp-cli plans create --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "plans.create", "pp:method": "POST", "pp:path": "/rest/api/2/plans/plan"},
+		Annotations: map[string]string{"pp:endpoint": "plans.create", "pp:method": "POST", "pp:path": "/rest/api/3/plans/plan"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("issue-sources") && !flags.dryRun {
@@ -63,7 +63,7 @@ func newPlansCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan"
+			path := "/rest/api/3/plans/plan"
 			params := map[string]string{}
 			if flagUseGroupId != false {
 				params["useGroupId"] = fmt.Sprintf("%v", flagUseGroupId)

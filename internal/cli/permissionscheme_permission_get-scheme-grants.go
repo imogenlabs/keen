@@ -18,7 +18,7 @@ func newPermissionschemePermissionGetSchemeGrantsCmd(flags *rootFlags) *cobra.Co
 		Use:         "get-scheme-grants <schemeId>",
 		Short:       "Returns all permission grants for a permission scheme.",
 		Example:     "  jira-pp-cli-pp-cli permissionscheme permission get-scheme-grants 42",
-		Annotations: map[string]string{"pp:endpoint": "permission.get-scheme-grants", "pp:method": "GET", "pp:path": "/rest/api/2/permissionscheme/{schemeId}/permission", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "permission.get-scheme-grants", "pp:method": "GET", "pp:path": "/rest/api/3/permissionscheme/{schemeId}/permission", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newPermissionschemePermissionGetSchemeGrantsCmd(flags *rootFlags) *cobra.Co
 				return err
 			}
 
-			path := "/rest/api/2/permissionscheme/{schemeId}/permission"
+			path := "/rest/api/3/permissionscheme/{schemeId}/permission"
 			path = replacePathParam(path, "schemeId", args[0])
 			params := map[string]string{}
 			if flagExpand != "" {

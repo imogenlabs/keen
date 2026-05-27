@@ -18,7 +18,7 @@ func newPlansDeleteOnlyTeamCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a plan-only team and their planning settings.",
 		Example:     "  jira-pp-cli-pp-cli plans delete-only-team 42 42",
-		Annotations: map[string]string{"pp:endpoint": "plans.delete-only-team", "pp:method": "DELETE", "pp:path": "/rest/api/2/plans/plan/{planId}/team/planonly/{planOnlyTeamId}"},
+		Annotations: map[string]string{"pp:endpoint": "plans.delete-only-team", "pp:method": "DELETE", "pp:path": "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newPlansDeleteOnlyTeamCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}/team/planonly/{planOnlyTeamId}"
+			path := "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}"
 			path = replacePathParam(path, "planId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("planOnlyTeamId is required\nUsage: %s <%s>", cmd.CommandPath(), "planOnlyTeamId"))

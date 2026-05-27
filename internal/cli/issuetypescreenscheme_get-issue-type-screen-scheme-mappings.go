@@ -22,14 +22,14 @@ func newIssuetypescreenschemeGetIssueTypeScreenSchemeMappingsCmd(flags *rootFlag
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of issue type screen scheme items.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescreenscheme get-issue-type-screen-scheme-mappings",
-		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.get-issue-type-screen-scheme-mappings", "pp:method": "GET", "pp:path": "/rest/api/2/issuetypescreenscheme/mapping", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.get-issue-type-screen-scheme-mappings", "pp:method": "GET", "pp:path": "/rest/api/3/issuetypescreenscheme/mapping", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescreenscheme/mapping"
+			path := "/rest/api/3/issuetypescreenscheme/mapping"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "issuetypescreenscheme", path, map[string]string{
 				"startAt":                 fmt.Sprintf("%v", flagStartAt),
 				"maxResults":              fmt.Sprintf("%v", flagMaxResults),

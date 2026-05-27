@@ -25,14 +25,14 @@ func newUserFindWithBrowsePermissionCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find-with-browse-permission",
 		Short:       "Returns a list of users who fulfill these criteria: * their user attributes match a search string.",
 		Example:     "  jira-pp-cli-pp-cli user find-with-browse-permission",
-		Annotations: map[string]string{"pp:endpoint": "user.find-with-browse-permission", "pp:method": "GET", "pp:path": "/rest/api/2/user/viewissue/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.find-with-browse-permission", "pp:method": "GET", "pp:path": "/rest/api/3/user/viewissue/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/user/viewissue/search"
+			path := "/rest/api/3/user/viewissue/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"query":      fmt.Sprintf("%v", flagQuery),
 				"username":   fmt.Sprintf("%v", flagUsername),

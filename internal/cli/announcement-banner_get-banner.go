@@ -18,14 +18,14 @@ func newAnnouncementBannerGetBannerCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns the current announcement banner configuration.",
 		Example:     "  jira-pp-cli-pp-cli announcement-banner get-banner",
-		Annotations: map[string]string{"pp:endpoint": "announcement-banner.get-banner", "pp:method": "GET", "pp:path": "/rest/api/2/announcementBanner", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "announcement-banner.get-banner", "pp:method": "GET", "pp:path": "/rest/api/3/announcementBanner", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/announcementBanner"
+			path := "/rest/api/3/announcementBanner"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "announcement-banner", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

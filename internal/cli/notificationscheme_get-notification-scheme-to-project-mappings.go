@@ -23,14 +23,14 @@ func newNotificationschemeGetNotificationSchemeToProjectMappingsCmd(flags *rootF
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) mapping of project that have notification scheme assigned.",
 		Example:     "  jira-pp-cli-pp-cli notificationscheme get-notification-scheme-to-project-mappings",
-		Annotations: map[string]string{"pp:endpoint": "notificationscheme.get-notification-scheme-to-project-mappings", "pp:method": "GET", "pp:path": "/rest/api/2/notificationscheme/project", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "notificationscheme.get-notification-scheme-to-project-mappings", "pp:method": "GET", "pp:path": "/rest/api/3/notificationscheme/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/notificationscheme/project"
+			path := "/rest/api/3/notificationscheme/project"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "notificationscheme", path, map[string]string{
 				"startAt":              fmt.Sprintf("%v", flagStartAt),
 				"maxResults":           fmt.Sprintf("%v", flagMaxResults),

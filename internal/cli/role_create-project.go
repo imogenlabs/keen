@@ -22,7 +22,7 @@ func newRoleCreateProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Creates a new project role with no [default actors](#api-rest-api-2-resolution-get).",
 		Example:     "  jira-pp-cli-pp-cli role create-project",
-		Annotations: map[string]string{"pp:endpoint": "role.create-project", "pp:method": "POST", "pp:path": "/rest/api/2/role"},
+		Annotations: map[string]string{"pp:endpoint": "role.create-project", "pp:method": "POST", "pp:path": "/rest/api/3/role"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -31,7 +31,7 @@ func newRoleCreateProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/role"
+			path := "/rest/api/3/role"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

@@ -26,7 +26,7 @@ func newFieldOptionUpdateIssueFieldCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Updates or creates an option for a select list issue field.",
 		Example:     "  jira-pp-cli-pp-cli field option update-issue-field your-token-here 42 --value example-value",
-		Annotations: map[string]string{"pp:endpoint": "option.update-issue-field", "pp:method": "PUT", "pp:path": "/rest/api/2/field/{fieldKey}/option/{optionId}"},
+		Annotations: map[string]string{"pp:endpoint": "option.update-issue-field", "pp:method": "PUT", "pp:path": "/rest/api/3/field/{fieldKey}/option/{optionId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -44,7 +44,7 @@ func newFieldOptionUpdateIssueFieldCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldKey}/option/{optionId}"
+			path := "/rest/api/3/field/{fieldKey}/option/{optionId}"
 			path = replacePathParam(path, "fieldKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("optionId is required\nUsage: %s <%s>", cmd.CommandPath(), "optionId"))

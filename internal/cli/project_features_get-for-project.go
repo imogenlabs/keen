@@ -18,7 +18,7 @@ func newProjectFeaturesGetForProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns the list of features for a project.",
 		Example:     "  jira-pp-cli-pp-cli project features get-for-project your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "features.get-for-project", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/features", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "features.get-for-project", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/features", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectFeaturesGetForProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/features"
+			path := "/rest/api/3/project/{projectIdOrKey}/features"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "features", false, path, params, nil, cmd.ErrOrStderr())

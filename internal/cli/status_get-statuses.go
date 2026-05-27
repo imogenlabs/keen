@@ -18,14 +18,14 @@ func newStatusGetStatusesCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a list of all statuses associated with active workflows. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli status get-statuses",
-		Annotations: map[string]string{"pp:endpoint": "status.get-statuses", "pp:method": "GET", "pp:path": "/rest/api/2/status", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "status.get-statuses", "pp:method": "GET", "pp:path": "/rest/api/3/status", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/status"
+			path := "/rest/api/3/status"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "status", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

@@ -59,7 +59,7 @@ func newWorkflowschemeCreateWorkflowSchemeCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Creates a workflow scheme.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme create-workflow-scheme",
-		Annotations: map[string]string{"pp:endpoint": "workflowscheme.create-workflow-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/workflowscheme"},
+		Annotations: map[string]string{"pp:endpoint": "workflowscheme.create-workflow-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/workflowscheme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -68,7 +68,7 @@ func newWorkflowschemeCreateWorkflowSchemeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme"
+			path := "/rest/api/3/workflowscheme"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

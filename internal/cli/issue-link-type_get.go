@@ -18,14 +18,14 @@ func newIssueLinkTypeGetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a list of all issue link types. To use this operation, the site must have [issue linking](https://confluence.",
 		Example:     "  jira-pp-cli-pp-cli issue-link-type get",
-		Annotations: map[string]string{"pp:endpoint": "issue-link-type.get", "pp:method": "GET", "pp:path": "/rest/api/2/issueLinkType", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issue-link-type.get", "pp:method": "GET", "pp:path": "/rest/api/3/issueLinkType", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/issueLinkType"
+			path := "/rest/api/3/issueLinkType"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "issue-link-type", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

@@ -17,7 +17,7 @@ func newConfigGetFieldAssociationSchemeItemParametersCmd(flags *rootFlags) *cobr
 		Use:         "get-field-association-scheme-item-parameters <id> <fieldId>",
 		Short:       "Retrieve field association parameters on a field association scheme **[Permissions](#permissions) required",
 		Example:     "  jira-pp-cli-pp-cli config get-field-association-scheme-item-parameters 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "config.get-field-association-scheme-item-parameters", "pp:method": "GET", "pp:path": "/rest/api/2/config/fieldschemes/{id}/fields/{fieldId}/parameters", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "config.get-field-association-scheme-item-parameters", "pp:method": "GET", "pp:path": "/rest/api/3/config/fieldschemes/{id}/fields/{fieldId}/parameters", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newConfigGetFieldAssociationSchemeItemParametersCmd(flags *rootFlags) *cobr
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes/{id}/fields/{fieldId}/parameters"
+			path := "/rest/api/3/config/fieldschemes/{id}/fields/{fieldId}/parameters"
 			path = replacePathParam(path, "id", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("fieldId is required\nUsage: %s <%s>", cmd.CommandPath(), "fieldId"))

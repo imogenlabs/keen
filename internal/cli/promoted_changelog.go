@@ -22,7 +22,7 @@ func newChangelogPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Bulk fetch changelogs for multiple issues and filter by fields Returns a paginated list of all changelogs for given",
 		Long:        "Bulk fetch changelogs for multiple issues and filter by fields Returns a paginated list of all changelogs for given",
 		Example:     "  jira-pp-cli-pp-cli changelog",
-		Annotations: map[string]string{"pp:endpoint": "changelog.get-bulk", "pp:method": "POST", "pp:path": "/rest/api/2/changelog/bulkfetch"},
+		Annotations: map[string]string{"pp:endpoint": "changelog.get-bulk", "pp:method": "POST", "pp:path": "/rest/api/3/changelog/bulkfetch"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("issue-ids-or-keys") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "issue-ids-or-keys")
@@ -32,7 +32,7 @@ func newChangelogPromotedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/changelog/bulkfetch"
+			path := "/rest/api/3/changelog/bulkfetch"
 			params := map[string]string{}
 			// HasStore + non-GET falls through to a live API call here
 			// rather than through resolveRead (GET-only internally); a

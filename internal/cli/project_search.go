@@ -31,7 +31,7 @@ func newProjectSearchCmd(flags *rootFlags) *cobra.Command {
 		Use:         "search",
 		Short:       "Returns a [paginated](#pagination) list of projects visible to the user. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli project search",
-		Annotations: map[string]string{"pp:endpoint": "project.search", "pp:method": "GET", "pp:path": "/rest/api/2/project/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project.search", "pp:method": "GET", "pp:path": "/rest/api/3/project/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"category", "-category", "+category", "key", "-key", "+key", "name", "-name", "+name", "owner", "-owner", "+owner", "issueCount", "-issueCount", "+issueCount", "lastIssueUpdatedDate", "-lastIssueUpdatedDate", "+lastIssueUpdatedDate", "archivedDate", "+archivedDate", "-archivedDate", "deletedDate", "+deletedDate", "-deletedDate"}
@@ -76,7 +76,7 @@ func newProjectSearchCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/search"
+			path := "/rest/api/3/project/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "project", path, map[string]string{
 				"startAt":       fmt.Sprintf("%v", flagStartAt),
 				"maxResults":    fmt.Sprintf("%v", flagMaxResults),

@@ -18,7 +18,7 @@ func newResolutionDeleteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete <id>",
 		Short:       "Deletes an issue resolution. This operation is [asynchronous](#async).",
 		Example:     "  jira-pp-cli-pp-cli resolution delete 550e8400-e29b-41d4-a716-446655440000 --replace-with example-value",
-		Annotations: map[string]string{"pp:endpoint": "resolution.delete", "pp:method": "DELETE", "pp:path": "/rest/api/2/resolution/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "resolution.delete", "pp:method": "DELETE", "pp:path": "/rest/api/3/resolution/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newResolutionDeleteCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/resolution/{id}"
+			path := "/rest/api/3/resolution/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagReplaceWith != "" {

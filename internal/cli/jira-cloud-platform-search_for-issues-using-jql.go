@@ -27,7 +27,7 @@ func newJiraCloudPlatformSearchForIssuesUsingJqlCmd(flags *rootFlags) *cobra.Com
 		Use:         "for-issues-using-jql",
 		Short:       "Endpoint is currently being removed. [More details](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-search for-issues-using-jql",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.for-issues-using-jql", "pp:method": "GET", "pp:path": "/rest/api/2/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.for-issues-using-jql", "pp:method": "GET", "pp:path": "/rest/api/3/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("validate-query") {
 				allowedValidateQuery := []string{"strict", "warn", "none", "true", "false"}
@@ -53,7 +53,7 @@ func newJiraCloudPlatformSearchForIssuesUsingJqlCmd(flags *rootFlags) *cobra.Com
 				return err
 			}
 
-			path := "/rest/api/2/search"
+			path := "/rest/api/3/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "jira-cloud-platform-search", path, map[string]string{
 				"jql":           fmt.Sprintf("%v", flagJql),
 				"startAt":       fmt.Sprintf("%v", flagStartAt),

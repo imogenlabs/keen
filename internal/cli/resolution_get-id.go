@@ -17,7 +17,7 @@ func newResolutionGetIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-id <id>",
 		Short:       "Returns an issue resolution value. **[Permissions](#permissions) required:** Permission to access Jira.",
 		Example:     "  jira-pp-cli-pp-cli resolution get-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "resolution.get-id", "pp:method": "GET", "pp:path": "/rest/api/2/resolution/{id}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "resolution.get-id", "pp:method": "GET", "pp:path": "/rest/api/3/resolution/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newResolutionGetIdCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/resolution/{id}"
+			path := "/rest/api/3/resolution/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "resolution", false, path, params, nil, cmd.ErrOrStderr())

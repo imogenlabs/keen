@@ -21,7 +21,7 @@ func newFieldconfigurationFieldsGetConfigurationItemsCmd(flags *rootFlags) *cobr
 		Aliases:     []string{"get"},
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli fieldconfiguration fields get-configuration-items 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "fields.get-configuration-items", "pp:method": "GET", "pp:path": "/rest/api/2/fieldconfiguration/{id}/fields", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "fields.get-configuration-items", "pp:method": "GET", "pp:path": "/rest/api/3/fieldconfiguration/{id}/fields", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newFieldconfigurationFieldsGetConfigurationItemsCmd(flags *rootFlags) *cobr
 				return err
 			}
 
-			path := "/rest/api/2/fieldconfiguration/{id}/fields"
+			path := "/rest/api/3/fieldconfiguration/{id}/fields"
 			path = replacePathParam(path, "id", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "fields", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

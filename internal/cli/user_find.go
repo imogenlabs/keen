@@ -24,7 +24,7 @@ func newUserFindCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find",
 		Short:       "Returns a list of active users that match the search string and property.",
 		Example:     "  jira-pp-cli-pp-cli user find",
-		Annotations: map[string]string{"pp:endpoint": "user.find", "pp:method": "GET", "pp:path": "/rest/api/2/user/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.find", "pp:method": "GET", "pp:path": "/rest/api/3/user/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("property") {
 				var parsedProperty any
@@ -37,7 +37,7 @@ func newUserFindCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/search"
+			path := "/rest/api/3/user/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"query":      fmt.Sprintf("%v", flagQuery),
 				"username":   fmt.Sprintf("%v", flagUsername),

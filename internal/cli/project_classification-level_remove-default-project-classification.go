@@ -18,7 +18,7 @@ func newProjectClassificationLevelRemoveDefaultProjectClassificationCmd(flags *r
 		Aliases:     []string{"delete"},
 		Short:       "Remove the default data classification level for a project.",
 		Example:     "  jira-pp-cli-pp-cli project classification-level remove-default-project-classification your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "classification-level.remove-default-project-classification", "pp:method": "DELETE", "pp:path": "/rest/api/2/project/{projectIdOrKey}/classification-level/default"},
+		Annotations: map[string]string{"pp:endpoint": "classification-level.remove-default-project-classification", "pp:method": "DELETE", "pp:path": "/rest/api/3/project/{projectIdOrKey}/classification-level/default"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectClassificationLevelRemoveDefaultProjectClassificationCmd(flags *r
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/classification-level/default"
+			path := "/rest/api/3/project/{projectIdOrKey}/classification-level/default"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)

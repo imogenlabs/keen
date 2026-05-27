@@ -18,7 +18,7 @@ func newScreensTabsGetAllScreenFieldsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-all-screen-fields <screenId> <tabId>",
 		Short:       "Returns all fields for a screen tab.",
 		Example:     "  jira-pp-cli-pp-cli screens tabs get-all-screen-fields 42 42",
-		Annotations: map[string]string{"pp:endpoint": "tabs.get-all-screen-fields", "pp:method": "GET", "pp:path": "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "tabs.get-all-screen-fields", "pp:method": "GET", "pp:path": "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newScreensTabsGetAllScreenFieldsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields"
+			path := "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields"
 			path = replacePathParam(path, "screenId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("tabId is required\nUsage: %s <%s>", cmd.CommandPath(), "tabId"))

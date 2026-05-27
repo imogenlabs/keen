@@ -31,7 +31,7 @@ func newIssueRemotelinkUpdateRemoteIssueLinkCmd(flags *rootFlags) *cobra.Command
 		Aliases:     []string{"update"},
 		Short:       "Updates a remote issue link for an issue. Note: Fields without values in the request are set to null.",
 		Example:     "  jira-pp-cli-pp-cli issue remotelink update-remote-issue-link your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "remotelink.update-remote-issue-link", "pp:method": "PUT", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}"},
+		Annotations: map[string]string{"pp:endpoint": "remotelink.update-remote-issue-link", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/remotelink/{linkId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -49,7 +49,7 @@ func newIssueRemotelinkUpdateRemoteIssueLinkCmd(flags *rootFlags) *cobra.Command
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}"
+			path := "/rest/api/3/issue/{issueIdOrKey}/remotelink/{linkId}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("linkId is required\nUsage: %s <%s>", cmd.CommandPath(), "linkId"))

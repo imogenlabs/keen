@@ -19,7 +19,7 @@ func newIssuesecurityschemesLevelRemoveCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes an issue security level. This operation is [asynchronous](#async).",
 		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes level remove 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "level.remove", "pp:method": "DELETE", "pp:path": "/rest/api/2/issuesecurityschemes/{schemeId}/level/{levelId}"},
+		Annotations: map[string]string{"pp:endpoint": "level.remove", "pp:method": "DELETE", "pp:path": "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -29,7 +29,7 @@ func newIssuesecurityschemesLevelRemoveCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issuesecurityschemes/{schemeId}/level/{levelId}"
+			path := "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}"
 			path = replacePathParam(path, "schemeId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("levelId is required\nUsage: %s <%s>", cmd.CommandPath(), "levelId"))

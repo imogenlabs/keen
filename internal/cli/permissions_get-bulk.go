@@ -23,7 +23,7 @@ func newPermissionsGetBulkCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Returns: * for a list of global permissions, the global permissions granted to a user.",
 		Example:     "  jira-pp-cli-pp-cli permissions get-bulk",
-		Annotations: map[string]string{"pp:endpoint": "permissions.get-bulk", "pp:method": "POST", "pp:path": "/rest/api/2/permissions/check"},
+		Annotations: map[string]string{"pp:endpoint": "permissions.get-bulk", "pp:method": "POST", "pp:path": "/rest/api/3/permissions/check"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -32,7 +32,7 @@ func newPermissionsGetBulkCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/permissions/check"
+			path := "/rest/api/3/permissions/check"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

@@ -22,7 +22,7 @@ func newConfigCloneFieldAssociationSchemeCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Endpoint for cloning an existing field association scheme into a new one.",
 		Example:     "  jira-pp-cli-pp-cli config clone-field-association-scheme 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "config.clone-field-association-scheme", "pp:method": "POST", "pp:path": "/rest/api/2/config/fieldschemes/{id}/clone"},
+		Annotations: map[string]string{"pp:endpoint": "config.clone-field-association-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/config/fieldschemes/{id}/clone"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -37,7 +37,7 @@ func newConfigCloneFieldAssociationSchemeCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/config/fieldschemes/{id}/clone"
+			path := "/rest/api/3/config/fieldschemes/{id}/clone"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

@@ -28,7 +28,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlCmd(flags *rootFlags) *
 		Aliases:     []string{"list"},
 		Short:       "Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ).",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-search and-reconsile-issues-using-jql",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.and-reconsile-issues-using-jql", "pp:method": "GET", "pp:path": "/rest/api/2/search/jql", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.and-reconsile-issues-using-jql", "pp:method": "GET", "pp:path": "/rest/api/3/search/jql", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("expand") {
 				var parsedExpand any
@@ -41,7 +41,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlCmd(flags *rootFlags) *
 				return err
 			}
 
-			path := "/rest/api/2/search/jql"
+			path := "/rest/api/3/search/jql"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "jira-cloud-platform-search", path, map[string]string{
 				"jql":             fmt.Sprintf("%v", flagJql),
 				"nextPageToken":   fmt.Sprintf("%v", flagNextPageToken),

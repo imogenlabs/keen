@@ -20,7 +20,7 @@ func newPlansDuplicateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "duplicate <planId>",
 		Short:       "Duplicates a plan. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.",
 		Example:     "  jira-pp-cli-pp-cli plans duplicate 42 --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "plans.duplicate", "pp:method": "POST", "pp:path": "/rest/api/2/plans/plan/{planId}/duplicate"},
+		Annotations: map[string]string{"pp:endpoint": "plans.duplicate", "pp:method": "POST", "pp:path": "/rest/api/3/plans/plan/{planId}/duplicate"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -35,7 +35,7 @@ func newPlansDuplicateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}/duplicate"
+			path := "/rest/api/3/plans/plan/{planId}/duplicate"
 			path = replacePathParam(path, "planId", args[0])
 			params := map[string]string{}
 			var body map[string]any

@@ -18,7 +18,7 @@ func newIssuetypescreenschemeDeleteIssueTypeScreenSchemeCmd(flags *rootFlags) *c
 		Aliases:     []string{"delete"},
 		Short:       "Deletes an issue type screen scheme.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescreenscheme delete-issue-type-screen-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.delete-issue-type-screen-scheme", "pp:method": "DELETE", "pp:path": "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}"},
+		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.delete-issue-type-screen-scheme", "pp:method": "DELETE", "pp:path": "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newIssuetypescreenschemeDeleteIssueTypeScreenSchemeCmd(flags *rootFlags) *c
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}"
+			path := "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}"
 			path = replacePathParam(path, "issueTypeScreenSchemeId", args[0])
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)

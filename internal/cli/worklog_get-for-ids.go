@@ -22,7 +22,7 @@ func newWorklogGetForIdsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Returns worklog details for a list of worklog IDs. The returned list of worklogs is limited to 1000 items.",
 		Example:     "  jira-pp-cli-pp-cli worklog get-for-ids",
-		Annotations: map[string]string{"pp:endpoint": "worklog.get-for-ids", "pp:method": "POST", "pp:path": "/rest/api/2/worklog/list"},
+		Annotations: map[string]string{"pp:endpoint": "worklog.get-for-ids", "pp:method": "POST", "pp:path": "/rest/api/3/worklog/list"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("ids") && !flags.dryRun {
@@ -34,7 +34,7 @@ func newWorklogGetForIdsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/worklog/list"
+			path := "/rest/api/3/worklog/list"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

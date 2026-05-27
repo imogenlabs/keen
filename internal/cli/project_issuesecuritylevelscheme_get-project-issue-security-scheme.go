@@ -18,7 +18,7 @@ func newProjectIssuesecuritylevelschemeGetProjectIssueSecuritySchemeCmd(flags *r
 		Aliases:     []string{"get"},
 		Short:       "Returns the [issue security scheme](https://confluence.atlassian.com/x/J4lKLg) associated with the project.",
 		Example:     "  jira-pp-cli-pp-cli project issuesecuritylevelscheme get-project-issue-security-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "issuesecuritylevelscheme.get-project-issue-security-scheme", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectKeyOrId}/issuesecuritylevelscheme", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issuesecuritylevelscheme.get-project-issue-security-scheme", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectKeyOrId}/issuesecuritylevelscheme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectIssuesecuritylevelschemeGetProjectIssueSecuritySchemeCmd(flags *r
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectKeyOrId}/issuesecuritylevelscheme"
+			path := "/rest/api/3/project/{projectKeyOrId}/issuesecuritylevelscheme"
 			path = replacePathParam(path, "projectKeyOrId", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "issuesecuritylevelscheme", false, path, params, nil, cmd.ErrOrStderr())

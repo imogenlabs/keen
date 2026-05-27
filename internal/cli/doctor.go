@@ -157,7 +157,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 					report["api"] = fmt.Sprintf("client init error: %s", clientErr)
 				} else {
 					// Step 1: Basic reachability via the configured transport.
-					healthPath := "/rest/api/2/user"
+					healthPath := "/rest/api/3/user"
 					if !strings.HasPrefix(healthPath, "/") {
 						healthPath = "/" + healthPath
 					}
@@ -207,7 +207,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 						authHeaders := map[string]string{}
 						authHeaders["Authorization"] = authHeader
 						authHeaders["User-Agent"] = "jira-pp-cli-pp-cli"
-						verifyPath := "/rest/api/2/user"
+						verifyPath := "/rest/api/3/user"
 						if !strings.HasPrefix(verifyPath, "/") {
 							verifyPath = "/" + verifyPath
 						}

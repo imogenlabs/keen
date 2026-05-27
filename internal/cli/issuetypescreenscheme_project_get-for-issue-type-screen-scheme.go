@@ -22,7 +22,7 @@ func newIssuetypescreenschemeProjectGetForIssueTypeScreenSchemeCmd(flags *rootFl
 		Aliases:     []string{"get"},
 		Short:       "Returns a [paginated](#pagination) list of projects associated with an issue type screen scheme.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescreenscheme project get-for-issue-type-screen-scheme 42",
-		Annotations: map[string]string{"pp:endpoint": "project.get-for-issue-type-screen-scheme", "pp:method": "GET", "pp:path": "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/project", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "project.get-for-issue-type-screen-scheme", "pp:method": "GET", "pp:path": "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newIssuetypescreenschemeProjectGetForIssueTypeScreenSchemeCmd(flags *rootFl
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/project"
+			path := "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/project"
 			path = replacePathParam(path, "issueTypeScreenSchemeId", args[0])
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "project", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

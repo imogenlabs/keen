@@ -22,7 +22,7 @@ func newIssuetypeschemeUpdateIssueTypeSchemeCmd(flags *rootFlags) *cobra.Command
 		Use:         "update-issue-type-scheme <issueTypeSchemeId>",
 		Short:       "Updates an issue type scheme.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescheme update-issue-type-scheme 42",
-		Annotations: map[string]string{"pp:endpoint": "issuetypescheme.update-issue-type-scheme", "pp:method": "PUT", "pp:path": "/rest/api/2/issuetypescheme/{issueTypeSchemeId}"},
+		Annotations: map[string]string{"pp:endpoint": "issuetypescheme.update-issue-type-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/issuetypescheme/{issueTypeSchemeId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newIssuetypeschemeUpdateIssueTypeSchemeCmd(flags *rootFlags) *cobra.Command
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescheme/{issueTypeSchemeId}"
+			path := "/rest/api/3/issuetypescheme/{issueTypeSchemeId}"
 			path = replacePathParam(path, "issueTypeSchemeId", args[0])
 			params := map[string]string{}
 			var body map[string]any

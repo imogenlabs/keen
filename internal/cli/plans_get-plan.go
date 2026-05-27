@@ -18,7 +18,7 @@ func newPlansGetPlanCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-plan <planId>",
 		Short:       "Returns a plan. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.",
 		Example:     "  jira-pp-cli-pp-cli plans get-plan 42",
-		Annotations: map[string]string{"pp:endpoint": "plans.get-plan", "pp:method": "GET", "pp:path": "/rest/api/2/plans/plan/{planId}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "plans.get-plan", "pp:method": "GET", "pp:path": "/rest/api/3/plans/plan/{planId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newPlansGetPlanCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}"
+			path := "/rest/api/3/plans/plan/{planId}"
 			path = replacePathParam(path, "planId", args[0])
 			params := map[string]string{}
 			if flagUseGroupId != false {

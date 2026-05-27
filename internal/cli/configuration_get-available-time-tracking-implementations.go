@@ -17,14 +17,14 @@ func newConfigurationGetAvailableTimeTrackingImplementationsCmd(flags *rootFlags
 		Use:         "get-available-time-tracking-implementations",
 		Short:       "Returns all time tracking providers.",
 		Example:     "  jira-pp-cli-pp-cli configuration get-available-time-tracking-implementations",
-		Annotations: map[string]string{"pp:endpoint": "configuration.get-available-time-tracking-implementations", "pp:method": "GET", "pp:path": "/rest/api/2/configuration/timetracking/list", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "configuration.get-available-time-tracking-implementations", "pp:method": "GET", "pp:path": "/rest/api/3/configuration/timetracking/list", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/configuration/timetracking/list"
+			path := "/rest/api/3/configuration/timetracking/list"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "configuration", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

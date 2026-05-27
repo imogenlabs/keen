@@ -18,14 +18,14 @@ func newEventsPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns all issue events.",
 		Long:        "Returns all issue events.",
 		Example:     "  jira-pp-cli-pp-cli events",
-		Annotations: map[string]string{"pp:endpoint": "events.get", "pp:method": "GET", "pp:path": "/rest/api/2/events", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "events.get", "pp:method": "GET", "pp:path": "/rest/api/3/events", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/events"
+			path := "/rest/api/3/events"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "events", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

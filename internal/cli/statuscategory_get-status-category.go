@@ -18,7 +18,7 @@ func newStatuscategoryGetStatusCategoryCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns a status category.",
 		Example:     "  jira-pp-cli-pp-cli statuscategory get-status-category your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "statuscategory.get-status-category", "pp:method": "GET", "pp:path": "/rest/api/2/statuscategory/{idOrKey}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "statuscategory.get-status-category", "pp:method": "GET", "pp:path": "/rest/api/3/statuscategory/{idOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newStatuscategoryGetStatusCategoryCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/statuscategory/{idOrKey}"
+			path := "/rest/api/3/statuscategory/{idOrKey}"
 			path = replacePathParam(path, "idOrKey", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "statuscategory", false, path, params, nil, cmd.ErrOrStderr())

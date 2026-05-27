@@ -20,7 +20,7 @@ func newFieldRestoreCustomFieldCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Restores a custom field from trash. See [Edit or delete a custom field](https://confluence.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli field restore custom-field 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "restore.custom-field", "pp:method": "POST", "pp:path": "/rest/api/2/field/{id}/restore"},
+		Annotations: map[string]string{"pp:endpoint": "restore.custom-field", "pp:method": "POST", "pp:path": "/rest/api/3/field/{id}/restore"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -32,7 +32,7 @@ func newFieldRestoreCustomFieldCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/field/{id}/restore"
+			path := "/rest/api/3/field/{id}/restore"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			var body map[string]any

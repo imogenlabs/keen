@@ -22,7 +22,7 @@ func newWorkflowsValidateUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "validate-update",
 		Short:       "Validate the payload for bulk update workflows.",
 		Example:     "  jira-pp-cli-pp-cli workflows validate-update",
-		Annotations: map[string]string{"pp:endpoint": "workflows.validate-update", "pp:method": "POST", "pp:path": "/rest/api/2/workflows/update/validation"},
+		Annotations: map[string]string{"pp:endpoint": "workflows.validate-update", "pp:method": "POST", "pp:path": "/rest/api/3/workflows/update/validation"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -31,7 +31,7 @@ func newWorkflowsValidateUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflows/update/validation"
+			path := "/rest/api/3/workflows/update/validation"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

@@ -21,7 +21,7 @@ func newUserFindByQueryCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find-by-query",
 		Short:       "Finds users with a structured query and returns a [paginated](#pagination) list of user details.",
 		Example:     "  jira-pp-cli-pp-cli user find-by-query --query example-value",
-		Annotations: map[string]string{"pp:endpoint": "user.find-by-query", "pp:method": "GET", "pp:path": "/rest/api/2/user/search/query", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.find-by-query", "pp:method": "GET", "pp:path": "/rest/api/3/user/search/query", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("query") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "query")
@@ -31,7 +31,7 @@ func newUserFindByQueryCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/search/query"
+			path := "/rest/api/3/user/search/query"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "user", path, map[string]string{
 				"query":      fmt.Sprintf("%v", flagQuery),
 				"startAt":    fmt.Sprintf("%v", flagStartAt),

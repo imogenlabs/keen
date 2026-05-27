@@ -20,7 +20,7 @@ func newJiraCloudPlatformWorkflowUpdateTransitionRuleConfigurationsCmd(flags *ro
 		Use:         "update-transition-rule-configurations",
 		Short:       "Updates configuration of workflow transition rules.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow update-transition-rule-configurations",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.update-transition-rule-configurations", "pp:method": "PUT", "pp:path": "/rest/api/2/workflow/rule/config"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.update-transition-rule-configurations", "pp:method": "PUT", "pp:path": "/rest/api/3/workflow/rule/config"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("workflows") && !flags.dryRun {
@@ -32,7 +32,7 @@ func newJiraCloudPlatformWorkflowUpdateTransitionRuleConfigurationsCmd(flags *ro
 				return err
 			}
 
-			path := "/rest/api/2/workflow/rule/config"
+			path := "/rest/api/3/workflow/rule/config"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

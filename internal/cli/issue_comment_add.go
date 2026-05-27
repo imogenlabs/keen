@@ -59,7 +59,7 @@ func newIssueCommentAddCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Adds a comment to an issue. This operation can be accessed anonymously.",
 		Example:     "  jira-pp-cli-pp-cli issue comment add your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "comment.add", "pp:method": "POST", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/comment"},
+		Annotations: map[string]string{"pp:endpoint": "comment.add", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/comment"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -71,7 +71,7 @@ func newIssueCommentAddCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/comment"
+			path := "/rest/api/3/issue/{issueIdOrKey}/comment"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			if flagExpand != "" {

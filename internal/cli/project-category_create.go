@@ -23,7 +23,7 @@ func newProjectCategoryCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates a project category.",
 		Example:     "  jira-pp-cli-pp-cli project-category create",
-		Annotations: map[string]string{"pp:endpoint": "project-category.create", "pp:method": "POST", "pp:path": "/rest/api/2/projectCategory"},
+		Annotations: map[string]string{"pp:endpoint": "project-category.create", "pp:method": "POST", "pp:path": "/rest/api/3/projectCategory"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -32,7 +32,7 @@ func newProjectCategoryCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/projectCategory"
+			path := "/rest/api/3/projectCategory"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

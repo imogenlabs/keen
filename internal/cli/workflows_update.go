@@ -26,7 +26,7 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update",
 		Short:       "Update workflows and related statuses.",
 		Example:     "  jira-pp-cli-pp-cli workflows update",
-		Annotations: map[string]string{"pp:endpoint": "workflows.update", "pp:method": "POST", "pp:path": "/rest/api/2/workflows/update"},
+		Annotations: map[string]string{"pp:endpoint": "workflows.update", "pp:method": "POST", "pp:path": "/rest/api/3/workflows/update"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -35,7 +35,7 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflows/update"
+			path := "/rest/api/3/workflows/update"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {
@@ -83,7 +83,7 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/api/2/status", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/status", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

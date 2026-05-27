@@ -18,7 +18,7 @@ func newProjectStatusesGetAllCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns the valid statuses for a project.",
 		Example:     "  jira-pp-cli-pp-cli project statuses get-all your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "statuses.get-all", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/statuses", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "statuses.get-all", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/statuses", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectStatusesGetAllCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/statuses"
+			path := "/rest/api/3/project/{projectIdOrKey}/statuses"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "statuses", false, path, params, nil, cmd.ErrOrStderr())

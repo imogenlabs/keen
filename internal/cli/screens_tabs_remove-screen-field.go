@@ -17,7 +17,7 @@ func newScreensTabsRemoveScreenFieldCmd(flags *rootFlags) *cobra.Command {
 		Use:         "remove-screen-field <screenId> <tabId> <id>",
 		Short:       "Removes a field from a screen tab.",
 		Example:     "  jira-pp-cli-pp-cli screens tabs remove-screen-field 42 42 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "tabs.remove-screen-field", "pp:method": "DELETE", "pp:path": "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "tabs.remove-screen-field", "pp:method": "DELETE", "pp:path": "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newScreensTabsRemoveScreenFieldCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields/{id}"
+			path := "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields/{id}"
 			path = replacePathParam(path, "screenId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("tabId is required\nUsage: %s <%s>", cmd.CommandPath(), "tabId"))

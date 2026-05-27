@@ -18,7 +18,7 @@ func newProjectClassificationConfigGetProjectCmd(flags *rootFlags) *cobra.Comman
 		Aliases:     []string{"get"},
 		Short:       "Returns the consolidated classification configuration for a project's admin settings page.",
 		Example:     "  jira-pp-cli-pp-cli project classification-config get-project your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "classification-config.get-project", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/classification-config", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "classification-config.get-project", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/classification-config", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectClassificationConfigGetProjectCmd(flags *rootFlags) *cobra.Comman
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/classification-config"
+			path := "/rest/api/3/project/{projectIdOrKey}/classification-config"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "classification-config", false, path, params, nil, cmd.ErrOrStderr())

@@ -18,7 +18,7 @@ func newProjectPropertiesGetProjectPropertyCmd(flags *rootFlags) *cobra.Command 
 		Aliases:     []string{"get"},
 		Short:       "Returns the value of a [project property](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli project properties get-project-property your-token-here your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "properties.get-project-property", "pp:method": "GET", "pp:path": "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "properties.get-project-property", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newProjectPropertiesGetProjectPropertyCmd(flags *rootFlags) *cobra.Command 
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}"
+			path := "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("propertyKey is required\nUsage: %s <%s>", cmd.CommandPath(), "propertyKey"))

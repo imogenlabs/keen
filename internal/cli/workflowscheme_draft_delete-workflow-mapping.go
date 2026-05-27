@@ -18,7 +18,7 @@ func newWorkflowschemeDraftDeleteWorkflowMappingCmd(flags *rootFlags) *cobra.Com
 		Use:         "delete-workflow-mapping <id>",
 		Short:       "Deletes the workflow-issue type mapping for a workflow in a workflow scheme's draft.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme draft delete-workflow-mapping 550e8400-e29b-41d4-a716-446655440000 --workflow-name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "draft.delete-workflow-mapping", "pp:method": "DELETE", "pp:path": "/rest/api/2/workflowscheme/{id}/draft/workflow"},
+		Annotations: map[string]string{"pp:endpoint": "draft.delete-workflow-mapping", "pp:method": "DELETE", "pp:path": "/rest/api/3/workflowscheme/{id}/draft/workflow"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newWorkflowschemeDraftDeleteWorkflowMappingCmd(flags *rootFlags) *cobra.Com
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/{id}/draft/workflow"
+			path := "/rest/api/3/workflowscheme/{id}/draft/workflow"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagWorkflowName != "" {

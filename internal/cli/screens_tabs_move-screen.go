@@ -19,7 +19,7 @@ func newScreensTabsMoveScreenCmd(flags *rootFlags) *cobra.Command {
 		Use:         "move-screen <screenId> <tabId> <pos>",
 		Short:       "Moves a screen tab. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.",
 		Example:     "  jira-pp-cli-pp-cli screens tabs move-screen 42 42 42",
-		Annotations: map[string]string{"pp:endpoint": "tabs.move-screen", "pp:method": "POST", "pp:path": "/rest/api/2/screens/{screenId}/tabs/{tabId}/move/{pos}"},
+		Annotations: map[string]string{"pp:endpoint": "tabs.move-screen", "pp:method": "POST", "pp:path": "/rest/api/3/screens/{screenId}/tabs/{tabId}/move/{pos}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newScreensTabsMoveScreenCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens/{screenId}/tabs/{tabId}/move/{pos}"
+			path := "/rest/api/3/screens/{screenId}/tabs/{tabId}/move/{pos}"
 			path = replacePathParam(path, "screenId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("tabId is required\nUsage: %s <%s>", cmd.CommandPath(), "tabId"))

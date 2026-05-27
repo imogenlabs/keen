@@ -63,7 +63,7 @@ func newIssueLinkLinkIssuesCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Creates a link between two issues.",
 		Example:     "  jira-pp-cli-pp-cli issue-link link-issues",
-		Annotations: map[string]string{"pp:endpoint": "issue-link.link-issues", "pp:method": "POST", "pp:path": "/rest/api/2/issueLink"},
+		Annotations: map[string]string{"pp:endpoint": "issue-link.link-issues", "pp:method": "POST", "pp:path": "/rest/api/3/issueLink"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -72,7 +72,7 @@ func newIssueLinkLinkIssuesCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issueLink"
+			path := "/rest/api/3/issueLink"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

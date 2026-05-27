@@ -18,7 +18,7 @@ func newUserGetEmailCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-email",
 		Short:       "Returns a user's email address regardless of the user's profile visibility settings.",
 		Example:     "  jira-pp-cli-pp-cli user get-email --account-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "user.get-email", "pp:method": "GET", "pp:path": "/rest/api/2/user/email", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "user.get-email", "pp:method": "GET", "pp:path": "/rest/api/3/user/email", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("account-id") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "account-id")
@@ -28,7 +28,7 @@ func newUserGetEmailCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/email"
+			path := "/rest/api/3/user/email"
 			params := map[string]string{}
 			if flagAccountId != "" {
 				params["accountId"] = fmt.Sprintf("%v", flagAccountId)

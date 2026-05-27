@@ -20,7 +20,7 @@ func newStatusesUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update",
 		Short:       "Updates statuses by ID. **[Permissions](#permissions) required:** * *Administer projects* [project permission.",
 		Example:     "  jira-pp-cli-pp-cli statuses update",
-		Annotations: map[string]string{"pp:endpoint": "statuses.update", "pp:method": "PUT", "pp:path": "/rest/api/2/statuses"},
+		Annotations: map[string]string{"pp:endpoint": "statuses.update", "pp:method": "PUT", "pp:path": "/rest/api/3/statuses"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("statuses") && !flags.dryRun {
@@ -32,7 +32,7 @@ func newStatusesUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/statuses"
+			path := "/rest/api/3/statuses"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

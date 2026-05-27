@@ -23,7 +23,7 @@ func newIssueGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get <issueIdOrKey>",
 		Short:       "Returns the details for an issue.",
 		Example:     "  jira-pp-cli-pp-cli issue get your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "issue.get", "pp:method": "GET", "pp:path": "/rest/api/2/issue/{issueIdOrKey}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "issue.get", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -39,7 +39,7 @@ func newIssueGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}"
+			path := "/rest/api/3/issue/{issueIdOrKey}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			if flagFields != "" {

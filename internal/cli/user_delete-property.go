@@ -21,7 +21,7 @@ func newUserDeletePropertyCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a property from a user. Note: This operation does not access the [user properties](https://confluence.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli user delete-property your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "user.delete-property", "pp:method": "DELETE", "pp:path": "/rest/api/2/user/properties/{propertyKey}"},
+		Annotations: map[string]string{"pp:endpoint": "user.delete-property", "pp:method": "DELETE", "pp:path": "/rest/api/3/user/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -31,7 +31,7 @@ func newUserDeletePropertyCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/properties/{propertyKey}"
+			path := "/rest/api/3/user/properties/{propertyKey}"
 			path = replacePathParam(path, "propertyKey", args[0])
 			params := map[string]string{}
 			if flagAccountId != "" {

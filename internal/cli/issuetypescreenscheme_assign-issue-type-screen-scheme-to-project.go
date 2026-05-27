@@ -22,7 +22,7 @@ func newIssuetypescreenschemeAssignIssueTypeScreenSchemeToProjectCmd(flags *root
 		Aliases:     []string{"update"},
 		Short:       "Assigns an issue type screen scheme to a project. Issue type screen schemes can only be assigned to classic projects.",
 		Example:     "  jira-pp-cli-pp-cli issuetypescreenscheme assign-issue-type-screen-scheme-to-project",
-		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.assign-issue-type-screen-scheme-to-project", "pp:method": "PUT", "pp:path": "/rest/api/2/issuetypescreenscheme/project"},
+		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.assign-issue-type-screen-scheme-to-project", "pp:method": "PUT", "pp:path": "/rest/api/3/issuetypescreenscheme/project"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -31,7 +31,7 @@ func newIssuetypescreenschemeAssignIssueTypeScreenSchemeToProjectCmd(flags *root
 				return err
 			}
 
-			path := "/rest/api/2/issuetypescreenscheme/project"
+			path := "/rest/api/3/issuetypescreenscheme/project"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

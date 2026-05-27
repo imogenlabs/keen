@@ -25,7 +25,7 @@ func newScreensGetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of all screens or those specified by one or more screen IDs.",
 		Example:     "  jira-pp-cli-pp-cli screens get",
-		Annotations: map[string]string{"pp:endpoint": "screens.get", "pp:method": "GET", "pp:path": "/rest/api/2/screens", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "screens.get", "pp:method": "GET", "pp:path": "/rest/api/3/screens", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				allowedOrderBy := []string{"name", "-name", "+name", "id", "-id", "+id"}
@@ -51,7 +51,7 @@ func newScreensGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens"
+			path := "/rest/api/3/screens"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "screens", path, map[string]string{
 				"startAt":     fmt.Sprintf("%v", flagStartAt),
 				"maxResults":  fmt.Sprintf("%v", flagMaxResults),

@@ -27,7 +27,7 @@ func newProjectAvatarUpdateProjectCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Sets the avatar displayed for a project.",
 		Example:     "  jira-pp-cli-pp-cli project avatar update-project your-token-here --id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "avatar.update-project", "pp:method": "PUT", "pp:path": "/rest/api/2/project/{projectIdOrKey}/avatar"},
+		Annotations: map[string]string{"pp:endpoint": "avatar.update-project", "pp:method": "PUT", "pp:path": "/rest/api/3/project/{projectIdOrKey}/avatar"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -42,7 +42,7 @@ func newProjectAvatarUpdateProjectCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/avatar"
+			path := "/rest/api/3/project/{projectIdOrKey}/avatar"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			params := map[string]string{}
 			var body map[string]any

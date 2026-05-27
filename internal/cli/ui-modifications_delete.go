@@ -17,7 +17,7 @@ func newUiModificationsDeleteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete <uiModificationId>",
 		Short:       "Deletes a UI modification. All the contexts that belong to the UI modification are deleted too.",
 		Example:     "  jira-pp-cli-pp-cli ui-modifications delete 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "ui-modifications.delete", "pp:method": "DELETE", "pp:path": "/rest/api/2/uiModifications/{uiModificationId}"},
+		Annotations: map[string]string{"pp:endpoint": "ui-modifications.delete", "pp:method": "DELETE", "pp:path": "/rest/api/3/uiModifications/{uiModificationId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newUiModificationsDeleteCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/uiModifications/{uiModificationId}"
+			path := "/rest/api/3/uiModifications/{uiModificationId}"
 			path = replacePathParam(path, "uiModificationId", args[0])
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)

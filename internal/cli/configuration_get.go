@@ -18,14 +18,14 @@ func newConfigurationGetCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns the [global settings](https://confluence.atlassian.com/x/qYXKM) in Jira.",
 		Example:     "  jira-pp-cli-pp-cli configuration get",
-		Annotations: map[string]string{"pp:endpoint": "configuration.get", "pp:method": "GET", "pp:path": "/rest/api/2/configuration", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "configuration.get", "pp:method": "GET", "pp:path": "/rest/api/3/configuration", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/configuration"
+			path := "/rest/api/3/configuration"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "configuration", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

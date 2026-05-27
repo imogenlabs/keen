@@ -22,7 +22,7 @@ func newUserSetColumnsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Sets the default [ issue table columns](https://confluence.atlassian.com/x/XYdKLg) for the user.",
 		Example:     "  jira-pp-cli-pp-cli user set-columns",
-		Annotations: map[string]string{"pp:endpoint": "user.set-columns", "pp:method": "PUT", "pp:path": "/rest/api/2/user/columns"},
+		Annotations: map[string]string{"pp:endpoint": "user.set-columns", "pp:method": "PUT", "pp:path": "/rest/api/3/user/columns"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -31,7 +31,7 @@ func newUserSetColumnsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/user/columns"
+			path := "/rest/api/3/user/columns"
 			params := map[string]string{}
 			if flagAccountId != "" {
 				params["accountId"] = fmt.Sprintf("%v", flagAccountId)

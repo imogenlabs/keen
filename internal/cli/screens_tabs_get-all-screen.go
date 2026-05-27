@@ -19,7 +19,7 @@ func newScreensTabsGetAllScreenCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"get"},
 		Short:       "Returns the list of tabs for a screen.",
 		Example:     "  jira-pp-cli-pp-cli screens tabs get-all-screen 42",
-		Annotations: map[string]string{"pp:endpoint": "tabs.get-all-screen", "pp:method": "GET", "pp:path": "/rest/api/2/screens/{screenId}/tabs", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "tabs.get-all-screen", "pp:method": "GET", "pp:path": "/rest/api/3/screens/{screenId}/tabs", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -29,7 +29,7 @@ func newScreensTabsGetAllScreenCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens/{screenId}/tabs"
+			path := "/rest/api/3/screens/{screenId}/tabs"
 			path = replacePathParam(path, "screenId", args[0])
 			params := map[string]string{}
 			if flagProjectKey != "" {

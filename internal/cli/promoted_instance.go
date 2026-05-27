@@ -18,14 +18,14 @@ func newInstancePromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns licensing information about the Jira instance. **[Permissions](#permissions) required:** None.",
 		Long:        "Returns licensing information about the Jira instance. **[Permissions](#permissions) required:** None.",
 		Example:     "  jira-pp-cli-pp-cli instance",
-		Annotations: map[string]string{"pp:endpoint": "instance.get-license", "pp:method": "GET", "pp:path": "/rest/api/2/instance/license", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "instance.get-license", "pp:method": "GET", "pp:path": "/rest/api/3/instance/license", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/instance/license"
+			path := "/rest/api/3/instance/license"
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "instance", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

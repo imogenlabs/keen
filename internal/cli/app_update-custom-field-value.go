@@ -22,7 +22,7 @@ func newAppUpdateCustomFieldValueCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-custom-field-value <fieldIdOrKey>",
 		Short:       "Updates the value of a custom field on one or more issues.",
 		Example:     "  jira-pp-cli-pp-cli app update-custom-field-value your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "app.update-custom-field-value", "pp:method": "PUT", "pp:path": "/rest/api/2/app/field/{fieldIdOrKey}/value"},
+		Annotations: map[string]string{"pp:endpoint": "app.update-custom-field-value", "pp:method": "PUT", "pp:path": "/rest/api/3/app/field/{fieldIdOrKey}/value"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newAppUpdateCustomFieldValueCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/app/field/{fieldIdOrKey}/value"
+			path := "/rest/api/3/app/field/{fieldIdOrKey}/value"
 			path = replacePathParam(path, "fieldIdOrKey", args[0])
 			params := map[string]string{}
 			if flagGenerateChangelog != false {

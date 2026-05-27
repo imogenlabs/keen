@@ -21,7 +21,7 @@ func newScreensTabsAddScreenFieldCmd(flags *rootFlags) *cobra.Command {
 		Use:         "add-screen-field <screenId> <tabId>",
 		Short:       "Adds a field to a screen tab.",
 		Example:     "  jira-pp-cli-pp-cli screens tabs add-screen-field 42 42 --field-id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "tabs.add-screen-field", "pp:method": "POST", "pp:path": "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields"},
+		Annotations: map[string]string{"pp:endpoint": "tabs.add-screen-field", "pp:method": "POST", "pp:path": "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -36,7 +36,7 @@ func newScreensTabsAddScreenFieldCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/screens/{screenId}/tabs/{tabId}/fields"
+			path := "/rest/api/3/screens/{screenId}/tabs/{tabId}/fields"
 			path = replacePathParam(path, "screenId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("tabId is required\nUsage: %s <%s>", cmd.CommandPath(), "tabId"))

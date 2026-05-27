@@ -23,7 +23,7 @@ func newExpressionAnalyseCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Analyses and validates Jira expressions.",
 		Example:     "  jira-pp-cli-pp-cli expression analyse",
-		Annotations: map[string]string{"pp:endpoint": "expression.analyse", "pp:method": "POST", "pp:path": "/rest/api/2/expression/analyse"},
+		Annotations: map[string]string{"pp:endpoint": "expression.analyse", "pp:method": "POST", "pp:path": "/rest/api/3/expression/analyse"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("check") {
 				allowedCheck := []string{"syntax", "type", "complexity"}
@@ -48,7 +48,7 @@ func newExpressionAnalyseCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/expression/analyse"
+			path := "/rest/api/3/expression/analyse"
 			params := map[string]string{}
 			if flagCheck != "" {
 				params["check"] = fmt.Sprintf("%v", flagCheck)

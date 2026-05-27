@@ -19,7 +19,7 @@ func newStatusesGetByIdCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"list"},
 		Short:       "Returns a list of the statuses specified by one or more status IDs.",
 		Example:     "  jira-pp-cli-pp-cli statuses get-by-id --id 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "statuses.get-by-id", "pp:method": "GET", "pp:path": "/rest/api/2/statuses", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "statuses.get-by-id", "pp:method": "GET", "pp:path": "/rest/api/3/statuses", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("id") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "id")
@@ -29,7 +29,7 @@ func newStatusesGetByIdCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/statuses"
+			path := "/rest/api/3/statuses"
 			params := map[string]string{}
 			if flagId != "" {
 				params["id"] = fmt.Sprintf("%v", flagId)

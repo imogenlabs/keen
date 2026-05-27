@@ -25,14 +25,14 @@ func newPrioritySearchPrioritiesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "search-priorities",
 		Short:       "Returns a [paginated](#pagination) list of priorities.",
 		Example:     "  jira-pp-cli-pp-cli priority search-priorities",
-		Annotations: map[string]string{"pp:endpoint": "priority.search-priorities", "pp:method": "GET", "pp:path": "/rest/api/2/priority/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "priority.search-priorities", "pp:method": "GET", "pp:path": "/rest/api/3/priority/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/priority/search"
+			path := "/rest/api/3/priority/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "priority", path, map[string]string{
 				"startAt":      fmt.Sprintf("%v", flagStartAt),
 				"maxResults":   fmt.Sprintf("%v", flagMaxResults),

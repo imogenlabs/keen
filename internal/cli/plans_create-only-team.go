@@ -25,7 +25,7 @@ func newPlansCreateOnlyTeamCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create-only-team <planId>",
 		Short:       "Creates a plan-only team and configures their planning settings.",
 		Example:     "  jira-pp-cli-pp-cli plans create-only-team 42 --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "plans.create-only-team", "pp:method": "POST", "pp:path": "/rest/api/2/plans/plan/{planId}/team/planonly"},
+		Annotations: map[string]string{"pp:endpoint": "plans.create-only-team", "pp:method": "POST", "pp:path": "/rest/api/3/plans/plan/{planId}/team/planonly"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -43,7 +43,7 @@ func newPlansCreateOnlyTeamCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}/team/planonly"
+			path := "/rest/api/3/plans/plan/{planId}/team/planonly"
 			path = replacePathParam(path, "planId", args[0])
 			params := map[string]string{}
 			var body map[string]any

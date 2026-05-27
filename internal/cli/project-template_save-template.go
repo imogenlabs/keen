@@ -25,7 +25,7 @@ func newProjectTemplateSaveTemplateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "save-template",
 		Short:       "Save custom template This API endpoint allows you to save a customised template ***Note",
 		Example:     "  jira-pp-cli-pp-cli project-template save-template",
-		Annotations: map[string]string{"pp:endpoint": "project-template.save-template", "pp:method": "POST", "pp:path": "/rest/api/2/project-template/save-template"},
+		Annotations: map[string]string{"pp:endpoint": "project-template.save-template", "pp:method": "POST", "pp:path": "/rest/api/3/project-template/save-template"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -34,7 +34,7 @@ func newProjectTemplateSaveTemplateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project-template/save-template"
+			path := "/rest/api/3/project-template/save-template"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

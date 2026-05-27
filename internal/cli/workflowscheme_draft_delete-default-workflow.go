@@ -18,7 +18,7 @@ func newWorkflowschemeDraftDeleteDefaultWorkflowCmd(flags *rootFlags) *cobra.Com
 		Aliases:     []string{"delete"},
 		Short:       "Resets the default workflow for a workflow scheme's draft.",
 		Example:     "  jira-pp-cli-pp-cli workflowscheme draft delete-default-workflow 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "draft.delete-default-workflow", "pp:method": "DELETE", "pp:path": "/rest/api/2/workflowscheme/{id}/draft/default"},
+		Annotations: map[string]string{"pp:endpoint": "draft.delete-default-workflow", "pp:method": "DELETE", "pp:path": "/rest/api/3/workflowscheme/{id}/draft/default"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -28,7 +28,7 @@ func newWorkflowschemeDraftDeleteDefaultWorkflowCmd(flags *rootFlags) *cobra.Com
 				return err
 			}
 
-			path := "/rest/api/2/workflowscheme/{id}/draft/default"
+			path := "/rest/api/3/workflowscheme/{id}/draft/default"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)

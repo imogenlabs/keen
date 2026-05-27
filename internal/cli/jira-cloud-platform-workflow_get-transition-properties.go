@@ -22,7 +22,7 @@ func newJiraCloudPlatformWorkflowGetTransitionPropertiesCmd(flags *rootFlags) *c
 		Aliases:     []string{"get"},
 		Short:       "This will be removed on [June 1, 2026](https://developer.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow get-transition-properties 42 --workflow-name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.get-transition-properties", "pp:method": "GET", "pp:path": "/rest/api/2/workflow/transitions/{transitionId}/properties", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.get-transition-properties", "pp:method": "GET", "pp:path": "/rest/api/3/workflow/transitions/{transitionId}/properties", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -48,7 +48,7 @@ func newJiraCloudPlatformWorkflowGetTransitionPropertiesCmd(flags *rootFlags) *c
 				return err
 			}
 
-			path := "/rest/api/2/workflow/transitions/{transitionId}/properties"
+			path := "/rest/api/3/workflow/transitions/{transitionId}/properties"
 			path = replacePathParam(path, "transitionId", args[0])
 			params := map[string]string{}
 			if flagIncludeReservedKeys != false {

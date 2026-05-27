@@ -23,7 +23,7 @@ func newWorkflowsValidateCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "validate-create",
 		Short:       "Validate the payload for bulk create workflows.",
 		Example:     "  jira-pp-cli-pp-cli workflows validate-create",
-		Annotations: map[string]string{"pp:endpoint": "workflows.validate-create", "pp:method": "POST", "pp:path": "/rest/api/2/workflows/create/validation"},
+		Annotations: map[string]string{"pp:endpoint": "workflows.validate-create", "pp:method": "POST", "pp:path": "/rest/api/3/workflows/create/validation"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -32,7 +32,7 @@ func newWorkflowsValidateCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflows/create/validation"
+			path := "/rest/api/3/workflows/create/validation"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

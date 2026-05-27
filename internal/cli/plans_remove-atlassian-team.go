@@ -17,7 +17,7 @@ func newPlansRemoveAtlassianTeamCmd(flags *rootFlags) *cobra.Command {
 		Use:         "remove-atlassian-team <planId> <atlassianTeamId>",
 		Short:       "Removes an Atlassian team from a plan and deletes their planning settings.",
 		Example:     "  jira-pp-cli-pp-cli plans remove-atlassian-team 42 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "plans.remove-atlassian-team", "pp:method": "DELETE", "pp:path": "/rest/api/2/plans/plan/{planId}/team/atlassian/{atlassianTeamId}"},
+		Annotations: map[string]string{"pp:endpoint": "plans.remove-atlassian-team", "pp:method": "DELETE", "pp:path": "/rest/api/3/plans/plan/{planId}/team/atlassian/{atlassianTeamId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,7 +27,7 @@ func newPlansRemoveAtlassianTeamCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/plans/plan/{planId}/team/atlassian/{atlassianTeamId}"
+			path := "/rest/api/3/plans/plan/{planId}/team/atlassian/{atlassianTeamId}"
 			path = replacePathParam(path, "planId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("atlassianTeamId is required\nUsage: %s <%s>", cmd.CommandPath(), "atlassianTeamId"))

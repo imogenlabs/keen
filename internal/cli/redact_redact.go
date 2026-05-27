@@ -21,7 +21,7 @@ func newRedactRedactCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Submit a job to redact issue field data.",
 		Example:     "  jira-pp-cli-pp-cli redact redact",
-		Annotations: map[string]string{"pp:endpoint": "redact.redact", "pp:method": "POST", "pp:path": "/rest/api/2/redact"},
+		Annotations: map[string]string{"pp:endpoint": "redact.redact", "pp:method": "POST", "pp:path": "/rest/api/3/redact"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -30,7 +30,7 @@ func newRedactRedactCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/redact"
+			path := "/rest/api/3/redact"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

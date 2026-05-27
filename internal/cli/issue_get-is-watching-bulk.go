@@ -20,7 +20,7 @@ func newIssueGetIsWatchingBulkCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-is-watching-bulk",
 		Short:       "Returns, for the user, details of the watched status of issues from a list.",
 		Example:     "  jira-pp-cli-pp-cli issue get-is-watching-bulk",
-		Annotations: map[string]string{"pp:endpoint": "issue.get-is-watching-bulk", "pp:method": "POST", "pp:path": "/rest/api/2/issue/watching"},
+		Annotations: map[string]string{"pp:endpoint": "issue.get-is-watching-bulk", "pp:method": "POST", "pp:path": "/rest/api/3/issue/watching"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("issue-ids") && !flags.dryRun {
@@ -32,7 +32,7 @@ func newIssueGetIsWatchingBulkCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/watching"
+			path := "/rest/api/3/issue/watching"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

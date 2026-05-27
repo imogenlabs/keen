@@ -19,14 +19,14 @@ func newFilterGetMyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-my",
 		Short:       "Returns the filters owned by the user.",
 		Example:     "  jira-pp-cli-pp-cli filter get-my",
-		Annotations: map[string]string{"pp:endpoint": "filter.get-my", "pp:method": "GET", "pp:path": "/rest/api/2/filter/my", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "filter.get-my", "pp:method": "GET", "pp:path": "/rest/api/3/filter/my", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/filter/my"
+			path := "/rest/api/3/filter/my"
 			params := map[string]string{}
 			if flagExpand != "" {
 				params["expand"] = fmt.Sprintf("%v", flagExpand)

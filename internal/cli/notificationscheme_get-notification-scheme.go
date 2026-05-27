@@ -19,7 +19,7 @@ func newNotificationschemeGetNotificationSchemeCmd(flags *rootFlags) *cobra.Comm
 		Aliases:     []string{"get"},
 		Short:       "Returns a [notification scheme](https://confluence.atlassian.",
 		Example:     "  jira-pp-cli-pp-cli notificationscheme get-notification-scheme 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "notificationscheme.get-notification-scheme", "pp:method": "GET", "pp:path": "/rest/api/2/notificationscheme/{id}", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "notificationscheme.get-notification-scheme", "pp:method": "GET", "pp:path": "/rest/api/3/notificationscheme/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -29,7 +29,7 @@ func newNotificationschemeGetNotificationSchemeCmd(flags *rootFlags) *cobra.Comm
 				return err
 			}
 
-			path := "/rest/api/2/notificationscheme/{id}"
+			path := "/rest/api/3/notificationscheme/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagExpand != "" {

@@ -65,7 +65,7 @@ func newIssueWorklogAddCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Adds a worklog to an issue. Time tracking must be enabled in Jira, otherwise this operation returns an error.",
 		Example:     "  jira-pp-cli-pp-cli issue worklog add your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "worklog.add", "pp:method": "POST", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/worklog"},
+		Annotations: map[string]string{"pp:endpoint": "worklog.add", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/worklog"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -90,7 +90,7 @@ func newIssueWorklogAddCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/worklog"
+			path := "/rest/api/3/issue/{issueIdOrKey}/worklog"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			if flagNotifyUsers != false {

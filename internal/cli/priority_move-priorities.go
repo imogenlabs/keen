@@ -22,7 +22,7 @@ func newPriorityMovePrioritiesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "move-priorities",
 		Short:       "Changes the order of issue priorities.",
 		Example:     "  jira-pp-cli-pp-cli priority move-priorities",
-		Annotations: map[string]string{"pp:endpoint": "priority.move-priorities", "pp:method": "PUT", "pp:path": "/rest/api/2/priority/move"},
+		Annotations: map[string]string{"pp:endpoint": "priority.move-priorities", "pp:method": "PUT", "pp:path": "/rest/api/3/priority/move"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("ids") && !flags.dryRun {
@@ -34,7 +34,7 @@ func newPriorityMovePrioritiesCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/priority/move"
+			path := "/rest/api/3/priority/move"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {

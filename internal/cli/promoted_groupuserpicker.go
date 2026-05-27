@@ -28,7 +28,7 @@ func newGroupuserpickerPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns a list of users and groups matching a string.",
 		Long:        "Returns a list of users and groups matching a string.",
 		Example:     "  jira-pp-cli-pp-cli groupuserpicker --query example-value",
-		Annotations: map[string]string{"pp:endpoint": "groupuserpicker.find-users-and-groups", "pp:method": "GET", "pp:path": "/rest/api/2/groupuserpicker", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "groupuserpicker.find-users-and-groups", "pp:method": "GET", "pp:path": "/rest/api/3/groupuserpicker", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("query") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "query")
@@ -51,7 +51,7 @@ func newGroupuserpickerPromotedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/groupuserpicker"
+			path := "/rest/api/3/groupuserpicker"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "groupuserpicker", path, map[string]string{
 				"query":                fmt.Sprintf("%v", flagQuery),
 				"maxResults":           fmt.Sprintf("%v", flagMaxResults),
