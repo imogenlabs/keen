@@ -35,7 +35,7 @@ brews:
     repository:
       owner: smashingtags
       name: homebrew-tap
-    homepage: "https://github.com/smashingtags/keen"
+    homepage: "https://github.com/imogenlabs/keen"
     description: "Complete Atlassian platform CLI with MCP server and SQLite sync"
     install: |
       bin.install "keen"

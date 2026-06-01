@@ -78,4 +78,4 @@ I review PRs on Tuesdays and Fridays. If your PR is urgent (security fix, blocki
 
 ## Questions?
 
-Open a [Discussion](https://github.com/smashingtags/keen/discussions) if you're unsure about anything.
+Open a [Discussion](https://github.com/imogenlabs/keen/discussions) if you're unsure about anything.
