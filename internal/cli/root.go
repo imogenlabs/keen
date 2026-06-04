@@ -378,6 +378,17 @@ func (f *rootFlags) newClient() (*client.Client, error) {
 	if err != nil {
 		return nil, configErr(err)
 	}
+	// Fail loudly on a missing or placeholder base_url rather than emitting
+	// requests against an empty/"your-domain" host that produce cryptic
+	// connection errors deep in the request path.
+	if bu := strings.TrimSpace(cfg.BaseURL); bu == "" || strings.Contains(bu, "your-domain.atlassian.net") {
+		return nil, fmt.Errorf(
+			"base_url is not configured (got %q).\n"+
+				"Set base_url in your config file (e.g. ~/.config/keen/auth.json):\n"+
+				"  { \"base_url\": \"https://your-site.atlassian.net\", \"username\": \"you@example.com\", \"password\": \"<API_TOKEN>\" }\n"+
+				"Then verify with: keen doctor --agent",
+			cfg.BaseURL)
+	}
 	c := client.New(cfg, f.timeout, f.rateLimit)
 	c.DryRun = f.dryRun
 	c.NoCache = f.noCache
