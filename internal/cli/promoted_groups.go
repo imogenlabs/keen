@@ -25,7 +25,7 @@ func newGroupsPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "groups",
 		Short:       "Returns a list of groups whose names contain a query string.",
 		Long:        "Returns a list of groups whose names contain a query string.",
-		Example:     "  jira-pp-cli-pp-cli groups",
+		Example:     "  keen groups",
 		Annotations: map[string]string{"pp:endpoint": "groups.find", "pp:method": "GET", "pp:path": "/rest/api/3/groups/picker", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

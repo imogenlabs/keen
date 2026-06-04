@@ -19,7 +19,7 @@ func newServicedeskapiGetRequestParticipantsCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "get-request-participants <issueIdOrKey>",
 		Short:       "This method returns a list of all the participants on a customer request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-request-participants your-token-here",
+		Example:     "  keen servicedeskapi get-request-participants your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-request-participants", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/participant", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

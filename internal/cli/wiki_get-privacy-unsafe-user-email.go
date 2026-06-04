@@ -17,7 +17,7 @@ func newWikiGetPrivacyUnsafeUserEmailCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-privacy-unsafe-user-email",
 		Short:       "Returns a user's email address regardless of the user’s profile visibility settings.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-privacy-unsafe-user-email --account-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-privacy-unsafe-user-email --account-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-privacy-unsafe-user-email", "pp:method": "GET", "pp:path": "/wiki/rest/api/user/email", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("account-id") && !flags.dryRun {

@@ -16,7 +16,7 @@ func newAttachmentExpandAttachmentForMachinesCmd(flags *rootFlags) *cobra.Comman
 	cmd := &cobra.Command{
 		Use:         "attachment-for-machines <id>",
 		Short:       "Returns the metadata for the contents of an attachment, if it is an archive.",
-		Example:     "  jira-pp-cli-pp-cli attachment expand attachment-for-machines 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen attachment expand attachment-for-machines 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "expand.attachment-for-machines", "pp:method": "GET", "pp:path": "/rest/api/3/attachment/{id}/expand/raw", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

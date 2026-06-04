@@ -16,7 +16,7 @@ func newWikiDeletePageTreeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-page-tree <id>",
 		Short:       "Moves a pagetree rooted at a page to the space's trash: - If the content's type is `page` and its status is `current`",
-		Example:     "  jira-pp-cli-pp-cli wiki delete-page-tree 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki delete-page-tree 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.delete-page-tree", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/content/{id}/pageTree"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

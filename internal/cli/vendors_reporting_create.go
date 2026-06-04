@@ -40,7 +40,7 @@ func newVendorsReportingCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create <vendorId>",
 		Short:       "Initiate a POST request to export all licenses that match the specified filters for the vendor's apps.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting create 42",
+		Example:     "  keen vendors reporting create 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.create", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/licenses/async/export"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -17,7 +17,7 @@ func newMypreferencesGetLocaleCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-locale",
 		Aliases:     []string{"list"},
 		Short:       "Returns the locale for the user.",
-		Example:     "  jira-pp-cli-pp-cli mypreferences get-locale",
+		Example:     "  keen mypreferences get-locale",
 		Annotations: map[string]string{"pp:endpoint": "mypreferences.get-locale", "pp:method": "GET", "pp:path": "/rest/api/3/mypreferences/locale", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

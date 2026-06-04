@@ -17,7 +17,7 @@ func newApplicationPropertiesGetAdvancedSettingsCmd(flags *rootFlags) *cobra.Com
 		Use:         "get-advanced-settings",
 		Aliases:     []string{"list"},
 		Short:       "Returns the application properties that are accessible on the *Advanced Settings* page.",
-		Example:     "  jira-pp-cli-pp-cli application-properties get-advanced-settings",
+		Example:     "  keen application-properties get-advanced-settings",
 		Annotations: map[string]string{"pp:endpoint": "application-properties.get-advanced-settings", "pp:method": "GET", "pp:path": "/rest/api/3/application-properties/advanced-settings", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

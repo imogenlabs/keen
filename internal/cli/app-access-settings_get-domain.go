@@ -17,7 +17,7 @@ func newAppAccessSettingsGetDomainCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-domain <orgId> <domain>",
 		Aliases:     []string{"get"},
 		Short:       "Returns the app access settings configuration for a specific domain in your organization.",
-		Example:     "  jira-pp-cli-pp-cli app-access-settings get-domain 550e8400-e29b-41d4-a716-446655440000 example-value",
+		Example:     "  keen app-access-settings get-domain 550e8400-e29b-41d4-a716-446655440000 example-value",
 		Annotations: map[string]string{"pp:endpoint": "app-access-settings.get-domain", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains/{domain}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

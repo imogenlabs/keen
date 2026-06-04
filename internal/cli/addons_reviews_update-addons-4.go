@@ -22,7 +22,7 @@ func newAddonsReviewsUpdateAddons4Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-addons-4 <addonKey> <reviewId>",
 		Short:       "Create or update a specific app review response. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons reviews update-addons-4 your-token-here 550e8400-e29b-41d4-a716-446655440000 --text example-value",
+		Example:     "  keen addons reviews update-addons-4 your-token-here 550e8400-e29b-41d4-a716-446655440000 --text example-value",
 		Annotations: map[string]string{"pp:endpoint": "reviews.update-addons-4", "pp:method": "PUT", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/reviews/id/{reviewId}/response"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

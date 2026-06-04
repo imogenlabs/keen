@@ -24,7 +24,7 @@ func newDevinfoStoreDevelopmentInformationCmd(flags *rootFlags) *cobra.Command {
 		Use:         "store-development-information",
 		Aliases:     []string{"create"},
 		Short:       "Stores development information provided in the request to make it available when viewing issues in Jira.",
-		Example:     "  jira-pp-cli-pp-cli devinfo store-development-information",
+		Example:     "  keen devinfo store-development-information",
 		Annotations: map[string]string{"pp:endpoint": "devinfo.store-development-information", "pp:method": "POST", "pp:path": "/rest/devinfo/0.10/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

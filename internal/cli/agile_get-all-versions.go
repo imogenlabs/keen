@@ -20,7 +20,7 @@ func newAgileGetAllVersionsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-all-versions <boardId>",
 		Short:       "Returns all versions from a board, for a given board ID.",
-		Example:     "  jira-pp-cli-pp-cli agile get-all-versions 42",
+		Example:     "  keen agile get-all-versions 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-all-versions", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/version", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

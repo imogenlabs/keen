@@ -26,7 +26,7 @@ func newJiraCloudPlatformSearchForIssuesUsingJqlCmd(flags *rootFlags) *cobra.Com
 	cmd := &cobra.Command{
 		Use:         "for-issues-using-jql",
 		Short:       "Endpoint is currently being removed. [More details](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-search for-issues-using-jql",
+		Example:     "  keen jira-cloud-platform-search for-issues-using-jql",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.for-issues-using-jql", "pp:method": "GET", "pp:path": "/rest/api/3/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("validate-query") {

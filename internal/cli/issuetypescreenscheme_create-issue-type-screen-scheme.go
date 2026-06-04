@@ -22,7 +22,7 @@ func newIssuetypescreenschemeCreateIssueTypeScreenSchemeCmd(flags *rootFlags) *c
 		Use:         "create-issue-type-screen-scheme",
 		Aliases:     []string{"create"},
 		Short:       "Creates an issue type screen scheme.",
-		Example:     "  jira-pp-cli-pp-cli issuetypescreenscheme create-issue-type-screen-scheme --name example-resource",
+		Example:     "  keen issuetypescreenscheme create-issue-type-screen-scheme --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "issuetypescreenscheme.create-issue-type-screen-scheme", "pp:method": "POST", "pp:path": "/rest/api/3/issuetypescreenscheme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

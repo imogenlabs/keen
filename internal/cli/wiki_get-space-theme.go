@@ -16,7 +16,7 @@ func newWikiGetSpaceThemeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-space-theme <spaceKey>",
 		Short:       "Returns the theme selected for a space, if one is set.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-space-theme your-token-here",
+		Example:     "  keen wiki get-space-theme your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-space-theme", "pp:method": "GET", "pp:path": "/wiki/rest/api/space/{spaceKey}/theme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

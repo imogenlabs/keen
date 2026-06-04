@@ -58,7 +58,7 @@ func newProjectTemplateCreateProjectWithCustomTemplateCmd(flags *rootFlags) *cob
 		Use:         "create-project-with-custom-template",
 		Aliases:     []string{"create"},
 		Short:       "Creates a project based on a custom template provided in the request.",
-		Example:     "  jira-pp-cli-pp-cli project-template create-project-with-custom-template",
+		Example:     "  keen project-template create-project-with-custom-template",
 		Annotations: map[string]string{"pp:endpoint": "project-template.create-project-with-custom-template", "pp:method": "POST", "pp:path": "/rest/api/3/project-template"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

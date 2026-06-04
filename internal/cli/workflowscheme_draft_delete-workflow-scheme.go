@@ -16,7 +16,7 @@ func newWorkflowschemeDraftDeleteWorkflowSchemeCmd(flags *rootFlags) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:         "delete-workflow-scheme <id>",
 		Short:       "Deletes a draft workflow scheme.",
-		Example:     "  jira-pp-cli-pp-cli workflowscheme draft delete-workflow-scheme 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen workflowscheme draft delete-workflow-scheme 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "draft.delete-workflow-scheme", "pp:method": "DELETE", "pp:path": "/rest/api/3/workflowscheme/{id}/draft"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

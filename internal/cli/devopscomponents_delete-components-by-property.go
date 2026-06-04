@@ -16,7 +16,7 @@ func newDevopscomponentsDeleteComponentsByPropertyCmd(flags *rootFlags) *cobra.C
 	cmd := &cobra.Command{
 		Use:         "delete-components-by-property",
 		Short:       "Bulk delete all Components that match the given request.",
-		Example:     "  jira-pp-cli-pp-cli devopscomponents delete-components-by-property",
+		Example:     "  keen devopscomponents delete-components-by-property",
 		Annotations: map[string]string{"pp:endpoint": "devopscomponents.delete-components-by-property", "pp:method": "DELETE", "pp:path": "/rest/devopscomponents/1.0/bulkByProperties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

@@ -18,7 +18,7 @@ func newMypreferencesRemovePreferenceCmd(flags *rootFlags) *cobra.Command {
 		Use:         "remove-preference",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a preference of the user, which restores the default value of system defined settings.",
-		Example:     "  jira-pp-cli-pp-cli mypreferences remove-preference --key your-token-here",
+		Example:     "  keen mypreferences remove-preference --key your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "mypreferences.remove-preference", "pp:method": "DELETE", "pp:path": "/rest/api/3/mypreferences"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("key") && !flags.dryRun {

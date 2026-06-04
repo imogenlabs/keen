@@ -23,7 +23,7 @@ func newFieldGetTrashedPaginatedCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-trashed-paginated",
 		Short:       "Returns a [paginated](#pagination) list of fields in the trash.",
-		Example:     "  jira-pp-cli-pp-cli field get-trashed-paginated",
+		Example:     "  keen field get-trashed-paginated",
 		Annotations: map[string]string{"pp:endpoint": "field.get-trashed-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/field/search/trashed", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("expand") {

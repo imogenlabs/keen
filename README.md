@@ -297,7 +297,7 @@ cli-printing-press generate \
   --spec specs/marketplace.json \
   --spec specs/jira-service-desk.json \
   --spec specs/admin-orgs.json \
-  --name jira-pp-cli --owner smashingtags --force --lenient \
+  --name keen --owner smashingtags --force --lenient \
   --auth-preference basicAuth --max-resources 1500
 ```
 

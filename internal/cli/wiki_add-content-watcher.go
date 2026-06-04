@@ -22,7 +22,7 @@ func newWikiAddContentWatcherCmd(flags *rootFlags) *cobra.Command {
 		Use:         "add-content-watcher <contentId>",
 		Aliases:     []string{"create"},
 		Short:       "Adds a user as a watcher to a piece of content.",
-		Example:     "  jira-pp-cli-pp-cli wiki add-content-watcher 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki add-content-watcher 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-content-watcher", "pp:method": "POST", "pp:path": "/wiki/rest/api/user/watch/content/{contentId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

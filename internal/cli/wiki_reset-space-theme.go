@@ -16,7 +16,7 @@ func newWikiResetSpaceThemeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "reset-space-theme <spaceKey>",
 		Short:       "Resets the space theme.",
-		Example:     "  jira-pp-cli-pp-cli wiki reset-space-theme your-token-here",
+		Example:     "  keen wiki reset-space-theme your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.reset-space-theme", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/space/{spaceKey}/theme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

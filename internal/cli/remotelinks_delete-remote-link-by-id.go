@@ -18,7 +18,7 @@ func newRemotelinksDeleteRemoteLinkByIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-remote-link-by-id <remoteLinkId>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete the Remote Link data currently stored for the given ID. Deletion is performed asynchronously.",
-		Example:     "  jira-pp-cli-pp-cli remotelinks delete-remote-link-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen remotelinks delete-remote-link-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "remotelinks.delete-remote-link-by-id", "pp:method": "DELETE", "pp:path": "/rest/remotelinks/1.0/remotelink/{remoteLinkId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

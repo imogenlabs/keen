@@ -20,7 +20,7 @@ func newServicedeskapiAddRequestParticipantsCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "add-request-participants <issueIdOrKey>",
 		Short:       "This method adds participants to a customer request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi add-request-participants your-token-here",
+		Example:     "  keen servicedeskapi add-request-participants your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.add-request-participants", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/participant"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

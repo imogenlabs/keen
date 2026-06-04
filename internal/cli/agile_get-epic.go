@@ -16,7 +16,7 @@ func newAgileGetEpicCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-epic <epicIdOrKey>",
 		Short:       "Returns the epic for a given epic ID. This epic will only be returned if the user has permission to view it.",
-		Example:     "  jira-pp-cli-pp-cli agile get-epic your-token-here",
+		Example:     "  keen agile get-epic your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-epic", "pp:method": "GET", "pp:path": "/rest/agile/1.0/epic/{epicIdOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

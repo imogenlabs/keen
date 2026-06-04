@@ -4,18 +4,18 @@ changelog:
   disable: true
 builds:
   - id: keen
-    main: ./cmd/jira-pp-cli-pp-cli
+    main: ./cmd/keen
     binary: keen
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w -X jira-pp-cli-pp-cli/internal/cli.version={{ .Version }}
+      - -s -w -X keen/internal/cli.version={{ .Version }}
     targets:
       - darwin_arm64
       - linux_amd64
       - linux_arm64
   - id: keen-mcp
-    main: ./cmd/jira-pp-cli-pp-mcp
+    main: ./cmd/keen-mcp
     binary: keen-mcp
     env:
       - CGO_ENABLED=0

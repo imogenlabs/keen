@@ -17,7 +17,7 @@ func newDashboardGadgetRemoveCmd(flags *rootFlags) *cobra.Command {
 		Use:         "remove <dashboardId> <gadgetId>",
 		Aliases:     []string{"delete"},
 		Short:       "Removes a dashboard gadget from a dashboard.",
-		Example:     "  jira-pp-cli-pp-cli dashboard gadget remove 42 42",
+		Example:     "  keen dashboard gadget remove 42 42",
 		Annotations: map[string]string{"pp:endpoint": "gadget.remove", "pp:method": "DELETE", "pp:path": "/rest/api/3/dashboard/{dashboardId}/gadget/{gadgetId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

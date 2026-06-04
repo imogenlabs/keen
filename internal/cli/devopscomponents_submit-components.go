@@ -22,7 +22,7 @@ func newDevopscomponentsSubmitComponentsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "submit-components",
 		Aliases:     []string{"create"},
 		Short:       "Update / insert DevOps Component data.",
-		Example:     "  jira-pp-cli-pp-cli devopscomponents submit-components",
+		Example:     "  keen devopscomponents submit-components",
 		Annotations: map[string]string{"pp:endpoint": "devopscomponents.submit-components", "pp:method": "POST", "pp:path": "/rest/devopscomponents/1.0/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

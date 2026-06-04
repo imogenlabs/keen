@@ -129,7 +129,7 @@ func buildAgentContext(rootCmd *cobra.Command) agentContext {
 	return agentContext{
 		SchemaVersion: agentContextSchemaVersion,
 		CLI: agentContextCLI{
-			Name:        "jira-pp-cli-pp-cli",
+			Name:        "keen",
 			Description: "Combined CLI for multiple API services",
 			Version:     rootCmd.Version,
 		},

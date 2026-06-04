@@ -16,7 +16,7 @@ func newFieldContextDeleteCustomFieldOptionCmd(flags *rootFlags) *cobra.Command 
 	cmd := &cobra.Command{
 		Use:         "delete-custom-field-option <fieldId> <contextId> <optionId>",
 		Short:       "Deletes a custom field option.",
-		Example:     "  jira-pp-cli-pp-cli field context delete-custom-field-option 550e8400-e29b-41d4-a716-446655440000 42 42",
+		Example:     "  keen field context delete-custom-field-option 550e8400-e29b-41d4-a716-446655440000 42 42",
 		Annotations: map[string]string{"pp:endpoint": "context.delete-custom-field-option", "pp:method": "DELETE", "pp:path": "/rest/api/3/field/{fieldId}/context/{contextId}/option/{optionId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

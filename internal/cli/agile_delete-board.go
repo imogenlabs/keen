@@ -17,7 +17,7 @@ func newAgileDeleteBoardCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-board <boardId>",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes the board. Admin without the view permission can still remove the board.",
-		Example:     "  jira-pp-cli-pp-cli agile delete-board 42",
+		Example:     "  keen agile delete-board 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.delete-board", "pp:method": "DELETE", "pp:path": "/rest/agile/1.0/board/{boardId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

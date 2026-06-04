@@ -27,7 +27,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlCmd(flags *rootFlags) *
 		Use:         "and-reconsile-issues-using-jql",
 		Aliases:     []string{"list"},
 		Short:       "Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ).",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-search and-reconsile-issues-using-jql",
+		Example:     "  keen jira-cloud-platform-search and-reconsile-issues-using-jql",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.and-reconsile-issues-using-jql", "pp:method": "GET", "pp:path": "/rest/api/3/search/jql", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("expand") {

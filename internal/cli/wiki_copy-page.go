@@ -31,7 +31,7 @@ func newWikiCopyPageCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "copy-page <id>",
 		Short:       "Copies a single page and its associated properties, permissions, attachments, and custom contents.",
-		Example:     "  jira-pp-cli-pp-cli wiki copy-page 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki copy-page 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.copy-page", "pp:method": "POST", "pp:path": "/wiki/rest/api/content/{id}/copy"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

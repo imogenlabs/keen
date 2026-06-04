@@ -18,7 +18,7 @@ func newBuildsDeleteByKeyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-by-key <pipelineId> <buildNumber>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete the build data currently stored for the given `pipelineId` and `buildNumber` combination.",
-		Example:     "  jira-pp-cli-pp-cli builds delete-by-key 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen builds delete-by-key 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "builds.delete-by-key", "pp:method": "DELETE", "pp:path": "/rest/builds/0.1/pipelines/{pipelineId}/builds/{buildNumber}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -20,7 +20,7 @@ func newIssueBulkSetPropertiesListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "bulk-set-properties-list",
 		Short:       "Sets or updates a list of entity property values on issues.",
-		Example:     "  jira-pp-cli-pp-cli issue bulk-set-properties-list",
+		Example:     "  keen issue bulk-set-properties-list",
 		Annotations: map[string]string{"pp:endpoint": "issue.bulk-set-properties-list", "pp:method": "POST", "pp:path": "/rest/api/3/issue/properties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

@@ -16,7 +16,7 @@ func newWikiGetRetentionPeriodCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-retention-period",
 		Short:       "Returns the retention period for records in the audit log.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-retention-period",
+		Example:     "  keen wiki get-retention-period",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-retention-period", "pp:method": "GET", "pp:path": "/wiki/rest/api/audit/retention", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

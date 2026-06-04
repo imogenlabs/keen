@@ -20,7 +20,7 @@ func newAtlassianAccessUsersRolesRevokeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "revoke <orgId> <userId>",
 		Short:       "**The API is available for customers using the [new user management experience only](https://community.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-users roles revoke 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --role atlassian/user",
+		Example:     "  keen atlassian-access-users roles revoke 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --role atlassian/user",
 		Annotations: map[string]string{"pp:endpoint": "roles.revoke", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/users/{userId}/roles/revoke"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -20,7 +20,7 @@ func newFieldOptionGetSelectableIssueFieldCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-selectable-issue-field <fieldKey>",
 		Short:       "Returns a [paginated](#pagination)",
-		Example:     "  jira-pp-cli-pp-cli field option get-selectable-issue-field your-token-here",
+		Example:     "  keen field option get-selectable-issue-field your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "option.get-selectable-issue-field", "pp:method": "GET", "pp:path": "/rest/api/3/field/{fieldKey}/option/suggestions/edit", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

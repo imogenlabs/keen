@@ -18,7 +18,7 @@ func newIssuetypeGetIssueTypesForProjectCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issue-types-for-project",
 		Short:       "Returns issue types for a project. This operation can be accessed anonymously.",
-		Example:     "  jira-pp-cli-pp-cli issuetype get-issue-types-for-project --project-id 42",
+		Example:     "  keen issuetype get-issue-types-for-project --project-id 42",
 		Annotations: map[string]string{"pp:endpoint": "issuetype.get-issue-types-for-project", "pp:method": "GET", "pp:path": "/rest/api/3/issuetype/project", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("project-id") && !flags.dryRun {

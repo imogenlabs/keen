@@ -16,7 +16,7 @@ func newPlansGetOnlyTeamCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-only-team <planId> <planOnlyTeamId>",
 		Short:       "Returns planning settings for a plan-only team.",
-		Example:     "  jira-pp-cli-pp-cli plans get-only-team 42 42",
+		Example:     "  keen plans get-only-team 42 42",
 		Annotations: map[string]string{"pp:endpoint": "plans.get-only-team", "pp:method": "GET", "pp:path": "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

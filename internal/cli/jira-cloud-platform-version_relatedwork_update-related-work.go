@@ -24,7 +24,7 @@ func newJiraCloudPlatformVersionRelatedworkUpdateRelatedWorkCmd(flags *rootFlags
 		Use:         "update-related-work <id>",
 		Aliases:     []string{"update"},
 		Short:       "Updates the given related work. You can only update generic link related works via Rest APIs.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version relatedwork update-related-work 550e8400-e29b-41d4-a716-446655440000 --category example-value",
+		Example:     "  keen jira-cloud-platform-version relatedwork update-related-work 550e8400-e29b-41d4-a716-446655440000 --category example-value",
 		Annotations: map[string]string{"pp:endpoint": "relatedwork.update-related-work", "pp:method": "PUT", "pp:path": "/rest/api/3/version/{id}/relatedwork"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

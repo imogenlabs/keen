@@ -25,7 +25,7 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update",
 		Short:       "Update workflows and related statuses.",
-		Example:     "  jira-pp-cli-pp-cli workflows update",
+		Example:     "  keen workflows update",
 		Annotations: map[string]string{"pp:endpoint": "workflows.update", "pp:method": "POST", "pp:path": "/rest/api/3/workflows/update"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

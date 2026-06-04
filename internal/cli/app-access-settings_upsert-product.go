@@ -21,7 +21,7 @@ func newAppAccessSettingsUpsertProductCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "upsert-product <orgId> <domain>",
 		Short:       "Adds or replaces a single product's access configuration on a domain.",
-		Example:     "  jira-pp-cli-pp-cli app-access-settings upsert-product 550e8400-e29b-41d4-a716-446655440000 example-value --product-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen app-access-settings upsert-product 550e8400-e29b-41d4-a716-446655440000 example-value --product-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "app-access-settings.upsert-product", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains/{domain}/products"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -17,7 +17,7 @@ func newOperationsGetIncidentByIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-incident-by-id <incidentId>",
 		Aliases:     []string{"get"},
 		Short:       "Retrieve the currently stored Incident data for the given ID.",
-		Example:     "  jira-pp-cli-pp-cli operations get-incident-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen operations get-incident-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "operations.get-incident-by-id", "pp:method": "GET", "pp:path": "/rest/operations/1.0/incidents/{incidentId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

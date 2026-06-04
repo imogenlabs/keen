@@ -24,7 +24,7 @@ func newPrioritySearchPrioritiesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "search-priorities",
 		Short:       "Returns a [paginated](#pagination) list of priorities.",
-		Example:     "  jira-pp-cli-pp-cli priority search-priorities",
+		Example:     "  keen priority search-priorities",
 		Annotations: map[string]string{"pp:endpoint": "priority.search-priorities", "pp:method": "GET", "pp:path": "/rest/api/3/priority/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

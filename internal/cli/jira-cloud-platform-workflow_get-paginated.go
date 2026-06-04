@@ -25,7 +25,7 @@ func newJiraCloudPlatformWorkflowGetPaginatedCmd(flags *rootFlags) *cobra.Comman
 		Use:         "get-paginated",
 		Aliases:     []string{"list"},
 		Short:       "This will be removed on [June 1, 2026](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow get-paginated",
+		Example:     "  keen jira-cloud-platform-workflow get-paginated",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/workflow/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {

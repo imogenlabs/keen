@@ -24,7 +24,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "search",
 		Short:       "Returns a [paginated](#pagination) list of global and project workflows.",
-		Example:     "  jira-pp-cli-pp-cli workflows search",
+		Example:     "  keen workflows search",
 		Annotations: map[string]string{"pp:endpoint": "workflows.search", "pp:method": "GET", "pp:path": "/rest/api/3/workflows/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {

@@ -19,7 +19,7 @@ func newWikiGetThemesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-themes",
 		Short:       "Returns all themes, not including the default theme. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-themes",
+		Example:     "  keen wiki get-themes",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-themes", "pp:method": "GET", "pp:path": "/wiki/rest/api/settings/theme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

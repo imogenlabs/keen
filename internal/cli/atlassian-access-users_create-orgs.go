@@ -23,7 +23,7 @@ func newAtlassianAccessUsersCreateOrgsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-orgs <orgId>",
 		Short:       "Invite people to your organization. When you invite someone: - they’re given app roles according to your invitation.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-users create-orgs 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen atlassian-access-users create-orgs 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "atlassian-access-users.create-orgs", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/users/invite"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

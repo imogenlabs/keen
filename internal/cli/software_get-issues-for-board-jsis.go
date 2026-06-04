@@ -24,7 +24,7 @@ func newSoftwareGetIssuesForBoardJsisCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issues-for-board-jsis <boardId>",
 		Short:       "Returns all issues from a board, for a given board ID.",
-		Example:     "  jira-pp-cli-pp-cli software get-issues-for-board-jsis 42",
+		Example:     "  keen software get-issues-for-board-jsis 42",
 		Annotations: map[string]string{"pp:endpoint": "software.get-issues-for-board-jsis", "pp:method": "GET", "pp:path": "/rest/software/1.0/board/{boardId}/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

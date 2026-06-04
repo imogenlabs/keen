@@ -16,7 +16,7 @@ func newAgileGetFeaturesForBoardCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-features-for-board <boardId>",
 		Short:       "Get features for board",
-		Example:     "  jira-pp-cli-pp-cli agile get-features-for-board 42",
+		Example:     "  keen agile get-features-for-board 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-features-for-board", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/features", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

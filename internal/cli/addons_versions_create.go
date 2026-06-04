@@ -94,7 +94,7 @@ func newAddonsVersionsCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create <addonKey>",
 		Short:       "Create a new version for the specified app. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons versions create your-token-here --status private",
+		Example:     "  keen addons versions create your-token-here --status private",
 		Annotations: map[string]string{"pp:endpoint": "versions.create", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/versions"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -19,7 +19,7 @@ func newWikiGetWatchesForPageCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-watches-for-page <id>",
 		Short:       "Returns the watches for a page. A user that watches a page will receive receive notifications when the page is updated.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-watches-for-page 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-watches-for-page 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-watches-for-page", "pp:method": "GET", "pp:path": "/wiki/rest/api/content/{id}/notification/child-created", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

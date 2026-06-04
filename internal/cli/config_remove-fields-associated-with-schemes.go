@@ -16,7 +16,7 @@ func newConfigRemoveFieldsAssociatedWithSchemesCmd(flags *rootFlags) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:         "remove-fields-associated-with-schemes",
 		Short:       "Remove fields associated with field association schemes.",
-		Example:     "  jira-pp-cli-pp-cli config remove-fields-associated-with-schemes",
+		Example:     "  keen config remove-fields-associated-with-schemes",
 		Annotations: map[string]string{"pp:endpoint": "config.remove-fields-associated-with-schemes", "pp:method": "DELETE", "pp:path": "/rest/api/3/config/fieldschemes/fields"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

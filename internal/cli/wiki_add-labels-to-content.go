@@ -19,7 +19,7 @@ func newWikiAddLabelsToContentCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-labels-to-content <id>",
 		Short:       "Adds labels to a piece of content. Does not modify the existing labels.",
-		Example:     "  jira-pp-cli-pp-cli wiki add-labels-to-content 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki add-labels-to-content 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-labels-to-content", "pp:method": "POST", "pp:path": "/wiki/rest/api/content/{id}/label"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

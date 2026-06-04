@@ -20,7 +20,7 @@ func newDirectoriesGroupsCreateOrgs3Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-orgs-3 <orgId> <directoryId> <groupId>",
 		Short:       "Revoke a role from a group to remove access to an app from all members.",
-		Example:     "  jira-pp-cli-pp-cli directories groups create-orgs-3 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --resource-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen directories groups create-orgs-3 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --resource-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "groups.create-orgs-3", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/role-assignments/revoke'"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

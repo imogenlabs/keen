@@ -19,7 +19,7 @@ func newWikiGetContentWatchStatusCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-content-watch-status <contentId>",
 		Short:       "Returns whether a user is watching a piece of content.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-content-watch-status 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-content-watch-status 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-content-watch-status", "pp:method": "GET", "pp:path": "/wiki/rest/api/user/watch/content/{contentId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newAgileDeleteBoardPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-board-property <boardId> <propertyKey>",
 		Short:       "Removes the property from the board identified by the id.",
-		Example:     "  jira-pp-cli-pp-cli agile delete-board-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen agile delete-board-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.delete-board-property", "pp:method": "DELETE", "pp:path": "/rest/agile/1.0/board/{boardId}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newWikiGetTaskCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-task <id>",
 		Short:       "Returns information about an active long-running task (e.g.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-task 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-task 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-task", "pp:method": "GET", "pp:path": "/wiki/rest/api/longtask/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

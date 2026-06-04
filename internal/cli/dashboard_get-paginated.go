@@ -28,7 +28,7 @@ func newDashboardGetPaginatedCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-paginated",
 		Short:       "Returns a [paginated](#pagination) list of dashboards.",
-		Example:     "  jira-pp-cli-pp-cli dashboard get-paginated",
+		Example:     "  keen dashboard get-paginated",
 		Annotations: map[string]string{"pp:endpoint": "dashboard.get-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/dashboard/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {

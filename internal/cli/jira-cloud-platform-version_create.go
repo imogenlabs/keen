@@ -40,7 +40,7 @@ func newJiraCloudPlatformVersionCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create",
 		Short:       "Creates a project version. This operation can be accessed anonymously.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version create",
+		Example:     "  keen jira-cloud-platform-version create",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-version.create", "pp:method": "POST", "pp:path": "/rest/api/3/version"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

@@ -23,7 +23,7 @@ func newIssuetypeCreateIssueTypeCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create-issue-type",
 		Aliases:     []string{"create"},
 		Short:       "Creates an issue type.",
-		Example:     "  jira-pp-cli-pp-cli issuetype create-issue-type --name example-resource",
+		Example:     "  keen issuetype create-issue-type --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "issuetype.create-issue-type", "pp:method": "POST", "pp:path": "/rest/api/3/issuetype"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

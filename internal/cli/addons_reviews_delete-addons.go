@@ -16,7 +16,7 @@ func newAddonsReviewsDeleteAddonsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-addons <addonKey> <reviewId>",
 		Short:       "Delete a specific app review.",
-		Example:     "  jira-pp-cli-pp-cli addons reviews delete-addons your-token-here 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen addons reviews delete-addons your-token-here 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "reviews.delete-addons", "pp:method": "DELETE", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/reviews/id/{reviewId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newDirectoriesGroupsDeleteOrgsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete-orgs <orgId> <directoryId> <groupId> <accountId>",
 		Short: "Remove a user from a group.",
-		Example: "  jira-pp-cli-pp-cli directories groups delete-orgs 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example: "  keen directories groups delete-orgs 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "groups.delete-orgs", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/memberships/{accountId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

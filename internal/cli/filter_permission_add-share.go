@@ -26,7 +26,7 @@ func newFilterPermissionAddShareCmd(flags *rootFlags) *cobra.Command {
 		Use:         "add-share <id>",
 		Aliases:     []string{"create"},
 		Short:       "Add a share permissions to a filter.",
-		Example:     "  jira-pp-cli-pp-cli filter permission add-share 550e8400-e29b-41d4-a716-446655440000 --type user",
+		Example:     "  keen filter permission add-share 550e8400-e29b-41d4-a716-446655440000 --type user",
 		Annotations: map[string]string{"pp:endpoint": "permission.add-share", "pp:method": "POST", "pp:path": "/rest/api/3/filter/{id}/permission"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -21,7 +21,7 @@ func newAgileEstimateIssueForBoardCmd(flags *rootFlags) *cobra.Command {
 		Use:         "estimate-issue-for-board <issueIdOrKey>",
 		Aliases:     []string{"update"},
 		Short:       "Updates the estimation of the issue. boardId param is required.",
-		Example:     "  jira-pp-cli-pp-cli agile estimate-issue-for-board your-token-here",
+		Example:     "  keen agile estimate-issue-for-board your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.estimate-issue-for-board", "pp:method": "PUT", "pp:path": "/rest/agile/1.0/issue/{issueIdOrKey}/estimation"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

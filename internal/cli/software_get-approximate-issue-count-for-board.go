@@ -17,7 +17,7 @@ func newSoftwareGetApproximateIssueCountForBoardCmd(flags *rootFlags) *cobra.Com
 	cmd := &cobra.Command{
 		Use:         "get-approximate-issue-count-for-board <boardId>",
 		Short:       "Returns the approximate count of all issues from a board, for a given board ID.",
-		Example:     "  jira-pp-cli-pp-cli software get-approximate-issue-count-for-board 42",
+		Example:     "  keen software get-approximate-issue-count-for-board 42",
 		Annotations: map[string]string{"pp:endpoint": "software.get-approximate-issue-count-for-board", "pp:method": "GET", "pp:path": "/rest/software/1.0/board/{boardId}/issue/approximate-count", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

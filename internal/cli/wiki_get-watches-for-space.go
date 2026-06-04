@@ -19,7 +19,7 @@ func newWikiGetWatchesForSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-watches-for-space <id>",
 		Short:       "Returns all space watches for the space that the content is in.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-watches-for-space 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-watches-for-space 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-watches-for-space", "pp:method": "GET", "pp:path": "/wiki/rest/api/content/{id}/notification/created", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

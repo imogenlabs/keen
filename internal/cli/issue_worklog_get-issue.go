@@ -22,7 +22,7 @@ func newIssueWorklogGetIssueCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issue <issueIdOrKey>",
 		Short:       "Returns worklogs for an issue (ordered by created time)",
-		Example:     "  jira-pp-cli-pp-cli issue worklog get-issue your-token-here",
+		Example:     "  keen issue worklog get-issue your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "worklog.get-issue", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/worklog", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

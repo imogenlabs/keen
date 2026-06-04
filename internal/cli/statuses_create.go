@@ -21,7 +21,7 @@ func newStatusesCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create",
 		Short:       "Creates statuses for a global or project scope.",
-		Example:     "  jira-pp-cli-pp-cli statuses create",
+		Example:     "  keen statuses create",
 		Annotations: map[string]string{"pp:endpoint": "statuses.create", "pp:method": "POST", "pp:path": "/rest/api/3/statuses"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

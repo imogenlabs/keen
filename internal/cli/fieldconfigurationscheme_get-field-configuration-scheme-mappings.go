@@ -20,7 +20,7 @@ func newFieldconfigurationschemeGetFieldConfigurationSchemeMappingsCmd(flags *ro
 	cmd := &cobra.Command{
 		Use:         "get-field-configuration-scheme-mappings",
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli fieldconfigurationscheme get-field-configuration-scheme-mappings",
+		Example:     "  keen fieldconfigurationscheme get-field-configuration-scheme-mappings",
 		Annotations: map[string]string{"pp:endpoint": "fieldconfigurationscheme.get-field-configuration-scheme-mappings", "pp:method": "GET", "pp:path": "/rest/api/3/fieldconfigurationscheme/mapping", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

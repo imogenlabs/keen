@@ -15,12 +15,12 @@ import (
 
 	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"jira-pp-cli-pp-cli/internal/cli"
-	"jira-pp-cli-pp-cli/internal/client"
-	"jira-pp-cli-pp-cli/internal/cliutil"
-	"jira-pp-cli-pp-cli/internal/config"
-	"jira-pp-cli-pp-cli/internal/mcp/cobratree"
-	"jira-pp-cli-pp-cli/internal/store"
+	"keen/internal/cli"
+	"keen/internal/client"
+	"keen/internal/cliutil"
+	"keen/internal/config"
+	"keen/internal/mcp/cobratree"
+	"keen/internal/store"
 )
 
 // RegisterTools registers all API operations as MCP tools.
@@ -13267,17 +13267,17 @@ func makeAPIHandler(method, pathTemplate string, readOnly bool, binaryResponse b
 				return mcplib.NewToolResultError("authentication error: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: the API rejected the request — this usually means auth is missing or invalid." +
 					"\n      Set your API key: export JIRA_CLOUD_PLATFORM_USERNAME=<your-key>" +
-					"\n      Run 'jira-pp-cli-pp-cli doctor' to check auth status."), nil
+					"\n      Run 'keen doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 401"):
 				return mcplib.NewToolResultError("authentication failed: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: check your API key." +
 					"\n      Set it with: export JIRA_CLOUD_PLATFORM_USERNAME=<your-key>" +
-					"\n      Run 'jira-pp-cli-pp-cli doctor' to check auth status."), nil
+					"\n      Run 'keen doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 403"):
 				return mcplib.NewToolResultError("permission denied: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: your credentials are valid but lack access to this resource." +
 					"\n      Set it with: export JIRA_CLOUD_PLATFORM_USERNAME=<your-key>" +
-					"\n      Run 'jira-pp-cli-pp-cli doctor' to check auth status."), nil
+					"\n      Run 'keen doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 404"):
 				if method == "DELETE" {
 					return mcplib.NewToolResultText("already deleted (no-op)"), nil
@@ -13319,7 +13319,7 @@ func makeAPIHandler(method, pathTemplate string, readOnly bool, binaryResponse b
 
 func newMCPClient() (*client.Client, error) {
 	home, _ := os.UserHomeDir()
-	cfgPath := filepath.Join(home, ".config", "jira-pp-cli-pp-cli", "config.toml")
+	cfgPath := filepath.Join(home, ".config", "keen", "config.toml")
 	cfg, err := config.Load(cfgPath)
 	if err != nil {
 		return nil, fmt.Errorf("loading config: %w", err)
@@ -13336,7 +13336,7 @@ func newMCPClient() (*client.Client, error) {
 
 func dbPath() string {
 	home, _ := os.UserHomeDir()
-	return filepath.Join(home, ".local", "share", "jira-pp-cli-pp-cli", "data.db")
+	return filepath.Join(home, ".local", "share", "keen", "data.db")
 }
 
 // Note: MCP tools use their own dbPath() because they are in a separate package (main, not cli).
@@ -13468,12 +13468,12 @@ func handleSQL(ctx context.Context, req mcplib.CallToolRequest) (*mcplib.CallToo
 
 func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToolResult, error) {
 	ctx := map[string]any{
-		"api":         "jira-pp-cli",
+		"api":         "keen",
 		"description": "Combined CLI for multiple API services",
 		"archetype":   "project-management",
 		"tool_count":  1091,
 		// tool_surface tells agents which surface a capability lives on.
-		"tool_surface": "MCP exposes typed endpoint tools plus a runtime mirror of user-facing CLI commands. Endpoint tools keep typed schemas; command-mirror tools shell out to the companion jira-pp-cli-pp-cli binary.",
+		"tool_surface": "MCP exposes typed endpoint tools plus a runtime mirror of user-facing CLI commands. Endpoint tools keep typed schemas; command-mirror tools shell out to the companion keen binary.",
 		"auth": map[string]any{
 			"type": "api_key",
 			"env_vars": []map[string]any{

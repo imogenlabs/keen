@@ -17,7 +17,7 @@ func newWikiRemoveContentStateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-content-state <id>",
 		Short:       "Removes the content state of the content specified and creates a new version (publishes the content without changing",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-content-state 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki remove-content-state 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-content-state", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/content/{id}/state"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

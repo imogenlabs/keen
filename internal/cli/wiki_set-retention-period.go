@@ -20,7 +20,7 @@ func newWikiSetRetentionPeriodCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-retention-period",
 		Short:       "Sets the retention period for records in the audit log. The retention period can be set to a maximum of 1 year.",
-		Example:     "  jira-pp-cli-pp-cli wiki set-retention-period --units NANOS",
+		Example:     "  keen wiki set-retention-period --units NANOS",
 		Annotations: map[string]string{"pp:endpoint": "wiki.set-retention-period", "pp:method": "PUT", "pp:path": "/wiki/rest/api/audit/retention"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

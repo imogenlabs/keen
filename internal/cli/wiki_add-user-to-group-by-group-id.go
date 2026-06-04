@@ -20,7 +20,7 @@ func newWikiAddUserToGroupByGroupIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-user-to-group-by-group-id",
 		Short:       "Adds a user as a member in a group represented by its groupId **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki add-user-to-group-by-group-id --group-id 550e8400-e29b-41d4-a716-446655440000 --account-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki add-user-to-group-by-group-id --group-id 550e8400-e29b-41d4-a716-446655440000 --account-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-user-to-group-by-group-id", "pp:method": "POST", "pp:path": "/wiki/rest/api/group/userByGroupId"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("group-id") && !flags.dryRun {

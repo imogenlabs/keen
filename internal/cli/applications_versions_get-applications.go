@@ -16,7 +16,7 @@ func newApplicationsVersionsGetApplicationsCmd(flags *rootFlags) *cobra.Command 
 	cmd := &cobra.Command{
 		Use:         "get-applications <applicationKey>",
 		Short:       "Get the latest version of the specified application.",
-		Example:     "  jira-pp-cli-pp-cli applications versions get-applications your-token-here",
+		Example:     "  keen applications versions get-applications your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "versions.get-applications", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/applications/{applicationKey}/versions/latest", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

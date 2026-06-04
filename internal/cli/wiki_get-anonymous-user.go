@@ -17,7 +17,7 @@ func newWikiGetAnonymousUserCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-anonymous-user",
 		Short:       "Returns information about how anonymous users are represented, like the profile picture and display name.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-anonymous-user",
+		Example:     "  keen wiki get-anonymous-user",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-anonymous-user", "pp:method": "GET", "pp:path": "/wiki/rest/api/user/anonymous", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

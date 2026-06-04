@@ -21,7 +21,7 @@ func newResolutionMoveCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "move",
 		Short:       "Changes the order of issue resolutions.",
-		Example:     "  jira-pp-cli-pp-cli resolution move",
+		Example:     "  keen resolution move",
 		Annotations: map[string]string{"pp:endpoint": "resolution.move", "pp:method": "PUT", "pp:path": "/rest/api/3/resolution/move"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

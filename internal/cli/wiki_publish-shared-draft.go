@@ -26,7 +26,7 @@ func newWikiPublishSharedDraftCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "publish-shared-draft <draftId>",
 		Short:       "Publishes a shared draft of a page created from a blueprint. By default, the following objects are expanded: `body.",
-		Example:     "  jira-pp-cli-pp-cli wiki publish-shared-draft 550e8400-e29b-41d4-a716-446655440000 --title example-resource",
+		Example:     "  keen wiki publish-shared-draft 550e8400-e29b-41d4-a716-446655440000 --title example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.publish-shared-draft", "pp:method": "PUT", "pp:path": "/wiki/rest/api/content/blueprint/instance/{draftId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

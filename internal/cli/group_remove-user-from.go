@@ -20,7 +20,7 @@ func newGroupRemoveUserFromCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-user-from",
 		Short:       "Removes a user from a group.",
-		Example:     "  jira-pp-cli-pp-cli group remove-user-from --account-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen group remove-user-from --account-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "group.remove-user-from", "pp:method": "DELETE", "pp:path": "/rest/api/3/group/user"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("account-id") && !flags.dryRun {

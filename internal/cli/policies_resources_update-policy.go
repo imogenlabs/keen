@@ -24,7 +24,7 @@ func newPoliciesResourcesUpdatePolicyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-policy <orgId> <policyId> <resourceId>",
 		Aliases:     []string{"update"},
 		Short:       "Update an existing Policy Resource",
-		Example:     "  jira-pp-cli-pp-cli policies resources update-policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen policies resources update-policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "resources.update-policy", "pp:method": "PUT", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

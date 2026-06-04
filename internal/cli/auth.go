@@ -6,7 +6,7 @@ package cli
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"jira-pp-cli-pp-cli/internal/config"
+	"keen/internal/config"
 	"os"
 )
 
@@ -33,7 +33,7 @@ func newAuthSetupCmd(_ *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "setup",
 		Short:   "Print steps for obtaining a credential (use --launch to open the URL)",
-		Example: "  jira-pp-cli-pp-cli auth setup\n  jira-pp-cli-pp-cli auth setup --launch",
+		Example: "  keen auth setup\n  keen auth setup --launch",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			w := cmd.OutOrStdout()
 			fmt.Fprintln(w, "No setup URL is configured for this CLI; check the API's docs.")
@@ -41,7 +41,7 @@ func newAuthSetupCmd(_ *rootFlags) *cobra.Command {
 			fmt.Fprintln(w, "Then set:")
 			fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_USERNAME=\"<your-token>\"")
 			fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_PASSWORD=\"<your-token>\"")
-			fmt.Fprintln(w, "  jira-pp-cli-pp-cli auth set-token <token>")
+			fmt.Fprintln(w, "  keen auth set-token <token>")
 			if !launch {
 				return nil
 			}
@@ -57,7 +57,7 @@ func newAuthStatusCmd(flags *rootFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:     "status",
 		Short:   "Show authentication status",
-		Example: "  jira-pp-cli-pp-cli auth status",
+		Example: "  keen auth status",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg, err := config.Load(flags.configPath)
 			if err != nil {
@@ -91,7 +91,7 @@ func newAuthStatusCmd(flags *rootFlags) *cobra.Command {
 				fmt.Fprintln(w, "Set your token:")
 				fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_USERNAME=\"your-token-here\"")
 				fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_PASSWORD=\"your-token-here\"")
-				fmt.Fprintf(w, "  jira-pp-cli-pp-cli auth set-token <token>\n")
+				fmt.Fprintf(w, "  keen auth set-token <token>\n")
 				return authErr(fmt.Errorf("no credentials configured"))
 			}
 
@@ -107,7 +107,7 @@ func newAuthSetTokenCmd(flags *rootFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:     "set-token <token>",
 		Short:   "Save an API token to the config file",
-		Example: "  jira-pp-cli-pp-cli auth set-token YOUR_TOKEN_HERE",
+		Example: "  keen auth set-token YOUR_TOKEN_HERE",
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg, err := config.Load(flags.configPath)
@@ -147,7 +147,7 @@ func newAuthLogoutCmd(flags *rootFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:     "logout",
 		Short:   "Clear stored credentials",
-		Example: "  jira-pp-cli-pp-cli auth logout",
+		Example: "  keen auth logout",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg, err := config.Load(flags.configPath)
 			if err != nil {

@@ -17,7 +17,7 @@ func newServicedeskapiGetRequestTypeByIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-request-type-by-id <serviceDeskId> <requestTypeId>",
 		Short:       "This method returns a customer request type from a service desk. This operation can be accessed anonymously.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-request-type-by-id 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi get-request-type-by-id 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-request-type-by-id", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/requesttype/{requestTypeId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -22,7 +22,7 @@ func newExpressionAnalyseCmd(flags *rootFlags) *cobra.Command {
 		Use:         "analyse",
 		Aliases:     []string{"create"},
 		Short:       "Analyses and validates Jira expressions.",
-		Example:     "  jira-pp-cli-pp-cli expression analyse",
+		Example:     "  keen expression analyse",
 		Annotations: map[string]string{"pp:endpoint": "expression.analyse", "pp:method": "POST", "pp:path": "/rest/api/3/expression/analyse"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("check") {

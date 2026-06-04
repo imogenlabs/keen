@@ -25,7 +25,7 @@ func newJiraCloudPlatformWorkflowGetTransitionRuleConfigurationsCmd(flags *rootF
 	cmd := &cobra.Command{
 		Use:         "get-transition-rule-configurations",
 		Short:       "Returns a [paginated](#pagination) list of workflows with transition rules.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow get-transition-rule-configurations --types example-value",
+		Example:     "  keen jira-cloud-platform-workflow get-transition-rule-configurations --types example-value",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.get-transition-rule-configurations", "pp:method": "GET", "pp:path": "/rest/api/3/workflow/rule/config", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("types") && !flags.dryRun {

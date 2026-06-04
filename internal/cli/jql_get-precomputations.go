@@ -21,7 +21,7 @@ func newJqlGetPrecomputationsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-precomputations",
 		Short:       "Returns the list of a function's precomputations along with information about when they were created, updated",
-		Example:     "  jira-pp-cli-pp-cli jql get-precomputations",
+		Example:     "  keen jql get-precomputations",
 		Annotations: map[string]string{"pp:endpoint": "jql.get-precomputations", "pp:method": "GET", "pp:path": "/rest/api/3/jql/function/computation", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {

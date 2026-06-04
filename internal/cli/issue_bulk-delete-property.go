@@ -20,7 +20,7 @@ func newIssueBulkDeletePropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "bulk-delete-property <propertyKey>",
 		Short:       "Deletes a property value from multiple issues. The issues to be updated can be specified by filter criteria.",
-		Example:     "  jira-pp-cli-pp-cli issue bulk-delete-property your-token-here",
+		Example:     "  keen issue bulk-delete-property your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "issue.bulk-delete-property", "pp:method": "DELETE", "pp:path": "/rest/api/3/issue/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

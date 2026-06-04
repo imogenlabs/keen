@@ -21,7 +21,7 @@ func newAtlassianAccessUsersRolesAssignCmd(flags *rootFlags) *cobra.Command {
 		Use:         "assign <orgId> <userId>",
 		Aliases:     []string{"create"},
 		Short:       "**The API is available for customers using the [new user management experience only](https://community.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-users roles assign 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --role atlassian/user",
+		Example:     "  keen atlassian-access-users roles assign 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --role atlassian/user",
 		Annotations: map[string]string{"pp:endpoint": "roles.assign", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/users/{userId}/roles/assign"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

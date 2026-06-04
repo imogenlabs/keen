@@ -21,7 +21,7 @@ func newUserSetColumnsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "set-columns",
 		Aliases:     []string{"update"},
 		Short:       "Sets the default [ issue table columns](https://confluence.atlassian.com/x/XYdKLg) for the user.",
-		Example:     "  jira-pp-cli-pp-cli user set-columns",
+		Example:     "  keen user set-columns",
 		Annotations: map[string]string{"pp:endpoint": "user.set-columns", "pp:method": "PUT", "pp:path": "/rest/api/3/user/columns"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

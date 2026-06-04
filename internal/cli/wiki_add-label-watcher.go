@@ -21,7 +21,7 @@ func newWikiAddLabelWatcherCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-label-watcher <labelName>",
 		Short:       "Adds a user as a watcher to a label.",
-		Example:     "  jira-pp-cli-pp-cli wiki add-label-watcher example-resource",
+		Example:     "  keen wiki add-label-watcher example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-label-watcher", "pp:method": "POST", "pp:path": "/wiki/rest/api/user/watch/label/{labelName}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

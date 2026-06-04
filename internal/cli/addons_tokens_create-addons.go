@@ -18,7 +18,7 @@ func newAddonsTokensCreateAddonsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-addons <addonKey> <token>",
 		Short:       "Validates or associates an access token with a host.",
-		Example:     "  jira-pp-cli-pp-cli addons tokens create-addons your-token-here your-token-here",
+		Example:     "  keen addons tokens create-addons your-token-here your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "tokens.create-addons", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/tokens/{token}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

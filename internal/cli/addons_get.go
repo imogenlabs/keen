@@ -29,7 +29,7 @@ func newAddonsGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Get a specific app.",
-		Example:     "  jira-pp-cli-pp-cli addons get your-token-here",
+		Example:     "  keen addons get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "addons.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

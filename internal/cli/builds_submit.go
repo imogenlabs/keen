@@ -22,7 +22,7 @@ func newBuildsSubmitCmd(flags *rootFlags) *cobra.Command {
 		Use:         "submit",
 		Aliases:     []string{"create"},
 		Short:       "Update / insert builds data.",
-		Example:     "  jira-pp-cli-pp-cli builds submit",
+		Example:     "  keen builds submit",
 		Annotations: map[string]string{"pp:endpoint": "builds.submit", "pp:method": "POST", "pp:path": "/rest/builds/0.1/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

@@ -22,7 +22,7 @@ func newDeploymentsSubmitCmd(flags *rootFlags) *cobra.Command {
 		Use:         "submit",
 		Aliases:     []string{"create"},
 		Short:       "Update / insert deployment data.",
-		Example:     "  jira-pp-cli-pp-cli deployments submit",
+		Example:     "  keen deployments submit",
 		Annotations: map[string]string{"pp:endpoint": "deployments.submit", "pp:method": "POST", "pp:path": "/rest/deployments/0.1/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

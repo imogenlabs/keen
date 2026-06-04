@@ -19,7 +19,7 @@ func newJiraCloudPlatformSearchCountIssuesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "count-issues",
 		Short:       "Provide an estimated count of the issues that match the [JQL](https://confluence.atlassian.com/x/egORLQ).",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-search count-issues",
+		Example:     "  keen jira-cloud-platform-search count-issues",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.count-issues", "pp:method": "POST", "pp:path": "/rest/api/3/search/approximate-count"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

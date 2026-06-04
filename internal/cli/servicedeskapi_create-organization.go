@@ -19,7 +19,7 @@ func newServicedeskapiCreateOrganizationCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-organization",
 		Short:       "This method creates an organization by passing the name of the organization.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi create-organization --name example-resource",
+		Example:     "  keen servicedeskapi create-organization --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.create-organization", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/organization"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

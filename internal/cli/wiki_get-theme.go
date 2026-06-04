@@ -16,7 +16,7 @@ func newWikiGetThemeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-theme <themeKey>",
 		Short:       "Returns a theme. This includes information about the theme name, description, and icon.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-theme your-token-here",
+		Example:     "  keen wiki get-theme your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-theme", "pp:method": "GET", "pp:path": "/wiki/rest/api/settings/theme/{themeKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

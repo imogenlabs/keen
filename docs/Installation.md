@@ -9,8 +9,8 @@
 
 ```bash
 git clone https://github.com/imogenlabs/keen.git
-cd jira-pp-cli
-go build -o keen ./cmd/jira-pp-cli-pp-cli/
+cd keen
+go build -o keen ./cmd/keen/
 ```
 
 Move the binary to your PATH:
@@ -26,7 +26,7 @@ ln -s $(pwd)/keen ~/go/bin/keen
 ## MCP Server
 
 ```bash
-go build -o keen-mcp ./cmd/jira-pp-cli-pp-mcp/
+go build -o keen-mcp ./cmd/keen-mcp/
 ```
 
 The MCP server exposes all 1,091 tools over the Model Context Protocol (stdio transport). Add to your MCP config:

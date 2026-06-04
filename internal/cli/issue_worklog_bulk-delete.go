@@ -21,7 +21,7 @@ func newIssueWorklogBulkDeleteCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "bulk-delete <issueIdOrKey>",
 		Short:       "Deletes a list of worklogs from an issue.",
-		Example:     "  jira-pp-cli-pp-cli issue worklog bulk-delete your-token-here",
+		Example:     "  keen issue worklog bulk-delete your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "worklog.bulk-delete", "pp:method": "DELETE", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/worklog"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

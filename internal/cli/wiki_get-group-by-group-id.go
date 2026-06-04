@@ -17,7 +17,7 @@ func newWikiGetGroupByGroupIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-group-by-group-id",
 		Short:       "Returns a user group for a given group id. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-group-by-group-id --id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-group-by-group-id --id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-group-by-group-id", "pp:method": "GET", "pp:path": "/wiki/rest/api/group/by-id", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("id") && !flags.dryRun {

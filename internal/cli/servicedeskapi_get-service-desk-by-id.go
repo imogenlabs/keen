@@ -16,7 +16,7 @@ func newServicedeskapiGetServiceDeskByIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-service-desk-by-id <serviceDeskId>",
 		Short:       "This method returns a service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-service-desk-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi get-service-desk-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-service-desk-by-id", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

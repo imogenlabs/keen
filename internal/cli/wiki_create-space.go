@@ -24,7 +24,7 @@ func newWikiCreateSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-space",
 		Short:       "Creates a new space. Note, currently you cannot set space labels when creating a space.",
-		Example:     "  jira-pp-cli-pp-cli wiki create-space --name example-resource",
+		Example:     "  keen wiki create-space --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.create-space", "pp:method": "POST", "pp:path": "/wiki/rest/api/space"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

@@ -19,7 +19,7 @@ func newIssueEditmetaGetEditIssueMetaCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-edit-issue-meta <issueIdOrKey>",
 		Aliases:     []string{"get"},
 		Short:       "Returns the edit screen fields for an issue that are visible to and editable by the user.",
-		Example:     "  jira-pp-cli-pp-cli issue editmeta get-edit-issue-meta your-token-here",
+		Example:     "  keen issue editmeta get-edit-issue-meta your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "editmeta.get-edit-issue-meta", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/editmeta", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

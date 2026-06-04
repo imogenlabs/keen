@@ -44,7 +44,7 @@ func Load(configPath string) (*Config, error) {
 		home, _ := os.UserHomeDir()
 		keenJSON := filepath.Join(home, ".config", "keen", "auth.json")
 		keenTOML := filepath.Join(home, ".config", "keen", "config.toml")
-		legacyTOML := filepath.Join(home, ".config", "jira-pp-cli-pp-cli", "config.toml")
+		legacyTOML := filepath.Join(home, ".config", "keen", "config.toml")
 		switch {
 		case fileExists(keenJSON):
 			path = keenJSON

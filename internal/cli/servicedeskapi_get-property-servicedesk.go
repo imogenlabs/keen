@@ -16,7 +16,7 @@ func newServicedeskapiGetPropertyServicedeskCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "get-property-servicedesk <serviceDeskId> <requestTypeId> <propertyKey>",
 		Short:       "Returns the value of the property from a request type.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-property-servicedesk 550e8400-e29b-41d4-a716-446655440000 42 your-token-here",
+		Example:     "  keen servicedeskapi get-property-servicedesk 550e8400-e29b-41d4-a716-446655440000 42 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-property-servicedesk", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/requesttype/{requestTypeId}/property/{propertyKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

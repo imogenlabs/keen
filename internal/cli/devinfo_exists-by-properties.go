@@ -18,7 +18,7 @@ func newDevinfoExistsByPropertiesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "exists-by-properties",
 		Aliases:     []string{"list"},
 		Short:       "Checks if repositories which have all the provided properties exists.",
-		Example:     "  jira-pp-cli-pp-cli devinfo exists-by-properties",
+		Example:     "  keen devinfo exists-by-properties",
 		Annotations: map[string]string{"pp:endpoint": "devinfo.exists-by-properties", "pp:method": "GET", "pp:path": "/rest/devinfo/0.10/existsByProperties", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

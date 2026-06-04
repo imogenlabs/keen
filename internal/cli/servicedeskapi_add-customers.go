@@ -21,7 +21,7 @@ func newServicedeskapiAddCustomersCmd(flags *rootFlags) *cobra.Command {
 		Use:         "add-customers <serviceDeskId>",
 		Aliases:     []string{"create"},
 		Short:       "Adds one or more customers to a service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi add-customers 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi add-customers 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.add-customers", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/customer"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

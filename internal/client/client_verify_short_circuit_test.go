@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"jira-pp-cli-pp-cli/internal/config"
+	"keen/internal/config"
 )
 
 // recordingRoundTripper counts how many times its RoundTrip method is

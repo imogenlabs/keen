@@ -16,7 +16,7 @@ func newAddonsTokensGetAddonsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-addons <addonKey> <token>",
 		Short:       "Get a specific access token. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons tokens get-addons your-token-here your-token-here",
+		Example:     "  keen addons tokens get-addons your-token-here your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "tokens.get-addons", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/tokens/{token}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

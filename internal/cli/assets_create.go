@@ -17,7 +17,7 @@ func newAssetsCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create",
 		Short:       "Use this resource to upload an app artifact (`.jar` or `.obr`) to Marketplace, so it can be used by an app version.",
-		Example:     "  jira-pp-cli-pp-cli assets create --file example-value",
+		Example:     "  keen assets create --file example-value",
 		Annotations: map[string]string{"pp:endpoint": "assets.create", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/assets/artifact"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("file") && !flags.dryRun {

@@ -16,7 +16,7 @@ func newOperationsDeleteReviewByIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-review-by-id <reviewId>",
 		Short:       "Delete the Review data currently stored for the given ID. Deletion is performed asynchronously.",
-		Example:     "  jira-pp-cli-pp-cli operations delete-review-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen operations delete-review-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "operations.delete-review-by-id", "pp:method": "DELETE", "pp:path": "/rest/operations/1.0/post-incident-reviews/{reviewId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

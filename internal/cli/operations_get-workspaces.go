@@ -17,7 +17,7 @@ func newOperationsGetWorkspacesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-workspaces",
 		Aliases:     []string{"list"},
 		Short:       "Retrieve the either all Operations Workspace IDs associated with the Jira site or a specific Operations Workspace ID",
-		Example:     "  jira-pp-cli-pp-cli operations get-workspaces",
+		Example:     "  keen operations get-workspaces",
 		Annotations: map[string]string{"pp:endpoint": "operations.get-workspaces", "pp:method": "GET", "pp:path": "/rest/operations/1.0/linkedWorkspaces", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

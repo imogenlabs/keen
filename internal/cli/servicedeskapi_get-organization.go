@@ -16,7 +16,7 @@ func newServicedeskapiGetOrganizationCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-organization <organizationId>",
 		Short:       "This method returns details of an organization.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-organization 42",
+		Example:     "  keen servicedeskapi get-organization 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-organization", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/organization/{organizationId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

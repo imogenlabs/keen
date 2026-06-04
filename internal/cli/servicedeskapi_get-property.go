@@ -16,7 +16,7 @@ func newServicedeskapiGetPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-property <organizationId> <propertyKey>",
 		Short:       "Returns the value of an organization property.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen servicedeskapi get-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-property", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/organization/{organizationId}/property/{propertyKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

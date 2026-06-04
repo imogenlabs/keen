@@ -23,7 +23,7 @@ func newDashboardCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create",
 		Short:       "Creates a dashboard. **[Permissions](#permissions) required:** None.",
-		Example:     "  jira-pp-cli-pp-cli dashboard create --name example-resource",
+		Example:     "  keen dashboard create --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "dashboard.create", "pp:method": "POST", "pp:path": "/rest/api/3/dashboard"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

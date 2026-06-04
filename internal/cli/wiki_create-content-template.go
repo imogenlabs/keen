@@ -41,7 +41,7 @@ func newWikiCreateContentTemplateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-content-template",
 		Short:       "Creates a new content template. Note, blueprint templates cannot be created via the REST API.",
-		Example:     "  jira-pp-cli-pp-cli wiki create-content-template --name example-resource",
+		Example:     "  keen wiki create-content-template --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.create-content-template", "pp:method": "POST", "pp:path": "/wiki/rest/api/template"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

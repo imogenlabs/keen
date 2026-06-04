@@ -17,7 +17,7 @@ func newServicedeskapiDeleteFeedbackCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-feedback <requestIdOrKey>",
 		Aliases:     []string{"delete"},
 		Short:       "This method deletes the feedback of request using it's `requestKey` or `requestId` **[Permissions](#permissions)",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi delete-feedback your-token-here",
+		Example:     "  keen servicedeskapi delete-feedback your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.delete-feedback", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/request/{requestIdOrKey}/feedback"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

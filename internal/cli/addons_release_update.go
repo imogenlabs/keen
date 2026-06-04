@@ -19,7 +19,7 @@ func newAddonsReleaseUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update <addonKey>",
 		Short:       "Release an app after it has been approved.",
-		Example:     "  jira-pp-cli-pp-cli addons release update your-token-here",
+		Example:     "  keen addons release update your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "release.update", "pp:method": "PUT", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/release"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

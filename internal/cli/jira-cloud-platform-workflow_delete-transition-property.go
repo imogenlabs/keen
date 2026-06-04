@@ -19,7 +19,7 @@ func newJiraCloudPlatformWorkflowDeleteTransitionPropertyCmd(flags *rootFlags) *
 	cmd := &cobra.Command{
 		Use:         "delete-transition-property <transitionId>",
 		Short:       "This will be removed on [June 1, 2026](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow delete-transition-property 42 --key your-token-here --workflow-name example-resource",
+		Example:     "  keen jira-cloud-platform-workflow delete-transition-property 42 --key your-token-here --workflow-name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.delete-transition-property", "pp:method": "DELETE", "pp:path": "/rest/api/3/workflow/transitions/{transitionId}/properties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

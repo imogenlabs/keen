@@ -19,7 +19,7 @@ func newAgileGetIssueCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issue <issueIdOrKey>",
 		Short:       "Returns a single issue, for a given issue ID or issue key.",
-		Example:     "  jira-pp-cli-pp-cli agile get-issue your-token-here",
+		Example:     "  keen agile get-issue your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-issue", "pp:method": "GET", "pp:path": "/rest/agile/1.0/issue/{issueIdOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

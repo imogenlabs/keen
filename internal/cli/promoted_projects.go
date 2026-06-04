@@ -23,7 +23,7 @@ func newProjectsPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "projects",
 		Short:       "Returns a [paginated](#pagination) list of fields for the requested projects and work types.",
 		Long:        "Returns a [paginated](#pagination) list of fields for the requested projects and work types.",
-		Example:     "  jira-pp-cli-pp-cli projects --project-id 550e8400-e29b-41d4-a716-446655440000 --work-type-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen projects --project-id 550e8400-e29b-41d4-a716-446655440000 --work-type-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "projects.get-fields", "pp:method": "GET", "pp:path": "/rest/api/3/projects/fields", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("project-id") && !flags.dryRun {

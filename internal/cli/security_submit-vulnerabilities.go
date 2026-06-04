@@ -23,7 +23,7 @@ func newSecuritySubmitVulnerabilitiesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "submit-vulnerabilities",
 		Aliases:     []string{"create"},
 		Short:       "Update / Insert Vulnerability data.",
-		Example:     "  jira-pp-cli-pp-cli security submit-vulnerabilities",
+		Example:     "  keen security submit-vulnerabilities",
 		Annotations: map[string]string{"pp:endpoint": "security.submit-vulnerabilities", "pp:method": "POST", "pp:path": "/rest/security/1.0/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

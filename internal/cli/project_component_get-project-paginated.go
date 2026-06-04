@@ -23,7 +23,7 @@ func newProjectComponentGetProjectPaginatedCmd(flags *rootFlags) *cobra.Command 
 		Use:         "get-project-paginated <projectIdOrKey>",
 		Aliases:     []string{"get"},
 		Short:       "Returns a [paginated](#pagination) list of all components in a project.",
-		Example:     "  jira-pp-cli-pp-cli project component get-project-paginated your-token-here",
+		Example:     "  keen project component get-project-paginated your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "component.get-project-paginated", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/component", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

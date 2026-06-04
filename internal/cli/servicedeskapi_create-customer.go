@@ -22,7 +22,7 @@ func newServicedeskapiCreateCustomerCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-customer",
 		Short:       "This method adds a customer to the Jira Service Management instance by passing a JSON file including an email address",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi create-customer",
+		Example:     "  keen servicedeskapi create-customer",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.create-customer", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/customer"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

@@ -21,7 +21,7 @@ func newWikiExportAuditRecordsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "export-audit-records",
 		Aliases:     []string{"list"},
 		Short:       "Exports audit records as a CSV file or ZIP file. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki export-audit-records",
+		Example:     "  keen wiki export-audit-records",
 		Annotations: map[string]string{"pp:endpoint": "wiki.export-audit-records", "pp:method": "GET", "pp:path": "/wiki/rest/api/audit/export", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("format") {

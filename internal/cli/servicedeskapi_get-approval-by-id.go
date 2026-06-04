@@ -17,7 +17,7 @@ func newServicedeskapiGetApprovalByIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-approval-by-id <issueIdOrKey> <approvalId>",
 		Aliases:     []string{"get"},
 		Short:       "This method returns an approval. Use this method to determine the status of an approval and the list of approvers.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-approval-by-id your-token-here 42",
+		Example:     "  keen servicedeskapi get-approval-by-id your-token-here 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-approval-by-id", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/approval/{approvalId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -28,7 +28,7 @@ func newAgileUpdateSprintCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-sprint <sprintId>",
 		Short:       "Performs a full update of a sprint. A full update means that the result will be exactly the same as the request body.",
-		Example:     "  jira-pp-cli-pp-cli agile update-sprint 42",
+		Example:     "  keen agile update-sprint 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.update-sprint", "pp:method": "PUT", "pp:path": "/rest/agile/1.0/sprint/{sprintId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

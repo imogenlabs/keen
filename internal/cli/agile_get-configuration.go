@@ -16,7 +16,7 @@ func newAgileGetConfigurationCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-configuration <boardId>",
 		Short:       "Get the board configuration. The response contains the following fields: * `id` - ID of the board.",
-		Example:     "  jira-pp-cli-pp-cli agile get-configuration 42",
+		Example:     "  keen agile get-configuration 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-configuration", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/configuration", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
