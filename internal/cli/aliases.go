@@ -4,6 +4,11 @@
 package cli
 
 import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"strings"
+
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +33,25 @@ func addAliasCommands(rootCmd *cobra.Command, flags *rootFlags) {
 	transitionCmd := newIssueTransitionsDoCmd(flags)
 	transitionCmd.Use = "transition [issueKey]"
 	transitionCmd.Short = "Transition a Jira issue"
-	transitionCmd.Example = "  keen transition INFRA-46 --transition-id 51 --agent"
+	transitionCmd.Example = "  keen transition INFRA-46 --transition-name QA --agent"
+	// The Jira API requires transition.id (a numeric string); passing a name
+	// fails with "'transition' identifier must be an integer". Resolve
+	// --transition-name to its id here so agents can use human-readable names.
+	transitionOrigRunE := transitionCmd.RunE
+	transitionCmd.RunE = func(cmd *cobra.Command, args []string) error {
+		name, _ := cmd.Flags().GetString("transition-name")
+		id, _ := cmd.Flags().GetString("transition-id")
+		if name != "" && id == "" && len(args) > 0 {
+			resolved, err := resolveTransitionID(cmd.Context(), flags, args[0], name)
+			if err != nil {
+				return err
+			}
+			_ = cmd.Flags().Set("transition-id", resolved)
+			// Clear the name so the body carries only transition.id.
+			_ = cmd.Flags().Set("transition-name", "")
+		}
+		return transitionOrigRunE(cmd, args)
+	}
 	rootCmd.AddCommand(transitionCmd)
 
 	// keen sprint → keen agile get-all-sprints
@@ -44,4 +67,35 @@ func addAliasCommands(rootCmd *cobra.Command, flags *rootFlags) {
 	getIssueCmd.Short = "Get a Jira issue"
 	getIssueCmd.Example = "  keen get INFRA-46 --agent"
 	rootCmd.AddCommand(getIssueCmd)
+}
+
+// resolveTransitionID looks up the numeric transition id for a transition name
+// on a given issue, matching case-insensitively. Returns a helpful error
+// listing the available transitions when the name does not match.
+func resolveTransitionID(ctx context.Context, flags *rootFlags, issueKey, name string) (string, error) {
+	c, err := flags.newClient()
+	if err != nil {
+		return "", err
+	}
+	data, err := c.Get(ctx, "/rest/api/3/issue/"+issueKey+"/transitions", nil)
+	if err != nil {
+		return "", classifyAPIError(err, flags)
+	}
+	var resp struct {
+		Transitions []struct {
+			ID   string `json:"id"`
+			Name string `json:"name"`
+		} `json:"transitions"`
+	}
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return "", fmt.Errorf("parsing transitions for %s: %w", issueKey, err)
+	}
+	names := make([]string, 0, len(resp.Transitions))
+	for _, t := range resp.Transitions {
+		if strings.EqualFold(t.Name, name) {
+			return t.ID, nil
+		}
+		names = append(names, t.Name)
+	}
+	return "", fmt.Errorf("no transition named %q available for %s (available: %s)", name, issueKey, strings.Join(names, ", "))
 }
