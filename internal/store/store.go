@@ -15758,6 +15758,14 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 		// spec declares x-resource-id).
 		id := ExtractResourceID(resourceType, obj)
 		if id == "" {
+			// Pagination envelopes (e.g. the Agile sprints response
+			// {"values":[...],"isLast":true}) have no id of their own and are
+			// not real extract failures — the individual records live under
+			// "values". Don't count them toward the skip warning; otherwise a
+			// clean `get-all-sprints` falsely prints "1/1 items skipped".
+			if _, isEnvelope := obj["values"]; isEnvelope {
+				continue
+			}
 			skippedCount++
 			extractFailures++
 			continue
