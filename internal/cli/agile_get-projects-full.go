@@ -16,7 +16,7 @@ func newAgileGetProjectsFullCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-projects-full <boardId>",
 		Short:       "Returns all projects that are statically associated with the board, for the given board ID.",
-		Example:     "  jira-pp-cli-pp-cli agile get-projects-full 42",
+		Example:     "  keen agile get-projects-full 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-projects-full", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/project/full", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

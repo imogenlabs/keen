@@ -19,7 +19,7 @@ func newWikiSetSpaceThemeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-space-theme <spaceKey>",
 		Short:       "Sets the theme for a space.",
-		Example:     "  jira-pp-cli-pp-cli wiki set-space-theme your-token-here --theme-key your-token-here",
+		Example:     "  keen wiki set-space-theme your-token-here --theme-key your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.set-space-theme", "pp:method": "PUT", "pp:path": "/wiki/rest/api/space/{spaceKey}/theme"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

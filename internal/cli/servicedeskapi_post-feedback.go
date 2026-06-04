@@ -21,7 +21,7 @@ func newServicedeskapiPostFeedbackCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "post-feedback <requestIdOrKey>",
 		Short:       "This method adds a feedback on an request using it's `requestKey` or `requestId` **[Permissions](#permissions)",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi post-feedback your-token-here",
+		Example:     "  keen servicedeskapi post-feedback your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.post-feedback", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/request/{requestIdOrKey}/feedback"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

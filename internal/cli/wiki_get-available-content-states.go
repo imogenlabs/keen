@@ -16,7 +16,7 @@ func newWikiGetAvailableContentStatesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-available-content-states <id>",
 		Short:       "Gets content states that are available for the content to be set as. Will return all enabled Space Content States.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-available-content-states 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-available-content-states 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-available-content-states", "pp:method": "GET", "pp:path": "/wiki/rest/api/content/{id}/state/available", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

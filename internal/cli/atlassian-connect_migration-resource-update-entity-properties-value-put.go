@@ -20,7 +20,7 @@ func newAtlassianConnectMigrationResourceUpdateEntityPropertiesValuePutCmd(flags
 	cmd := &cobra.Command{
 		Use:         "migration-resource-update-entity-properties-value-put",
 		Short:       "Updates the values of multiple entity properties for an object, up to 50 updates per request.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-connect migration-resource-update-entity-properties-value-put --entity-type IssueProperty",
+		Example:     "  keen atlassian-connect migration-resource-update-entity-properties-value-put --entity-type IssueProperty",
 		Annotations: map[string]string{"pp:endpoint": "atlassian-connect.migration-resource-update-entity-properties-value-put", "pp:method": "PUT", "pp:path": "/rest/atlassian-connect/1/migration/properties/{entityType}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("entity-type") {

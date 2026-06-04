@@ -21,7 +21,7 @@ func newWikiCheckContentPermissionCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "check-content-permission <id>",
 		Short:       "Check if a user or a group can perform an operation to the specified content. The `operation` to check must be provided.",
-		Example:     "  jira-pp-cli-pp-cli wiki check-content-permission 550e8400-e29b-41d4-a716-446655440000 --operation read",
+		Example:     "  keen wiki check-content-permission 550e8400-e29b-41d4-a716-446655440000 --operation read",
 		Annotations: map[string]string{"pp:endpoint": "wiki.check-content-permission", "pp:method": "POST", "pp:path": "/wiki/rest/api/content/{id}/permission/check"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

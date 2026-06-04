@@ -22,7 +22,7 @@ func newAgileMoveIssuesToSprintAndRankCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "move-issues-to-sprint-and-rank <sprintId>",
 		Short:       "Moves issues to a sprint, for a given sprint ID. Issues can only be moved to open or active sprints.",
-		Example:     "  jira-pp-cli-pp-cli agile move-issues-to-sprint-and-rank 42",
+		Example:     "  keen agile move-issues-to-sprint-and-rank 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.move-issues-to-sprint-and-rank", "pp:method": "POST", "pp:path": "/rest/agile/1.0/sprint/{sprintId}/issue"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

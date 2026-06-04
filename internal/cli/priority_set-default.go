@@ -19,7 +19,7 @@ func newPrioritySetDefaultCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-default",
 		Short:       "Sets default issue priority.",
-		Example:     "  jira-pp-cli-pp-cli priority set-default --id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen priority set-default --id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "priority.set-default", "pp:method": "PUT", "pp:path": "/rest/api/3/priority/default"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

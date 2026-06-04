@@ -1,7 +1,7 @@
 # Binaries
 bin/
-jira-pp-cli-pp-cli
-jira-pp-cli-pp-mcp
+keen
+keen-mcp
 keen
 keen-mcp
 *.exe

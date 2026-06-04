@@ -19,7 +19,7 @@ func newAgileGetBoardByFilterIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-board-by-filter-id <filterId>",
 		Short:       "Returns any boards which use the provided filter id.",
-		Example:     "  jira-pp-cli-pp-cli agile get-board-by-filter-id 42",
+		Example:     "  keen agile get-board-by-filter-id 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-board-by-filter-id", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/filter/{filterId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

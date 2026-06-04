@@ -13,7 +13,7 @@ export JIRA_CLOUD_PLATFORM_PASSWORD="your-api-token"
 
 ### Config File
 
-`~/.config/jira-pp-cli-pp-cli/config.toml`:
+`~/.config/keen/config.toml`:
 
 ```toml
 base_url = 'https://your-domain.atlassian.net'

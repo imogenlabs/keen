@@ -17,7 +17,7 @@ func newProjectvalidateGetValidProjectNameCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-valid-project-name",
 		Short:       "Checks that a project name isn't in use. If the name isn't in use, the passed string is returned.",
-		Example:     "  jira-pp-cli-pp-cli projectvalidate get-valid-project-name --name example-resource",
+		Example:     "  keen projectvalidate get-valid-project-name --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "projectvalidate.get-valid-project-name", "pp:method": "GET", "pp:path": "/rest/api/3/projectvalidate/validProjectName", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("name") && !flags.dryRun {

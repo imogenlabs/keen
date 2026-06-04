@@ -20,7 +20,7 @@ func newResolutionUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update <id>",
 		Short:       "Updates an issue resolution.",
-		Example:     "  jira-pp-cli-pp-cli resolution update 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
+		Example:     "  keen resolution update 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "resolution.update", "pp:method": "PUT", "pp:path": "/rest/api/3/resolution/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -18,7 +18,7 @@ func newAddonsListSearchCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "list-search",
 		Short:       "Get a list of apps with names matching a search term.",
-		Example:     "  jira-pp-cli-pp-cli addons list-search",
+		Example:     "  keen addons list-search",
 		Annotations: map[string]string{"pp:endpoint": "addons.list-search", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/search/brief", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

@@ -18,7 +18,7 @@ func newInternalPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "internal",
 		Short:       "Returns worklog details for a list of issue ID and worklog ID pairs.",
 		Long:        "Returns worklog details for a list of issue ID and worklog ID pairs.",
-		Example:     "  jira-pp-cli-pp-cli internal",
+		Example:     "  keen internal",
 		Annotations: map[string]string{"pp:endpoint": "internal.get-worklogs-by-issue-id-and-worklog-id", "pp:method": "POST", "pp:path": "/rest/internal/api/latest/worklog/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

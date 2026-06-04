@@ -16,7 +16,7 @@ func newServicedeskapiGetFeedbackCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-feedback <requestIdOrKey>",
 		Short:       "This method retrieves a feedback of a request using it's `requestKey` or `requestId` **[Permissions](#permissions)",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-feedback your-token-here",
+		Example:     "  keen servicedeskapi get-feedback your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-feedback", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{requestIdOrKey}/feedback", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

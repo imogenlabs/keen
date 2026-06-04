@@ -19,7 +19,7 @@ func newWikiArchivePagesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "archive-pages",
 		Short:       "Archives a list of pages. The pages to be archived are specified as a list of content IDs.",
-		Example:     "  jira-pp-cli-pp-cli wiki archive-pages",
+		Example:     "  keen wiki archive-pages",
 		Annotations: map[string]string{"pp:endpoint": "wiki.archive-pages", "pp:method": "POST", "pp:path": "/wiki/rest/api/content/archive"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

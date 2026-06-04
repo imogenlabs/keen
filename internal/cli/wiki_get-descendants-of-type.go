@@ -22,7 +22,7 @@ func newWikiGetDescendantsOfTypeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-descendants-of-type <id>",
 		Short:       "Returns all descendants of a given type, for a piece of content.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-descendants-of-type 550e8400-e29b-41d4-a716-446655440000 --type page",
+		Example:     "  keen wiki get-descendants-of-type 550e8400-e29b-41d4-a716-446655440000 --type page",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-descendants-of-type", "pp:method": "GET", "pp:path": "/wiki/rest/api/content/{id}/descendant/{type}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

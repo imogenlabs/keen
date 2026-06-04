@@ -17,7 +17,7 @@ func newSecurityGetLinkedWorkspacesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-linked-workspaces",
 		Aliases:     []string{"list"},
 		Short:       "Retrieve all Security Workspaces linked with the Jira site.",
-		Example:     "  jira-pp-cli-pp-cli security get-linked-workspaces",
+		Example:     "  keen security get-linked-workspaces",
 		Annotations: map[string]string{"pp:endpoint": "security.get-linked-workspaces", "pp:method": "GET", "pp:path": "/rest/security/1.0/linkedWorkspaces", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

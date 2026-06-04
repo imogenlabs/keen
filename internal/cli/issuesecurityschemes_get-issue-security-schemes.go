@@ -17,7 +17,7 @@ func newIssuesecurityschemesGetIssueSecuritySchemesCmd(flags *rootFlags) *cobra.
 		Use:         "get-issue-security-schemes",
 		Aliases:     []string{"list"},
 		Short:       "Returns all [issue security schemes](https://confluence.atlassian.com/x/J4lKLg).",
-		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes get-issue-security-schemes",
+		Example:     "  keen issuesecurityschemes get-issue-security-schemes",
 		Annotations: map[string]string{"pp:endpoint": "issuesecurityschemes.get-issue-security-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/issuesecurityschemes", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

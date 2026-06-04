@@ -17,7 +17,7 @@ func newAgileGetIssueEstimationForBoardCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issue-estimation-for-board <issueIdOrKey>",
 		Short:       "Returns the estimation of the issue and a fieldId of the field that is used for it. `boardId` param is required.",
-		Example:     "  jira-pp-cli-pp-cli agile get-issue-estimation-for-board your-token-here",
+		Example:     "  keen agile get-issue-estimation-for-board your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-issue-estimation-for-board", "pp:method": "GET", "pp:path": "/rest/agile/1.0/issue/{issueIdOrKey}/estimation", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

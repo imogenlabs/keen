@@ -18,7 +18,7 @@ func newVendorsReportingGetVendors8Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-8 <vendorId>",
 		Short:       "To fetch count of customers split by parent product edition and percentage distribution of customers across parent",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-8 42",
+		Example:     "  keen vendors reporting get-vendors-8 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-8", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/customer-insights/editions", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

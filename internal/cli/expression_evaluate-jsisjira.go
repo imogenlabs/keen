@@ -29,7 +29,7 @@ func newExpressionEvaluateJsisjiraCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "evaluate-jsisjira",
 		Short:       "Evaluates a Jira expression and returns its value.",
-		Example:     "  jira-pp-cli-pp-cli expression evaluate-jsisjira --expression example-value",
+		Example:     "  keen expression evaluate-jsisjira --expression example-value",
 		Annotations: map[string]string{"pp:endpoint": "expression.evaluate-jsisjira", "pp:method": "POST", "pp:path": "/rest/api/3/expression/evaluate"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

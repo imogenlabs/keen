@@ -17,7 +17,7 @@ func newWikiGetViewersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-viewers <contentId>",
 		Short:       "Get the total number of distinct viewers a piece of content has.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-viewers 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-viewers 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-viewers", "pp:method": "GET", "pp:path": "/wiki/rest/api/analytics/content/{contentId}/viewers", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -33,7 +33,7 @@ func newWikiCreateAuditRecordCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-audit-record",
 		Short:       "Creates a record in the audit log. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki create-audit-record --remote-address 123 Test St, Anytown, ST 12345",
+		Example:     "  keen wiki create-audit-record --remote-address 123 Test St, Anytown, ST 12345",
 		Annotations: map[string]string{"pp:endpoint": "wiki.create-audit-record", "pp:method": "POST", "pp:path": "/wiki/rest/api/audit"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

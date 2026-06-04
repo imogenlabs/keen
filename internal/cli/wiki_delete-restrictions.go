@@ -17,7 +17,7 @@ func newWikiDeleteRestrictionsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-restrictions <id>",
 		Short:       "Removes all restrictions (read and update) on a piece of content. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki delete-restrictions 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki delete-restrictions 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.delete-restrictions", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/content/{id}/restriction"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

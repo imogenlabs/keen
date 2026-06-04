@@ -17,7 +17,7 @@ func newJiraCloudPlatformVersionGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <id>",
 		Short:       "Returns a project version. This operation can be accessed anonymously.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version get 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen jira-cloud-platform-version get 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-version.get", "pp:method": "GET", "pp:path": "/rest/api/3/version/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

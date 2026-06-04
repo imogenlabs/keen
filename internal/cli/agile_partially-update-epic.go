@@ -22,7 +22,7 @@ func newAgilePartiallyUpdateEpicCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "partially-update-epic <epicIdOrKey>",
 		Short:       "Performs a partial update of the epic.",
-		Example:     "  jira-pp-cli-pp-cli agile partially-update-epic your-token-here",
+		Example:     "  keen agile partially-update-epic your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.partially-update-epic", "pp:method": "POST", "pp:path": "/rest/agile/1.0/epic/{epicIdOrKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

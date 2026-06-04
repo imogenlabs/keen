@@ -28,7 +28,7 @@ func newVendorsPartnerMetricsCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create <vendorId>",
 		Short:       "This resource fetches the time series data for the metric of choice. It requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli vendors partner-metrics create 42",
+		Example:     "  keen vendors partner-metrics create 42",
 		Annotations: map[string]string{"pp:endpoint": "partner-metrics.create", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/partner-metrics"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

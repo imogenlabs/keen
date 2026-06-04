@@ -25,7 +25,7 @@ func newFieldOptionUpdateIssueFieldCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-issue-field <fieldKey> <optionId>",
 		Aliases:     []string{"update"},
 		Short:       "Updates or creates an option for a select list issue field.",
-		Example:     "  jira-pp-cli-pp-cli field option update-issue-field your-token-here 42 --value example-value",
+		Example:     "  keen field option update-issue-field your-token-here 42 --value example-value",
 		Annotations: map[string]string{"pp:endpoint": "option.update-issue-field", "pp:method": "PUT", "pp:path": "/rest/api/3/field/{fieldKey}/option/{optionId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

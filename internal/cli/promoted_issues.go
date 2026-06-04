@@ -23,7 +23,7 @@ func newIssuesPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "issues",
 		Short:       "Enables admins to retrieve details of all archived issues.",
 		Long:        "Enables admins to retrieve details of all archived issues.",
-		Example:     "  jira-pp-cli-pp-cli issues",
+		Example:     "  keen issues",
 		Annotations: map[string]string{"pp:endpoint": "issues.export-archived", "pp:method": "PUT", "pp:path": "/rest/api/3/issues/archive/export"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("archived-date-range-date-after") && !flags.dryRun {

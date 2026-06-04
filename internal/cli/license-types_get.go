@@ -16,7 +16,7 @@ func newLicenseTypesGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <licenseTypeKey>",
 		Short:       "Get a specific license type.",
-		Example:     "  jira-pp-cli-pp-cli license-types get your-token-here",
+		Example:     "  keen license-types get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "license-types.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/licenseTypes/{licenseTypeKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newServicedeskapiUnsubscribeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "unsubscribe <issueIdOrKey>",
 		Short:       "This method unsubscribes the user from notifications from a customer request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi unsubscribe your-token-here",
+		Example:     "  keen servicedeskapi unsubscribe your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.unsubscribe", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/notification"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

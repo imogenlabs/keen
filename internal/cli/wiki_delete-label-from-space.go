@@ -18,7 +18,7 @@ func newWikiDeleteLabelFromSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-label-from-space <spaceKey>",
 		Short:       "Remove label from a space",
-		Example:     "  jira-pp-cli-pp-cli wiki delete-label-from-space your-token-here --name example-resource",
+		Example:     "  keen wiki delete-label-from-space your-token-here --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.delete-label-from-space", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/space/{spaceKey}/label"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

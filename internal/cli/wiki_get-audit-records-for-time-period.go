@@ -22,7 +22,7 @@ func newWikiGetAuditRecordsForTimePeriodCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-audit-records-for-time-period",
 		Short:       "Returns records from the audit log, for a time period back from the current date.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-audit-records-for-time-period",
+		Example:     "  keen wiki get-audit-records-for-time-period",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-audit-records-for-time-period", "pp:method": "GET", "pp:path": "/wiki/rest/api/audit/since", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("units") {

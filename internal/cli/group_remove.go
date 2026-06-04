@@ -21,7 +21,7 @@ func newGroupRemoveCmd(flags *rootFlags) *cobra.Command {
 		Use:         "remove",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a group.",
-		Example:     "  jira-pp-cli-pp-cli group remove",
+		Example:     "  keen group remove",
 		Annotations: map[string]string{"pp:endpoint": "group.remove", "pp:method": "DELETE", "pp:path": "/rest/api/3/group"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

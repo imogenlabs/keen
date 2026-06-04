@@ -28,7 +28,7 @@ func newDirectoriesUsersGetDirectoryCountCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-directory-count <orgId> <directoryId>",
 		Short:       "Returns a count of users in an organization that match the supplied parameters.",
-		Example:     "  jira-pp-cli-pp-cli directories users get-directory-count 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen directories users get-directory-count 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "users.get-directory-count", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/users/count", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

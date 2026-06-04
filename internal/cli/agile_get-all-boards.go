@@ -31,7 +31,7 @@ func newAgileGetAllBoardsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-all-boards",
 		Aliases:     []string{"list"},
 		Short:       "Returns all boards. This only includes boards that the user has permission to view.",
-		Example:     "  jira-pp-cli-pp-cli agile get-all-boards",
+		Example:     "  keen agile get-all-boards",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-all-boards", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {

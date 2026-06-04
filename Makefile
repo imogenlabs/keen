@@ -1,7 +1,7 @@
 .PHONY: build test lint install clean
 
 build:
-	go build -o bin/keen ./cmd/jira-pp-cli-pp-cli
+	go build -o bin/keen ./cmd/keen
 
 test:
 	go test ./...
@@ -10,15 +10,15 @@ lint:
 	golangci-lint run
 
 install:
-	go install ./cmd/jira-pp-cli-pp-cli
+	go install ./cmd/keen
 
 clean:
 	rm -rf bin/
 
 build-mcp:
-	go build -o bin/keen-mcp ./cmd/jira-pp-cli-pp-mcp
+	go build -o bin/keen-mcp ./cmd/keen-mcp
 
 install-mcp:
-	go install ./cmd/jira-pp-cli-pp-mcp
+	go install ./cmd/keen-mcp
 
 build-all: build build-mcp

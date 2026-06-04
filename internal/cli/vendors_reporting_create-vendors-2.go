@@ -25,7 +25,7 @@ func newVendorsReportingCreateVendors2Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-vendors-2 <vendorId>",
 		Short:       "Initiate export of accepted quotes matching the supplied date filters.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting create-vendors-2 42",
+		Example:     "  keen vendors reporting create-vendors-2 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.create-vendors-2", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/quotes/async/export"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

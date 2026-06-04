@@ -28,7 +28,7 @@ func newPriorityschemeUpdatePrioritySchemeCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update-priority-scheme <schemeId>",
 		Aliases:     []string{"update"},
 		Short:       "Updates a priority scheme.",
-		Example:     "  jira-pp-cli-pp-cli priorityscheme update-priority-scheme 42",
+		Example:     "  keen priorityscheme update-priority-scheme 42",
 		Annotations: map[string]string{"pp:endpoint": "priorityscheme.update-priority-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/priorityscheme/{schemeId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

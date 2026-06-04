@@ -17,7 +17,7 @@ func newBuildsDeleteByPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-by-property",
 		Short:       "Bulk delete all builds data that match the given request.",
-		Example:     "  jira-pp-cli-pp-cli builds delete-by-property",
+		Example:     "  keen builds delete-by-property",
 		Annotations: map[string]string{"pp:endpoint": "builds.delete-by-property", "pp:method": "DELETE", "pp:path": "/rest/builds/0.1/bulkByProperties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

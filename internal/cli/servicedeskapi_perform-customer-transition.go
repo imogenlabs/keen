@@ -20,7 +20,7 @@ func newServicedeskapiPerformCustomerTransitionCmd(flags *rootFlags) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:         "perform-customer-transition <issueIdOrKey>",
 		Short:       "This method performs a customer transition for a given request and transition.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi perform-customer-transition your-token-here",
+		Example:     "  keen servicedeskapi perform-customer-transition your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.perform-customer-transition", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/transition"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

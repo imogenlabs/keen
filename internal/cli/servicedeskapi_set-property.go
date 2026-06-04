@@ -18,7 +18,7 @@ func newServicedeskapiSetPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-property <organizationId> <propertyKey>",
 		Short:       "Sets the value of an organization property. Use this resource to store custom data against an organization.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi set-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen servicedeskapi set-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.set-property", "pp:method": "PUT", "pp:path": "/rest/servicedeskapi/organization/{organizationId}/property/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

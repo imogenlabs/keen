@@ -17,7 +17,7 @@ func newAnnouncementBannerGetBannerCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-banner",
 		Aliases:     []string{"list"},
 		Short:       "Returns the current announcement banner configuration.",
-		Example:     "  jira-pp-cli-pp-cli announcement-banner get-banner",
+		Example:     "  keen announcement-banner get-banner",
 		Annotations: map[string]string{"pp:endpoint": "announcement-banner.get-banner", "pp:method": "GET", "pp:path": "/rest/api/3/announcementBanner", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

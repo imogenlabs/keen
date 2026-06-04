@@ -24,7 +24,7 @@ func newSoftwareGetIssuesForSprintJsisCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issues-for-sprint-jsis <sprintId>",
 		Short:       "Returns all issues in a sprint, for a given sprint ID.",
-		Example:     "  jira-pp-cli-pp-cli software get-issues-for-sprint-jsis 42",
+		Example:     "  keen software get-issues-for-sprint-jsis 42",
 		Annotations: map[string]string{"pp:endpoint": "software.get-issues-for-sprint-jsis", "pp:method": "GET", "pp:path": "/rest/software/1.0/sprint/{sprintId}/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

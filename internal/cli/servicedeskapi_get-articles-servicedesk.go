@@ -23,7 +23,7 @@ func newServicedeskapiGetArticlesServicedeskCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "get-articles-servicedesk <serviceDeskId>",
 		Short:       "Returns articles which match the given query and belong to the knowledge base linked to the service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-articles-servicedesk 550e8400-e29b-41d4-a716-446655440000 --query example-value",
+		Example:     "  keen servicedeskapi get-articles-servicedesk 550e8400-e29b-41d4-a716-446655440000 --query example-value",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-articles-servicedesk", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/knowledgebase/article", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

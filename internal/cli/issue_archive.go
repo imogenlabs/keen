@@ -20,7 +20,7 @@ func newIssueArchiveCmd(flags *rootFlags) *cobra.Command {
 		Use:         "archive",
 		Aliases:     []string{"update"},
 		Short:       "Enables admins to archive up to 1000 issues in a single request using issue ID/key, returning details of the issue(s)",
-		Example:     "  jira-pp-cli-pp-cli issue archive",
+		Example:     "  keen issue archive",
 		Annotations: map[string]string{"pp:endpoint": "issue.archive", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/archive"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

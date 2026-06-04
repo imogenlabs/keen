@@ -17,7 +17,7 @@ func newProjectGetAccessibleTypeByKeyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-accessible-type-by-key",
 		Short:       "Returns a [project type](https://confluence.atlassian.com/x/Var1Nw) if it is accessible to the user.",
-		Example:     "  jira-pp-cli-pp-cli project get-accessible-type-by-key --project-type-key software",
+		Example:     "  keen project get-accessible-type-by-key --project-type-key software",
 		Annotations: map[string]string{"pp:endpoint": "project.get-accessible-type-by-key", "pp:method": "GET", "pp:path": "/rest/api/3/project/type/{projectTypeKey}/accessible", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("project-type-key") {

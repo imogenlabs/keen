@@ -17,7 +17,7 @@ func newJqlGetAutoCompleteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-auto-complete",
 		Aliases:     []string{"list"},
 		Short:       "Returns reference data for JQL searches.",
-		Example:     "  jira-pp-cli-pp-cli jql get-auto-complete",
+		Example:     "  keen jql get-auto-complete",
 		Annotations: map[string]string{"pp:endpoint": "jql.get-auto-complete", "pp:method": "GET", "pp:path": "/rest/api/3/jql/autocompletedata", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

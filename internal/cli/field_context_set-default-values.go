@@ -19,7 +19,7 @@ func newFieldContextSetDefaultValuesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-default-values <fieldId>",
 		Short:       "Sets default for contexts of a custom field.",
-		Example:     "  jira-pp-cli-pp-cli field context set-default-values 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen field context set-default-values 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "context.set-default-values", "pp:method": "PUT", "pp:path": "/rest/api/3/field/{fieldId}/context/defaultValue"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

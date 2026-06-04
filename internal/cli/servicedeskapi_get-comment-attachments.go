@@ -19,7 +19,7 @@ func newServicedeskapiGetCommentAttachmentsCmd(flags *rootFlags) *cobra.Command 
 	cmd := &cobra.Command{
 		Use:         "get-comment-attachments <issueIdOrKey> <commentId>",
 		Short:       "This method returns the attachments referenced in a comment.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-comment-attachments your-token-here 42",
+		Example:     "  keen servicedeskapi get-comment-attachments your-token-here 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-comment-attachments", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/comment/{commentId}/attachment", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

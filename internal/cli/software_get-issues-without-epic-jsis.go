@@ -25,7 +25,7 @@ func newSoftwareGetIssuesWithoutEpicJsisCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-issues-without-epic-jsis",
 		Aliases:     []string{"list"},
 		Short:       "Returns all issues that do not belong to any epic.",
-		Example:     "  jira-pp-cli-pp-cli software get-issues-without-epic-jsis",
+		Example:     "  keen software get-issues-without-epic-jsis",
 		Annotations: map[string]string{"pp:endpoint": "software.get-issues-without-epic-jsis", "pp:method": "GET", "pp:path": "/rest/software/1.0/epic/none/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

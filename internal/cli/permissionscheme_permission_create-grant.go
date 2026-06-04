@@ -27,7 +27,7 @@ func newPermissionschemePermissionCreateGrantCmd(flags *rootFlags) *cobra.Comman
 		Use:         "create-grant <schemeId>",
 		Aliases:     []string{"create"},
 		Short:       "Creates a permission grant in a permission scheme.",
-		Example:     "  jira-pp-cli-pp-cli permissionscheme permission create-grant 42",
+		Example:     "  keen permissionscheme permission create-grant 42",
 		Annotations: map[string]string{"pp:endpoint": "permission.create-grant", "pp:method": "POST", "pp:path": "/rest/api/3/permissionscheme/{schemeId}/permission"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

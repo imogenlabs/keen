@@ -24,7 +24,7 @@ func newScreensGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get",
 		Aliases:     []string{"list"},
 		Short:       "Returns a [paginated](#pagination) list of all screens or those specified by one or more screen IDs.",
-		Example:     "  jira-pp-cli-pp-cli screens get",
+		Example:     "  keen screens get",
 		Annotations: map[string]string{"pp:endpoint": "screens.get", "pp:method": "GET", "pp:path": "/rest/api/3/screens", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {

@@ -17,7 +17,7 @@ func newProjectRoleGetProjectCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-project <projectIdOrKey>",
 		Aliases:     []string{"get"},
 		Short:       "Returns a list of [project roles](https://support.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli project role get-project your-token-here",
+		Example:     "  keen project role get-project your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "role.get-project", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/role", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

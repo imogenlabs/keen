@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"jira-pp-cli-pp-cli/internal/client"
-	"jira-pp-cli-pp-cli/internal/config"
+	"keen/internal/client"
+	"keen/internal/config"
 )
 
 var version = "1.0.0"
@@ -144,16 +144,16 @@ func isCobraUsageError(err error) bool {
 
 func newRootCmd(flags *rootFlags) *cobra.Command {
 	rootCmd := &cobra.Command{
-		Use:   "jira-pp-cli-pp-cli",
-		Short: "Manage jira-pp-cli resources via the jira-pp-cli API",
-		Long: `Manage jira-pp-cli resources via the jira-pp-cli API.
+		Use:   "keen",
+		Short: "Manage keen resources via the keen API",
+		Long: `Manage keen resources via the keen API.
 
 Add --agent to any command for JSON output + non-interactive mode.
-Run 'jira-pp-cli-pp-cli doctor' to verify auth and connectivity.`,
+Run 'keen doctor' to verify auth and connectivity.`,
 		SilenceUsage: true,
 		Version:      version,
 	}
-	rootCmd.SetVersionTemplate("jira-pp-cli-pp-cli {{ .Version }}\n")
+	rootCmd.SetVersionTemplate("keen {{ .Version }}\n")
 
 	rootCmd.PersistentFlags().BoolVar(&flags.asJSON, "json", false, "Output as JSON")
 	rootCmd.PersistentFlags().BoolVar(&flags.compact, "compact", false, "Return only key fields (id, name, status, timestamps) for minimal token usage")
@@ -175,7 +175,7 @@ Run 'jira-pp-cli-pp-cli doctor' to verify auth and connectivity.`,
 	rootCmd.PersistentFlags().BoolVar(&flags.allowPartialFailure, "allow-partial-failure", false, "Downgrade response-body partial-failure (e.g. partialFailureError) to a warning instead of a non-zero exit")
 	rootCmd.PersistentFlags().StringVar(&flags.dataSource, "data-source", "auto", "Data source for read commands: auto (live with local fallback), live (API only), local (synced data only)")
 	rootCmd.PersistentFlags().DurationVar(&flags.maxAge, "max-age", 30*time.Minute, "Maximum acceptable age of local-store data before a stderr hint suggests sync; 0 disables")
-	rootCmd.PersistentFlags().StringVar(&flags.profileName, "profile", "", "Apply values from a saved profile (see 'jira-pp-cli-pp-cli profile list')")
+	rootCmd.PersistentFlags().StringVar(&flags.profileName, "profile", "", "Apply values from a saved profile (see 'keen profile list')")
 	rootCmd.PersistentFlags().StringVar(&flags.deliverSpec, "deliver", "", "Route output to a sink: stdout (default), file:<path>, webhook:<url>")
 	rootCmd.PersistentFlags().Float64Var(&flags.rateLimit, "rate-limit", 0, "Max requests per second (0 to disable)")
 

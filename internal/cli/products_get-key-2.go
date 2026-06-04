@@ -20,7 +20,7 @@ func newProductsGetKey2Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-key-2 <productKey>",
 		Short:       "Get the latest version of the specified product.",
-		Example:     "  jira-pp-cli-pp-cli products get-key-2 your-token-here",
+		Example:     "  keen products get-key-2 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "products.get-key-2", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/products/key/{productKey}/versions/latest", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

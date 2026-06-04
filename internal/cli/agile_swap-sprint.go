@@ -19,7 +19,7 @@ func newAgileSwapSprintCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "swap-sprint <sprintId>",
 		Short:       "Swap the position of the sprint with the second sprint.",
-		Example:     "  jira-pp-cli-pp-cli agile swap-sprint 42",
+		Example:     "  keen agile swap-sprint 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.swap-sprint", "pp:method": "POST", "pp:path": "/rest/agile/1.0/sprint/{sprintId}/swap"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

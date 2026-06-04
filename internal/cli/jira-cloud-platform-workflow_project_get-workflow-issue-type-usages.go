@@ -21,7 +21,7 @@ func newJiraCloudPlatformWorkflowProjectGetWorkflowIssueTypeUsagesCmd(flags *roo
 		Use:         "get-workflow-issue-type-usages <workflowId> <projectId>",
 		Aliases:     []string{"get"},
 		Short:       "Returns a page of issue types using a given workflow within a project.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow project get-workflow-issue-type-usages 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen jira-cloud-platform-workflow project get-workflow-issue-type-usages 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "project.get-workflow-issue-type-usages", "pp:method": "GET", "pp:path": "/rest/api/3/workflow/{workflowId}/project/{projectId}/issueTypeUsages", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

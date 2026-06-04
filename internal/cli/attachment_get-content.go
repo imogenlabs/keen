@@ -17,7 +17,7 @@ func newAttachmentGetContentCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-content <id>",
 		Short:       "Returns the contents of an attachment.",
-		Example:     "  jira-pp-cli-pp-cli attachment get-content 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen attachment get-content 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "attachment.get-content", "pp:method": "GET", "pp:path": "/rest/api/3/attachment/content/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -18,7 +18,7 @@ func newPlansTrashCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "trash <planId>",
 		Short:       "Moves a plan to trash.",
-		Example:     "  jira-pp-cli-pp-cli plans trash 42",
+		Example:     "  keen plans trash 42",
 		Annotations: map[string]string{"pp:endpoint": "plans.trash", "pp:method": "PUT", "pp:path": "/rest/api/3/plans/plan/{planId}/trash"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

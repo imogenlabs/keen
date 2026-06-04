@@ -21,7 +21,7 @@ func newWorklogGetForIdsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-for-ids",
 		Aliases:     []string{"create"},
 		Short:       "Returns worklog details for a list of worklog IDs. The returned list of worklogs is limited to 1000 items.",
-		Example:     "  jira-pp-cli-pp-cli worklog get-for-ids",
+		Example:     "  keen worklog get-for-ids",
 		Annotations: map[string]string{"pp:endpoint": "worklog.get-for-ids", "pp:method": "POST", "pp:path": "/rest/api/3/worklog/list"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

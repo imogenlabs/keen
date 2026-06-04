@@ -18,7 +18,7 @@ func newSoftwareGetApproximateIssueCountForBacklogCmd(flags *rootFlags) *cobra.C
 		Use:         "get-approximate-issue-count-for-backlog <boardId>",
 		Aliases:     []string{"get"},
 		Short:       "Returns the approximate count of all issues from the board's backlog, for the given board ID.",
-		Example:     "  jira-pp-cli-pp-cli software get-approximate-issue-count-for-backlog 42",
+		Example:     "  keen software get-approximate-issue-count-for-backlog 42",
 		Annotations: map[string]string{"pp:endpoint": "software.get-approximate-issue-count-for-backlog", "pp:method": "GET", "pp:path": "/rest/software/1.0/board/{boardId}/backlog/approximate-count", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

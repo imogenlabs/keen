@@ -20,7 +20,7 @@ func newServicedeskapiCreateRequestCommentCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-request-comment <issueIdOrKey>",
 		Short:       "This method creates a public or private (internal) comment on a customer request",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi create-request-comment your-token-here",
+		Example:     "  keen servicedeskapi create-request-comment your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.create-request-comment", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/comment"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

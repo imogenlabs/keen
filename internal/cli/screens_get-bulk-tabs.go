@@ -20,7 +20,7 @@ func newScreensGetBulkTabsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-bulk-tabs",
 		Short:       "Returns the list of tabs for a bulk of screens.",
-		Example:     "  jira-pp-cli-pp-cli screens get-bulk-tabs",
+		Example:     "  keen screens get-bulk-tabs",
 		Annotations: map[string]string{"pp:endpoint": "screens.get-bulk-tabs", "pp:method": "GET", "pp:path": "/rest/api/3/screens/tabs", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

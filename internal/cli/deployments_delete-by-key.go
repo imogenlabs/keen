@@ -18,7 +18,7 @@ func newDeploymentsDeleteByKeyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-by-key <pipelineId> <environmentId> <deploymentSequenceNumber>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete the currently stored deployment data for the given `pipelineId`",
-		Example:     "  jira-pp-cli-pp-cli deployments delete-by-key 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen deployments delete-by-key 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "deployments.delete-by-key", "pp:method": "DELETE", "pp:path": "/rest/deployments/0.1/pipelines/{pipelineId}/environments/{environmentId}/deployments/{deploymentSequenceNumber}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -21,7 +21,7 @@ func newAgileRankEpicsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "rank-epics <epicIdOrKey>",
 		Short:       "Moves (ranks) an epic before or after a given epic.",
-		Example:     "  jira-pp-cli-pp-cli agile rank-epics your-token-here",
+		Example:     "  keen agile rank-epics your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.rank-epics", "pp:method": "PUT", "pp:path": "/rest/agile/1.0/epic/{epicIdOrKey}/rank"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

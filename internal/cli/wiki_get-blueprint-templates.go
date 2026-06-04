@@ -21,7 +21,7 @@ func newWikiGetBlueprintTemplatesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-blueprint-templates",
 		Short:       "Returns all templates provided by blueprints.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-blueprint-templates",
+		Example:     "  keen wiki get-blueprint-templates",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-blueprint-templates", "pp:method": "GET", "pp:path": "/wiki/rest/api/template/blueprint", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

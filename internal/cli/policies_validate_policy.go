@@ -17,7 +17,7 @@ func newPoliciesValidatePolicyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "policy <orgId> <policyId>",
 		Aliases:     []string{"get"},
 		Short:       "Validate a policy based on specific requirements.",
-		Example:     "  jira-pp-cli-pp-cli policies validate policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen policies validate policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "validate.policy", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/validate", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

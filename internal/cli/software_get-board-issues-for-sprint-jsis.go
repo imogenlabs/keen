@@ -24,7 +24,7 @@ func newSoftwareGetBoardIssuesForSprintJsisCmd(flags *rootFlags) *cobra.Command 
 	cmd := &cobra.Command{
 		Use:         "get-board-issues-for-sprint-jsis <boardId> <sprintId>",
 		Short:       "Get all issues you have access to that belong to the sprint from the board.",
-		Example:     "  jira-pp-cli-pp-cli software get-board-issues-for-sprint-jsis 42 42",
+		Example:     "  keen software get-board-issues-for-sprint-jsis 42 42",
 		Annotations: map[string]string{"pp:endpoint": "software.get-board-issues-for-sprint-jsis", "pp:method": "GET", "pp:path": "/rest/software/1.0/board/{boardId}/sprint/{sprintId}/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

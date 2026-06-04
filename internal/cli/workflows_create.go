@@ -22,7 +22,7 @@ func newWorkflowsCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create",
 		Short:       "Create workflows and related statuses.",
-		Example:     "  jira-pp-cli-pp-cli workflows create",
+		Example:     "  keen workflows create",
 		Annotations: map[string]string{"pp:endpoint": "workflows.create", "pp:method": "POST", "pp:path": "/rest/api/3/workflows/create"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

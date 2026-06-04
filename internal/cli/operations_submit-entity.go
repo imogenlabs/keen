@@ -20,7 +20,7 @@ func newOperationsSubmitEntityCmd(flags *rootFlags) *cobra.Command {
 		Use:         "submit-entity",
 		Aliases:     []string{"create"},
 		Short:       "Update / insert Incident or Review data.",
-		Example:     "  jira-pp-cli-pp-cli operations submit-entity",
+		Example:     "  keen operations submit-entity",
 		Annotations: map[string]string{"pp:endpoint": "operations.submit-entity", "pp:method": "POST", "pp:path": "/rest/operations/1.0/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

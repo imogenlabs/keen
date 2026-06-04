@@ -19,7 +19,7 @@ func newWikiIsWatchingLabelCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "is-watching-label <labelName>",
 		Short:       "Returns whether a user is watching a label.",
-		Example:     "  jira-pp-cli-pp-cli wiki is-watching-label example-resource",
+		Example:     "  keen wiki is-watching-label example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.is-watching-label", "pp:method": "GET", "pp:path": "/wiki/rest/api/user/watch/label/{labelName}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

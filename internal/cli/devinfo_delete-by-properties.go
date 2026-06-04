@@ -18,7 +18,7 @@ func newDevinfoDeleteByPropertiesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-by-properties",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes development information entities which have all the provided properties.",
-		Example:     "  jira-pp-cli-pp-cli devinfo delete-by-properties",
+		Example:     "  keen devinfo delete-by-properties",
 		Annotations: map[string]string{"pp:endpoint": "devinfo.delete-by-properties", "pp:method": "DELETE", "pp:path": "/rest/devinfo/0.10/bulkByProperties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

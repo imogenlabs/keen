@@ -23,7 +23,7 @@ func newDirectoriesPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "directories <orgId>",
 		Short:       "Returns a page of directories in an organization that match the supplied parameters. #### Scopes **[OAuth 2.",
 		Long:        "Returns a page of directories in an organization that match the supplied parameters. #### Scopes **[OAuth 2.",
-		Example:     "  jira-pp-cli-pp-cli directories 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen directories 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "directories.get-for-org", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

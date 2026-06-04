@@ -20,7 +20,7 @@ func newJiraCloudPlatformWorkflowListHistoryCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "list-history",
 		Short:       "Returns a list of workflow history entries for a specified workflow id.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow list-history",
+		Example:     "  keen jira-cloud-platform-workflow list-history",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.list-history", "pp:method": "POST", "pp:path": "/rest/api/3/workflow/history/list"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

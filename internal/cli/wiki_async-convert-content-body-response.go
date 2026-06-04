@@ -17,7 +17,7 @@ func newWikiAsyncConvertContentBodyResponseCmd(flags *rootFlags) *cobra.Command 
 		Use:         "async-convert-content-body-response <id>",
 		Aliases:     []string{"get"},
 		Short:       "Returns the content body for the corresponding `asyncId` of a completed conversion task.",
-		Example:     "  jira-pp-cli-pp-cli wiki async-convert-content-body-response 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki async-convert-content-body-response 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.async-convert-content-body-response", "pp:method": "GET", "pp:path": "/wiki/rest/api/contentbody/convert/async/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -19,7 +19,7 @@ func newWebhookGetFailedCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-failed",
 		Short:       "Returns webhooks that have recently failed to be delivered to the requesting app after the maximum number of retries.",
-		Example:     "  jira-pp-cli-pp-cli webhook get-failed",
+		Example:     "  keen webhook get-failed",
 		Annotations: map[string]string{"pp:endpoint": "webhook.get-failed", "pp:method": "GET", "pp:path": "/rest/api/3/webhook/failed", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

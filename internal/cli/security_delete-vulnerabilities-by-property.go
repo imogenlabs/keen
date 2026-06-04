@@ -16,7 +16,7 @@ func newSecurityDeleteVulnerabilitiesByPropertyCmd(flags *rootFlags) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:         "delete-vulnerabilities-by-property",
 		Short:       "Bulk delete all Vulnerabilities that match the given request.",
-		Example:     "  jira-pp-cli-pp-cli security delete-vulnerabilities-by-property",
+		Example:     "  keen security delete-vulnerabilities-by-property",
 		Annotations: map[string]string{"pp:endpoint": "security.delete-vulnerabilities-by-property", "pp:method": "DELETE", "pp:path": "/rest/security/1.0/bulkByProperties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

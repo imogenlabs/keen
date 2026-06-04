@@ -18,13 +18,13 @@ jobs:
 
       - name: Build
         run: |
-          go build -o bin/keen ./cmd/jira-pp-cli-pp-cli/
-          go build -o bin/keen-mcp ./cmd/jira-pp-cli-pp-mcp/
+          go build -o bin/keen ./cmd/keen/
+          go build -o bin/keen-mcp ./cmd/keen-mcp/
 
       - name: Test
         run: go test ./...
 
       - name: Cross-compile check
         run: |
-          GOOS=linux GOARCH=arm64 go build -o /dev/null ./cmd/jira-pp-cli-pp-cli/
-          GOOS=linux GOARCH=arm64 go build -o /dev/null ./cmd/jira-pp-cli-pp-mcp/
+          GOOS=linux GOARCH=arm64 go build -o /dev/null ./cmd/keen/
+          GOOS=linux GOARCH=arm64 go build -o /dev/null ./cmd/keen-mcp/

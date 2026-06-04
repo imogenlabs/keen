@@ -36,7 +36,7 @@ func newAddonsPricingUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update <addonKey>",
 		Short:       "Update pricing for the specified app. Updated pricing is always initially in the 'pending' state.",
-		Example:     "  jira-pp-cli-pp-cli addons pricing update your-token-here --cloud-or-server cloud --live-or-pending live",
+		Example:     "  keen addons pricing update your-token-here --cloud-or-server cloud --live-or-pending live",
 		Annotations: map[string]string{"pp:endpoint": "pricing.update", "pp:method": "PUT", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/pricing/{cloudOrServer}/{liveOrPending}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

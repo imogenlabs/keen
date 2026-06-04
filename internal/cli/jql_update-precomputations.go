@@ -20,7 +20,7 @@ func newJqlUpdatePrecomputationsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-precomputations",
 		Short:       "Update the precomputation value of a function created by a Forge/Connect app.",
-		Example:     "  jira-pp-cli-pp-cli jql update-precomputations",
+		Example:     "  keen jql update-precomputations",
 		Annotations: map[string]string{"pp:endpoint": "jql.update-precomputations", "pp:method": "POST", "pp:path": "/rest/api/3/jql/function/computation"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

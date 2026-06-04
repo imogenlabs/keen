@@ -17,7 +17,7 @@ func newScreensTabsDeleteScreenCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-screen <screenId> <tabId>",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a screen tab.",
-		Example:     "  jira-pp-cli-pp-cli screens tabs delete-screen 42 42",
+		Example:     "  keen screens tabs delete-screen 42 42",
 		Annotations: map[string]string{"pp:endpoint": "tabs.delete-screen", "pp:method": "DELETE", "pp:path": "/rest/api/3/screens/{screenId}/tabs/{tabId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

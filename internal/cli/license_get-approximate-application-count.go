@@ -18,7 +18,7 @@ func newLicenseGetApproximateApplicationCountCmd(flags *rootFlags) *cobra.Comman
 		Use:         "get-approximate-application-count",
 		Aliases:     []string{"get"},
 		Short:       "Returns the total approximate number of user accounts for a single Jira license.",
-		Example:     "  jira-pp-cli-pp-cli license get-approximate-application-count --application-key jira-core",
+		Example:     "  keen license get-approximate-application-count --application-key jira-core",
 		Annotations: map[string]string{"pp:endpoint": "license.get-approximate-application-count", "pp:method": "GET", "pp:path": "/rest/api/3/license/approximateLicenseCount/product/{applicationKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("application-key") {

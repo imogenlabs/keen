@@ -19,7 +19,7 @@ func newServicedeskapiAnswerApprovalCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "answer-approval <issueIdOrKey> <approvalId>",
 		Short:       "This method enables a user to **Approve** or **Decline** an approval on a customer request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi answer-approval your-token-here 42",
+		Example:     "  keen servicedeskapi answer-approval your-token-here 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.answer-approval", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/approval/{approvalId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

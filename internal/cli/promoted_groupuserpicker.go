@@ -27,7 +27,7 @@ func newGroupuserpickerPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "groupuserpicker",
 		Short:       "Returns a list of users and groups matching a string.",
 		Long:        "Returns a list of users and groups matching a string.",
-		Example:     "  jira-pp-cli-pp-cli groupuserpicker --query example-value",
+		Example:     "  keen groupuserpicker --query example-value",
 		Annotations: map[string]string{"pp:endpoint": "groupuserpicker.find-users-and-groups", "pp:method": "GET", "pp:path": "/rest/api/3/groupuserpicker", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("query") && !flags.dryRun {

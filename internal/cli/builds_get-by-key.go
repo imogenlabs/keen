@@ -17,7 +17,7 @@ func newBuildsGetByKeyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-by-key <pipelineId> <buildNumber>",
 		Aliases:     []string{"get"},
 		Short:       "Retrieve the currently stored build data for the given `pipelineId` and `buildNumber` combination.",
-		Example:     "  jira-pp-cli-pp-cli builds get-by-key 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen builds get-by-key 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "builds.get-by-key", "pp:method": "GET", "pp:path": "/rest/builds/0.1/pipelines/{pipelineId}/builds/{buildNumber}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

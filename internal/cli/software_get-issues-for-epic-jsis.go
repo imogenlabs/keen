@@ -24,7 +24,7 @@ func newSoftwareGetIssuesForEpicJsisCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issues-for-epic-jsis <epicIdOrKey>",
 		Short:       "Returns all issues that belong to the epic, for the given epic ID.",
-		Example:     "  jira-pp-cli-pp-cli software get-issues-for-epic-jsis your-token-here",
+		Example:     "  keen software get-issues-for-epic-jsis your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "software.get-issues-for-epic-jsis", "pp:method": "GET", "pp:path": "/rest/software/1.0/epic/{epicIdOrKey}/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

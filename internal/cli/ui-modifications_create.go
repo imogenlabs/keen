@@ -22,7 +22,7 @@ func newUiModificationsCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create",
 		Short:       "Creates a UI modification. UI modification can only be created by Forge apps.",
-		Example:     "  jira-pp-cli-pp-cli ui-modifications create --name example-resource",
+		Example:     "  keen ui-modifications create --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "ui-modifications.create", "pp:method": "POST", "pp:path": "/rest/api/3/uiModifications"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

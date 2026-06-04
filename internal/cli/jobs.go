@@ -16,11 +16,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"jira-pp-cli-pp-cli/internal/client"
+	"keen/internal/client"
 )
 
 // JobRow is one entry in the local jobs ledger. Rows are appended as NDJSON
-// to ~/.jira-pp-cli-pp-cli/jobs.jsonl; the latest row for a given JobID wins
+// to ~/.keen/jobs.jsonl; the latest row for a given JobID wins
 // when listing. Pruning rewrites the file without old entries.
 type JobRow struct {
 	JobID          string    `json:"job_id"`
@@ -39,7 +39,7 @@ func jobsFilePath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("resolving home dir: %w", err)
 	}
-	dir := filepath.Join(home, ".jira-pp-cli-pp-cli")
+	dir := filepath.Join(home, ".keen")
 	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return "", fmt.Errorf("creating state dir: %w", err)
 	}
@@ -217,7 +217,7 @@ func newJobsCmd(flags *rootFlags) *cobra.Command {
 		Use:   "jobs",
 		Short: "List and inspect async jobs tracked by this CLI",
 		Long: `Jobs tracked when you submit an async-capable endpoint land in
-~/.jira-pp-cli-pp-cli/jobs.jsonl. This command lists, inspects, and prunes them.
+~/.keen/jobs.jsonl. This command lists, inspects, and prunes them.
 
 Submit an async endpoint with --wait to block until completion; submit
 without --wait to get the job ID back immediately and track it later.`,

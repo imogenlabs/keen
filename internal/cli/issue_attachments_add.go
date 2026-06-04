@@ -19,7 +19,7 @@ func newIssueAttachmentsAddCmd(flags *rootFlags) *cobra.Command {
 		Use:         "add <issueIdOrKey>",
 		Aliases:     []string{"create"},
 		Short:       "Adds one or more attachments to an issue. Attachments are posted as multipart/form-data ([RFC 1867](https://www.ietf.",
-		Example:     "  jira-pp-cli-pp-cli issue attachments add your-token-here",
+		Example:     "  keen issue attachments add your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "attachments.add", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/attachments"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

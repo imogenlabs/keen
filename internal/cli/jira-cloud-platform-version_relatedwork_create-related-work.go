@@ -24,7 +24,7 @@ func newJiraCloudPlatformVersionRelatedworkCreateRelatedWorkCmd(flags *rootFlags
 		Use:         "create-related-work <id>",
 		Aliases:     []string{"create"},
 		Short:       "Creates a related work for the given version. You can only create a generic link type of related works via this API.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version relatedwork create-related-work 550e8400-e29b-41d4-a716-446655440000 --category example-value",
+		Example:     "  keen jira-cloud-platform-version relatedwork create-related-work 550e8400-e29b-41d4-a716-446655440000 --category example-value",
 		Annotations: map[string]string{"pp:endpoint": "relatedwork.create-related-work", "pp:method": "POST", "pp:path": "/rest/api/3/version/{id}/relatedwork"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

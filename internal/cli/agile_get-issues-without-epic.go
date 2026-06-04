@@ -23,7 +23,7 @@ func newAgileGetIssuesWithoutEpicCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issues-without-epic",
 		Short:       "Returns all issues that do not belong to any epic. This only includes issues that the user has permission to view.",
-		Example:     "  jira-pp-cli-pp-cli agile get-issues-without-epic",
+		Example:     "  keen agile get-issues-without-epic",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-issues-without-epic", "pp:method": "GET", "pp:path": "/rest/agile/1.0/epic/none/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

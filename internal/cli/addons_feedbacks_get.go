@@ -22,7 +22,7 @@ func newAddonsFeedbacksGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Get a list of app feedback matching the specified parameters. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons feedbacks get your-token-here",
+		Example:     "  keen addons feedbacks get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "feedbacks.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/feedbacks", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

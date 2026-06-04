@@ -19,7 +19,7 @@ func newAgileMoveIssuesToEpicCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "move-issues-to-epic <epicIdOrKey>",
 		Short:       "Moves issues to an epic, for a given epic id. Issues can be only in a single epic at the same time.",
-		Example:     "  jira-pp-cli-pp-cli agile move-issues-to-epic your-token-here",
+		Example:     "  keen agile move-issues-to-epic your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.move-issues-to-epic", "pp:method": "POST", "pp:path": "/rest/agile/1.0/epic/{epicIdOrKey}/issue"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newProjectGetAllTypesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-all-types",
 		Short:       "Returns all [project types](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli project get-all-types",
+		Example:     "  keen project get-all-types",
 		Annotations: map[string]string{"pp:endpoint": "project.get-all-types", "pp:method": "GET", "pp:path": "/rest/api/3/project/type", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

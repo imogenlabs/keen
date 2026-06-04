@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/mark3labs/mcp-go/server"
-	mcptools "jira-pp-cli-pp-cli/internal/mcp"
+	mcptools "keen/internal/mcp"
 )
 
 func main() {

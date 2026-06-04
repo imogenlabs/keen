@@ -16,7 +16,7 @@ func newAgileDeleteSprintCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-sprint <sprintId>",
 		Short:       "Deletes a sprint. Once a sprint is deleted, all open issues in the sprint will be moved to the backlog.",
-		Example:     "  jira-pp-cli-pp-cli agile delete-sprint 42",
+		Example:     "  keen agile delete-sprint 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.delete-sprint", "pp:method": "DELETE", "pp:path": "/rest/agile/1.0/sprint/{sprintId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

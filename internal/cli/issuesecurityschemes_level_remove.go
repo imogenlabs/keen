@@ -18,7 +18,7 @@ func newIssuesecurityschemesLevelRemoveCmd(flags *rootFlags) *cobra.Command {
 		Use:         "remove <schemeId> <levelId>",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes an issue security level. This operation is [asynchronous](#async).",
-		Example:     "  jira-pp-cli-pp-cli issuesecurityschemes level remove 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen issuesecurityschemes level remove 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "level.remove", "pp:method": "DELETE", "pp:path": "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

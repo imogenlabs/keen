@@ -47,7 +47,7 @@ func newVendorsPromotionsCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create <vendorId>",
 		Short:       "Create a new promotion for the specified vendor. This resource requires authentication. **This is a deprecated API.",
-		Example:     "  jira-pp-cli-pp-cli vendors promotions create 42 --discount-type FLAT",
+		Example:     "  keen vendors promotions create 42 --discount-type FLAT",
 		Annotations: map[string]string{"pp:endpoint": "promotions.create", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/promotions"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

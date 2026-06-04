@@ -17,7 +17,7 @@ func newProjectPropertiesGetProjectPropertyCmd(flags *rootFlags) *cobra.Command 
 		Use:         "get-project-property <projectIdOrKey> <propertyKey>",
 		Aliases:     []string{"get"},
 		Short:       "Returns the value of a [project property](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli project properties get-project-property your-token-here your-token-here",
+		Example:     "  keen project properties get-project-property your-token-here your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "properties.get-project-property", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}/properties/{propertyKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

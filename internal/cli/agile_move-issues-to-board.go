@@ -22,7 +22,7 @@ func newAgileMoveIssuesToBoardCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "move-issues-to-board <boardId>",
 		Short:       "Move issues from the backog to the board (if they are already in the backlog of that board).",
-		Example:     "  jira-pp-cli-pp-cli agile move-issues-to-board 42",
+		Example:     "  keen agile move-issues-to-board 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.move-issues-to-board", "pp:method": "POST", "pp:path": "/rest/agile/1.0/board/{boardId}/issue"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

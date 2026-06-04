@@ -13,8 +13,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"jira-pp-cli-pp-cli/internal/cliutil"
-	"jira-pp-cli-pp-cli/internal/config"
+	"keen/internal/cliutil"
+	"keen/internal/config"
 	"math"
 	"mime/multipart"
 	"net/http"
@@ -58,7 +58,7 @@ func newHTTPClient(timeout time.Duration, jar http.CookieJar) *http.Client {
 
 func New(cfg *config.Config, timeout time.Duration, rateLimit float64) *Client {
 	homeDir, _ := os.UserHomeDir()
-	cacheDir := filepath.Join(homeDir, ".cache", "jira-pp-cli-pp-cli", "http")
+	cacheDir := filepath.Join(homeDir, ".cache", "keen", "http")
 	httpClient := newHTTPClient(timeout, nil)
 	c := &Client{
 		BaseURL:    strings.TrimRight(cfg.BaseURL, "/"),
@@ -611,7 +611,7 @@ func (c *Client) doInternal(ctx context.Context, method, path string, params map
 			req.Header.Del(BinaryResponseHeader)
 		}
 		if req.Header.Get("User-Agent") == "" {
-			req.Header.Set("User-Agent", "jira-pp-cli-pp-cli/1001.0.0-SNAPSHOT-36b93cc31b7ef4f1f8db54dc53a0cbcef31cbbbb")
+			req.Header.Set("User-Agent", "keen/1001.0.0-SNAPSHOT-36b93cc31b7ef4f1f8db54dc53a0cbcef31cbbbb")
 		}
 		// Go's net/http omits Accept by default; browsers, curl, and other
 		// stdlibs always send it. Fingerprint-checking WAFs (Imperva, Akamai,
@@ -812,7 +812,7 @@ func looksLikeCredentialPlaceholder(value string) bool {
 }
 
 func authPlaceholderCredentialError(cfg *config.Config) error {
-	return authPlaceholderCredentialErrorWithSetup(cfg, "export JIRA_CLOUD_PLATFORM_USERNAME=<your-token> or jira-pp-cli-pp-cli auth set-token <token>")
+	return authPlaceholderCredentialErrorWithSetup(cfg, "export JIRA_CLOUD_PLATFORM_USERNAME=<your-token> or keen auth set-token <token>")
 }
 
 func authPlaceholderCredentialErrorWithSetup(cfg *config.Config, setup string) error {

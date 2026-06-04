@@ -20,7 +20,7 @@ func newJiraCloudPlatformWorkflowDeleteTransitionRuleConfigurationsCmd(flags *ro
 		Use:         "delete-transition-rule-configurations",
 		Aliases:     []string{"update"},
 		Short:       "Deletes workflow transition rules from one or more workflows.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow delete-transition-rule-configurations",
+		Example:     "  keen jira-cloud-platform-workflow delete-transition-rule-configurations",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.delete-transition-rule-configurations", "pp:method": "PUT", "pp:path": "/rest/api/3/workflow/rule/config/delete"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

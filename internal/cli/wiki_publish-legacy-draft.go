@@ -26,7 +26,7 @@ func newWikiPublishLegacyDraftCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "publish-legacy-draft <draftId>",
 		Short:       "Publishes a legacy draft of a page created from a blueprint.",
-		Example:     "  jira-pp-cli-pp-cli wiki publish-legacy-draft 550e8400-e29b-41d4-a716-446655440000 --title example-resource",
+		Example:     "  keen wiki publish-legacy-draft 550e8400-e29b-41d4-a716-446655440000 --title example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.publish-legacy-draft", "pp:method": "POST", "pp:path": "/wiki/rest/api/content/blueprint/instance/{draftId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -24,7 +24,7 @@ func newJiraCloudPlatformWorkflowUpdateTransitionPropertyCmd(flags *rootFlags) *
 	cmd := &cobra.Command{
 		Use:         "update-transition-property <transitionId>",
 		Short:       "This will be removed on [June 1, 2026](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-workflow update-transition-property 42 --key your-token-here --workflow-name example-resource --value example-value",
+		Example:     "  keen jira-cloud-platform-workflow update-transition-property 42 --key your-token-here --workflow-name example-resource --value example-value",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.update-transition-property", "pp:method": "PUT", "pp:path": "/rest/api/3/workflow/transitions/{transitionId}/properties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

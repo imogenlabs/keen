@@ -20,7 +20,7 @@ func newFieldconfigurationschemeUpdateFieldConfigurationSchemeCmd(flags *rootFla
 	cmd := &cobra.Command{
 		Use:         "update-field-configuration-scheme <id>",
 		Short:       "Deprecated, use [ Field schemes](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli fieldconfigurationscheme update-field-configuration-scheme 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
+		Example:     "  keen fieldconfigurationscheme update-field-configuration-scheme 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "fieldconfigurationscheme.update-field-configuration-scheme", "pp:method": "PUT", "pp:path": "/rest/api/3/fieldconfigurationscheme/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

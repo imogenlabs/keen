@@ -32,7 +32,7 @@ func newAddonsListArchivedCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "list-archived",
 		Short:       "Get a list of archived apps matching the specified parameters.",
-		Example:     "  jira-pp-cli-pp-cli addons list-archived",
+		Example:     "  keen addons list-archived",
 		Annotations: map[string]string{"pp:endpoint": "addons.list-archived", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/archived", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("cost") {

@@ -20,7 +20,7 @@ func newServicedeskapiRemoveRequestParticipantsCmd(flags *rootFlags) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:         "remove-request-participants <issueIdOrKey>",
 		Short:       "This method removes participants from a customer request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi remove-request-participants your-token-here",
+		Example:     "  keen servicedeskapi remove-request-participants your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.remove-request-participants", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/participant"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

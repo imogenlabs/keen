@@ -23,7 +23,7 @@ func newNotificationschemeGetNotificationSchemesCmd(flags *rootFlags) *cobra.Com
 	cmd := &cobra.Command{
 		Use:         "get-notification-schemes",
 		Short:       "Returns a [paginated](#pagination) list of [notification schemes](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli notificationscheme get-notification-schemes",
+		Example:     "  keen notificationscheme get-notification-schemes",
 		Annotations: map[string]string{"pp:endpoint": "notificationscheme.get-notification-schemes", "pp:method": "GET", "pp:path": "/rest/api/3/notificationscheme", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

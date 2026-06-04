@@ -21,7 +21,7 @@ func newJiraCloudPlatformVersionMoveVersionCmd(flags *rootFlags) *cobra.Command 
 		Use:         "version <id>",
 		Aliases:     []string{"create"},
 		Short:       "Modifies the version's sequence within the project, which affects the display order of the versions in Jira.",
-		Example:     "  jira-pp-cli-pp-cli jira-cloud-platform-version move version 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen jira-cloud-platform-version move version 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "move.version", "pp:method": "POST", "pp:path": "/rest/api/3/version/{id}/move"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

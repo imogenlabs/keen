@@ -21,7 +21,7 @@ func newServicedeskapiRemoveUsersFromOrganizationCmd(flags *rootFlags) *cobra.Co
 	cmd := &cobra.Command{
 		Use:         "remove-users-from-organization <organizationId>",
 		Short:       "This method removes users from an organization.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi remove-users-from-organization 42",
+		Example:     "  keen servicedeskapi remove-users-from-organization 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.remove-users-from-organization", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/organization/{organizationId}/user"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -24,7 +24,7 @@ func newSoftwareGetIssuesForBacklogJsisCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issues-for-backlog-jsis <boardId>",
 		Short:       "Returns all issues from the board's backlog, for the given board ID.",
-		Example:     "  jira-pp-cli-pp-cli software get-issues-for-backlog-jsis 42",
+		Example:     "  keen software get-issues-for-backlog-jsis 42",
 		Annotations: map[string]string{"pp:endpoint": "software.get-issues-for-backlog-jsis", "pp:method": "GET", "pp:path": "/rest/software/1.0/board/{boardId}/backlog", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

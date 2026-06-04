@@ -23,7 +23,7 @@ func newWikiRestoreContentVersionCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "restore-content-version <id>",
 		Short:       "Restores a historical version to be the latest version.",
-		Example:     "  jira-pp-cli-pp-cli wiki restore-content-version 550e8400-e29b-41d4-a716-446655440000 --operation-key restore",
+		Example:     "  keen wiki restore-content-version 550e8400-e29b-41d4-a716-446655440000 --operation-key restore",
 		Annotations: map[string]string{"pp:endpoint": "wiki.restore-content-version", "pp:method": "POST", "pp:path": "/wiki/rest/api/content/{id}/version"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

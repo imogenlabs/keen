@@ -23,7 +23,7 @@ func newServicedeskapiGetArticlesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-articles",
 		Short:       "Returns articles which match the given query string across all service desks.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-articles --query example-value --highlight true",
+		Example:     "  keen servicedeskapi get-articles --query example-value --highlight true",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-articles", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/knowledgebase/article", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("query") && !flags.dryRun {

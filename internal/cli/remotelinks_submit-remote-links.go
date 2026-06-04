@@ -22,7 +22,7 @@ func newRemotelinksSubmitRemoteLinksCmd(flags *rootFlags) *cobra.Command {
 		Use:         "submit-remote-links",
 		Aliases:     []string{"create"},
 		Short:       "Update / insert Remote Link data.",
-		Example:     "  jira-pp-cli-pp-cli remotelinks submit-remote-links",
+		Example:     "  keen remotelinks submit-remote-links",
 		Annotations: map[string]string{"pp:endpoint": "remotelinks.submit-remote-links", "pp:method": "POST", "pp:path": "/rest/remotelinks/1.0/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

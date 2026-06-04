@@ -16,7 +16,7 @@ func newAddonsApprovalGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Get a specific app approval status. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons approval get your-token-here",
+		Example:     "  keen addons approval get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "approval.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/approval", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

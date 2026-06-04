@@ -17,7 +17,7 @@ func newWikiResetLookAndFeelSettingsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "reset-look-and-feel-settings",
 		Short:       "Resets the custom look and feel settings for the site or a single space.",
-		Example:     "  jira-pp-cli-pp-cli wiki reset-look-and-feel-settings",
+		Example:     "  keen wiki reset-look-and-feel-settings",
 		Annotations: map[string]string{"pp:endpoint": "wiki.reset-look-and-feel-settings", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/settings/lookandfeel/custom"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

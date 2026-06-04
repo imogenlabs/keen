@@ -19,7 +19,7 @@ func newVendorsReportingGetVendors21Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-21 <vendorId>",
 		Short:       "Get a list of Cloud churn events for the specified vendor's apps.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-21 42",
+		Example:     "  keen vendors reporting get-vendors-21 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-21", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/sales/metrics/churn", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

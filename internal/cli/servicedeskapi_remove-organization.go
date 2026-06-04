@@ -20,7 +20,7 @@ func newServicedeskapiRemoveOrganizationCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-organization <serviceDeskId>",
 		Short:       "This method removes an organization from a service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi remove-organization 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi remove-organization 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.remove-organization", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/organization"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

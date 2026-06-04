@@ -17,7 +17,7 @@ func newServerInfoPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "server-info",
 		Short:       "Returns information about the Jira instance. This operation can be accessed anonymously.",
 		Long:        "Returns information about the Jira instance. This operation can be accessed anonymously.",
-		Example:     "  jira-pp-cli-pp-cli server-info",
+		Example:     "  keen server-info",
 		Annotations: map[string]string{"pp:endpoint": "server-info.get", "pp:method": "GET", "pp:path": "/rest/api/3/serverInfo", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

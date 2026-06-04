@@ -23,7 +23,7 @@ func newUniversalAvatarStoreAvatarCmd(flags *rootFlags) *cobra.Command {
 		Use:         "store-avatar <entityId>",
 		Aliases:     []string{"create"},
 		Short:       "Loads a custom avatar for a project, issue type or priority.",
-		Example:     "  jira-pp-cli-pp-cli universal-avatar store-avatar 550e8400-e29b-41d4-a716-446655440000 --type project --size 50",
+		Example:     "  keen universal-avatar store-avatar 550e8400-e29b-41d4-a716-446655440000 --type project --size 50",
 		Annotations: map[string]string{"pp:endpoint": "universal-avatar.store-avatar", "pp:method": "POST", "pp:path": "/rest/api/3/universal_avatar/type/{type}/owner/{entityId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

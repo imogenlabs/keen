@@ -22,7 +22,7 @@ func newConfigurationSetSharedTimeTrackingCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-shared-time-tracking",
 		Short:       "Sets the time tracking settings.",
-		Example:     "  jira-pp-cli-pp-cli configuration set-shared-time-tracking --default-unit minute",
+		Example:     "  keen configuration set-shared-time-tracking --default-unit minute",
 		Annotations: map[string]string{"pp:endpoint": "configuration.set-shared-time-tracking", "pp:method": "PUT", "pp:path": "/rest/api/3/configuration/timetracking/options"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

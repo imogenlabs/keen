@@ -19,7 +19,7 @@ func newServicedeskapiGetCustomerTransitionsCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "get-customer-transitions <issueIdOrKey>",
 		Short:       "This method returns a list of transitions",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-customer-transitions your-token-here",
+		Example:     "  keen servicedeskapi get-customer-transitions your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-customer-transitions", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/transition", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -21,7 +21,7 @@ func newAddonsReviewsGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Get a list of reviews for the specified app.",
-		Example:     "  jira-pp-cli-pp-cli addons reviews get your-token-here",
+		Example:     "  keen addons reviews get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "reviews.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/reviews", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

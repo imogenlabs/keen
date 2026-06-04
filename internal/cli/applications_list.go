@@ -19,7 +19,7 @@ func newApplicationsListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "list",
 		Short:       "Get a list of applications.",
-		Example:     "  jira-pp-cli-pp-cli applications list",
+		Example:     "  keen applications list",
 		Annotations: map[string]string{"pp:endpoint": "applications.list", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/applications", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

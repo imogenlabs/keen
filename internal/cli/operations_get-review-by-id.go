@@ -16,7 +16,7 @@ func newOperationsGetReviewByIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-review-by-id <reviewId>",
 		Short:       "Retrieve the currently stored Review data for the given ID.",
-		Example:     "  jira-pp-cli-pp-cli operations get-review-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen operations get-review-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "operations.get-review-by-id", "pp:method": "GET", "pp:path": "/rest/operations/1.0/post-incident-reviews/{reviewId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

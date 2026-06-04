@@ -14,10 +14,10 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"jira-pp-cli-pp-cli/internal/client"
-	"jira-pp-cli-pp-cli/internal/cliutil"
-	"jira-pp-cli-pp-cli/internal/config"
-	"jira-pp-cli-pp-cli/internal/store"
+	"keen/internal/client"
+	"keen/internal/cliutil"
+	"keen/internal/config"
+	"keen/internal/store"
 )
 
 // looksLikeDoctorInterstitial reports whether the response body matches a known
@@ -69,9 +69,9 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "doctor",
 		Short: "Check CLI health",
-		Example: `  jira-pp-cli-pp-cli doctor
-  jira-pp-cli-pp-cli doctor --json
-  jira-pp-cli-pp-cli doctor --fail-on warn`,
+		Example: `  keen doctor
+  keen doctor --json
+  keen doctor --fail-on warn`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			report := map[string]any{}
 
@@ -206,7 +206,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 						authParams := map[string]string{}
 						authHeaders := map[string]string{}
 						authHeaders["Authorization"] = authHeader
-						authHeaders["User-Agent"] = "jira-pp-cli-pp-cli"
+						authHeaders["User-Agent"] = "keen"
 						verifyPath := "/rest/api/3/user"
 						if !strings.HasPrefix(verifyPath, "/") {
 							verifyPath = "/" + verifyPath
@@ -380,14 +380,14 @@ func doctorExitForFailOn(failOn string, report map[string]any) error {
 // because the alternative is no freshness story at all.
 func collectCacheReport(ctx context.Context, staleAfterSpec string) map[string]any {
 	report := map[string]any{}
-	dbPath := defaultDBPath("jira-pp-cli-pp-cli")
+	dbPath := defaultDBPath("keen")
 	report["db_path"] = dbPath
 
 	fi, err := os.Stat(dbPath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			report["status"] = "unknown"
-			report["hint"] = "Database not created yet; run 'jira-pp-cli-pp-cli sync' to hydrate."
+			report["hint"] = "Database not created yet; run 'keen sync' to hydrate."
 			return report
 		}
 		report["status"] = "error"
@@ -420,7 +420,7 @@ func collectCacheReport(ctx context.Context, staleAfterSpec string) map[string]a
 		// sync_state may not exist on a fresh DB that has migrated but not
 		// yet had any sync runs — treat as unknown rather than error.
 		report["status"] = "unknown"
-		report["hint"] = "No sync state recorded; run 'jira-pp-cli-pp-cli sync' to populate."
+		report["hint"] = "No sync state recorded; run 'keen sync' to populate."
 		return report
 	}
 	defer rows.Close()
@@ -460,13 +460,13 @@ func collectCacheReport(ctx context.Context, staleAfterSpec string) map[string]a
 	switch {
 	case !haveAny && len(resources) == 0:
 		report["status"] = "unknown"
-		report["hint"] = "sync_state is empty; run 'jira-pp-cli-pp-cli sync' to hydrate."
+		report["hint"] = "sync_state is empty; run 'keen sync' to hydrate."
 	case fresh:
 		report["status"] = "fresh"
 	default:
 		report["status"] = "stale"
 		report["oldest_age"] = oldest.Round(time.Minute).String()
-		report["hint"] = "Some resources are older than stale_after; run 'jira-pp-cli-pp-cli sync' to refresh."
+		report["hint"] = "Some resources are older than stale_after; run 'keen sync' to refresh."
 	}
 	return report
 }

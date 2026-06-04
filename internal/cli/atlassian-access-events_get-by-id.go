@@ -16,7 +16,7 @@ func newAtlassianAccessEventsGetByIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-by-id <orgId> <eventId>",
 		Short:       "Returns information about a single event by ID. #### Scopes **[OAuth 2.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-events get-by-id 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen atlassian-access-events get-by-id 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "atlassian-access-events.get-by-id", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/events/{eventId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

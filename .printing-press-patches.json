@@ -19,7 +19,7 @@
       "deferred_to_upstream": [
         {
           "feature": "Generator should emit config paths matching the CLI binary name, not the internal project slug",
-          "reason": "Default config path is ~/.config/jira-pp-cli-pp-cli/ which doesn't match the 'keen' binary name"
+          "reason": "Default config path is ~/.config/keen/ which doesn't match the 'keen' binary name"
         }
       ]
     },

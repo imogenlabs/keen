@@ -21,7 +21,7 @@ func newWikiGetGroupMembersByGroupIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-group-members-by-group-id <groupId>",
 		Short:       "Returns the users that are members of a group. Use updated Get group API **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-group-members-by-group-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-group-members-by-group-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-group-members-by-group-id", "pp:method": "GET", "pp:path": "/wiki/rest/api/group/{groupId}/membersByGroupId", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

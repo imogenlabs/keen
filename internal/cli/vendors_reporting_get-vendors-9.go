@@ -18,7 +18,7 @@ func newVendorsReportingGetVendors9Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-9 <vendorId>",
 		Short:       "To fetch count of customers split by region and percentage distribution of customers across regions (APAC, EMEA",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-9 42",
+		Example:     "  keen vendors reporting get-vendors-9 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-9", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/customer-insights/regions", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -7,7 +7,7 @@ The CLI is designed for AI agents first. The `--agent` flag sets `--json --compa
 Reference the CLI in CLAUDE.md:
 
 ```markdown
-**Jira PP CLI:** `~/repos/jira-pp-cli/jira-pp-cli` — 1,091-endpoint CLI for all Atlassian APIs.
+**Keen:** `~/repos/keen/keen` — 1,091-endpoint CLI for all Atlassian APIs.
 Use this instead of raw curl for ALL Atlassian API calls.
 Auth: `export JIRA_CLOUD_PLATFORM_USERNAME=... JIRA_CLOUD_PLATFORM_PASSWORD=...`
 ```

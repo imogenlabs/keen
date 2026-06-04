@@ -19,7 +19,7 @@ func newVendorsPromotionsUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update <vendorId> <promotionId>",
 		Short:       "Update a specific promotion for the specified vendor. The request body must be a valid JSON Patch document.",
-		Example:     "  jira-pp-cli-pp-cli vendors promotions update 42 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen vendors promotions update 42 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "promotions.update", "pp:method": "PATCH", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/promotions/{promotionId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

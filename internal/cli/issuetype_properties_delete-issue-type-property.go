@@ -17,7 +17,7 @@ func newIssuetypePropertiesDeleteIssueTypePropertyCmd(flags *rootFlags) *cobra.C
 		Use:         "delete-issue-type-property <issueTypeId> <propertyKey>",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes the [issue type property](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli issuetype properties delete-issue-type-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen issuetype properties delete-issue-type-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "properties.delete-issue-type-property", "pp:method": "DELETE", "pp:path": "/rest/api/3/issuetype/{issueTypeId}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

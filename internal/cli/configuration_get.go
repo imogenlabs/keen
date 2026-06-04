@@ -17,7 +17,7 @@ func newConfigurationGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get",
 		Aliases:     []string{"list"},
 		Short:       "Returns the [global settings](https://confluence.atlassian.com/x/qYXKM) in Jira.",
-		Example:     "  jira-pp-cli-pp-cli configuration get",
+		Example:     "  keen configuration get",
 		Annotations: map[string]string{"pp:endpoint": "configuration.get", "pp:method": "GET", "pp:path": "/rest/api/3/configuration", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

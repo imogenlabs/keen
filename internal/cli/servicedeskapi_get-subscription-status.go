@@ -16,7 +16,7 @@ func newServicedeskapiGetSubscriptionStatusCmd(flags *rootFlags) *cobra.Command 
 	cmd := &cobra.Command{
 		Use:         "get-subscription-status <issueIdOrKey>",
 		Short:       "This method returns the notification subscription status of the user making the request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-subscription-status your-token-here",
+		Example:     "  keen servicedeskapi get-subscription-status your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-subscription-status", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/notification", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

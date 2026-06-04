@@ -35,7 +35,7 @@ func feedbackFilePath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("resolving home dir: %w", err)
 	}
-	dir := filepath.Join(home, ".local", "share", "jira-pp-cli-pp-cli")
+	dir := filepath.Join(home, ".local", "share", "keen")
 	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return "", fmt.Errorf("creating state dir: %w", err)
 	}
@@ -81,7 +81,7 @@ func postFeedback(url string, entry FeedbackEntry) error {
 		return fmt.Errorf("building feedback request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("User-Agent", "jira-pp-cli-pp-cli/feedback")
+	req.Header.Set("User-Agent", "keen/feedback")
 	client := &http.Client{Timeout: 15 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -100,7 +100,7 @@ func newFeedbackCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "feedback [text]",
 		Short: "Record feedback about this CLI (local by default; upstream opt-in)",
-		Long: `Feedback is captured locally first at ~/.local/share/jira-pp-cli-pp-cli/feedback.jsonl.
+		Long: `Feedback is captured locally first at ~/.local/share/keen/feedback.jsonl.
 When ` + "`JIRA_PP_CLI_FEEDBACK_ENDPOINT`" + ` is set and either --send is
 passed or ` + "`JIRA_PP_CLI_FEEDBACK_AUTO_SEND=true`" + `, the entry is
 POSTed as JSON after the local write.
@@ -131,7 +131,7 @@ maintainer sees it.`,
 
 			entry := FeedbackEntry{
 				Text:      text,
-				CLI:       "jira-pp-cli-pp-cli",
+				CLI:       "keen",
 				Version:   version,
 				AgentID:   os.Getenv("AGENT_ID"),
 				Timestamp: time.Now().UTC(),
@@ -184,9 +184,9 @@ func newFeedbackListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "List recent feedback entries",
-		Example: `  jira-pp-cli-pp-cli feedback list
-  jira-pp-cli-pp-cli feedback list --limit 5
-  jira-pp-cli-pp-cli feedback list --json`,
+		Example: `  keen feedback list
+  keen feedback list --limit 5
+  keen feedback list --json`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			p, err := feedbackFilePath()
 			if err != nil {

@@ -23,7 +23,7 @@ func newAgileGetIssuesForBacklogCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issues-for-backlog <boardId>",
 		Short:       "Returns all issues from the board's backlog, for the given board ID.",
-		Example:     "  jira-pp-cli-pp-cli agile get-issues-for-backlog 42",
+		Example:     "  keen agile get-issues-for-backlog 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-issues-for-backlog", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/backlog", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

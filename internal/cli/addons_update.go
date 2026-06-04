@@ -19,7 +19,7 @@ func newAddonsUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update <addonKey>",
 		Short:       "Update a specific app. The request body must be a valid JSON Patch document.",
-		Example:     "  jira-pp-cli-pp-cli addons update your-token-here",
+		Example:     "  keen addons update your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "addons.update", "pp:method": "PATCH", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

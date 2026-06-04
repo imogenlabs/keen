@@ -18,7 +18,7 @@ func newServicedeskapiSubscribeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "subscribe <issueIdOrKey>",
 		Short:       "This method subscribes the user to receiving notifications from a customer request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi subscribe your-token-here",
+		Example:     "  keen servicedeskapi subscribe your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.subscribe", "pp:method": "PUT", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/notification"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

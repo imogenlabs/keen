@@ -20,7 +20,7 @@ func newVendorsReportingGetVendors20Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-20 <vendorId>",
 		Short:       "Export entitlements under free starter tier plan, matching the specified filters, for the specified vendor's apps.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-20 42",
+		Example:     "  keen vendors reporting get-vendors-20 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-20", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/sales/freeStarterTier/export", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

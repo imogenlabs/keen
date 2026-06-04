@@ -18,7 +18,7 @@ func newAgileSetBoardPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-board-property <boardId> <propertyKey>",
 		Short:       "Sets the value of the specified board's property.",
-		Example:     "  jira-pp-cli-pp-cli agile set-board-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen agile set-board-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.set-board-property", "pp:method": "PUT", "pp:path": "/rest/agile/1.0/board/{boardId}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -19,7 +19,7 @@ func newClassificationLevelsPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "classification-levels",
 		Short:       "Returns all classification levels. **[Permissions](#permissions) required:** None.",
 		Long:        "Returns all classification levels. **[Permissions](#permissions) required:** None.",
-		Example:     "  jira-pp-cli-pp-cli classification-levels",
+		Example:     "  keen classification-levels",
 		Annotations: map[string]string{"pp:endpoint": "classification-levels.get-all-user-data", "pp:method": "GET", "pp:path": "/rest/api/3/classification-levels", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
