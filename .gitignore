@@ -29,3 +29,6 @@ Thumbs.db
 
 # dist
 dist/
+# internal agent docs — never commit
+CLAUDE.md
+HANDOFF.md
