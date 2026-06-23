@@ -110,6 +110,14 @@ Requires Go 1.22+.
 
 Keen includes an MCP server (`keen-mcp`) that exposes all 1,091 endpoints as tools for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
 
+Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cache; writes hit the Atlassian API and update the cache before returning.
+
+<p align="center">
+  <img src="docs/diagrams/mcp-flow.drawio.png" alt="MCP request flow: an AI agent calls a tool through its MCP client, keen-mcp answers reads from SQLite + FTS5 and routes writes to the Atlassian API before refreshing the cache, then returns structured data." width="820">
+</p>
+
+Source: [`docs/diagrams/mcp-flow.drawio`](docs/diagrams/mcp-flow.drawio).
+
 ### Claude Code
 
 Add to `~/.claude/settings.json`:
@@ -257,33 +265,13 @@ keen addons versions get io.example.my-addon --agent
 
 ## Architecture
 
-```
-┌─────────────┐    ┌─────────────┐
-│  keen (CLI)  │    │  keen-mcp   │
-│              │    │ (MCP Server)│
-└──────┬───────┘    └──────┬──────┘
-       │                   │
-       └─────────┬─────────┘
-                 │
-          ┌──────┴──────┐
-          │ CLI Router  │
-          │  (Cobra)    │
-          └──────┬──────┘
-                 │
-       ┌─────────┴─────────┐
-       │                   │
-┌──────┴──────┐    ┌───────┴───────┐
-│ HTTP Client │    │ SQLite Store  │
-│ (API calls) │    │  (FTS5 sync)  │
-└──────┬──────┘    └───────────────┘
-       │
-┌──────┴──────────────────────────┐
-│        Atlassian Cloud          │
-│ Jira · Confluence · Agile       │
-│ Marketplace · Service Desk      │
-│ Admin Orgs                      │
-└─────────────────────────────────┘
-```
+Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,091 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
+
+<p align="center">
+  <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share a Cobra router that splits between a live HTTP client and a local SQLite + FTS5 store, talking to six Atlassian Cloud APIs (Jira Platform, Jira Agile, Confluence, Marketplace, Service Desk, Admin Orgs)." width="660">
+</p>
+
+Source: [`docs/diagrams/architecture.drawio`](docs/diagrams/architecture.drawio) (editable in [draw.io](https://app.diagrams.net/)).
 
 ## Regeneration
 
