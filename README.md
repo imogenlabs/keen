@@ -42,12 +42,12 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 
 | API | Endpoints | What you get |
 |-----|-----------|-------------|
-| **Jira Platform v3** | 692 | Issues, transitions, search, bulk ops, fields, workflows, permissions |
+| **Jira Platform v3** | 610 | Issues, transitions, search, bulk ops, fields, workflows, permissions |
 | **Jira Agile** | 105 | Sprints, boards, backlogs, epics, ranking, velocity |
 | **Confluence** | 100 | Pages, blog posts, spaces, search, templates, permissions |
-| **Marketplace v2** | 149 | Addons, versions, vendors, distribution, reviews, reporting |
-| **Service Desk** | 70 | Requests, queues, customers, SLAs, approvals |
-| **Admin Orgs** | 61 | Organizations, directories, groups, policies, domains |
+| **Marketplace v2** | 143 | Addons, versions, vendors, distribution, reviews, reporting |
+| **Service Desk** | 71 | Requests, queues, customers, SLAs, approvals |
+| **Admin Orgs** | 62 | Organizations, directories, groups, policies, domains |
 
 ## Your First 5 Minutes
 
