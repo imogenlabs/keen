@@ -221,6 +221,21 @@ keen agile move-issues-to-sprint-and-rank SPRINT_ID \
 keen agile partially-update-sprint SPRINT_ID --stdin <<< '{"state": "active"}'
 ```
 
+### Release Tracking
+
+Record git release tags as Jira versions and tag the issues they shipped:
+
+```bash
+# every release tag so far, plus an unreleased "next" for work merged since
+keen release sync --repo-path . --project PROJ --backfill --head origin/main --dry-run
+# after publishing a release: "next" becomes the tag, a fresh "next" is created
+keen release sync --repo-path . --project PROJ --tag v1.4.0 --head origin/main
+```
+
+A version is named as the tag, released on the tag's commit date and linked to
+its GitHub release. An issue gets the first release whose commits name its key
+as a Fix Version; existing Fix Versions are added to, never replaced.
+
 ### Issue Lifecycle
 
 ```bash
