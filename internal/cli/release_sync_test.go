@@ -166,6 +166,7 @@ func TestReleaseRenamesNextAndAddsNeverReplaces(t *testing.T) {
 			"PROJ-2": {"hotfix"}, // a person's Fix Version must stay
 			"PROJ-4": {"next"},   // on next but not in the tag
 			"PROJ-5": {},         // refused by the edit screen
+			"PROJ-6": {"v2.0.0"}, // set by hand, never on next: untouched
 		},
 		refuse: map[string]bool{"PROJ-5": true},
 	}
