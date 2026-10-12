@@ -177,12 +177,13 @@ func TestReleaseRenamesNextAndAddsNeverReplaces(t *testing.T) {
 	}
 	all := strings.Join(f.writes, "\n")
 	for _, want := range []string{
+		`POST /rest/api/3/version {"name":"next-after-v2.0.0","projectId":100,"released":false}`,
+		`PUT /rest/api/3/issue/PROJ-4 {"update":{"fixVersions":[{"add":{"name":"next-after-v2.0.0"}}]}}`,
+		`PUT /rest/api/3/issue/PROJ-4 {"update":{"fixVersions":[{"remove":{"name":"next"}}]}}`,
 		`PUT /rest/api/3/version/7 {"name":"v2.0.0"}`,
 		`PUT /rest/api/3/version/7 {"description":"https://github.com/acme/widget/releases/tag/v2.0.0","releaseDate":"2026-10-01","released":true}`,
 		`PUT /rest/api/3/issue/PROJ-2 {"update":{"fixVersions":[{"add":{"name":"v2.0.0"}}]}}`,
-		`POST /rest/api/3/version {"name":"next","projectId":100,"released":false}`,
-		`PUT /rest/api/3/issue/PROJ-4 {"update":{"fixVersions":[{"add":{"name":"next"}}]}}`,
-		`PUT /rest/api/3/issue/PROJ-4 {"update":{"fixVersions":[{"remove":{"name":"v2.0.0"}}]}}`,
+		`PUT /rest/api/3/version/9 {"name":"next"}`,
 	} {
 		if !strings.Contains(all, want) {
 			t.Errorf("missing write %s\nwrites:\n%s", want, all)
@@ -222,5 +223,33 @@ func TestReleaseRerunTouchesNothing(t *testing.T) {
 	}
 	if len(f.writes) != 0 {
 		t.Fatalf("a re-run must write nothing, wrote:\n%s", strings.Join(f.writes, "\n"))
+	}
+}
+
+// A run that renamed next and then stopped must be finished by a re-run: the
+// held-back issues are already off the tag, and the holding version becomes next.
+func TestReleaseResumesAfterPartialRun(t *testing.T) {
+	f := &fakeJira{
+		versions: []jiraVersion{
+			{ID: "7", Name: "v2.0.0"}, // renamed, never marked released
+			{ID: "9", Name: "next-after-v2.0.0"},
+		},
+		issues: map[string][]string{"PROJ-1": {"v2.0.0"}, "PROJ-4": {"next-after-v2.0.0"}},
+	}
+	s := newTestSyncer(f)
+	if err := s.release(context.Background(), releaseEntry{Tag: "v2.0.0", Date: "2026-10-01", Keys: []string{"PROJ-1"}}, true); err != nil {
+		t.Fatal(err)
+	}
+	all := strings.Join(f.writes, "\n")
+	for _, want := range []string{
+		`PUT /rest/api/3/version/7 {"description":"https://github.com/acme/widget/releases/tag/v2.0.0","releaseDate":"2026-10-01","released":true}`,
+		`PUT /rest/api/3/version/9 {"name":"next"}`,
+	} {
+		if !strings.Contains(all, want) {
+			t.Errorf("missing write %s\nwrites:\n%s", want, all)
+		}
+	}
+	if strings.Contains(all, "/issue/") {
+		t.Errorf("no issue should be edited on resume:\n%s", all)
 	}
 }

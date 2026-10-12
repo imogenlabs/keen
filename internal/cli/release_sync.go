@@ -208,31 +208,22 @@ func (s *releaseSyncer) addFixVersion(ctx context.Context, keys []string, name s
 	}
 }
 
-// release records one tag: `next` becomes the tag when the tag has no version
-// yet, the tag's keys get it as a Fix Version, anything left on it that the
-// tag does not contain goes back to a fresh `next`.
+// release records one tag. With renameNext, work that waited on `next` and
+// did not ship moves to a holding version first, then `next` is renamed to the
+// tag, the tag's keys get it as a Fix Version, and the holding version becomes
+// the fresh `next`. Every step can be repeated, so a run that stopped part-way
+// is finished by running it again. A Fix Version a person set is never moved.
 func (s *releaseSyncer) release(ctx context.Context, e releaseEntry, renameNext bool) error {
-	// Tickets that were waiting on `next` when it became this tag. Only these
-	// can go back to a fresh `next`; a Fix Version a person set is never moved.
-	carried := map[string]bool{}
-	if nv, ok := s.versions[s.nextName]; ok && renameNext && s.nextName != "" {
-		if _, exists := s.versions[e.Tag]; !exists {
-			if s.dryRun {
-				s.logf("  would rename %s to %s", s.nextName, e.Tag)
-			} else if _, _, err := s.api.PutWithParams(ctx, "/rest/api/3/version/"+nv.ID, nil, map[string]any{"name": e.Tag}); err != nil {
-				return fmt.Errorf("renaming %s to %s: %w", s.nextName, e.Tag, err)
-			} else {
-				s.logf("  renamed %s to %s", s.nextName, e.Tag)
-			}
-			delete(s.versions, s.nextName)
-			nv.Name = e.Tag
-			s.versions[e.Tag] = nv
-			for k, fv := range s.issues {
-				for i, n := range fv {
-					if n == s.nextName {
-						s.issues[k][i] = e.Tag
-						carried[k] = true
-					}
+	renameNext = renameNext && s.nextName != ""
+	pending := s.nextName + "-after-" + e.Tag
+	if renameNext {
+		if _, ok := s.versions[s.nextName]; ok {
+			if _, tagged := s.versions[e.Tag]; !tagged {
+				if err := s.holdUnshipped(ctx, e, pending); err != nil {
+					return err
+				}
+				if err := s.renameVersion(ctx, s.nextName, e.Tag); err != nil {
+					return err
 				}
 			}
 		}
@@ -241,38 +232,85 @@ func (s *releaseSyncer) release(ctx context.Context, e releaseEntry, renameNext 
 		return err
 	}
 	s.addFixVersion(ctx, e.Keys, e.Tag)
-	if !renameNext || s.nextName == "" {
+	if !renameNext {
 		return nil
 	}
-	if err := s.ensureVersion(ctx, s.nextName, false, ""); err != nil {
-		return err
+	if _, ok := s.versions[pending]; ok {
+		if _, exists := s.versions[s.nextName]; !exists {
+			return s.renameVersion(ctx, pending, s.nextName)
+		}
 	}
+	return s.ensureVersion(ctx, s.nextName, false, "")
+}
+
+// holdUnshipped moves every issue on `next` that the tag does not contain to
+// the holding version, so renaming `next` cannot release it.
+func (s *releaseSyncer) holdUnshipped(ctx context.Context, e releaseEntry, pending string) error {
 	inTag := map[string]bool{}
 	for _, k := range e.Keys {
 		inTag[k] = true
 	}
-	for _, key := range sortedKeys(carried) {
-		if inTag[key] {
-			continue
+	var hold []string
+	for key, fv := range s.issues {
+		if !inTag[key] && containsString(fv, s.nextName) {
+			hold = append(hold, key)
 		}
+	}
+	if len(hold) == 0 {
+		return nil
+	}
+	if err := s.ensureVersion(ctx, pending, false, ""); err != nil {
+		return err
+	}
+	for _, key := range sortedKeys(toSet(hold)) {
 		s.tally.MovedToNext = append(s.tally.MovedToNext, key)
-		if s.dryRun {
-			continue
+		if !s.dryRun {
+			if err := s.editFixVersion(ctx, key, "add", pending); err != nil {
+				return fmt.Errorf("holding %s back from %s: %s", key, e.Tag, apiErrorSummary(err))
+			}
+			if err := s.editFixVersion(ctx, key, "remove", s.nextName); err != nil {
+				return fmt.Errorf("holding %s back from %s: %s", key, e.Tag, apiErrorSummary(err))
+			}
 		}
-		if err := s.editFixVersion(ctx, key, "add", s.nextName); err != nil {
-			s.tally.Refused = append(s.tally.Refused, fmt.Sprintf("%s %s: %s", key, s.nextName, apiErrorSummary(err)))
-			continue
+		fv := []string{}
+		for _, n := range s.issues[key] {
+			if n != s.nextName {
+				fv = append(fv, n)
+			}
 		}
-		if err := s.editFixVersion(ctx, key, "remove", e.Tag); err != nil {
-			s.tally.Refused = append(s.tally.Refused, fmt.Sprintf("%s remove %s: %s", key, e.Tag, apiErrorSummary(err)))
-		}
-		for i, n := range s.issues[key] {
-			if n == e.Tag {
-				s.issues[key][i] = s.nextName
+		s.issues[key] = append(fv, pending)
+	}
+	return nil
+}
+
+func (s *releaseSyncer) renameVersion(ctx context.Context, from, to string) error {
+	v := s.versions[from]
+	if s.dryRun {
+		s.logf("  would rename %s to %s", from, to)
+	} else if _, _, err := s.api.PutWithParams(ctx, "/rest/api/3/version/"+v.ID, nil, map[string]any{"name": to}); err != nil {
+		return fmt.Errorf("renaming %s to %s: %w", from, to, err)
+	} else {
+		s.logf("  renamed %s to %s", from, to)
+	}
+	delete(s.versions, from)
+	v.Name = to
+	s.versions[to] = v
+	for k, fv := range s.issues {
+		for i, n := range fv {
+			if n == from {
+				s.issues[k][i] = to
 			}
 		}
 	}
 	return nil
+}
+
+func toSet(list []string) map[string]bool {
+	set := make(map[string]bool, len(list))
+	for _, v := range list {
+		set[v] = true
+	}
+	return set
 }
 
 func containsString(list []string, s string) bool {
