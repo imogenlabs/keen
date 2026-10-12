@@ -35,6 +35,13 @@
           "reason": "Aliases are per-CLI customizations that should survive regeneration without a local patch file"
         }
       ]
+    },
+    {
+      "id": "release-sync",
+      "summary": "Add `keen release sync` to record git release tags as Jira versions and Fix Versions.",
+      "reason": "Releases were cut in GitHub only, so Jira had no versions and no issue carried a Fix Version. This joins git history to Jira, which no single API endpoint does.",
+      "files": ["internal/cli/release_git.go", "internal/cli/release_sync.go", "internal/cli/release_sync_test.go", "internal/cli/root.go"],
+      "validated_outcome": "Unit tests cover key extraction, first-containing-release mapping, add-never-replace, the next rename and re-run idempotence; a backfill dry-run over 82 tags matched git tag --contains on 5 spot-checked keys."
     }
   ]
 }
