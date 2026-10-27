@@ -45,3 +45,21 @@ func TestCommandsThatDeclareArgsStillTakeThem(t *testing.T) {
 		t.Fatalf("only %d top-level commands declare arguments; the check is not seeing them", checked)
 	}
 }
+
+// Every command `keen which` suggests must parse: no "unknown command".
+func TestEveryWhichSuggestionParses(t *testing.T) {
+	root := newRootCmd(&rootFlags{})
+	for _, e := range whichIndex {
+		words := strings.Fields(e.Command)
+		c, rest, err := root.Find(words)
+		if err != nil {
+			t.Errorf("keen which suggests %q but it does not resolve: %v", e.Command, err)
+			continue
+		}
+		if c.Args != nil {
+			if err := c.Args(c, rest); err != nil {
+				t.Errorf("keen which suggests %q but it is rejected: %v", e.Command, err)
+			}
+		}
+	}
+}

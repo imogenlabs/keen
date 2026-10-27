@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-10-27
+
+### Fixed
+- The forms `keen which` suggests for shortcut commands, such as `keen myself get-current-user` and `keen server-info get`, work again. 1.2.0 and 1.2.1 refused the operation name as a stray word
+
 ## [1.2.1] - 2026-10-27
 
 ### Fixed
