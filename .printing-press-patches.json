@@ -126,6 +126,13 @@
       "reason": "Made by hand in May 2026 (partial sync data has no parent id). scripts/regen/postfix.py applies it to tables and tests that a regeneration adds.",
       "files": ["internal/store/store.go", "internal/store/upsert_batch_test.go", "scripts/regen/postfix.py"],
       "validated_outcome": "go test ./internal/store passes; TestMigrate_ConcurrentFreshDB 0/200 failures."
+    },
+    {
+      "id": "job-status-endpoints",
+      "summary": "Async commands poll Atlassian's documented progress endpoint, pinned in scripts/regen/normalize.py.",
+      "reason": "The generator guessed the status endpoint differently on each run, often wrongly (bulk edit polled linkedWorkspaces), and used {taskId}, which jobs.go never fills in.",
+      "files": ["scripts/regen/normalize.py", "internal/cli/bulk_*.go", "internal/cli/workflows_update.go", "internal/cli/workflowscheme_read-workflow-schemes.go", "internal/cli/wiki_async-convert-content-body-request.go", "internal/cli/wiki_get-and-async-convert-macro-body-by-macro-id.go"],
+      "validated_outcome": "A second regen on unchanged specs merges with no changes."
     }
   ]
 }
