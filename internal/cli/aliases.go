@@ -106,7 +106,8 @@ func resolveTransitionID(ctx context.Context, flags *rootFlags, issueKey, name s
 // subcommand (`keen project create`), the error names it.
 func rejectStrayArgs(rootCmd *cobra.Command) {
 	for _, cmd := range rootCmd.Commands() {
-		if cmd.Annotations["pp:endpoint"] == "" || cmd.Args != nil || cmd.HasSubCommands() || strings.Contains(cmd.Use, "<") {
+		// Any word after the name ("get [issueKey]", "task <taskId>") declares an argument.
+		if cmd.Annotations["pp:endpoint"] == "" || cmd.Args != nil || cmd.HasSubCommands() || len(strings.Fields(cmd.Use)) > 1 {
 			continue
 		}
 		cmd.Args = func(c *cobra.Command, args []string) error {
