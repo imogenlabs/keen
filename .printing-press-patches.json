@@ -42,6 +42,19 @@
       "reason": "Releases were cut in GitHub only, so Jira had no versions and no issue carried a Fix Version. This joins git history to Jira, which no single API endpoint does.",
       "files": ["internal/cli/release_git.go", "internal/cli/release_sync.go", "internal/cli/release_sync_test.go", "internal/cli/root.go"],
       "validated_outcome": "Unit tests cover key extraction, first-containing-release mapping, add-never-replace, the next rename and re-run idempotence; a backfill dry-run over 82 tags matched git tag --contains on 5 spot-checked keys."
+    },
+    {
+      "id": "keen-identity",
+      "summary": "keen-mcp reports itself as keen with the release version; unstamped builds say dev.",
+      "reason": "The generator left keen-mcp announcing 'Jira Pp Cli' 1.0.0 to every MCP client, and both binaries defaulted to 1.0.0, so a local build claimed to be the old release.",
+      "files": ["cmd/keen-mcp/main.go", "internal/cli/root.go", "internal/cli/auth.go", ".goreleaser.yaml"],
+      "validated_outcome": "MCP initialize returns serverInfo name keen with the stamped version; go build without ldflags prints 'keen dev'.",
+      "deferred_to_upstream": [
+        {
+          "feature": "Generator should use the CLI name and a stamped version in the MCP server and the default version",
+          "reason": "The slug-derived display name and a hardcoded 1.0.0 survived the rename"
+        }
+      ]
     }
   ]
 }
