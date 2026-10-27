@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Docs, `AGENTS.md`, `SKILL.md` and the tool manifest use the keen name throughout. The old install steps and generator names are gone, and the docs show `JIRA_CLOUD_PLATFORM_URL`
 - The GitHub wiki is turned off. It was an outdated copy of `docs/`, still written for the old name
+- SQLite driver updated (modernc.org/sqlite 1.61.0). The local database now really runs in WAL mode with a busy timeout, as keen always asked for; the old driver ignored those settings. Opening a fresh database from several processes at once retries instead of failing with "database is locked"
 
 ## [1.1.0] - 2026-10-27
 
