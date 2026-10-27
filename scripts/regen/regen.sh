@@ -3,8 +3,8 @@
 # keen's own changes.
 #
 # How it works: keen's generated code is a three-way merge.
-#   base   = the generator's output last time (renamed to keen), kept on the
-#            branch build/generator-output
+#   base   = the generator's output last time (renamed to keen), kept on GitHub
+#            as the hidden ref refs/regen/base
 #   ours   = keen as it is now (HEAD), hand changes included
 #   theirs = the generator's output today, from today's specs, renamed the same way
 # git merges base->theirs onto ours, so spec changes land and keen's edits stay.
@@ -27,6 +27,9 @@ if [[ "${1:-}" == "--specs" ]]; then SPECS_IN=$2; fi
 
 [[ -z "$(git -C "$REPO" status --porcelain)" ]] || { echo "regen: commit or stash your changes first" >&2; exit 1; }
 command -v "$GENERATOR" >/dev/null || { echo "regen: generator not found: $GENERATOR (see config.sh)" >&2; exit 1; }
+
+git -C "$REPO" fetch -q origin "+refs/regen/base:refs/regen/base" 2>/dev/null || true
+git -C "$REPO" rev-parse -q --verify "$BASE_REF" >/dev/null || { echo "regen: base $BASE_REF not found" >&2; exit 1; }
 
 WORK=${REGEN_WORK:-$(mktemp -d "${TMPDIR:-/tmp}/keen-regen-$(date +%Y%m%d-%H%M%S)-XXXX")}
 echo "regen: working in $WORK"
@@ -125,4 +128,4 @@ next=$(git -C "$REPO" -c user.name=regen -c user.email=regen@localhost commit-tr
   -p "$(git -C "$REPO" rev-parse "$BASE_REF")" -m "generator output $(date +%Y-%m-%d), renamed to keen")
 git -C "$REPO" update-ref refs/regen/next-base "$next"
 echo "regen: after this lands on main, move the base forward:"
-echo "  git push origin refs/regen/next-base:refs/heads/build/generator-output"
+echo "  git push origin refs/regen/next-base:refs/regen/base"

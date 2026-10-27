@@ -8,8 +8,9 @@ GENERATOR=${GENERATOR:-$HOME/go/bin/cli-printing-press}
 GENERATOR_FLAGS=(--name jira-pp-cli --owner smashingtags --lenient
   --auth-preference basicAuth --max-resources 1500 --validate=false)
 
-# Previous generator output, renamed. Moved forward after each regen lands on main.
-BASE_REF=${BASE_REF:-origin/build/generator-output}
+# Previous generator output, renamed. Kept on GitHub as the hidden ref refs/regen/base
+# (not a branch), fetched by regen.sh, moved forward after each regen lands on main.
+BASE_REF=${BASE_REF:-refs/regen/base}
 
 SPEC_ORDER=(jira-platform jira-agile confluence marketplace jira-service-desk admin-orgs)
 SPECS=(
