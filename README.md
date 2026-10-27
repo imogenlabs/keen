@@ -4,13 +4,13 @@
 
 <p align="center">
     <a href="https://github.com/imogenlabs/keen/releases/latest">
-        <img src="https://img.shields.io/github/v/release/smashingtags/keen?label=Release&logo=github" alt="Release">
+        <img src="https://img.shields.io/github/v/release/imogenlabs/keen?label=Release&logo=github" alt="Release">
     </a>
     <a href="https://github.com/imogenlabs/keen/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License">
     </a>
     <a href="https://go.dev">
-        <img src="https://img.shields.io/github/go-mod/go-version/smashingtags/keen" alt="Go Version">
+        <img src="https://img.shields.io/github/go-mod/go-version/imogenlabs/keen" alt="Go Version">
     </a>
     <a href="https://github.com/imogenlabs/keen/actions/workflows/ci.yml">
         <img src="https://github.com/imogenlabs/keen/actions/workflows/ci.yml/badge.svg" alt="CI">
@@ -52,8 +52,9 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 ## Your First 5 Minutes
 
 ```bash
-# 1. Install
-brew install smashingtags/tap/keen
+# 1. Install (macOS Apple Silicon; see Install for Linux)
+curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_arm64.tar.gz | tar xz
+sudo mv keen_darwin_arm64/keen keen_darwin_arm64/keen-mcp /usr/local/bin/
 
 # 2. Set your credentials
 export JIRA_CLOUD_PLATFORM_USERNAME="you@example.com"
@@ -74,12 +75,6 @@ Generate an API token at [id.atlassian.com/manage-profile/security/api-tokens](h
 
 ## Install
 
-### Homebrew (macOS / Linux)
-
-```bash
-brew install smashingtags/tap/keen
-```
-
 ### Binary download
 
 Download from [GitHub Releases](https://github.com/imogenlabs/keen/releases/latest):
@@ -94,7 +89,14 @@ sudo mv keen_darwin_arm64/keen-mcp /usr/local/bin/
 curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.tar.gz | tar xz
 sudo mv keen_linux_amd64/keen /usr/local/bin/
 sudo mv keen_linux_amd64/keen-mcp /usr/local/bin/
+
+# Linux (arm64)
+curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_arm64.tar.gz | tar xz
+sudo mv keen_linux_arm64/keen /usr/local/bin/
+sudo mv keen_linux_arm64/keen-mcp /usr/local/bin/
 ```
+
+Each release also publishes `checksums.txt`.
 
 ### From source
 
@@ -104,7 +106,7 @@ cd keen
 make build-all   # builds bin/keen and bin/keen-mcp
 ```
 
-Requires Go 1.22+.
+Requires Go 1.26.10 or newer.
 
 ## MCP Server
 

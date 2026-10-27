@@ -7,8 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-27
+
 ### Added
 - `keen release sync`: record git release tags as Jira versions (released, dated, linked to the GitHub release) and add each as a Fix Version on the issues its commits name, with an unreleased `next` version that the next release renames
+- Top-level shortcuts: `keen find-issues`, `keen transition`, `keen sprints`, `keen get`
+- `--transition-name` on `keen transition` resolves the name to the transition id; an unknown name lists the available transitions
+- Credentials can live in `~/.config/keen/auth.json` instead of environment variables
+- Compact output (`--agent`) keeps the issue `summary` and flattens Jira's nested `fields`
+
+### Changed
+- Built with Go 1.26.10. Cobra, pflag, go-toml, modernc SQLite and mcp-go (v1.4.0) are updated
+- `keen-mcp` identifies itself to MCP clients as `keen` with its release version, not "Jira Pp Cli" 1.0.0
+- Builds made without release flags report version `dev`
+- Release archives are named `keen_<os>_<arch>.tar.gz` with no version, so `releases/latest/download/` links stay stable
+- The rename is complete: module, commands, help text and config all say `keen`
+- The repository moved to the imogenlabs GitHub organization
+- CI and release workflows pin every action by commit SHA; CI's token is read-only
+
+### Fixed
+- 14 Go standard library vulnerabilities reachable from keen (net/http, crypto/tls, crypto/x509 and others)
+- The download links in the README returned 404
+- A missing or placeholder `base_url` now fails with a clear error instead of calling a nonexistent host
+- `keen sync` no longer warns about skipped records for pagination envelopes
+
+### Removed
+- Homebrew formula publishing. No formula was ever published; install from the release archives
 
 ## [1.0.0] - 2026-05-27
 

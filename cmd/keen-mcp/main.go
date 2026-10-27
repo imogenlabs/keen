@@ -11,10 +11,13 @@ import (
 	mcptools "keen/internal/mcp"
 )
 
+// version is stamped at release time by goreleaser.
+var version = "dev"
+
 func main() {
 	s := server.NewMCPServer(
-		"Jira Pp Cli",
-		"1.0.0",
+		"keen",
+		version,
 		server.WithToolCapabilities(false),
 	)
 

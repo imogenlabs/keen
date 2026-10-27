@@ -17,7 +17,7 @@ import (
 	"keen/internal/config"
 )
 
-var version = "1.0.0"
+var version = "dev"
 
 type rootFlags struct {
 	asJSON        bool

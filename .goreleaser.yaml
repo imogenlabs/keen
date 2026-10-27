@@ -20,23 +20,15 @@ builds:
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w
+      - -s -w -X main.version={{ .Version }}
     targets:
       - darwin_arm64
       - linux_amd64
       - linux_arm64
 archives:
   - formats: [tar.gz]
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    # No version in the name, so releases/latest/download/<name> stays a stable URL.
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    wrap_in_directory: true
 checksum:
   name_template: checksums.txt
-brews:
-  - name: keen
-    repository:
-      owner: smashingtags
-      name: homebrew-tap
-    homepage: "https://github.com/imogenlabs/keen"
-    description: "Complete Atlassian platform CLI with MCP server and SQLite sync"
-    install: |
-      bin.install "keen"
-      bin.install "keen-mcp"

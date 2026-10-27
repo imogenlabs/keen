@@ -1,11 +1,21 @@
 # Installation
 
-## Prerequisites
+## Binary Download
 
-- Go 1.26.3 or newer
-- Git
+Prebuilt binaries for macOS (Apple Silicon) and Linux (x86_64, arm64) are on
+[GitHub Releases](https://github.com/imogenlabs/keen/releases/latest). Each
+archive holds both `keen` and `keen-mcp`:
+
+```bash
+curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_arm64.tar.gz | tar xz
+sudo mv keen_darwin_arm64/keen keen_darwin_arm64/keen-mcp /usr/local/bin/
+```
+
+Swap `darwin_arm64` for `linux_amd64` or `linux_arm64` on Linux.
 
 ## From Source
+
+Requires Go 1.26.10 or newer and Git.
 
 ```bash
 git clone https://github.com/imogenlabs/keen.git
@@ -29,7 +39,7 @@ ln -s $(pwd)/keen ~/go/bin/keen
 go build -o keen-mcp ./cmd/keen-mcp/
 ```
 
-The MCP server exposes all 1,091 tools over the Model Context Protocol (stdio transport). Add to your MCP config:
+The MCP server exposes every keen command (1,114 tools) over the Model Context Protocol (stdio transport). Add to your MCP config:
 
 ```json
 {
@@ -47,15 +57,4 @@ The MCP server exposes all 1,091 tools over the Model Context Protocol (stdio tr
 ```bash
 keen doctor
 keen --version
-```
-
-## Batch Install (Printing Press Library CLIs)
-
-To install all 32 CLIs on a machine:
-
-```bash
-# macOS/Linux
-for cli in docker-hub posthog supabase firecrawl youtube spotify hackernews substack wikipedia slack notion chrome-history figma zoom sendgrid resend stripe mercury google-search-console google-ads producthunt beehiiv ahrefs digitalocean x-twitter pushover shopify gumroad open-meteo weather-goat icloud; do
-  go install "github.com/mvanhorn/printing-press-library/library/*/$(echo $cli)/cmd/${cli}-pp-cli@latest" 2>/dev/null || echo "  $cli: skipped"
-done
 ```
