@@ -83,7 +83,7 @@ func newWorkflowschemeReadWorkflowSchemesCmd(flags *rootFlags) *cobra.Command {
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/api/3/task/{taskId}", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/task/{id}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})
