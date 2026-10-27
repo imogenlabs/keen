@@ -6,6 +6,7 @@ package cli
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -58,6 +59,12 @@ func isNilOrEmpty(raw json.RawMessage) bool {
 }
 
 // extractSearchResults unwraps API search responses by checking common envelope paths.
+// textSearchJQL turns free text into a JQL full-text query, newest first.
+func textSearchJQL(query string) string {
+	q := strings.NewReplacer(`\`, `\\`, `"`, `\"`).Replace(query)
+	return `text ~ "` + q + `" ORDER BY updated DESC`
+}
+
 func extractSearchResults(data json.RawMessage) []json.RawMessage {
 	// Try direct array first
 	var items []json.RawMessage
@@ -67,7 +74,7 @@ func extractSearchResults(data json.RawMessage) []json.RawMessage {
 	// Try common wrapper paths: data, results, items
 	var wrapped map[string]json.RawMessage
 	if json.Unmarshal(data, &wrapped) == nil {
-		for _, key := range []string{"data", "results", "items", "records", "entries"} {
+		for _, key := range []string{"issues", "data", "results", "items", "records", "entries"} {
 			if inner, ok := wrapped[key]; ok {
 				if json.Unmarshal(inner, &items) == nil {
 					return items
@@ -111,14 +118,21 @@ In local mode: searches locally synced data only.`,
 				return cmd.Help()
 			}
 			query := args[0]
-			// This API has a search endpoint: GET /rest/api/3/search
+			// Live search is Jira full-text search. /rest/api/3/search was
+			// removed by Atlassian; /search/jql is its replacement.
 			if flags.dataSource != "local" {
 				c, err := flags.newClient()
 				if err != nil {
 					return err
 				}
-				data, getErr := c.Get(cmd.Context(), "/rest/api/3/search", map[string]string{
-					"q": query,
+				maxResults := limit
+				if maxResults <= 0 || maxResults > 100 {
+					maxResults = 50
+				}
+				data, getErr := c.Get(cmd.Context(), "/rest/api/3/search/jql", map[string]string{
+					"jql":        textSearchJQL(query),
+					"fields":     "summary,status,issuetype,assignee,updated",
+					"maxResults": strconv.Itoa(maxResults),
 				})
 				if getErr == nil {
 					// Live search succeeded

@@ -80,7 +80,7 @@ Environment variables work too, and override the file:
 ```bash
 export JIRA_CLOUD_PLATFORM_USERNAME="you@example.com"
 export JIRA_CLOUD_PLATFORM_PASSWORD="your-api-token"
-export JIRA_PP_CLI_BASE_URL="https://yoursite.atlassian.net"
+export JIRA_CLOUD_PLATFORM_URL="https://yoursite.atlassian.net"
 ```
 
 ## Install
@@ -140,7 +140,7 @@ Source: [`docs/diagrams/mcp-flow.drawio`](docs/diagrams/mcp-flow.drawio).
 claude mcp add --transport stdio keen \
   --env JIRA_CLOUD_PLATFORM_USERNAME=you@example.com \
   --env JIRA_CLOUD_PLATFORM_PASSWORD=your-api-token \
-  --env JIRA_PP_CLI_BASE_URL=https://yoursite.atlassian.net \
+  --env JIRA_CLOUD_PLATFORM_URL=https://yoursite.atlassian.net \
   -- keen-mcp
 ```
 
@@ -156,7 +156,7 @@ Add to `.cursor/mcp.json`:
       "env": {
         "JIRA_CLOUD_PLATFORM_USERNAME": "you@example.com",
         "JIRA_CLOUD_PLATFORM_PASSWORD": "your-api-token",
-        "JIRA_PP_CLI_BASE_URL": "https://yoursite.atlassian.net"
+        "JIRA_CLOUD_PLATFORM_URL": "https://yoursite.atlassian.net"
       }
     }
   }

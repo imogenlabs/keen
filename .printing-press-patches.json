@@ -90,6 +90,19 @@
       "reason": "keen projects create silently ran GET /rest/api/3/projects/fields and ignored 'create'.",
       "files": ["internal/cli/aliases.go", "internal/cli/aliases_test.go", "internal/cli/root.go"],
       "validated_outcome": "keen projects create exits 2 with: did you mean \"keen project create\"?"
+    },
+    {
+      "id": "search-jql",
+      "summary": "keen search uses GET /rest/api/3/search/jql with a text ~ query.",
+      "reason": "The generated live search called /rest/api/3/search, which Atlassian removed (HTTP 410), with a q parameter Jira never read.",
+      "files": ["internal/cli/search.go", "internal/cli/search_jql_test.go"],
+      "validated_outcome": "keen search 'release sync' returns live KEEN issues."
+    },
+    {
+      "id": "keen-naming",
+      "summary": "Root help text and tools-manifest.json name the tool keen.",
+      "reason": "Generated text still said 'Manage keen resources via the keen API' and api_name jira-pp-cli.",
+      "files": ["internal/cli/root.go", "tools-manifest.json", "SKILL.md"]
     }
   ]
 }

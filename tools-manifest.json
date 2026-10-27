@@ -1,7 +1,7 @@
 {
-  "api_name": "jira-pp-cli",
+  "api_name": "keen",
   "base_url": "https://your-domain.atlassian.net",
-  "description": "Combined CLI for multiple API services",
+  "description": "Jira, Jira Agile, Confluence, Service Desk, Marketplace and Atlassian Admin",
   "mcp_ready": "full",
   "http_transport": "standard",
   "auth": {
