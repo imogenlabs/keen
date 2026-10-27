@@ -55,6 +55,13 @@
           "reason": "The slug-derived display name and a hardcoded 1.0.0 survived the rename"
         }
       ]
+    },
+    {
+      "id": "mcp-credentials",
+      "summary": "keen-mcp uses the CLI's config lookup; JIRA_CLOUD_PLATFORM_URL sets the base URL.",
+      "reason": "newMCPClient passed an explicit config.toml path, which skipped the auth.json lookup in config.Load. JIRA_CLOUD_PLATFORM_URL was documented but read nowhere.",
+      "files": ["internal/mcp/tools.go", "internal/config/config.go", "internal/config/config_test.go"],
+      "validated_outcome": "Clean-HOME credential matrix: auth.json, cloud_platform_* config.toml, and both env layouts pass for keen and keen-mcp."
     }
   ]
 }

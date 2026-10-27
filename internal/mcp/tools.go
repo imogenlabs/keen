@@ -13318,9 +13318,8 @@ func makeAPIHandler(method, pathTemplate string, readOnly bool, binaryResponse b
 }
 
 func newMCPClient() (*client.Client, error) {
-	home, _ := os.UserHomeDir()
-	cfgPath := filepath.Join(home, ".config", "keen", "config.toml")
-	cfg, err := config.Load(cfgPath)
+	// An empty path gives the CLI's lookup order, auth.json included.
+	cfg, err := config.Load("")
 	if err != nil {
 		return nil, fmt.Errorf("loading config: %w", err)
 	}

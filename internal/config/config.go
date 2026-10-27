@@ -100,7 +100,12 @@ func Load(configPath string) (*Config, error) {
 		cfg.AuthSource = "config"
 	}
 
-	// Base URL override (used by printing-press verify to point at mock/test servers)
+	// Base URL override (used by printing-press verify to point at mock/test servers).
+	// JIRA_CLOUD_PLATFORM_URL matches the USERNAME/PASSWORD variable names;
+	// JIRA_PP_CLI_BASE_URL wins when both are set.
+	if v := os.Getenv("JIRA_CLOUD_PLATFORM_URL"); v != "" {
+		cfg.BaseURL = v
+	}
 	if v := os.Getenv("JIRA_PP_CLI_BASE_URL"); v != "" {
 		cfg.BaseURL = v
 	}

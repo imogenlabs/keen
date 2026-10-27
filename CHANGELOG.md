@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `keen-mcp` reads `~/.config/keen/auth.json` like the CLI does; before, it only looked at `config.toml` and environment variables
+- `JIRA_CLOUD_PLATFORM_URL` sets the site URL, matching the username and password variables. `JIRA_PP_CLI_BASE_URL` still works and wins if both are set
+
 ## [1.1.0] - 2026-10-27
 
 ### Added

@@ -132,7 +132,7 @@ Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cach
 
 Source: [`docs/diagrams/mcp-flow.drawio`](docs/diagrams/mcp-flow.drawio).
 
-`keen-mcp` reads its credentials from environment variables. It does not read `~/.config/keen/auth.json` yet, so pass them in the server's `env`.
+`keen-mcp` finds credentials the same way the CLI does: environment variables first, then `~/.config/keen/auth.json` or `config.toml`. If you already set up the CLI, `claude mcp add --transport stdio keen -- keen-mcp` is enough. To pass them explicitly instead:
 
 ### Claude Code
 
