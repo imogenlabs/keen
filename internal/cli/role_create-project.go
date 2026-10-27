@@ -20,7 +20,7 @@ func newRoleCreateProjectCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-project",
 		Aliases:     []string{"create"},
-		Short:       "Creates a new project role with no [default actors](#api-rest-api-2-resolution-get).",
+		Short:       "Creates a new project role with no [default actors](#api-rest-api-3-resolution-get).",
 		Example:     "  keen role create-project",
 		Annotations: map[string]string{"pp:endpoint": "role.create-project", "pp:method": "POST", "pp:path": "/rest/api/3/role"},
 		RunE: func(cmd *cobra.Command, args []string) error {

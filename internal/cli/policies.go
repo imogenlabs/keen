@@ -10,17 +10,17 @@ import (
 func newPoliciesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:    "policies",
-		Short:  "Get, create, update, and delete policies",
+		Short:  "This resource represents policies.",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newPoliciesCreatePolicyCmd(flags))
-	cmd.AddCommand(newPoliciesDeletePolicyCmd(flags))
-	cmd.AddCommand(newPoliciesGetCmd(flags))
-	cmd.AddCommand(newPoliciesGetPolicyByIdCmd(flags))
-	cmd.AddCommand(newPoliciesUpdatePolicyCmd(flags))
-	cmd.AddCommand(newPoliciesResourcesCmd(flags))
-	cmd.AddCommand(newPoliciesValidateCmd(flags))
+	cmd.AddCommand(newPoliciesGetPolicyStateCmd(flags))
+	cmd.AddCommand(newPoliciesGetProjectRulesCmd(flags))
+	cmd.AddCommand(newPoliciesListCmd(flags))
+	cmd.AddCommand(newPoliciesSetProjectCmd(flags))
+	cmd.AddCommand(newPoliciesValidatePolicyApplicationCmd(flags))
+	cmd.AddCommand(newPoliciesApplyCmd(flags))
+	cmd.AddCommand(newPoliciesRemoveCmd(flags))
 	return cmd
 }

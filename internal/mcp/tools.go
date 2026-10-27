@@ -908,6 +908,28 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/watch", false, false, nil, []mcpParamBinding{{PublicName: "addonKey", WireName: "addonKey", Location: "path"}, {PublicName: "_links", WireName: "_links", Location: "body"}, {PublicName: "state", WireName: "state", Location: "body"}}, []string{"addonKey"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("agents_start-batch",
+			mcplib.WithDescription("Starts agent sessions for a batch of issues, with an agent and optional prompt specified per invocation. You can submit between 1 and 50 invocations in one request, including multiple invocations for the same issue. Supply numeric issue-ID strings and Rovo agent IDs. Session-start outcomes are returned inline; the agent's work continues asynchronously. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("clientMutationId", mcplib.Required(), mcplib.Description("Caller-supplied UUID")),
+			mcplib.WithString("invocations", mcplib.Required(), mcplib.Description("Between 1 and 50 invocations. Request IDs must be unique within the request.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/agents/bulk/invoke/batch", false, false, nil, []mcpParamBinding{{PublicName: "clientMutationId", WireName: "clientMutationId", Location: "body"}, {PublicName: "invocations", WireName: "invocations", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("agents_start-uniform",
+			mcplib.WithDescription("Starts the same agent on between 1 and 50 issues, with an optional prompt shared by every invocation. Supply numeric issue-ID strings, and a Rovo agent ID. Session-start outcomes are returned inline; the agent's work continues asynchronously. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("agentId", mcplib.Required(), mcplib.Description("Rovo agent ID.")),
+			mcplib.WithString("clientMutationId", mcplib.Required(), mcplib.Description("Caller-supplied UUID.")),
+			mcplib.WithString("issueIds", mcplib.Required(), mcplib.Description("Between 1 and 50 numeric issue-ID strings. IDs must be unique.")),
+			mcplib.WithString("userPrompt", mcplib.Description("Optional prompt applied to every issue.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/agents/bulk/invoke/uniform", false, false, nil, []mcpParamBinding{{PublicName: "agentId", WireName: "agentId", Location: "body"}, {PublicName: "clientMutationId", WireName: "clientMutationId", Location: "body"}, {PublicName: "issueIds", WireName: "issueIds", Location: "body"}, {PublicName: "userPrompt", WireName: "userPrompt", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
 		mcplib.NewTool("agile_create-board",
 			mcplib.WithDescription("Creates a new board. Board name, type and filter ID is required. * `name` - Must be less than 255 characters. * `type` - Valid values: scrum, kanban * `filterId` - ID of a filter that the user has permissions to view. Note, if the user does not have the 'Create shared objects' permission and tries to create a shared board, a private board will be created instead (remember that board sharing depends on the filter sharing). * `location` - The container that the board will be located in. `location` must include the `type` property (Valid values: project, user). If choosing 'project', then a project must be specified by a `projectKeyOrId` property in `location`. If choosing 'user', the current user is chosen by default. The `projectKeyOrId` property should not be provided. Note: * If you want to create a new project with an associated board, use the [Jira platform REST API](https://docs.atlassian.com/jira/REST/latest). For more information, see the [Create project](#api-rest-api-3-project-post) method. The `projectTypeKey` for software boards must be 'software' and the `projectTemplateKey` must be either `com.pyxis.greenhopper.jira:gh-kanban-template` or `com.pyxis.greenhopper.jira:gh-scrum-template`. * You can create a filter using the [Jira REST API](https://docs.atlassian.com/jira/REST/latest). For more information, see the [Create filter](#api-rest-api-3-filter-post) method. * If you do not ORDER BY the Rank field for the filter of your board, you will not be able to reorder issues on the board. Optional: filterId, location, name (plus 1 more). Returns the new AgileCreateBoardResponse."),
 			mcplib.WithNumber("filterId", mcplib.Description("Filter id")),
@@ -1616,65 +1638,6 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "/rest/api/3/app/field/value", false, false, nil, []mcpParamBinding{{PublicName: "generateChangelog", WireName: "generateChangelog", Location: "query"}, {PublicName: "generateAppEvents", WireName: "generateAppEvents", Location: "query"}, {PublicName: "updates", WireName: "updates", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("app-access-settings_create-domain",
-			mcplib.WithDescription("Registers a new approved-domain configuration for your organization, including the initial per-product configuration. Returns `201 Created` with the new configuration and a `Location` header pointing at the newly created resource. Use `ANYONE` as the domain to control access for users with any email address. Required: orgId, adminNotifications, domain, products."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithBoolean("adminNotifications", mcplib.Required(), mcplib.Description("Whether org admins should be notified when users join via this domain.")),
-			mcplib.WithString("domain", mcplib.Required(), mcplib.Description("The domain name (e.g. `example.com`). Use `ANYONE` to control access for users with any email address.")),
-			mcplib.WithString("products", mcplib.Required(), mcplib.Description("Initial per-product configuration for the new domain.")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "adminNotifications", WireName: "adminNotifications", Location: "body"}, {PublicName: "domain", WireName: "domain", Location: "body"}, {PublicName: "products", WireName: "products", Location: "body"}}, []string{"orgId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("app-access-settings_get-domain",
-			mcplib.WithDescription("Returns the app access settings configuration for a specific domain in your organization. Use `ANYONE` as the domain value to retrieve settings for users with any email address (no domain restriction). Required: orgId, domain."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("domain", mcplib.Required(), mcplib.Description("The domain name to retrieve settings for (e.g., `example.com`).")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains/{domain}", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "domain", WireName: "domain", Location: "path"}}, []string{"orgId", "domain"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("app-access-settings_list-domains",
-			mcplib.WithDescription("Returns a paginated list of domain configurations for your organization's app access settings. Each domain can be configured to control who can access apps in your organization. Results are returned in alphabetical order by domain name. Use the `cursor` parameter to paginate through results. The special domain `ANYONE` represents users with any email address (no domain restriction). Required: orgId. Optional: cursor, limit (default: 20)."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("cursor", mcplib.Description("An opaque cursor string returned in the `links.next` field of a previous response.")),
-			mcplib.WithNumber("limit", mcplib.Description("The maximum number of results to return per page. Must be between 1 and 100. Defaults to 20.")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}}, []string{"orgId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("app-access-settings_replace-domain",
-			mcplib.WithDescription("Replaces the full per-product configuration for a domain. Any product that was previously configured but is **not** in the request body will be removed. For partial updates (e.g. add or change a single product without disturbing the others), use `POST /v2/orgs/{orgId}/app-access-settings/domains/{domain}/products`. Required: orgId, domain, adminNotifications, products. Returns the updated AppAccessSettingsDomainDetail."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("domain", mcplib.Required(), mcplib.Description("Domain")),
-			mcplib.WithBoolean("adminNotifications", mcplib.Required(), mcplib.Description("Whether org admins should be notified when users join via this domain.")),
-			mcplib.WithString("products", mcplib.Required(), mcplib.Description("Full list of per-product configurations. Replaces (not merges) any existing config.")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains/{domain}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "domain", WireName: "domain", Location: "path"}, {PublicName: "adminNotifications", WireName: "adminNotifications", Location: "body"}, {PublicName: "products", WireName: "products", Location: "body"}}, []string{"orgId", "domain"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("app-access-settings_upsert-product",
-			mcplib.WithDescription("Adds or replaces a single product's access configuration on a domain. Other products configured on the domain are left untouched (this is a partial update). Use this endpoint when you want to configure or change one product without re-sending the entire product list. Required: orgId, domain, productId. Optional: adminApprovalRequired (default: false), role. Returns the new AppAccessSettingsDomainDetail."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("domain", mcplib.Required(), mcplib.Description("Domain")),
-			mcplib.WithBoolean("adminApprovalRequired", mcplib.Description("Whether org admins must approve the access request before users in this domain gain access to this product.")),
-			mcplib.WithString("productId", mcplib.Required(), mcplib.Description("The ARI (Atlassian Resource Identifier) of the product.")),
-			mcplib.WithString("role", mcplib.Description("The default role ARI assigned to users matching this domain for this product.")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains/{domain}/products", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "domain", WireName: "domain", Location: "path"}, {PublicName: "adminApprovalRequired", WireName: "adminApprovalRequired", Location: "body"}, {PublicName: "productId", WireName: "productId", Location: "body"}, {PublicName: "role", WireName: "role", Location: "body"}}, []string{"orgId", "domain"}),
-	)
-	s.AddTool(
 		mcplib.NewTool("application-properties_get-advanced-settings",
 			mcplib.WithDescription("Returns the application properties that are accessible on the *Advanced Settings* page. To navigate to the *Advanced Settings* page in Jira, choose the Jira icon > **Jira settings** > **System**, **General Configuration** and then click **Advanced Settings** (in the upper right). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -1685,7 +1648,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("application-properties_get-application-property",
-			mcplib.WithDescription("Returns all application properties or an application property. If you specify a value for the `key` parameter, then an application property is returned as an object (not in an array). Otherwise, an array of all editable application properties is returned. See [Set application property](#api-rest-api-2-application-properties-id-put) for descriptions of editable properties. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Returns all application properties or an application property. If you specify a value for the `key` parameter, then an application property is returned as an object (not in an array). Otherwise, an array of all editable application properties is returned. See [Set application property](#api-rest-api-3-application-properties-id-put) for descriptions of editable properties. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("key", mcplib.Description("The key of the application property.")),
 			mcplib.WithString("permissionLevel", mcplib.Description("The permission level of all items being returned in the list.")),
 			mcplib.WithString("keyFilter", mcplib.Description("When a `key` isn't provided")),
@@ -1848,7 +1811,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("atlassian-access-events_get",
-			mcplib.WithDescription("Returns a filtered list of audit log events for an organization. Use this endpoint for more granular and detailed querying. If you simply need to paginate through all events, consider using the [/events-stream](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/#api-v1-orgs-orgid-events-stream-get) endpoint. These rate limits for this endpoint be lowered effective end of May 2025 as follows: - *Rate limit per user*: *10* requests per minute - *Rate limit per API path*: *10* requests per minute Please migrate to the polling API to guarantee uninterrupted service for use cases involving a high request rate. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:events:admin`."),
+			mcplib.WithDescription("Returns a filtered list of audit log events for an organization. Use this endpoint for more granular and detailed querying. If you simply need to paginate through all events, consider using the [/events-stream](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/#api-v1-orgs-orgid-events-stream-get) endpoint. These rate limits for this endpoint be lowered effective end of May 2025 as follows: - *Rate limit per user*: *10* requests per minute - *Rate limit per API path*: *10* requests per minute Please migrate to the polling API to guarantee uninterrupted service for use cases involving a high request rate. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:events:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return")),
 			mcplib.WithString("q", mcplib.Description("Single query term for searching events.")),
@@ -1868,7 +1831,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("atlassian-access-events_get-by-id",
-			mcplib.WithDescription("Returns information about a single event by ID. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:events:admin`."),
+			mcplib.WithDescription("**This API is deprecated. Requests to it fail starting December 21, 2026.** Use the [Get events endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/#api-v1-orgs-orgid-events-get) or the [Poll events endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/#api-v1-orgs-orgid-events-stream-get) instead; both return the same event fields. See [Migrate from the single-event lookup](/cloud/admin/organization/event-by-id-deprecation/) for guidance. Returns information about a single event by ID. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:events:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("eventId", mcplib.Required(), mcplib.Description("ID of the event to return")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -1878,35 +1841,107 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/events/{eventId}", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "eventId", WireName: "eventId", Location: "path"}}, []string{"orgId", "eventId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("atlassian-access-groups_search",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [Get groups in an organization endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-groups/#api-v2-orgs-orgid-directories-directoryid-groups-get) instead. **The API is available for customers using the new user management experience only. [How the new user management experience works](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592)** Returns a list of groups within an organization, offering search functionality through multiple parameters for more precise results. Required: orgId. Optional: cursor, expand, groupIds (plus 2 more)."),
+		mcplib.NewTool("atlassian-access-policies_create-policy",
+			mcplib.WithDescription("Create a policy for an org. Required: orgId. Optional: data. Returns the new Policy."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("cursor", mcplib.Description("Cursor specifying the starting point for page result retrieval.")),
-			mcplib.WithString("expand", mcplib.Description("Indicates the user information fields to include in the response.")),
-			mcplib.WithString("groupIds", mcplib.Description("Unique ID that serves as reference to the group.")),
-			mcplib.WithString("groupNames", mcplib.Description("Group names")),
-			mcplib.WithNumber("limit", mcplib.Description("The number of items to return. Default = max = 1000")),
+			mcplib.WithString("data", mcplib.Description("Data")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "data", WireName: "data", Location: "body"}}, []string{"orgId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("atlassian-access-policies_delete-policy",
+			mcplib.WithDescription("Delete a policy for an org. Required: orgId, policyId. Destructive."),
+			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to delete")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("atlassian-access-policies_get",
+			mcplib.WithDescription("Returns information about org policies. Required: orgId. Optional: cursor, type."),
+			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
+			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return.")),
+			mcplib.WithString("type", mcplib.Description("Sets the type for the page of policies to return.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/groups/search", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "groupIds", WireName: "groupIds", Location: "body"}, {PublicName: "groupNames", WireName: "groupNames", Location: "body"}, {PublicName: "limit", WireName: "limit", Location: "body"}}, []string{"orgId"}),
+		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "type", WireName: "type", Location: "query"}}, []string{"orgId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("atlassian-access-users_create",
-			mcplib.WithDescription("**The API is presently accessible exclusively to customers who hold a paid subscription.** **The API is available for customers using the [new user management experience only](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592)**. This API will: - invite user to org and add them to the directory - assign a role for a given resource - send email if the sendNotification field is set true with optional custom message for the email This API will not: - add users to group. Required: orgId, email. Optional: notificationText, permissionRule, sendNotification (default: false). Returns array of string."),
+		mcplib.NewTool("atlassian-access-policies_get-policy-by-id",
+			mcplib.WithDescription("Returns information about a single policy by ID. Required: orgId, policyId."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("email", mcplib.Required(), mcplib.Description("Email")),
-			mcplib.WithString("notificationText", mcplib.Description("Notification text")),
-			mcplib.WithString("permissionRule", mcplib.Description("Permission rule")),
-			mcplib.WithBoolean("sendNotification", mcplib.Description("Send notification")),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to query")),
+			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/users/invite", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "email", WireName: "email", Location: "body"}, {PublicName: "notificationText", WireName: "notificationText", Location: "body"}, {PublicName: "permissionRule", WireName: "permissionRule", Location: "body"}, {PublicName: "sendNotification", WireName: "sendNotification", Location: "body"}}, []string{"orgId"}),
+		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("atlassian-access-users_create-orgs",
+		mcplib.NewTool("atlassian-access-policies_update-policy",
+			mcplib.WithDescription("Update a policy for an org. Required: orgId, policyId. Optional: data. Returns the updated Policy."),
+			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to update")),
+			mcplib.WithString("data", mcplib.Description("Data")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "data", WireName: "data", Location: "body"}}, []string{"orgId", "policyId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("atlassian-access-policies_resources_add-to-policy",
+			mcplib.WithDescription("Adds a resource to an existing Policy. Required: orgId, policyId, id. Optional: links, meta. Returns the new Policy."),
+			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to query")),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
+			mcplib.WithString("links", mcplib.Description("Links")),
+			mcplib.WithString("meta", mcplib.Description("Meta")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/resources", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "meta", WireName: "meta", Location: "body"}}, []string{"orgId", "policyId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("atlassian-access-policies_resources_delete-policy",
+			mcplib.WithDescription("Delete an existing Policy Resource. Required: orgId, policyId, resourceId. Returns the Policy. Destructive."),
+			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to query")),
+			mcplib.WithString("resourceId", mcplib.Required(), mcplib.Description("Resource ID")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "path"}}, []string{"orgId", "policyId", "resourceId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("atlassian-access-policies_resources_update-policy",
+			mcplib.WithDescription("Update an existing Policy Resource. Required: orgId, policyId, resourceId. Optional: links, meta. Returns the updated Policy."),
+			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to query")),
+			mcplib.WithString("resourceId", mcplib.Required(), mcplib.Description("Resource ID")),
+			mcplib.WithString("links", mcplib.Description("Links")),
+			mcplib.WithString("meta", mcplib.Description("Meta")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "path"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "meta", WireName: "meta", Location: "body"}}, []string{"orgId", "policyId", "resourceId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("atlassian-access-policies_validate_policy",
+			mcplib.WithDescription("Validate a policy based on specific requirements. For example, Trigger CDEN validation by pushing a task into the SQS dns-validation queue. Required: orgId, policyId."),
+			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Policy ID")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/validate", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("atlassian-access-users_create",
 			mcplib.WithDescription("Invite people to your organization. When you invite someone: - they’re given app roles according to your invitation. - they’re added to directories based on apps in your invitation. - they’re added to groups according to your invitation. - they receive an email invitation if the `sendNotification` field is set to `true` and the `notificationText` field contains a message to include in the email invitation. **This API is only available to customers who have at least one paid subscription in their organization.**. Required: orgId, emails. Optional: additionalGroups, notificationText, permissionRules (plus 1 more). Returns array of AdminInviteResponse."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("additionalGroups", mcplib.Description("The groups you want to add users to from this invitation. Use the [Get groups in an organization](https://developer.")),
@@ -1921,7 +1956,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("atlassian-access-users_get",
-			mcplib.WithDescription("Returns a list of managed accounts in an organization. Required: orgId. Optional: cursor."),
+			mcplib.WithDescription("Returns a list of managed accounts in an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:accounts:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -1929,26 +1964,6 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/users", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}}, []string{"orgId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("atlassian-access-users_search",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [Get users in an organization endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-v2-orgs-orgid-directories-directoryid-users-get) instead. **The API is available for customers using the new user management experience only. [How the new user management experience works](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592)** Returns a list of users within an organization, offering search functionality through multiple parameters for more precise results. Required: orgId. Optional: accountIds, accountStatuses, accountTypes (plus 7 more)."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("accountIds", mcplib.Description("Unique ID of the users account. The format is [a-zA-Z0-9_|-:]{1,128}")),
-			mcplib.WithString("accountStatuses", mcplib.Description("The lifecycle status of the account")),
-			mcplib.WithString("accountTypes", mcplib.Description("The type of account")),
-			mcplib.WithString("cursor", mcplib.Description("Starting point marker for page result retrieval")),
-			mcplib.WithString("emailDomains", mcplib.Description("Email domains")),
-			mcplib.WithString("emailUsernames", mcplib.Description("Email usernames")),
-			mcplib.WithString("expand", mcplib.Description("Indicates the user information fields to include in the response.")),
-			mcplib.WithBoolean("isSuspended", mcplib.Description("Suspended users with no access. This is independent of the user account status")),
-			mcplib.WithNumber("limit", mcplib.Description("The number of items to return. Default = max = 10000")),
-			mcplib.WithString("namesOrNicknames", mcplib.Description("Names or nicknames")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/users/search", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "accountIds", WireName: "accountIds", Location: "body"}, {PublicName: "accountStatuses", WireName: "accountStatuses", Location: "body"}, {PublicName: "accountTypes", WireName: "accountTypes", Location: "body"}, {PublicName: "cursor", WireName: "cursor", Location: "body"}, {PublicName: "emailDomains", WireName: "emailDomains", Location: "body"}, {PublicName: "emailUsernames", WireName: "emailUsernames", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "isSuspended", WireName: "isSuspended", Location: "body"}, {PublicName: "limit", WireName: "limit", Location: "body"}, {PublicName: "namesOrNicknames", WireName: "namesOrNicknames", Location: "body"}}, []string{"orgId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("atlassian-access-users_role-assignments_create",
@@ -1974,7 +1989,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("atlassian-access-users_roles_assign",
-			mcplib.WithDescription("**The API is available for customers using the [new user management experience only](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592)**. This API can be used to grant Platform Roles to a user. Required: orgId, userId, role. Optional: resource."),
+			mcplib.WithDescription("This API can be used to grant Platform Roles to a user. Required: orgId, userId, role. Optional: resource."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("userId", mcplib.Required(), mcplib.Description("The UserId on which the action(Role Assign) needs to happen.")),
 			mcplib.WithString("resource", mcplib.Description("Use the [Get Workspaces API](https://developer.atlassian.")),
@@ -1986,7 +2001,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("atlassian-access-users_roles_revoke",
-			mcplib.WithDescription("**The API is available for customers using the [new user management experience only](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592)**. This API can be used to revoke Platform Roles from a user. Required: orgId, userId, role. Optional: resource."),
+			mcplib.WithDescription("This API can be used to revoke Platform Roles from a user. Required: orgId, userId, role. Optional: resource."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("userId", mcplib.Required(), mcplib.Description("The UserId on which the action(Role Revoke) needs to happen.")),
 			mcplib.WithString("resource", mcplib.Description("Use the [Get Workspaces API](https://developer.atlassian.")),
@@ -2060,10 +2075,11 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDescription("Submits a request to trigger migration of connect issue field to its Forge custom field counterpart. When migrating a Connect app to Forge, [Issue Field](https://developer.atlassian.com/cloud/jira/software/modules/issue-field/) modules must be converted to [Custom field](https://developer.atlassian.com/platform/forge/manifest-reference/modules/jira-custom-field/) modules. This endpoint triggers the background migration of field data. Use the GET endpoint to retrieve the status and progress of the task. For more details, see [Jira modules > Jira Custom Fields](https://developer.atlassian.com/platform/adopting-forge-from-connect/migrate-jira-custom-fields/). **[Permissions](#permissions) required:** Only Connect and Forge apps can make this request."),
 			mcplib.WithString("connectKey", mcplib.Required(), mcplib.Description("The key of the Connect app that contains the Jira issue field being migrated.")),
 			mcplib.WithString("jiraIssueFieldsKey", mcplib.Required(), mcplib.Description("The module key of the Connect issue field being migrated.")),
+			mcplib.WithBoolean("retriggerCompletedMigration", mcplib.Description("Whether to retrigger the migration if it has already completed.")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/atlassian-connect/1/migration/{connectKey}/{jiraIssueFieldsKey}/task", false, false, nil, []mcpParamBinding{{PublicName: "connectKey", WireName: "connectKey", Location: "path"}, {PublicName: "jiraIssueFieldsKey", WireName: "jiraIssueFieldsKey", Location: "path"}}, []string{"connectKey", "jiraIssueFieldsKey"}),
+		makeAPIHandler("POST", "/rest/atlassian-connect/1/migration/{connectKey}/{jiraIssueFieldsKey}/task", false, false, nil, []mcpParamBinding{{PublicName: "connectKey", WireName: "connectKey", Location: "path"}, {PublicName: "jiraIssueFieldsKey", WireName: "jiraIssueFieldsKey", Location: "path"}, {PublicName: "retriggerCompletedMigration", WireName: "retriggerCompletedMigration", Location: "query"}}, []string{"connectKey", "jiraIssueFieldsKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("atlassian-connect_dynamic-modules-resource-get-modules-get",
@@ -2134,7 +2150,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_get-content",
-			mcplib.WithDescription("Returns the contents of an attachment. A `Range` header can be set to define a range of bytes within the attachment to download. See the [HTTP Range header standard](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range) for details. To return a thumbnail of the attachment, use [Get attachment thumbnail](#api-rest-api-2-attachment-thumbnail-id-get). This operation can be accessed anonymously. **[Permissions](#permissions) required:** For the issue containing the attachment: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If attachments are added in private comments, the comment-level restriction will be applied. (public)"),
+			mcplib.WithDescription("Returns the contents of an attachment. A `Range` header can be set to define a range of bytes within the attachment to download. See the [HTTP Range header standard](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range) for details. To return a thumbnail of the attachment, use [Get attachment thumbnail](#api-rest-api-3-attachment-thumbnail-id-get). This operation can be accessed anonymously. **[Permissions](#permissions) required:** For the issue containing the attachment: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If attachments are added in private comments, the comment-level restriction will be applied. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the attachment.")),
 			mcplib.WithBoolean("redirect", mcplib.Description("Whether a redirect is provided for the attachment download.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -2154,7 +2170,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_get-thumbnail",
-			mcplib.WithDescription("Returns the thumbnail of an attachment. To return the attachment contents, use [Get attachment content](#api-rest-api-2-attachment-content-id-get). This operation can be accessed anonymously. **[Permissions](#permissions) required:** For the issue containing the attachment: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If attachments are added in private comments, the comment-level restriction will be applied. (public)"),
+			mcplib.WithDescription("Returns the thumbnail of an attachment. To return the attachment contents, use [Get attachment content](#api-rest-api-3-attachment-content-id-get). This operation can be accessed anonymously. **[Permissions](#permissions) required:** For the issue containing the attachment: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If attachments are added in private comments, the comment-level restriction will be applied. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the attachment.")),
 			mcplib.WithBoolean("redirect", mcplib.Description("Whether a redirect is provided for the attachment download.")),
 			mcplib.WithBoolean("fallbackToDefault", mcplib.Description("Whether a default thumbnail is returned when the requested thumbnail is not found.")),
@@ -2177,7 +2193,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_expand_attachment-for-humans",
-			mcplib.WithDescription("Returns the metadata for the contents of an attachment, if it is an archive, and metadata for the attachment itself. For example, if the attachment is a ZIP archive, then information about the files in the archive is returned and metadata for the ZIP archive. Currently, only the ZIP archive format is supported. Use this operation to retrieve data that is presented to the user, as this operation returns the metadata for the attachment itself, such as the attachment's ID and name. Otherwise, use [ Get contents metadata for an expanded attachment](#api-rest-api-2-attachment-id-expand-raw-get), which only returns the metadata for the attachment's contents. This operation can be accessed anonymously. **[Permissions](#permissions) required:** For the issue containing the attachment: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If attachments are added in private comments, the comment-level restriction will be applied. (public)"),
+			mcplib.WithDescription("Returns the metadata for the contents of an attachment, if it is an archive, and metadata for the attachment itself. For example, if the attachment is a ZIP archive, then information about the files in the archive is returned and metadata for the ZIP archive. Currently, only the ZIP archive format is supported. Use this operation to retrieve data that is presented to the user, as this operation returns the metadata for the attachment itself, such as the attachment's ID and name. Otherwise, use [ Get contents metadata for an expanded attachment](#api-rest-api-3-attachment-id-expand-raw-get), which only returns the metadata for the attachment's contents. This operation can be accessed anonymously. **[Permissions](#permissions) required:** For the issue containing the attachment: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If attachments are added in private comments, the comment-level restriction will be applied. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the attachment.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -2187,7 +2203,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("attachment_expand_attachment-for-machines",
-			mcplib.WithDescription("Returns the metadata for the contents of an attachment, if it is an archive. For example, if the attachment is a ZIP archive, then information about the files in the archive is returned. Currently, only the ZIP archive format is supported. Use this operation if you are processing the data without presenting it to the user, as this operation only returns the metadata for the contents of the attachment. Otherwise, to retrieve data to present to the user, use [ Get all metadata for an expanded attachment](#api-rest-api-2-attachment-id-expand-human-get) which also returns the metadata for the attachment itself, such as the attachment's ID and name. This operation can be accessed anonymously. **[Permissions](#permissions) required:** For the issue containing the attachment: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If attachments are added in private comments, the comment-level restriction will be applied. (public)"),
+			mcplib.WithDescription("Returns the metadata for the contents of an attachment, if it is an archive. For example, if the attachment is a ZIP archive, then information about the files in the archive is returned. Currently, only the ZIP archive format is supported. Use this operation if you are processing the data without presenting it to the user, as this operation only returns the metadata for the contents of the attachment. Otherwise, to retrieve data to present to the user, use [ Get all metadata for an expanded attachment](#api-rest-api-3-attachment-id-expand-human-get) which also returns the metadata for the attachment itself, such as the attachment's ID and name. This operation can be accessed anonymously. **[Permissions](#permissions) required:** For the issue containing the attachment: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * If attachments are added in private comments, the comment-level restriction will be applied. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the attachment.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -2260,6 +2276,101 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("POST", "/rest/builds/0.1/bulk", false, false, nil, []mcpParamBinding{{PublicName: "builds", WireName: "builds", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "providerMetadata", WireName: "providerMetadata", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_get-available-transitions",
+			mcplib.WithDescription("Use this API to retrieve a list of transitions available for the specified issues that can be used or bulk transition operations. You can submit either single or multiple issues in the query to obtain the available transitions. The response will provide the available transitions for issues, organized by their respective workflows. **Only the transitions that are common among the issues within that workflow and do not involve any additional field updates will be included.** For bulk transitions that require additional field updates, please utilise the Jira Cloud UI. You can request available transitions for up to 1,000 issues in a single operation. This API uses pagination to return responses, delivering 50 workflows at a time. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Transition [issues permission](https://support.atlassian.com/jira-cloud-administration/docs/permissions-for-company-managed-projects/#Transition-issues/) in all projects that contain the selected issues. * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("issueIdsOrKeys", mcplib.Required(), mcplib.Description("Comma (,) separated Ids or keys of the issues to get transitions available for them.")),
+			mcplib.WithString("endingBefore", mcplib.Description("(Optional)The end cursor for use in pagination.")),
+			mcplib.WithString("startingAfter", mcplib.Description("(Optional)The start cursor for use in pagination.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/rest/api/3/bulk/issues/transition", true, false, nil, []mcpParamBinding{{PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "query"}, {PublicName: "endingBefore", WireName: "endingBefore", Location: "query"}, {PublicName: "startingAfter", WireName: "startingAfter", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_get-editable-fields",
+			mcplib.WithDescription("Use this API to get a list of fields visible to the user to perform bulk edit operations. You can pass single or multiple issues in the query to get eligible editable fields. This API uses pagination to return responses, delivering 50 fields at a time. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * Depending on the field, any field-specific permissions required to edit it."),
+			mcplib.WithString("issueIdsOrKeys", mcplib.Required(), mcplib.Description("The IDs or keys of the issues to get editable fields from.")),
+			mcplib.WithString("searchText", mcplib.Description("(Optional)The text to search for in the editable fields.")),
+			mcplib.WithString("endingBefore", mcplib.Description("(Optional)The end cursor for use in pagination.")),
+			mcplib.WithString("startingAfter", mcplib.Description("(Optional)The start cursor for use in pagination.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/rest/api/3/bulk/issues/fields", true, false, nil, []mcpParamBinding{{PublicName: "issueIdsOrKeys", WireName: "issueIdsOrKeys", Location: "query"}, {PublicName: "searchText", WireName: "searchText", Location: "query"}, {PublicName: "endingBefore", WireName: "endingBefore", Location: "query"}, {PublicName: "startingAfter", WireName: "startingAfter", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_get-operation-progress",
+			mcplib.WithDescription("Use this to get the progress state for the specified bulk operation `taskId`. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). If the task is running, this resource will return: {'taskId':'10779','status':'RUNNING','progressPercent':65,'submittedBy':{'accountId':'5b10a2844c20165700ede21g'},'created':1690180055963,'started':1690180056206,'updated':169018005829} If the task has completed, then this resource will return: {'processedAccessibleIssues':[10001,10002],'created':1709189449954,'progressPercent':100,'started':1709189450154,'status':'COMPLETE','submittedBy':{'accountId':'5b10a2844c20165700ede21g'},'invalidOrInaccessibleIssueCount':0,'taskId':'10000','totalIssueCount':2,'updated':1709189450354} **Note:** You can view task progress for up to 14 days from creation."),
+			mcplib.WithString("taskId", mcplib.Required(), mcplib.Description("The ID of the task.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/rest/api/3/bulk/queue/{taskId}", true, false, nil, []mcpParamBinding{{PublicName: "taskId", WireName: "taskId", Location: "path"}}, []string{"taskId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_submit-delete",
+			mcplib.WithDescription("Use this API to submit a bulk delete request. You can delete up to 1,000 issues in a single operation. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Delete [issues permission](https://support.atlassian.com/jira-cloud-administration/docs/permissions-for-company-managed-projects/#Delete-issues/) in all projects that contain the selected issues. * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("selectedIssueIdsOrKeys", mcplib.Required(), mcplib.Description("List of issue IDs or keys which are to be bulk deleted.")),
+			mcplib.WithBoolean("sendBulkNotification", mcplib.Description("A boolean value that indicates whether to send a bulk change notification when the issues are being deleted.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/bulk/issues/delete", false, false, nil, []mcpParamBinding{{PublicName: "selectedIssueIdsOrKeys", WireName: "selectedIssueIdsOrKeys", Location: "body"}, {PublicName: "sendBulkNotification", WireName: "sendBulkNotification", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_submit-edit",
+			mcplib.WithDescription("Use this API to submit a bulk edit request and simultaneously edit multiple issues. There are limits applied to the number of issues and fields that can be edited. A single request can accommodate a maximum of 1000 issues (including subtasks) and 200 fields. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * Edit [issues permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("editedFieldsInput", mcplib.Required(), mcplib.Description("An object that defines the values to be updated in specified fields of an issue.")),
+			mcplib.WithString("selectedActions", mcplib.Required(), mcplib.Description("List of all the field IDs that are to be bulk edited.")),
+			mcplib.WithString("selectedIssueIdsOrKeys", mcplib.Required(), mcplib.Description("List of issue IDs or keys which are to be bulk edited. These IDs or keys can be from different projects and issue types.")),
+			mcplib.WithBoolean("sendBulkNotification", mcplib.Description("A boolean value that indicates whether to send a bulk change notification when the issues are being edited.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/bulk/issues/fields", false, false, nil, []mcpParamBinding{{PublicName: "editedFieldsInput", WireName: "editedFieldsInput", Location: "body"}, {PublicName: "selectedActions", WireName: "selectedActions", Location: "body"}, {PublicName: "selectedIssueIdsOrKeys", WireName: "selectedIssueIdsOrKeys", Location: "body"}, {PublicName: "sendBulkNotification", WireName: "sendBulkNotification", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_submit-move",
+			mcplib.WithDescription("Use this API to submit a bulk issue move request. You can move multiple issues from multiple projects in a single request, but they must all be moved to a single project, issue type, and parent. You can't move more than 1000 issues (including subtasks) at once. #### Scenarios: #### This is an early version of the API and it doesn't have full feature parity with the Bulk Move UI experience. * Moving issue of type A to issue of type B in the same project or a different project: `SUPPORTED` * Moving multiple issues of type A in one or more projects to multiple issues of type B in one of the source projects or a different project: `SUPPORTED` * Moving issues of multiple issue types in one or more projects to issues of a single issue type in one of the source project or a different project: **`SUPPORTED`** E.g. Moving issues of story and task issue types in project 1 and project 2 to issues of task issue type in project 3 * Moving a standard parent issue of type A with its multiple subtask issue types in one project to standard issue of type B and multiple subtask issue types in the same project or a different project: `SUPPORTED` * Moving standard issues with their subtasks to a parent issue in the same project or a different project without losing their relation: `SUPPORTED` * Moving an epic issue with its child issues to a different project without losing their relation: `SUPPORTED` This usecase is **supported using multiple requests**. Move the epic in one request and then move the children in a separate request with target parent set to the epic issue id (Alternatively, move them individually and stitch the relationship back with the Bulk Edit API) #### Limits applied to bulk issue moves: #### When using the bulk move, keep in mind that there are limits on the number of issues and fields you can include. * You can move up to 1,000 issues in a single operation, including any subtasks. * The total combined number of fields across all issues must not exceed 1,500,000. For example, if each issue includes 15,000 fields, then the maximum number of issues that can be moved is 100. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Move [issues permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in source projects. * Create [issues permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in destination projects. * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in destination projects, if moving subtasks only. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithBoolean("sendBulkNotification", mcplib.Description("A boolean value that indicates whether to send a bulk change notification when the issues are being moved.")),
+			mcplib.WithString("targetToSourcesMapping", mcplib.Description("An object representing the mapping of issues and data related to destination entities, like fields and statuses")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/bulk/issues/move", false, false, nil, []mcpParamBinding{{PublicName: "sendBulkNotification", WireName: "sendBulkNotification", Location: "body"}, {PublicName: "targetToSourcesMapping", WireName: "targetToSourcesMapping", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_submit-transition",
+			mcplib.WithDescription("Use this API to submit a bulk issue status transition request. You can transition multiple issues, alongside with their valid transition Ids. You can transition up to 1,000 issues in a single operation. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Transition [issues permission](https://support.atlassian.com/jira-cloud-administration/docs/permissions-for-company-managed-projects/#Transition-issues/) in all projects that contain the selected issues. * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("bulkTransitionInputs", mcplib.Required(), mcplib.Description("List of objects and each object has two properties: * Issues that will be bulk transitioned.")),
+			mcplib.WithBoolean("sendBulkNotification", mcplib.Description("A boolean value that indicates whether to send a bulk change notification when the issues are being transitioned.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/bulk/issues/transition", false, false, nil, []mcpParamBinding{{PublicName: "bulkTransitionInputs", WireName: "bulkTransitionInputs", Location: "body"}, {PublicName: "sendBulkNotification", WireName: "sendBulkNotification", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_submit-unwatch",
+			mcplib.WithDescription("Use this API to submit a bulk unwatch request. You can unwatch up to 1,000 issues in a single operation. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("selectedIssueIdsOrKeys", mcplib.Required(), mcplib.Description("List of issue IDs or keys which are to be bulk watched or unwatched.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/bulk/issues/unwatch", false, false, nil, []mcpParamBinding{{PublicName: "selectedIssueIdsOrKeys", WireName: "selectedIssueIdsOrKeys", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bulk_submit-watch",
+			mcplib.WithDescription("Use this API to submit a bulk watch request. You can watch up to 1,000 issues in a single operation. **[Permissions](#permissions) required:** * Global bulk change [permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/). * Browse [project permission](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/) in all projects that contain the selected issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("selectedIssueIdsOrKeys", mcplib.Required(), mcplib.Description("List of issue IDs or keys which are to be bulk watched or unwatched.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/bulk/issues/watch", false, false, nil, []mcpParamBinding{{PublicName: "selectedIssueIdsOrKeys", WireName: "selectedIssueIdsOrKeys", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("changelog_get-bulk",
@@ -2446,7 +2557,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("config_create-field-association-scheme",
-			mcplib.WithDescription("Endpoint for creating a new field association scheme. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Endpoint for creating a new field association scheme. A new scheme is **not** copied from, or based on, any existing field association scheme. Instead, it is initialised with a minimal default set of critical fields sourced from the instance's own *system* and *product* fields (the fields returned by the product's field API), rather than from a scheme you specify. To create a scheme that is based on an existing one, use the *Clone field scheme* endpoint instead. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("description", mcplib.Description("Description of the scheme to be created")),
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the scheme to be created")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -2511,7 +2622,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("config_remove-field-association-scheme-item-parameters",
-			mcplib.WithDescription("Remove field association parameters overrides for work types. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
+			mcplib.WithDescription("Remove field association parameters overrides for work types. **Request body limits:** a single request can remove at most **100 parameters**. The number of removals is counted as the sum, across every removal entry, of the number of work types multiplied by the number of parameter names in that entry. Exceeding this limit returns a 400 response with the error 'Request exceeds maximum number of parameters that can be removed 100'. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
@@ -2563,14 +2674,14 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("config_update-field-association-scheme-item-parameters",
-			mcplib.WithDescription("Update field association item parameters in field association schemes. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Update field association item parameters in field association schemes. **Request body limits:** a single request can update parameters for at most **100 fields** (the top-level field ID keys of the request body). In addition, each field may include at most 50 update items, and each update item may reference at most 50 field schemes. Exceeding any of these limits returns a 400 response with an error such as 'The fieldIds must contain no more than 100 items.' **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("PUT", "/rest/api/3/config/fieldschemes/fields/parameters", false, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("config_update-fields-associated-with-schemes",
-			mcplib.WithDescription("Update fields associated with field association schemes. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Update fields associated with field association schemes. **Request body limits:** a single request can update associations for at most **100 fields** (the top-level field ID keys of the request body), and each field association item may reference at most 50 field schemes. Exceeding a limit returns a 400 response with an error such as 'The fieldIds must contain no more than 100 items.' **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("PUT", "/rest/api/3/config/fieldschemes/fields", false, false, nil, []mcpParamBinding{}, []string{}),
@@ -2709,7 +2820,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("dashboard_get-paginated",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of dashboards. This operation is similar to [Get dashboards](#api-rest-api-2-dashboard-get) except that the results can be refined to include dashboards that have specific attributes. For example, dashboards with a particular name. When multiple attributes are specified only filters matching all attributes are returned. This operation can be accessed anonymously. **[Permissions](#permissions) required:** The following dashboards that match the query parameters are returned: * Dashboards owned by the user. Not returned for anonymous users. * Dashboards shared with a group that the user is a member of. Not returned for anonymous users. * Dashboards shared with a private project that the user can browse. Not returned for anonymous users. * Dashboards shared with a public project. * Dashboards shared with the public. (public)"),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of dashboards. This operation is similar to [Get dashboards](#api-rest-api-3-dashboard-get) except that the results can be refined to include dashboards that have specific attributes. For example, dashboards with a particular name. When multiple attributes are specified only filters matching all attributes are returned. This operation can be accessed anonymously. **[Permissions](#permissions) required:** The following dashboards that match the query parameters are returned: * Dashboards owned by the user. Not returned for anonymous users. * Dashboards shared with a group that the user is a member of. Not returned for anonymous users. * Dashboards shared with a private project that the user can browse. Not returned for anonymous users. * Dashboards shared with a public project. * Dashboards shared with the public. (public)"),
 			mcplib.WithString("dashboardName", mcplib.Description("String used to perform a case-insensitive partial match with `name`.")),
 			mcplib.WithString("accountId", mcplib.Description("User account ID used to return dashboards with the matching `owner.accountId`.")),
 			mcplib.WithString("owner", mcplib.Description("This parameter is deprecated because of privacy changes. Use `accountId` instead.")),
@@ -3027,7 +3138,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_get-for-org",
-			mcplib.WithDescription("Returns a page of directories in an organization that match the supplied parameters. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:directories:admin`."),
+			mcplib.WithDescription("Returns a page of directories in an organization that match the supplied parameters. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:directories:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("accountId", mcplib.Description("Filters the results to only the directories where the specified user is a member.")),
 			mcplib.WithString("directoryIds", mcplib.Description("A list of directory IDs.")),
@@ -3054,7 +3165,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_groups_create-orgs",
-			mcplib.WithDescription("Add a user to a group. This gives the user the same app access and permissions as the group. The user must be in the same directory as the group. You can’t add a user to a group synced from an identity provider. Manage this group in your identity provider instead. You can’t add a user to a group if you’ve exceeded your user limit for an app that the group grants access to. Increase your user limit or suspend another user from the app first. Required: orgId, directoryId, groupId, accountId."),
+			mcplib.WithDescription("Add a user to a group. This gives the user the same app access and permissions as the group. The user must be in the same directory as the group. **Note:** Adding a user to the org-admins group through this API no longer grants organization admin access. To assign organization admin access, use the [Assign organization-level role endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-v1-orgs-orgid-users-userid-role-assignments-assign-post) instead. This change applies to all organizations. For more information, see this [community post](https://community.atlassian.com/forums/discussion/3287720/coming-soon-use-direct-assignment-for-organization-admin-access). You can’t add a user to a group synced from an identity provider. Manage this group in your identity provider instead. You can’t add a user to a group if you’ve exceeded your user limit for an app that the group grants access to. Increase your user limit or suspend another user from the app first. Required: orgId, directoryId, groupId, accountId."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("A directory has a unique ID.")),
 			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("A group has a unique ID.")),
@@ -3088,7 +3199,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/role-assignments/revoke'", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "directoryId", WireName: "directoryId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "body"}, {PublicName: "roleId", WireName: "roleId", Location: "body"}}, []string{"orgId", "directoryId", "groupId"}),
+		makeAPIHandler("POST", "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/role-assignments/revoke", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "directoryId", WireName: "directoryId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "body"}, {PublicName: "roleId", WireName: "roleId", Location: "body"}}, []string{"orgId", "directoryId", "groupId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_groups_delete",
@@ -3103,7 +3214,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_groups_delete-orgs",
-			mcplib.WithDescription("Remove a user from a group. This removes any app access and permissions granted by this group, but the user may still be in other groups that grant the same app access and permissions. Required: orgId, directoryId, groupId, accountId. Destructive."),
+			mcplib.WithDescription("Remove a user from a group. This removes any app access and permissions granted by this group, but the user may still be in other groups that grant the same app access and permissions. **Note:** Removing a user from the org-admins group through this API will no longer revoke organization admin access. To revoke the organization admin role, use the [Remove organization-level role endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-v1-orgs-orgid-users-userid-role-assignments-revoke-post) instead. This applies to all organizations. For more information, see this [community post](https://community.atlassian.com/forums/discussion/3287720/coming-soon-use-direct-assignment-for-organization-admin-access). Required: orgId, directoryId, groupId, accountId. Destructive."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("A directory has a unique ID.")),
 			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("A group has a unique ID.")),
@@ -3111,11 +3222,11 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/memberships/{accountId}\"", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "directoryId", WireName: "directoryId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "path"}}, []string{"orgId", "directoryId", "groupId", "accountId"}),
+		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/memberships/{accountId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "directoryId", WireName: "directoryId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "path"}}, []string{"orgId", "directoryId", "groupId", "accountId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_groups_get",
-			mcplib.WithDescription("Returns a page of groups in an organization that match the supplied parameters. Required: orgId, directoryId. Optional: cursor, limit (default: 20), directoryIds (plus 8 more)."),
+			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2027.** Use the [Search for groups in an organization endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-groups/#api-v2-orgs-orgid-directories-directoryid-groups-search-post) instead. Returns a page of groups in an organization that match the supplied parameters. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:groups:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("Unique ID associated with a directory.")),
 			mcplib.WithString("cursor", mcplib.Description("Sets the cursor position to retrieve the next set of results.")),
@@ -3127,7 +3238,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("resourceIds", mcplib.Description("A list of resource IDs. The resource IDs should be specified using the Atlassian Resource...")),
 			mcplib.WithString("searchTerm", mcplib.Description("A search term to search the `name` field.")),
 			mcplib.WithString("counts", mcplib.Description("Whether to include counts of different objects associated with the group.")),
-			mcplib.WithString("sortBy", mcplib.Description("The field and direction to sort the results by. Currently, only a single field can be sorted by.")),
+			mcplib.WithString("sortBy", mcplib.Description("The field and direction to sort the results by.")),
 			mcplib.WithString("roleIds", mcplib.Description("A list of role IDs. The Atlassian canonical roles are used to determine the permissions of...")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -3167,7 +3278,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_groups_get-role-assignments",
-			mcplib.WithDescription("Returns a page of role assignments for a group that match the supplied parameters. Required: orgId, directoryId, groupId. Optional: cursor, limit (default: 20), directoryIds (plus 3 more)."),
+			mcplib.WithDescription("Returns a page of role assignments for a group that match the supplied parameters. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:groups:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("Unique ID associated with a directory.")),
 			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("Unique ID associated with a group.")),
@@ -3193,6 +3304,28 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups/stats", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "directoryId", WireName: "directoryId", Location: "path"}}, []string{"orgId", "directoryId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("directories_groups_search-directory",
+			mcplib.WithDescription("Return a page of groups in an organization that match the supplied parameters. Use `searchTerm` for free-text search across group names. Filter by IDs, role assignments, resources, members, or specific group identifiers using the corresponding request fields. Use the `expand` field to include additional fields such as `counts.resources` and `counts.users` in the response. Required: orgId, directoryId. Optional: accountIds, cursor, directoryIds (plus 9 more). Returns array of MultiDirectoryGroup."),
+			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
+			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("Unique ID associated with a directory.")),
+			mcplib.WithString("accountIds", mcplib.Description("Filter by account IDs of group members.")),
+			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return.")),
+			mcplib.WithString("directoryIds", mcplib.Description("Filter by directory IDs.")),
+			mcplib.WithString("expand", mcplib.Description("List of additional fields to include in the response. Available values: - `counts.")),
+			mcplib.WithString("groupIds", mcplib.Description("Filter by group IDs. Mutually exclusive with `groupNames` — providing both returns a `400 Bad Request` error.")),
+			mcplib.WithString("groupNames", mcplib.Description("List of full group names to filter by (case-insensitive). Only exact matches are returned.")),
+			mcplib.WithNumber("limit", mcplib.Description("The number of results to return per page. Defaults to 20.")),
+			mcplib.WithString("resourceIds", mcplib.Description("Filter by resource IDs.")),
+			mcplib.WithString("resourceOwners", mcplib.Description("Filter by resource type keys.")),
+			mcplib.WithString("roleIds", mcplib.Description("Filter by canonical Atlassian role IDs.")),
+			mcplib.WithString("searchTerm", mcplib.Description("Free-text search term. Matched against the group name.")),
+			mcplib.WithString("sortBy", mcplib.Description("List of sort fields. Currently only a single sort field is supported.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups/search", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "directoryId", WireName: "directoryId", Location: "path"}, {PublicName: "accountIds", WireName: "accountIds", Location: "body"}, {PublicName: "cursor", WireName: "cursor", Location: "body"}, {PublicName: "directoryIds", WireName: "directoryIds", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "groupIds", WireName: "groupIds", Location: "body"}, {PublicName: "groupNames", WireName: "groupNames", Location: "body"}, {PublicName: "limit", WireName: "limit", Location: "body"}, {PublicName: "resourceIds", WireName: "resourceIds", Location: "body"}, {PublicName: "resourceOwners", WireName: "resourceOwners", Location: "body"}, {PublicName: "roleIds", WireName: "roleIds", Location: "body"}, {PublicName: "searchTerm", WireName: "searchTerm", Location: "body"}, {PublicName: "sortBy", WireName: "sortBy", Location: "body"}}, []string{"orgId", "directoryId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_users_create",
@@ -3229,7 +3362,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_users_get-directory",
-			mcplib.WithDescription("Return a page of users in your organization that match the supplied parameters. By default, users in all your directories and all your managed accounts are returned (including managed accounts that aren’t in a directory). To get users in a directory only, use the `directoryIds` field. To get your managed accounts, regardless if they’re in a directory or not, use the `claimStatus` field. Required: orgId, directoryId. Optional: cursor, limit (default: 20), accountIds (plus 12 more). Returns array of MultiDirectoryUser."),
+			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2027.** Use the [Search for users in an organization endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-v2-orgs-orgid-directories-directoryid-users-search-post) instead. Return a page of users in your organization that match the supplied parameters. By default, returns users in all your directories. To get users in a directory only, use the `directoryIds` field. To get your managed accounts, regardless if they’re in a directory or not, use the `claimStatus` field. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:directories:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("Unique ID associated with a directory.")),
 			mcplib.WithString("cursor", mcplib.Description("Sets the cursor position to retrieve the next set of results.")),
@@ -3239,14 +3372,14 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("resourceIds", mcplib.Description("A list of resource IDs. The resource IDs should be specified using the Atlassian Resource...")),
 			mcplib.WithString("groupIds", mcplib.Description("A list of group IDs.")),
 			mcplib.WithBoolean("mfaEnabled", mcplib.Description("Whether or not a managed account has two-step verification enabled on their account.")),
-			mcplib.WithString("claimStatus", mcplib.Description("The claim status for the user account. By default, both `managed` and `unmanaged` accounts are returned.")),
-			mcplib.WithString("status", mcplib.Description("The status for the user account. This status is a composite of `accountStatus` and `membershipStatus`.")),
-			mcplib.WithString("accountStatus", mcplib.Description("The lifecycle status of the account. - `active` - The account is active and can be used.")),
-			mcplib.WithString("membershipStatus", mcplib.Description("A list of membership statuses. The membership status is the status of the user account in the organization.")),
+			mcplib.WithString("claimStatus", mcplib.Description("The claim status for the user account.")),
+			mcplib.WithString("status", mcplib.Description("The status for the user account.")),
+			mcplib.WithString("accountStatus", mcplib.Description("The lifecycle status of the account.")),
+			mcplib.WithString("membershipStatus", mcplib.Description("A list of membership statuses.")),
 			mcplib.WithString("roleIds", mcplib.Description("A list of role IDs. The Atlassian canonical roles are used to determine the permissions of...")),
-			mcplib.WithString("emailDomains", mcplib.Description("The email domain to filter the results. The email domain will be used to search against the account email domain.")),
+			mcplib.WithString("emailDomains", mcplib.Description("The email domain to filter the results.")),
 			mcplib.WithString("searchTerm", mcplib.Description("A search term to search the `nickname` and `email` fields.")),
-			mcplib.WithString("sortBy", mcplib.Description("The field and direction to sort the results by. Currently, only a single field can be sorted by.")),
+			mcplib.WithString("sortBy", mcplib.Description("The field and direction to sort the results by.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -3263,13 +3396,13 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("resourceIds", mcplib.Description("A list of resource IDs. The resource IDs should be specified using the Atlassian Resource...")),
 			mcplib.WithString("groupIds", mcplib.Description("A list of group IDs.")),
 			mcplib.WithBoolean("mfaEnabled", mcplib.Description("Whether or not a managed account has two-step verification enabled on their account.")),
-			mcplib.WithString("claimStatus", mcplib.Description("The claim status for the user account. By default, both `managed` and `unmanaged` accounts are returned.")),
-			mcplib.WithString("status", mcplib.Description("The status for the user account. This status is a composite of `accountStatus` and `membershipStatus`.")),
-			mcplib.WithString("accountStatus", mcplib.Description("The lifecycle status of the account. - `active` - The account is active and can be used.")),
-			mcplib.WithString("membershipStatus", mcplib.Description("A list of membership statuses. The membership status is the status of the user account in the organization.")),
+			mcplib.WithString("claimStatus", mcplib.Description("The claim status for the user account.")),
+			mcplib.WithString("status", mcplib.Description("The status for the user account.")),
+			mcplib.WithString("accountStatus", mcplib.Description("The lifecycle status of the account.")),
+			mcplib.WithString("membershipStatus", mcplib.Description("A list of membership statuses.")),
 			mcplib.WithString("roleIds", mcplib.Description("A list of role IDs. The Atlassian canonical roles are used to determine the permissions of...")),
 			mcplib.WithString("searchTerm", mcplib.Description("A search term to search the `nickname` and `email` fields.")),
-			mcplib.WithString("emailDomains", mcplib.Description("The email domain to filter the results. The email domain will be used to search against the account email domain.")),
+			mcplib.WithString("emailDomains", mcplib.Description("The email domain to filter the results.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -3291,7 +3424,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_users_get-role-assignments",
-			mcplib.WithDescription("Returns a page of role assignments for a user that match the supplied parameters. Required: orgId, directoryId, accountId. Optional: cursor, limit (default: 20), directoryIds (plus 3 more)."),
+			mcplib.WithDescription("Returns a page of role assignments for a user that match the supplied parameters. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:directories:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("Unique ID associated with a directory.")),
 			mcplib.WithString("accountId", mcplib.Required(), mcplib.Description("Unique ID associated with a user account.")),
@@ -3309,7 +3442,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("directories_users_get-stats",
-			mcplib.WithDescription("Return user stats for the organization. Required: orgId, directoryId. Returns the MultiDirectoryUserStats."),
+			mcplib.WithDescription("Return user stats for the organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:directories:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("Unique ID associated with a directory.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -3319,89 +3452,31 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/users/stats", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "directoryId", WireName: "directoryId", Location: "path"}}, []string{"orgId", "directoryId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("directory_assign-role-to-group",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [Grant access to group endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-groups/#api-v2-orgs-orgid-directories-directoryid-groups-groupid-role-assignments-assign-post) instead. **The API is available for customers using the [new user management experience only](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592)**. Assign roles that grant product access to groups. Please note that this operation adheres to eventual consistency, and it might take up to 30 seconds for changes to take effect. Required: orgId, groupId, roleAssociations. Returns the new DirectoryAssignRoleToGroupResponse."),
+		mcplib.NewTool("directories_users_search-directory",
+			mcplib.WithDescription("Return a page of users in an organization that match the supplied parameters. Use `searchTerm` for free-text search across user display names and email addresses. Use `emails` for exact-match filtering by full email addresses. `searchTerm` and `emails` are mutually exclusive. Providing both in the same request returns `400 Bad Request`. Use the `expand` field to include additional fields such as `platformRoles`, `counts.resources`, `productAccess`, and `groups` in the response. Required: orgId, directoryId. Optional: accountIds, accountStatus, claimStatus (plus 14 more)."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("Unique ID that serves as reference to the group.")),
-			mcplib.WithString("roleAssociations", mcplib.Required(), mcplib.Description("Role associations")),
+			mcplib.WithString("directoryId", mcplib.Required(), mcplib.Description("Unique ID associated with a directory.")),
+			mcplib.WithString("accountIds", mcplib.Description("A list of user account IDs.")),
+			mcplib.WithString("accountStatus", mcplib.Description("The lifecycle status of the account.")),
+			mcplib.WithString("claimStatus", mcplib.Description("The claim status for the user account.")),
+			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return.")),
+			mcplib.WithString("directoryIds", mcplib.Description("A list of directory IDs.")),
+			mcplib.WithString("emailDomains", mcplib.Description("The email domain to filter the results.")),
+			mcplib.WithString("emails", mcplib.Description("List of full email addresses to filter by. Only exact matches are returned.")),
+			mcplib.WithString("expand", mcplib.Description("List of additional fields to include in the response.")),
+			mcplib.WithString("groupIds", mcplib.Description("A list of group IDs.")),
+			mcplib.WithNumber("limit", mcplib.Description("The number of results to return per page. Defaults to 50.")),
+			mcplib.WithString("membershipStatus", mcplib.Description("A list of membership statuses.")),
+			mcplib.WithBoolean("mfaEnabled", mcplib.Description("Whether or not a managed account has two-step verification enabled on their account.")),
+			mcplib.WithString("resourceIds", mcplib.Description("A list of resource IDs. The resource IDs should be specified using the Atlassian Resource...")),
+			mcplib.WithString("roleIds", mcplib.Description("A list of role IDs. The Atlassian canonical roles are used to determine the permissions of...")),
+			mcplib.WithString("searchTerm", mcplib.Description("Free-text search term matched against display names and email addresses.")),
+			mcplib.WithString("sortBy", mcplib.Description("The field and direction to sort the results by.")),
+			mcplib.WithString("status", mcplib.Description("The status for the user account.")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/groups/{groupId}/roles/assign", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "roleAssociations", WireName: "roleAssociations", Location: "body"}}, []string{"orgId", "groupId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("directory_create",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [new Create group endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-groups/#api-v2-orgs-orgid-directories-directoryid-groups-post) instead. **The API is available for customers using the new user management experience only. Learn more about the [new user management experience](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592).** This API will: - Create a group in the organization's directory. - Create a collection of users that you can use to easily manage permissions, content access, notification schemes, and roles. **The creation of new groups using existing group names is not permitted.** Learn the fastest way to call the API with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/organization/create-group/#create-group). Required: orgId, name. Optional: description. Returns the new DirectoryCreateResponse."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("description", mcplib.Description("The description of the group.")),
-			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the group.")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/groups", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"orgId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("directory_create-orgs",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [new Add user to group endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-groups/#api-v2-orgs-orgid-directories-directoryid-groups-groupid-memberships-post) instead. **The API is available for customers using the new user management experience only. Learn more about the [new user management experience](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592).** This API will: - Add user to a group. - Assign multiple permissions to user at once. - Easily manage permissions, content access, notification schemes, and roles. This API will not: - Make modifications to group memberships that are synchronized through SCIM. To make changes to these memberships, you will need to modify them within your external identity provider. Learn more about [configuring user provisioning with an identity provider](https://support.atlassian.com/provisioning-users/docs/configure-user-provisioning-with-an-identity-provider/). - Add a user to a group that gives access to a product which is breaching it's license limit. To make these changes, you will need to [remove users](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-directory/#api-v1-orgs-orgid-directory-groups-groupid-memberships-accountid-delete) from the group or [suspend users](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-directory/#api-v1-orgs-orgid-directory-users-accountid-suspend-access-post) that are in the group first. You can also [manage your subscription](https://support.atlassian.com/subscriptions-and-billing/resources/) for the breaching product to increase your license limits. - Add a user to any group when your organisation has too many products that are breaching their license limits. Learn the fastest way to call the API with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/organization/add-user-to-group/). Required: orgId, groupId, account_id. Returns the new DirectoryCreateOrgsResponse."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("Unique ID that serves as reference to the group.")),
-			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("Unique ID of the user's account that you are adding to the group. Use the [Jira User Search API](https://developer.")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/groups/{groupId}/memberships", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "account_id", WireName: "account_id", Location: "body"}}, []string{"orgId", "groupId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("directory_create-orgs-2",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [Restore user access in directory endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-v2-orgs-orgid-directories-directoryid-users-accountid-restore-post) instead. **The API is available for customers using the new user management experience only.** Learn more about the [new user management experience](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592). This API will: - Restore access of an existing user to products listed in Atlassian Administration. - Retract the suspend user action. This API will not: - Restore access to a user when they have access to a product which is breaching it's license limit. To make these changes, you will need to [remove users](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-directory/#api-v1-orgs-orgid-directory-groups-groupid-memberships-accountid-delete) from the group or [suspend users](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-directory/#api-v1-orgs-orgid-directory-users-accountid-suspend-access-post) that are in the group first. You can also [manage your subscription](https://support.atlassian.com/subscriptions-and-billing/resources/) for the breaching product to increase your license limits. - Restore access to any user when your organisation has too many products that are breaching their license limits. Learn the fastest way to call the API with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/organization/restore-user/). Required: orgId, accountId. Returns the new DirectoryCreateOrgs2Response."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("accountId", mcplib.Required(), mcplib.Description("Unique ID of the user's account that you are suspending. Use the [Jira User Search API](https://developer.atlassian.")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/users/{accountId}/restore-access", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "path"}}, []string{"orgId", "accountId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("directory_create-orgs-3",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [Suspend user access in directory endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-v2-orgs-orgid-directories-directoryid-users-accountid-suspend-post) instead. **The API is available for customers using the new user management experience only.** Learn more about the [new user management experience](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592). Specifications: - Suspend user access to products listed in Atlassian Administration while keeping the account active. - Make product licenses available for active users. - Maintain respective users in **Groups** for easy restoration. User access can be restored anytime via the [Restore access API](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-directory/#api-v1-orgs-orgid-directory-users-accountid-restore-access-post) Learn the fastest way to call the API with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/organization/suspend-user/). Required: orgId, accountId. Returns the new DirectoryCreateOrgs3Response."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("accountId", mcplib.Required(), mcplib.Description("Unique ID of the user's account that you are suspending. Use the [Jira User Search API](https://developer.atlassian.")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/users/{accountId}/suspend-access", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "path"}}, []string{"orgId", "accountId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("directory_delete",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [new Delete group endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-groups/#api-v2-orgs-orgid-directories-directoryid-groups-groupid-delete) instead. **The API is available for customers using the new user management experience only. Learn more about the [new user management experience](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592).** This API will: - Delete a group from the organization's directory. - Delete the permissions, content access, notification schemes, and roles granted to the users. This API will not: - Delete groups that are synchronized through SCIM. To delete these groups, you will need to delete them within your external identity provider. Learn more about [configuring user provisioning with an identity provider](https://support.atlassian.com/provisioning-users/docs/configure-user-provisioning-with-an-identity-provider/). - Delete a group if it’s marked as a [default group](https://support.atlassian.com/user-management/docs/default-groups-and-permissions). - Delete `site-admin` group and therefore revoke org-admin role from a user. - Delete a group if it contains users (unless forced). Learn the fastest way to call the API with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/organization/delete-group/#delete-group). Required: orgId, groupId. Optional: forceIfNotEmpty. Returns the DirectoryDeleteResponse. Destructive."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("Unique ID that serves as reference to the group.")),
-			mcplib.WithBoolean("forceIfNotEmpty", mcplib.Description("Groups cannot be deleted if it contains users, unless `forceIfNotEmpty=true` is provided")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/groups/{groupId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "forceIfNotEmpty", WireName: "forceIfNotEmpty", Location: "query"}}, []string{"orgId", "groupId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("directory_delete-orgs",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [Remove user from directory endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-v2-orgs-orgid-directories-directoryid-users-accountid-delete) instead. **The API is available for customers using the new user management experience only.** Learn more about the [new user management experience](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592). Specifications: - Remove user access to products listed in Atlassian Administration. - Remove users from **Users** and **Groups** in **Directory**. - Make product licenses available for active users. The users are not removed immediately; instead, they are placed in a queue for deletion. Please note that it may take some time for all users to be completely removed. Users with emails whose domain is claimed can still be found in **Managed accounts** in **Directory**. Learn the fastest way to call the API with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/organization/remove-user/). Required: orgId, accountId. Destructive."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("accountId", mcplib.Required(), mcplib.Description("Unique ID of the user's account that you are deleting. Use the [Jira User Search API](https://developer.atlassian.")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/users/{accountId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "path"}}, []string{"orgId", "accountId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("directory_delete-orgs-2",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [new Remove user from group endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-groups/#api-v2-orgs-orgid-directories-directoryid-groups-groupid-memberships-accountid-delete) instead. **The API is available for customers using the new user management experience only. Learn more about the [new user management experience](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592).** This API will: - Remove user from a group. - Remove multiple permissions for user at once. - Easily manage permissions, content access, notification schemes, and roles. This API will not: - Make modifications to group memberships that are synchronized through SCIM. To make changes to these memberships, you will need to modify them within your external identity provider. Learn more about [configuring user provisioning with an identity provider](https://support.atlassian.com/provisioning-users/docs/configure-user-provisioning-with-an-identity-provider/). - Modify `site-admin` group and therefore revoke org-admin role from a user. Learn the fastest way to call the API with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/organization/remove-user-to-group/). Required: orgId, groupId, accountId. Returns the DirectoryDeleteOrgs2Response. Destructive."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("Unique ID that serves as reference to the group.")),
-			mcplib.WithString("accountId", mcplib.Required(), mcplib.Description("Unique ID of the user's account that you are adding to the group. Use the [Jira User Search API](https://developer.")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/groups/{groupId}/memberships/{accountId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "path"}}, []string{"orgId", "groupId", "accountId"}),
+		makeAPIHandler("POST", "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/users/search", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "directoryId", WireName: "directoryId", Location: "path"}, {PublicName: "accountIds", WireName: "accountIds", Location: "body"}, {PublicName: "accountStatus", WireName: "accountStatus", Location: "body"}, {PublicName: "claimStatus", WireName: "claimStatus", Location: "body"}, {PublicName: "cursor", WireName: "cursor", Location: "body"}, {PublicName: "directoryIds", WireName: "directoryIds", Location: "body"}, {PublicName: "emailDomains", WireName: "emailDomains", Location: "body"}, {PublicName: "emails", WireName: "emails", Location: "body"}, {PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "groupIds", WireName: "groupIds", Location: "body"}, {PublicName: "limit", WireName: "limit", Location: "body"}, {PublicName: "membershipStatus", WireName: "membershipStatus", Location: "body"}, {PublicName: "mfaEnabled", WireName: "mfaEnabled", Location: "body"}, {PublicName: "resourceIds", WireName: "resourceIds", Location: "body"}, {PublicName: "roleIds", WireName: "roleIds", Location: "body"}, {PublicName: "searchTerm", WireName: "searchTerm", Location: "body"}, {PublicName: "sortBy", WireName: "sortBy", Location: "body"}, {PublicName: "status", WireName: "status", Location: "body"}}, []string{"orgId", "directoryId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("directory_get",
@@ -3416,19 +3491,8 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/users/{accountId}/last-active-dates", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "accountId", WireName: "accountId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}}, []string{"orgId", "accountId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("directory_revoke-role-to-group",
-			mcplib.WithDescription("**This API is deprecated and will no longer work after June 30, 2026.** Use the [Remove access from group endpoint](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-groups/#api-v2-orgs-orgid-directories-directoryid-groups-groupid-role-assignments-revoke-post) instead. **The API is available for customers using the [new user management experience only](https://community.atlassian.com/t5/Atlassian-Access-articles/User-management-for-cloud-admins-just-got-easier/ba-p/1576592)**. Revoke roles that provide product access to groups. It's important to note that this operation follows eventual consistency principles and may require up to 30 seconds to take effect. Required: orgId, groupId, roleAssociations. Returns the new DirectoryRevokeRoleToGroupResponse."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("Unique ID that serves as reference to the group.")),
-			mcplib.WithString("roleAssociations", mcplib.Required(), mcplib.Description("Role associations")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/groups/{groupId}/roles/revoke", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}, {PublicName: "roleAssociations", WireName: "roleAssociations", Location: "body"}}, []string{"orgId", "groupId"}),
-	)
-	s.AddTool(
 		mcplib.NewTool("domains_get",
-			mcplib.WithDescription("Returns a list of domains in an organization one page at a time. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:domains:admin`."),
+			mcplib.WithDescription("Returns a list of domains in an organization one page at a time. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:domains:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -3439,7 +3503,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("domains_get-by-id",
-			mcplib.WithDescription("Returns information about a single verified domain by ID. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:domains:admin`."),
+			mcplib.WithDescription("Returns information about a single verified domain by ID. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:domains:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("domainId", mcplib.Required(), mcplib.Description("ID of the domain to return")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -3450,7 +3514,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("event-actions_get",
-			mcplib.WithDescription("Returns information localized event actions #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:events:admin`."),
+			mcplib.WithDescription("Returns information localized event actions #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:events:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -3469,7 +3533,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("events-stream_poll-events",
-			mcplib.WithDescription("Returns a paginated list of audit logs events for an organization. Use this endpoint if you want to retrieve events in a simple, paginated manner with time-based filtering. If you need more advanced filtering, refer to the [/events](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/#api-v1-orgs-orgid-events-get) endpoint. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:events:admin`."),
+			mcplib.WithDescription("Returns a paginated list of audit logs events for an organization. Use this endpoint if you want to retrieve events in a simple, paginated manner with time-based filtering. If you need more advanced filtering, refer to the [/events](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/#api-v1-orgs-orgid-events-get) endpoint. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:events:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return. Can be used when last page is reached to poll for new events.")),
 			mcplib.WithString("from", mcplib.Description("The earliest date and time of the event represented as a UNIX epoch time in milliseconds.")),
@@ -3578,7 +3642,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("field_delete-custom",
-			mcplib.WithDescription("Deletes a custom field. The custom field is deleted whether it is in the trash or not. See [Edit or delete a custom field](https://confluence.atlassian.com/x/Z44fOw) for more information on trashing and deleting custom fields. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
+			mcplib.WithDescription("Deletes a custom field. The custom field is deleted whether it is in the trash or not. See [Edit or delete a custom field](https://confluence.atlassian.com/x/Z44fOw) for more information on trashing and deleting custom fields. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of a custom field.")),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -3661,13 +3725,15 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_add-issue-types-to",
-			mcplib.WithDescription("Adds issue types to a custom field context, appending the issue types to the issue types list. A custom field context without any issue types applies to all issue types. Adding issue types to such a custom field context would result in it applying to only the listed issue types. If any of the issue types exists in the custom field context, the operation fails and no issue types are added. This API will not allow adding issue types to the global context from April 2026. Instead, an HTTP 400 response will be returned. See [CHANGE-3019](https://developer.atlassian.com/changelog/#CHANGE-3019) **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Adds issue types to a custom field context, appending the issue types to the issue types list. A custom field context without any issue types applies to all issue types. Adding issue types replaces the any-issue-type mapping unless {@code isAnyIssueType} is true. A supplied {@code defaultValue} applies to newly added mappings. If omitted, the default value of the first existing issue type mapping is copied. Existing mappings retain their defaults. If any of the issue types exists in the custom field context, the operation fails and no issue types are added. This API will not allow adding issue types to the global context from April 2026. Instead, an HTTP 400 response will be returned. See [CHANGE-3019](https://developer.atlassian.com/changelog/#CHANGE-3019) **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("fieldId", mcplib.Required(), mcplib.Description("The ID of the custom field.")),
 			mcplib.WithNumber("contextId", mcplib.Required(), mcplib.Description("The ID of the context.")),
-			mcplib.WithString("issueTypeIds", mcplib.Required(), mcplib.Description("The list of issue type IDs.")),
+			mcplib.WithString("defaultValue", mcplib.Description("Default value")),
+			mcplib.WithBoolean("isAnyIssueType", mcplib.Description("Whether to add or retain the any-issue-type mapping. At least one of this property or issueTypeIds is required.")),
+			mcplib.WithString("issueTypeIds", mcplib.Description("The issue type IDs to add. Optional when isAnyIssueType is true.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/{contextId}/issuetype", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"fieldId", "contextId"}),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/{contextId}/issuetype", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "path"}, {PublicName: "defaultValue", WireName: "defaultValue", Location: "body"}, {PublicName: "isAnyIssueType", WireName: "isAnyIssueType", Location: "body"}, {PublicName: "issueTypeIds", WireName: "issueTypeIds", Location: "body"}}, []string{"fieldId", "contextId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_assign-projects-to-custom-field",
@@ -3739,7 +3805,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-default-values",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of defaults for a custom field. The results can be filtered by `contextId`, otherwise all values are returned. If no defaults are set for a context, nothing is returned. The returned object depends on type of the custom field: * `CustomFieldContextDefaultValueDate` (type `datepicker`) for date fields. * `CustomFieldContextDefaultValueDateTime` (type `datetimepicker`) for date-time fields. * `CustomFieldContextDefaultValueSingleOption` (type `option.single`) for single choice select lists and radio buttons. * `CustomFieldContextDefaultValueMultipleOption` (type `option.multiple`) for multiple choice select lists and checkboxes. * `CustomFieldContextDefaultValueCascadingOption` (type `option.cascading`) for cascading select lists. * `CustomFieldContextSingleUserPickerDefaults` (type `single.user.select`) for single users. * `CustomFieldContextDefaultValueMultiUserPicker` (type `multi.user.select`) for user lists. * `CustomFieldContextDefaultValueSingleGroupPicker` (type `grouppicker.single`) for single choice group pickers. * `CustomFieldContextDefaultValueMultipleGroupPicker` (type `grouppicker.multiple`) for multiple choice group pickers. * `CustomFieldContextDefaultValueURL` (type `url`) for URLs. * `CustomFieldContextDefaultValueProject` (type `project`) for project pickers. * `CustomFieldContextDefaultValueFloat` (type `float`) for floats (floating-point numbers). * `CustomFieldContextDefaultValueLabels` (type `labels`) for labels. * `CustomFieldContextDefaultValueTextField` (type `textfield`) for text fields. * `CustomFieldContextDefaultValueTextArea` (type `textarea`) for text area fields. * `CustomFieldContextDefaultValueReadOnly` (type `readonly`) for read only (text) fields. * `CustomFieldContextDefaultValueMultipleVersion` (type `version.multiple`) for single choice version pickers. * `CustomFieldContextDefaultValueSingleVersion` (type `version.single`) for multiple choice version pickers. Forge custom fields [types](https://developer.atlassian.com/platform/forge/manifest-reference/modules/jira-custom-field-type/#data-types) are also supported, returning: * `CustomFieldContextDefaultValueForgeStringFieldBean` (type `forge.string`) for Forge string fields. * `CustomFieldContextDefaultValueForgeMultiStringFieldBean` (type `forge.string.list`) for Forge string collection fields. * `CustomFieldContextDefaultValueForgeObjectFieldBean` (type `forge.object`) for Forge object fields. * `CustomFieldContextDefaultValueForgeDateTimeFieldBean` (type `forge.datetime`) for Forge date-time fields. * `CustomFieldContextDefaultValueForgeGroupFieldBean` (type `forge.group`) for Forge group fields. * `CustomFieldContextDefaultValueForgeMultiGroupFieldBean` (type `forge.group.list`) for Forge group collection fields. * `CustomFieldContextDefaultValueForgeNumberFieldBean` (type `forge.number`) for Forge number fields. * `CustomFieldContextDefaultValueForgeUserFieldBean` (type `forge.user`) for Forge user fields. * `CustomFieldContextDefaultValueForgeMultiUserFieldBean` (type `forge.user.list`) for Forge user collection fields. **Deprecated:** This API is deprecated and will be removed in October 2026. A replacement API that supports multiple default values per issue type within a context is coming soon. See the deprecation notice [CHANGE-3082](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-3082) for more details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of defaults for a custom field. The results can be filtered by `contextId`, otherwise all values are returned. If no defaults are set for a context, nothing is returned. The returned object depends on type of the custom field: * `CustomFieldContextDefaultValueDate` (type `datepicker`) for date fields. * `CustomFieldContextDefaultValueDateTime` (type `datetimepicker`) for date-time fields. * `CustomFieldContextDefaultValueSingleOption` (type `option.single`) for single choice select lists and radio buttons. * `CustomFieldContextDefaultValueMultipleOption` (type `option.multiple`) for multiple choice select lists and checkboxes. * `CustomFieldContextDefaultValueCascadingOption` (type `option.cascading`) for cascading select lists. * `CustomFieldContextSingleUserPickerDefaults` (type `single.user.select`) for single users. * `CustomFieldContextDefaultValueMultiUserPicker` (type `multi.user.select`) for user lists. * `CustomFieldContextDefaultValueSingleGroupPicker` (type `grouppicker.single`) for single choice group pickers. * `CustomFieldContextDefaultValueMultipleGroupPicker` (type `grouppicker.multiple`) for multiple choice group pickers. * `CustomFieldContextDefaultValueURL` (type `url`) for URLs. * `CustomFieldContextDefaultValueProject` (type `project`) for project pickers. * `CustomFieldContextDefaultValueFloat` (type `float`) for floats (floating-point numbers). * `CustomFieldContextDefaultValueLabels` (type `labels`) for labels. * `CustomFieldContextDefaultValueTextField` (type `textfield`) for text fields. * `CustomFieldContextDefaultValueTextArea` (type `textarea`) for text area fields. * `CustomFieldContextDefaultValueLongText` (type `longtext`) for plain text paragraph fields. * `CustomFieldContextDefaultValueReadOnly` (type `readonly`) for read only (text) fields. * `CustomFieldContextDefaultValueMultipleVersion` (type `version.multiple`) for single choice version pickers. * `CustomFieldContextDefaultValueSingleVersion` (type `version.single`) for multiple choice version pickers. Forge custom fields [types](https://developer.atlassian.com/platform/forge/manifest-reference/modules/jira-custom-field-type/#data-types) are also supported, returning: * `CustomFieldContextDefaultValueForgeStringFieldBean` (type `forge.string`) for Forge string fields. * `CustomFieldContextDefaultValueForgeMultiStringFieldBean` (type `forge.string.list`) for Forge string collection fields. * `CustomFieldContextDefaultValueForgeObjectFieldBean` (type `forge.object`) for Forge object fields. * `CustomFieldContextDefaultValueForgeDateTimeFieldBean` (type `forge.datetime`) for Forge date-time fields. * `CustomFieldContextDefaultValueForgeGroupFieldBean` (type `forge.group`) for Forge group fields. * `CustomFieldContextDefaultValueForgeMultiGroupFieldBean` (type `forge.group.list`) for Forge group collection fields. * `CustomFieldContextDefaultValueForgeNumberFieldBean` (type `forge.number`) for Forge number fields. * `CustomFieldContextDefaultValueForgeUserFieldBean` (type `forge.user`) for Forge user fields. * `CustomFieldContextDefaultValueForgeMultiUserFieldBean` (type `forge.user.list`) for Forge user collection fields. **Deprecated:** This API is deprecated and will be removed in October 2026. A replacement API that supports multiple default values per issue type within a context is coming soon. See the deprecation notice [CHANGE-3082](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-3082) for more details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("fieldId", mcplib.Required(), mcplib.Description("The ID of the custom field, for example `customfield_10000`.")),
 			mcplib.WithString("contextId", mcplib.Description("The IDs of the contexts.")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
@@ -3749,6 +3815,20 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/context/defaultValue", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("field_context_get-default-values-field",
+			mcplib.WithDescription("Returns a paginated list of default values grouped by custom field context. Each returned `ContextDefaultValuesBean` has a `contextId` and a `defaultValues` list of `IssueTypeDefaultValueBean` entries - one per issue-type-scoped default value configured for the context. An entry with `'isAnyIssueType': true` represents the catch-all default that applies to every issue type covered by the context that is not covered by a more specific entry; a non-null `issueTypeId` represents a default that only applies to that issue type. For contexts that have not been converted to the multiple-contexts data model, exactly one entry is returned per context with `isAnyIssueType=true`. For converted contexts, one entry is returned per configured per-issue-type default. The value object on each entry is the same polymorphic `CustomFieldContextDefaultValueBean` exposed by the deprecated `GET /defaultValue` endpoint - its concrete subtype depends on the custom field's type (see the list of supported types on that endpoint). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithString("fieldId", mcplib.Required(), mcplib.Description("The ID of the custom field, for example `customfield_10000`.")),
+			mcplib.WithString("contextId", mcplib.Description("The IDs of the contexts to return default values for.")),
+			mcplib.WithString("issueTypeId", mcplib.Description("The IDs of the issue types to restrict the returned per-issue-type default values to.")),
+			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
+			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/rest/api/3/field/{fieldId}/context/defaultValues", true, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "contextId", WireName: "contextId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-for-field",
@@ -3795,7 +3875,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_get-project-mapping",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of context to project mappings for a custom field. The result can be filtered by `contextId`. Otherwise, all mappings are returned. Invalid IDs are ignored. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of context to project mappings for a custom field. The result can be filtered by `contextId`. Otherwise, all mappings are returned. Invalid IDs are ignored. **Note:** Jira is adding support for multiple field contexts per project. On sites where this is enabled, a custom field can have more than one context associated with the same project, so this operation can return several mappings that share the same `projectId`, each with a different `contextId`. Do not assume that a project appears at most once in the response. See [CHANGE-3082](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-3082) for more details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("fieldId", mcplib.Required(), mcplib.Description("The ID of the custom field, for example `customfield_10000`.")),
 			mcplib.WithString("contextId", mcplib.Description("The list of context IDs. To include multiple context, separate IDs with ampersand: `contextId=10000&contextId=10001`.")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
@@ -3855,12 +3935,21 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_set-default-values",
-			mcplib.WithDescription("Sets default for contexts of a custom field. Default are defined using these objects: * `CustomFieldContextDefaultValueDate` (type `datepicker`) for date fields. * `CustomFieldContextDefaultValueDateTime` (type `datetimepicker`) for date-time fields. * `CustomFieldContextDefaultValueSingleOption` (type `option.single`) for single choice select lists and radio buttons. * `CustomFieldContextDefaultValueMultipleOption` (type `option.multiple`) for multiple choice select lists and checkboxes. * `CustomFieldContextDefaultValueCascadingOption` (type `option.cascading`) for cascading select lists. * `CustomFieldContextSingleUserPickerDefaults` (type `single.user.select`) for single users. * `CustomFieldContextDefaultValueMultiUserPicker` (type `multi.user.select`) for user lists. * `CustomFieldContextDefaultValueSingleGroupPicker` (type `grouppicker.single`) for single choice group pickers. * `CustomFieldContextDefaultValueMultipleGroupPicker` (type `grouppicker.multiple`) for multiple choice group pickers. * `CustomFieldContextDefaultValueURL` (type `url`) for URLs. * `CustomFieldContextDefaultValueProject` (type `project`) for project pickers. * `CustomFieldContextDefaultValueFloat` (type `float`) for floats (floating-point numbers). * `CustomFieldContextDefaultValueLabels` (type `labels`) for labels. * `CustomFieldContextDefaultValueTextField` (type `textfield`) for text fields. * `CustomFieldContextDefaultValueTextArea` (type `textarea`) for text area fields. * `CustomFieldContextDefaultValueReadOnly` (type `readonly`) for read only (text) fields. * `CustomFieldContextDefaultValueMultipleVersion` (type `version.multiple`) for single choice version pickers. * `CustomFieldContextDefaultValueSingleVersion` (type `version.single`) for multiple choice version pickers. Forge custom fields [types](https://developer.atlassian.com/platform/forge/manifest-reference/modules/jira-custom-field-type/#data-types) are also supported, returning: * `CustomFieldContextDefaultValueForgeStringFieldBean` (type `forge.string`) for Forge string fields. * `CustomFieldContextDefaultValueForgeMultiStringFieldBean` (type `forge.string.list`) for Forge string collection fields. * `CustomFieldContextDefaultValueForgeObjectFieldBean` (type `forge.object`) for Forge object fields. * `CustomFieldContextDefaultValueForgeDateTimeFieldBean` (type `forge.datetime`) for Forge date-time fields. * `CustomFieldContextDefaultValueForgeGroupFieldBean` (type `forge.group`) for Forge group fields. * `CustomFieldContextDefaultValueForgeMultiGroupFieldBean` (type `forge.group.list`) for Forge group collection fields. * `CustomFieldContextDefaultValueForgeNumberFieldBean` (type `forge.number`) for Forge number fields. * `CustomFieldContextDefaultValueForgeUserFieldBean` (type `forge.user`) for Forge user fields. * `CustomFieldContextDefaultValueForgeMultiUserFieldBean` (type `forge.user.list`) for Forge user collection fields. Only one type of default object can be included in a request. To remove a default for a context, set the default parameter to `null`. **Deprecated:** This API is deprecated and will be removed in October 2026. A replacement API that supports multiple default values per issue type within a context is coming soon. See the deprecation notice [CHANGE-3082](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-3082) for more details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Sets default for contexts of a custom field. Default are defined using these objects: * `CustomFieldContextDefaultValueDate` (type `datepicker`) for date fields. * `CustomFieldContextDefaultValueDateTime` (type `datetimepicker`) for date-time fields. * `CustomFieldContextDefaultValueSingleOption` (type `option.single`) for single choice select lists and radio buttons. * `CustomFieldContextDefaultValueMultipleOption` (type `option.multiple`) for multiple choice select lists and checkboxes. * `CustomFieldContextDefaultValueCascadingOption` (type `option.cascading`) for cascading select lists. * `CustomFieldContextSingleUserPickerDefaults` (type `single.user.select`) for single users. * `CustomFieldContextDefaultValueMultiUserPicker` (type `multi.user.select`) for user lists. * `CustomFieldContextDefaultValueSingleGroupPicker` (type `grouppicker.single`) for single choice group pickers. * `CustomFieldContextDefaultValueMultipleGroupPicker` (type `grouppicker.multiple`) for multiple choice group pickers. * `CustomFieldContextDefaultValueURL` (type `url`) for URLs. * `CustomFieldContextDefaultValueProject` (type `project`) for project pickers. * `CustomFieldContextDefaultValueFloat` (type `float`) for floats (floating-point numbers). * `CustomFieldContextDefaultValueLabels` (type `labels`) for labels. * `CustomFieldContextDefaultValueTextField` (type `textfield`) for text fields. * `CustomFieldContextDefaultValueTextArea` (type `textarea`) for text area fields. * `CustomFieldContextDefaultValueLongText` (type `longtext`) for plain text paragraph fields. * `CustomFieldContextDefaultValueReadOnly` (type `readonly`) for read only (text) fields. * `CustomFieldContextDefaultValueMultipleVersion` (type `version.multiple`) for single choice version pickers. * `CustomFieldContextDefaultValueSingleVersion` (type `version.single`) for multiple choice version pickers. Forge custom fields [types](https://developer.atlassian.com/platform/forge/manifest-reference/modules/jira-custom-field-type/#data-types) are also supported, returning: * `CustomFieldContextDefaultValueForgeStringFieldBean` (type `forge.string`) for Forge string fields. * `CustomFieldContextDefaultValueForgeMultiStringFieldBean` (type `forge.string.list`) for Forge string collection fields. * `CustomFieldContextDefaultValueForgeObjectFieldBean` (type `forge.object`) for Forge object fields. * `CustomFieldContextDefaultValueForgeDateTimeFieldBean` (type `forge.datetime`) for Forge date-time fields. * `CustomFieldContextDefaultValueForgeGroupFieldBean` (type `forge.group`) for Forge group fields. * `CustomFieldContextDefaultValueForgeMultiGroupFieldBean` (type `forge.group.list`) for Forge group collection fields. * `CustomFieldContextDefaultValueForgeNumberFieldBean` (type `forge.number`) for Forge number fields. * `CustomFieldContextDefaultValueForgeUserFieldBean` (type `forge.user`) for Forge user fields. * `CustomFieldContextDefaultValueForgeMultiUserFieldBean` (type `forge.user.list`) for Forge user collection fields. Only one type of default object can be included in a request. To remove a default for a context, set the default parameter to `null`. **Deprecated:** This API is deprecated and will be removed in October 2026. A replacement API that supports multiple default values per issue type within a context is coming soon. See the deprecation notice [CHANGE-3082](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-3082) for more details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("fieldId", mcplib.Required(), mcplib.Description("The ID of the custom field.")),
 			mcplib.WithString("defaultValues", mcplib.Description("Default values")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/defaultValue", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "defaultValues", WireName: "defaultValues", Location: "body"}}, []string{"fieldId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("field_context_set-default-values-field",
+			mcplib.WithDescription("Updates default values for individual issue types in custom field contexts. Only tenants enrolled in the early access program (EAP) can access this resource. See the [EAP announcement](https://ecosystem.atlassian.net/browse/CHANGE-3082) for details. Each entry targets either one issue type through {@code issueTypeId}, or the catch-all configuration through {@code isAnyIssueType=true}. A null value removes the default for that target. Entries not included in the request are left unchanged. Required: fieldId. Optional: defaultValues."),
+			mcplib.WithString("fieldId", mcplib.Required(), mcplib.Description("The ID of the custom field, for example {@code customfield_10000}.")),
+			mcplib.WithString("defaultValues", mcplib.Description("The default values to update.")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "/rest/api/3/field/{fieldId}/context/defaultValues", false, false, nil, []mcpParamBinding{{PublicName: "fieldId", WireName: "fieldId", Location: "path"}, {PublicName: "defaultValues", WireName: "defaultValues", Location: "body"}}, []string{"fieldId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("field_context_update-custom-field",
@@ -3885,7 +3974,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("field_contexts_get-for-field-deprecated",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of the contexts a field is used in. Deprecated, use [ Get custom field contexts](#api-rest-api-2-field-fieldId-context-get). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of the contexts a field is used in. Deprecated, use [ Get custom field contexts](#api-rest-api-3-field-fieldId-context-get). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("fieldId", mcplib.Required(), mcplib.Description("The ID of the field to return contexts for.")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
@@ -4183,7 +4272,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_create",
-			mcplib.WithDescription("Creates a filter. The filter is shared according to the [default share scope](#api-rest-api-2-filter-post). The filter is not selected as a favorite. **[Permissions](#permissions) required:** Permission to access Jira. (public)"),
+			mcplib.WithDescription("Creates a filter. The filter is shared according to the [default share scope](#api-rest-api-3-filter-post). The filter is not selected as a favorite. **[Permissions](#permissions) required:** Permission to access Jira. (public)"),
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about filter in the response.")),
 			mcplib.WithBoolean("overrideSharePermissions", mcplib.Description("EXPERIMENTAL: Whether share permissions are overridden to enable filters with any share permissions to be created.")),
 			mcplib.WithString("approximateLastUsed", mcplib.Description("[Experimental] Approximate last used time. Returns the date and time when the filter was last used.")),
@@ -4195,7 +4284,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("jql", mcplib.Description("The JQL query for the filter. For example, *project = SSP AND issuetype = Bug*.")),
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the filter. Must be unique.")),
 			mcplib.WithString("owner", mcplib.Description("The user who owns the filter.")),
-			mcplib.WithString("searchUrl", mcplib.Description("A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-2-filter-search-get)")),
+			mcplib.WithString("searchUrl", mcplib.Description("A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-3-filter-search-get)")),
 			mcplib.WithString("self", mcplib.Description("The URL of the filter.")),
 			mcplib.WithString("sharePermissions", mcplib.Description("The groups and projects that the filter is shared with.")),
 			mcplib.WithString("sharedUsers", mcplib.Description("A paginated list of the users that the filter is shared with.")),
@@ -4302,7 +4391,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("jql", mcplib.Description("The JQL query for the filter. For example, *project = SSP AND issuetype = Bug*.")),
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the filter. Must be unique.")),
 			mcplib.WithString("owner", mcplib.Description("The user who owns the filter.")),
-			mcplib.WithString("searchUrl", mcplib.Description("A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-2-filter-search-get)")),
+			mcplib.WithString("searchUrl", mcplib.Description("A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-3-filter-search-get)")),
 			mcplib.WithString("self", mcplib.Description("The URL of the filter.")),
 			mcplib.WithString("sharePermissions", mcplib.Description("The groups and projects that the filter is shared with.")),
 			mcplib.WithString("sharedUsers", mcplib.Description("A paginated list of the users that the filter is shared with.")),
@@ -4333,7 +4422,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_columns_set",
-			mcplib.WithDescription("Sets the columns for a filter. Only navigable fields can be set as columns. Use [Get fields](#api-rest-api-2-field-get) to get the list fields in Jira. A navigable field has `navigable` set to `true`. The parameters for this resource are expressed as HTML form data. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/3/filter/10000/columns` **[Permissions](#permissions) required:** Permission to access Jira, however, columns are only set for: * filters owned by the user. * filters shared with a group that the user is a member of. * filters shared with a private project that the user has *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for. * filters shared with a public project. * filters shared with the public. (public)"),
+			mcplib.WithDescription("Sets the columns for a filter. Only navigable fields can be set as columns. Use [Get fields](#api-rest-api-3-field-get) to get the list fields in Jira. A navigable field has `navigable` set to `true`. The parameters for this resource are expressed as HTML form data. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/3/filter/10000/columns` **[Permissions](#permissions) required:** Permission to access Jira, however, columns are only set for: * filters owned by the user. * filters shared with a group that the user is a member of. * filters shared with a private project that the user has *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for. * filters shared with a public project. * filters shared with the public. (public)"),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the filter.")),
 			mcplib.WithString("columns", mcplib.Description("Columns")),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -4370,7 +4459,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("filter_permission_add-share",
-			mcplib.WithDescription("Add a share permissions to a filter. If you add a global share permission (one for all logged-in users or the public) it will overwrite all share permissions for the filter. Be aware that this operation uses different objects for updating share permissions compared to [Update filter](#api-rest-api-2-filter-id-put). **[Permissions](#permissions) required:** *Share dashboards and filters* [global permission](https://confluence.atlassian.com/x/x4dKLg) and the user must own the filter. (public)"),
+			mcplib.WithDescription("Add a share permissions to a filter. If you add a global share permission (one for all logged-in users or the public) it will overwrite all share permissions for the filter. Be aware that this operation uses different objects for updating share permissions compared to [Update filter](#api-rest-api-3-filter-id-put). **[Permissions](#permissions) required:** *Share dashboards and filters* [global permission](https://confluence.atlassian.com/x/x4dKLg) and the user must own the filter. (public)"),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the filter.")),
 			mcplib.WithString("accountId", mcplib.Description("The user account ID that the filter is shared with. For a request, specify the `accountId` property for the user.")),
 			mcplib.WithString("groupId", mcplib.Description("The ID of the group, which uniquely identifies the group across all Atlassian products.")),
@@ -4417,7 +4506,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("forge_bulk-pin-unpin-projects-async",
-			mcplib.WithDescription("Bulk pin or unpin an issue panel (added by a Forge app) to or from multiple projects. The operation runs asynchronously. The response includes a task ID - use the [Get task](#api-rest-api-2-task-taskId-get) endpoint to check progress. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Bulk pin or unpin an issue panel (added by a Forge app) to or from multiple projects. The operation runs asynchronously. The response includes a task ID - use the [Get task](#api-rest-api-3-task-taskId-get) endpoint to check progress. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("moduleId", mcplib.Required(), mcplib.Description("The moduleId of the Forge panel in the format `ari:cloud:ecosystem")),
 			mcplib.WithString("projectList", mcplib.Required(), mcplib.Description("The list of projects to pin or unpin the issue panel to or from.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -4452,6 +4541,16 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/rest/forge/1/app/properties", true, false, nil, []mcpParamBinding{}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("forge_get-bulk-pin-status",
+			mcplib.WithDescription("Get the pin status of an issue panel (added by a Forge app) for multiple projects. The operation is read-only and runs synchronously. Projects that do not exist, or that you do not have permission to access, are returned in the response with the panel reported as not pinned and the reason in the `error` field; the request itself still succeeds. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithString("moduleId", mcplib.Required(), mcplib.Description("The moduleId of the Forge panel in the format `ari:cloud:ecosystem")),
+			mcplib.WithString("projectList", mcplib.Required(), mcplib.Description("The IDs or keys of the projects to check the issue panel pin status for.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/forge/panel/action/bulk/status", false, false, nil, []mcpParamBinding{{PublicName: "moduleId", WireName: "moduleId", Location: "body"}, {PublicName: "projectList", WireName: "projectList", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("forge_put-app-property",
@@ -4499,7 +4598,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("group_get",
-			mcplib.WithDescription("This operation is deprecated, use [`group/member`](#api-rest-api-2-group-member-get). Returns all users in a group. **[Permissions](#permissions) required:** either of: * *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("This operation is deprecated, use [`group/member`](#api-rest-api-3-group-member-get). Returns all users in a group. **[Permissions](#permissions) required:** either of: * *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("groupname", mcplib.Description("As a group's name can change, use of `groupId` is recommended to identify a group.")),
 			mcplib.WithString("groupId", mcplib.Description("The ID of the group. This parameter cannot be used with the `groupName` parameter.")),
 			mcplib.WithString("expand", mcplib.Description("List of fields to expand.")),
@@ -4575,11 +4674,12 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("avatarSize", mcplib.Description("The size of the avatar to return. If an invalid value is provided, the default value is used.")),
 			mcplib.WithBoolean("caseInsensitive", mcplib.Description("Whether the search for groups should be case insensitive.")),
 			mcplib.WithBoolean("excludeConnectAddons", mcplib.Description("Whether Connect app users and groups should be excluded from the search results.")),
+			mcplib.WithBoolean("includeAiAgents", mcplib.Description("Whether AI Agents should be included in the search results. If an invalid value is provided, the default value is used.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/3/groupuserpicker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "showAvatar", WireName: "showAvatar", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "avatarSize", WireName: "avatarSize", Location: "query"}, {PublicName: "caseInsensitive", WireName: "caseInsensitive", Location: "query"}, {PublicName: "excludeConnectAddons", WireName: "excludeConnectAddons", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/groupuserpicker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "showAvatar", WireName: "showAvatar", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "avatarSize", WireName: "avatarSize", Location: "query"}, {PublicName: "caseInsensitive", WireName: "caseInsensitive", Location: "query"}, {PublicName: "excludeConnectAddons", WireName: "excludeConnectAddons", Location: "query"}, {PublicName: "includeAiAgents", WireName: "includeAiAgents", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("instance_get-license",
@@ -4600,6 +4700,18 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "/rest/internal/api/latest/worklog/bulk", false, false, nil, []mcpParamBinding{{PublicName: "requests", WireName: "requests", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
+		mcplib.NewTool("invalid-jqls-access-log_get-audit-entries",
+			mcplib.WithDescription("Returns JQL searches that need updating because Jira can no longer support them. Use the entries to find affected saved filters and JQL used by apps, automations, scripts, or REST integrations. Entries are ordered by creation time, newest first, and retained for three days. Pass the `nextPageToken` returned in a previous response to retrieve the next page. Results may be restricted to a user by external account ID. **[Permissions](#permissions) required:** *Administer Jira* global permission."),
+			mcplib.WithString("userAccountId", mcplib.Description("The optional external account ID used to restrict the entries returned.")),
+			mcplib.WithString("nextPageToken", mcplib.Description("The token returned by a previous response to retrieve the next page.")),
+			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of entries to return, from 1 to 100 and defaulting to 50.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/rest/api/3/invalid-jqls-access-log", true, false, nil, []mcpParamBinding{{PublicName: "userAccountId", WireName: "userAccountId", Location: "query"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
 		mcplib.NewTool("issue_archive",
 			mcplib.WithDescription("Enables admins to archive up to 1000 issues in a single request using issue ID/key, returning details of the issue(s) archived in the process and the errors encountered, if any. **Note that:** * you can't archive subtasks directly, only through their parent issues * you can only archive issues from software, service management, and business projects **[Permissions](#permissions) required:** Jira admin or site admin: [global permission](https://confluence.atlassian.com/x/x4dKLg) **License required:** Premium or Enterprise **Signed-in users only:** This API can't be accessed anonymously. (public)"),
 			mcplib.WithString("issueIdsOrKeys", mcplib.Description("Issue ids or keys")),
@@ -4618,7 +4730,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-delete-property",
-			mcplib.WithDescription("Deletes a property value from multiple issues. The issues to be updated can be specified by filter criteria. The criteria the filter used to identify eligible issues are: * `entityIds` Only issues from this list are eligible. * `currentValue` Only issues with the property set to this value are eligible. If both criteria is specified, they are joined with the logical *AND*: only issues that satisfy both criteria are considered eligible. If no filter criteria are specified, all the issues visible to the user and where the user has the EDIT_ISSUES permission for the issue are considered eligible. This operation is: * transactional, either the property is deleted from all eligible issues or, when errors occur, no properties are deleted. * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** * *Browse projects* [ project permission](https://confluence.atlassian.com/x/yodKLg) for each project containing issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for each issue. Destructive."),
+			mcplib.WithDescription("Deletes a property value from multiple issues. The issues to be updated can be specified by filter criteria. The criteria the filter used to identify eligible issues are: * `entityIds` Only issues from this list are eligible. * `currentValue` Only issues with the property set to this value are eligible. If both criteria is specified, they are joined with the logical *AND*: only issues that satisfy both criteria are considered eligible. If no filter criteria are specified, all the issues visible to the user and where the user has the EDIT_ISSUES permission for the issue are considered eligible. This operation is: * transactional, either the property is deleted from all eligible issues or, when errors occur, no properties are deleted. * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** * *Browse projects* [ project permission](https://confluence.atlassian.com/x/yodKLg) for each project containing issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for each issue. Destructive."),
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the property.")),
 			mcplib.WithString("currentValue", mcplib.Description("The value of properties to perform the bulk operation on.")),
 			mcplib.WithString("entityIds", mcplib.Description("List of issues to perform the bulk delete operation on.")),
@@ -4629,7 +4741,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-fetch",
-			mcplib.WithDescription("Returns the details for a set of requested issues. You can request up to 100 issues. Each issue is identified by its ID or key, however, if the identifier doesn't match an issue, a case-insensitive search and check for moved issues is performed. If a matching issue is found its details are returned, a 302 or other redirect is **not** returned. Issues will be returned in ascending `id` order. If there are errors, Jira will return a list of issues which couldn't be fetched along with error messages. This operation can be accessed anonymously. **[Permissions](#permissions) required:** Issues are included in the response where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
+			mcplib.WithDescription("Returns the details for a set of requested issues. By default you can request up to 100 issues in a single call. You can request up to 1000 issues in a single call when the request is shaped so that it can be served efficiently, that is, when *all* of the following are true: * the `fields` parameter explicitly names at least one field to include — a request that contains only exclusions is **not** eligible, and neither are the `*all` and `*navigable` wildcards or the default navigable field set, because the number of resolved fields depends on the site's configuration; * no more than 100 fields are explicitly included; * none of the included fields returns multiple values (for example `comment`, `worklog`, or `attachment`); and * the `expand` parameter does not include `changelog`, `editmeta`, `operations`, `renderedFields`, `transitions`, or `versionedRepresentations`. Requests that do not meet all of these conditions can include at most 100 issues; larger requests are rejected with a 400 error. Each issue is identified by its ID or key, however, if the identifier doesn't match an issue, a case-insensitive search and check for moved issues is performed. If a matching issue is found its details are returned, a 302 or other redirect is **not** returned. Issues will be returned in ascending `id` order. If there are errors, Jira will return a list of issues which couldn't be fetched along with error messages. This operation can be accessed anonymously. **[Permissions](#permissions) required:** Issues are included in the response where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about issues in the response.")),
 			mcplib.WithString("fields", mcplib.Description("A list of fields to return for each issue, use it to retrieve a subset of fields.")),
 			mcplib.WithBoolean("fieldsByKeys", mcplib.Description("Reference fields by their key (rather than ID). The default is `false`.")),
@@ -4642,7 +4754,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-set-properties-by",
-			mcplib.WithDescription("Sets or updates entity property values on issues. Up to 10 entity properties can be specified for each issue and up to 100 issues included in the request. The value of the request body must be a [valid](http://tools.ietf.org/html/rfc4627), non-empty JSON. This operation is: * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. * non-transactional. Updating some entities may fail. Such information will available in the task result. **[Permissions](#permissions) required:** * *Browse projects* and *Edit issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithDescription("Sets or updates entity property values on issues. Up to 10 entity properties can be specified for each issue and up to 100 issues included in the request. The value of the request body must be a [valid](http://tools.ietf.org/html/rfc4627), non-empty JSON. This operation is: * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. * non-transactional. Updating some entities may fail. Such information will available in the task result. **[Permissions](#permissions) required:** * *Browse projects* and *Edit issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
 			mcplib.WithString("issues", mcplib.Description("A list of issue IDs and their respective properties.")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -4651,7 +4763,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-set-properties-list",
-			mcplib.WithDescription("Sets or updates a list of entity property values on issues. A list of up to 10 entity properties can be specified along with up to 10,000 issues on which to set or update that list of entity properties. The value of the request body must be a [valid](http://tools.ietf.org/html/rfc4627), non-empty JSON. The maximum length of single issue property value is 32768 characters. This operation can be accessed anonymously. This operation is: * transactional, either all properties are updated in all eligible issues or, when errors occur, no properties are updated. * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** * *Browse projects* and *Edit issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithDescription("Sets or updates a list of entity property values on issues. A list of up to 10 entity properties can be specified along with up to 10,000 issues on which to set or update that list of entity properties. The value of the request body must be a [valid](http://tools.ietf.org/html/rfc4627), non-empty JSON. The maximum length of single issue property value is 32768 characters. This operation can be accessed anonymously. This operation is: * transactional, either all properties are updated in all eligible issues or, when errors occur, no properties are updated. * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** * *Browse projects* and *Edit issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
 			mcplib.WithString("entitiesIds", mcplib.Description("A list of entity property IDs.")),
 			mcplib.WithString("properties", mcplib.Description("A list of entity property keys and values.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -4661,7 +4773,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_bulk-set-property",
-			mcplib.WithDescription("Sets a property value on multiple issues. The value set can be a constant or determined by a [Jira expression](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/). Expressions must be computable with constant complexity when applied to a set of issues. Expressions must also comply with the [restrictions](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/#restrictions) that apply to all Jira expressions. The issues to be updated can be specified by a filter. The filter identifies issues eligible for update using these criteria: * `entityIds` Only issues from this list are eligible. * `currentValue` Only issues with the property set to this value are eligible. * `hasProperty`: * If *true*, only issues with the property are eligible. * If *false*, only issues without the property are eligible. If more than one criteria is specified, they are joined with the logical *AND*: only issues that satisfy all criteria are eligible. If an invalid combination of criteria is provided, an error is returned. For example, specifying a `currentValue` and `hasProperty` as *false* would not match any issues (because without the property the property cannot have a value). The filter is optional. Without the filter all the issues visible to the user and where the user has the EDIT_ISSUES permission for the issue are considered eligible. This operation is: * transactional, either all eligible issues are updated or, when errors occur, none are updated. * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for each project containing issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for each issue."),
+			mcplib.WithDescription("Sets a property value on multiple issues. The value set can be a constant or determined by a [Jira expression](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/). Expressions must be computable with constant complexity when applied to a set of issues. Expressions must also comply with the [restrictions](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/#restrictions) that apply to all Jira expressions. The issues to be updated can be specified by a filter. The filter identifies issues eligible for update using these criteria: * `entityIds` Only issues from this list are eligible. * `currentValue` Only issues with the property set to this value are eligible. * `hasProperty`: * If *true*, only issues with the property are eligible. * If *false*, only issues without the property are eligible. If more than one criteria is specified, they are joined with the logical *AND*: only issues that satisfy all criteria are eligible. If an invalid combination of criteria is provided, an error is returned. For example, specifying a `currentValue` and `hasProperty` as *false* would not match any issues (because without the property the property cannot have a value). The filter is optional. Without the filter all the issues visible to the user and where the user has the EDIT_ISSUES permission for the issue are considered eligible. This operation is: * transactional, either all eligible issues are updated or, when errors occur, none are updated. * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for each project containing issues. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. * *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for each issue."),
 			mcplib.WithString("propertyKey", mcplib.Required(), mcplib.Description("The key of the property. The maximum length is 255 characters.")),
 			mcplib.WithString("expression", mcplib.Description("EXPERIMENTAL. The Jira expression to calculate the value of the property.")),
 			mcplib.WithString("filter", mcplib.Description("The bulk operation filter.")),
@@ -4672,7 +4784,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_create",
-			mcplib.WithDescription("Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. A transition may be applied, to move the issue or subtask to a workflow step other than the default start step, and issue properties set. The content of the issue or subtask is defined using `update` and `fields`. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-2-issue-createmeta-get). These are the same fields that appear on the issue's create screen. Creating a subtask differs from creating an issue as follows: * `issueType` must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-2-issue-createmeta-get) to find subtask issue types). * `parent` must contain the ID or key of the parent issue. **[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which the issue or subtask is created. (public)"),
+			mcplib.WithDescription("Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. A transition may be applied, to move the issue or subtask to a workflow step other than the default start step, and issue properties set. The content of the issue or subtask is defined using `update` and `fields`. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get). These are the same fields that appear on the issue's create screen. Note that the `description`, `environment`, and any `textarea` type custom fields (multi-line text fields) take Atlassian Document Format content. Single line custom fields (`textfield`) accept a string and don't handle Atlassian Document Format content. Creating a subtask differs from creating an issue as follows: * `issueType` must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get) to find subtask issue types). * `parent` must contain the ID or key of the parent issue. In a next-gen project any issue may be made a child providing that the parent and child are members of the same project. **[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which the issue or subtask is created. (public)"),
 			mcplib.WithBoolean("updateHistory", mcplib.Description("Whether the project in which the issue is created is added to the user's **Recently viewed** project list")),
 			mcplib.WithString("fields", mcplib.Description("List of issue screen fields to update, specifying the sub-field to update and its value for...")),
 			mcplib.WithString("historyMetadata", mcplib.Description("Additional issue history details.")),
@@ -4686,7 +4798,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_create-bulk",
-			mcplib.WithDescription("Creates upto **50** issues and, where the option to create subtasks is enabled in Jira, subtasks. Transitions may be applied, to move the issues or subtasks to a workflow step other than the default start step, and issue properties set. The content of each issue or subtask is defined using `update` and `fields`. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-2-issue-createmeta-get). These are the same fields that appear on the issues' create screens. Creating a subtask differs from creating an issue as follows: * `issueType` must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-2-issue-createmeta-get) to find subtask issue types). * `parent` the must contain the ID or key of the parent issue. **[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which each issue or subtask is created. (public)"),
+			mcplib.WithDescription("Creates upto **50** issues and, where the option to create subtasks is enabled in Jira, subtasks. Transitions may be applied, to move the issues or subtasks to a workflow step other than the default start step, and issue properties set. The content of each issue or subtask is defined using `update` and `fields`. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get). These are the same fields that appear on the issues' create screens. Note that the `description`, `environment`, and any `textarea` type custom fields (multi-line text fields) take Atlassian Document Format content. Single line custom fields (`textfield`) accept a string and don't handle Atlassian Document Format content. Creating a subtask differs from creating an issue as follows: * `issueType` must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get) to find subtask issue types). * `parent` the must contain the ID or key of the parent issue. **[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which each issue or subtask is created. (public)"),
 			mcplib.WithString("issueUpdates", mcplib.Description("Issue updates")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -4705,7 +4817,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_edit",
-			mcplib.WithDescription("Edits an issue. Issue properties may be updated as part of the edit. Please note that issue transition is not supported and is ignored here. To transition an issue, please use [Transition issue](#api-rest-api-2-issue-issueIdOrKey-transitions-post). The edits to the issue's fields are defined using `update` and `fields`. The fields that can be edited are determined using [ Get edit issue metadata](#api-rest-api-2-issue-issueIdOrKey-editmeta-get). The parent field may be set by key or ID. For standard issue types, the parent may be removed by setting `update.parent.set.none` to *true*. Connect apps having an app user with *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), and Forge apps acting on behalf of users with *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), can override the screen security configuration using `overrideScreenSecurity` and `overrideEditableFlag`. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse projects* and *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
+			mcplib.WithDescription("Edits an issue. Issue properties may be updated as part of the edit. Please note that issue transition is not supported and is ignored here. To transition an issue, please use [Transition issue](#api-rest-api-3-issue-issueIdOrKey-transitions-post). The edits to the issue's fields are defined using `update` and `fields`. The fields that can be edited are determined using [ Get edit issue metadata](#api-rest-api-3-issue-issueIdOrKey-editmeta-get). **Note:** This endpoint doesn't check screen configurations to determine if a field is editable. For more context, see the [Deprecation of override screen security](https://community.developer.atlassian.com/t/deprecation-of-override-screen-security/97153) announcement. The parent field may be set by key or ID. For standard issue types, the parent may be removed by setting `update.parent.set.none` to *true*. Note that the `description`, `environment`, and any `textarea` type custom fields (multi-line text fields) take Atlassian Document Format content. Single line custom fields (`textfield`) accept a string and don't handle Atlassian Document Format content. Connect apps having an app user with *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), and Forge apps acting on behalf of users with *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), can override the screen security configuration using `overrideScreenSecurity` and `overrideEditableFlag`. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse projects* and *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
 			mcplib.WithString("issueIdOrKey", mcplib.Required(), mcplib.Description("The ID or key of the issue.")),
 			mcplib.WithBoolean("notifyUsers", mcplib.Description("Whether a notification email about the issue update is sent to all watchers.")),
 			mcplib.WithBoolean("overrideScreenSecurity", mcplib.Description("Whether screen security is overridden to enable hidden fields to be edited.")),
@@ -4738,8 +4850,19 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/rest/api/3/issue/{issueIdOrKey}", true, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "updateHistory", WireName: "updateHistory", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("issue_get-adf-limit-report",
+			mcplib.WithDescription("Returns all issues whose ADF (rich text) field data breaches the universal ADF size limit. Unlike the issue limit report, which reports issues breaching per-issue entity *count* limits, this endpoint reports issues whose ADF field *byte size* exceeds that limit. The reported ADF field types are `comment_adf`, `worklog_adf`, `customfield_adf`, `description_adf` and `environment_adf`. The reported value for each issue is the number of breaching entities for that field (always 1 for the single-value description and environment fields). **[Permissions](#permissions) required:** * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) is required for the project the issues are in. Results may be incomplete otherwise * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithBoolean("isReturningKeys", mcplib.Description("Return issue keys instead of issue ids in the response. Usage: Add `?")),
+			mcplib.WithString("fieldType", mcplib.Description("Restrict the report to the given ADF field types. Defaults to every ADF field type.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/rest/api/3/issue/limit/adf/report", true, false, nil, []mcpParamBinding{{PublicName: "isReturningKeys", WireName: "isReturningKeys", Location: "query"}, {PublicName: "fieldType", WireName: "fieldType", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
 		mcplib.NewTool("issue_get-create-meta",
-			mcplib.WithDescription("Returns details of projects, issue types within projects, and, when requested, the create screen fields for each issue type for the user. Use the information to populate the requests in [ Create issue](#api-rest-api-2-issue-post) and [Create issues](#api-rest-api-2-issue-bulk-post). Deprecated, see [Create Issue Meta Endpoint Deprecation Notice](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-1304). The request can be restricted to specific projects or issue types using the query parameters. The response will contain information for the valid projects, issue types, or project and issue type combinations requested. Note that invalid project, issue type, or project and issue type combinations do not generate errors. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Create issues* [project permission](https://confluence.atlassian.com/x/yodKLg) in the requested projects. (public)"),
+			mcplib.WithDescription("Returns details of projects, issue types within projects, and, when requested, the create screen fields for each issue type for the user. Use the information to populate the requests in [ Create issue](#api-rest-api-3-issue-post) and [Create issues](#api-rest-api-3-issue-bulk-post). Deprecated, see [Create Issue Meta Endpoint Deprecation Notice](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-1304). The request can be restricted to specific projects or issue types using the query parameters. The response will contain information for the valid projects, issue types, or project and issue type combinations requested. Note that invalid project, issue type, or project and issue type combinations do not generate errors. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Create issues* [project permission](https://confluence.atlassian.com/x/yodKLg) in the requested projects. (public)"),
 			mcplib.WithString("projectIds", mcplib.Description("List of project IDs. This parameter accepts a comma-separated list.")),
 			mcplib.WithString("projectKeys", mcplib.Description("List of project keys. This parameter accepts a comma-separated list.")),
 			mcplib.WithString("issuetypeIds", mcplib.Description("List of issue type IDs. This parameter accepts a comma-separated list.")),
@@ -4753,7 +4876,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get-create-meta-type-id",
-			mcplib.WithDescription("Returns a page of field metadata for a specified project and issuetype id. Use the information to populate the requests in [ Create issue](#api-rest-api-2-issue-post) and [Create issues](#api-rest-api-2-issue-bulk-post). This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Create issues* [project permission](https://confluence.atlassian.com/x/yodKLg) in the requested projects. (public)"),
+			mcplib.WithDescription("Returns a page of field metadata for a specified project and issuetype id. Use the information to populate the requests in [ Create issue](#api-rest-api-3-issue-post) and [Create issues](#api-rest-api-3-issue-bulk-post). This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Create issues* [project permission](https://confluence.atlassian.com/x/yodKLg) in the requested projects. (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The ID or key of the project.")),
 			mcplib.WithString("issueTypeId", mcplib.Required(), mcplib.Description("The issuetype ID.")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
@@ -4766,7 +4889,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_get-create-meta-types",
-			mcplib.WithDescription("Returns a page of issue type metadata for a specified project. Use the information to populate the requests in [ Create issue](#api-rest-api-2-issue-post) and [Create issues](#api-rest-api-2-issue-bulk-post). This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Create issues* [project permission](https://confluence.atlassian.com/x/yodKLg) in the requested projects. (public)"),
+			mcplib.WithDescription("Returns a page of issue type metadata for a specified project. Use the information to populate the requests in [ Create issue](#api-rest-api-3-issue-post) and [Create issues](#api-rest-api-3-issue-bulk-post). This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Create issues* [project permission](https://confluence.atlassian.com/x/yodKLg) in the requested projects. (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The ID or key of the project.")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
@@ -4844,7 +4967,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_attachments_add",
-			mcplib.WithDescription("Adds one or more attachments to an issue. Attachments are posted as multipart/form-data ([RFC 1867](https://www.ietf.org/rfc/rfc1867.txt)). Note that: * The request must have a `X-Atlassian-Token: no-check` header, if not it is blocked. See [Special headers](#special-request-headers) for more information. * The name of the multipart/form-data parameter that contains the attachments must be `file`. The following examples upload a file called *myfile.txt* to the issue *TEST-123*: #### curl #### curl --location --request POST 'https://your-domain.atlassian.net/rest/api/3/issue/TEST-123/attachments' -u 'email@example.com:<api_token>' -H 'X-Atlassian-Token: no-check' --form 'file=@'myfile.txt'' #### Node.js #### // This code sample uses the 'node-fetch' and 'form-data' libraries: // https://www.npmjs.com/package/node-fetch // https://www.npmjs.com/package/form-data const fetch = require('node-fetch'); const FormData = require('form-data'); const fs = require('fs'); const filePath = 'myfile.txt'; const form = new FormData(); const stats = fs.statSync(filePath); const fileSizeInBytes = stats.size; const fileStream = fs.createReadStream(filePath); form.append('file', fileStream, {knownLength: fileSizeInBytes}); fetch('https://your-domain.atlassian.net/rest/api/3/issue/TEST-123/attachments', { method: 'POST', body: form, headers: { 'Authorization': `Basic ${Buffer.from( 'email@example.com:' ).toString('base64')}`, 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } }) .then(response => { console.log( `Response: ${response.status} ${response.statusText}` ); return response.text(); }) .then(text => console.log(text)) .catch(err => console.error(err)); #### Java #### // This code sample uses the 'Unirest' library: // http://unirest.io/java.html HttpResponse response = Unirest.post('https://your-domain.atlassian.net/rest/api/3/issue/{issueIdOrKey}/attachments') .basicAuth('email@example.com', '') .header('Accept', 'application/json') .header('X-Atlassian-Token', 'no-check') .field('file', new File('myfile.txt')) .asJson(); System.out.println(response.getBody()); #### Python #### # This code sample uses the 'requests' library: # http://docs.python-requests.org import requests from requests.auth import HTTPBasicAuth import json url = 'https://your-domain.atlassian.net/rest/api/3/issue/{issueIdOrKey}/attachments' auth = HTTPBasicAuth('email@example.com', '') headers = { 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } response = requests.request( 'POST', url, headers = headers, auth = auth, files = { 'file': ('myfile.txt', open('myfile.txt','rb'), 'application-type') } ) print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(',', ': '))) #### PHP #### // This code sample uses the 'Unirest' library: // http://unirest.io/php.html UnirestRequest::auth('email@example.com', ''); $headers = array( 'Accept' => 'application/json', 'X-Atlassian-Token' => 'no-check' ); $parameters = array( 'file' => File::add('myfile.txt') ); $response = UnirestRequest::post( 'https://your-domain.atlassian.net/rest/api/3/issue/{issueIdOrKey}/attachments', $headers, $parameters ); var_dump($response) #### Forge #### // This sample uses Atlassian Forge and the `form-data` library. // https://developer.atlassian.com/platform/forge/ // https://www.npmjs.com/package/form-data import api from '@forge/api'; import FormData from 'form-data'; const form = new FormData(); form.append('file', fileStream, {knownLength: fileSizeInBytes}); const response = await api.asApp().requestJira('/rest/api/3/issue/{issueIdOrKey}/attachments', { method: 'POST', body: form, headers: { 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } }); console.log(`Response: ${response.status} ${response.statusText}`); console.log(await response.json()); Tip: Use a client library. Many client libraries have classes for handling multipart POST operations. For example, in Java, the Apache HTTP Components library provides a [MultiPartEntity](http://hc.apache.org/httpcomponents-client-ga/httpmime/apidocs/org/apache/http/entity/mime/MultipartEntity.html) class for multipart POST operations. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse Projects* and *Create attachments* [ project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
+			mcplib.WithDescription("Adds one or more attachments to an issue. Attachments are posted as multipart/form-data ([RFC 1867](https://www.ietf.org/rfc/rfc1867.txt)). Note that: * The request must have a `X-Atlassian-Token: no-check` header, if not it is blocked. See [Special headers](#special-request-headers) for more information. * The name of the multipart/form-data parameter that contains the attachments must be `file`. The following examples upload a file called *myfile.txt* to the issue *TEST-123*: #### curl #### curl --location --request POST 'https://your-domain.atlassian.net/rest/api/3/issue/TEST-123/attachments' -u 'email@example.com:<api_token>' -H 'X-Atlassian-Token: no-check' --form 'file=@'myfile.txt'' #### Node.js #### // This code sample uses the 'node-fetch' and 'form-data' libraries: // https://www.npmjs.com/package/node-fetch // https://www.npmjs.com/package/form-data const fetch = require('node-fetch'); const FormData = require('form-data'); const fs = require('fs'); const filePath = 'myfile.txt'; const form = new FormData(); const stats = fs.statSync(filePath); const fileSizeInBytes = stats.size; const fileStream = fs.createReadStream(filePath); form.append('file', fileStream, {knownLength: fileSizeInBytes}); fetch('https://your-domain.atlassian.net/rest/api/3/issue/TEST-123/attachments', { method: 'POST', body: form, headers: { 'Authorization': `Basic ${Buffer.from( 'email@example.com:' ).toString('base64')}`, 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } }) .then(response => { console.log( `Response: ${response.status} ${response.statusText}` ); return response.text(); }) .then(text => console.log(text)) .catch(err => console.error(err)); #### Java #### // This code sample uses the 'Unirest' library: // http://unirest.io/java.html HttpResponse response = Unirest.post('https://your-domain.atlassian.net/rest/api/2/issue/{issueIdOrKey}/attachments') .basicAuth('email@example.com', '') .header('Accept', 'application/json') .header('X-Atlassian-Token', 'no-check') .field('file', new File('myfile.txt')) .asJson(); System.out.println(response.getBody()); #### Python #### # This code sample uses the 'requests' library: # http://docs.python-requests.org import requests from requests.auth import HTTPBasicAuth import json url = 'https://your-domain.atlassian.net/rest/api/2/issue/{issueIdOrKey}/attachments' auth = HTTPBasicAuth('email@example.com', '') headers = { 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } response = requests.request( 'POST', url, headers = headers, auth = auth, files = { 'file': ('myfile.txt', open('myfile.txt','rb'), 'application-type') } ) print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(',', ': '))) #### PHP #### // This code sample uses the 'Unirest' library: // http://unirest.io/php.html UnirestRequest::auth('email@example.com', ''); $headers = array( 'Accept' => 'application/json', 'X-Atlassian-Token' => 'no-check' ); $parameters = array( 'file' => File::add('myfile.txt') ); $response = UnirestRequest::post( 'https://your-domain.atlassian.net/rest/api/2/issue/{issueIdOrKey}/attachments', $headers, $parameters ); var_dump($response) #### Forge #### // This sample uses Atlassian Forge and the `form-data` library. // https://developer.atlassian.com/platform/forge/ // https://www.npmjs.com/package/form-data import api from '@forge/api'; import FormData from 'form-data'; const form = new FormData(); form.append('file', fileStream, {knownLength: fileSizeInBytes}); const response = await api.asApp().requestJira('/rest/api/2/issue/{issueIdOrKey}/attachments', { method: 'POST', body: form, headers: { 'Accept': 'application/json', 'X-Atlassian-Token': 'no-check' } }); console.log(`Response: ${response.status} ${response.statusText}`); console.log(await response.json()); Tip: Use a client library. Many client libraries have classes for handling multipart POST operations. For example, in Java, the Apache HTTP Components library provides a [MultiPartEntity](http://hc.apache.org/httpcomponents-client-ga/httpmime/apidocs/org/apache/http/entity/mime/MultipartEntity.html) class for multipart POST operations. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse Projects* and *Create attachments* [ project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
 			mcplib.WithString("issueIdOrKey", mcplib.Required(), mcplib.Description("The ID or key of the issue that attachments are added to.")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -4879,7 +5002,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("issueIdOrKey", mcplib.Required(), mcplib.Description("The ID or key of the issue.")),
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about comments in the response.")),
 			mcplib.WithString("author", mcplib.Description("The ID of the user who created the comment.")),
-			mcplib.WithString("body", mcplib.Description("The comment text.")),
+			mcplib.WithString("body", mcplib.Description("The comment text in [Atlassian Document Format](https://developer.atlassian.")),
 			mcplib.WithString("created", mcplib.Description("The date and time at which the comment was created.")),
 			mcplib.WithString("id", mcplib.Description("The ID of the comment.")),
 			mcplib.WithBoolean("jsdAuthorCanSeeRequest", mcplib.Description("Whether the comment was added from an email sent by a person who is not part of the issue.")),
@@ -4940,7 +5063,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithBoolean("overrideEditableFlag", mcplib.Description("Whether screen security is overridden to enable uneditable fields to be edited.")),
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about comments in the response.")),
 			mcplib.WithString("author", mcplib.Description("The ID of the user who created the comment.")),
-			mcplib.WithString("body", mcplib.Description("The comment text.")),
+			mcplib.WithString("body", mcplib.Description("The comment text in [Atlassian Document Format](https://developer.atlassian.")),
 			mcplib.WithString("created", mcplib.Description("The date and time at which the comment was created.")),
 			mcplib.WithString("id-2", mcplib.Description("The ID of the comment.")),
 			mcplib.WithBoolean("jsdAuthorCanSeeRequest", mcplib.Description("Whether the comment was added from an email sent by a person who is not part of the issue.")),
@@ -4957,7 +5080,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_editmeta_get-edit-issue-meta",
-			mcplib.WithDescription("Returns the edit screen fields for an issue that are visible to and editable by the user. Use the information to populate the requests in [Edit issue](#api-rest-api-2-issue-issueIdOrKey-put). This endpoint will check for these conditions: 1. Field is available on a field screen - through screen, screen scheme, issue type screen scheme, and issue type scheme configuration. `overrideScreenSecurity=true` skips this condition. 2. Field is visible in the [field configuration](https://support.atlassian.com/jira-cloud-administration/docs/change-a-field-configuration/). `overrideScreenSecurity=true` skips this condition. 3. Field is shown on the issue: each field has different conditions here. For example: Attachment field only shows if attachments are enabled. Assignee only shows if user has permissions to assign the issue. 4. If a field is custom then it must have valid custom field context, applicable for its project and issue type. All system fields are assumed to have context in all projects and all issue types. 5. Issue has a project, issue type, and status defined. 6. Issue is assigned to a valid workflow, and the current status has assigned a workflow step. `overrideEditableFlag=true` skips this condition. 7. The current workflow step is editable. This is true by default, but [can be disabled by setting](https://support.atlassian.com/jira-cloud-administration/docs/use-workflow-properties/) the `jira.issue.editable` property to `false`. `overrideEditableFlag=true` skips this condition. 8. User has [Edit issues permission](https://support.atlassian.com/jira-cloud-administration/docs/permissions-for-company-managed-projects/). 9. Workflow permissions allow editing a field. This is true by default but [can be modified](https://support.atlassian.com/jira-cloud-administration/docs/use-workflow-properties/) using `jira.permission.*` workflow properties. Fields hidden using [Issue layout settings page](https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/) remain editable. Connect apps having an app user with *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), and Forge apps acting on behalf of users with *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), can return additional details using: * `overrideScreenSecurity` When this flag is `true`, then this endpoint skips checking if fields are available through screens, and field configuration (conditions 1. and 2. from the list above). * `overrideEditableFlag` When this flag is `true`, then this endpoint skips checking if workflow is present and if the current step is editable (conditions 6. and 7. from the list above). This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. Note: For any fields to be editable the user must have the *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the issue. (public)"),
+			mcplib.WithDescription("Returns the edit screen fields for an issue that are visible to and editable by the user. Use the information to populate the requests in [Edit issue](#api-rest-api-3-issue-issueIdOrKey-put). This endpoint will check for these conditions: 1. Field is available on a field screen - through screen, screen scheme, issue type screen scheme, and issue type scheme configuration. `overrideScreenSecurity=true` skips this condition. 2. Field is visible in the [field configuration](https://support.atlassian.com/jira-cloud-administration/docs/change-a-field-configuration/). `overrideScreenSecurity=true` skips this condition. 3. Field is shown on the issue: each field has different conditions here. For example: Attachment field only shows if attachments are enabled. Assignee only shows if user has permissions to assign the issue. 4. If a field is custom then it must have valid custom field context, applicable for its project and issue type. All system fields are assumed to have context in all projects and all issue types. 5. Issue has a project, issue type, and status defined. 6. Issue is assigned to a valid workflow, and the current status has assigned a workflow step. `overrideEditableFlag=true` skips this condition. 7. The current workflow step is editable. This is true by default, but [can be disabled by setting](https://support.atlassian.com/jira-cloud-administration/docs/use-workflow-properties/) the `jira.issue.editable` property to `false`. `overrideEditableFlag=true` skips this condition. 8. User has [Edit issues permission](https://support.atlassian.com/jira-cloud-administration/docs/permissions-for-company-managed-projects/). 9. Workflow permissions allow editing a field. This is true by default but [can be modified](https://support.atlassian.com/jira-cloud-administration/docs/use-workflow-properties/) using `jira.permission.*` workflow properties. Fields hidden using [Issue layout settings page](https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/) remain editable. Connect apps having an app user with *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), and Forge apps acting on behalf of users with *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), can return additional details using: * `overrideScreenSecurity` When this flag is `true`, then this endpoint skips checking if fields are available through screens, and field configuration (conditions 1. and 2. from the list above). * `overrideEditableFlag` When this flag is `true`, then this endpoint skips checking if workflow is present and if the current step is editable (conditions 6. and 7. from the list above). This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. Note: For any fields to be editable the user must have the *Edit issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the issue. (public)"),
 			mcplib.WithString("issueIdOrKey", mcplib.Required(), mcplib.Description("The ID or key of the issue.")),
 			mcplib.WithBoolean("overrideScreenSecurity", mcplib.Description("Whether hidden fields are returned.")),
 			mcplib.WithBoolean("overrideEditableFlag", mcplib.Description("Whether non-editable fields are returned.")),
@@ -5091,7 +5214,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issue_transitions_do",
-			mcplib.WithDescription("Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen. sortByCategory To update the fields on the transition screen, specify the fields in the `fields` or `update` parameters in the request body. Get details about the fields using [ Get transitions](#api-rest-api-2-issue-issueIdOrKey-transitions-get) with the `transitions.fields` expand. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse projects* and *Transition issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
+			mcplib.WithDescription("Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen. sortByCategory To update the fields on the transition screen, specify the fields in the `fields` or `update` parameters in the request body. Get details about the fields using [ Get transitions](#api-rest-api-3-issue-issueIdOrKey-transitions-get) with the `transitions.fields` expand. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Browse projects* and *Transition issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
 			mcplib.WithString("issueIdOrKey", mcplib.Required(), mcplib.Description("The ID or key of the issue.")),
 			mcplib.WithString("fields", mcplib.Description("List of issue screen fields to update, specifying the sub-field to update and its value for...")),
 			mcplib.WithString("historyMetadata", mcplib.Description("Additional issue history details.")),
@@ -5187,7 +5310,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about work logs in the response.")),
 			mcplib.WithBoolean("overrideEditableFlag", mcplib.Description("Whether the worklog entry should be added to the issue even if the issue is not editable, because jira.issue.")),
 			mcplib.WithString("author", mcplib.Description("Details of the user who created the worklog.")),
-			mcplib.WithString("comment", mcplib.Description("A comment about the worklog. Optional when creating or updating a worklog.")),
+			mcplib.WithString("comment", mcplib.Description("A comment about the worklog in [Atlassian Document Format](https://developer.atlassian.")),
 			mcplib.WithString("created", mcplib.Description("The datetime on which the worklog was created.")),
 			mcplib.WithString("id", mcplib.Description("The ID of the worklog record.")),
 			mcplib.WithString("issueId", mcplib.Description("The ID of the issue this worklog is for.")),
@@ -5326,7 +5449,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about worklogs in the response.")),
 			mcplib.WithBoolean("overrideEditableFlag", mcplib.Description("Whether the worklog should be added to the issue even if the issue is not editable.")),
 			mcplib.WithString("author", mcplib.Description("Details of the user who created the worklog.")),
-			mcplib.WithString("comment", mcplib.Description("A comment about the worklog. Optional when creating or updating a worklog.")),
+			mcplib.WithString("comment", mcplib.Description("A comment about the worklog in [Atlassian Document Format](https://developer.atlassian.")),
 			mcplib.WithString("created", mcplib.Description("The datetime on which the worklog was created.")),
 			mcplib.WithString("id-2", mcplib.Description("The ID of the worklog record.")),
 			mcplib.WithString("issueId", mcplib.Description("The ID of the issue this worklog is for.")),
@@ -5367,7 +5490,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("comment", mcplib.Description("A comment.")),
 			mcplib.WithString("inwardIssue", mcplib.Required(), mcplib.Description("The ID or key of a linked issue.")),
 			mcplib.WithString("outwardIssue", mcplib.Required(), mcplib.Description("The ID or key of a linked issue.")),
-			mcplib.WithString("type", mcplib.Required(), mcplib.Description("This object is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")),
+			mcplib.WithString("type", mcplib.Required(), mcplib.Description("This object is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
@@ -5376,9 +5499,9 @@ func RegisterTools(s *server.MCPServer) {
 	s.AddTool(
 		mcplib.NewTool("issue-link-type_create",
 			mcplib.WithDescription("Creates an issue link type. Use this operation to create descriptions of the reasons why issues are linked. The issue link type consists of a name and descriptions for a link's inward and outward relationships. To use this operation, the site must have [issue linking](https://confluence.atlassian.com/x/yoXKM) enabled. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
-			mcplib.WithString("id", mcplib.Description("The ID of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")),
+			mcplib.WithString("id", mcplib.Description("The ID of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")),
 			mcplib.WithString("inward", mcplib.Description("The description of the issue link type inward link and is used as follows")),
-			mcplib.WithString("name", mcplib.Description("The name of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")),
+			mcplib.WithString("name", mcplib.Description("The name of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")),
 			mcplib.WithString("outward", mcplib.Description("The description of the issue link type outward link and is used as follows")),
 			mcplib.WithString("self", mcplib.Description("The URL of the issue link type. Read only.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -5418,9 +5541,9 @@ func RegisterTools(s *server.MCPServer) {
 		mcplib.NewTool("issue-link-type_update",
 			mcplib.WithDescription("Updates an issue link type. To use this operation, the site must have [issue linking](https://confluence.atlassian.com/x/yoXKM) enabled. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("issueLinkTypeId", mcplib.Required(), mcplib.Description("The ID of the issue link type.")),
-			mcplib.WithString("id", mcplib.Description("The ID of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")),
+			mcplib.WithString("id", mcplib.Description("The ID of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")),
 			mcplib.WithString("inward", mcplib.Description("The description of the issue link type inward link and is used as follows")),
-			mcplib.WithString("name", mcplib.Description("The name of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")),
+			mcplib.WithString("name", mcplib.Description("The name of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")),
 			mcplib.WithString("outward", mcplib.Description("The description of the issue link type outward link and is used as follows")),
 			mcplib.WithString("self", mcplib.Description("The URL of the issue link type. Read only.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -5441,7 +5564,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_associate-schemes-to-projects",
-			mcplib.WithDescription("Associates an issue security scheme with a project and remaps security levels of issues to the new levels, if provided. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Associates an issue security scheme with a project and remaps security levels of issues to the new levels, if provided. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("oldToNewSecurityLevelMappings", mcplib.Description("The list of scheme levels which should be remapped to new levels of the issue security scheme.")),
 			mcplib.WithString("projectId", mcplib.Required(), mcplib.Description("The ID of the project.")),
 			mcplib.WithString("schemeId", mcplib.Required(), mcplib.Description("The ID of the issue security scheme. Providing null will clear the association with the issue security scheme.")),
@@ -5582,7 +5705,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issuesecurityschemes_level_remove",
-			mcplib.WithDescription("Deletes an issue security level. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
+			mcplib.WithDescription("Deletes an issue security level. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
 			mcplib.WithString("schemeId", mcplib.Required(), mcplib.Description("The ID of the issue security scheme.")),
 			mcplib.WithString("levelId", mcplib.Required(), mcplib.Description("The ID of the issue security level to remove.")),
 			mcplib.WithString("replaceWith", mcplib.Description("The ID of the issue security level that will replace the currently selected level.")),
@@ -5641,7 +5764,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_delete-issue-type",
-			mcplib.WithDescription("Deletes the issue type. If the issue type is in use, all uses are updated with the alternative issue type (`alternativeIssueTypeId`). A list of alternative issue types are obtained from the [Get alternative issue types](#api-rest-api-2-issuetype-id-alternatives-get) resource. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive. (public)"),
+			mcplib.WithDescription("Deletes the issue type. If the issue type is in use, all uses are updated with the alternative issue type (`alternativeIssueTypeId`). A list of alternative issue types are obtained from the [Get alternative issue types](#api-rest-api-3-issuetype-id-alternatives-get) resource. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the issue type.")),
 			mcplib.WithString("alternativeIssueTypeId", mcplib.Description("The ID of the replacement issue type.")),
 			mcplib.WithDestructiveHintAnnotation(true),
@@ -5702,7 +5825,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("issuetype_avatar2_create-issue-type-avatar",
-			mcplib.WithDescription("Loads an avatar for the issue type. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST --user email@example.com:<api_token> --header 'X-Atlassian-Token: no-check' --header 'Content-Type: image/< image_type>' --data-binary '<@/path/to/file/with/your/avatar>' --url 'https://your-domain.atlassian.net/rest/api/3/issuetype/{issueTypeId}'This` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar, use [ Update issue type](#api-rest-api-2-issuetype-id-put) to set it as the issue type's displayed avatar. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Loads an avatar for the issue type. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST --user email@example.com:<api_token> --header 'X-Atlassian-Token: no-check' --header 'Content-Type: image/< image_type>' --data-binary '<@/path/to/file/with/your/avatar>' --url 'https://your-domain.atlassian.net/rest/api/3/issuetype/{issueTypeId}'This` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar, use [ Update issue type](#api-rest-api-3-issuetype-id-put) to set it as the issue type's displayed avatar. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the issue type.")),
 			mcplib.WithNumber("x", mcplib.Description("The X coordinate of the top-left corner of the crop region.")),
 			mcplib.WithNumber("y", mcplib.Description("The Y coordinate of the top-left corner of the crop region.")),
@@ -5983,7 +6106,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_and-reconsile-issues-using-jql",
-			mcplib.WithDescription("Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ). Recent updates might not be immediately visible in the returned search results. If you need [read-after-write](https://developer.atlassian.com/cloud/jira/platform/search-and-reconcile/) consistency, you can utilize the `reconcileIssues` parameter to ensure stronger consistency assurances. This operation can be accessed anonymously. If the JQL query expression is too large to be encoded as a query parameter, use the [POST](#api-rest-api-2-search-post) version of this resource. **[Permissions](#permissions) required:** Issues are included in the response where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
+			mcplib.WithDescription("Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ). Recent updates might not be immediately visible in the returned search results. If you need [read-after-write](https://developer.atlassian.com/cloud/jira/platform/search-and-reconcile/) consistency, you can utilize the `reconcileIssues` parameter to ensure stronger consistency assurances. This operation can be accessed anonymously. If the JQL query expression is too large to be encoded as a query parameter, use the [POST](#api-rest-api-3-search-post) version of this resource. **[Permissions](#permissions) required:** Issues are included in the response where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
 			mcplib.WithString("jql", mcplib.Description("A [JQL](https://confluence.atlassian.com/x/egORLQ) expression.")),
 			mcplib.WithString("nextPageToken", mcplib.Description("The token for a page to fetch that is not the first page.")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
@@ -5993,11 +6116,12 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithBoolean("fieldsByKeys", mcplib.Description("Reference fields by their key (rather than ID). The default is `false`.")),
 			mcplib.WithBoolean("failFast", mcplib.Description("Fail this request early if we can't retrieve all field data.")),
 			mcplib.WithString("reconcileIssues", mcplib.Description("Strong consistency issue ids to be reconciled with search results. Accepts max 50 ids.")),
+			mcplib.WithBoolean("includeArchivedProjects", mcplib.Description("Whether to also return issues that belong to [archived projects](https://support.atlassian.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/3/search/jql", true, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}, {PublicName: "reconcileIssues", WireName: "reconcileIssues", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/search/jql", true, false, nil, []mcpParamBinding{{PublicName: "jql", WireName: "jql", Location: "query"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "fields", WireName: "fields", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "properties", WireName: "properties", Location: "query"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "query"}, {PublicName: "failFast", WireName: "failFast", Location: "query"}, {PublicName: "reconcileIssues", WireName: "reconcileIssues", Location: "query"}, {PublicName: "includeArchivedProjects", WireName: "includeArchivedProjects", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_and-reconsile-issues-using-jql-post",
@@ -6005,6 +6129,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about issues in the response.")),
 			mcplib.WithString("fields", mcplib.Description("A list of fields to return for each issue. Use it to retrieve a subset of fields.")),
 			mcplib.WithBoolean("fieldsByKeys", mcplib.Description("Reference fields by their key (rather than ID). The default is `false`.")),
+			mcplib.WithBoolean("includeArchivedProjects", mcplib.Description("Whether to also return issues that belong to archived projects. Archived projects are excluded by default.")),
 			mcplib.WithString("jql", mcplib.Description("A [JQL](https://confluence.atlassian.com/x/egORLQ) expression.")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
 			mcplib.WithString("nextPageToken", mcplib.Description("The token for a page to fetch that is not the first page. The first page has a `nextPageToken` of `null`.")),
@@ -6013,7 +6138,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "/rest/api/3/search/jql", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "reconcileIssues", WireName: "reconcileIssues", Location: "body"}}, []string{}),
+		makeAPIHandler("POST", "/rest/api/3/search/jql", false, false, nil, []mcpParamBinding{{PublicName: "expand", WireName: "expand", Location: "body"}, {PublicName: "fields", WireName: "fields", Location: "body"}, {PublicName: "fieldsByKeys", WireName: "fieldsByKeys", Location: "body"}, {PublicName: "includeArchivedProjects", WireName: "includeArchivedProjects", Location: "body"}, {PublicName: "jql", WireName: "jql", Location: "body"}, {PublicName: "maxResults", WireName: "maxResults", Location: "body"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "body"}, {PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "reconcileIssues", WireName: "reconcileIssues", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_count-issues",
@@ -6026,7 +6151,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_for-issues-using-jql",
-			mcplib.WithDescription("Endpoint is currently being removed. [More details](https://developer.atlassian.com/changelog/#CHANGE-2046) Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ). If the JQL query expression is too large to be encoded as a query parameter, use the [POST](#api-rest-api-2-search-post) version of this resource. This operation can be accessed anonymously. **[Permissions](#permissions) required:** Issues are included in the response where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
+			mcplib.WithDescription("Endpoint is currently being removed. [More details](https://developer.atlassian.com/changelog/#CHANGE-2046) Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ). If the JQL query expression is too large to be encoded as a query parameter, use the [POST](#api-rest-api-3-search-post) version of this resource. This operation can be accessed anonymously. **[Permissions](#permissions) required:** Issues are included in the response where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
 			mcplib.WithString("jql", mcplib.Description("The [JQL](https://confluence.atlassian.com/x/egORLQ) that defines the search.")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
@@ -6044,7 +6169,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-search_for-issues-using-jql-post",
-			mcplib.WithDescription("Endpoint is currently being removed. [More details](https://developer.atlassian.com/changelog/#CHANGE-2046) Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ). There is a [GET](#api-rest-api-2-search-get) version of this resource that can be used for smaller JQL query expressions. This operation can be accessed anonymously. **[Permissions](#permissions) required:** Issues are included in the response where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
+			mcplib.WithDescription("Endpoint is currently being removed. [More details](https://developer.atlassian.com/changelog/#CHANGE-2046) Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ). There is a [GET](#api-rest-api-3-search-get) version of this resource that can be used for smaller JQL query expressions. This operation can be accessed anonymously. **[Permissions](#permissions) required:** Issues are included in the response where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue. (public)"),
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information about issues in the response.")),
 			mcplib.WithString("fields", mcplib.Description("A list of fields to return for each issue, use it to retrieve a subset of fields.")),
 			mcplib.WithBoolean("fieldsByKeys", mcplib.Description("Reference fields by their key (rather than ID). The default is `false`.")),
@@ -6087,7 +6212,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_delete",
-			mcplib.WithDescription("Deletes a project version. Deprecated, use [ Delete and replace version](#api-rest-api-2-version-id-removeAndSwap-post) that supports swapping version values in custom fields, in addition to the swapping for `fixVersion` and `affectedVersion` provided in this resource. Alternative versions can be provided to update issues that use the deleted version in `fixVersion` or `affectedVersion`. If alternatives are not provided, occurrences of `fixVersion` and `affectedVersion` that contain the deleted version are cleared. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that contains the version. Destructive. (public)"),
+			mcplib.WithDescription("Deletes a project version. Deprecated, use [ Delete and replace version](#api-rest-api-3-version-id-removeAndSwap-post) that supports swapping version values in custom fields, in addition to the swapping for `fixVersion` and `affectedVersion` provided in this resource. Alternative versions can be provided to update issues that use the deleted version in `fixVersion` or `affectedVersion`. If alternatives are not provided, occurrences of `fixVersion` and `affectedVersion` that contain the deleted version are cleared. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that contains the version. Destructive. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the version.")),
 			mcplib.WithString("moveFixIssuesTo", mcplib.Description("The ID of the version to update `fixVersion` to when the field contains the deleted version.")),
 			mcplib.WithString("moveAffectedIssuesTo", mcplib.Description("The ID of the version to update `affectedVersion` to when the field contains the deleted version.")),
@@ -6136,7 +6261,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-version_mergeto_merge-versions",
-			mcplib.WithDescription("Merges two project versions. The merge is completed by deleting the version specified in `id` and replacing any occurrences of its ID in `fixVersion` with the version ID specified in `moveIssuesTo`. Consider using [ Delete and replace version](#api-rest-api-2-version-id-removeAndSwap-post) instead. This resource supports swapping version values in `fixVersion`, `affectedVersion`, and custom fields. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that contains the version. (public)"),
+			mcplib.WithDescription("Merges two project versions. The merge is completed by deleting the version specified in `id` and replacing any occurrences of its ID in `fixVersion` with the version ID specified in `moveIssuesTo`. Consider using [ Delete and replace version](#api-rest-api-3-version-id-removeAndSwap-post) instead. This resource supports swapping version values in `fixVersion`, `affectedVersion`, and custom fields. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that contains the version. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the version to delete.")),
 			mcplib.WithString("moveIssuesTo", mcplib.Required(), mcplib.Description("The ID of the version to merge into.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -6234,21 +6359,6 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/rest/api/3/version/{id}/unresolvedIssueCount", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("jira-cloud-platform-workflow_create-transition-property",
-			mcplib.WithDescription("This will be removed on [June 1, 2026](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-2570); add transition properties using [Bulk update workflows](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-workflows/#api-rest-api-3-workflows-update-post) instead. Adds a property to a workflow transition. Transition properties are used to change the behavior of a transition. For more information, see [Transition properties](https://confluence.atlassian.com/x/zIhKLg#Advancedworkflowconfiguration-transitionproperties) and [Workflow properties](https://confluence.atlassian.com/x/JYlKLg). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
-			mcplib.WithNumber("transitionId", mcplib.Required(), mcplib.Description("The ID of the transition.")),
-			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The key of the property being added, also known as the name of the property.")),
-			mcplib.WithString("workflowName", mcplib.Required(), mcplib.Description("The name of the workflow that the transition belongs to.")),
-			mcplib.WithString("workflowMode", mcplib.Description("The workflow status. Set to *live* for inactive workflows or *draft* for draft workflows.")),
-			mcplib.WithString("id", mcplib.Description("The ID of the transition property.")),
-			mcplib.WithString("key-2", mcplib.Description("The key of the transition property. Also known as the name of the transition property.")),
-			mcplib.WithString("value", mcplib.Required(), mcplib.Description("The value of the transition property.")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "/rest/api/3/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "key-2", WireName: "key", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"transitionId"}),
-	)
-	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_delete-inactive",
 			mcplib.WithDescription("Deletes a workflow. The workflow cannot be deleted if it is: * an active workflow. * a system workflow. * associated with any workflow scheme. * associated with any draft workflow scheme. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
 			mcplib.WithString("entityId", mcplib.Required(), mcplib.Description("The entity ID of the workflow.")),
@@ -6256,18 +6366,6 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("DELETE", "/rest/api/3/workflow/{entityId}", false, false, nil, []mcpParamBinding{{PublicName: "entityId", WireName: "entityId", Location: "path"}}, []string{"entityId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("jira-cloud-platform-workflow_delete-transition-property",
-			mcplib.WithDescription("This will be removed on [June 1, 2026](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-2570); delete transition properties using [Bulk update workflows](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-workflows/#api-rest-api-3-workflows-update-post) instead. Deletes a property from a workflow transition. Transition properties are used to change the behavior of a transition. For more information, see [Transition properties](https://confluence.atlassian.com/x/zIhKLg#Advancedworkflowconfiguration-transitionproperties) and [Workflow properties](https://confluence.atlassian.com/x/JYlKLg). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
-			mcplib.WithNumber("transitionId", mcplib.Required(), mcplib.Description("The ID of the transition.")),
-			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The name of the transition property to delete, also known as the name of the property.")),
-			mcplib.WithString("workflowName", mcplib.Required(), mcplib.Description("The name of the workflow that the transition belongs to.")),
-			mcplib.WithString("workflowMode", mcplib.Description("The workflow status. Set to `live` for inactive workflows or `draft` for draft workflows.")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "/rest/api/3/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}}, []string{"transitionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_delete-transition-rule-configurations",
@@ -6279,7 +6377,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_get-paginated",
-			mcplib.WithDescription("This will be removed on [June 1, 2026](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-2569); use [Search workflows](#api-rest-api-2-workflows-search-get) instead. Returns a [paginated](#pagination) list of published classic workflows. When workflow names are specified, details of those workflows are returned. Otherwise, all published classic workflows are returned. This operation does not return next-gen workflows. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("This will be removed on [June 1, 2026](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-2569); use [Search workflows](#api-rest-api-3-workflows-search-get) instead. Returns a [paginated](#pagination) list of published classic workflows. When workflow names are specified, details of those workflows are returned. Otherwise, all published classic workflows are returned. This operation does not return next-gen workflows. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
 			mcplib.WithString("workflowName", mcplib.Description("The name of a workflow to return. To include multiple workflows, provide an ampersand-separated list.")),
@@ -6292,20 +6390,6 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/rest/api/3/workflow/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "isActive", WireName: "isActive", Location: "query"}}, []string{}),
-	)
-	s.AddTool(
-		mcplib.NewTool("jira-cloud-platform-workflow_get-transition-properties",
-			mcplib.WithDescription("This will be removed on [June 1, 2026](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-2570); fetch transition properties from [Bulk get workflows](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-workflows/#api-rest-api-3-workflows-post) instead. Returns the properties on a workflow transition. Transition properties are used to change the behavior of a transition. For more information, see [Transition properties](https://confluence.atlassian.com/x/zIhKLg#Advancedworkflowconfiguration-transitionproperties) and [Workflow properties](https://confluence.atlassian.com/x/JYlKLg). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
-			mcplib.WithNumber("transitionId", mcplib.Required(), mcplib.Description("The ID of the transition. To get the ID, view the workflow in text mode in the Jira administration console.")),
-			mcplib.WithBoolean("includeReservedKeys", mcplib.Description("Some properties with keys that have the *jira.* prefix are reserved, which means they are not editable.")),
-			mcplib.WithString("key", mcplib.Description("The key of the property being returned, also known as the name of the property.")),
-			mcplib.WithString("workflowName", mcplib.Required(), mcplib.Description("The name of the workflow that the transition belongs to.")),
-			mcplib.WithString("workflowMode", mcplib.Description("The workflow status. Set to *live* for active and inactive workflows, or *draft* for draft workflows.")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "/rest/api/3/workflow/transitions/{transitionId}/properties", true, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "includeReservedKeys", WireName: "includeReservedKeys", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}}, []string{"transitionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_get-transition-rule-configurations",
@@ -6343,20 +6427,6 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("POST", "/rest/api/3/workflow/history", false, false, nil, []mcpParamBinding{{PublicName: "version", WireName: "version", Location: "body"}, {PublicName: "workflowId", WireName: "workflowId", Location: "body"}}, []string{}),
-	)
-	s.AddTool(
-		mcplib.NewTool("jira-cloud-platform-workflow_update-transition-property",
-			mcplib.WithDescription("This will be removed on [June 1, 2026](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-2570); update transition properties using [Bulk update workflows](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-workflows/#api-rest-api-3-workflows-update-post) instead. Updates a workflow transition by changing the property value. Trying to update a property that does not exist results in a new property being added to the transition. Transition properties are used to change the behavior of a transition. For more information, see [Transition properties](https://confluence.atlassian.com/x/zIhKLg#Advancedworkflowconfiguration-transitionproperties) and [Workflow properties](https://confluence.atlassian.com/x/JYlKLg). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
-			mcplib.WithNumber("transitionId", mcplib.Required(), mcplib.Description("The ID of the transition.")),
-			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The key of the property being updated, also known as the name of the property.")),
-			mcplib.WithString("workflowName", mcplib.Required(), mcplib.Description("The name of the workflow that the transition belongs to.")),
-			mcplib.WithString("workflowMode", mcplib.Description("The workflow status. Set to `live` for inactive workflows or `draft` for draft workflows.")),
-			mcplib.WithString("id", mcplib.Description("The ID of the transition property.")),
-			mcplib.WithString("key-2", mcplib.Description("The key of the transition property. Also known as the name of the transition property.")),
-			mcplib.WithString("value", mcplib.Required(), mcplib.Description("The value of the transition property.")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "/rest/api/3/workflow/transitions/{transitionId}/properties", false, false, nil, []mcpParamBinding{{PublicName: "transitionId", WireName: "transitionId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "workflowName", WireName: "workflowName", Location: "query"}, {PublicName: "workflowMode", WireName: "workflowMode", Location: "query"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "key-2", WireName: "key", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"transitionId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("jira-cloud-platform-workflow_update-transition-rule-configurations",
@@ -6405,7 +6475,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_get-auto-complete",
-			mcplib.WithDescription("Returns reference data for JQL searches. This is a downloadable version of the documentation provided in [Advanced searching - fields reference](https://confluence.atlassian.com/x/gwORLQ) and [Advanced searching - functions reference](https://confluence.atlassian.com/x/hgORLQ), along with a list of JQL-reserved words. Use this information to assist with the programmatic creation of JQL queries or the validation of queries built in a custom query builder. To filter visible field details by project or collapse non-unique fields by field type then [Get field reference data (POST)](#api-rest-api-2-jql-autocompletedata-post) can be used. This operation can be accessed anonymously. **[Permissions](#permissions) required:** None. (public)"),
+			mcplib.WithDescription("Returns reference data for JQL searches. This is a downloadable version of the documentation provided in [Advanced searching - fields reference](https://confluence.atlassian.com/x/gwORLQ) and [Advanced searching - functions reference](https://confluence.atlassian.com/x/hgORLQ), along with a list of JQL-reserved words. Use this information to assist with the programmatic creation of JQL queries or the validation of queries built in a custom query builder. To filter visible field details by project or collapse non-unique fields by field type then [Get field reference data (POST)](#api-rest-api-3-jql-autocompletedata-post) can be used. This operation can be accessed anonymously. **[Permissions](#permissions) required:** None. (public)"),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -6460,9 +6530,9 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("jql_match-issues",
-			mcplib.WithDescription("Checks whether one or more issues would be returned by one or more JQL queries. **[Permissions](#permissions) required:** None, however, issues are only matched against JQL queries where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
-			mcplib.WithString("issueIds", mcplib.Required(), mcplib.Description("A list of issue IDs.")),
-			mcplib.WithString("jqls", mcplib.Required(), mcplib.Description("A list of JQL queries.")),
+			mcplib.WithDescription("Checks whether one or more issues would be returned by one or more JQL queries. Up to 10 JQL queries can be specified and up to 50 issue IDs included in the request. **[Permissions](#permissions) required:** None, however, issues are only matched against JQL queries where the user has: * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in. * If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue."),
+			mcplib.WithString("issueIds", mcplib.Required(), mcplib.Description("A list of up to 50 issue IDs.")),
+			mcplib.WithString("jqls", mcplib.Required(), mcplib.Description("A list of up to 10 JQL queries.")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
@@ -6508,14 +6578,16 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("label_get-all",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of labels. Optional: startAt (default: 0), maxResults (default: 1000)."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of labels. Optional: startAt (default: 0), maxResults (default: 1000), query (plus 1 more)."),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
+			mcplib.WithString("query", mcplib.Description("Case-insensitive prefix used to filter labels before pagination.")),
+			mcplib.WithString("scope", mcplib.Description("RECENT_PROJECTS or ALL_BROWSEABLE_PROJECTS. Omitted scope retains the unbounded search.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/3/label", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/label", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "scope", WireName: "scope", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("license_get-approximate-application-count",
@@ -6807,7 +6879,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("orgs_get-by-id",
-			mcplib.WithDescription("Returns information about a single organization by ID. Required: orgId."),
+			mcplib.WithDescription("Returns information about a single organization by ID #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:orgs:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -6892,7 +6964,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("permissionscheme_update-permission-scheme",
-			mcplib.WithDescription("Updates a permission scheme. Below are some important things to note when using this resource: * If a permissions list is present in the request, then it is set in the permission scheme, overwriting *all existing* grants. * If you want to update only the name and description, then do not send a permissions list in the request. * Sending an empty list will remove all permission grants from the permission scheme. If you want to add or delete a permission grant instead of updating the whole list, see [Create permission grant](#api-rest-api-2-permissionscheme-schemeId-permission-post) or [Delete permission scheme entity](#api-rest-api-2-permissionscheme-schemeId-permission-permissionId-delete). See [About permission schemes and grants](../api-group-permission-schemes/#about-permission-schemes-and-grants) for more details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Updates a permission scheme. Below are some important things to note when using this resource: * If a permissions list is present in the request, then it is set in the permission scheme, overwriting *all existing* grants. * If you want to update only the name and description, then do not send a permissions list in the request. * Sending an empty list will remove all permission grants from the permission scheme. If you want to add or delete a permission grant instead of updating the whole list, see [Create permission grant](#api-rest-api-3-permissionscheme-schemeId-permission-post) or [Delete permission scheme entity](#api-rest-api-3-permissionscheme-schemeId-permission-permissionId-delete). See [About permission schemes and grants](../api-group-permission-schemes/#about-permission-schemes-and-grants) for more details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithNumber("schemeId", mcplib.Required(), mcplib.Description("The ID of the permission scheme to update.")),
 			mcplib.WithString("expand", mcplib.Description("Use expand to include additional information in the response.")),
 			mcplib.WithString("description", mcplib.Description("A description for the permission scheme.")),
@@ -7131,108 +7203,80 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "/rest/api/3/plans/plan/{planId}/team/planonly/{planOnlyTeamId}", false, false, nil, []mcpParamBinding{{PublicName: "planId", WireName: "planId", Location: "path"}, {PublicName: "planOnlyTeamId", WireName: "planOnlyTeamId", Location: "path"}}, []string{"planId", "planOnlyTeamId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("policies_create-policy",
-			mcplib.WithDescription("Create a policy for an org. Required: orgId. Optional: data. Returns the new Policy."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("data", mcplib.Description("Data")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "data", WireName: "data", Location: "body"}}, []string{"orgId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("policies_delete-policy",
-			mcplib.WithDescription("Delete a policy for an org. Required: orgId, policyId. Destructive."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to delete")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("policies_get",
-			mcplib.WithDescription("Returns information about org policies. Required: orgId. Optional: cursor, type."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return.")),
-			mcplib.WithString("type", mcplib.Description("Sets the type for the page of policies to return.")),
+		mcplib.NewTool("policies_get-policy-state",
+			mcplib.WithDescription("Returns the policies applied to a project. Required: projectIdOrKey."),
+			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("project ID or project key")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "type", WireName: "type", Location: "query"}}, []string{"orgId"}),
+		makeAPIHandler("GET", "/rest/api/3/policies/project/{projectIdOrKey}", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("policies_get-policy-by-id",
-			mcplib.WithDescription("Returns information about a single policy by ID. Required: orgId, policyId."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to query")),
+		mcplib.NewTool("policies_get-project-rules",
+			mcplib.WithDescription("Returns the configuration of the queried rule type IDs for a given project. Use this to check whether specific rules are active on a project, and if so, how they are configured. Only rules that are actually active on the project are returned. Rules that are not active are omitted from the response. Required: projectIdOrKey. Optional: ruleTypeIds."),
+			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("project ID or project key")),
+			mcplib.WithString("ruleTypeIds", mcplib.Description("the set of rule type IDs to query")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
+		makeAPIHandler("GET", "/rest/api/3/policies/project/{projectIdOrKey}/rules", true, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "ruleTypeIds", WireName: "ruleTypeIds", Location: "query"}}, []string{"projectIdOrKey"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("policies_update-policy",
-			mcplib.WithDescription("Update a policy for an org. Required: orgId, policyId. Optional: data. Returns the updated Policy."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to update")),
-			mcplib.WithString("data", mcplib.Description("Data")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "data", WireName: "data", Location: "body"}}, []string{"orgId", "policyId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("policies_resources_add-to-policy",
-			mcplib.WithDescription("Adds a resource to an existing Policy. Required: orgId, policyId, id. Optional: links, meta. Returns the new Policy."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to query")),
-			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
-			mcplib.WithString("links", mcplib.Description("Links")),
-			mcplib.WithString("meta", mcplib.Description("Meta")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/resources", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "meta", WireName: "meta", Location: "body"}}, []string{"orgId", "policyId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("policies_resources_delete-policy",
-			mcplib.WithDescription("Delete an existing Policy Resource. Required: orgId, policyId, resourceId. Returns the Policy. Destructive."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to query")),
-			mcplib.WithString("resourceId", mcplib.Required(), mcplib.Description("Resource ID")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "path"}}, []string{"orgId", "policyId", "resourceId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("policies_resources_update-policy",
-			mcplib.WithDescription("Update an existing Policy Resource. Required: orgId, policyId, resourceId. Optional: links, meta. Returns the updated Policy."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("ID of the policy to query")),
-			mcplib.WithString("resourceId", mcplib.Required(), mcplib.Description("Resource ID")),
-			mcplib.WithString("links", mcplib.Description("Links")),
-			mcplib.WithString("meta", mcplib.Description("Meta")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "path"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "meta", WireName: "meta", Location: "body"}}, []string{"orgId", "policyId", "resourceId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("policies_validate_policy",
-			mcplib.WithDescription("Validate a policy based on specific requirements. For example, Trigger CDEN validation by pushing a task into the SQS dns-validation queue. Required: orgId, policyId."),
-			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
-			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Policy ID")),
+		mcplib.NewTool("policies_list",
+			mcplib.WithDescription("Returns a paginated summary of all known policies, including their names, descriptions, and which projects each policy is assigned to. When {@code tanuki-358-cursor-policy-listing} is enabled, omit cursor for the first page and pass the returned {@code nextPageCursor} for subsequent pages. The legacy {@code startAt} and {@code total} fields are null because an offset and total are not available in cursor mode. When disabled, the offset contract is unchanged. Optional: startAt (default: 0), maxResults (default: 50), cursor."),
+			mcplib.WithNumber("startAt", mcplib.Description("legacy 0-based offset (default 0); only 0 is accepted in cursor mode")),
+			mcplib.WithNumber("maxResults", mcplib.Description("the maximum number of items to return per page (default 50; cursor max 50)")),
+			mcplib.WithString("cursor", mcplib.Description("opaque cursor returned by the previous page, absent for the first page")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}/validate", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
+		makeAPIHandler("GET", "/rest/api/3/policies", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("policies_set-project",
+			mcplib.WithDescription("Sets the complete set of policies on a project (full replacement). A project may have at most one policy assigned. Jira Admin only. Required: projectIdOrKey. Optional: policyIds."),
+			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("project ID or project key")),
+			mcplib.WithString("policyIds", mcplib.Description("Policy ids")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "/rest/api/3/policies/project/{projectIdOrKey}/policies", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "policyIds", WireName: "policyIds", Location: "body"}}, []string{"projectIdOrKey"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("policies_validate-policy-application",
+			mcplib.WithDescription("Validates whether a set of policies can be applied to a project without actually applying them. Runs the compliance checks for each specified policy against the project's current configuration. This can be called before applying policies to preview potential issues. Jira Admin only. Required: projectIdOrKey. Optional: policyIds."),
+			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("project ID or project key")),
+			mcplib.WithString("policyIds", mcplib.Description("Policy ids")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/policies/project/{projectIdOrKey}/validate", false, false, nil, []mcpParamBinding{{PublicName: "projectIdOrKey", WireName: "projectIdOrKey", Location: "path"}, {PublicName: "policyIds", WireName: "policyIds", Location: "body"}}, []string{"projectIdOrKey"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("policies_apply_add-policy-to-projects",
+			mcplib.WithDescription("Adds a policy to a set of projects. Handles partial results: each project is processed independently, and failures on individual projects do not prevent the operation from proceeding on the remaining projects. Jira Admin only. Returns 200 with the successful and failed project results if at least one project succeeds, or 409 if none do. Required: policyId. Optional: projectIds."),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("the policy ID to add")),
+			mcplib.WithString("projectIds", mcplib.Description("Project ids")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/policies/{policyId}/apply", false, false, nil, []mcpParamBinding{{PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{"policyId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("policies_remove_policy-from-projects",
+			mcplib.WithDescription("Removes a policy from a set of projects. Handles partial results: each project is processed independently, and failures on individual projects do not prevent the operation from proceeding on the remaining projects. Jira Admin only. Returns 200 with the successful and failed project results if at least one project succeeds, or 409 if none do. Required: policyId. Optional: projectIds."),
+			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("the policy ID to remove")),
+			mcplib.WithString("projectIds", mcplib.Description("Project ids")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/policies/{policyId}/remove", false, false, nil, []mcpParamBinding{{PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "projectIds", WireName: "projectIds", Location: "body"}}, []string{"policyId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_create",
-			mcplib.WithDescription("Creates an issue priority. Deprecation applies to iconUrl param in request body which will be sunset on 16th Mar 2025. For more details refer to [changelog](https://developer.atlassian.com/changelog/#CHANGE-1525). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Creates an issue priority. **Deprecation notice:** The `iconUrl` parameter was sunset on 16th Mar 2025, and replaced with `avatarId`. See [CHANGE-1525](https://developer.atlassian.com/changelog/#CHANGE-1525). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithNumber("avatarId", mcplib.Description("The ID for the avatar for the priority. Either the iconUrl or avatarId must be defined, but not both.")),
 			mcplib.WithString("description", mcplib.Description("The description of the priority.")),
 			mcplib.WithString("iconUrl", mcplib.Description("The URL of an icon for the priority. Accepted protocols are HTTP and HTTPS. Built in icons can also be used.")),
@@ -7245,7 +7289,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_delete",
-			mcplib.WithDescription("Deletes an issue priority. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
+			mcplib.WithDescription("Deletes an issue priority. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the issue priority.")),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -7254,7 +7298,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_get",
-			mcplib.WithDescription("Returns an issue priority. **[Permissions](#permissions) required:** Permission to access Jira. (public)"),
+			mcplib.WithDescription("Returns an issue priority. To fetch multiple priorities at once, use [Search priorities](#api-rest-api-3-priority-search-get) instead. **[Permissions](#permissions) required:** Permission to access Jira. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the issue priority.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -7264,7 +7308,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_get-priorities",
-			mcplib.WithDescription("Returns the list of all issue priorities. **[Permissions](#permissions) required:** Permission to access Jira. (public)"),
+			mcplib.WithDescription("Returns the list of all issue priorities. **Deprecated:** Use [Search priorities](#api-rest-api-3-priority-search-get) instead. **[Permissions](#permissions) required:** Permission to access Jira. (public)"),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -7283,7 +7327,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_search-priorities",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of priorities. The list can contain all priorities or a subset determined by any combination of these criteria: * a list of priority IDs. Any invalid priority IDs are ignored. * a list of project IDs. Only priorities that are available in these projects will be returned. Any invalid project IDs are ignored. * whether the field configuration is a default. This returns priorities from company-managed (classic) projects only, as there is no concept of default priorities in team-managed projects. **[Permissions](#permissions) required:** Permission to access Jira."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of priorities. The list can contain all priorities or a subset determined by any combination of these criteria: * a list of priority IDs. Any invalid priority IDs are ignored. * a list of project IDs. Only priorities that are available in these projects will be returned. Any invalid project IDs are ignored. * whether the field configuration is a default. This returns priorities from company-managed (classic) projects only, as there is no concept of default priorities in team-managed projects. **Deprecation notice:** The `onlyDefault` parameter is deprecated and will be removed at a later date. See [CHANGE-1655](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-1655). **Deprecation notice:** The `isDefault` property of priorities is deprecated and will be removed at a later date. See [CHANGE-1655](https://developer.atlassian.com/cloud/jira/platform/changelog/#CHANGE-1655). **[Permissions](#permissions) required:** Permission to access Jira."),
 			mcplib.WithString("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithString("maxResults", mcplib.Description("The maximum number of items to return per page.")),
 			mcplib.WithString("id", mcplib.Description("The list of priority IDs. To include multiple IDs, provide an ampersand-separated list. For example, `id=2&id=3`.")),
@@ -7307,7 +7351,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priority_update",
-			mcplib.WithDescription("Updates an issue priority. At least one request body parameter must be defined. Deprecation applies to iconUrl param in request body which will be sunset on 16th Mar 2025. For more details refer to [changelog](https://developer.atlassian.com/changelog/#CHANGE-1525). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Updates an issue priority. At least one request body parameter must be defined. **Deprecation notice:** The `iconUrl` parameter was sunset on 16th Mar 2025, and replaced with `avatarId`. See [CHANGE-1525](https://developer.atlassian.com/changelog/#CHANGE-1525). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the issue priority.")),
 			mcplib.WithNumber("avatarId", mcplib.Description("The ID for the avatar for the priority. This parameter is nullable and both iconUrl and avatarId cannot be defined.")),
 			mcplib.WithString("description", mcplib.Description("The description of the priority.")),
@@ -7343,7 +7387,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_get-available-priorities-by-priority-scheme",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of priorities available for adding to a priority scheme. **[Permissions](#permissions) required:** Permission to access Jira."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of priorities available for adding to a priority scheme. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithString("maxResults", mcplib.Description("The maximum number of items to return per page.")),
 			mcplib.WithString("query", mcplib.Description("The string to query priorities on by name.")),
@@ -7357,7 +7401,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_get-priority-schemes",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of priority schemes. **[Permissions](#permissions) required:** Permission to access Jira."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of priority schemes. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithString("maxResults", mcplib.Description("The maximum number of items to return per page.")),
 			mcplib.WithString("priorityId", mcplib.Description("A set of priority IDs to filter by. To include multiple IDs, provide an ampersand-separated list.")),
@@ -7374,7 +7418,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_suggested-priorities-for-mappings",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of priorities that would require mapping, given a change in priorities or projects associated with a priority scheme. **[Permissions](#permissions) required:** Permission to access Jira."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of priorities that would require mapping, given a change in priorities or projects associated with a priority scheme. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of results that could be on the page.")),
 			mcplib.WithString("priorities", mcplib.Description("The priority changes in the scheme.")),
 			mcplib.WithString("projects", mcplib.Description("The project changes in the scheme.")),
@@ -7401,7 +7445,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_priorities_get-by-priority-scheme",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of priorities by scheme. **[Permissions](#permissions) required:** Permission to access Jira."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of priorities by scheme. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithString("maxResults", mcplib.Description("The maximum number of items to return per page.")),
 			mcplib.WithString("schemeId", mcplib.Required(), mcplib.Description("The priority scheme ID.")),
@@ -7413,7 +7457,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("priorityscheme_projects_get-by-priority-scheme",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of projects by scheme. **[Permissions](#permissions) required:** Permission to access Jira."),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of projects by scheme. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithString("maxResults", mcplib.Description("The maximum number of items to return per page.")),
 			mcplib.WithString("projectId", mcplib.Description("The project IDs to filter by. For example, `projectId=10000&projectId=10001`.")),
@@ -7518,7 +7562,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_create",
-			mcplib.WithDescription("Creates a project based on a project type template, as shown in the following table: | Project Type Key | Project Template Key | |--|--| | `business` | `com.atlassian.jira-core-project-templates:jira-core-simplified-content-management`, `com.atlassian.jira-core-project-templates:jira-core-simplified-document-approval`, `com.atlassian.jira-core-project-templates:jira-core-simplified-lead-tracking`, `com.atlassian.jira-core-project-templates:jira-core-simplified-process-control`, `com.atlassian.jira-core-project-templates:jira-core-simplified-procurement`, `com.atlassian.jira-core-project-templates:jira-core-simplified-project-management`, `com.atlassian.jira-core-project-templates:jira-core-simplified-recruitment`, `com.atlassian.jira-core-project-templates:jira-core-simplified-task-tracking` | | `service_desk` | `com.atlassian.servicedesk:simplified-it-service-management`, `com.atlassian.servicedesk:simplified-external-service-desk`, `com.atlassian.servicedesk:simplified-hr-service-desk`, `com.atlassian.servicedesk:simplified-facilities-service-desk`, `com.atlassian.servicedesk:simplified-legal-service-desk`, `com.atlassian.servicedesk:simplified-analytics-service-desk`, `com.atlassian.servicedesk:simplified-marketing-service-desk`, `com.atlassian.servicedesk:simplified-design-service-desk`, `com.atlassian.servicedesk:simplified-sales-service-desk`, `com.atlassian.servicedesk:simplified-finance-service-desk`, `com.atlassian.servicedesk:company-managed-blank-service-project`, `com.atlassian.servicedesk:company-managed-general-service-project`, `com.atlassian.servicedesk:team-managed-general-service-project`, `com.atlassian.servicedesk:next-gen-it-service-desk`, `com.atlassian.servicedesk:next-gen-hr-service-desk`, `com.atlassian.servicedesk:next-gen-legal-service-desk`, `com.atlassian.servicedesk:next-gen-marketing-service-desk`, `com.atlassian.servicedesk:next-gen-facilities-service-desk`, `com.atlassian.servicedesk:next-gen-analytics-service-desk`, `com.atlassian.servicedesk:next-gen-finance-service-desk`, `com.atlassian.servicedesk:next-gen-design-service-desk`, `com.atlassian.servicedesk:next-gen-sales-service-desk` | | `software` | `com.pyxis.greenhopper.jira:gh-simplified-agility-kanban`, `com.pyxis.greenhopper.jira:gh-simplified-agility-scrum`, `com.pyxis.greenhopper.jira:gh-simplified-basic`, `com.pyxis.greenhopper.jira:gh-simplified-kanban-classic`, `com.pyxis.greenhopper.jira:gh-simplified-scrum-classic` | | `customer_service` | `com.atlassian.jcs:customer-service-management` | The project types are available according to the installed Jira features as follows: * Jira Core, the default, enables `business` projects. * Jira Service Management enables `service_desk` projects. * Jira Software enables `software` projects. To determine which features are installed, go to **Jira settings** > **Apps** > **Manage apps** and review the System Apps list. To add Jira Software or Jira Service Management into a JIRA instance, use **Jira settings** > **Apps** > **Finding new apps**. For more information, see [ Managing add-ons](https://confluence.atlassian.com/x/S31NLg). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Creates a project based on a project type template, as shown in the following table: | Project Type Key | Project Template Key | |--|--| | `business` | `com.atlassian.jira-core-project-templates:jira-core-simplified-content-management`, `com.atlassian.jira-core-project-templates:jira-core-simplified-document-approval`, `com.atlassian.jira-core-project-templates:jira-core-simplified-lead-tracking`, `com.atlassian.jira-core-project-templates:jira-core-simplified-process-control`, `com.atlassian.jira-core-project-templates:jira-core-simplified-procurement`, `com.atlassian.jira-core-project-templates:jira-core-simplified-project-management`, `com.atlassian.jira-core-project-templates:jira-core-simplified-recruitment`, `com.atlassian.jira-core-project-templates:jira-core-simplified-task-tracking` | | `service_desk` | `com.atlassian.servicedesk:simplified-it-service-management`, `com.atlassian.servicedesk:simplified-external-service-desk`, `com.atlassian.servicedesk:simplified-hr-service-desk`, `com.atlassian.servicedesk:simplified-facilities-service-desk`, `com.atlassian.servicedesk:simplified-legal-service-desk`, `com.atlassian.servicedesk:simplified-analytics-service-desk`, `com.atlassian.servicedesk:simplified-marketing-service-desk`, `com.atlassian.servicedesk:simplified-design-service-desk`, `com.atlassian.servicedesk:simplified-sales-service-desk`, `com.atlassian.servicedesk:simplified-finance-service-desk`, `com.atlassian.servicedesk:company-managed-blank-service-project`, `com.atlassian.servicedesk:company-managed-general-service-project`, `com.atlassian.servicedesk:team-managed-general-service-project`, `com.atlassian.servicedesk:next-gen-it-service-desk`, `com.atlassian.servicedesk:next-gen-hr-service-desk`, `com.atlassian.servicedesk:next-gen-legal-service-desk`, `com.atlassian.servicedesk:next-gen-marketing-service-desk`, `com.atlassian.servicedesk:next-gen-facilities-service-desk`, `com.atlassian.servicedesk:next-gen-analytics-service-desk`, `com.atlassian.servicedesk:next-gen-finance-service-desk`, `com.atlassian.servicedesk:next-gen-design-service-desk`, `com.atlassian.servicedesk:next-gen-sales-service-desk` | | `software` | `com.pyxis.greenhopper.jira:gh-simplified-agility-kanban`, `com.pyxis.greenhopper.jira:gh-simplified-agility-scrum`, `com.pyxis.greenhopper.jira:gh-simplified-basic`, `com.pyxis.greenhopper.jira:gh-simplified-kanban-classic`, `com.pyxis.greenhopper.jira:gh-simplified-scrum-classic` | | `customer_service` | `com.atlassian.jcs:customer-service-management` | The project types are available according to the installed Jira features as follows: * Jira Core, the default, enables `business` projects. * Jira Service Management enables `service_desk` projects. * Jira Software enables `software` projects. * Jira Customer Service enables `customer_service` projects. To determine which features are installed, go to **Jira settings** > **Apps** > **Manage apps** and review the System Apps list. To add Jira Software or Jira Service Management into a JIRA instance, use **Jira settings** > **Apps** > **Finding new apps**. For more information, see [ Managing add-ons](https://confluence.atlassian.com/x/S31NLg). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("assigneeType", mcplib.Description("The default assignee when creating issues for this project.")),
 			mcplib.WithNumber("avatarId", mcplib.Description("An integer value for the project's avatar.")),
 			mcplib.WithNumber("categoryId", mcplib.Description("The ID of the project's category.")),
@@ -7577,7 +7621,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_get-all",
-			mcplib.WithDescription("Returns all projects visible to the user. Deprecated, use [ Get projects paginated](#api-rest-api-2-project-search-get) that supports search and pagination. This operation can be accessed anonymously. **[Permissions](#permissions) required:** Projects are returned only where the user has *Browse Projects* or *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
+			mcplib.WithDescription("Returns all projects visible to the user. Deprecated, use [ Get projects paginated](#api-rest-api-3-project-search-get) that supports search and pagination. This operation can be accessed anonymously. **[Permissions](#permissions) required:** Projects are returned only where the user has *Browse Projects* or *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information in the response.")),
 			mcplib.WithNumber("recent", mcplib.Description("Returns the user's most recently accessed projects.")),
 			mcplib.WithString("properties", mcplib.Description("A list of project properties to return for the project. This parameter accepts a comma-separated list.")),
@@ -7691,7 +7735,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_avatar_update-project",
-			mcplib.WithDescription("Sets the avatar displayed for a project. Use [Load project avatar](#api-rest-api-2-project-projectIdOrKey-avatar2-post) to store avatars against the project, before using this operation to set the displayed avatar. **[Permissions](#permissions) required:** *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg). (public)"),
+			mcplib.WithDescription("Sets the avatar displayed for a project. Use [Load project avatar](#api-rest-api-3-project-projectIdOrKey-avatar2-post) to store avatars against the project, before using this operation to set the displayed avatar. **[Permissions](#permissions) required:** *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg). (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The ID or (case-sensitive) key of the project.")),
 			mcplib.WithString("fileName", mcplib.Description("The file name of the avatar icon. Returned for system avatars.")),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the avatar.")),
@@ -7706,7 +7750,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_avatar2_create-project-avatar",
-			mcplib.WithDescription("Loads an avatar for a project. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST ` `--user email@example.com:<api_token> ` `--header 'X-Atlassian-Token: no-check' ` `--header 'Content-Type: image/< image_type>' ` `--data-binary '<@/path/to/file/with/your/avatar>' ` `--url 'https://your-domain.atlassian.net/rest/api/3/project/{projectIdOrKey}/avatar2'` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar use [Set project avatar](#api-rest-api-2-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar. **[Permissions](#permissions) required:** *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg). (public)"),
+			mcplib.WithDescription("Loads an avatar for a project. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST ` `--user email@example.com:<api_token> ` `--header 'X-Atlassian-Token: no-check' ` `--header 'Content-Type: image/< image_type>' ` `--data-binary '<@/path/to/file/with/your/avatar>' ` `--url 'https://your-domain.atlassian.net/rest/api/3/project/{projectIdOrKey}/avatar2'` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar use [Set project avatar](#api-rest-api-3-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar. **[Permissions](#permissions) required:** *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg). (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The ID or (case-sensitive) key of the project.")),
 			mcplib.WithNumber("x", mcplib.Description("The X coordinate of the top-left corner of the crop region.")),
 			mcplib.WithNumber("y", mcplib.Description("The Y coordinate of the top-left corner of the crop region.")),
@@ -7766,7 +7810,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_component_get-project-paginated",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of all components in a project. See the [Get project components](#api-rest-api-2-project-projectIdOrKey-components-get) resource if you want to get a full list of versions without pagination. If your project uses Compass components, this API will return a list of Compass components that are linked to issues in that project. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of all components in a project. See the [Get project components](#api-rest-api-3-project-projectIdOrKey-components-get) resource if you want to get a full list of versions without pagination. If your project uses Compass components, this API will return a list of Compass components that are linked to issues in that project. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
@@ -7781,7 +7825,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_components_get-project",
-			mcplib.WithDescription("Returns all components in a project. See the [Get project components paginated](#api-rest-api-2-project-projectIdOrKey-component-get) resource if you want to get a full list of components with pagination. If your project uses Compass components, this API will return a paginated list of Compass components that are linked to issues in that project. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
+			mcplib.WithDescription("Returns all components in a project. See the [Get project components paginated](#api-rest-api-3-project-projectIdOrKey-component-get) resource if you want to get a full list of components with pagination. If your project uses Compass components, this API will return a paginated list of Compass components that are linked to issues in that project. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithString("componentSource", mcplib.Description("The source of the components to return. Can be `jira` (default), `compass` or `auto`.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -7792,7 +7836,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_delete_project-asynchronously",
-			mcplib.WithDescription("Deletes a project asynchronously. This operation is: * transactional, that is, if part of the delete fails the project is not deleted. * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Deletes a project asynchronously. This operation is: * transactional, that is, if part of the delete fails the project is not deleted. * [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -7942,7 +7986,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_add-actor-users",
-			mcplib.WithDescription("Adds actors to a project role for the project. To replace all actors for the project, use [Set actors for project role](#api-rest-api-2-project-projectIdOrKey-role-id-put). This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Adds actors to a project role for the project. To replace all actors for the project, use [Set actors for project role](#api-rest-api-3-project-projectIdOrKey-role-id-put). This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the project role.")),
 			mcplib.WithString("group", mcplib.Description("The name of the group to add. This parameter cannot be used with the `groupId` parameter.")),
@@ -7955,7 +7999,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_delete-actor",
-			mcplib.WithDescription("Deletes actors from a project role for the project. To remove default actors from the project role, use [Delete default actors from project role](#api-rest-api-2-role-id-actors-delete). This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive. (public)"),
+			mcplib.WithDescription("Deletes actors from a project role for the project. To remove default actors from the project role, use [Delete default actors from project role](#api-rest-api-3-role-id-actors-delete). This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive. (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the project role.")),
 			mcplib.WithString("user", mcplib.Description("The user account ID of the user to remove from the project role.")),
@@ -7968,7 +8012,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_get-project",
-			mcplib.WithDescription("Returns a list of [project roles](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-roles/) for the project returning the name and self URL for each role. Note that all project roles are shared with all projects in Jira Cloud. See [Get all project roles](#api-rest-api-2-role-get) for more information. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for any project on the site or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Returns a list of [project roles](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-roles/) for the project returning the name and self URL for each role. Note that all project roles are shared with all projects in Jira Cloud. See [Get all project roles](#api-rest-api-3-role-get) for more information. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for any project on the site or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -7978,7 +8022,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_get-project-project",
-			mcplib.WithDescription("Returns a project role's details and actors associated with the project. The list of actors is sorted by display name. To check whether a user belongs to a role based on their group memberships, use [Get user](#api-rest-api-2-user-get) with the `groups` expand parameter selected. Then check whether the user keys and groups match with the actors returned for the project. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Returns a project role's details and actors associated with the project. The list of actors is sorted by display name. To check whether a user belongs to a role based on their group memberships, use [Get user](#api-rest-api-3-user-get) with the `groups` expand parameter selected. Then check whether the user keys and groups match with the actors returned for the project. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the project role.")),
 			mcplib.WithBoolean("excludeInactiveUsers", mcplib.Description("Exclude inactive users.")),
@@ -7990,7 +8034,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_role_set-actors",
-			mcplib.WithDescription("Sets the actors for a project role for a project, replacing all existing actors. To add actors to the project without overwriting the existing list, use [Add actors to project role](#api-rest-api-2-project-projectIdOrKey-role-id-post). **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Sets the actors for a project role for a project, replacing all existing actors. To add actors to the project without overwriting the existing list, use [Add actors to project role](#api-rest-api-3-project-projectIdOrKey-role-id-post). **[Permissions](#permissions) required:** *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project or *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the project role.")),
 			mcplib.WithString("categorisedActors", mcplib.Description("The actors to add to the project role. Add groups using: * `atlassian-group-role-actor` and a list of group names.")),
@@ -8034,7 +8078,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_version_get-project-paginated",
-			mcplib.WithDescription("Returns a [paginated](#pagination) list of all versions in a project. See the [Get project versions](#api-rest-api-2-project-projectIdOrKey-versions-get) resource if you want to get a full list of versions without pagination. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
+			mcplib.WithDescription("Returns a [paginated](#pagination) list of all versions in a project. See the [Get project versions](#api-rest-api-3-project-projectIdOrKey-versions-get) resource if you want to get a full list of versions without pagination. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
@@ -8050,7 +8094,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project_versions_get-project",
-			mcplib.WithDescription("Returns all versions in a project. The response is not paginated. Use [Get project versions paginated](#api-rest-api-2-project-projectIdOrKey-version-get) if you want to get the versions in a project with pagination. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
+			mcplib.WithDescription("Returns all versions in a project. The response is not paginated. Use [Get project versions paginated](#api-rest-api-3-project-projectIdOrKey-version-get) if you want to get the versions in a project with pagination. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. (public)"),
 			mcplib.WithString("projectIdOrKey", mcplib.Required(), mcplib.Description("The project ID or project key (case sensitive).")),
 			mcplib.WithString("expand", mcplib.Description("Use [expand](#expansion) to include additional information in the response.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -8113,7 +8157,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("project-template_create-project-with-custom-template",
-			mcplib.WithDescription("Creates a project based on a custom template provided in the request. The request body should contain the project details and the capabilities that comprise the project: * `details` - represents the project details settings * `template` - represents a list of capabilities responsible for creating specific parts of a project A capability is defined as a unit of configuration for the project you want to create. This operation is: * [asynchronous](#async). Follow the `Location` link in the response header to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. ***Note: This API is only supported for Jira Enterprise edition.*** **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Creates a project based on a custom template provided in the request. The request body should contain the project details and the capabilities that comprise the project: * `details` - represents the project details settings * `template` - represents a list of capabilities responsible for creating specific parts of a project A capability is defined as a unit of configuration for the project you want to create. This operation is: * [asynchronous](#async). Follow the `Location` link in the response header to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. ***Note: This API is only supported for Jira Enterprise edition.*** **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("details", mcplib.Description("Project Details")),
 			mcplib.WithString("template", mcplib.Description("The specific request object for creating a project with template.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -8279,7 +8323,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("resolution_delete",
-			mcplib.WithDescription("Deletes an issue resolution. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
+			mcplib.WithDescription("Deletes an issue resolution. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain subsequent updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the issue resolution.")),
 			mcplib.WithString("replaceWith", mcplib.Required(), mcplib.Description("The ID of the issue resolution that will replace the currently selected resolution.")),
 			mcplib.WithDestructiveHintAnnotation(true),
@@ -8349,7 +8393,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("role_create-project",
-			mcplib.WithDescription("Creates a new project role with no [default actors](#api-rest-api-2-resolution-get). You can use the [Add default actors to project role](#api-rest-api-2-role-id-actors-post) operation to add default actors to the project role after creating it. *Note that although a new project role is available to all projects upon creation, any default actors that are associated with the project role are not added to projects that existed prior to the role being created.*< **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Creates a new project role with no [default actors](#api-rest-api-3-resolution-get). You can use the [Add default actors to project role](#api-rest-api-3-role-id-actors-post) operation to add default actors to the project role after creating it. *Note that although a new project role is available to all projects upon creation, any default actors that are associated with the project role are not added to projects that existed prior to the role being created.*< **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("description", mcplib.Description("A description of the project role.")),
 			mcplib.WithString("name", mcplib.Description("The name of the project role.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -8379,7 +8423,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("role_get-all-project",
-			mcplib.WithDescription("Gets a list of all project roles, complete with project role details and default actors. ### About project roles ### [Project roles](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-roles/) are a flexible way to to associate users and groups with projects. In Jira Cloud, the list of project roles is shared globally with all projects, but each project can have a different set of actors associated with it (unlike groups, which have the same membership throughout all Jira applications). Project roles are used in [permission schemes](#api-rest-api-2-permissionscheme-get), [email notification schemes](#api-rest-api-2-notificationscheme-get), [issue security levels](#api-rest-api-2-issuesecurityschemes-get), [comment visibility](#api-rest-api-2-comment-list-post), and workflow conditions. #### Members and actors #### In the Jira REST API, a member of a project role is called an *actor*. An *actor* is a group or user associated with a project role. Actors may be set as [default members](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-roles/#Specifying-'default-members'-for-a-project-role) of the project role or set at the project level: * Default actors: Users and groups that are assigned to the project role for all newly created projects. The default actors can be removed at the project level later if desired. * Actors: Users and groups that are associated with a project role for a project, which may differ from the default actors. This enables you to assign a user to different roles in different projects. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Gets a list of all project roles, complete with project role details and default actors. ### About project roles ### [Project roles](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-roles/) are a flexible way to to associate users and groups with projects. In Jira Cloud, the list of project roles is shared globally with all projects, but each project can have a different set of actors associated with it (unlike groups, which have the same membership throughout all Jira applications). Project roles are used in [permission schemes](#api-rest-api-3-permissionscheme-get), [email notification schemes](#api-rest-api-3-notificationscheme-get), [issue security levels](#api-rest-api-3-issuesecurityschemes-get), [comment visibility](#api-rest-api-3-comment-list-post), and workflow conditions. #### Members and actors #### In the Jira REST API, a member of a project role is called an *actor*. An *actor* is a group or user associated with a project role. Actors may be set as [default members](https://support.atlassian.com/jira-cloud-administration/docs/manage-project-roles/#Specifying-'default-members'-for-a-project-role) of the project role or set at the project level: * Default actors: Users and groups that are assigned to the project role for all newly created projects. The default actors can be removed at the project level later if desired. * Actors: Users and groups that are associated with a project role for a project, which may differ from the default actors. This enables you to assign a user to different roles in different projects. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -8409,7 +8453,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("role_actors_add-project-role-to-role",
-			mcplib.WithDescription("Adds [default actors](#api-rest-api-2-resolution-get) to a role. You may add groups or users, but you cannot add groups and users in the same request. Changing a project role's default actors does not affect project role members for projects already created. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Adds [default actors](#api-rest-api-3-resolution-get) to a role. You may add groups or users, but you cannot add groups and users in the same request. Changing a project role's default actors does not affect project role members for projects already created. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the project role.")),
 			mcplib.WithString("group", mcplib.Description("The name of the group to add as a default actor. This parameter cannot be used with the `groupId` parameter.")),
 			mcplib.WithString("groupId", mcplib.Description("The ID of the group to add as a default actor.")),
@@ -8421,7 +8465,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("role_actors_delete-project-role-from-role",
-			mcplib.WithDescription("Deletes the [default actors](#api-rest-api-2-resolution-get) from a project role. You may delete a group or user, but you cannot delete a group and a user in the same request. Changing a project role's default actors does not affect project role members for projects already created. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
+			mcplib.WithDescription("Deletes the [default actors](#api-rest-api-3-resolution-get) from a project role. You may delete a group or user, but you cannot delete a group and a user in the same request. Changing a project role's default actors does not affect project role members for projects already created. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). Destructive."),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the project role.")),
 			mcplib.WithString("user", mcplib.Description("The user account ID of the user to remove as a default actor.")),
 			mcplib.WithString("groupId", mcplib.Description("The group ID of the group to be removed as a default actor. This parameter cannot be used with the `group` parameter.")),
@@ -8433,7 +8477,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("role_actors_get-project-role-for-role",
-			mcplib.WithDescription("Returns the [default actors](#api-rest-api-2-resolution-get) for the project role. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Returns the [default actors](#api-rest-api-3-resolution-get) for the project role. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the project role.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -8667,7 +8711,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("security_delete-linked-workspaces",
-			mcplib.WithDescription("Bulk delete all linked Security Workspaces that match the given request. Only Connect apps that define the `jiraSecurityInfoProvider` module can access this resource. This resource requires the 'DELETE' scope for Connect apps. e.g. DELETE /bulk?workspaceIds=111-222-333,444-555-666. Destructive."),
+			mcplib.WithDescription("Bulk delete all linked Security Workspaces that match the given request. e.g. DELETE /bulk?workspaceIds=111-222-333,444-555-666. Destructive."),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
@@ -8675,7 +8719,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("security_delete-vulnerabilities-by-property",
-			mcplib.WithDescription("Bulk delete all Vulnerabilities that match the given request. One or more query params must be supplied to specify Properties to delete by. If more than one Property is provided, data will be deleted that matches ALL of the Properties (e.g. treated as an AND). Read the POST bulk endpoint documentation for more details. e.g. DELETE /bulkByProperties?accountId=account-123&createdBy=user-456 Deletion is performed asynchronously. The GET vulnerability endpoint can be used to confirm that data has been deleted successfully (if needed). Only Connect apps that define the `jiraSecurityInfoProvider` module can access this resource. This resource requires the 'DELETE' scope for Connect apps. Destructive."),
+			mcplib.WithDescription("Bulk delete all Vulnerabilities that match the given request. One or more query params must be supplied to specify Properties to delete by. If more than one Property is provided, data will be deleted that matches ALL of the Properties (e.g. treated as an AND). Read the POST bulk endpoint documentation for more details. e.g. DELETE /bulkByProperties?accountId=account-123&createdBy=user-456 Deletion is performed asynchronously. The GET vulnerability endpoint can be used to confirm that data has been deleted successfully (if needed). Destructive."),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
@@ -8683,7 +8727,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("security_delete-vulnerability-by-id",
-			mcplib.WithDescription("Delete the Vulnerability data currently stored for the given ID. Deletion is performed asynchronously. The GET vulnerability endpoint can be used to confirm that data has been deleted successfully (if needed). Only Connect apps that define the `jiraSecurityInfoProvider` module can access this resource. This resource requires the 'DELETE' scope for Connect apps. Required: vulnerabilityId. Destructive."),
+			mcplib.WithDescription("Delete the Vulnerability data currently stored for the given ID. Deletion is performed asynchronously. The GET vulnerability endpoint can be used to confirm that data has been deleted successfully (if needed). Required: vulnerabilityId. Destructive."),
 			mcplib.WithString("vulnerabilityId", mcplib.Required(), mcplib.Description("The ID of the Vulnerability to delete.")),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -8692,7 +8736,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("security_get-linked-workspace-by-id",
-			mcplib.WithDescription("Retrieve a specific Security Workspace linked to the Jira site for the given workspace ID. The result will be what is currently stored, ignoring any pending updates or deletes. Only Connect apps that define the `jiraSecurityInfoProvider` module can access this resource. This resource requires the 'READ' scope for Connect apps. Required: workspaceId. Returns the SecurityWorkspaceResponse."),
+			mcplib.WithDescription("Retrieve a specific Security Workspace linked to the Jira site for the given workspace ID. The result will be what is currently stored, ignoring any pending updates or deletes. Required: workspaceId. Returns the SecurityWorkspaceResponse."),
 			mcplib.WithString("workspaceId", mcplib.Required(), mcplib.Description("The ID of the workspace to fetch.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -8702,7 +8746,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("security_get-linked-workspaces",
-			mcplib.WithDescription("Retrieve all Security Workspaces linked with the Jira site. The result will be what is currently stored, ignoring any pending updates or deletes. Only Connect apps that define the `jiraSecurityInfoProvider` module can access this resource. This resource requires the 'READ' scope for Connect apps. Returns the SecurityWorkspaceIds."),
+			mcplib.WithDescription("Retrieve all Security Workspaces linked with the Jira site. The result will be what is currently stored, ignoring any pending updates or deletes. Returns the SecurityWorkspaceIds."),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -8711,7 +8755,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("security_get-vulnerability-by-id",
-			mcplib.WithDescription("Retrieve the currently stored Vulnerability data for the given ID. The result will be what is currently stored, ignoring any pending updates or deletes. Only Connect apps that define the `jiraSecurityInfoProvider` module can access this resource. This resource requires the 'READ' scope for Connect apps. Required: vulnerabilityId. Returns the VulnerabilityDetails."),
+			mcplib.WithDescription("Retrieve the currently stored Vulnerability data for the given ID. The result will be what is currently stored, ignoring any pending updates or deletes. Required: vulnerabilityId. Returns the VulnerabilityDetails."),
 			mcplib.WithString("vulnerabilityId", mcplib.Required(), mcplib.Description("The ID of the Vulnerability to fetch.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -8721,7 +8765,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("security_submit-vulnerabilities",
-			mcplib.WithDescription("Update / Insert Vulnerability data. Vulnerabilities are identified by their ID, any existing Vulnerability data with the same ID will be replaced if it exists and the updateSequenceNumber of the existing data is less than the incoming data. Submissions are performed asynchronously. Most updates are available within a short period of time but may take some time during peak load and/or maintenance times. The GET vulnerability endpoint can be used to confirm that data has been stored successfully (if needed). In the case of multiple Vulnerabilities being submitted in one request, each is validated individually prior to submission. Details of Vulnerabilities that failed submission (if any) are available in the response object. A maximum of 1000 vulnerabilities can be submitted in one request. Only Connect apps that define the `jiraSecurityInfoProvider` module can access this resource. This resource requires the 'WRITE' scope for Connect apps. Required: vulnerabilities. Optional: operationType, properties, providerMetadata. Returns the new SubmitVulnerabilitiesResponse."),
+			mcplib.WithDescription("Update / Insert Vulnerability data. Vulnerabilities are identified by their ID, any existing Vulnerability data with the same ID will be replaced if it exists and the updateSequenceNumber of the existing data is less than the incoming data. Submissions are performed asynchronously. Most updates are available within a short period of time but may take some time during peak load and/or maintenance times. The GET vulnerability endpoint can be used to confirm that data has been stored successfully (if needed). In the case of multiple Vulnerabilities being submitted in one request, each is validated individually prior to submission. Details of Vulnerabilities that failed submission (if any) are available in the response object. A maximum of 1000 vulnerabilities can be submitted in one request. Required: vulnerabilities. Optional: operationType, properties, providerMetadata. Returns the new SubmitVulnerabilitiesResponse."),
 			mcplib.WithString("operationType", mcplib.Description("Indicates the operation being performed by the provider system when sending this data.")),
 			mcplib.WithString("properties", mcplib.Description("Properties assigned to vulnerability data that can then be used for delete / query operations.")),
 			mcplib.WithString("providerMetadata", mcplib.Description("Information about the provider. This is useful for auditing, logging, debugging, and other internal uses.")),
@@ -8733,7 +8777,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("security_submit-workspaces",
-			mcplib.WithDescription("Insert Security Workspace IDs to establish a relationship between them and the Jira site the app is installed on. If a relationship between the workspace ID and Jira already exists then the workspace ID will be ignored and Jira will process the rest of the entries. Only Connect apps that define the `jiraSecurityInfoProvider` module can access this resource. This resource requires the 'WRITE' scope for Connect apps. Required: workspaceIds."),
+			mcplib.WithDescription("Insert Security Workspace IDs to establish a relationship between them and the Jira site the app is installed on. If a relationship between the workspace ID and Jira already exists then the workspace ID will be ignored and Jira will process the rest of the entries. Required: workspaceIds."),
 			mcplib.WithString("workspaceIds", mcplib.Required(), mcplib.Description("The IDs of Security Workspaces to link to this Jira site. These must follow this regex pattern: `[a-zA-Z0-9-_.")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -8742,7 +8786,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("securitylevel_get-issue-security-level",
-			mcplib.WithDescription("Returns details of an issue security level. Use [Get issue security scheme](#api-rest-api-2-issuesecurityschemes-id-get) to obtain the IDs of issue security levels associated with the issue security scheme. This operation can be accessed anonymously. **[Permissions](#permissions) required:** None. (public)"),
+			mcplib.WithDescription("Returns details of an issue security level. Use [Get issue security scheme](#api-rest-api-3-issuesecurityschemes-id-get) to obtain the IDs of issue security levels associated with the issue security scheme. This operation can be accessed anonymously. **[Permissions](#permissions) required:** None. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the issue security level.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -8769,6 +8813,17 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("POST", "/rest/servicedeskapi/servicedesk/{serviceDeskId}/customer", false, false, nil, []mcpParamBinding{{PublicName: "serviceDeskId", WireName: "serviceDeskId", Location: "path"}, {PublicName: "accountIds", WireName: "accountIds", Location: "body"}, {PublicName: "usernames", WireName: "usernames", Location: "body"}}, []string{"serviceDeskId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("servicedeskapi_add-customers-servicedesk",
+			mcplib.WithDescription("Adds one or more customers to a service desk on behalf of jsd-nutmeg. This endpoint is restricted to jsd-nutmeg via ASAP authentication. It provides the same capability as the public {@code POST /servicedeskapi/servicedesk/{serviceDeskId}/customer} endpoint, but does not require a User Context Token (UCT) or Connect app user u2014 authorization is enforced entirely via the ASAP token. No user permission checks are performed; {@code null} is passed as the acting user to bypass the permission check in the underlying service. If any of the passed customers are already associated with the service desk, no changes will be made for those customers and the resource returns a 204 success code. Required: serviceDeskId. Optional: accountIds, usernames."),
+			mcplib.WithString("serviceDeskId", mcplib.Required(), mcplib.Description("The ID of the service desk to add customers to. This can alternatively be a project identifier.")),
+			mcplib.WithString("accountIds", mcplib.Description("List of users, specified by account IDs, to add to or remove from a service desk.")),
+			mcplib.WithString("usernames", mcplib.Description("This property is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/servicedeskapi/servicedesk/{serviceDeskId}/customer/skip-permission-check", false, false, nil, []mcpParamBinding{{PublicName: "serviceDeskId", WireName: "serviceDeskId", Location: "path"}, {PublicName: "accountIds", WireName: "accountIds", Location: "body"}, {PublicName: "usernames", WireName: "usernames", Location: "body"}}, []string{"serviceDeskId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("servicedeskapi_add-organization",
@@ -8861,10 +8916,22 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "/rest/servicedeskapi/customer", false, false, nil, []mcpParamBinding{{PublicName: "strictConflictStatusCode", WireName: "strictConflictStatusCode", Location: "query"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "email", WireName: "email", Location: "body"}, {PublicName: "fullName", WireName: "fullName", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
+		mcplib.NewTool("servicedeskapi_create-customer-customer",
+			mcplib.WithDescription("Creates a customer account on behalf of jsd-nutmeg. This endpoint is restricted to jsd-nutmeg via ASAP authentication. It provides the same capability as the public {@code POST /servicedeskapi/customer} endpoint, but does not require a User Context Token (UCT) or Connect app user u2014 authorization is enforced entirely via the ASAP token. No user permission checks are performed; {@code null} is passed as the acting user to bypass the permission check in the underlying service. Optional: strictConflictStatusCode, displayName, email (plus 1 more). Returns the new UserDto."),
+			mcplib.WithBoolean("strictConflictStatusCode", mcplib.Description("Optional boolean flag; when {@code true}, returns 409 Conflict for duplicate email instead of the default 400.")),
+			mcplib.WithString("displayName", mcplib.Description("Customer's name for display in the UI.")),
+			mcplib.WithString("email", mcplib.Description("Customer's email address.")),
+			mcplib.WithString("fullName", mcplib.Description("Deprecated, please use 'displayName'.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/servicedeskapi/customer/skip-permission-check", false, false, nil, []mcpParamBinding{{PublicName: "strictConflictStatusCode", WireName: "strictConflictStatusCode", Location: "query"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "email", WireName: "email", Location: "body"}, {PublicName: "fullName", WireName: "fullName", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
 		mcplib.NewTool("servicedeskapi_create-customer-request",
 			mcplib.WithDescription("This method creates a customer request in a service desk. The JSON request must include the service desk and customer request type, as well as any fields that are required for the request type. A list of the fields required by a customer request type can be obtained using [servicedesk/{serviceDeskId}/requesttype/{requestTypeId}/field](#api-servicedesk-serviceDeskId-requesttype-requestTypeId-field-get). The fields required for a customer request type depend on the user's permissions: * `raiseOnBehalfOf` is not available to Users who have the customer permission only. * `requestParticipants` is not available to Users who have the customer permission only or if the feature is turned off for customers. `requestFieldValues` is a map of Jira field IDs and their values. See [Field input formats](#fieldformats), for details of each field's JSON semantics and the values they can take. **[Permissions](#permissions) required**: Permission to create requests in the specified service desk. Optional: channel, form, isAdfRequest (plus 5 more). Returns the new CustomerRequestDto."),
 			mcplib.WithString("channel", mcplib.Description("(Experimental) Shows extra information for the request channel.")),
-			mcplib.WithString("form", mcplib.Description("Provides answers to the form associated with a request type that is attached to the request on creation.")),
+			mcplib.WithString("form", mcplib.Description("Provides answers to the form associated with a request type.")),
 			mcplib.WithBoolean("isAdfRequest", mcplib.Description("(Experimental) Whether to accept rich text fields in Atlassian Document Format (ADF).")),
 			mcplib.WithString("raiseOnBehalfOf", mcplib.Description("The `accountId` of the customer that the request is being raised on behalf of.")),
 			mcplib.WithString("requestFieldValues", mcplib.Description("JSON map of Jira field IDs and their values representing the content of the request.")),
@@ -9583,6 +9650,32 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "/rest/servicedeskapi/request/{issueIdOrKey}/notification", false, false, nil, []mcpParamBinding{{PublicName: "issueIdOrKey", WireName: "issueIdOrKey", Location: "path"}}, []string{"issueIdOrKey"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("servicedeskapi_validate-customer-request",
+			mcplib.WithDescription("Validates a customer request payload without creating (persisting) a request. This endpoint runs exactly the same structural and semantic validations as [Create customer request](#api-request-post) u2014 including ProForma form validation u2014 but performs **no mutation**: no issue is created and no side effects (attachments, comments, analytics) run. The response is intentionally verbose and structured so that it can be consumed by automated agents (for example an LLM repairing an invalid payload): every failure carries a machine-readable location (field id / form entity) and a human-readable reason. A valid payload returns HTTP 200 with {@code valid: true}; an invalid payload returns HTTP 400 with {@code valid: false} together with the field, form and general validation errors. **[Permissions](#permissions) required**: Permission to create requests in the specified service desk. Optional: channel, form, isAdfRequest (plus 5 more)."),
+			mcplib.WithString("channel", mcplib.Description("(Experimental) Shows extra information for the request channel.")),
+			mcplib.WithString("form", mcplib.Description("Provides answers to the form associated with a request type.")),
+			mcplib.WithBoolean("isAdfRequest", mcplib.Description("(Experimental) Whether to accept rich text fields in Atlassian Document Format (ADF).")),
+			mcplib.WithString("raiseOnBehalfOf", mcplib.Description("The `accountId` of the customer that the request is being raised on behalf of.")),
+			mcplib.WithString("requestFieldValues", mcplib.Description("JSON map of Jira field IDs and their values representing the content of the request.")),
+			mcplib.WithString("requestParticipants", mcplib.Description("List of customers to participate in the request, as a list of `accountId` values.")),
+			mcplib.WithString("requestTypeId", mcplib.Description("ID of the request type for the request.")),
+			mcplib.WithString("serviceDeskId", mcplib.Description("ID of the service desk in which to create the request.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/servicedeskapi/request/validate", false, false, nil, []mcpParamBinding{{PublicName: "channel", WireName: "channel", Location: "body"}, {PublicName: "form", WireName: "form", Location: "body"}, {PublicName: "isAdfRequest", WireName: "isAdfRequest", Location: "body"}, {PublicName: "raiseOnBehalfOf", WireName: "raiseOnBehalfOf", Location: "body"}, {PublicName: "requestFieldValues", WireName: "requestFieldValues", Location: "body"}, {PublicName: "requestParticipants", WireName: "requestParticipants", Location: "body"}, {PublicName: "requestTypeId", WireName: "requestTypeId", Location: "body"}, {PublicName: "serviceDeskId", WireName: "serviceDeskId", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("servicedeskapi_view-article",
+			mcplib.WithDescription("View knowledge base article. Required: pageId. (public)"),
+			mcplib.WithNumber("pageId", mcplib.Required(), mcplib.Description("Page id")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/rest/servicedeskapi/knowledgebase/article/view/{pageId}", true, false, nil, []mcpParamBinding{{PublicName: "pageId", WireName: "pageId", Location: "path"}}, []string{"pageId"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("settings_get-issue-navigator-default-columns",
 			mcplib.WithDescription("Returns the default issue navigator columns. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -9593,7 +9686,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("settings_set-issue-navigator-default-columns",
-			mcplib.WithDescription("Sets the default issue navigator columns. The `columns` parameter accepts a navigable field value and is expressed as HTML form data. To specify multiple columns, pass multiple `columns` parameters. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/3/settings/columns` If no column details are sent, then all default columns are removed. A navigable field is one that can be used as a column on the issue navigator. Find details of navigable issue columns using [Get fields](#api-rest-api-2-field-get). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Sets the default issue navigator columns. The `columns` parameter accepts a navigable field value and is expressed as HTML form data. To specify multiple columns, pass multiple `columns` parameters. For example, in curl: `curl -X PUT -d columns=summary -d columns=description https://your-domain.atlassian.net/rest/api/3/settings/columns` If no column details are sent, then all default columns are removed. A navigable field is one that can be used as a column on the issue navigator. Find details of navigable issue columns using [Get fields](#api-rest-api-3-field-get). **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithString("columns", mcplib.Description("Columns")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
@@ -9788,7 +9881,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("statuscategory_get-status-category",
-			mcplib.WithDescription("Returns a status category. Status categories provided a mechanism for categorizing [statuses](#api-rest-api-2-status-idOrName-get). **[Permissions](#permissions) required:** Permission to access Jira. (public)"),
+			mcplib.WithDescription("Returns a status category. Status categories provided a mechanism for categorizing [statuses](#api-rest-api-3-status-idOrName-get). **[Permissions](#permissions) required:** Permission to access Jira. (public)"),
 			mcplib.WithString("idOrKey", mcplib.Required(), mcplib.Description("The ID or key of the status category.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -9844,11 +9937,12 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
 			mcplib.WithString("searchString", mcplib.Description("Term to match status names against or null to search for all statuses in the search scope.")),
 			mcplib.WithString("statusCategory", mcplib.Description("Category of the status to filter by. The supported values are: `TODO`, `IN_PROGRESS`, and `DONE`.")),
+			mcplib.WithBoolean("includeGlobalStatuses", mcplib.Description("Whether to include global statuses (scope = null, not tied to any project) in the response. Defaults to false.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/3/statuses/search", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "searchString", WireName: "searchString", Location: "query"}, {PublicName: "statusCategory", WireName: "statusCategory", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/statuses/search", true, false, nil, []mcpParamBinding{{PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "searchString", WireName: "searchString", Location: "query"}, {PublicName: "statusCategory", WireName: "statusCategory", Location: "query"}, {PublicName: "includeGlobalStatuses", WireName: "includeGlobalStatuses", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("statuses_update",
@@ -9916,7 +10010,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("ui-modifications_create",
-			mcplib.WithDescription("Creates a UI modification. UI modification can only be created by Forge apps. Each app can define up to 3000 UI modifications. Each UI modification can define up to 1000 contexts. The same context can be assigned to maximum 100 UI modifications. **Context types:** * **Jira contexts:** For Jira view types, use `projectId` and `issueTypeId`. One field can act as a wildcard. Supported Jira views: * `GIC` - Jira global issue create * `IssueView` - Jira issue view * `IssueTransition` - Jira issue transition * **Jira Service Management contexts:** For Jira Service Management view types, use `portalId` and `requestTypeId`. Wildcards are not supported. Supported JSM views: * `JSMRequestCreate` - Jira Service Management request create portal view **[Permissions](#permissions) required:** * *None* if the UI modification is created without contexts. * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for one or more projects, if the UI modification is created with contexts. The new `write:app-data:jira` OAuth scope is 100% optional now, and not using it won't break your app. However, we recommend adding it to your app's scope list because we will eventually make it mandatory."),
+			mcplib.WithDescription("Creates a UI modification. UI modification can only be created by Forge apps. Each app can define up to 3000 UI modifications. Each UI modification can define up to 1000 contexts. The same context can be assigned to maximum 100 UI modifications. **Context types:** * **Jira contexts:** For Jira view types, use `projectId` and `issueTypeId`. One field can act as a wildcard. Supported Jira views: * `GIC` - Jira global issue create * `IssueView` - Jira issue view * `IssueTransition` - Jira issue transition * **Jira Service Management contexts:** For Jira Service Management view types, use `portalId` and `requestTypeId`. Wildcards are not supported. Supported JSM views: * `JSMRequestCreate` - Jira Service Management request create portal view * **Agent view contexts:** For Agent view types, use `projectId` and `issueTypeId` like Jira contexts, and optionally set `requestTypeId`. `portalId` must not be set. One of `projectId`, `issueTypeId`, or `viewType` can act as a wildcard. Supported Agent views: * `GICAgentView` - Agent view variant of Jira global issue create * `IssueViewAgentView` - Agent view variant of Jira issue view * `IssueTransitionAgentView` - Agent view variant of Jira issue transition **[Permissions](#permissions) required:** * *None* if the UI modification is created without contexts. * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for one or more projects, if the UI modification is created with contexts. The new `write:app-data:jira` OAuth scope is 100% optional now, and not using it won't break your app. However, we recommend adding it to your app's scope list because we will eventually make it mandatory."),
 			mcplib.WithString("contexts", mcplib.Description("List of contexts of the UI modification. The maximum number of contexts is 1000.")),
 			mcplib.WithString("data", mcplib.Description("The data of the UI modification. The maximum size of the data is 50000 characters.")),
 			mcplib.WithString("description", mcplib.Description("The description of the UI modification. The maximum length is 255 characters.")),
@@ -9949,7 +10043,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("ui-modifications_update",
-			mcplib.WithDescription("Updates a UI modification. UI modification can only be updated by Forge apps. Each UI modification can define up to 1000 contexts. The same context can be assigned to maximum 100 UI modifications. **Context types:** * **Jira contexts:** For Jira view types, use `projectId` and `issueTypeId`. One field can act as a wildcard. Supported Jira views: * `GIC` - Jira global issue create * `IssueView` - Jira issue view * `IssueTransition` - Jira issue transition * **Jira Service Management contexts:** For Jira Service Management view types, use `portalId` and `requestTypeId`. Wildcards are not supported. Supported JSM views: * `JSMRequestCreate` - Jira Service Management request create portal view **[Permissions](#permissions) required:** * *None* if the UI modification is created without contexts. * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for one or more projects, if the UI modification is created with contexts. The new `write:app-data:jira` OAuth scope is 100% optional now, and not using it won't break your app. However, we recommend adding it to your app's scope list because we will eventually make it mandatory."),
+			mcplib.WithDescription("Updates a UI modification. UI modification can only be updated by Forge apps. Each UI modification can define up to 1000 contexts. The same context can be assigned to maximum 100 UI modifications. **Context types:** * **Jira contexts:** For Jira view types, use `projectId` and `issueTypeId`. One field can act as a wildcard. Supported Jira views: * `GIC` - Jira global issue create * `IssueView` - Jira issue view * `IssueTransition` - Jira issue transition * **Jira Service Management contexts:** For Jira Service Management view types, use `portalId` and `requestTypeId`. Wildcards are not supported. Supported JSM views: * `JSMRequestCreate` - Jira Service Management request create portal view * **Agent view contexts:** For Agent view types, use `projectId` and `issueTypeId` like Jira contexts, and optionally set `requestTypeId`. `portalId` must not be set. One of `projectId`, `issueTypeId`, or `viewType` can act as a wildcard. Supported Agent views: * `GICAgentView` - Agent view variant of Jira global issue create * `IssueViewAgentView` - Agent view variant of Jira issue view * `IssueTransitionAgentView` - Agent view variant of Jira issue transition **[Permissions](#permissions) required:** * *None* if the UI modification is created without contexts. * *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for one or more projects, if the UI modification is created with contexts. The new `write:app-data:jira` OAuth scope is 100% optional now, and not using it won't break your app. However, we recommend adding it to your app's scope list because we will eventually make it mandatory."),
 			mcplib.WithString("uiModificationId", mcplib.Required(), mcplib.Description("The ID of the UI modification.")),
 			mcplib.WithString("contexts", mcplib.Description("List of contexts of the UI modification. The maximum number of contexts is 1000.")),
 			mcplib.WithString("data", mcplib.Description("The data of the UI modification. The maximum size of the data is 50000 characters.")),
@@ -10021,7 +10115,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("universal-avatar_store-avatar",
-			mcplib.WithDescription("Loads a custom avatar for a project, issue type or priority. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST ` `--user email@example.com:<api_token> ` `--header 'X-Atlassian-Token: no-check' ` `--header 'Content-Type: image/< image_type>' ` `--data-binary '<@/path/to/file/with/your/avatar>' ` `--url 'https://your-domain.atlassian.net/rest/api/3/universal_avatar/type/{type}/owner/{entityId}'` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar use: * [Update issue type](#api-rest-api-2-issuetype-id-put) to set it as the issue type's displayed avatar. * [Set project avatar](#api-rest-api-2-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar. * [Update priority](#api-rest-api-2-priority-id-put) to set it as the priority's displayed avatar. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
+			mcplib.WithDescription("Loads a custom avatar for a project, issue type or priority. Specify the avatar's local file location in the body of the request. Also, include the following headers: * `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers). * `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG. For example: `curl --request POST ` `--user email@example.com:<api_token> ` `--header 'X-Atlassian-Token: no-check' ` `--header 'Content-Type: image/< image_type>' ` `--data-binary '<@/path/to/file/with/your/avatar>' ` `--url 'https://your-domain.atlassian.net/rest/api/3/universal_avatar/type/{type}/owner/{entityId}'` The avatar is cropped to a square. If no crop parameters are specified, the square originates at the top left of the image. The length of the square's sides is set to the smaller of the height or width of the image. The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and 48x48 in size. After creating the avatar use: * [Update issue type](#api-rest-api-3-issuetype-id-put) to set it as the issue type's displayed avatar. * [Set project avatar](#api-rest-api-3-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar. * [Update priority](#api-rest-api-3-priority-id-put) to set it as the priority's displayed avatar. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)"),
 			mcplib.WithString("type", mcplib.Required(), mcplib.Description("The avatar type.")),
 			mcplib.WithString("entityId", mcplib.Required(), mcplib.Description("The ID of the item the avatar is associated with.")),
 			mcplib.WithNumber("x", mcplib.Description("The X coordinate of the top-left corner of the crop region.")),
@@ -10061,7 +10155,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_create",
-			mcplib.WithDescription("Creates a user. This resource is retained for legacy compatibility. As soon as a more suitable alternative is available this resource will be deprecated. **Note:** This API does not support Forge apps. If the user exists and has access to Jira, the operation returns a 201 status. If the user exists but does not have access to Jira, the operation returns a 400 status. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). The caller has to be an **organization admin**. (public)"),
+			mcplib.WithDescription("Creates a user. This resource is retained for legacy compatibility. As soon as a more suitable alternative is available this resource will be deprecated. **Note:** This API does not support Forge apps. If the user exists and has access to Jira, the operation returns a 201 status. If the user exists but does not have access to Jira & no new jira-products are requested, the operation returns a 400 status. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). The caller has to be an **organization admin**. (public)"),
 			mcplib.WithString("applicationKeys", mcplib.Description("Deprecated, do not use.")),
 			mcplib.WithString("displayName", mcplib.Description("This property is no longer available. If the user has an Atlassian account, their display name is not changed.")),
 			mcplib.WithString("emailAddress", mcplib.Required(), mcplib.Description("The email address for the user.")),
@@ -10089,7 +10183,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find",
-			mcplib.WithDescription("Returns a list of active users that match the search string and property. This operation first applies a filter to match the search string and property, and then takes the filtered users in the range defined by `startAt` and `maxResults`, up to the thousandth user. To get all the users who match the search string and property, use [Get all users](#api-rest-api-2-users-search-get) and filter the records in your code. This operation can be accessed anonymously. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). Anonymous calls or calls by users without the required permission return empty search results. (public)"),
+			mcplib.WithDescription("Returns a list of active users that match the search string and property. This operation first applies a filter to match the search string and property, and then takes the filtered users in the range defined by `startAt` and `maxResults`, up to the thousandth user. To get all the users who match the search string and property, use [Get all users](#api-rest-api-3-users-search-get) and filter the records in your code. This operation can be accessed anonymously. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). Anonymous calls or calls by users without the required permission return empty search results. (public)"),
 			mcplib.WithString("query", mcplib.Description("A query string that is matched against user attributes ( `displayName`, and `emailAddress`) to find relevant users.")),
 			mcplib.WithString("username", mcplib.Description("Username")),
 			mcplib.WithString("accountId", mcplib.Description("A query string that is matched exactly against a user `accountId`. Required, unless `query` or `property` is specified.")),
@@ -10104,7 +10198,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-assignable",
-			mcplib.WithDescription("Returns a list of users that can be assigned to an issue. Use this operation to find the list of users who can be assigned to: * a new issue, by providing the `projectKeyOrId`. * an updated issue, by providing the `issueKey` or `issueId`. * to an issue during a transition (workflow action), by providing the `issueKey` or `issueId` and the transition id in `actionDescriptorId`. You can obtain the IDs of an issue's valid transitions using the `transitions` option in the `expand` parameter of [ Get issue](#api-rest-api-2-issue-issueIdOrKey-get). In all these cases, you can pass an account ID to determine if a user can be assigned to an issue. The user is returned in the response if they can be assigned to the issue or issue transition. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that can be assigned the issue. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who can be assigned the issue, use [Get all users](#api-rest-api-2-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Assign issues* [project permission](https://confluence.atlassian.com/x/yodKLg). (public)"),
+			mcplib.WithDescription("Returns a list of users that can be assigned to an issue. Use this operation to find the list of users who can be assigned to: * a new issue, by providing the `projectKeyOrId`. * an updated issue, by providing the `issueKey` or `issueId`. * to an issue during a transition (workflow action), by providing the `issueKey` or `issueId` and the transition id in `actionDescriptorId`. You can obtain the IDs of an issue's valid transitions using the `transitions` option in the `expand` parameter of [ Get issue](#api-rest-api-3-issue-issueIdOrKey-get). In all these cases, you can pass an account ID to determine if a user can be assigned to an issue. The user is returned in the response if they can be assigned to the issue or issue transition. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that can be assigned the issue. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who can be assigned the issue, use [Get all users](#api-rest-api-3-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg) or *Assign issues* [project permission](https://confluence.atlassian.com/x/yodKLg). (public)"),
 			mcplib.WithString("query", mcplib.Description("A query string that is matched against user attributes, such as `displayName`, and `emailAddress`")),
 			mcplib.WithString("sessionId", mcplib.Description("The sessionId of this request. SessionId is the same until the assignee is set.")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available.")),
@@ -10126,7 +10220,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-bulk-assignable",
-			mcplib.WithDescription("Returns a list of users who can be assigned issues in one or more projects. The list may be restricted to users whose attributes match a string. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that can be assigned issues in the projects. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who can be assigned issues in the projects, use [Get all users](#api-rest-api-2-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for each project specified in `projectKeys`. (public)"),
+			mcplib.WithDescription("Returns a list of users who can be assigned issues in one or more projects. The list may be restricted to users whose attributes match a string. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that can be assigned issues in the projects. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who can be assigned issues in the projects, use [Get all users](#api-rest-api-3-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for each project specified in `projectKeys`. (public)"),
 			mcplib.WithString("query", mcplib.Description("A query string that is matched against user attributes, such as `displayName` and...")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available.")),
 			mcplib.WithString("accountId", mcplib.Description("A query string that is matched exactly against user `accountId`.")),
@@ -10141,7 +10235,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-by-query",
-			mcplib.WithDescription("Finds users with a structured query and returns a [paginated](#pagination) list of user details. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that match the structured query. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the structured query, use [Get all users](#api-rest-api-2-users-search-get) and filter the records in your code. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). The query statements are: * `is assignee of PROJ` Returns the users that are assignees of at least one issue in project *PROJ*. * `is assignee of (PROJ-1, PROJ-2)` Returns users that are assignees on the issues *PROJ-1* or *PROJ-2*. * `is reporter of (PROJ-1, PROJ-2)` Returns users that are reporters on the issues *PROJ-1* or *PROJ-2*. * `is watcher of (PROJ-1, PROJ-2)` Returns users that are watchers on the issues *PROJ-1* or *PROJ-2*. * `is voter of (PROJ-1, PROJ-2)` Returns users that are voters on the issues *PROJ-1* or *PROJ-2*. * `is commenter of (PROJ-1, PROJ-2)` Returns users that have posted a comment on the issues *PROJ-1* or *PROJ-2*. * `is transitioner of (PROJ-1, PROJ-2)` Returns users that have performed a transition on issues *PROJ-1* or *PROJ-2*. * `[propertyKey].entity.property.path is 'property value'` Returns users with the entity property value. For example, if user property `location` is set to value `{'office': {'country': 'AU', 'city': 'Sydney'}}`, then it's possible to use `[location].office.city is 'Sydney'` to match the user. The list of issues can be extended as needed, as in *(PROJ-1, PROJ-2, ... PROJ-n)*. Statements can be combined using the `AND` and `OR` operators to form more complex queries. For example: `is assignee of PROJ AND [propertyKey].entity.property.path is 'property value'`."),
+			mcplib.WithDescription("Finds users with a structured query and returns a [paginated](#pagination) list of user details. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that match the structured query. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the structured query, use [Get all users](#api-rest-api-3-users-search-get) and filter the records in your code. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). The query statements are: * `is assignee of PROJ` Returns the users that are assignees of at least one issue in project *PROJ*. * `is assignee of (PROJ-1, PROJ-2)` Returns users that are assignees on the issues *PROJ-1* or *PROJ-2*. * `is reporter of (PROJ-1, PROJ-2)` Returns users that are reporters on the issues *PROJ-1* or *PROJ-2*. * `is watcher of (PROJ-1, PROJ-2)` Returns users that are watchers on the issues *PROJ-1* or *PROJ-2*. * `is voter of (PROJ-1, PROJ-2)` Returns users that are voters on the issues *PROJ-1* or *PROJ-2*. * `is commenter of (PROJ-1, PROJ-2)` Returns users that have posted a comment on the issues *PROJ-1* or *PROJ-2*. * `is transitioner of (PROJ-1, PROJ-2)` Returns users that have performed a transition on issues *PROJ-1* or *PROJ-2*. * `[propertyKey].entity.property.path is 'property value'` Returns users with the entity property value. For example, if user property `location` is set to value `{'office': {'country': 'AU', 'city': 'Sydney'}}`, then it's possible to use `[location].office.city is 'Sydney'` to match the user. The list of issues can be extended as needed, as in *(PROJ-1, PROJ-2, ... PROJ-n)*. Statements can be combined using the `AND` and `OR` operators to form more complex queries. For example: `is assignee of PROJ AND [propertyKey].entity.property.path is 'property value'`."),
 			mcplib.WithString("query", mcplib.Required(), mcplib.Description("The search query.")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return per page.")),
@@ -10153,7 +10247,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-for-picker",
-			mcplib.WithDescription("Returns a list of users whose attributes match the query term. The returned object includes the `html` field where the matched query term is highlighted with the HTML strong tag. A list of account IDs can be provided to exclude users from the results. This operation takes the users in the range defined by `maxResults`, up to the thousandth user, and then returns only the users from that range that match the query term. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the query term, use [Get all users](#api-rest-api-2-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). Anonymous calls and calls by users without the required permission return search results for an exact name match only. (public)"),
+			mcplib.WithDescription("Returns a list of users whose attributes match the query term. The returned object includes the `html` field where the matched query term is highlighted with the HTML strong tag. A list of account IDs can be provided to exclude users from the results. This operation takes the users in the range defined by `maxResults`, up to the thousandth user, and then returns only the users from that range that match the query term. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the query term, use [Get all users](#api-rest-api-3-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). Anonymous calls and calls by users without the required permission return search results for an exact name match only. (public)"),
 			mcplib.WithString("query", mcplib.Required(), mcplib.Description("A query string that is matched against user attributes, such as `displayName`, and `emailAddress`")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of items to return. The total number of matched users is returned in `total`.")),
 			mcplib.WithBoolean("showAvatar", mcplib.Description("Include the URI to the user's avatar.")),
@@ -10169,7 +10263,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-keys-by-query",
-			mcplib.WithDescription("Finds users with a structured query and returns a [paginated](#pagination) list of user keys. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that match the structured query. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the structured query, use [Get all users](#api-rest-api-2-users-search-get) and filter the records in your code. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). The query statements are: * `is assignee of PROJ` Returns the users that are assignees of at least one issue in project *PROJ*. * `is assignee of (PROJ-1, PROJ-2)` Returns users that are assignees on the issues *PROJ-1* or *PROJ-2*. * `is reporter of (PROJ-1, PROJ-2)` Returns users that are reporters on the issues *PROJ-1* or *PROJ-2*. * `is watcher of (PROJ-1, PROJ-2)` Returns users that are watchers on the issues *PROJ-1* or *PROJ-2*. * `is voter of (PROJ-1, PROJ-2)` Returns users that are voters on the issues *PROJ-1* or *PROJ-2*. * `is commenter of (PROJ-1, PROJ-2)` Returns users that have posted a comment on the issues *PROJ-1* or *PROJ-2*. * `is transitioner of (PROJ-1, PROJ-2)` Returns users that have performed a transition on issues *PROJ-1* or *PROJ-2*. * `[propertyKey].entity.property.path is 'property value'` Returns users with the entity property value. For example, if user property `location` is set to value `{'office': {'country': 'AU', 'city': 'Sydney'}}`, then it's possible to use `[location].office.city is 'Sydney'` to match the user. The list of issues can be extended as needed, as in *(PROJ-1, PROJ-2, ... PROJ-n)*. Statements can be combined using the `AND` and `OR` operators to form more complex queries. For example: `is assignee of PROJ AND [propertyKey].entity.property.path is 'property value'`."),
+			mcplib.WithDescription("Finds users with a structured query and returns a [paginated](#pagination) list of user keys. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that match the structured query. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the structured query, use [Get all users](#api-rest-api-3-users-search-get) and filter the records in your code. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). The query statements are: * `is assignee of PROJ` Returns the users that are assignees of at least one issue in project *PROJ*. * `is assignee of (PROJ-1, PROJ-2)` Returns users that are assignees on the issues *PROJ-1* or *PROJ-2*. * `is reporter of (PROJ-1, PROJ-2)` Returns users that are reporters on the issues *PROJ-1* or *PROJ-2*. * `is watcher of (PROJ-1, PROJ-2)` Returns users that are watchers on the issues *PROJ-1* or *PROJ-2*. * `is voter of (PROJ-1, PROJ-2)` Returns users that are voters on the issues *PROJ-1* or *PROJ-2*. * `is commenter of (PROJ-1, PROJ-2)` Returns users that have posted a comment on the issues *PROJ-1* or *PROJ-2*. * `is transitioner of (PROJ-1, PROJ-2)` Returns users that have performed a transition on issues *PROJ-1* or *PROJ-2*. * `[propertyKey].entity.property.path is 'property value'` Returns users with the entity property value. For example, if user property `location` is set to value `{'office': {'country': 'AU', 'city': 'Sydney'}}`, then it's possible to use `[location].office.city is 'Sydney'` to match the user. The list of issues can be extended as needed, as in *(PROJ-1, PROJ-2, ... PROJ-n)*. Statements can be combined using the `AND` and `OR` operators to form more complex queries. For example: `is assignee of PROJ AND [propertyKey].entity.property.path is 'property value'`."),
 			mcplib.WithString("query", mcplib.Required(), mcplib.Description("The search query.")),
 			mcplib.WithNumber("startAt", mcplib.Description("The index of the first item to return in a page of results (page offset).")),
 			mcplib.WithNumber("maxResult", mcplib.Description("The maximum number of items to return per page.")),
@@ -10181,7 +10275,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-with-all-permissions",
-			mcplib.WithDescription("Returns a list of users who fulfill these criteria: * their user attributes match a search string. * they have a set of permissions for a project or issue. If no search string is provided, a list of all users with the permissions is returned. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that match the search string and have permission for the project or issue. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the search string and have permission for the project or issue, use [Get all users](#api-rest-api-2-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to get users for any project. * *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for a project, to get users for that project. (public)"),
+			mcplib.WithDescription("Returns a list of users who fulfill these criteria: * their user attributes match a search string. * they have a set of permissions for a project or issue. If no search string is provided, a list of all users with the permissions is returned. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that match the search string and have permission for the project or issue. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the search string and have permission for the project or issue, use [Get all users](#api-rest-api-3-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. This operation can be accessed anonymously. **[Permissions](#permissions) required:** * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to get users for any project. * *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for a project, to get users for that project. (public)"),
 			mcplib.WithString("query", mcplib.Description("A query string that is matched against user attributes, such as `displayName` and...")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available.")),
 			mcplib.WithString("accountId", mcplib.Description("A query string that is matched exactly against user `accountId`.")),
@@ -10198,7 +10292,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_find-with-browse-permission",
-			mcplib.WithDescription("Returns a list of users who fulfill these criteria: * their user attributes match a search string. * they have permission to browse issues. Use this resource to find users who can browse: * an issue, by providing the `issueKey`. * any issue in a project, by providing the `projectKey`. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that match the search string and have permission to browse issues. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the search string and have permission to browse issues, use [Get all users](#api-rest-api-2-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). Anonymous calls and calls by users without the required permission return empty search results. (public)"),
+			mcplib.WithDescription("Returns a list of users who fulfill these criteria: * their user attributes match a search string. * they have permission to browse issues. Use this resource to find users who can browse: * an issue, by providing the `issueKey`. * any issue in a project, by providing the `projectKey`. This operation takes the users in the range defined by `startAt` and `maxResults`, up to the thousandth user, and then returns only the users from that range that match the search string and have permission to browse issues. This means the operation usually returns fewer users than specified in `maxResults`. To get all the users who match the search string and have permission to browse issues, use [Get all users](#api-rest-api-3-users-search-get) and filter the records in your code. Privacy controls are applied to the response based on the users' preferences. This could mean, for example, that the user's email address is hidden. See the [Profile visibility overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/) for more details. This operation can be accessed anonymously. **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg). Anonymous calls and calls by users without the required permission return empty search results. (public)"),
 			mcplib.WithString("query", mcplib.Description("A query string that is matched against user attributes, such as `displayName` and...")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available.")),
 			mcplib.WithString("accountId", mcplib.Description("A query string that is matched exactly against user `accountId`.")),
@@ -10270,7 +10364,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("user_get-property",
-			mcplib.WithDescription("Returns the value of a user's property. If no property key is provided [Get user property keys](#api-rest-api-2-user-properties-get) is called. Note: This operation does not access the [user properties](https://confluence.atlassian.com/x/8YxjL) created and maintained in Jira. **[Permissions](#permissions) required:** * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to get a property from any user. * Access to Jira, to get a property from the calling user's record."),
+			mcplib.WithDescription("Returns the value of a user's property. If no property key is provided [Get user property keys](#api-rest-api-3-user-properties-get) is called. Note: This operation does not access the [user properties](https://confluence.atlassian.com/x/8YxjL) created and maintained in Jira. **[Permissions](#permissions) required:** * *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to get a property from any user. * Access to Jira, to get a property from the calling user's record."),
 			mcplib.WithString("accountId", mcplib.Description("The account ID of the user, which uniquely identifies the user across all Atlassian products.")),
 			mcplib.WithString("userKey", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
@@ -10677,7 +10771,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("vendors_reporting_get-vendors-13",
-			mcplib.WithDescription("Export all licenses, matching the specified filters, for the specified vendor's apps. This resource requires authentication. Required: vendorId. Optional: addon, startDate, endDate (plus 19 more)."),
+			mcplib.WithDescription("Export all licenses, matching the specified filters, for the specified vendor's apps. This resource requires authentication. <b>NOTE</b>: Developers are recommended to use the async export endpoints since this endpoint might return 5xx for large datasets. Required: vendorId. Optional: addon, startDate, endDate (plus 19 more)."),
 			mcplib.WithNumber("vendorId", mcplib.Required(), mcplib.Description("The unique identifier for this vendor")),
 			mcplib.WithString("addon", mcplib.Description("If specified, restricts the query to values for apps with the specified keys")),
 			mcplib.WithString("startDate", mcplib.Description("Starting date for the query")),
@@ -10722,7 +10816,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("vendors_reporting_get-vendors-15",
-			mcplib.WithDescription("Get a list of transactions for the specified vendor's apps. This resource requires authentication. Required: vendorId. Optional: addon, startDate, endDate (plus 17 more). Returns the TransactionCollection."),
+			mcplib.WithDescription("Get a list of transactions for the specified vendor's apps. This resource requires authentication. <b>NOTE</b>: Developers are recommended to use the async export endpoints since this endpoint might return 5xx for large datasets. Required: vendorId. Optional: addon, startDate, endDate (plus 17 more). Returns the TransactionCollection."),
 			mcplib.WithNumber("vendorId", mcplib.Required(), mcplib.Description("The unique identifier for this vendor")),
 			mcplib.WithString("addon", mcplib.Description("If specified, restricts the query to values for apps with the specified keys")),
 			mcplib.WithString("startDate", mcplib.Description("Starting date for the query")),
@@ -10811,7 +10905,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("vendors_reporting_get-vendors-2",
-			mcplib.WithDescription("Get a list of licenses for the specified vendor's apps. This resource requires authentication. Required: vendorId. Optional: addon, startDate, endDate (plus 20 more). Returns the LicenseCollection."),
+			mcplib.WithDescription("Get a list of licenses for the specified vendor's apps. This resource requires authentication. <b>NOTE</b>: Developers are recommended to use the async export endpoints since this endpoint might return 5xx for large datasets. Required: vendorId. Optional: addon, startDate, endDate (plus 20 more). Returns the LicenseCollection."),
 			mcplib.WithNumber("vendorId", mcplib.Required(), mcplib.Description("The unique identifier for this vendor")),
 			mcplib.WithString("addon", mcplib.Description("If specified, restricts the query to values for apps with the specified keys")),
 			mcplib.WithString("startDate", mcplib.Description("Starting date for the query")),
@@ -10898,7 +10992,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("vendors_reporting_get-vendors-24",
-			mcplib.WithDescription("Export all transactions, matching the specified filters, for the specified vendor's apps. This resource requires authentication. Required: vendorId. Optional: addon, startDate, endDate (plus 16 more)."),
+			mcplib.WithDescription("Export all transactions, matching the specified filters, for the specified vendor's apps. This resource requires authentication. <b>NOTE</b>: Developers are recommended to use the async export endpoints since this endpoint might return 5xx for large datasets. Required: vendorId. Optional: addon, startDate, endDate (plus 16 more)."),
 			mcplib.WithNumber("vendorId", mcplib.Required(), mcplib.Description("The unique identifier for this vendor")),
 			mcplib.WithString("addon", mcplib.Description("If specified, restricts the query to values for apps with the specified keys")),
 			mcplib.WithString("startDate", mcplib.Description("Starting date for the query")),
@@ -11271,7 +11365,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_add-content-watcher",
-			mcplib.WithDescription("Adds a user as a watcher to a piece of content. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. Note, you must add the `X-Atlassian-Token: no-check` header when making a request, as this operation has XSRF protection. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: contentId. Optional: key, username, accountId."),
+			mcplib.WithDescription("Adds a user as a watcher to a piece of content. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. Note, you must add the `X-Atlassian-Token: no-check` header when making a request, as this operation has XSRF protection. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission or 'Space Administrator' permission for the relevant space if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: contentId. Optional: key, username, accountId."),
 			mcplib.WithString("contentId", mcplib.Required(), mcplib.Description("The ID of the content to add the watcher to.")),
 			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
@@ -11291,6 +11385,16 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("POST", "/wiki/rest/api/space/{spaceKey}/permission/custom-content", false, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "path"}, {PublicName: "operations", WireName: "operations", Location: "body"}, {PublicName: "subject", WireName: "subject", Location: "body"}}, []string{"spaceKey"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_add-group-to-content-restriction-by-group-id",
+			mcplib.WithDescription("Adds a group to a content restriction by Group Id. That is, grant read or update permission to the group for a piece of content. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id, operationKey (default: read), groupId."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the restriction applies to.")),
+			mcplib.WithString("operationKey", mcplib.Required(), mcplib.Description("The operation that the restriction applies to.")),
+			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("The groupId of the group to add to the content restriction.")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/byGroupId/{groupId}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "operationKey", WireName: "operationKey", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}}, []string{"id", "operationKey", "groupId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_add-label-watcher",
@@ -11338,7 +11442,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_add-restrictions",
-			mcplib.WithDescription("Adds restrictions to a piece of content. Note, this does not change any existing restrictions on the content. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id. Optional: expand. Returns the new ContentRestrictionArray."),
+			mcplib.WithDescription("Adds the supplied users and groups to the content's restrictions, preserving existing restrictions. Use `read` for viewing restrictions and `update` for editing restrictions. Omitted or empty user and group lists add no restrictions. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id. Optional: expand. Returns the new ContentRestrictionArray."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content to add restrictions to.")),
 			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the content restrictions (returned in...")),
 			mcplib.WithString("body_json", mcplib.Required(), mcplib.Description("Request body as a JSON object string (this endpoint accepts a polymorphic schema: oneOf/anyOf)")),
@@ -11346,6 +11450,30 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("POST", "/wiki/rest/api/content/{id}/restriction", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "body_json", WireName: "body_json", Location: "body_json"}}, []string{"id"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_add-space-watcher",
+			mcplib.WithDescription("Adds a user as a watcher to a space. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. Note, you must add the `X-Atlassian-Token: no-check` header when making a request, as this operation has XSRF protection. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission or 'Space Administrator' permission for the relevant space if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: spaceKey. Optional: key, username, accountId."),
+			mcplib.WithString("spaceKey", mcplib.Required(), mcplib.Description("The key of the space to add the watcher to.")),
+			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithString("accountId", mcplib.Description("The account ID of the user.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/wiki/rest/api/user/watch/space/{spaceKey}", false, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{"spaceKey"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_add-user-to-content-restriction",
+			mcplib.WithDescription("Adds a user to a content restriction. That is, grant read or update permission to the user for a piece of content. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id, operationKey. Optional: key, username, accountId."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the restriction applies to.")),
+			mcplib.WithString("operationKey", mcplib.Required(), mcplib.Description("The operation that the restriction applies to.")),
+			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithString("accountId", mcplib.Description("The account ID of the user.")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/user", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "operationKey", WireName: "operationKey", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{"id", "operationKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_add-user-to-group-by-group-id",
@@ -11371,7 +11499,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDescription("Converts a content body from one format to another format asynchronously. Returns the asyncId for the asynchronous task. Supported conversions: - atlas_doc_format: editor, export_view, storage, styled_view, view - storage: atlas_doc_format, editor, export_view, styled_view, view - editor: storage No other conversions are supported at the moment. Once a conversion is completed, it will be available for 5 minutes at the result endpoint. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: If request specifies 'contentIdContext', 'View' permission for the space, and permission to view the content. Required: to (default: export_view), representation, value. Optional: expand, spaceKeyContext, contentIdContext (plus 2 more)."),
 			mcplib.WithString("to", mcplib.Required(), mcplib.Description("The name of the target format for the content body.")),
 			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the content to expand and populate.")),
-			mcplib.WithString("spaceKeyContext", mcplib.Description("The space key used for resolving embedded content (page includes, files, and links) in the content body.")),
+			mcplib.WithString("spaceKeyContext", mcplib.Description("The space key used for resolving embedded content (page includes, files, and links) in the...")),
 			mcplib.WithString("contentIdContext", mcplib.Description("The content ID used to find the space for resolving embedded content (page includes, files, and links)")),
 			mcplib.WithBoolean("allowCache", mcplib.Description("Controls whether conversion results are cached and reused for identical requests.")),
 			mcplib.WithString("embeddedContentRender", mcplib.Description("Mode used for rendering embedded content, like attachments.")),
@@ -11391,6 +11519,25 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/wiki/rest/api/contentbody/convert/async/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_bulk-async-convert-content-body-request",
+			mcplib.WithDescription("Asynchronously converts content bodies from one format to another format in bulk. Use the Content body REST API to get the status of conversion tasks. Note that there is a maximum limit of 10 conversions per request to this endpoint. Supported conversions: - storage: editor, export_view, styled_view, view - editor: storage Once a conversion task is completed, it is available for polling for up to 5 minutes. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'View' permission for the space, and permission to view the content if the `spaceKeyContext` or `contentIdContext` are present. Optional: conversionInputs. Returns array of AsyncId."),
+			mcplib.WithString("conversionInputs", mcplib.Description("Conversion inputs")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/wiki/rest/api/contentbody/convert/async/bulk/tasks", false, false, nil, []mcpParamBinding{{PublicName: "conversionInputs", WireName: "conversionInputs", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_bulk-async-convert-content-body-response",
+			mcplib.WithDescription("Returns the content body for the corresponding `asyncId` of a completed conversion task. If the task is not completed, the task status is returned instead. Once a conversion task is completed, the result can be obtained for up to 5 minutes, or until an identical conversion request is made again with the `allowCache` parameter set to false. Note that there is a maximum limit of 50 task results per request to this endpoint. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). Required: ids."),
+			mcplib.WithString("ids", mcplib.Required(), mcplib.Description("The asyncIds of the conversion tasks.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/contentbody/convert/async/bulk/tasks", true, false, nil, []mcpParamBinding{{PublicName: "ids", WireName: "ids", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_check-content-permission",
@@ -11445,7 +11592,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("status", mcplib.Description("The status of the content that the attachment is being added to.")),
 			mcplib.WithString("comment", mcplib.Description("The comment for the attachment that is being added.")),
 			mcplib.WithString("file", mcplib.Required(), mcplib.Description("The relative location and name of the attachment to be added to the content.")),
-			mcplib.WithString("minorEdit", mcplib.Required(), mcplib.Description("If `minorEdits` is set to 'true'")),
+			mcplib.WithString("minorEdit", mcplib.Required(), mcplib.Description("If `minorEdits` is set to 'true', no notification email or activity stream will be generated...")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
@@ -11499,7 +11646,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("status", mcplib.Description("The status of the content that the attachment is being added to. This should always be set to 'current'.")),
 			mcplib.WithString("comment", mcplib.Description("The comment for the attachment that is being added.")),
 			mcplib.WithString("file", mcplib.Required(), mcplib.Description("The relative location and name of the attachment to be added to the content.")),
-			mcplib.WithString("minorEdit", mcplib.Required(), mcplib.Description("If `minorEdits` is set to 'true'")),
+			mcplib.WithString("minorEdit", mcplib.Required(), mcplib.Description("If `minorEdits` is set to 'true', no notification email or activity stream will be generated...")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("PUT", "/wiki/rest/api/content/{id}/child/attachment", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path", RequestContentType: "multipart/form-data"}, {PublicName: "status", WireName: "status", Location: "query", RequestContentType: "multipart/form-data"}, {PublicName: "comment", WireName: "comment", Location: "body", Format: "binary", RequestContentType: "multipart/form-data"}, {PublicName: "file", WireName: "file", Location: "body", Format: "binary", RequestContentType: "multipart/form-data"}, {PublicName: "minorEdit", WireName: "minorEdit", Location: "body", Format: "binary", RequestContentType: "multipart/form-data"}}, []string{"id"}),
@@ -11518,6 +11665,22 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "/wiki/rest/api/space/_private", false, false, nil, []mcpParamBinding{{PublicName: "alias", WireName: "alias", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "permissions", WireName: "permissions", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_create-relationship",
+			mcplib.WithDescription("Creates a relationship between two entities (user, space, content). The 'favourite' relationship is supported by default, but you can use this method to create any type of relationship between two entities. For example, the following method creates a 'sibling' relationship between two pieces of content: `PUT /wiki/rest/api/relation/sibling/from/content/123/to/content/456` **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). Required: relationName, sourceType (default: user), sourceKey, targetType (default: user), targetKey. Optional: sourceStatus, targetStatus, sourceVersion (plus 1 more). Returns the updated Relation."),
+			mcplib.WithString("relationName", mcplib.Required(), mcplib.Description("The name of the relationship. This method supports the 'favourite' (i.e. 'save for later') relationship.")),
+			mcplib.WithString("sourceType", mcplib.Required(), mcplib.Description("The source entity type of the relationship.")),
+			mcplib.WithString("sourceKey", mcplib.Required(), mcplib.Description("- The identifier for the source entity: - If `sourceType` is `user`, then specify either...")),
+			mcplib.WithString("targetType", mcplib.Required(), mcplib.Description("The target entity type of the relationship.")),
+			mcplib.WithString("targetKey", mcplib.Required(), mcplib.Description("- The identifier for the target entity: - If `targetType` is `user`, then specify either `current` (logged-in user)")),
+			mcplib.WithString("sourceStatus", mcplib.Description("The status of the source. This parameter is only used when the `sourceType` is 'content'.")),
+			mcplib.WithString("targetStatus", mcplib.Description("The status of the target. This parameter is only used when the `targetType` is 'content'.")),
+			mcplib.WithNumber("sourceVersion", mcplib.Description("The version of the source.")),
+			mcplib.WithNumber("targetVersion", mcplib.Description("The version of the target.")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "/wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}/{targetKey}", false, false, nil, []mcpParamBinding{{PublicName: "relationName", WireName: "relationName", Location: "path"}, {PublicName: "sourceType", WireName: "sourceType", Location: "path"}, {PublicName: "sourceKey", WireName: "sourceKey", Location: "path"}, {PublicName: "targetType", WireName: "targetType", Location: "path"}, {PublicName: "targetKey", WireName: "targetKey", Location: "path"}, {PublicName: "sourceStatus", WireName: "sourceStatus", Location: "query"}, {PublicName: "targetStatus", WireName: "targetStatus", Location: "query"}, {PublicName: "sourceVersion", WireName: "sourceVersion", Location: "query"}, {PublicName: "targetVersion", WireName: "targetVersion", Location: "query"}}, []string{"relationName", "sourceType", "sourceKey", "targetType", "targetKey"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_create-space",
 			mcplib.WithDescription("Creates a new space. Note, currently you cannot set space labels when creating a space. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Create Space(s)' global permission. Required: name. Optional: alias, description, key (plus 1 more). Returns the new Space."),
 			mcplib.WithString("alias", mcplib.Description("This field will be used as the new identifier for the space in confluence page URLs.")),
@@ -11529,6 +11692,17 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("POST", "/wiki/rest/api/space", false, false, nil, []mcpParamBinding{{PublicName: "alias", WireName: "alias", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "permissions", WireName: "permissions", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_create-user-property",
+			mcplib.WithDescription("Creates a property for a user. For more information about user properties, see [Confluence entity properties] (https://developer.atlassian.com/cloud/confluence/confluence-entity-properties/). `Note`, these properties stored against a user are on a Confluence site level and not space/content level. `Note:` the number of properties which could be created per app in a tenant for each user might be restricted by fixed system limits. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). Required: userId, key, value."),
+			mcplib.WithString("userId", mcplib.Required(), mcplib.Description("The account ID of the user.")),
+			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The key of the user property.")),
+			mcplib.WithString("value", mcplib.Required(), mcplib.Description("The value of the user property.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/wiki/rest/api/user/{userId}/property/{key}", false, false, nil, []mcpParamBinding{{PublicName: "userId", WireName: "userId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "path"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"userId", "key"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_delete-content-version",
@@ -11561,6 +11735,23 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "/wiki/rest/api/content/{id}/pageTree", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_delete-relationship",
+			mcplib.WithDescription("Deletes a relationship between two entities (user, space, content). **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). For favourite relationships, the current user can only delete their own favourite relationships. A space administrator can delete favourite relationships for any user. Required: relationName, sourceType (default: user), sourceKey, targetType (default: user), targetKey. Optional: sourceStatus, targetStatus, sourceVersion (plus 1 more). Destructive."),
+			mcplib.WithString("relationName", mcplib.Required(), mcplib.Description("The name of the relationship.")),
+			mcplib.WithString("sourceType", mcplib.Required(), mcplib.Description("The source entity type of the relationship.")),
+			mcplib.WithString("sourceKey", mcplib.Required(), mcplib.Description("- The identifier for the source entity: - If `sourceType` is `user`, then specify either...")),
+			mcplib.WithString("targetType", mcplib.Required(), mcplib.Description("The target entity type of the relationship.")),
+			mcplib.WithString("targetKey", mcplib.Required(), mcplib.Description("- The identifier for the target entity: - If `targetType` is `user`, then specify either `current` (logged-in user)")),
+			mcplib.WithString("sourceStatus", mcplib.Description("The status of the source. This parameter is only used when the `sourceType` is 'content'.")),
+			mcplib.WithString("targetStatus", mcplib.Description("The status of the target. This parameter is only used when the `targetType` is 'content'.")),
+			mcplib.WithNumber("sourceVersion", mcplib.Description("The version of the source.")),
+			mcplib.WithNumber("targetVersion", mcplib.Description("The version of the target.")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "/wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}/{targetKey}", false, false, nil, []mcpParamBinding{{PublicName: "relationName", WireName: "relationName", Location: "path"}, {PublicName: "sourceType", WireName: "sourceType", Location: "path"}, {PublicName: "sourceKey", WireName: "sourceKey", Location: "path"}, {PublicName: "targetType", WireName: "targetType", Location: "path"}, {PublicName: "targetKey", WireName: "targetKey", Location: "path"}, {PublicName: "sourceStatus", WireName: "sourceStatus", Location: "query"}, {PublicName: "targetStatus", WireName: "targetStatus", Location: "query"}, {PublicName: "sourceVersion", WireName: "sourceVersion", Location: "query"}, {PublicName: "targetVersion", WireName: "targetVersion", Location: "query"}}, []string{"relationName", "sourceType", "sourceKey", "targetType", "targetKey"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_delete-restrictions",
 			mcplib.WithDescription("Removes all restrictions (read and update) on a piece of content. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id. Optional: expand. Returns the ContentRestrictionArray. Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content to remove restrictions from.")),
@@ -11580,6 +11771,29 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "/wiki/rest/api/space/{spaceKey}", false, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "path"}}, []string{"spaceKey"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_delete-user-property",
+			mcplib.WithDescription("Deletes a property for the given user. For more information about user properties, see [Confluence entity properties](https://developer.atlassian.com/cloud/confluence/confluence-entity-properties/). `Note`, these properties stored against a user are on a Confluence site level and not space/content level. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). Required: userId, key. Destructive."),
+			mcplib.WithString("userId", mcplib.Required(), mcplib.Description("The account ID of the user.")),
+			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The key of the user property.")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "/wiki/rest/api/user/{userId}/property/{key}", false, false, nil, []mcpParamBinding{{PublicName: "userId", WireName: "userId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "path"}}, []string{"userId", "key"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_download-attatchment",
+			mcplib.WithDescription("Redirects the client to a URL that serves an attachment's binary data. Required: id, attachmentId. Optional: version, status."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the attachment is attached to.")),
+			mcplib.WithString("attachmentId", mcplib.Required(), mcplib.Description("The ID of the attachment to download.")),
+			mcplib.WithNumber("version", mcplib.Description("The version of the attachment.")),
+			mcplib.WithString("status", mcplib.Description("The statuses allowed on the retrieved attachment. If this parameter is absent, it will default to `current`.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/child/attachment/{attachmentId}/download", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "attachmentId", WireName: "attachmentId", Location: "path"}, {PublicName: "version", WireName: "version", Location: "query"}, {PublicName: "status", WireName: "status", Location: "query"}}, []string{"id", "attachmentId"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_export-audit-records",
 			mcplib.WithDescription("Exports audit records as a CSV file or ZIP file. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission. Optional: startDate, endDate, searchString (plus 1 more)."),
 			mcplib.WithString("startDate", mcplib.Description("Filters the exported results to the records on or after the `startDate`.")),
@@ -11593,6 +11807,46 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/wiki/rest/api/audit/export", true, true, nil, []mcpParamBinding{{PublicName: "startDate", WireName: "startDate", Location: "query"}, {PublicName: "endDate", WireName: "endDate", Location: "query"}, {PublicName: "searchString", WireName: "searchString", Location: "query"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_find-sources-for-target",
+			mcplib.WithDescription("Returns all target entities that have a particular relationship to the source entity. Note, relationships are one way. For example, the following method finds all users that have a 'collaborator' relationship to a piece of content with an ID of '1234': `GET /wiki/rest/api/relation/collaborator/to/content/1234/from/user` Note, 'collaborator' is an example custom relationship type. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view both the target entity and source entity. Required: relationName, sourceType (default: user), targetType (default: user), targetKey. Optional: sourceStatus, targetStatus, sourceVersion (plus 4 more)."),
+			mcplib.WithString("relationName", mcplib.Required(), mcplib.Description("The name of the relationship.")),
+			mcplib.WithString("sourceType", mcplib.Required(), mcplib.Description("The source entity type of the relationship.")),
+			mcplib.WithString("targetType", mcplib.Required(), mcplib.Description("The target entity type of the relationship.")),
+			mcplib.WithString("targetKey", mcplib.Required(), mcplib.Description("The identifier for the target entity: - If `targetType` is `user`, then specify either `current` (logged-in user)")),
+			mcplib.WithString("sourceStatus", mcplib.Description("The status of the source. This parameter is only used when the `sourceType` is 'content'.")),
+			mcplib.WithString("targetStatus", mcplib.Description("The status of the target. This parameter is only used when the `targetType` is 'content'.")),
+			mcplib.WithNumber("sourceVersion", mcplib.Description("The version of the source.")),
+			mcplib.WithNumber("targetVersion", mcplib.Description("The version of the target.")),
+			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the response object to expand.")),
+			mcplib.WithNumber("start", mcplib.Description("The starting index of the returned relationships.")),
+			mcplib.WithNumber("limit", mcplib.Description("The maximum number of relationships to return per page. Note, this may be restricted by fixed system limits.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/relation/{relationName}/to/{targetType}/{targetKey}/from/{sourceType}", true, false, nil, []mcpParamBinding{{PublicName: "relationName", WireName: "relationName", Location: "path"}, {PublicName: "sourceType", WireName: "sourceType", Location: "path"}, {PublicName: "targetType", WireName: "targetType", Location: "path"}, {PublicName: "targetKey", WireName: "targetKey", Location: "path"}, {PublicName: "sourceStatus", WireName: "sourceStatus", Location: "query"}, {PublicName: "targetStatus", WireName: "targetStatus", Location: "query"}, {PublicName: "sourceVersion", WireName: "sourceVersion", Location: "query"}, {PublicName: "targetVersion", WireName: "targetVersion", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "start", WireName: "start", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}}, []string{"relationName", "sourceType", "targetType", "targetKey"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_find-target-from-source",
+			mcplib.WithDescription("Returns all target entities that have a particular relationship to the source entity. Note, relationships are one way. For example, the following method finds all content that the current user has an 'ignore' relationship with: `GET /wiki/rest/api/relation/ignore/from/user/current/to/content` Note, 'ignore' is an example custom relationship type. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view both the target entity and source entity. Required: relationName, sourceType (default: user), sourceKey, targetType (default: user). Optional: sourceStatus, targetStatus, sourceVersion (plus 4 more)."),
+			mcplib.WithString("relationName", mcplib.Required(), mcplib.Description("The name of the relationship.")),
+			mcplib.WithString("sourceType", mcplib.Required(), mcplib.Description("The source entity type of the relationship.")),
+			mcplib.WithString("sourceKey", mcplib.Required(), mcplib.Description("The identifier for the source entity: - If `sourceType` is `user`, then specify either `current` (logged-in user)")),
+			mcplib.WithString("targetType", mcplib.Required(), mcplib.Description("The target entity type of the relationship.")),
+			mcplib.WithString("sourceStatus", mcplib.Description("The status of the source. This parameter is only used when the `sourceType` is 'content'.")),
+			mcplib.WithString("targetStatus", mcplib.Description("The status of the target. This parameter is only used when the `targetType` is 'content'.")),
+			mcplib.WithNumber("sourceVersion", mcplib.Description("The version of the source.")),
+			mcplib.WithNumber("targetVersion", mcplib.Description("The version of the target.")),
+			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the response object to expand.")),
+			mcplib.WithNumber("start", mcplib.Description("The starting index of the returned relationships.")),
+			mcplib.WithNumber("limit", mcplib.Description("The maximum number of relationships to return per page. Note, this may be restricted by fixed system limits.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}", true, false, nil, []mcpParamBinding{{PublicName: "relationName", WireName: "relationName", Location: "path"}, {PublicName: "sourceType", WireName: "sourceType", Location: "path"}, {PublicName: "sourceKey", WireName: "sourceKey", Location: "path"}, {PublicName: "targetType", WireName: "targetType", Location: "path"}, {PublicName: "sourceStatus", WireName: "sourceStatus", Location: "query"}, {PublicName: "targetStatus", WireName: "targetStatus", Location: "query"}, {PublicName: "sourceVersion", WireName: "sourceVersion", Location: "query"}, {PublicName: "targetVersion", WireName: "targetVersion", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "start", WireName: "start", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}}, []string{"relationName", "sourceType", "sourceKey", "targetType"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_get-all-label-content",
 			mcplib.WithDescription("Returns label information and a list of contents associated with the label. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). Only contents that the user is permitted to view is returned. Required: name. Optional: type, start (default: 0), limit (default: 200)."),
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("Name of the label to query.")),
@@ -11604,6 +11858,39 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/wiki/rest/api/label", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "query"}, {PublicName: "type", WireName: "type", Location: "query"}, {PublicName: "start", WireName: "start", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_get-and-async-convert-macro-body-by-macro-id",
+			mcplib.WithDescription("Returns Async Id of the conversion task which will convert the macro into a content body of the desired format. The result will be available for 5 minutes after completion of the conversion. About the macro ID: When a macro is created in a new version of content, Confluence will generate a random ID for it, unless an ID is specified (by an app). The macro ID will look similar to this: '884bd9-0cb8-41d5-98be-f80943c14f96'. The ID is then persisted as new versions of content are created, and is only modified by Confluence if there are conflicting IDs. For Forge macros, the value for macro ID is the 'local ID' of that particular ADF node. This value can be retrieved either client-side by calling view.getContext() and accessing 'localId' on the resulting object, or server-side by examining the 'local-id' parameter node inside the 'parameters' node. Note that there are other attributes named 'local-id', but only this particular one is used to store the macro ID. Example: <ac:adf-node type='extension'> <ac:adf-attribute key='extension-type'>com.atlassian.ecosystem</ac:adf-attribute> <ac:adf-attribute key='parameters'> <ac:adf-parameter key='local-id'>e9c4aa10-73fa-417c-888d-48c719ae4165</ac:adf-parameter> </ac:adf-parameter> </ac:adf-node> Note, to preserve backwards compatibility this resource will also match on the hash of the macro body, even if a macro ID is found. This check will eventually become redundant, as macro IDs are generated for pages and transparently propagate out to all instances. This backwards compatibility logic does not apply to Forge macros; those can only be retrieved by their ID. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view the content that the macro is in. Required: id, version, macroId, to (default: export_view). Optional: expand, allowCache (default: false), spaceKeyContext (plus 1 more)."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID for the content that contains the macro.")),
+			mcplib.WithNumber("version", mcplib.Required(), mcplib.Description("The version of the content that contains the macro.")),
+			mcplib.WithString("macroId", mcplib.Required(), mcplib.Description("The ID of the macro. For apps, this is passed to the macro by the Connect/Forge framework.")),
+			mcplib.WithString("to", mcplib.Required(), mcplib.Description("The content representation to return the macro in.")),
+			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the content to expand and populate.")),
+			mcplib.WithBoolean("allowCache", mcplib.Description("Controls whether conversion results are cached and reused for identical requests.")),
+			mcplib.WithString("spaceKeyContext", mcplib.Description("The space key used for resolving embedded content (page includes, files, and links) in the...")),
+			mcplib.WithString("embeddedContentRender", mcplib.Description("Mode used for rendering embedded content, like attachments.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/history/{version}/macro/id/{macroId}/convert/async/{to}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "version", WireName: "version", Location: "path"}, {PublicName: "macroId", WireName: "macroId", Location: "path"}, {PublicName: "to", WireName: "to", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "allowCache", WireName: "allowCache", Location: "query"}, {PublicName: "spaceKeyContext", WireName: "spaceKeyContext", Location: "query"}, {PublicName: "embeddedContentRender", WireName: "embeddedContentRender", Location: "query"}}, []string{"id", "version", "macroId", "to"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_get-and-convert-macro-body-by-macro-id",
+			mcplib.WithDescription("Returns the body of a macro in format specified in path, for the given macro ID. This includes information like the name of the macro, the body of the macro, and any macro parameters. About the macro ID: When a macro is created in a new version of content, Confluence will generate a random ID for it, unless an ID is specified (by an app). The macro ID will look similar to this: '50884bd9-0cb8-41d5-98be-f80943c14f96'. The ID is then persisted as new versions of content are created, and is only modified by Confluence if there are conflicting IDs. For Forge macros, the value for macro ID is the 'local ID' of that particular ADF node. This value can be retrieved either client-side by calling view.getContext() and accessing 'localId' on the resulting object, or server-side by examining the 'local-id' parameter node inside the 'parameters' node. Note that there are other attributes named 'local-id', but only this particular one is used to store the macro ID. Example: <ac:adf-node type='extension'> <ac:adf-attribute key='extension-type'>com.atlassian.ecosystem</ac:adf-attribute> <ac:adf-attribute key='parameters'> <ac:adf-parameter key='local-id'>e9c4aa10-73fa-417c-888d-48c719ae4165</ac:adf-parameter> </ac:adf-parameter> </ac:adf-node> Note, to preserve backwards compatibility this resource will also match on the hash of the macro body, even if a macro ID is found. This check will eventually become redundant, as macro IDs are generated for pages and transparently propagate out to all instances. This backwards compatibility logic does not apply to Forge macros; those can only be retrieved by their ID. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view the content that the macro is in. Required: id, version, macroId, to. Optional: expand, spaceKeyContext, embeddedContentRender (default: current)."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID for the content that contains the macro.")),
+			mcplib.WithNumber("version", mcplib.Required(), mcplib.Description("The version of the content that contains the macro.")),
+			mcplib.WithString("macroId", mcplib.Required(), mcplib.Description("The ID of the macro. This is usually passed by the app that the macro is in.")),
+			mcplib.WithString("to", mcplib.Required(), mcplib.Description("The content representation to return the macro in.")),
+			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the content to expand and populate.")),
+			mcplib.WithString("spaceKeyContext", mcplib.Description("The space key used for resolving embedded content (page includes, files, and links) in the...")),
+			mcplib.WithString("embeddedContentRender", mcplib.Description("Mode used for rendering embedded content, like attachments.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/history/{version}/macro/id/{macroId}/convert/{to}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "version", WireName: "version", Location: "path"}, {PublicName: "macroId", WireName: "macroId", Location: "path"}, {PublicName: "to", WireName: "to", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "spaceKeyContext", WireName: "spaceKeyContext", Location: "query"}, {PublicName: "embeddedContentRender", WireName: "embeddedContentRender", Location: "query"}}, []string{"id", "version", "macroId", "to"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_get-anonymous-user",
@@ -11689,6 +11976,20 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/descendant", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_get-content-restriction-status-for-user",
+			mcplib.WithDescription("Returns whether the specified content restriction applies to a user. For example, if a page with `id=123` has a `read` restriction for a user with an account ID of `384093:32b4d9w0-f6a5-3535-11a3-9c8c88d10192`, the following request will return `true`: `/wiki/rest/api/content/123/restriction/byOperation/read/user?accountId=384093:32b4d9w0-f6a5-3535-11a3-9c8c88d10192` Note that a response of `true` does not guarantee that the user can view the page, as it does not account for account-inherited restrictions, space permissions, or even product access. For more information, see [Confluence permissions](https://confluence.atlassian.com/x/_AozKw). **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view the content. Required: id, operationKey. Optional: key, username, accountId."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the restriction applies to.")),
+			mcplib.WithString("operationKey", mcplib.Required(), mcplib.Description("The operation that is restricted.")),
+			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithString("accountId", mcplib.Description("The account ID of the user.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/user", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "operationKey", WireName: "operationKey", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{"id", "operationKey"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_get-content-state",
 			mcplib.WithDescription("Gets the current content state of the draft or current version of content. To specify the draft version, set the parameter status to draft, otherwise archived or current will get the relevant published state. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view the content. Required: id. Optional: status (default: current). Returns the ContentStateResponse."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The id of the content whose content state is of interest.")),
@@ -11735,7 +12036,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_get-content-watch-status",
-			mcplib.WithDescription("Returns whether a user is watching a piece of content. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: contentId. Optional: key, username, accountId."),
+			mcplib.WithDescription("Returns whether a user is watching a piece of content. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission or 'Space Administrator' permission for the relevant space if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: contentId. Optional: key, username, accountId."),
 			mcplib.WithString("contentId", mcplib.Required(), mcplib.Description("The ID of the content to be queried for whether the specified user is watching it.")),
 			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
@@ -11852,6 +12153,18 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/wiki/rest/api/group", true, false, nil, []mcpParamBinding{{PublicName: "start", WireName: "start", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}, {PublicName: "accessType", WireName: "accessType", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_get-individual-group-restriction-status-by-group-id",
+			mcplib.WithDescription("Returns whether the specified content restriction applies to a group. For example, if a page with `id=123` has a `read` restriction for the `123456` group id, the following request will return `true`: `/wiki/rest/api/content/123/restriction/byOperation/read/byGroupId/123456` Note that a response of `true` does not guarantee that the group can view the page, as it does not account for account-inherited restrictions, space permissions, or even product access. For more information, see [Confluence permissions](https://confluence.atlassian.com/x/_AozKw). **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view the content. Required: id, operationKey (default: read), groupId."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the restriction applies to.")),
+			mcplib.WithString("operationKey", mcplib.Required(), mcplib.Description("The operation that the restriction applies to.")),
+			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("The id of the group to be queried for whether the content restriction applies to it.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/byGroupId/{groupId}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "operationKey", WireName: "operationKey", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}}, []string{"id", "operationKey", "groupId"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_get-labels-for-space",
 			mcplib.WithDescription("Returns a list of labels associated with a space. Can provide a prefix as well as other filters to select different types of labels. Required: spaceKey. Optional: prefix, start (default: 0), limit (default: 200)."),
 			mcplib.WithString("spaceKey", mcplib.Required(), mcplib.Description("The key of the space to get labels for.")),
@@ -11875,6 +12188,27 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/wiki/rest/api/settings/lookandfeel", true, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_get-macro-body-by-macro-id",
+			mcplib.WithDescription("Returns the body of a macro in storage format, for the given macro ID. This includes information like the name of the macro, the body of the macro, and any macro parameters. This method is mainly used by Cloud apps. About the macro ID: When a macro is created in a new version of content, Confluence will generate a random ID for it, unless an ID is specified (by an app). The macro ID will look similar to this: '50884bd9-0cb8-41d5-98be-f80943c14f96'. The ID is then persisted as new versions of content are created, and is only modified by Confluence if there are conflicting IDs. For Forge macros, the value for macro ID is the 'local ID' of that particular ADF node. This value can be retrieved either client-side by calling view.getContext() and accessing 'localId' on the resulting object, or server-side by examining the 'local-id' parameter node inside the 'parameters' node. Note that there are other attributes named 'local-id', but only this particular one is used to store the macro ID. Example: <ac:adf-node type='extension'> <ac:adf-attribute key='extension-type'>com.atlassian.ecosystem</ac:adf-attribute> <ac:adf-attribute key='parameters'> <ac:adf-parameter key='local-id'>e9c4aa10-73fa-417c-888d-48c719ae4165</ac:adf-parameter> </ac:adf-parameter> </ac:adf-node> Note, to preserve backwards compatibility this resource will also match on the hash of the macro body, even if a macro ID is found. This check will eventually become redundant, as macro IDs are generated for pages and transparently propagate out to all instances. This backwards compatibility logic does not apply to Forge macros; those can only be retrieved by their ID. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view the content that the macro is in. Required: id, version, macroId."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID for the content that contains the macro.")),
+			mcplib.WithNumber("version", mcplib.Required(), mcplib.Description("The version of the content that contains the macro.")),
+			mcplib.WithString("macroId", mcplib.Required(), mcplib.Description("The ID of the macro. This is usually passed by the app that the macro is in.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/history/{version}/macro/id/{macroId}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "version", WireName: "version", Location: "path"}, {PublicName: "macroId", WireName: "macroId", Location: "path"}}, []string{"id", "version", "macroId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_get-modules",
+			mcplib.WithDescription("Returns all modules registered dynamically by the calling app. **[Permissions](#permissions) required:** Only Connect apps can make this request."),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/atlassian-connect/1/app/module/dynamic", true, false, nil, []mcpParamBinding{}, []string{}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_get-privacy-unsafe-user-email",
 			mcplib.WithDescription("Returns a user's email address regardless of the user’s profile visibility settings. For Connect apps, this API is only available to apps approved by Atlassian, according to these [guidelines](https://community.developer.atlassian.com/t/guidelines-for-requesting-access-to-email-address/27603). For Forge apps, this API only supports access via asApp() requests. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). Required: accountId."),
 			mcplib.WithString("accountId", mcplib.Required(), mcplib.Description("The account ID of the user, which uniquely identifies the user across all Atlassian products.")),
@@ -11893,6 +12227,25 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/wiki/rest/api/user/email/bulk", true, false, nil, []mcpParamBinding{{PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_get-relationship",
+			mcplib.WithDescription("Find whether a particular type of relationship exists from a source entity to a target entity. Note, relationships are one way. For example, you can use this method to find whether the current user has selected a particular page as a favorite (i.e. 'save for later'): `GET /wiki/rest/api/relation/favourite/from/user/current/to/content/123` **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view both the target entity and source entity. Required: relationName, sourceType (default: user), sourceKey, targetType (default: user), targetKey. Optional: sourceStatus, targetStatus, sourceVersion (plus 2 more). Returns the Relation."),
+			mcplib.WithString("relationName", mcplib.Required(), mcplib.Description("The name of the relationship. This method supports the 'favourite' (i.e.")),
+			mcplib.WithString("sourceType", mcplib.Required(), mcplib.Description("The source entity type of the relationship.")),
+			mcplib.WithString("sourceKey", mcplib.Required(), mcplib.Description("- The identifier for the source entity: - If `sourceType` is `user`, then specify either...")),
+			mcplib.WithString("targetType", mcplib.Required(), mcplib.Description("The target entity type of the relationship.")),
+			mcplib.WithString("targetKey", mcplib.Required(), mcplib.Description("The identifier for the target entity: - If `targetType` is `user`, then specify either `current` (logged-in user)")),
+			mcplib.WithString("sourceStatus", mcplib.Description("The status of the source. This parameter is only used when the `sourceType` is 'content'.")),
+			mcplib.WithString("targetStatus", mcplib.Description("The status of the target. This parameter is only used when the `targetType` is 'content'.")),
+			mcplib.WithNumber("sourceVersion", mcplib.Description("The version of the source.")),
+			mcplib.WithNumber("targetVersion", mcplib.Description("The version of the target.")),
+			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the response object to expand.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}/{targetKey}", true, false, nil, []mcpParamBinding{{PublicName: "relationName", WireName: "relationName", Location: "path"}, {PublicName: "sourceType", WireName: "sourceType", Location: "path"}, {PublicName: "sourceKey", WireName: "sourceKey", Location: "path"}, {PublicName: "targetType", WireName: "targetType", Location: "path"}, {PublicName: "targetKey", WireName: "targetKey", Location: "path"}, {PublicName: "sourceStatus", WireName: "sourceStatus", Location: "query"}, {PublicName: "targetStatus", WireName: "targetStatus", Location: "query"}, {PublicName: "sourceVersion", WireName: "sourceVersion", Location: "query"}, {PublicName: "targetVersion", WireName: "targetVersion", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"relationName", "sourceType", "sourceKey", "targetType", "targetKey"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_get-restrictions",
@@ -11919,6 +12272,20 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/restriction/byOperation", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_get-restrictions-for-operation",
+			mcplib.WithDescription("Returns the restictions on a piece of content for a given operation (read or update). **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to view the content. Required: id, operationKey (default: read). Optional: expand, start (default: 0), limit (default: 100)."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content to be queried for its restrictions.")),
+			mcplib.WithString("operationKey", mcplib.Required(), mcplib.Description("The operation type of the restrictions to be returned.")),
+			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the content restrictions to expand. - `restrictions.")),
+			mcplib.WithNumber("start", mcplib.Description("The starting index of the users and groups in the returned restrictions.")),
+			mcplib.WithNumber("limit", mcplib.Description("The maximum number of users and the maximum number of groups, in the returned restrictions, to return per page.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "operationKey", WireName: "operationKey", Location: "path"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "start", WireName: "start", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}}, []string{"id", "operationKey"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_get-retention-period",
 			mcplib.WithDescription("Returns the retention period for records in the audit log. The retention period is how long an audit record is kept for, from creation date until it is deleted. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission."),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -11939,7 +12306,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_get-space-settings",
-			mcplib.WithDescription("Returns the settings of a space. Currently only the `routeOverrideEnabled` setting can be returned. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'View' permission for the space. Required: spaceKey."),
+			mcplib.WithDescription("Returns the settings of a space. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'View' permission for the space. Required: spaceKey."),
 			mcplib.WithString("spaceKey", mcplib.Required(), mcplib.Description("The key of the space to be queried for its settings.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -11956,6 +12323,15 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/wiki/rest/api/space/{spaceKey}/theme", true, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "path"}}, []string{"spaceKey"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_get-system-info",
+			mcplib.WithDescription("Returns the system information for the Confluence Cloud tenant. This information is used by Atlassian. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission)."),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/settings/systemInfo", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_get-task",
@@ -12022,6 +12398,17 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/wiki/rest/api/user/{userId}/property", true, false, nil, []mcpParamBinding{{PublicName: "userId", WireName: "userId", Location: "path"}, {PublicName: "start", WireName: "start", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}}, []string{"userId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_get-user-property",
+			mcplib.WithDescription("Returns the property corresponding to `key` for a user. For more information about user properties, see [Confluence entity properties](https://developer.atlassian.com/cloud/confluence/confluence-entity-properties/). `Note`, these properties stored against a user are on a Confluence site level and not space/content level. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). Required: userId, key."),
+			mcplib.WithString("userId", mcplib.Required(), mcplib.Description("The account ID of the user to be queried for its properties.")),
+			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The key of the user property.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "/wiki/rest/api/user/{userId}/property/{key}", true, false, nil, []mcpParamBinding{{PublicName: "userId", WireName: "userId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "path"}}, []string{"userId", "key"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_get-viewers",
@@ -12096,7 +12483,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_is-watching-space",
-			mcplib.WithDescription("Returns whether a user is watching a space. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: spaceKey. Optional: key, username, accountId."),
+			mcplib.WithDescription("Returns whether a user is watching a space. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission or 'Space Administrator' permission for the relevant space if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: spaceKey. Optional: key, username, accountId."),
 			mcplib.WithString("spaceKey", mcplib.Required(), mcplib.Description("The key of the space to be queried for whether the specified user is watching it.")),
 			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
@@ -12106,6 +12493,16 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/wiki/rest/api/user/watch/space/{spaceKey}", true, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{"spaceKey"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_move-page",
+			mcplib.WithDescription("Move a page to a new location relative to a target page: * `before` - move the page under the same parent as the target, before the target in the list of children * `after` - move the page under the same parent as the target, after the target in the list of children * `append` - move the page to be a child of the target Caution: This API can move pages to the top level of a space. Top-level pages are difficult to find in the UI because they do not show up in the page tree display. To avoid this, never use `before` or `after` positions when the `targetId` is a top-level page. Required: pageId, position (default: before), targetId. Returns the updated WikiMovePageResponse."),
+			mcplib.WithString("pageId", mcplib.Required(), mcplib.Description("The ID of the page to be moved")),
+			mcplib.WithString("position", mcplib.Required(), mcplib.Description("The position to move the page to relative to the target page")),
+			mcplib.WithString("targetId", mcplib.Required(), mcplib.Description("The ID of the target page for this operation")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "/wiki/rest/api/content/{pageId}/move/{position}/{targetId}", false, false, nil, []mcpParamBinding{{PublicName: "pageId", WireName: "pageId", Location: "path"}, {PublicName: "position", WireName: "position", Location: "path"}, {PublicName: "targetId", WireName: "targetId", Location: "path"}}, []string{"pageId", "position", "targetId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_publish-legacy-draft",
@@ -12141,6 +12538,15 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "/wiki/rest/api/content/blueprint/instance/{draftId}", false, false, nil, []mcpParamBinding{{PublicName: "draftId", WireName: "draftId", Location: "path"}, {PublicName: "status", WireName: "status", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "ancestors", WireName: "ancestors", Location: "body"}, {PublicName: "space", WireName: "space", Location: "body"}, {PublicName: "status-2", WireName: "status", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "version", WireName: "version", Location: "body"}}, []string{"draftId"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_register-modules",
+			mcplib.WithDescription("Registers a list of modules. For the list of modules that support dynamic registration, see [Dynamic modules](https://developer.atlassian.com/cloud/confluence/dynamic-modules/). **[Permissions](#permissions) required:** Only Connect apps can make this request."),
+			mcplib.WithString("modules", mcplib.Required(), mcplib.Description("A list of app modules in the same format as the `modules` property in the [app descriptor](https://developer.atlassian.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/wiki/rest/atlassian-connect/1/app/module/dynamic", false, false, nil, []mcpParamBinding{{PublicName: "modules", WireName: "modules", Location: "body"}}, []string{}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_remove-content-state",
 			mcplib.WithDescription("Removes the content state of the content specified and creates a new version (publishes the content without changing the body) of the content with the new status. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id. Optional: status. Returns the ContentStateResponse. Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The Id of the content whose content state is to be set.")),
@@ -12152,7 +12558,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_remove-content-watcher",
-			mcplib.WithDescription("Removes a user as a watcher from a piece of content. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: contentId. Optional: key, username, accountId. Destructive."),
+			mcplib.WithDescription("Removes a user as a watcher from a piece of content. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission or 'Space Administrator' permission for the relevant space if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: contentId. Optional: key, username, accountId. Destructive."),
 			mcplib.WithString("contentId", mcplib.Required(), mcplib.Description("The ID of the content to remove the watcher from.")),
 			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
@@ -12170,6 +12576,17 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("DELETE", "/wiki/rest/api/group/by-id", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_remove-group-from-content-restriction",
+			mcplib.WithDescription("Removes a group from a content restriction. That is, remove read or update permission for the group for a piece of content. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id, operationKey (default: read), groupId. Destructive."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the restriction applies to.")),
+			mcplib.WithString("operationKey", mcplib.Required(), mcplib.Description("The operation that the restriction applies to.")),
+			mcplib.WithString("groupId", mcplib.Required(), mcplib.Description("The id of the group to remove from the content restriction.")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/byGroupId/{groupId}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "operationKey", WireName: "operationKey", Location: "path"}, {PublicName: "groupId", WireName: "groupId", Location: "path"}}, []string{"id", "operationKey", "groupId"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_remove-label-from-content",
@@ -12216,6 +12633,15 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "/wiki/rest/api/group/userByGroupId", false, false, nil, []mcpParamBinding{{PublicName: "groupId", WireName: "groupId", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_remove-modules",
+			mcplib.WithDescription("Remove all or a list of modules registered by the calling app. **[Permissions](#permissions) required:** Only Connect apps can make this request. Destructive."),
+			mcplib.WithString("moduleKey", mcplib.Required(), mcplib.Description("The key of the module to remove. To include multiple module keys, provide multiple copies of this parameter.")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "/wiki/rest/atlassian-connect/1/app/module/dynamic", false, false, nil, []mcpParamBinding{{PublicName: "moduleKey", WireName: "moduleKey", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_remove-permission",
 			mcplib.WithDescription("Removes a space permission. Note that removing Read Space permission for a user or group will remove all the space permissions for that user or group. Note: Apps cannot access this REST resource - including when utilizing user impersonation. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Admin' permission for the space. Required: spaceKey, id. Destructive."),
 			mcplib.WithString("spaceKey", mcplib.Required(), mcplib.Description("The key of the space to be queried for its content.")),
@@ -12227,7 +12653,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_remove-space-watch",
-			mcplib.WithDescription("Removes a user as a watcher from a space. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: spaceKey. Optional: key, username, accountId. Destructive."),
+			mcplib.WithDescription("Removes a user as a watcher from a space. Choose the user by doing one of the following: - Specify a user via a query parameter: Use the `accountId` to identify the user. - Do not specify a user: The currently logged-in user will be used. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Confluence Administrator' global permission or 'Space Administrator' permission for the relevant space if specifying a user, otherwise permission to access the Confluence site ('Can use' global permission). Required: spaceKey. Optional: key, username, accountId. Destructive."),
 			mcplib.WithString("spaceKey", mcplib.Required(), mcplib.Description("The key of the space to remove the watcher from.")),
 			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
 			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
@@ -12247,8 +12673,21 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "/wiki/rest/api/template/{contentTemplateId}", false, false, nil, []mcpParamBinding{{PublicName: "contentTemplateId", WireName: "contentTemplateId", Location: "path"}}, []string{"contentTemplateId"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_remove-user-from-content-restriction",
+			mcplib.WithDescription("Removes a user from a content restriction. That is, remove read or update permission for the user for a piece of content. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id, operationKey (default: read). Optional: key, username, accountId. Destructive."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the restriction applies to.")),
+			mcplib.WithString("operationKey", mcplib.Required(), mcplib.Description("The operation that the restriction applies to.")),
+			mcplib.WithString("key", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithString("username", mcplib.Description("This parameter is no longer available and will be removed from the documentation soon.")),
+			mcplib.WithString("accountId", mcplib.Description("The account ID of the user.")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/user", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "operationKey", WireName: "operationKey", Location: "path"}, {PublicName: "key", WireName: "key", Location: "query"}, {PublicName: "username", WireName: "username", Location: "query"}, {PublicName: "accountId", WireName: "accountId", Location: "query"}}, []string{"id", "operationKey"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_reset-look-and-feel-settings",
-			mcplib.WithDescription("Resets the custom look and feel settings for the site or a single space. This changes the values of the custom settings to be the same as the default settings. It does not change which settings (default or custom) are selected. Note, the default space settings are inherited from the current global settings. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Admin' permission for the space. Optional: spaceKey. Destructive."),
+			mcplib.WithDescription("Resets the custom look and feel settings for the site or a single space. This changes the values of the custom settings to be the same as the default settings. It does not change which settings (default or custom) are selected. Note, the default space settings are inherited from the current global settings. **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**: - If `spaceKey` is specified, [`manage/look-and-feel`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space. - If `spaceKey` is omitted, 'Confluence Administrator' global permission. **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API. Optional: spaceKey. Destructive."),
 			mcplib.WithString("spaceKey", mcplib.Description("The key of the space for which the look and feel settings will be reset.")),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -12370,6 +12809,36 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "/wiki/rest/api/space/{spaceKey}/theme", false, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "path"}, {PublicName: "themeKey", WireName: "themeKey", Location: "body"}}, []string{"spaceKey"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("wiki_update-attachment-data",
+			mcplib.WithDescription("Updates the binary data of an attachment, given the attachment ID, and optionally the comment and the minor edit field. This method is essentially the same as [Create or update attachments](#api-content-id-child-attachment-put), except that it matches the attachment ID rather than the name. Note, you must set a `X-Atlassian-Token: nocheck` header on the request for this method, otherwise it will be blocked. This protects against XSRF attacks, which is necessary as this method accepts multipart/form-data. The media type 'multipart/form-data' is defined in [RFC 7578](https://www.ietf.org/rfc/rfc7578.txt). Most client libraries have classes that make it easier to implement multipart posts, like the [MultipartEntityBuilder](https://hc.apache.org/httpcomponents-client-5.1.x/current/httpclient5/apidocs/) Java class provided by Apache HTTP Components. Note, according to [RFC 7578](https://tools.ietf.org/html/rfc7578#section-4.5), in the case where the form data is text, the charset parameter for the 'text/plain' Content-Type may be used to indicate the character encoding used in that part. In the case of this API endpoint, the `comment` body parameter should be sent with `type=text/plain` and `charset=utf-8` values. This will force the charset to be UTF-8. Example: This curl command updates an attachment (id='att456') that is attached to a piece of content (id='123') with a comment and `minorEdits`=true. ``` bash curl -D- -u admin:admin -X POST -H 'X-Atlassian-Token: nocheck' -F 'file=@'example.txt'' -F 'minorEdit='true'' -F 'comment='Example attachment comment'; type=text/plain; charset=utf-8' http://myhost/rest/api/content/123/child/attachment/att456/data ``` **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to update the content. Required: id, attachmentId, file, minorEdit. Optional: comment. Returns the new Content."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the attachment is attached to.")),
+			mcplib.WithString("attachmentId", mcplib.Required(), mcplib.Description("The ID of the attachment to update.")),
+			mcplib.WithString("comment", mcplib.Description("The comment for the attachment that is being added.")),
+			mcplib.WithString("file", mcplib.Required(), mcplib.Description("The relative location and name of the attachment to be added to the content.")),
+			mcplib.WithString("minorEdit", mcplib.Required(), mcplib.Description("If `minorEdits` is set to 'true', no notification email or activity stream will be generated...")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/wiki/rest/api/content/{id}/child/attachment/{attachmentId}/data", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path", RequestContentType: "multipart/form-data"}, {PublicName: "attachmentId", WireName: "attachmentId", Location: "path", RequestContentType: "multipart/form-data"}, {PublicName: "comment", WireName: "comment", Location: "body", Format: "binary", RequestContentType: "multipart/form-data"}, {PublicName: "file", WireName: "file", Location: "body", Format: "binary", RequestContentType: "multipart/form-data"}, {PublicName: "minorEdit", WireName: "minorEdit", Location: "body", Format: "binary", RequestContentType: "multipart/form-data"}}, []string{"id", "attachmentId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_update-attachment-properties",
+			mcplib.WithDescription("Updates the attachment properties, i.e. the non-binary data of an attachment like the filename, media-type, comment, and parent container. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to update the content. Required: id, attachmentId, id-2, type, version. Optional: container, extensions, metadata (plus 2 more). Returns the updated Content."),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content that the attachment is attached to.")),
+			mcplib.WithString("attachmentId", mcplib.Required(), mcplib.Description("The ID of the attachment to update.")),
+			mcplib.WithString("container", mcplib.Description("Container for content.")),
+			mcplib.WithString("extensions", mcplib.Description("Extensions")),
+			mcplib.WithString("id-2", mcplib.Required(), mcplib.Description("Id")),
+			mcplib.WithString("metadata", mcplib.Description("Metadata")),
+			mcplib.WithString("status", mcplib.Description("Status")),
+			mcplib.WithString("title", mcplib.Description("Title")),
+			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Set this to 'attachment'")),
+			mcplib.WithString("version", mcplib.Required(), mcplib.Description("Version")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "/wiki/rest/api/content/{id}/child/attachment/{attachmentId}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "attachmentId", WireName: "attachmentId", Location: "path"}, {PublicName: "container", WireName: "container", Location: "body"}, {PublicName: "extensions", WireName: "extensions", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "metadata", WireName: "metadata", Location: "body"}, {PublicName: "status", WireName: "status", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "version", WireName: "version", Location: "body"}}, []string{"id", "attachmentId"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("wiki_update-content-template",
 			mcplib.WithDescription("Updates a content template. Note, blueprint templates cannot be updated via the REST API. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Admin' permission for the space to update a space template or 'Confluence Administrator' global permission to update a global template. Required: body, name, templateId, templateType. Optional: description, labels, space. Returns the updated ContentTemplate."),
 			mcplib.WithString("body", mcplib.Required(), mcplib.Description("The body of the new content. Does not apply to attachments.")),
@@ -12385,7 +12854,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_update-look-and-feel",
-			mcplib.WithDescription("Sets the look and feel settings to the default (global) settings, the custom settings, or the current theme's settings for a space. The custom and theme settings can only be selected if there is already a theme set for a space. Note, the default space settings are inherited from the current global settings. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Admin' permission for the space. Required: lookAndFeelType, spaceKey. Returns the updated LookAndFeelSelection."),
+			mcplib.WithDescription("Sets the look and feel settings to the default (global) settings, the custom settings, or the current theme's settings for a space. The custom and theme settings can only be selected if there is already a theme set for a space. Note, the default space settings are inherited from the current global settings. **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**: [`manage/look-and-feel`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space. **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API. Required: lookAndFeelType, spaceKey. Returns the updated LookAndFeelSelection."),
 			mcplib.WithString("lookAndFeelType", mcplib.Required(), mcplib.Description("Look and feel type")),
 			mcplib.WithString("spaceKey", mcplib.Required(), mcplib.Description("The key of the space for which the look and feel settings will be set.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -12394,7 +12863,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_update-look-and-feel-settings",
-			mcplib.WithDescription("Updates the look and feel settings for the site or for a single space. If custom settings exist, they are updated. If no custom settings exist, then a set of custom settings is created. Note, if a theme is selected for a space, the space look and feel settings are provided by the theme and cannot be overridden. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Admin' permission for the space. Required: bordersAndDividers, content, header, headings, links, menus. Optional: spaceKey, horizontalHeader, spaceReference. Returns the new LookAndFeelWithLinks."),
+			mcplib.WithDescription("Updates the look and feel settings for the site or for a single space. If custom settings exist, they are updated. If no custom settings exist, then a set of custom settings is created. Note, if a theme is selected for a space, the space look and feel settings are provided by the theme and cannot be overridden. **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**: - If `spaceKey` is specified, [`manage/look-and-feel`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space. - If `spaceKey` is omitted, 'Confluence Administrator' global permission. **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API. Required: bordersAndDividers, content, header, headings, links, menus. Optional: spaceKey, horizontalHeader, spaceReference. Returns the new LookAndFeelWithLinks."),
 			mcplib.WithString("spaceKey", mcplib.Description("The key of the space for which the look and feel settings will be updated.")),
 			mcplib.WithString("bordersAndDividers", mcplib.Required(), mcplib.Description("Borders and dividers")),
 			mcplib.WithString("content", mcplib.Required(), mcplib.Description("Content")),
@@ -12411,7 +12880,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_update-restrictions",
-			mcplib.WithDescription("Updates restrictions for a piece of content. This removes the existing restrictions and replaces them with the restrictions in the request. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id. Optional: expand. Returns the updated ContentRestrictionArray."),
+			mcplib.WithDescription("Updates restrictions for a piece of content. For each operation in the request, the supplied `user` and `group` lists replace the corresponding existing lists. Omitted operations and omitted user or group lists are preserved. An explicitly empty list (`{'results': []}` or `[]`) clears that list. Use `read` for viewing restrictions and `update` for editing restrictions. While content remains view restricted, an editor must also be able to view it. Removing an editor's `read` restriction while retaining their `update` restriction returns `400`. Remove their `update` restriction too, or clear all `read` restrictions to remove direct viewing restrictions. Restrictions inherited from ancestors still apply. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to edit the content. Required: id. Optional: expand."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The ID of the content to update restrictions for.")),
 			mcplib.WithString("expand", mcplib.Description("A multi-value parameter indicating which properties of the content restrictions (returned in...")),
 			mcplib.WithString("body_json", mcplib.Required(), mcplib.Description("Request body as a JSON object string (this endpoint accepts a polymorphic schema: oneOf/anyOf)")),
@@ -12434,16 +12903,27 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("wiki_update-space-settings",
-			mcplib.WithDescription("Updates the settings for a space. Currently only the `routeOverrideEnabled` setting can be updated. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: 'Admin' permission for the space. Required: spaceKey. Optional: routeOverrideEnabled. Returns the updated SpaceSettings."),
+			mcplib.WithDescription("Updates the settings for a space. **[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**: [`manage/space`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space. **Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API. Required: spaceKey. Optional: contentMode, routeOverrideEnabled. Returns the updated SpaceSettings."),
 			mcplib.WithString("spaceKey", mcplib.Required(), mcplib.Description("The key of the space whose settings will be updated.")),
+			mcplib.WithString("contentMode", mcplib.Description("The content rendering mode for the space. Controls spacing and typography in the editor and renderer.")),
 			mcplib.WithBoolean("routeOverrideEnabled", mcplib.Description("Defines whether an override for the space home should be used.")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "/wiki/rest/api/space/{spaceKey}/settings", false, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "path"}, {PublicName: "routeOverrideEnabled", WireName: "routeOverrideEnabled", Location: "body"}}, []string{"spaceKey"}),
+		makeAPIHandler("PUT", "/wiki/rest/api/space/{spaceKey}/settings", false, false, nil, []mcpParamBinding{{PublicName: "spaceKey", WireName: "spaceKey", Location: "path"}, {PublicName: "contentMode", WireName: "contentMode", Location: "body"}, {PublicName: "routeOverrideEnabled", WireName: "routeOverrideEnabled", Location: "body"}}, []string{"spaceKey"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("wiki_update-user-property",
+			mcplib.WithDescription("Updates a property for the given user. Note, you cannot update the key of a user property, only the value. For more information about user properties, see [Confluence entity properties](https://developer.atlassian.com/cloud/confluence/confluence-entity-properties/). `Note`, these properties stored against a user are on a Confluence site level and not space/content level. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: Permission to access the Confluence site ('Can use' global permission). Required: userId, key, value."),
+			mcplib.WithString("userId", mcplib.Required(), mcplib.Description("The account ID of the user.")),
+			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The key of the user property.")),
+			mcplib.WithString("value", mcplib.Required(), mcplib.Description("The value of the user property.")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "/wiki/rest/api/user/{userId}/property/{key}", false, false, nil, []mcpParamBinding{{PublicName: "userId", WireName: "userId", Location: "path"}, {PublicName: "key", WireName: "key", Location: "path"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"userId", "key"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_capabilities",
-			mcplib.WithDescription("Get the list of workflow capabilities for a specific workflow using either the workflow ID, or the project and issue type ID pair. The response includes the scope of the workflow, defined as global/project-based, and a list of project types that the workflow is scoped to. It also includes all rules organised into their broad categories (conditions, validators, actions, triggers, screens) as well as the source location (Atlassian-provided, Connect, Forge). **[Permissions](#permissions) required:** * *Administer Jira* project permission to access all, including global-scoped, workflows * *Administer projects* project permissions to access project-scoped workflows The current list of Atlassian-provided rules: #### Validators #### A validator rule that checks if a user has the required permissions to execute the transition in the workflow. ##### Permission validator ##### A validator rule that checks if a user has the required permissions to execute the transition in the workflow. { 'ruleKey': 'system:check-permission-validator', 'parameters': { 'permissionKey': 'ADMINISTER_PROJECTS' } } Parameters: * `permissionKey` The permission required to perform the transition. Allowed values: [built-in Jira permissions](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-permission-schemes/#built-in-permissions). ##### Parent or child blocking validator ##### A validator to block the child issue's transition depending on the parent issue's status. { 'ruleKey' : 'system:parent-or-child-blocking-validator' 'parameters' : { 'blocker' : 'PARENT' 'statusIds' : '1,2,3' } } Parameters: * `blocker` currently only supports `PARENT`. * `statusIds` a comma-separated list of status IDs. ##### Previous status validator ##### A validator that checks if an issue has transitioned through specified previous status(es) before allowing the current transition to occur. { 'ruleKey': 'system:previous-status-validator', 'parameters': { 'previousStatusIds': '10014', 'mostRecentStatusOnly': 'true' } } Parameters: * `previousStatusIds` a comma-separated list of status IDs, currently only support one ID. * `mostRecentStatusOnly` when `true` only considers the most recent status for the condition evaluation. Allowed values: `true`, `false`. ##### Validate a field value ##### A validation that ensures a specific field's value meets the defined criteria before allowing an issue to transition in the workflow. Depending on the rule type, the result will vary: ###### Field required ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'fieldRequired', 'fieldsRequired': 'assignee', 'ignoreContext': 'true', 'errorMessage': 'An assignee must be set!' } } Parameters: * `fieldsRequired` the ID of the field that is required. For a custom field, it would look like `customfield_123`. * `ignoreContext` controls the impact of context settings on field validation. When set to `true`, the validator doesn't check a required field if its context isn't configured for the current issue. When set to `false`, the validator requires a field even if its context is invalid. Allowed values: `true`, `false`. * `errorMessage` is the error message to display if the user does not provide a value during the transition. A default error message will be shown if you don't provide one (Optional). ###### Field changed ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'fieldChanged', 'groupsExemptFromValidation': '6862ac20-8672-4f68-896d-4854f5efb79e', 'fieldKey': 'versions', 'errorMessage': 'Affect versions must be modified before transition' } } Parameters: * `groupsExemptFromValidation` a comma-separated list of group IDs to be exempt from the validation. * `fieldKey` the ID of the field that has changed. For a custom field, it would look like `customfield_123`. * `errorMessage` the error message to display if the user does not provide a value during the transition. A default error message will be shown if you don't provide one (Optional). ###### Field has a single value ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'fieldHasSingleValue', 'fieldKey': 'created', 'excludeSubtasks': 'true' } } Parameters: * `fieldKey` the ID of the field to validate. For a custom field, it would look like `customfield_123`. * `excludeSubtasks` Option to exclude values copied from sub-tasks. Allowed values: `true`, `false`. ###### Field matches regular expression ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'fieldMatchesRegularExpression', 'regexp': '[0-9]{4}', 'fieldKey': 'description' } } Parameters: * `regexp` the regular expression used to validate the fieldu2019s content. * `fieldKey` the ID of the field to validate. For a custom field, it would look like `customfield_123`. ###### Date field comparison ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'dateFieldComparison', 'date1FieldKey': 'duedate', 'date2FieldKey': 'customfield_10054', 'includeTime': 'true', 'conditionSelected': '>=' } } Parameters: * `date1FieldKey` the ID of the first field to compare. For a custom field, it would look like `customfield_123`. * `date2FieldKey` the ID of the second field to compare. For a custom field, it would look like `customfield_123`. * `includeTime` if `true`, compares both date and time. Allowed values: `true`, `false`. * `conditionSelected` the condition to compare with. Allowed values: `>`, `>=`, `=`, `<=`, `<`, `!=`. ###### Date range comparison ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'windowDateComparison', 'date1FieldKey': 'customfield_10009', 'date2FieldKey': 'customfield_10054', 'numberOfDays': '3' } } Parameters: * `date1FieldKey` the ID of the first field to compare. For a custom field, it would look like `customfield_123`. * `date2FieldKey` the ID of the second field to compare. For a custom field, it would look like `customfield_123`. * `numberOfDays` maximum number of days past the reference date (`date2FieldKey`) to pass validation. This rule is composed by aggregating the following legacy rules: * FieldRequiredValidator * FieldChangedValidator * FieldHasSingleValueValidator * RegexpFieldValidator * DateFieldValidator * WindowsDateValidator ##### Pro forma: Forms attached validator ##### Validates that one or more forms are attached to the issue. { 'ruleKey' : 'system:proforma-forms-attached' 'parameters' : {} } ##### Proforma: Forms submitted validator ##### Validates that all forms attached to the issue have been submitted. { 'ruleKey' : 'system:proforma-forms-submitted' 'parameters' : {} } #### Conditions #### Conditions enable workflow rules that govern whether a transition can execute. ##### Check field value ##### A condition rule evaluates as true if a specific field's value meets the defined criteria. This rule ensures that an issue can only transition to the next step in the workflow if the field's value matches the desired condition. { 'ruleKey': 'system:check-field-value', 'parameters': { 'fieldId': 'description', 'fieldValue': '['Done']', 'comparator': '=', 'comparisonType': 'STRING' } } Parameters: * `fieldId` The ID of the field to check the value of. For non-system fields, it will look like `customfield_123`. Note: `fieldId` is used interchangeably with the idea of `fieldKey` here, they refer to the same field. * `fieldValue` the list of values to check against the fieldu2019s value. * `comparator` The comparison logic. Allowed values: `>`, `>=`, `=`, `<=`, `<`, `!=`. * `comparisonType` The type of data being compared. Allowed values: `STRING`, `NUMBER`, `DATE`, `DATE_WITHOUT_TIME`, `OPTIONID`. ##### Restrict issue transition ##### This rule ensures that issue transitions are restricted based on user accounts, roles, group memberships, and permissions, maintaining control over who can transition an issue. This condition evaluates as `true` if any of the following criteria is met. { 'ruleKey': 'system:restrict-issue-transition', 'parameters': { 'accountIds': 'allow-reporter,5e68ac137d64450d01a77fa0', 'roleIds': '10002,10004', 'groupIds': '703ff44a-7dc8-4f4b-9aa6-a65bf3574fa4', 'permissionKeys': 'ADMINISTER_PROJECTS', 'groupCustomFields': 'customfield_10028', 'allowUserCustomFields': 'customfield_10072,customfield_10144,customfield_10007', 'denyUserCustomFields': 'customfield_10107' } } Parameters: * `accountIds` a comma-separated list of the user account IDs. It also allows generic values like: `allow-assignee`, `allow-reporter`, and `accountIds` Note: This is only supported in team-managed projects * `roleIds` a comma-separated list of role IDs. * `groupIds` a comma-separated list of group IDs. * `permissionKeys` a comma-separated list of permission keys. Allowed values: [built-in Jira permissions](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-permission-schemes/#built-in-permissions). * `groupCustomFields` a comma-separated list of group custom field IDs. * `allowUserCustomFields` a comma-separated list of user custom field IDs to allow for issue transition. * `denyUserCustomFields` a comma-separated list of user custom field IDs to deny for issue transition. This rule is composed by aggregating the following legacy rules: * AllowOnlyAssignee * AllowOnlyReporter * InAnyProjectRoleCondition * InProjectRoleCondition * UserInAnyGroupCondition * UserInGroupCondition * PermissionCondtion * InGroupCFCondition * UserIsInCustomFieldCondition ##### Previous status condition ##### A condition that evaluates based on an issue's previous status(es) and specific criteria. { 'ruleKey' : 'system:previous-status-condition' 'parameters' : { 'previousStatusIds' : '10004', 'not': 'true', 'mostRecentStatusOnly' : 'true', 'includeCurrentStatus': 'true', 'ignoreLoopTransitions': 'true' } } Parameters: * `previousStatusIds` a comma-separated list of status IDs, current only support one ID. * `not` indicates if the condition should be reversed. When `true` it checks that the issue has not been in the selected statuses. Allowed values: `true`, `false`. * `mostRecentStatusOnly` when true only considers the most recent status for the condition evaluation. Allowed values: `true`, `false`. * `includeCurrentStatus` includes the current status when evaluating if the issue has been through the selected statuses. Allowed values: `true`, `false`. * `ignoreLoopTransitions` ignore loop transitions. Allowed values: `true`, `false`. ##### Parent or child blocking condition ##### A condition to block the parentu2019s issue transition depending on the childu2019s issue status. { 'ruleKey' : 'system:parent-or-child-blocking-condition' 'parameters' : { 'blocker' : 'CHILD', 'statusIds' : '1,2,3' } } Parameters: * `blocker` currently only supports `CHILD`. * `statusIds` a comma-separated list of status IDs. ##### Separation of duties ##### A condition preventing the user from performing, if the user has already performed a transition on the issue. { 'ruleKey': 'system:separation-of-duties', 'parameters': { 'fromStatusId': '10161', 'toStatusId': '10160' } } Parameters: * `fromStatusId` represents the status ID from which the issue is transitioning. It ensures that the user performing the current transition has not performed any actions when the issue was in the specified status. * `toStatusId` represents the status ID to which the issue is transitioning. It ensures that the user performing the current transition is not the same user who has previously transitioned the issue. ##### Restrict transitions ##### A condition preventing all users from transitioning the issue can also optionally include APIs as well. { 'ruleKey': 'system:restrict-from-all-users', 'parameters': { 'restrictMode': 'users' } } Parameters: * `restrictMode` restricts the issue transition including/excluding APIs. Allowed values: `'users'`, `'usersAndAPI'`. ##### Jira Service Management block until approved ##### Block an issue transition until approval. Note: This is only supported in team-managed projects. { 'ruleKey': 'system:jsd-approvals-block-until-approved', 'parameters': { 'approvalConfigurationJson': '{'statusExternalUuid...}' } } Parameters: * `approvalConfigurationJson` a stringified JSON holding the Jira Service Management approval configuration. ##### Jira Service Management block until rejected ##### Block an issue transition until rejected. Note: This is only supported in team-managed projects. { 'ruleKey': 'system:jsd-approvals-block-until-rejected', 'parameters': { 'approvalConfigurationJson': '{'statusExternalUuid...}' } } Parameters: * `approvalConfigurationJson` a stringified JSON holding the Jira Service Management approval configuration. ##### Block in progress approval ##### Condition to block issue transition if there is pending approval. Note: This is only supported in company-managed projects. { 'ruleKey': 'system:block-in-progress-approval', 'parameters': {} } #### Post functions #### Post functions carry out any additional processing required after a workflow transition is executed. ##### Change assignee ##### A post function rule that changes the assignee of an issue after a transition. { 'ruleKey': 'system:change-assignee', 'parameters': { 'type': 'to-selected-user', 'accountId': 'example-account-id' } } Parameters: * `type` the parameter used to determine the new assignee. Allowed values: `to-selected-user`, `to-unassigned`, `to-current-user`, `to-current-user`, `to-default-user`, `to-default-user` * `accountId` the account ID of the user to assign the issue to. This parameter is required only when the type is `'to-selected-user'`. ##### Copy field value ##### A post function that automates the process of copying values between fields during a specific transition, ensuring data consistency and reducing manual effort. { 'ruleKey': 'system:copy-value-from-other-field', 'parameters': { 'sourceFieldKey': 'description', 'targetFieldKey': 'components', 'issueSource': 'SAME' } } Parameters: * `sourceFieldKey` the field key to copy from. For a custom field, it would look like `customfield_123` * `targetFieldKey` the field key to copy to. For a custom field, it would look like `customfield_123` * `issueSource` `SAME` or `PARENT`. Defaults to `SAME` if no value is provided. ##### Update field ##### A post function that updates or appends a specific field with the given value. { 'ruleKey': 'system:update-field', 'parameters': { 'field': 'customfield_10056', 'value': 'asdf', 'mode': 'append' } } Parameters: * `field` the ID of the field to update. For a custom field, it would look like `customfield_123` * `value` the value to update the field with. * `mode` `append` or `replace`. Determines if a value will be appended to the current value, or if the current value will be replaced. ##### Trigger webhook ##### A post function that automatically triggers a predefined webhook when a transition occurs in the workflow. { 'ruleKey': 'system:trigger-webhook', 'parameters': { 'webhookId': '1' } } Parameters: * `webhookId` the ID of the webhook. ##### Trigger agent ##### A post function that triggers a Jira AI agent for the issue after the transition runs, using the configured agent and an optional prompt. The agent run is asynchronous: it is scheduled after the transition finishes and does not block the transition. { 'ruleKey': 'system:trigger-agent', 'parameters': { 'agentId': '712020:3c6d3f05-331a-4488-932e-37c34b704720', 'promptValue': '' } } Parameters: * `agentId` the identifier of the agent to trigger (the Atlassian account ID of the agent). * `promptValue` optional text passed to the agent as a user prompt after the transition runs; use an empty string if no extra prompt is needed. #### Screen #### ##### Remind people to update fields ##### A screen rule that prompts users to update a specific field when they interact with an issue screen during a transition. This rule is useful for ensuring that users provide or modify necessary information before moving an issue to the next step in the workflow. { 'ruleKey': 'system:remind-people-to-update-fields', 'params': { 'remindingFieldIds': 'assignee,customfield_10025', 'remindingMessage': 'The message', 'remindingAlwaysAsk': 'true' } } Parameters: * `remindingFieldIds` a comma-separated list of field IDs. Note: `fieldId` is used interchangeably with the idea of `fieldKey` here, they refer to the same field. * `remindingMessage` the message to display when prompting the users to update the fields. * `remindingAlwaysAsk` always remind to update fields. Allowed values: `true`, `false`. ##### Shared transition screen ##### A common screen that is shared between transitions in a workflow. { 'ruleKey': 'system:transition-screen', 'params': { 'screenId': '3' } } Parameters: * `screenId` the ID of the screen. #### Connect & Forge #### ##### Connect rules ##### Validator/Condition/Post function for Connect app. { 'ruleKey': 'connect:expression-validator', 'parameters': { 'appKey': 'com.atlassian.app', 'config': '', 'id': '90ce590f-e90c-4cd3-8281-165ce41f2ac3', 'disabled': 'false', 'tag': '' } } Parameters: * `ruleKey` Validator: `connect:expression-validator`, Condition: `connect:expression-condition`, and Post function: `connect:remote-workflow-function` * `appKey` the reference to the Connect app * `config` a JSON payload string describing the configuration * `id` the ID of the rule * `disabled` determine if the Connect app is disabled. Allowed values: `true`, `false`. * `tag` additional tags for the Connect app ##### Forge rules ##### Validator/Condition/Post function for Forge app. { 'ruleKey': 'forge:expression-validator', 'parameters': { 'key': 'ari:cloud:ecosystem::extension/{appId}/{environmentId}/static/{moduleKey}', 'config': '{'searchString':'workflow validator'}', 'id': 'a865ddf6-bb3f-4a7b-9540-c2f8b3f9f6c2', 'disabled': 'false', 'tag': '' } } Parameters: * `ruleKey` Validator: `forge:expression-validator`, Condition: `forge:expression-condition`, and Post function: `forge:workflow-post-function` * `key` the identifier for the Forge app * `config` the persistent stringified JSON configuration for the Forge rule * `id` the ID of the Forge rule * `disabled` determine if the Forge app is disabled. Allowed values: `true`, `false`. * `tag` additional tags for the Forge app."),
+			mcplib.WithDescription("Get the list of workflow capabilities for a specific workflow using either the workflow ID, or the project and issue type ID pair. The response includes the scope of the workflow, defined as global/project-based, and a list of project types that the workflow is scoped to. It also includes all rules organised into their broad categories (conditions, validators, actions, triggers, screens) as well as the source location (Atlassian-provided, Connect, Forge). **[Permissions](#permissions) required:** * *Administer Jira* project permission to access all, including global-scoped, workflows * *Administer projects* project permissions to access project-scoped workflows The current list of Atlassian-provided rules: #### Validators #### A validator rule that checks if a user has the required permissions to execute the transition in the workflow. ##### Permission validator ##### A validator rule that checks if a user has the required permissions to execute the transition in the workflow. { 'ruleKey': 'system:check-permission-validator', 'parameters': { 'permissionKey': 'ADMINISTER_PROJECTS' } } Parameters: * `permissionKey` The permission required to perform the transition. Allowed values: [built-in Jira permissions](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-permission-schemes/#built-in-permissions). ##### Parent or child blocking validator ##### A validator to block the child issue's transition depending on the parent issue's status. { 'ruleKey' : 'system:parent-or-child-blocking-validator' 'parameters' : { 'blocker' : 'PARENT' 'statusIds' : '1,2,3' } } Parameters: * `blocker` currently only supports `PARENT`. * `statusIds` a comma-separated list of status IDs. ##### Previous status validator ##### A validator that checks if an issue has transitioned through specified previous status(es) before allowing the current transition to occur. { 'ruleKey': 'system:previous-status-validator', 'parameters': { 'previousStatusIds': '10014', 'mostRecentStatusOnly': 'true' } } Parameters: * `previousStatusIds` a comma-separated list of status IDs, currently only support one ID. * `mostRecentStatusOnly` when `true` only considers the most recent status for the condition evaluation. Allowed values: `true`, `false`. ##### Validate a field value ##### A validation that ensures a specific field's value meets the defined criteria before allowing an issue to transition in the workflow. Depending on the rule type, the result will vary: ###### Field required ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'fieldRequired', 'fieldsRequired': 'assignee', 'ignoreContext': 'true', 'errorMessage': 'An assignee must be set!' } } Parameters: * `fieldsRequired` the ID of the field that is required. For a custom field, it would look like `customfield_123`. * `ignoreContext` controls the impact of context settings on field validation. When set to `true`, the validator doesn't check a required field if its context isn't configured for the current issue. When set to `false`, the validator requires a field even if its context is invalid. Allowed values: `true`, `false`. * `errorMessage` is the error message to display if the user does not provide a value during the transition. A default error message will be shown if you don't provide one (Optional). ###### Field changed ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'fieldChanged', 'groupsExemptFromValidation': '6862ac20-8672-4f68-896d-4854f5efb79e', 'fieldKey': 'versions', 'errorMessage': 'Affect versions must be modified before transition' } } Parameters: * `groupsExemptFromValidation` a comma-separated list of group IDs to be exempt from the validation. * `fieldKey` the ID of the field that has changed. For a custom field, it would look like `customfield_123`. * `errorMessage` the error message to display if the user does not provide a value during the transition. A default error message will be shown if you don't provide one (Optional). ###### Field has a single value ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'fieldHasSingleValue', 'fieldKey': 'created', 'excludeSubtasks': 'true' } } Parameters: * `fieldKey` the ID of the field to validate. For a custom field, it would look like `customfield_123`. * `excludeSubtasks` Option to exclude values copied from sub-tasks. Allowed values: `true`, `false`. ###### Field matches regular expression ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'fieldMatchesRegularExpression', 'regexp': '[0-9]{4}', 'fieldKey': 'description', 'errorMessage': 'Description must contain a 4-digit year' } } Parameters: * `regexp` the regular expression used to validate the field's content. * `fieldKey` the ID of the field to validate. For a custom field, it would look like `customfield_123`. * `errorMessage` the error message to display if the field value does not match the regular expression. A default error message will be shown if you don't provide one (Optional). ###### Date field comparison ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'dateFieldComparison', 'date1FieldKey': 'duedate', 'date2FieldKey': 'customfield_10054', 'includeTime': 'true', 'conditionSelected': '>=' } } Parameters: * `date1FieldKey` the ID of the first field to compare. For a custom field, it would look like `customfield_123`. * `date2FieldKey` the ID of the second field to compare. For a custom field, it would look like `customfield_123`. * `includeTime` if `true`, compares both date and time. Allowed values: `true`, `false`. * `conditionSelected` the condition to compare with. Allowed values: `>`, `>=`, `=`, `<=`, `<`, `!=`. ###### Date range comparison ###### { 'ruleKey': 'system:validate-field-value', 'parameters': { 'ruleType': 'windowDateComparison', 'date1FieldKey': 'customfield_10009', 'date2FieldKey': 'customfield_10054', 'numberOfDays': '3' } } Parameters: * `date1FieldKey` the ID of the first field to compare. For a custom field, it would look like `customfield_123`. * `date2FieldKey` the ID of the second field to compare. For a custom field, it would look like `customfield_123`. * `numberOfDays` maximum number of days past the reference date (`date2FieldKey`) to pass validation. This rule is composed by aggregating the following legacy rules: * FieldRequiredValidator * FieldChangedValidator * FieldHasSingleValueValidator * RegexpFieldValidator * DateFieldValidator * WindowsDateValidator ##### Pro forma: Forms attached validator ##### Validates that one or more forms are attached to the issue. { 'ruleKey' : 'system:proforma-forms-attached' 'parameters' : {} } ##### Proforma: Forms submitted validator ##### Validates that all forms attached to the issue have been submitted. { 'ruleKey' : 'system:proforma-forms-submitted' 'parameters' : {} } #### Conditions #### Conditions enable workflow rules that govern whether a transition can execute. ##### Check field value ##### A condition rule evaluates as true if a specific field's value meets the defined criteria. This rule ensures that an issue can only transition to the next step in the workflow if the field's value matches the desired condition. { 'ruleKey': 'system:check-field-value', 'parameters': { 'fieldId': 'description', 'fieldValue': '['Done']', 'comparator': '=', 'comparisonType': 'STRING' } } Parameters: * `fieldId` The ID of the field to check the value of. For non-system fields, it will look like `customfield_123`. Note: `fieldId` is used interchangeably with the idea of `fieldKey` here, they refer to the same field. * `fieldValue` the list of values to check against the fieldu2019s value. * `comparator` The comparison logic. Allowed values: `>`, `>=`, `=`, `<=`, `<`, `!=`. * `comparisonType` The type of data being compared. Allowed values: `STRING`, `NUMBER`, `DATE`, `DATE_WITHOUT_TIME`, `OPTIONID`. ##### Restrict issue transition ##### This rule ensures that issue transitions are restricted based on user accounts, roles, group memberships, and permissions, maintaining control over who can transition an issue. This condition evaluates as `true` if any of the following criteria is met. { 'ruleKey': 'system:restrict-issue-transition', 'parameters': { 'accountIds': 'allow-reporter,5e68ac137d64450d01a77fa0', 'roleIds': '10002,10004', 'groupIds': '703ff44a-7dc8-4f4b-9aa6-a65bf3574fa4', 'permissionKeys': 'ADMINISTER_PROJECTS', 'groupCustomFields': 'customfield_10028', 'allowUserCustomFields': 'customfield_10072,customfield_10144,customfield_10007', 'denyUserCustomFields': 'customfield_10107' } } Parameters: * `accountIds` a comma-separated list of the user account IDs. It also allows generic values like: `allow-assignee`, `allow-reporter`, and `accountIds` Note: This is only supported in team-managed projects * `roleIds` a comma-separated list of role IDs. * `groupIds` a comma-separated list of group IDs. * `permissionKeys` a comma-separated list of permission keys. Allowed values: [built-in Jira permissions](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-permission-schemes/#built-in-permissions). * `groupCustomFields` a comma-separated list of group custom field IDs. * `allowUserCustomFields` a comma-separated list of user custom field IDs to allow for issue transition. * `denyUserCustomFields` a comma-separated list of user custom field IDs to deny for issue transition. This rule is composed by aggregating the following legacy rules: * AllowOnlyAssignee * AllowOnlyReporter * InAnyProjectRoleCondition * InProjectRoleCondition * UserInAnyGroupCondition * UserInGroupCondition * PermissionCondtion * InGroupCFCondition * UserIsInCustomFieldCondition ##### Previous status condition ##### A condition that evaluates based on an issue's previous status(es) and specific criteria. { 'ruleKey' : 'system:previous-status-condition' 'parameters' : { 'previousStatusIds' : '10004', 'not': 'true', 'mostRecentStatusOnly' : 'true', 'includeCurrentStatus': 'true', 'ignoreLoopTransitions': 'true' } } Parameters: * `previousStatusIds` a comma-separated list of status IDs, current only support one ID. * `not` indicates if the condition should be reversed. When `true` it checks that the issue has not been in the selected statuses. Allowed values: `true`, `false`. * `mostRecentStatusOnly` when true only considers the most recent status for the condition evaluation. Allowed values: `true`, `false`. * `includeCurrentStatus` includes the current status when evaluating if the issue has been through the selected statuses. Allowed values: `true`, `false`. * `ignoreLoopTransitions` ignore loop transitions. Allowed values: `true`, `false`. ##### Parent or child blocking condition ##### A condition to block the parentu2019s issue transition depending on the childu2019s issue status. { 'ruleKey' : 'system:parent-or-child-blocking-condition' 'parameters' : { 'blocker' : 'CHILD', 'statusIds' : '1,2,3' } } Parameters: * `blocker` currently only supports `CHILD`. * `statusIds` a comma-separated list of status IDs. ##### Separation of duties ##### A condition preventing the user from performing, if the user has already performed a transition on the issue. { 'ruleKey': 'system:separation-of-duties', 'parameters': { 'fromStatusId': '10161', 'toStatusId': '10160' } } Parameters: * `fromStatusId` represents the status ID from which the issue is transitioning. It ensures that the user performing the current transition has not performed any actions when the issue was in the specified status. * `toStatusId` represents the status ID to which the issue is transitioning. It ensures that the user performing the current transition is not the same user who has previously transitioned the issue. ##### Restrict transitions ##### A condition preventing all users from transitioning the issue can also optionally include APIs as well. { 'ruleKey': 'system:restrict-from-all-users', 'parameters': { 'restrictMode': 'users' } } Parameters: * `restrictMode` restricts the issue transition including/excluding APIs. Allowed values: `'users'`, `'usersAndAPI'`. ##### Jira Service Management block until approved ##### Block an issue transition until approval. Note: This is only supported in team-managed projects. { 'ruleKey': 'system:jsd-approvals-block-until-approved', 'parameters': { 'approvalConfigurationJson': '{'statusExternalUuid...}' } } Parameters: * `approvalConfigurationJson` a stringified JSON holding the Jira Service Management approval configuration. ##### Jira Service Management block until rejected ##### Block an issue transition until rejected. Note: This is only supported in team-managed projects. { 'ruleKey': 'system:jsd-approvals-block-until-rejected', 'parameters': { 'approvalConfigurationJson': '{'statusExternalUuid...}' } } Parameters: * `approvalConfigurationJson` a stringified JSON holding the Jira Service Management approval configuration. ##### Block in progress approval ##### Condition to block issue transition if there is pending approval. Note: This is only supported in company-managed projects. { 'ruleKey': 'system:block-in-progress-approval', 'parameters': {} } #### Post functions #### Post functions carry out any additional processing required after a workflow transition is executed. ##### Change assignee ##### A post function rule that changes the assignee of an issue after a transition. { 'ruleKey': 'system:change-assignee', 'parameters': { 'type': 'to-selected-user', 'accountId': 'example-account-id' } } Parameters: * `type` the parameter used to determine the new assignee. Allowed values: `to-selected-user`, `to-unassigned`, `to-current-user`, `to-current-user`, `to-default-user`, `to-default-user` * `accountId` the account ID of the user to assign the issue to. This parameter is required only when the type is `'to-selected-user'`. ##### Copy field value ##### A post function that automates the process of copying values between fields during a specific transition, ensuring data consistency and reducing manual effort. { 'ruleKey': 'system:copy-value-from-other-field', 'parameters': { 'sourceFieldKey': 'description', 'targetFieldKey': 'components', 'issueSource': 'SAME' } } Parameters: * `sourceFieldKey` the field key to copy from. For a custom field, it would look like `customfield_123` * `targetFieldKey` the field key to copy to. For a custom field, it would look like `customfield_123` * `issueSource` `SAME` or `PARENT`. Defaults to `SAME` if no value is provided. ##### Update field ##### A post function that updates or appends a specific field with the given value. { 'ruleKey': 'system:update-field', 'parameters': { 'field': 'customfield_10056', 'value': 'asdf', 'mode': 'append' } } Parameters: * `field` the ID of the field to update. For a custom field, it would look like `customfield_123` * `value` the value to update the field with. * `mode` `append` or `replace`. Determines if a value will be appended to the current value, or if the current value will be replaced. ##### Trigger webhook ##### A post function that automatically triggers a predefined webhook when a transition occurs in the workflow. { 'ruleKey': 'system:trigger-webhook', 'parameters': { 'webhookId': '1' } } Parameters: * `webhookId` the ID of the webhook. ##### Trigger agent ##### A post function that triggers a Jira AI agent for the issue after the transition runs, using the configured agent and an optional prompt. The agent run is asynchronous: it is scheduled after the transition finishes and does not block the transition. { 'ruleKey': 'system:trigger-agent', 'parameters': { 'agentId': '712020:3c6d3f05-331a-4488-932e-37c34b704720', 'promptValue': '' } } Parameters: * `agentId` the identifier of the agent to trigger (the Atlassian account ID of the agent). * `promptValue` optional text passed to the agent as a user prompt after the transition runs; use an empty string if no extra prompt is needed. #### Screen #### ##### Remind people to update fields ##### A screen rule that prompts users to update a specific field when they interact with an issue screen during a transition. This rule is useful for ensuring that users provide or modify necessary information before moving an issue to the next step in the workflow. { 'ruleKey': 'system:remind-people-to-update-fields', 'params': { 'remindingFieldIds': 'assignee,customfield_10025', 'remindingMessage': 'The message', 'remindingAlwaysAsk': 'true' } } Parameters: * `remindingFieldIds` a comma-separated list of field IDs. Note: `fieldId` is used interchangeably with the idea of `fieldKey` here, they refer to the same field. * `remindingMessage` the message to display when prompting the users to update the fields. * `remindingAlwaysAsk` always remind to update fields. Allowed values: `true`, `false`. ##### Shared transition screen ##### A common screen that is shared between transitions in a workflow. { 'ruleKey': 'system:transition-screen', 'params': { 'screenId': '3' } } Parameters: * `screenId` the ID of the screen. #### Connect & Forge #### ##### Connect rules ##### Validator/Condition/Post function for Connect app. { 'ruleKey': 'connect:expression-validator', 'parameters': { 'appKey': 'com.atlassian.app', 'config': '', 'id': '90ce590f-e90c-4cd3-8281-165ce41f2ac3', 'disabled': 'false', 'tag': '' } } Parameters: * `ruleKey` Validator: `connect:expression-validator`, Condition: `connect:expression-condition`, and Post function: `connect:remote-workflow-function` * `appKey` the reference to the Connect app * `config` a JSON payload string describing the configuration * `id` the ID of the rule * `disabled` determine if the Connect app is disabled. Allowed values: `true`, `false`. * `tag` additional tags for the Connect app ##### Forge rules ##### Validator/Condition/Post function for Forge app. { 'ruleKey': 'forge:expression-validator', 'parameters': { 'key': 'ari:cloud:ecosystem::extension/{appId}/{environmentId}/static/{moduleKey}', 'config': '{'searchString':'workflow validator'}', 'id': 'a865ddf6-bb3f-4a7b-9540-c2f8b3f9f6c2', 'disabled': 'false', 'tag': '' } } Parameters: * `ruleKey` Validator: `forge:expression-validator`, Condition: `forge:expression-condition`, and Post function: `forge:workflow-post-function` * `key` the identifier for the Forge app * `config` the persistent stringified JSON configuration for the Forge rule * `id` the ID of the Forge rule * `disabled` determine if the Forge app is disabled. Allowed values: `true`, `false`. * `tag` additional tags for the Forge app."),
 			mcplib.WithString("workflowId", mcplib.Description("Workflow id")),
 			mcplib.WithString("projectId", mcplib.Description("Project id")),
 			mcplib.WithString("issueTypeId", mcplib.Description("Issue type id")),
@@ -12452,6 +12932,17 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "/rest/api/3/workflows/capabilities", true, false, nil, []mcpParamBinding{{PublicName: "workflowId", WireName: "workflowId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("workflows_copy",
+			mcplib.WithDescription("Copies an existing workflow, and the statuses it uses, into a new workflow with the given name. The copy is created in the same scope as the workflow it is copied from. If no description is provided, the copy is created with an empty description. Copying a workflow requires permission both to read the workflow being copied and to create the copy, which is created in the same scope as its source. **[Permissions](#permissions) required:** * *Administer Jira* global permission to copy all, including project-scoped, workflows * To copy a project-scoped workflow, either the *Edit workflows* project permission, or both the *View (read-only) workflow* and *Administer projects* project permissions."),
+			mcplib.WithString("description", mcplib.Description("The description of the new workflow to create. Defaults to an empty description.")),
+			mcplib.WithString("workflowId", mcplib.Required(), mcplib.Description("The ID of the workflow to copy.")),
+			mcplib.WithString("workflowName", mcplib.Required(), mcplib.Description("The name of the new workflow to create.")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "/rest/api/3/workflows/copy", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "workflowId", WireName: "workflowId", Location: "body"}, {PublicName: "workflowName", WireName: "workflowName", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_create",
@@ -12506,11 +12997,12 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithString("orderBy", mcplib.Description("[Order](#ordering) the results by a field: * `name` Sorts by workflow name. * `created` Sorts by create time.")),
 			mcplib.WithString("scope", mcplib.Description("The scope of the workflow. Global for company-managed projects and Project for team-managed projects.")),
 			mcplib.WithBoolean("isActive", mcplib.Description("Filters active and inactive workflows.")),
+			mcplib.WithNumber("projectId", mcplib.Description("The ID of the project to filter the workflows by. Only workflows associated with the given project are returned.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/rest/api/3/workflows/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "scope", WireName: "scope", Location: "query"}, {PublicName: "isActive", WireName: "isActive", Location: "query"}}, []string{}),
+		makeAPIHandler("GET", "/rest/api/3/workflows/search", true, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "expand", WireName: "expand", Location: "query"}, {PublicName: "queryString", WireName: "queryString", Location: "query"}, {PublicName: "orderBy", WireName: "orderBy", Location: "query"}, {PublicName: "scope", WireName: "scope", Location: "query"}, {PublicName: "isActive", WireName: "isActive", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
 		mcplib.NewTool("workflows_update",
@@ -12804,7 +13296,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("workflowscheme_draft_publish-workflow-scheme",
-			mcplib.WithDescription("Publishes a draft workflow scheme. Where the draft workflow includes new workflow statuses for an issue type, mappings are provided to update issues with the original workflow status to the new workflow status. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-2-task-taskId-get) to obtain updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
+			mcplib.WithDescription("Publishes a draft workflow scheme. Where the draft workflow includes new workflow statuses for an issue type, mappings are provided to update issues with the original workflow status to the new workflow status. This operation is [asynchronous](#async). Follow the `location` link in the response to determine the status of the task and use [Get task](#api-rest-api-3-task-taskId-get) to obtain updates. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg)."),
 			mcplib.WithNumber("id", mcplib.Required(), mcplib.Description("The ID of the workflow scheme that the draft belongs to.")),
 			mcplib.WithBoolean("validateOnly", mcplib.Description("Whether the request only performs a validation.")),
 			mcplib.WithString("statusMappings", mcplib.Description("Mappings of statuses to new statuses for issue types.")),
@@ -12985,7 +13477,7 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("workspaces_query-v2",
-			mcplib.WithDescription("A workspace refers to a specific instance of an Atlassian product that is accessed through a unique URL. Whenever a user initiates or adds a new product instance, it results in the creation of a distinct workspace. This API will: - Return a paginated list of workspaces in a given org - Return more details about an organization's products (including product URL). #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:workspaces:admin`."),
+			mcplib.WithDescription("A workspace refers to a specific instance of an Atlassian product that is accessed through a unique URL. Whenever a user initiates or adds a new product instance, it results in the creation of a distinct workspace. This API will: - Return a paginated list of workspaces in a given org - Return more details about an organization's products (including product URL). #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:workspaces:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization has a unique ID.")),
 			mcplib.WithString("cursor", mcplib.Description("A base-64 encoded continuation token used for pagination.")),
 			mcplib.WithNumber("limit", mcplib.Description("Specifies the maximum page size.")),
@@ -13470,7 +13962,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 		"api":         "keen",
 		"description": "Combined CLI for multiple API services",
 		"archetype":   "project-management",
-		"tool_count":  1091,
+		"tool_count":  1130,
 		// tool_surface tells agents which surface a capability lives on.
 		"tool_surface": "MCP exposes typed endpoint tools plus a runtime mirror of user-facing CLI commands. Endpoint tools keep typed schemas; command-mirror tools shell out to the companion keen binary.",
 		"auth": map[string]any{
@@ -13506,6 +13998,12 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 				"searchable":  true,
 			},
 			{
+				"name":        "agents",
+				"description": "Use the APIs to invoke agents in bulk for multiple issues.",
+				"endpoints":   []string{"start-batch", "start-uniform"},
+				"searchable":  true,
+			},
+			{
 				"name":        "agile",
 				"description": "Manage agile",
 				"endpoints":   []string{"create-board", "create-sprint", "delete-board", "delete-board-property", "delete-property", "delete-sprint", "estimate-issue-for-board", "get-all-boards", "get-all-quick-filters", "get-all-sprints", "get-all-versions", "get-board", "get-board-by-filter-id", "get-board-issues-for-epic", "get-board-issues-for-sprint", "get-board-property", "get-board-property-keys", "get-configuration", "get-epic", "get-epics", "get-features-for-board", "get-issue", "get-issue-estimation-for-board", "get-issues-for-backlog", "get-issues-for-board", "get-issues-for-epic", "get-issues-for-sprint", "get-issues-without-epic", "get-issues-without-epic-for-board", "get-projects", "get-projects-full", "get-properties-keys", "get-property", "get-quick-filter", "get-reports-for-board", "get-sprint", "move-issues-to-backlog", "move-issues-to-backlog-for-board", "move-issues-to-board", "move-issues-to-epic", "move-issues-to-sprint-and-rank", "partially-update-epic", "partially-update-sprint", "rank-epics", "rank-issues", "remove-issues-from-epic", "set-board-property", "set-property", "swap-sprint", "toggle-features", "update-sprint"},
@@ -13522,12 +14020,6 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 				"name":        "app",
 				"description": "Manage app",
 				"endpoints":   []string{"get-custom-field-configuration", "get-custom-fields-configurations", "update-custom-field-configuration", "update-custom-field-value", "update-multiple-custom-field-values"},
-				"searchable":  true,
-			},
-			{
-				"name":        "app-access-settings",
-				"description": "App Access Settings APIs",
-				"endpoints":   []string{"create-domain", "get-domain", "list-domains", "replace-domain", "upsert-product"},
 				"searchable":  true,
 			},
 			{
@@ -13565,15 +14057,15 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 				"searchable":  true,
 			},
 			{
-				"name":        "atlassian-access-groups",
-				"description": "Orgs Groups APIs",
-				"endpoints":   []string{"search"},
+				"name":        "atlassian-access-policies",
+				"description": "Policies APIs",
+				"endpoints":   []string{"create-policy", "delete-policy", "get", "get-policy-by-id", "update-policy"},
 				"searchable":  true,
 			},
 			{
 				"name":        "atlassian-access-users",
 				"description": "Orgs Users APIs",
-				"endpoints":   []string{"create", "create-orgs", "get", "search"},
+				"endpoints":   []string{"create", "get"},
 				"searchable":  true,
 			},
 			{
@@ -13606,6 +14098,12 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 				"name":        "builds",
 				"description": "APIs related to integrating build data with Jira Software. These APIs are available to Atlassian Connect apps.",
 				"endpoints":   []string{"delete-by-key", "delete-by-property", "get-by-key", "submit"},
+				"searchable":  true,
+			},
+			{
+				"name":        "bulk",
+				"description": "Manage bulk",
+				"endpoints":   []string{"get-available-transitions", "get-editable-fields", "get-operation-progress", "submit-delete", "submit-edit", "submit-move", "submit-transition", "submit-unwatch", "submit-watch"},
 				"searchable":  true,
 			},
 			{
@@ -13695,7 +14193,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "directory",
 				"description": "Org Directory APIs",
-				"endpoints":   []string{"assign-role-to-group", "create", "create-orgs", "create-orgs-2", "create-orgs-3", "delete", "delete-orgs", "delete-orgs-2", "get", "revoke-role-to-group"},
+				"endpoints":   []string{"get"},
 				"searchable":  true,
 			},
 			{
@@ -13765,7 +14263,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "forge",
 				"description": "Manage forge",
-				"endpoints":   []string{"bulk-pin-unpin-projects-async", "delete-app-property", "get-app-property", "get-app-property-keys", "put-app-property"},
+				"endpoints":   []string{"bulk-pin-unpin-projects-async", "delete-app-property", "get-app-property", "get-app-property-keys", "get-bulk-pin-status", "put-app-property"},
 				"syncable":    true,
 				"searchable":  true,
 			},
@@ -13800,9 +14298,16 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 				"endpoints":   []string{"get-worklogs-by-issue-id-and-worklog-id"},
 			},
 			{
+				"name":        "invalid-jqls-access-log",
+				"description": "Manage invalid jqls access log",
+				"endpoints":   []string{"get-audit-entries"},
+				"syncable":    true,
+				"searchable":  true,
+			},
+			{
 				"name":        "issue",
 				"description": "This resource represents Jira issues. Use it to: * create or edit issues, individually or in bulk.",
-				"endpoints":   []string{"archive", "archive-async", "bulk-delete-property", "bulk-fetch", "bulk-set-properties-by", "bulk-set-properties-list", "bulk-set-property", "create", "create-bulk", "delete", "edit", "get", "get-create-meta", "get-create-meta-type-id", "get-create-meta-types", "get-is-watching-bulk", "get-limit-report", "get-picker-resource", "unarchive"},
+				"endpoints":   []string{"archive", "archive-async", "bulk-delete-property", "bulk-fetch", "bulk-set-properties-by", "bulk-set-properties-list", "bulk-set-property", "create", "create-bulk", "delete", "edit", "get", "get-adf-limit-report", "get-create-meta", "get-create-meta-type-id", "get-create-meta-types", "get-is-watching-bulk", "get-limit-report", "get-picker-resource", "unarchive"},
 				"searchable":  true,
 			},
 			{
@@ -13867,7 +14372,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "jira-cloud-platform-workflow",
 				"description": "Manage jira cloud platform workflow",
-				"endpoints":   []string{"create-transition-property", "delete-inactive", "delete-transition-property", "delete-transition-rule-configurations", "get-paginated", "get-transition-properties", "get-transition-rule-configurations", "list-history", "read-from-history", "update-transition-property", "update-transition-rule-configurations"},
+				"endpoints":   []string{"delete-inactive", "delete-transition-rule-configurations", "get-paginated", "get-transition-rule-configurations", "list-history", "read-from-history", "update-transition-rule-configurations"},
 				"syncable":    true,
 				"searchable":  true,
 			},
@@ -13883,6 +14388,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 				"description": "This resource represents available labels. Use it to get available labels for the global label field.",
 				"endpoints":   []string{"get-all"},
 				"syncable":    true,
+				"searchable":  true,
 			},
 			{
 				"name":        "license",
@@ -13958,8 +14464,9 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			},
 			{
 				"name":        "policies",
-				"description": "Policies APIs",
-				"endpoints":   []string{"create-policy", "delete-policy", "get", "get-policy-by-id", "update-policy"},
+				"description": "This resource represents policies.",
+				"endpoints":   []string{"get-policy-state", "get-project-rules", "list", "set-project", "validate-policy-application"},
+				"syncable":    true,
 				"searchable":  true,
 			},
 			{
@@ -14075,7 +14582,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "servicedeskapi",
 				"description": "Manage servicedeskapi",
-				"endpoints":   []string{"add-customers", "add-organization", "add-request-participants", "add-users-to-organization", "answer-approval", "attach-temporary-file", "check-request-type-permissions", "create-comment-with-attachment", "create-customer", "create-customer-request", "create-organization", "create-request-comment", "create-request-type", "delete-feedback", "delete-organization", "delete-property", "delete-property-servicedesk", "delete-request-type", "get-all-request-types", "get-approval-by-id", "get-approvals", "get-articles", "get-articles-servicedesk", "get-assets-workspaces", "get-attachment-content", "get-attachment-thumbnail", "get-attachments-for-request", "get-comment-attachments", "get-customer-request-by-id-or-key", "get-customer-request-status", "get-customer-requests", "get-customer-transitions", "get-customers", "get-feedback", "get-info", "get-insight-workspaces", "get-issues-in-queue", "get-organization", "get-organizations", "get-organizations-servicedesk", "get-properties-keys", "get-properties-keys-servicedesk", "get-property", "get-property-servicedesk", "get-queue", "get-queues", "get-request-comment-by-id", "get-request-comments", "get-request-participants", "get-request-type-by-id", "get-request-type-fields", "get-request-type-groups", "get-request-types", "get-service-desk-by-id", "get-service-desks", "get-sla-information", "get-sla-information-by-id", "get-subscription-status", "get-users-in-organization", "invite-customer", "perform-customer-transition", "post-feedback", "remove-customers", "remove-organization", "remove-request-participants", "remove-users-from-organization", "revoke-portal-only-access-for-user", "set-property", "set-property-servicedesk", "subscribe", "unsubscribe"},
+				"endpoints":   []string{"add-customers", "add-customers-servicedesk", "add-organization", "add-request-participants", "add-users-to-organization", "answer-approval", "attach-temporary-file", "check-request-type-permissions", "create-comment-with-attachment", "create-customer", "create-customer-customer", "create-customer-request", "create-organization", "create-request-comment", "create-request-type", "delete-feedback", "delete-organization", "delete-property", "delete-property-servicedesk", "delete-request-type", "get-all-request-types", "get-approval-by-id", "get-approvals", "get-articles", "get-articles-servicedesk", "get-assets-workspaces", "get-attachment-content", "get-attachment-thumbnail", "get-attachments-for-request", "get-comment-attachments", "get-customer-request-by-id-or-key", "get-customer-request-status", "get-customer-requests", "get-customer-transitions", "get-customers", "get-feedback", "get-info", "get-insight-workspaces", "get-issues-in-queue", "get-organization", "get-organizations", "get-organizations-servicedesk", "get-properties-keys", "get-properties-keys-servicedesk", "get-property", "get-property-servicedesk", "get-queue", "get-queues", "get-request-comment-by-id", "get-request-comments", "get-request-participants", "get-request-type-by-id", "get-request-type-fields", "get-request-type-groups", "get-request-types", "get-service-desk-by-id", "get-service-desks", "get-sla-information", "get-sla-information-by-id", "get-subscription-status", "get-users-in-organization", "invite-customer", "perform-customer-transition", "post-feedback", "remove-customers", "remove-organization", "remove-request-participants", "remove-users-from-organization", "revoke-portal-only-access-for-user", "set-property", "set-property-servicedesk", "subscribe", "unsubscribe", "validate-customer-request", "view-article"},
 				"syncable":    true,
 				"searchable":  true,
 			},
@@ -14161,14 +14668,14 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "wiki",
 				"description": "Manage wiki",
-				"endpoints":   []string{"add-content-watcher", "add-custom-content-permissions", "add-label-watcher", "add-labels-to-content", "add-labels-to-space", "add-permission-to-space", "add-restrictions", "add-user-to-group-by-group-id", "archive-pages", "async-convert-content-body-request", "async-convert-content-body-response", "check-content-permission", "copy-page", "copy-page-hierarchy", "create-attachment", "create-audit-record", "create-content-template", "create-group", "create-or-update-attachments", "create-private-space", "create-space", "delete-content-version", "delete-label-from-space", "delete-page-tree", "delete-restrictions", "delete-space", "export-audit-records", "get-all-label-content", "get-anonymous-user", "get-audit-records", "get-audit-records-for-time-period", "get-available-content-states", "get-blueprint-templates", "get-bulk-user-lookup", "get-content-descendants", "get-content-state", "get-content-state-settings", "get-content-template", "get-content-templates", "get-content-watch-status", "get-contents-with-state", "get-current-user", "get-custom-content-states", "get-descendants-of-type", "get-global-theme", "get-group-by-group-id", "get-group-members-by-group-id", "get-group-memberships-for-user", "get-groups", "get-labels-for-space", "get-look-and-feel-settings", "get-privacy-unsafe-user-email", "get-privacy-unsafe-user-email-bulk", "get-restrictions", "get-restrictions-by-operation", "get-retention-period", "get-space-content-states", "get-space-settings", "get-space-theme", "get-task", "get-tasks", "get-theme", "get-themes", "get-user", "get-user-properties", "get-viewers", "get-views", "get-watchers-for-space", "get-watches-for-page", "get-watches-for-space", "is-watching-label", "is-watching-space", "publish-legacy-draft", "publish-shared-draft", "remove-content-state", "remove-content-watcher", "remove-group-by-id", "remove-label-from-content", "remove-label-from-content-using-query-parameter", "remove-label-watcher", "remove-member-from-group-by-group-id", "remove-permission", "remove-space-watch", "remove-template", "reset-look-and-feel-settings", "reset-space-theme", "restore-content-version", "search-by-cql", "search-content-by-cql", "search-groups", "search-user", "set-content-state", "set-retention-period", "set-space-theme", "update-content-template", "update-look-and-feel", "update-look-and-feel-settings", "update-restrictions", "update-space", "update-space-settings"},
+				"endpoints":   []string{"add-content-watcher", "add-custom-content-permissions", "add-group-to-content-restriction-by-group-id", "add-label-watcher", "add-labels-to-content", "add-labels-to-space", "add-permission-to-space", "add-restrictions", "add-space-watcher", "add-user-to-content-restriction", "add-user-to-group-by-group-id", "archive-pages", "async-convert-content-body-request", "async-convert-content-body-response", "bulk-async-convert-content-body-request", "bulk-async-convert-content-body-response", "check-content-permission", "copy-page", "copy-page-hierarchy", "create-attachment", "create-audit-record", "create-content-template", "create-group", "create-or-update-attachments", "create-private-space", "create-relationship", "create-space", "create-user-property", "delete-content-version", "delete-label-from-space", "delete-page-tree", "delete-relationship", "delete-restrictions", "delete-space", "delete-user-property", "download-attatchment", "export-audit-records", "find-sources-for-target", "find-target-from-source", "get-all-label-content", "get-and-async-convert-macro-body-by-macro-id", "get-and-convert-macro-body-by-macro-id", "get-anonymous-user", "get-audit-records", "get-audit-records-for-time-period", "get-available-content-states", "get-blueprint-templates", "get-bulk-user-lookup", "get-content-descendants", "get-content-restriction-status-for-user", "get-content-state", "get-content-state-settings", "get-content-template", "get-content-templates", "get-content-watch-status", "get-contents-with-state", "get-current-user", "get-custom-content-states", "get-descendants-of-type", "get-global-theme", "get-group-by-group-id", "get-group-members-by-group-id", "get-group-memberships-for-user", "get-groups", "get-individual-group-restriction-status-by-group-id", "get-labels-for-space", "get-look-and-feel-settings", "get-macro-body-by-macro-id", "get-modules", "get-privacy-unsafe-user-email", "get-privacy-unsafe-user-email-bulk", "get-relationship", "get-restrictions", "get-restrictions-by-operation", "get-restrictions-for-operation", "get-retention-period", "get-space-content-states", "get-space-settings", "get-space-theme", "get-system-info", "get-task", "get-tasks", "get-theme", "get-themes", "get-user", "get-user-properties", "get-user-property", "get-viewers", "get-views", "get-watchers-for-space", "get-watches-for-page", "get-watches-for-space", "is-watching-label", "is-watching-space", "move-page", "publish-legacy-draft", "publish-shared-draft", "register-modules", "remove-content-state", "remove-content-watcher", "remove-group-by-id", "remove-group-from-content-restriction", "remove-label-from-content", "remove-label-from-content-using-query-parameter", "remove-label-watcher", "remove-member-from-group-by-group-id", "remove-modules", "remove-permission", "remove-space-watch", "remove-template", "remove-user-from-content-restriction", "reset-look-and-feel-settings", "reset-space-theme", "restore-content-version", "search-by-cql", "search-content-by-cql", "search-groups", "search-user", "set-content-state", "set-retention-period", "set-space-theme", "update-attachment-data", "update-attachment-properties", "update-content-template", "update-look-and-feel", "update-look-and-feel-settings", "update-restrictions", "update-space", "update-space-settings", "update-user-property"},
 				"syncable":    true,
 				"searchable":  true,
 			},
 			{
 				"name":        "workflows",
 				"description": "This resource represents workflows.",
-				"endpoints":   []string{"capabilities", "create", "get-default-editor", "read", "read-previews", "search", "update", "validate-create", "validate-update"},
+				"endpoints":   []string{"capabilities", "copy", "create", "get-default-editor", "read", "read-previews", "search", "update", "validate-create", "validate-update"},
 				"syncable":    true,
 				"searchable":  true,
 			},

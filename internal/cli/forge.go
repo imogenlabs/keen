@@ -19,6 +19,7 @@ func newForgeCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newForgeDeleteAppPropertyCmd(flags))
 	cmd.AddCommand(newForgeGetAppPropertyCmd(flags))
 	cmd.AddCommand(newForgeGetAppPropertyKeysCmd(flags))
+	cmd.AddCommand(newForgeGetBulkPinStatusCmd(flags))
 	cmd.AddCommand(newForgePutAppPropertyCmd(flags))
 	return cmd
 }

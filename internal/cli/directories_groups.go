@@ -10,7 +10,7 @@ import (
 func newDirectoriesGroupsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "groups",
-		Short: "Get, create, and delete groups for directories",
+		Short: "Get, search, create, and delete groups for directories",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
@@ -25,5 +25,6 @@ func newDirectoriesGroupsCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newDirectoriesGroupsGetOrgsCmd(flags))
 	cmd.AddCommand(newDirectoriesGroupsGetRoleAssignmentsCmd(flags))
 	cmd.AddCommand(newDirectoriesGroupsGetStatsCmd(flags))
+	cmd.AddCommand(newDirectoriesGroupsSearchDirectoryCmd(flags))
 	return cmd
 }

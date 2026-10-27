@@ -19,6 +19,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 	var flagOrderBy string
 	var flagScope string
 	var flagIsActive bool
+	var flagProjectId string
 	var flagAll bool
 
 	cmd := &cobra.Command{
@@ -47,6 +48,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 				"orderBy":     fmt.Sprintf("%v", flagOrderBy),
 				"scope":       fmt.Sprintf("%v", flagScope),
 				"isActive":    fmt.Sprintf("%v", flagIsActive),
+				"projectId":   fmt.Sprintf("%v", flagProjectId),
 			}, nil, flagAll, "", "page", "maxResults", "", "", cmd.ErrOrStderr())
 			if err != nil {
 				return classifyAPIError(err, flags)
@@ -102,6 +104,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&flagOrderBy, "order-by", "", "[Order](#ordering) the results by a field: * `name` Sorts by workflow name. * `created` Sorts by create time.")
 	cmd.Flags().StringVar(&flagScope, "scope", "", "The scope of the workflow. Global for company-managed projects and Project for team-managed projects.")
 	cmd.Flags().BoolVar(&flagIsActive, "is-active", false, "Filters active and inactive workflows.")
+	cmd.Flags().StringVar(&flagProjectId, "project-id", "", "The ID of the project to filter the workflows by. Only workflows associated with the given project are returned.")
 	cmd.Flags().BoolVar(&flagAll, "all", false, "Fetch all pages")
 
 	return cmd

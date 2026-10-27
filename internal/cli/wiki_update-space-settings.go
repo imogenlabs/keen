@@ -13,12 +13,13 @@ import (
 )
 
 func newWikiUpdateSpaceSettingsCmd(flags *rootFlags) *cobra.Command {
+	var bodyContentMode string
 	var bodyRouteOverrideEnabled bool
 	var stdinBody bool
 
 	cmd := &cobra.Command{
 		Use:         "update-space-settings <spaceKey>",
-		Short:       "Updates the settings for a space. Currently only the `routeOverrideEnabled` setting can be updated.",
+		Short:       "Updates the settings for a space. **[Permissions](https://support.atlassian.",
 		Example:     "  keen wiki update-space-settings your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.update-space-settings", "pp:method": "PUT", "pp:path": "/wiki/rest/api/space/{spaceKey}/settings"},
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -48,6 +49,9 @@ func newWikiUpdateSpaceSettingsCmd(flags *rootFlags) *cobra.Command {
 				body = jsonBody
 			} else {
 				body = map[string]any{}
+				if bodyContentMode != "" {
+					body["contentMode"] = bodyContentMode
+				}
 				if cmd.Flags().Changed("route-override-enabled") {
 					body["routeOverrideEnabled"] = bodyRouteOverrideEnabled
 				}
@@ -188,6 +192,7 @@ func newWikiUpdateSpaceSettingsCmd(flags *rootFlags) *cobra.Command {
 			return nil
 		},
 	}
+	cmd.Flags().StringVar(&bodyContentMode, "content-mode", "", "The content rendering mode for the space. Controls spacing and typography in the editor and renderer.")
 	cmd.Flags().BoolVar(&bodyRouteOverrideEnabled, "route-override-enabled", false, "Defines whether an override for the space home should be used.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")
 

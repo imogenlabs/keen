@@ -78,15 +78,15 @@ func newForgeBulkPinUnpinProjectsAsyncCmd(flags *rootFlags) *cobra.Command {
 					Resource:       "forge",
 					Endpoint:       "bulk-pin-unpin-projects-async",
 					Status:         "submitted",
-					StatusResource: "task",
-					StatusEndpoint: "get",
+					StatusResource: "forge",
+					StatusEndpoint: "get-bulk-pin-status",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/api/3/task/{taskId}", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/forge/panel/action/bulk/status", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

@@ -202,7 +202,7 @@ func newProjectRoleSetActorsCmd(flags *rootFlags) *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVar(&bodyCategorisedActors, "categorised-actors", "", "The actors to add to the project role. Add groups using: * `atlassian-group-role-actor` and a list of group names.")
-	cmd.Flags().IntVar(&bodyId2, "id-2", 0, "The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.")
+	cmd.Flags().IntVar(&bodyId2, "id-2", 0, "The ID of the project role. Use [Get all project roles](#api-rest-api-3-role-get) to get a list of project role IDs.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")
 
 	return cmd

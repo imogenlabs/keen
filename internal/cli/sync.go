@@ -740,8 +740,6 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "agile-1-0-epic-none-issue":
 		return true
-	case "app_access_settings":
-		return true
 	case "applications":
 		return true
 	case "applications_versions":
@@ -749,6 +747,8 @@ func resourceSupportsPagination(resource string) bool {
 	case "association":
 		return true
 	case "atlassian_access_events":
+		return true
+	case "atlassian_access_policies":
 		return true
 	case "atlassian_access_users":
 		return true
@@ -797,6 +797,8 @@ func resourceSupportsPagination(resource string) bool {
 	case "groups":
 		return true
 	case "groups_role_assignments":
+		return true
+	case "invalid-jqls-access-log":
 		return true
 	case "issuesecurityschemes-level":
 		return true
@@ -953,7 +955,7 @@ func syncResourceFieldSelector(resource string) (string, string) {
 	case "jira-cloud-platform-search":
 		return "maxResults", "expand,issues.id,maxResults,startAt,total"
 	case "jira-cloud-platform-search-jql":
-		return "nextPageToken", "id,expand,key,self,transitions.id"
+		return "nextPageToken", "isLast,issues.id,nextPageToken"
 	case "jira-cloud-platform-workflow":
 		return "expand", "id,operations,projects,schemes,statuses,transitions"
 	case "notificationscheme":
@@ -984,8 +986,8 @@ func syncResourceFieldSelector(resource string) (string, string) {
 		return "expand", "body,labels,originalTemplate,space"
 	case "workflows":
 		return "expand", "statuses,values"
-	case "app_access_settings":
-		return "cursor", "domain,enabled,numberOfProductsAppliesTo"
+	case "context":
+		return "contextId", "contextId"
 	case "field_screens":
 		return "expand", "scope,tab"
 	case "members":
@@ -1002,6 +1004,7 @@ func syncResourceFieldSelector(resource string) (string, string) {
 // It tries multiple strategies:
 // 1. Direct JSON array
 // 2. Common wrapper keys: "data", "results", "items", "records", "nodes", "entries"
+// 3. JSend-style nested data envelopes: {"data":{"<resource>":[...]}}
 // It also extracts the next cursor from common response fields.
 func extractPageItems(data json.RawMessage, cursorParam string) ([]json.RawMessage, string, bool) {
 	// Strategy 1: direct array
@@ -1016,51 +1019,96 @@ func extractPageItems(data json.RawMessage, cursorParam string) ([]json.RawMessa
 		return nil, "", false
 	}
 
-	// Try common item keys first (fast path)
-	for _, key := range pageItemKeys {
-		if raw, ok := envelope[key]; ok {
-			if err := json.Unmarshal(raw, &items); err == nil && len(items) > 0 {
-				// Verify items are objects. If the first item is not an object
-				// (e.g. a string flag), skip this key and fall through.
-				if len(items) > 0 {
-					var obj map[string]json.RawMessage
-					if err := json.Unmarshal(items[0], &obj); err != nil {
-						continue
-					}
-				}
-				nextCursor, hasMore := extractPaginationFromEnvelope(envelope, cursorParam)
-				return items, nextCursor, hasMore
+	if items, ok := extractItemsByKnownKeys(envelope); ok {
+		nextCursor, hasMore := extractPaginationFromEnvelope(envelope, cursorParam)
+		return items, nextCursor, hasMore
+	}
+
+	for _, key := range dataEnvelopeKeys {
+		raw, ok := envelope[key]
+		if !ok {
+			continue
+		}
+		var inner map[string]json.RawMessage
+		if json.Unmarshal(raw, &inner) != nil {
+			continue
+		}
+		if items, ok := extractItemsFromEnvelope(inner); ok {
+			nextCursor, hasMore := extractPaginationFromEnvelope(inner, cursorParam)
+			outerCursor, outerHasMore := extractPaginationFromEnvelope(envelope, cursorParam)
+			if nextCursor == "" {
+				nextCursor = outerCursor
 			}
+			hasMore = hasMore || outerHasMore
+			return items, nextCursor, hasMore
 		}
 	}
 
-	// Fallback: try every key in the envelope. If exactly one maps to a JSON
-	// array with items, use it. This handles APIs that wrap responses with the
-	// resource name (e.g., {"markets": [...], "cursor": "..."}).
-	var arrayKey string
-	var arrayItems []json.RawMessage
-	arrayCount := 0
-	for key, raw := range envelope {
-		var candidate []json.RawMessage
-		if err := json.Unmarshal(raw, &candidate); err == nil && len(candidate) > 0 {
-			// Verify items are objects. If the first item is not an object,
-			// this isn't a resource collection; skip it.
-			var obj map[string]json.RawMessage
-			if err := json.Unmarshal(candidate[0], &obj); err != nil {
-				continue
-			}
-			arrayKey = key
-			arrayItems = candidate
-			arrayCount++
-		}
-	}
-	if arrayCount == 1 {
+	if items, ok := extractSingleObjectArraySibling(envelope); ok {
 		nextCursor, hasMore := extractPaginationFromEnvelope(envelope, cursorParam)
-		_ = arrayKey // used for detection, items extracted above
-		return arrayItems, nextCursor, hasMore
+		return items, nextCursor, hasMore
 	}
 
 	return nil, "", false
+}
+
+func extractItemsFromEnvelope(envelope map[string]json.RawMessage) ([]json.RawMessage, bool) {
+	if items, ok := extractItemsByKnownKeys(envelope); ok {
+		return items, true
+	}
+	return extractSingleObjectArraySibling(envelope)
+}
+
+func extractItemsByKnownKeys(envelope map[string]json.RawMessage) ([]json.RawMessage, bool) {
+	for _, key := range pageItemKeys {
+		if raw, ok := envelope[key]; ok {
+			if items, ok := extractObjectArray(raw); ok {
+				return items, true
+			}
+		}
+	}
+	return nil, false
+}
+
+func extractSingleObjectArraySibling(envelope map[string]json.RawMessage) ([]json.RawMessage, bool) {
+	// Fallback: try every key in the envelope. If exactly one maps to a JSON
+	// array with items, use it. This handles APIs that wrap responses with the
+	// resource name (e.g., {"markets": [...], "cursor": "..."}).
+	var arrayItems []json.RawMessage
+	arrayCount := 0
+	for key, raw := range envelope {
+		if pageMetadataArrayKeys[key] {
+			continue
+		}
+		if candidate, ok := extractObjectArray(raw); ok {
+			arrayItems = candidate
+			arrayCount++
+			continue
+		}
+		var rawArray []json.RawMessage
+		if json.Unmarshal(raw, &rawArray) == nil && !isJSONNull(raw) {
+			continue
+		}
+		if !pageEnvelopeMetadataKeys[key] {
+			return nil, false
+		}
+	}
+	if arrayCount == 1 {
+		return arrayItems, true
+	}
+	return nil, false
+}
+
+func extractObjectArray(raw json.RawMessage) ([]json.RawMessage, bool) {
+	var items []json.RawMessage
+	if err := json.Unmarshal(raw, &items); err != nil || len(items) == 0 {
+		return nil, false
+	}
+	var obj map[string]json.RawMessage
+	if err := json.Unmarshal(items[0], &obj); err != nil {
+		return nil, false
+	}
+	return items, true
 }
 
 // isDryRunResponse detects the `{"dry_run": true}` sentinel that
@@ -1098,13 +1146,59 @@ func isEmptyPageResponse(data json.RawMessage) bool {
 		return false
 	}
 
+	if isEmptyPageEnvelope(envelope) {
+		return true
+	}
+
+	for _, key := range dataEnvelopeKeys {
+		raw, ok := envelope[key]
+		if !ok {
+			continue
+		}
+		if isJSONNull(raw) {
+			if envelopeReportsFailure(envelope) {
+				return true
+			}
+			continue
+		}
+		var inner map[string]json.RawMessage
+		if json.Unmarshal(raw, &inner) == nil && isEmptyPageEnvelope(inner) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func envelopeReportsFailure(envelope map[string]json.RawMessage) bool {
+	for _, key := range []string{"success", "Success"} {
+		if raw, ok := envelope[key]; ok {
+			var success bool
+			if json.Unmarshal(raw, &success) == nil {
+				return !success
+			}
+		}
+	}
+	for _, key := range []string{"status", "Status"} {
+		if raw, ok := envelope[key]; ok {
+			var status string
+			if json.Unmarshal(raw, &status) == nil {
+				switch strings.ToLower(status) {
+				case "error", "fail", "failed":
+					return true
+				}
+				return false
+			}
+		}
+	}
+	return false
+}
+
+func isEmptyPageEnvelope(envelope map[string]json.RawMessage) bool {
 	for _, key := range pageItemKeys {
 		if raw, ok := envelope[key]; ok {
 			var items []json.RawMessage
 			if err := json.Unmarshal(raw, &items); err == nil && !isJSONNull(raw) {
-				// If the array is empty, we still consider it a match for the
-				// key-based strategy. If it's NOT empty, we verify it's an
-				// array of objects to stay consistent with extractPageItems.
 				if len(items) > 0 {
 					var obj map[string]json.RawMessage
 					if err := json.Unmarshal(items[0], &obj); err != nil {
@@ -1115,7 +1209,10 @@ func isEmptyPageResponse(data json.RawMessage) bool {
 			}
 		}
 	}
+	return hasExactlyOneEmptyArray(envelope)
+}
 
+func hasExactlyOneEmptyArray(envelope map[string]json.RawMessage) bool {
 	arrayCount := 0
 	for _, raw := range envelope {
 		var candidate []json.RawMessage
@@ -1358,14 +1455,14 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertAddonsVersions(data)
 	case "watch":
 		return db.UpsertWatch(data)
+	case "agents":
+		return db.UpsertAgents(data)
 	case "agile":
 		return db.UpsertAgile(data)
 	case "announcement-banner":
 		return db.UpsertAnnouncementBanner(data)
 	case "app":
 		return db.UpsertApp(data)
-	case "app-access-settings":
-		return db.UpsertAppAccessSettings(data)
 	case "application-properties":
 		return db.UpsertApplicationProperties(data)
 	case "applicationrole":
@@ -1376,8 +1473,12 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertApplicationsVersions(data)
 	case "atlassian-access-events":
 		return db.UpsertAtlassianAccessEvents(data)
-	case "atlassian-access-groups":
-		return db.UpsertAtlassianAccessGroups(data)
+	case "atlassian-access-policies":
+		return db.UpsertAtlassianAccessPolicies(data)
+	case "resources":
+		return db.UpsertResources(data)
+	case "validate":
+		return db.UpsertValidate(data)
 	case "atlassian-access-users":
 		return db.UpsertAtlassianAccessUsers(data)
 	case "role_assignments":
@@ -1394,6 +1495,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertSystem(data)
 	case "builds":
 		return db.UpsertBuilds(data)
+	case "bulk":
+		return db.UpsertBulk(data)
 	case "comment":
 		return db.UpsertComment(data)
 	case "comment_properties":
@@ -1584,10 +1687,10 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertPlans(data)
 	case "policies":
 		return db.UpsertPolicies(data)
-	case "resources":
-		return db.UpsertResources(data)
-	case "validate":
-		return db.UpsertValidate(data)
+	case "apply":
+		return db.UpsertApply(data)
+	case "remove":
+		return db.UpsertRemove(data)
 	case "priority":
 		return db.UpsertPriority(data)
 	case "priorityscheme":
@@ -1806,6 +1909,7 @@ func defaultSyncResources() []string {
 		"group",
 		"group-member",
 		"groups",
+		"invalid-jqls-access-log",
 		"issuesecurityschemes",
 		"issuesecurityschemes-level",
 		"issuesecurityschemes-level-member",
@@ -1828,6 +1932,7 @@ func defaultSyncResources() []string {
 		"permissions",
 		"permissionscheme",
 		"plans",
+		"policies",
 		"priority",
 		"priorityscheme",
 		"products",
@@ -1867,6 +1972,7 @@ func defaultSyncResources() []string {
 		"wiki-rest-api-settings-theme",
 		"wiki-rest-api-template-blueprint",
 		"wiki-rest-api-template-page",
+		"wiki-rest-atlassian-connect-1-app-module-dynamic",
 		"workflows",
 		"workflowscheme",
 	}
@@ -1909,6 +2015,7 @@ func knownSyncResourceNames() []string {
 		"group",
 		"group-member",
 		"groups",
+		"invalid-jqls-access-log",
 		"issuesecurityschemes",
 		"issuesecurityschemes-level",
 		"issuesecurityschemes-level-member",
@@ -1931,6 +2038,7 @@ func knownSyncResourceNames() []string {
 		"permissions",
 		"permissionscheme",
 		"plans",
+		"policies",
 		"priority",
 		"priorityscheme",
 		"products",
@@ -1970,6 +2078,7 @@ func knownSyncResourceNames() []string {
 		"wiki-rest-api-settings-theme",
 		"wiki-rest-api-template-blueprint",
 		"wiki-rest-api-template-page",
+		"wiki-rest-atlassian-connect-1-app-module-dynamic",
 		"workflows",
 		"workflowscheme",
 	}
@@ -2016,6 +2125,7 @@ func syncResourcePath(resource string) (string, error) {
 		"group":                                    "/rest/api/3/group/bulk",
 		"group-member":                             "/rest/api/3/group/member",
 		"groups":                                   "/rest/api/3/groups/picker",
+		"invalid-jqls-access-log":                  "/rest/api/3/invalid-jqls-access-log",
 		"issuesecurityschemes":                     "/rest/api/3/issuesecurityschemes",
 		"issuesecurityschemes-level":               "/rest/api/3/issuesecurityschemes/level",
 		"issuesecurityschemes-level-member":        "/rest/api/3/issuesecurityschemes/level/member",
@@ -2038,6 +2148,7 @@ func syncResourcePath(resource string) (string, error) {
 		"permissions":                              "/rest/api/3/permissions",
 		"permissionscheme":                         "/rest/api/3/permissionscheme",
 		"plans":                                    "/rest/api/3/plans/plan",
+		"policies":                                 "/rest/api/3/policies",
 		"priority":                                 "/rest/api/3/priority",
 		"priorityscheme":                           "/rest/api/3/priorityscheme",
 		"products":                                 "/products",
@@ -2077,8 +2188,9 @@ func syncResourcePath(resource string) (string, error) {
 		"wiki-rest-api-settings-theme":             "/wiki/rest/api/settings/theme",
 		"wiki-rest-api-template-blueprint":         "/wiki/rest/api/template/blueprint",
 		"wiki-rest-api-template-page":              "/wiki/rest/api/template/page",
-		"workflows":                                "/rest/api/3/workflows/search",
-		"workflowscheme":                           "/rest/api/3/workflowscheme",
+		"wiki-rest-atlassian-connect-1-app-module-dynamic": "/wiki/rest/atlassian-connect/1/app/module/dynamic",
+		"workflows":      "/rest/api/3/workflows/search",
+		"workflowscheme": "/rest/api/3/workflowscheme",
 	}
 	if p, ok := paths[resource]; ok {
 		return p, nil
@@ -2114,9 +2226,6 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "agile", ParentTable: "filter", ParentIDParam: "filterId", PathTemplate: "/rest/agile/1.0/board/filter/{filterId}", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "filterId", Field: "id"},
 		}},
-		{Name: "app_access_settings", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v2/orgs/{orgId}/app-access-settings/domains", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "orgId", Field: "id"},
-		}},
 		{Name: "applications_versions", ParentTable: "applications", ParentIDParam: "applicationKey", PathTemplate: "/applications/{applicationKey}/versions", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "applicationKey", Field: "key"},
 		}},
@@ -2126,19 +2235,25 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "atlassian_access_events", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v1/orgs/{orgId}/events", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "orgId", Field: "id"},
 		}},
+		{Name: "atlassian_access_policies", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v1/orgs/{orgId}/policies", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "orgId", Field: "id"},
+		}},
 		{Name: "atlassian_access_users", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v1/orgs/{orgId}/users", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "orgId", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "fieldId", Field: "id"},
-		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValue", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/projectmapping", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/issuetypemapping", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/projectmapping", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValue", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "fieldId", Field: "id"},
+		}},
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "fieldId", Field: "id"},
+		}},
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValues", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "contexts", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/contexts", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2179,14 +2294,11 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/search", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
 		}},
-		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "fieldKey", Field: "key"},
-		}},
 		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/edit", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
 		}},
-		{Name: "policies", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v1/orgs/{orgId}/policies", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "orgId", Field: "id"},
+		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "fieldKey", Field: "key"},
 		}},
 		{Name: "priorities", ParentTable: "priorityscheme", ParentIDParam: "schemeId", PathTemplate: "/rest/api/3/priorityscheme/{schemeId}/priorities", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "schemeId", Field: "id"},
@@ -2611,6 +2723,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"applicationrole":                          "key",
 	"applications_versions":                    "count",
 	"atlassian_access_events":                  "id",
+	"atlassian_access_policies":                "id",
 	"atlassian_access_users":                   "name",
 	"auditing":                                 "id",
 	"classification-levels":                    "id",
@@ -2651,7 +2764,6 @@ var resourceIDFieldOverrides = map[string]string{
 	"issuetypescreenscheme":                    "id",
 	"issuetypescreenscheme-mapping":            "issueTypeId",
 	"issuetypescreenscheme_project":            "id",
-	"jira-cloud-platform-search-jql":           "id",
 	"jira-cloud-platform-workflow":             "id",
 	"jql":                                      "id",
 	"members":                                  "id",
@@ -2711,6 +2823,44 @@ var genericIDFieldFallbacks = []string{"id", "ID", "gid", "sid", "uid", "uuid", 
 var pageItemKeys = []string{
 	"data", "results", "items", "records", "nodes", "entries", "features",
 	"Data", "Results", "Items", "Records", "Nodes", "Entries", "Features",
+}
+
+var dataEnvelopeKeys = []string{"data", "Data", "result", "Result"}
+
+var pageMetadataArrayKeys = map[string]bool{
+	"errors": true, "Errors": true,
+	"warnings": true, "Warnings": true,
+}
+
+var pageEnvelopeMetadataKeys = map[string]bool{
+	// list wrappers themselves
+	"data": true, "results": true, "items": true,
+	"Data": true, "Results": true, "Items": true,
+	// pagination cursors / tokens
+	"next_cursor": true, "nextCursor": true, "NextCursor": true,
+	"next_page_token": true, "nextPageToken": true, "NextPageToken": true,
+	"page_token": true, "pageToken": true, "PageToken": true,
+	"end_cursor": true, "endCursor": true, "EndCursor": true,
+	"start_cursor": true, "startCursor": true, "StartCursor": true,
+	"cursor": true, "Cursor": true, "after": true, "After": true, "before": true, "Before": true,
+	// has-more flags and page numbers
+	"has_more": true, "hasMore": true, "HasMore": true,
+	"has_next": true, "hasNext": true, "HasNext": true,
+	"next_page": true, "nextPage": true, "NextPage": true,
+	"previous_page": true, "previousPage": true, "PreviousPage": true,
+	"page": true, "Page": true, "page_size": true, "pageSize": true, "PageSize": true,
+	"per_page": true, "perPage": true, "PerPage": true,
+	// counts / totals
+	"total": true, "Total": true, "count": true, "Count": true, "size": true, "Size": true,
+	"total_count": true, "totalCount": true, "TotalCount": true,
+	// JSend / common status envelopes
+	"success": true, "status": true, "message": true, "error": true, "errors": true,
+	"warnings": true, "Warnings": true, "ok": true, "Ok": true,
+	// wrapper objects
+	"links": true, "meta": true, "pagination": true,
+	"response_metadata": true, "paging": true,
+	// links shape
+	"next": true, "prev": true, "previous": true, "first": true, "last": true,
 }
 
 // criticalResources is the template-time projection of per-resource Critical

@@ -21,6 +21,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlCmd(flags *rootFlags) *
 	var flagFieldsByKeys bool
 	var flagFailFast bool
 	var flagReconcileIssues string
+	var flagIncludeArchivedProjects bool
 	var flagAll bool
 
 	cmd := &cobra.Command{
@@ -43,15 +44,16 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlCmd(flags *rootFlags) *
 
 			path := "/rest/api/3/search/jql"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "jira-cloud-platform-search", path, map[string]string{
-				"jql":             fmt.Sprintf("%v", flagJql),
-				"nextPageToken":   fmt.Sprintf("%v", flagNextPageToken),
-				"maxResults":      fmt.Sprintf("%v", flagMaxResults),
-				"fields":          fmt.Sprintf("%v", flagFields),
-				"expand":          fmt.Sprintf("%v", flagExpand),
-				"properties":      fmt.Sprintf("%v", flagProperties),
-				"fieldsByKeys":    fmt.Sprintf("%v", flagFieldsByKeys),
-				"failFast":        fmt.Sprintf("%v", flagFailFast),
-				"reconcileIssues": fmt.Sprintf("%v", flagReconcileIssues),
+				"jql":                     fmt.Sprintf("%v", flagJql),
+				"nextPageToken":           fmt.Sprintf("%v", flagNextPageToken),
+				"maxResults":              fmt.Sprintf("%v", flagMaxResults),
+				"fields":                  fmt.Sprintf("%v", flagFields),
+				"expand":                  fmt.Sprintf("%v", flagExpand),
+				"properties":              fmt.Sprintf("%v", flagProperties),
+				"fieldsByKeys":            fmt.Sprintf("%v", flagFieldsByKeys),
+				"failFast":                fmt.Sprintf("%v", flagFailFast),
+				"reconcileIssues":         fmt.Sprintf("%v", flagReconcileIssues),
+				"includeArchivedProjects": fmt.Sprintf("%v", flagIncludeArchivedProjects),
 			}, nil, flagAll, "", "page_token", "maxResults", "", "", cmd.ErrOrStderr())
 			if err != nil {
 				return classifyAPIError(err, flags)
@@ -109,6 +111,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlCmd(flags *rootFlags) *
 	cmd.Flags().BoolVar(&flagFieldsByKeys, "fields-by-keys", false, "Reference fields by their key (rather than ID). The default is `false`.")
 	cmd.Flags().BoolVar(&flagFailFast, "fail-fast", false, "Fail this request early if we can't retrieve all field data.")
 	cmd.Flags().StringVar(&flagReconcileIssues, "reconcile-issues", "", "Strong consistency issue ids to be reconciled with search results. Accepts max 50 ids.")
+	cmd.Flags().BoolVar(&flagIncludeArchivedProjects, "include-archived-projects", false, "Whether to also return issues that belong to [archived projects](https://support.atlassian.")
 	cmd.Flags().BoolVar(&flagAll, "all", false, "Fetch all pages")
 
 	return cmd

@@ -504,7 +504,7 @@ func newFilterUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&bodyOwnerName, "owner-name", "", "This property is no longer available and will be removed from the documentation soon.")
 	cmd.Flags().StringVar(&bodyOwnerSelf, "owner-self", "", "The URL of the user.")
 	cmd.Flags().StringVar(&bodyOwnerTimeZone, "owner-time-zone", "", "The time zone specified in the user's profile.")
-	cmd.Flags().StringVar(&bodySearchUrl, "search-url", "", "A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-2-filter-search-get)")
+	cmd.Flags().StringVar(&bodySearchUrl, "search-url", "", "A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-3-filter-search-get)")
 	cmd.Flags().StringVar(&bodySelf, "self", "", "The URL of the filter.")
 	cmd.Flags().StringVar(&bodySharePermissions, "share-permissions", "", "The groups and projects that the filter is shared with.")
 	cmd.Flags().IntVar(&bodySharedUsersEndIndex, "shared-users-end-index", 0, "The index of the last item returned on the page.")

@@ -307,25 +307,19 @@ Source: [`docs/diagrams/architecture.drawio`](docs/diagrams/architecture.drawio)
 
 ## Regeneration
 
-Generated from 6 official Atlassian OpenAPI specs using [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press). Source specs in `specs/`.
-
-> **Before regenerating:** `specs/jira-platform.json` is still Atlassian's v2 document, and keen's move to the v3 API was made in the generated code. Replace it with the current [v3 spec](https://developer.atlassian.com/cloud/jira/platform/swagger-v3.v3.json) first, or the regenerated CLI goes back to `/rest/api/2`. Then re-apply the local changes listed in `.printing-press-patches.json`.
-
-When Atlassian updates their APIs, regenerate:
+keen is generated from 6 official Atlassian OpenAPI specs (in `specs/`) by [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press), then carries its own changes on top. One script refreshes it from Atlassian's current specs without losing those changes:
 
 ```bash
-cli-printing-press generate \
-  --spec specs/jira-platform.json \
-  --spec specs/jira-agile.json \
-  --spec specs/confluence.json \
-  --spec specs/marketplace.json \
-  --spec specs/jira-service-desk.json \
-  --spec specs/admin-orgs.json \
-  --name keen --owner smashingtags --force --lenient \
-  --auth-preference basicAuth --max-resources 1500
+git switch -c build/refresh-specs
+scripts/regen/regen.sh        # download current specs, generate, merge onto keen
+scripts/regen/check.sh        # build, tests, lint, vulnerabilities, old-name and help checks
 ```
 
-Do not hand-edit generated Go files. They are regenerated from specs.
+How it works: the generator's previous output (renamed to keen) is kept on the `build/generator-output` branch. `regen.sh` generates again from today's specs, renames that output the same way, and does a three-way git merge onto keen. Spec changes land, and keen's own edits stay. Files keen writes by hand (README, docs, changelog, the patch list) always keep keen's version. `scripts/regen/postfix.py` applies keen's standing rules to code the generator adds for the first time.
+
+If the merge stops on a conflict, the script lists the files. Resolve them in the work folder it prints (`scripts/regen/resolve.py ours|theirs <file>` takes one side for a whole file), then run `scripts/regen/finish.sh`. When the branch is merged to `main`, move the base forward as `regen.sh` says.
+
+If Atlassian retires an API, the generator stops producing its command. Add it to `internal/compat/compat.go` so the old command and MCP tool keep their name and tell people what replaced it. Every local change is listed in `.printing-press-patches.json`.
 
 ## Security
 

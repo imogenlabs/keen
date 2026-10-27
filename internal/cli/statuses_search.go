@@ -17,6 +17,7 @@ func newStatusesSearchCmd(flags *rootFlags) *cobra.Command {
 	var flagMaxResults int
 	var flagSearchString string
 	var flagStatusCategory string
+	var flagIncludeGlobalStatuses bool
 	var flagAll bool
 
 	cmd := &cobra.Command{
@@ -32,11 +33,12 @@ func newStatusesSearchCmd(flags *rootFlags) *cobra.Command {
 
 			path := "/rest/api/3/statuses/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "statuses", path, map[string]string{
-				"projectId":      fmt.Sprintf("%v", flagProjectId),
-				"startAt":        fmt.Sprintf("%v", flagStartAt),
-				"maxResults":     fmt.Sprintf("%v", flagMaxResults),
-				"searchString":   fmt.Sprintf("%v", flagSearchString),
-				"statusCategory": fmt.Sprintf("%v", flagStatusCategory),
+				"projectId":             fmt.Sprintf("%v", flagProjectId),
+				"startAt":               fmt.Sprintf("%v", flagStartAt),
+				"maxResults":            fmt.Sprintf("%v", flagMaxResults),
+				"searchString":          fmt.Sprintf("%v", flagSearchString),
+				"statusCategory":        fmt.Sprintf("%v", flagStatusCategory),
+				"includeGlobalStatuses": fmt.Sprintf("%v", flagIncludeGlobalStatuses),
 			}, nil, flagAll, "", "page", "maxResults", "", "", cmd.ErrOrStderr())
 			if err != nil {
 				return classifyAPIError(err, flags)
@@ -90,6 +92,7 @@ func newStatusesSearchCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().IntVar(&flagMaxResults, "max-results", 200, "The maximum number of items to return per page.")
 	cmd.Flags().StringVar(&flagSearchString, "search-string", "", "Term to match status names against or null to search for all statuses in the search scope.")
 	cmd.Flags().StringVar(&flagStatusCategory, "status-category", "", "Category of the status to filter by. The supported values are: `TODO`, `IN_PROGRESS`, and `DONE`.")
+	cmd.Flags().BoolVar(&flagIncludeGlobalStatuses, "include-global-statuses", false, "Whether to include global statuses (scope = null, not tied to any project) in the response. Defaults to false.")
 	cmd.Flags().BoolVar(&flagAll, "all", false, "Fetch all pages")
 
 	return cmd

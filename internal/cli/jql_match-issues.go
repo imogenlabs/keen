@@ -202,8 +202,8 @@ func newJqlMatchIssuesCmd(flags *rootFlags) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&bodyIssueIds, "issue-ids", "", "A list of issue IDs.")
-	cmd.Flags().StringVar(&bodyJqls, "jqls", "", "A list of JQL queries.")
+	cmd.Flags().StringVar(&bodyIssueIds, "issue-ids", "", "A list of up to 50 issue IDs.")
+	cmd.Flags().StringVar(&bodyJqls, "jqls", "", "A list of up to 10 JQL queries.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")
 
 	return cmd

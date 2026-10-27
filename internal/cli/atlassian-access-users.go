@@ -10,15 +10,13 @@ import (
 func newAtlassianAccessUsersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:    "atlassian-access-users",
-		Short:  "Get, search, and create atlassian access users",
+		Short:  "Get and create atlassian access users",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),
 	}
 
 	cmd.AddCommand(newAtlassianAccessUsersCreateCmd(flags))
-	cmd.AddCommand(newAtlassianAccessUsersCreateOrgsCmd(flags))
 	cmd.AddCommand(newAtlassianAccessUsersGetCmd(flags))
-	cmd.AddCommand(newAtlassianAccessUsersSearchCmd(flags))
 	cmd.AddCommand(newAtlassianAccessUsersRoleAssignmentsCmd(flags))
 	cmd.AddCommand(newAtlassianAccessUsersRolesCmd(flags))
 	return cmd

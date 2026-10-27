@@ -10,7 +10,7 @@ import (
 func newDirectoriesUsersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "users",
-		Short: "Get, create, and delete users for directories",
+		Short: "Get, search, create, and delete users for directories",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
@@ -22,5 +22,6 @@ func newDirectoriesUsersCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newDirectoriesUsersGetDirectoryDetailsCmd(flags))
 	cmd.AddCommand(newDirectoriesUsersGetRoleAssignmentsCmd(flags))
 	cmd.AddCommand(newDirectoriesUsersGetStatsCmd(flags))
+	cmd.AddCommand(newDirectoriesUsersSearchDirectoryCmd(flags))
 	return cmd
 }

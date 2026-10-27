@@ -27,6 +27,7 @@ func newIssueCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newIssueDeleteCmd(flags))
 	cmd.AddCommand(newIssueEditCmd(flags))
 	cmd.AddCommand(newIssueGetCmd(flags))
+	cmd.AddCommand(newIssueGetAdfLimitReportCmd(flags))
 	cmd.AddCommand(newIssueGetCreateMetaCmd(flags))
 	cmd.AddCommand(newIssueGetCreateMetaTypeIdCmd(flags))
 	cmd.AddCommand(newIssueGetCreateMetaTypesCmd(flags))

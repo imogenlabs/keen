@@ -16,7 +16,7 @@ func newSecurityDeleteLinkedWorkspacesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-linked-workspaces",
 		Aliases:     []string{"delete"},
-		Short:       "Bulk delete all linked Security Workspaces that match the given request.",
+		Short:       "Bulk delete all linked Security Workspaces that match the given request. e.g. DELETE /bulk?",
 		Example:     "  keen security delete-linked-workspaces",
 		Annotations: map[string]string{"pp:endpoint": "security.delete-linked-workspaces", "pp:method": "DELETE", "pp:path": "/rest/security/1.0/linkedWorkspaces/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {

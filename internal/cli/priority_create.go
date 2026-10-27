@@ -22,7 +22,7 @@ func newPriorityCreateCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "create",
-		Short:       "Creates an issue priority. Deprecation applies to iconUrl param in request body which will be sunset on 16th Mar 2025.",
+		Short:       "Creates an issue priority.",
 		Example:     "  keen priority create --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "priority.create", "pp:method": "POST", "pp:path": "/rest/api/3/priority"},
 		RunE: func(cmd *cobra.Command, args []string) error {

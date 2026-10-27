@@ -50,6 +50,10 @@ for name in "${SPEC_ORDER[@]}"; do args+=(--spec "$WORK/specs/$name.json"); done
 (cd "$WORK" && "$GENERATOR" generate "${args[@]}" "${GENERATOR_FLAGS[@]}" --output "$WORK/theirs" > "$WORK/generate.log" 2>&1) \
   || { echo "regen: generator failed, see $WORK/generate.log" >&2; exit 1; }
 python3 "$HERE/normalize.py" "$WORK/theirs"
+# The generator records where it read the specs; keep that path inside the repo.
+grep -rlF "$WORK/" "$WORK/theirs" 2>/dev/null | while IFS= read -r f; do
+  python3 -c "import sys; p,w=sys.argv[1],sys.argv[2]; t=open(p).read(); open(p,'w').write(t.replace(w,''))" "$f" "$WORK/"
+done
 mkdir -p "$WORK/theirs/specs"
 cp "$WORK/specs/"*.json "$WORK/theirs/specs/"
 for f in "${GENERATOR_ONLY[@]}"; do [[ -e "$WORK/theirs/$f" ]] && mv "$WORK/theirs/$f" "$WORK/$(basename "$f").generated"; done
@@ -114,6 +118,7 @@ if [[ $merge_status -ne 0 ]]; then
 fi
 git -C "$REPO" fetch -q "$M" theirs:refs/regen/theirs ours:refs/regen/merged
 git -C "$REPO" read-tree -u --reset refs/regen/merged
+python3 "$HERE/postfix.py" "$REPO"
 echo "regen: merged. Review with git status / git diff, then run scripts/regen/check.sh"
 echo "regen: after this lands on main, move the base forward:"
 echo "  git push origin refs/regen/theirs:refs/heads/build/generator-output"

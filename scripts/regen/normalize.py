@@ -22,6 +22,7 @@ SUBS = [
     (re.compile(r"jira-pp-cli-pp-mcp"), "keen-mcp"),
     (re.compile(r"'%s-pp-cli\b"), "'%s"),
     (re.compile(r"jira-pp-cli"), "keen"),
+    (re.compile(r"Jira Pp Cli"), "keen"),
 ]
 
 TEXT_EXT = {".go", ".mod", ".md", ".json", ".yaml", ".yml", ".toml", ".txt", ""}
