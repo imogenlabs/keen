@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-27
+
 ### Added
 - `keen wiki create-page`, `keen wiki get-page` and `keen wiki update-page` for Confluence pages. `update-page` reads the current version and sends the next one
 
