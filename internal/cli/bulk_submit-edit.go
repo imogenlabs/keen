@@ -323,15 +323,15 @@ func newBulkSubmitEditCmd(flags *rootFlags) *cobra.Command {
 					Resource:       "bulk",
 					Endpoint:       "submit-edit",
 					Status:         "submitted",
-					StatusResource: "operations",
-					StatusEndpoint: "get-workspaces",
+					StatusResource: "bulk",
+					StatusEndpoint: "get-operation-progress",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/operations/1.0/linkedWorkspaces", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/bulk/queue/{id}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

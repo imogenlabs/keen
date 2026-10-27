@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-27
+
 ### Added
 - Regenerated from Atlassian's current OpenAPI specs (October 2026): 60 new commands and MCP tools. Among them: Jira bulk operations (`keen bulk submit-edit`, `submit-move`, `submit-transition`, `submit-delete`, watch/unwatch, progress), Jira policies (`keen policies list`, `apply`, `set-project`), `keen workflows copy`, Confluence content restrictions, user properties, page moves and macros, four Service Desk customer and knowledge base commands, and directory search in Atlassian Admin
 - `scripts/regen/`: one command refreshes keen from Atlassian's current specs and merges the result onto keen's own changes; `check.sh` gates the result
+
+### Fixed
+- Commands that start a background job and wait for it (Jira bulk operations, workflow updates, Confluence body conversions) now poll Atlassian's real progress endpoint. Before, several polled an unrelated endpoint or a URL with a literal `{taskId}` in it
+- `scripts/regen/regen.sh` can run repeatedly; a run on unchanged specs changes nothing
 
 ### Changed
 - The org policy commands now live under `keen atlassian-access-policies`, because Jira added its own policies API. The old `keen policies create-policy`, `get`, `resources ...` names and MCP tools still work

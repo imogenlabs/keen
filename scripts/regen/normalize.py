@@ -25,6 +25,41 @@ SUBS = [
     (re.compile(r"Jira Pp Cli"), "keen"),
 ]
 
+# Async commands poll a status endpoint. The generator guesses it, differently on
+# each run and often wrongly, and jobs.go only fills in {id} / {job_id}. Pin the
+# endpoint Atlassian documents for each, so the output is correct and repeatable.
+JOB_STATUS = {
+    **{f"internal/cli/bulk_{op}.go": ("bulk", "get-operation-progress", "/rest/api/3/bulk/queue/{id}")
+       for op in ("submit-delete", "submit-edit", "submit-move", "submit-transition",
+                  "submit-watch", "submit-unwatch", "get-operation-progress")},
+    "internal/cli/workflows_update.go": ("task", "get", "/rest/api/3/task/{id}"),
+    "internal/cli/workflowscheme_read-workflow-schemes.go": ("task", "get", "/rest/api/3/task/{id}"),
+    "internal/cli/wiki_async-convert-content-body-request.go":
+        ("wiki", "async-convert-content-body-response", "/wiki/rest/api/contentbody/convert/async/{id}"),
+    "internal/cli/wiki_get-and-async-convert-macro-body-by-macro-id.go":
+        ("wiki", "async-convert-content-body-response", "/wiki/rest/api/contentbody/convert/async/{id}"),
+}
+STATUS_RESOURCE = re.compile(r'(StatusResource: )"[^"]*"')
+STATUS_ENDPOINT = re.compile(r'(StatusEndpoint: )"[^"]*"')
+WAIT_PATH = re.compile(r'(WaitForJob\(ctx, c, )"[^"]*"')
+
+
+def pin_job_status(root):
+    pinned = 0
+    for rel, (res, ep, path) in JOB_STATUS.items():
+        f = os.path.join(root, rel)
+        if not os.path.exists(f):
+            continue
+        text = open(f, encoding="utf-8").read()
+        new = STATUS_RESOURCE.sub(lambda m: f'{m.group(1)}"{res}"', text)
+        new = STATUS_ENDPOINT.sub(lambda m: f'{m.group(1)}"{ep}"', new)
+        new = WAIT_PATH.sub(lambda m: f'{m.group(1)}"{path}"', new)
+        if new != text:
+            open(f, "w", encoding="utf-8").write(new)
+            pinned += 1
+    return pinned
+
+
 TEXT_EXT = {".go", ".mod", ".md", ".json", ".yaml", ".yml", ".toml", ".txt", ""}
 
 
@@ -57,4 +92,4 @@ def normalize(root):
 if __name__ == "__main__":
     if len(sys.argv) != 2 or not os.path.isdir(sys.argv[1]):
         sys.exit(__doc__)
-    print(f"normalized {normalize(sys.argv[1])} files")
+    print(f"normalized {normalize(sys.argv[1])} files, pinned {pin_job_status(sys.argv[1])} job status endpoints")

@@ -98,14 +98,14 @@ func newWikiGetAndAsyncConvertMacroBodyByMacroIdCmd(flags *rootFlags) *cobra.Com
 					Endpoint:       "get-and-async-convert-macro-body-by-macro-id",
 					Status:         "submitted",
 					StatusResource: "wiki",
-					StatusEndpoint: "get-content-watch-status",
+					StatusEndpoint: "async-convert-content-body-response",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/wiki/rest/api/user/watch/content/{contentId}", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/wiki/rest/api/contentbody/convert/async/{id}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})
