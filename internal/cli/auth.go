@@ -13,7 +13,7 @@ import (
 func newAuthCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "auth",
-		Short: "Manage authentication for Jira Pp Cli",
+		Short: "Manage authentication for keen",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 

@@ -1,4 +1,4 @@
-# Jira Pp Cli CLI
+# keen CLI
 
 Combined CLI for multiple API services
 

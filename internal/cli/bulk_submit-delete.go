@@ -75,15 +75,15 @@ func newBulkSubmitDeleteCmd(flags *rootFlags) *cobra.Command {
 					Resource:       "bulk",
 					Endpoint:       "submit-delete",
 					Status:         "submitted",
-					StatusResource: "task",
-					StatusEndpoint: "get",
+					StatusResource: "bulk",
+					StatusEndpoint: "get-operation-progress",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/api/3/task/{taskId}", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/bulk/queue/{id}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

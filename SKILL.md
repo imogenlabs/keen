@@ -1,6 +1,6 @@
 ---
 name: pp-keen
-description: "Printing Press CLI for Jira Pp Cli. Combined CLI for multiple API services"
+description: "Printing Press CLI for keen. Combined CLI for multiple API services"
 author: "smashingtags"
 license: "Apache-2.0"
 argument-hint: "<command> [args] | install cli|mcp"
@@ -12,7 +12,7 @@ metadata:
         - keen
 ---
 
-# Jira Pp Cli — Printing Press CLI
+# keen — Printing Press CLI
 
 ## Prerequisites: Install the CLI
 

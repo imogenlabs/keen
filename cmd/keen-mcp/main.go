@@ -13,7 +13,7 @@ import (
 
 func main() {
 	s := server.NewMCPServer(
-		"Jira Pp Cli",
+		"keen",
 		"1.0.0",
 		server.WithToolCapabilities(false),
 	)

@@ -75,15 +75,15 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 					Resource:       "workflows",
 					Endpoint:       "update",
 					Status:         "submitted",
-					StatusResource: "operations",
-					StatusEndpoint: "get-workspaces",
+					StatusResource: "task",
+					StatusEndpoint: "get",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/operations/1.0/linkedWorkspaces", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/task/{id}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})
