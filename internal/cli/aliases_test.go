@@ -21,11 +21,27 @@ func TestPromotedCommandRejectsStrayArgs(t *testing.T) {
 	}
 }
 
-func TestPromotedCommandWithPositionalArgUnchanged(t *testing.T) {
+func TestCommandsThatDeclareArgsStillTakeThem(t *testing.T) {
 	root := newRootCmd(&rootFlags{})
+	checked := 0
 	for _, c := range root.Commands() {
-		if c.Name() == "task" && c.Args != nil {
-			t.Fatal("task <taskId> must keep accepting its positional argument")
+		if len(strings.Fields(c.Use)) < 2 {
+			continue
 		}
+		checked++
+		if c.Args != nil {
+			if err := c.Args(c, []string{"PROJ-1"}); err != nil {
+				t.Errorf("%q declares an argument but rejects one: %v", c.Use, err)
+			}
+		}
+	}
+	for _, name := range []string{"get", "sprints", "transition", "task"} {
+		c, _, err := root.Find([]string{name, "X-1"})
+		if err != nil || c.Name() != name {
+			t.Errorf("keen %s X-1 does not resolve to %s: %v", name, name, err)
+		}
+	}
+	if checked < 4 {
+		t.Fatalf("only %d top-level commands declare arguments; the check is not seeing them", checked)
 	}
 }
