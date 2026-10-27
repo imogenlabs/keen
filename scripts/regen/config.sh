@@ -23,7 +23,7 @@ SPECS=(
 
 # Files keen writes by hand: the merge always keeps keen's copy.
 KEEN_OWNED=(README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md
-  NOTICE LICENSE .printing-press-patches.json ".github/**" "docs/**" "scripts/**" .gitignore)
+  NOTICE LICENSE .printing-press-patches.json ".github/**" "docs/**" "scripts/**" .gitignore go.sum)
 
 # Generator byproducts that are not part of keen.
 GENERATOR_ONLY=(manifest.json spec.json .printing-press-patches.json)

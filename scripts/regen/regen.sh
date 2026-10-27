@@ -77,10 +77,33 @@ for f in "${KEEN_OWNED[@]}"; do echo "$f merge=ours"; done > "$M/.git/info/attri
 git --git-dir="$M/.git" config merge.ours.driver true
 git --git-dir="$M/.git" --work-tree="$WORK/ours" checkout -q -f ours
 set +e
+# No rename detection: a retired command and a new one look alike and would be paired up.
 git --git-dir="$M/.git" --work-tree="$WORK/ours" -c user.name=regen -c user.email=regen@localhost \
+  -c merge.renames=false -c diff.renames=false \
   merge -q --no-edit -m "merge generator output" theirs > "$WORK/merge.log" 2>&1
 merge_status=$?
 set -e
+
+# keen's own files: when the generator dropped or changed one, keep keen's copy.
+if [[ $merge_status -ne 0 ]]; then
+  shopt -s extglob
+  while IFS= read -r f; do
+    for pat in "${KEEN_OWNED[@]}"; do
+      # shellcheck disable=SC2053
+      if [[ "$f" == $pat ]]; then
+        git --git-dir="$M/.git" --work-tree="$WORK/ours" checkout -q --ours -- "$f"
+        git --git-dir="$M/.git" --work-tree="$WORK/ours" add -f -- "$f"
+        echo "regen: kept keen's $f"
+        break
+      fi
+    done
+  done < <(git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U)
+  if [[ -z "$(git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U)" ]]; then
+    git --git-dir="$M/.git" --work-tree="$WORK/ours" -c user.name=regen -c user.email=regen@localhost \
+      commit -q --no-edit -m "merge generator output"
+    merge_status=0
+  fi
+fi
 
 # 5. Bring the merged tree into this checkout (git updates and removes tracked files).
 if [[ $merge_status -ne 0 ]]; then
