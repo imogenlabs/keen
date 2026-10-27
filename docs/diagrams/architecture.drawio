@@ -17,7 +17,7 @@
           <mxGeometry x="560" y="170" width="220" height="70" as="geometry" />
         </mxCell>
 
-        <mxCell id="router" value="&lt;b&gt;CLI Router&lt;/b&gt;&#xa;Cobra commands &#183; 1,091 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a3c6e;fontSize=13;" vertex="1" parent="1">
+        <mxCell id="router" value="&lt;b&gt;CLI Router&lt;/b&gt;&#xa;Cobra commands &#183; 1,130 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a3c6e;fontSize=13;" vertex="1" parent="1">
           <mxGeometry x="380" y="310" width="260" height="70" as="geometry" />
         </mxCell>
 
@@ -31,22 +31,22 @@
         <mxCell id="cloud" value="Atlassian Cloud" style="swimlane;startSize=34;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
           <mxGeometry x="140" y="620" width="740" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="c1" value="Jira Platform&#xa;692 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
+        <mxCell id="c1" value="Jira Platform&#xa;630 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
           <mxGeometry x="30" y="50" width="210" height="60" as="geometry" />
         </mxCell>
         <mxCell id="c2" value="Jira Agile&#xa;105 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
           <mxGeometry x="265" y="50" width="210" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="c3" value="Confluence&#xa;100 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
+        <mxCell id="c3" value="Confluence&#xa;130 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
           <mxGeometry x="500" y="50" width="210" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="c4" value="Marketplace&#xa;149 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
+        <mxCell id="c4" value="Marketplace&#xa;143 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
           <mxGeometry x="30" y="130" width="210" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="c5" value="Service Desk&#xa;70 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
+        <mxCell id="c5" value="Service Desk&#xa;75 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
           <mxGeometry x="265" y="130" width="210" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="c6" value="Admin Orgs&#xa;61 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
+        <mxCell id="c6" value="Admin Orgs&#xa;47 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
           <mxGeometry x="500" y="130" width="210" height="60" as="geometry" />
         </mxCell>
 

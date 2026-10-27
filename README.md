@@ -28,7 +28,7 @@
 
 ---
 
-1,091 API endpoints across Jira, Confluence, Agile, Marketplace, Service Desk, and Admin — in a single Go binary. SQLite-backed local sync with full-text search. MCP server for AI agents. Built for automation first, humans second.
+1,130 API endpoints across Jira, Confluence, Agile, Marketplace, Service Desk, and Admin — in a single Go binary. SQLite-backed local sync with full-text search. MCP server for AI agents. Built for automation first, humans second.
 
 ## What is Keen?
 
@@ -42,12 +42,12 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 
 | API | Endpoints | What you get |
 |-----|-----------|-------------|
-| **Jira Platform v3** | 610 | Issues, transitions, search, bulk ops, fields, workflows, permissions |
+| **Jira Platform v3** | 630 | Issues, transitions, search, bulk ops, fields, workflows, permissions |
 | **Jira Agile** | 105 | Sprints, boards, backlogs, epics, ranking, velocity |
-| **Confluence** | 100 | CQL search, spaces, labels, templates, attachments, permissions, content states |
+| **Confluence** | 130 | CQL search, spaces, labels, templates, attachments, permissions, content states |
 | **Marketplace v2** | 143 | Addons, versions, vendors, distribution, reviews, reporting |
-| **Service Desk** | 71 | Requests, queues, customers, SLAs, approvals |
-| **Admin Orgs** | 62 | Organizations, directories, groups, policies, domains |
+| **Service Desk** | 75 | Requests, queues, customers, SLAs, approvals |
+| **Admin Orgs** | 47 | Organizations, directories, groups, policies, domains |
 
 ## Your First 5 Minutes
 
@@ -122,7 +122,7 @@ What changed in each release: [CHANGELOG.md](CHANGELOG.md).
 
 ## MCP Server
 
-Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,114 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
+Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,183 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
 
 Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cache; writes hit the Atlassian API and update the cache before returning.
 
@@ -287,7 +287,7 @@ keen addons versions get io.example.my-addon --agent
 
 | Feature | Keen | Atlassian Rovo MCP | jira-cli | ACLI (Appfire) |
 |---------|------|--------------------|----------|----------------|
-| Endpoints | 1,091 | 46+ | Jira only | Many |
+| Endpoints | 1,130 | 46+ | Jira only | Many |
 | Local cache | SQLite + FTS5 | No | No | No |
 | MCP server | Yes | Yes (official) | No | No |
 | Products | 6 (Jira, Confluence, Agile, Marketplace, Service Desk, Admin) | 5 | 1 | 4 |
@@ -297,7 +297,7 @@ keen addons versions get io.example.my-addon --agent
 
 ## Architecture
 
-Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,091 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
+Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,130 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
 
 <p align="center">
   <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share a Cobra router that splits between a live HTTP client and a local SQLite + FTS5 store, talking to six Atlassian Cloud APIs (Jira Platform, Jira Agile, Confluence, Marketplace, Service Desk, Admin Orgs)." width="660">

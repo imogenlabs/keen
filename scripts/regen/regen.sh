@@ -120,5 +120,9 @@ git -C "$REPO" fetch -q "$M" theirs:refs/regen/theirs ours:refs/regen/merged
 git -C "$REPO" read-tree -u --reset refs/regen/merged
 python3 "$HERE/postfix.py" "$REPO"
 echo "regen: merged. Review with git status / git diff, then run scripts/regen/check.sh"
+# Today's generator output, stacked on the base so moving the base is a fast-forward.
+next=$(git -C "$REPO" -c user.name=regen -c user.email=regen@localhost commit-tree "refs/regen/theirs^{tree}" \
+  -p "$(git -C "$REPO" rev-parse "$BASE_REF")" -m "generator output $(date +%Y-%m-%d), renamed to keen")
+git -C "$REPO" update-ref refs/regen/next-base "$next"
 echo "regen: after this lands on main, move the base forward:"
-echo "  git push origin refs/regen/theirs:refs/heads/build/generator-output"
+echo "  git push origin refs/regen/next-base:refs/heads/build/generator-output"
