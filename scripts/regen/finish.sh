@@ -15,7 +15,7 @@ fi
 git --git-dir="$M/.git" --work-tree="$REGEN_WORK/ours" add -A -f .
 git --git-dir="$M/.git" --work-tree="$REGEN_WORK/ours" -c user.name=regen -c user.email=regen@localhost \
   commit -q -m "merge generator output"
-git -C "$REPO" fetch -q "$M" theirs:refs/regen/theirs ours:refs/regen/merged
+git -C "$REPO" fetch -q "$M" +theirs:refs/regen/theirs +ours:refs/regen/merged
 git -C "$REPO" read-tree -u --reset refs/regen/merged
 python3 "$REPO/scripts/regen/postfix.py" "$REPO"
 echo "finish: merged tree is in the checkout. Run scripts/regen/check.sh"

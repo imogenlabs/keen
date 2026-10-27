@@ -116,7 +116,7 @@ if [[ $merge_status -ne 0 ]]; then
   git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U
   exit 2
 fi
-git -C "$REPO" fetch -q "$M" theirs:refs/regen/theirs ours:refs/regen/merged
+git -C "$REPO" fetch -q "$M" +theirs:refs/regen/theirs +ours:refs/regen/merged
 git -C "$REPO" read-tree -u --reset refs/regen/merged
 python3 "$HERE/postfix.py" "$REPO"
 echo "regen: merged. Review with git status / git diff, then run scripts/regen/check.sh"
