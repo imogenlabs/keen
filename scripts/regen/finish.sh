@@ -10,7 +10,7 @@ if grep -rl --include='*.go' --include='*.json' --include='*.md' '^<<<<<<< ' "$R
   grep -rl --include='*.go' --include='*.json' --include='*.md' '^<<<<<<< ' "$REGEN_WORK/ours" >&2
   exit 1
 fi
-git --git-dir="$M/.git" --work-tree="$REGEN_WORK/ours" add -A .
+git --git-dir="$M/.git" --work-tree="$REGEN_WORK/ours" add -A -f .
 git --git-dir="$M/.git" --work-tree="$REGEN_WORK/ours" -c user.name=regen -c user.email=regen@localhost \
   commit -q -m "merge generator output"
 git -C "$REPO" fetch -q "$M" theirs:refs/regen/theirs ours:refs/regen/merged

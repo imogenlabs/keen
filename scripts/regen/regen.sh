@@ -63,7 +63,7 @@ M="$WORK/merge"
 git init -q "$M"
 snap() { # snap <dir> <message>
   git --git-dir="$M/.git" --work-tree="$1" read-tree --empty
-  git --git-dir="$M/.git" --work-tree="$1" add -A .
+  git --git-dir="$M/.git" --work-tree="$1" add -A -f .
   git --git-dir="$M/.git" --work-tree="$1" -c user.name=regen -c user.email=regen@localhost commit -q -m "$2"
 }
 snap "$WORK/base" base
@@ -83,20 +83,14 @@ merge_status=$?
 set -e
 
 # 5. Bring the merged tree into this checkout (git updates and removes tracked files).
-git --git-dir="$M/.git" --work-tree="$WORK/ours" add -A . 2>/dev/null || true
-tree=$(git --git-dir="$M/.git" --work-tree="$WORK/ours" write-tree 2>/dev/null || true)
 if [[ $merge_status -ne 0 ]]; then
-  echo "regen: merge has conflicts. Resolve them in $WORK/ours (look for <<<<<<<), then rerun with:"
+  echo "regen: merge has conflicts. Resolve them in $WORK/ours (look for <<<<<<<), then run:"
   echo "  REGEN_WORK=$WORK scripts/regen/finish.sh"
   git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U
   exit 2
 fi
-git -C "$REPO" fetch -q "$M" theirs:refs/regen/theirs
-git -C "$REPO" read-tree -u --reset "$tree" 2>/dev/null || {
-  git --git-dir="$M/.git" --work-tree="$WORK/ours" commit -q -m merged --allow-empty
-  git -C "$REPO" fetch -q "$M" ours:refs/regen/merged
-  git -C "$REPO" read-tree -u --reset refs/regen/merged
-}
+git -C "$REPO" fetch -q "$M" theirs:refs/regen/theirs ours:refs/regen/merged
+git -C "$REPO" read-tree -u --reset refs/regen/merged
 echo "regen: merged. Review with git status / git diff, then run scripts/regen/check.sh"
-echo "regen: after merging to main, move the base forward:"
+echo "regen: after this lands on main, move the base forward:"
 echo "  git push origin refs/regen/theirs:refs/heads/build/generator-output"
