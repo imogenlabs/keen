@@ -16,6 +16,7 @@ func newWorkflowsCmd(flags *rootFlags) *cobra.Command {
 	}
 
 	cmd.AddCommand(newWorkflowsCapabilitiesCmd(flags))
+	cmd.AddCommand(newWorkflowsCopyCmd(flags))
 	cmd.AddCommand(newWorkflowsCreateCmd(flags))
 	cmd.AddCommand(newWorkflowsGetDefaultEditorCmd(flags))
 	cmd.AddCommand(newWorkflowsReadCmd(flags))

@@ -19,13 +19,14 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 	var flagOrderBy string
 	var flagScope string
 	var flagIsActive bool
+	var flagProjectId string
 	var flagAll bool
 
 	cmd := &cobra.Command{
 		Use:         "search",
 		Short:       "Returns a [paginated](#pagination) list of global and project workflows.",
 		Example:     "  keen workflows search",
-		Annotations: map[string]string{"pp:endpoint": "workflows.search", "pp:method": "GET", "pp:path": "/rest/api/2/workflows/search", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "workflows.search", "pp:method": "GET", "pp:path": "/rest/api/3/workflows/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("order-by") {
 				var parsedOrderBy any
@@ -38,7 +39,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflows/search"
+			path := "/rest/api/3/workflows/search"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "workflows", path, map[string]string{
 				"startAt":     fmt.Sprintf("%v", flagStartAt),
 				"maxResults":  fmt.Sprintf("%v", flagMaxResults),
@@ -47,6 +48,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 				"orderBy":     fmt.Sprintf("%v", flagOrderBy),
 				"scope":       fmt.Sprintf("%v", flagScope),
 				"isActive":    fmt.Sprintf("%v", flagIsActive),
+				"projectId":   fmt.Sprintf("%v", flagProjectId),
 			}, nil, flagAll, "", "page", "maxResults", "", "", cmd.ErrOrStderr())
 			if err != nil {
 				return classifyAPIError(err, flags)
@@ -102,6 +104,7 @@ func newWorkflowsSearchCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&flagOrderBy, "order-by", "", "[Order](#ordering) the results by a field: * `name` Sorts by workflow name. * `created` Sorts by create time.")
 	cmd.Flags().StringVar(&flagScope, "scope", "", "The scope of the workflow. Global for company-managed projects and Project for team-managed projects.")
 	cmd.Flags().BoolVar(&flagIsActive, "is-active", false, "Filters active and inactive workflows.")
+	cmd.Flags().StringVar(&flagProjectId, "project-id", "", "The ID of the project to filter the workflows by. Only workflows associated with the given project are returned.")
 	cmd.Flags().BoolVar(&flagAll, "all", false, "Fetch all pages")
 
 	return cmd

@@ -21,7 +21,7 @@ func newJqlMatchIssuesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "match-issues",
 		Short:       "Checks whether one or more issues would be returned by one or more JQL queries.",
 		Example:     "  keen jql match-issues",
-		Annotations: map[string]string{"pp:endpoint": "jql.match-issues", "pp:method": "POST", "pp:path": "/rest/api/2/jql/match"},
+		Annotations: map[string]string{"pp:endpoint": "jql.match-issues", "pp:method": "POST", "pp:path": "/rest/api/3/jql/match"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 				if !cmd.Flags().Changed("issue-ids") && !flags.dryRun {
@@ -36,7 +36,7 @@ func newJqlMatchIssuesCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/jql/match"
+			path := "/rest/api/3/jql/match"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {
@@ -202,8 +202,8 @@ func newJqlMatchIssuesCmd(flags *rootFlags) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&bodyIssueIds, "issue-ids", "", "A list of issue IDs.")
-	cmd.Flags().StringVar(&bodyJqls, "jqls", "", "A list of JQL queries.")
+	cmd.Flags().StringVar(&bodyIssueIds, "issue-ids", "", "A list of up to 50 issue IDs.")
+	cmd.Flags().StringVar(&bodyJqls, "jqls", "", "A list of up to 10 JQL queries.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")
 
 	return cmd

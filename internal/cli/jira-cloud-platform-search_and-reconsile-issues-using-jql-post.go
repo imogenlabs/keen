@@ -16,6 +16,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlPostCmd(flags *rootFlag
 	var bodyExpand string
 	var bodyFields string
 	var bodyFieldsByKeys bool
+	var bodyIncludeArchivedProjects bool
 	var bodyJql string
 	var bodyMaxResults int
 	var bodyNextPageToken string
@@ -28,7 +29,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlPostCmd(flags *rootFlag
 		Aliases:     []string{"create"},
 		Short:       "Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ).",
 		Example:     "  keen jira-cloud-platform-search and-reconsile-issues-using-jql-post",
-		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.and-reconsile-issues-using-jql-post", "pp:method": "POST", "pp:path": "/rest/api/2/search/jql"},
+		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-search.and-reconsile-issues-using-jql-post", "pp:method": "POST", "pp:path": "/rest/api/3/search/jql"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -37,7 +38,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlPostCmd(flags *rootFlag
 				return err
 			}
 
-			path := "/rest/api/2/search/jql"
+			path := "/rest/api/3/search/jql"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {
@@ -68,6 +69,9 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlPostCmd(flags *rootFlag
 				}
 				if cmd.Flags().Changed("fields-by-keys") {
 					body["fieldsByKeys"] = bodyFieldsByKeys
+				}
+				if cmd.Flags().Changed("include-archived-projects") {
+					body["includeArchivedProjects"] = bodyIncludeArchivedProjects
 				}
 				if bodyJql != "" {
 					body["jql"] = bodyJql
@@ -232,6 +236,7 @@ func newJiraCloudPlatformSearchAndReconsileIssuesUsingJqlPostCmd(flags *rootFlag
 	cmd.Flags().StringVar(&bodyExpand, "expand", "", "Use [expand](#expansion) to include additional information about issues in the response.")
 	cmd.Flags().StringVar(&bodyFields, "fields", "", "A list of fields to return for each issue. Use it to retrieve a subset of fields.")
 	cmd.Flags().BoolVar(&bodyFieldsByKeys, "fields-by-keys", false, "Reference fields by their key (rather than ID). The default is `false`.")
+	cmd.Flags().BoolVar(&bodyIncludeArchivedProjects, "include-archived-projects", false, "Whether to also return issues that belong to archived projects. Archived projects are excluded by default.")
 	cmd.Flags().StringVar(&bodyJql, "jql", "", "A [JQL](https://confluence.atlassian.com/x/egORLQ) expression.")
 	cmd.Flags().IntVar(&bodyMaxResults, "max-results", 50, "The maximum number of items to return per page.")
 	cmd.Flags().StringVar(&bodyNextPageToken, "next-page-token", "", "The token for a page to fetch that is not the first page. The first page has a `nextPageToken` of `null`.")

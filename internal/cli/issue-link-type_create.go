@@ -24,7 +24,7 @@ func newIssueLinkTypeCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create",
 		Short:       "Creates an issue link type. Use this operation to create descriptions of the reasons why issues are linked.",
 		Example:     "  keen issue-link-type create",
-		Annotations: map[string]string{"pp:endpoint": "issue-link-type.create", "pp:method": "POST", "pp:path": "/rest/api/2/issueLinkType"},
+		Annotations: map[string]string{"pp:endpoint": "issue-link-type.create", "pp:method": "POST", "pp:path": "/rest/api/3/issueLinkType"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -33,7 +33,7 @@ func newIssueLinkTypeCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issueLinkType"
+			path := "/rest/api/3/issueLinkType"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {
@@ -200,9 +200,9 @@ func newIssueLinkTypeCreateCmd(flags *rootFlags) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&bodyId, "id", "", "The ID of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")
+	cmd.Flags().StringVar(&bodyId, "id", "", "The ID of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")
 	cmd.Flags().StringVar(&bodyInward, "inward", "", "The description of the issue link type inward link and is used as follows")
-	cmd.Flags().StringVar(&bodyName, "name", "", "The name of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")
+	cmd.Flags().StringVar(&bodyName, "name", "", "The name of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")
 	cmd.Flags().StringVar(&bodyOutward, "outward", "", "The description of the issue link type outward link and is used as follows")
 	cmd.Flags().StringVar(&bodySelf, "self", "", "The URL of the issue link type. Read only.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")

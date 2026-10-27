@@ -70,7 +70,7 @@ func newFilterUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update <id>",
 		Short:       "Updates a filter. Use this operation to update a filter's name, description, JQL, or sharing.",
 		Example:     "  keen filter update 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
-		Annotations: map[string]string{"pp:endpoint": "filter.update", "pp:method": "PUT", "pp:path": "/rest/api/2/filter/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "filter.update", "pp:method": "PUT", "pp:path": "/rest/api/3/filter/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -85,7 +85,7 @@ func newFilterUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/filter/{id}"
+			path := "/rest/api/3/filter/{id}"
 			path = replacePathParam(path, "id", args[0])
 			params := map[string]string{}
 			if flagExpand != "" {
@@ -504,7 +504,7 @@ func newFilterUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&bodyOwnerName, "owner-name", "", "This property is no longer available and will be removed from the documentation soon.")
 	cmd.Flags().StringVar(&bodyOwnerSelf, "owner-self", "", "The URL of the user.")
 	cmd.Flags().StringVar(&bodyOwnerTimeZone, "owner-time-zone", "", "The time zone specified in the user's profile.")
-	cmd.Flags().StringVar(&bodySearchUrl, "search-url", "", "A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-2-filter-search-get)")
+	cmd.Flags().StringVar(&bodySearchUrl, "search-url", "", "A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-3-filter-search-get)")
 	cmd.Flags().StringVar(&bodySelf, "self", "", "The URL of the filter.")
 	cmd.Flags().StringVar(&bodySharePermissions, "share-permissions", "", "The groups and projects that the filter is shared with.")
 	cmd.Flags().IntVar(&bodySharedUsersEndIndex, "shared-users-end-index", 0, "The index of the last item returned on the page.")

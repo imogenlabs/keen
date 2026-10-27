@@ -22,6 +22,7 @@ func newFieldContextCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newFieldContextDeleteCustomFieldOptionCmd(flags))
 	cmd.AddCommand(newFieldContextGetCustomFieldForProjectsAndIssueTypesCmd(flags))
 	cmd.AddCommand(newFieldContextGetDefaultValuesCmd(flags))
+	cmd.AddCommand(newFieldContextGetDefaultValuesFieldCmd(flags))
 	cmd.AddCommand(newFieldContextGetForFieldCmd(flags))
 	cmd.AddCommand(newFieldContextGetIssueTypeMappingsForCmd(flags))
 	cmd.AddCommand(newFieldContextGetOptionsForCmd(flags))
@@ -31,6 +32,7 @@ func newFieldContextCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newFieldContextReorderCustomFieldOptionsCmd(flags))
 	cmd.AddCommand(newFieldContextReplaceCustomFieldOptionCmd(flags))
 	cmd.AddCommand(newFieldContextSetDefaultValuesCmd(flags))
+	cmd.AddCommand(newFieldContextSetDefaultValuesFieldCmd(flags))
 	cmd.AddCommand(newFieldContextUpdateCustomFieldCmd(flags))
 	cmd.AddCommand(newFieldContextUpdateCustomFieldOptionCmd(flags))
 	return cmd

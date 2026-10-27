@@ -13,6 +13,8 @@ import (
 )
 
 func newFieldContextAddIssueTypesToCmd(flags *rootFlags) *cobra.Command {
+	var bodyDefaultValue string
+	var bodyIsAnyIssueType bool
 	var bodyIssueTypeIds string
 	var stdinBody bool
 
@@ -21,22 +23,19 @@ func newFieldContextAddIssueTypesToCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Adds issue types to a custom field context, appending the issue types to the issue types list.",
 		Example:     "  keen field context add-issue-types-to 550e8400-e29b-41d4-a716-446655440000 42",
-		Annotations: map[string]string{"pp:endpoint": "context.add-issue-types-to", "pp:method": "PUT", "pp:path": "/rest/api/2/field/{fieldId}/context/{contextId}/issuetype"},
+		Annotations: map[string]string{"pp:endpoint": "context.add-issue-types-to", "pp:method": "PUT", "pp:path": "/rest/api/3/field/{fieldId}/context/{contextId}/issuetype"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
 			}
 			if !stdinBody {
-				if !cmd.Flags().Changed("issue-type-ids") && !flags.dryRun {
-					return fmt.Errorf("required flag \"%s\" not set", "issue-type-ids")
-				}
 			}
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/field/{fieldId}/context/{contextId}/issuetype"
+			path := "/rest/api/3/field/{fieldId}/context/{contextId}/issuetype"
 			path = replacePathParam(path, "fieldId", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("contextId is required\nUsage: %s <%s>", cmd.CommandPath(), "contextId"))
@@ -56,6 +55,16 @@ func newFieldContextAddIssueTypesToCmd(flags *rootFlags) *cobra.Command {
 				body = jsonBody
 			} else {
 				body = map[string]any{}
+				if bodyDefaultValue != "" {
+					var parsedDefaultValue any
+					if err := json.Unmarshal([]byte(bodyDefaultValue), &parsedDefaultValue); err != nil {
+						return fmt.Errorf("parsing --default-value JSON: %w", err)
+					}
+					body["defaultValue"] = parsedDefaultValue
+				}
+				if cmd.Flags().Changed("is-any-issue-type") {
+					body["isAnyIssueType"] = bodyIsAnyIssueType
+				}
 				if bodyIssueTypeIds != "" {
 					var parsedIssueTypeIds any
 					if err := json.Unmarshal([]byte(bodyIssueTypeIds), &parsedIssueTypeIds); err != nil {
@@ -200,7 +209,9 @@ func newFieldContextAddIssueTypesToCmd(flags *rootFlags) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&bodyIssueTypeIds, "issue-type-ids", "", "The list of issue type IDs.")
+	cmd.Flags().StringVar(&bodyDefaultValue, "default-value", "", "Default value")
+	cmd.Flags().BoolVar(&bodyIsAnyIssueType, "is-any-issue-type", false, "Whether to add or retain the any-issue-type mapping. At least one of this property or issueTypeIds is required.")
+	cmd.Flags().StringVar(&bodyIssueTypeIds, "issue-type-ids", "", "The issue type IDs to add. Optional when isAnyIssueType is true.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")
 
 	return cmd

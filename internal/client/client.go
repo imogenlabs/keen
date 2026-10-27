@@ -611,7 +611,7 @@ func (c *Client) doInternal(ctx context.Context, method, path string, params map
 			req.Header.Del(BinaryResponseHeader)
 		}
 		if req.Header.Get("User-Agent") == "" {
-			req.Header.Set("User-Agent", "keen/1001.0.0-SNAPSHOT-36b93cc31b7ef4f1f8db54dc53a0cbcef31cbbbb")
+			req.Header.Set("User-Agent", "keen/1001.0.0-SNAPSHOT-f6465463661722583daccffab8c9da1746fe0520")
 		}
 		// Go's net/http omits Accept by default; browsers, curl, and other
 		// stdlibs always send it. Fingerprint-checking WAFs (Imperva, Akamai,

@@ -21,6 +21,7 @@ func newGroupuserpickerPromotedCmd(flags *rootFlags) *cobra.Command {
 	var flagAvatarSize string
 	var flagCaseInsensitive bool
 	var flagExcludeConnectAddons bool
+	var flagIncludeAiAgents bool
 	var flagAll bool
 
 	cmd := &cobra.Command{
@@ -28,7 +29,7 @@ func newGroupuserpickerPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns a list of users and groups matching a string.",
 		Long:        "Returns a list of users and groups matching a string.",
 		Example:     "  keen groupuserpicker --query example-value",
-		Annotations: map[string]string{"pp:endpoint": "groupuserpicker.find-users-and-groups", "pp:method": "GET", "pp:path": "/rest/api/2/groupuserpicker", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "groupuserpicker.find-users-and-groups", "pp:method": "GET", "pp:path": "/rest/api/3/groupuserpicker", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("query") && !flags.dryRun {
 				return fmt.Errorf("required flag \"%s\" not set", "query")
@@ -51,7 +52,7 @@ func newGroupuserpickerPromotedCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/groupuserpicker"
+			path := "/rest/api/3/groupuserpicker"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "groupuserpicker", path, map[string]string{
 				"query":                fmt.Sprintf("%v", flagQuery),
 				"maxResults":           fmt.Sprintf("%v", flagMaxResults),
@@ -62,6 +63,7 @@ func newGroupuserpickerPromotedCmd(flags *rootFlags) *cobra.Command {
 				"avatarSize":           fmt.Sprintf("%v", flagAvatarSize),
 				"caseInsensitive":      fmt.Sprintf("%v", flagCaseInsensitive),
 				"excludeConnectAddons": fmt.Sprintf("%v", flagExcludeConnectAddons),
+				"includeAiAgents":      fmt.Sprintf("%v", flagIncludeAiAgents),
 			}, nil, flagAll, "", "offset", "maxResults", "", "", cmd.ErrOrStderr())
 			if err != nil {
 				return classifyAPIError(err, flags)
@@ -125,6 +127,7 @@ func newGroupuserpickerPromotedCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&flagAvatarSize, "avatar-size", "xsmall", "The size of the avatar to return. If an invalid value is provided, the default value is used. (one of: xsmall, xsmall@2x, xsmall@3x, small, small@2x, small@3x, medium, medium@2x, medium@3x, large, large@2x, large@3x, xlarge, xlarge@2x, xlarge@3x, xxlarge, xxlarge@2x, xxlarge@3x, xxxlarge, xxxlarge@2x, xxxlarge@3x)")
 	cmd.Flags().BoolVar(&flagCaseInsensitive, "case-insensitive", false, "Whether the search for groups should be case insensitive.")
 	cmd.Flags().BoolVar(&flagExcludeConnectAddons, "exclude-connect-addons", false, "Whether Connect app users and groups should be excluded from the search results.")
+	cmd.Flags().BoolVar(&flagIncludeAiAgents, "include-ai-agents", false, "Whether AI Agents should be included in the search results. If an invalid value is provided, the default value is used.")
 	cmd.Flags().BoolVar(&flagAll, "all", false, "Fetch all pages")
 
 	// Wire sibling endpoints and sub-resources as subcommands

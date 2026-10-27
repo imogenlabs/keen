@@ -50,6 +50,11 @@ Combined CLI for multiple API services
 - `keen addons list-search` — Get a list of apps with names matching a search term.
 - `keen addons update` — Update a specific app. The request body must be a valid JSON Patch document.
 
+**agents** — Use the APIs to invoke agents in bulk for multiple issues. Bulk invocation responses report session-start outcomes; the agent's work continues asynchronously.
+
+- `keen agents start-batch` — Starts agent sessions for a batch of issues, with an agent and optional prompt specified per invocation.
+- `keen agents start-uniform` — Starts the same agent on between 1 and 50 issues, with an optional prompt shared by every invocation.
+
 **agile** — Manage agile
 
 - `keen agile create-board` — Creates a new board. Board name, type and filter ID is required. * `name` - Must be less than 255 characters.
@@ -117,14 +122,6 @@ Combined CLI for multiple API services
 - `keen app update-custom-field-value` — Updates the value of a custom field on one or more issues.
 - `keen app update-multiple-custom-field-values` — Updates the value of one or more custom fields on one or more issues.
 
-**app-access-settings** — App Access Settings APIs
-
-- `keen app-access-settings create-domain` — Registers a new approved-domain configuration for your organization, including the initial per-product configuration.
-- `keen app-access-settings get-domain` — Returns the app access settings configuration for a specific domain in your organization.
-- `keen app-access-settings list-domains` — Returns a paginated list of domain configurations for your organization's app access settings.
-- `keen app-access-settings replace-domain` — Replaces the full per-product configuration for a domain.
-- `keen app-access-settings upsert-product` — Adds or replaces a single product's access configuration on a domain.
-
 **application-properties** — Manage application properties
 
 - `keen application-properties get-advanced-settings` — Returns the application properties that are accessible on the *Advanced Settings* page.
@@ -153,18 +150,20 @@ Combined CLI for multiple API services
 **atlassian-access-events** — Events APIs
 
 - `keen atlassian-access-events get` — Returns a filtered list of audit log events for an organization.
-- `keen atlassian-access-events get-by-id` — Returns information about a single event by ID. #### Scopes **[OAuth 2.
+- `keen atlassian-access-events get-by-id` — **This API is deprecated. Requests to it fail starting December 21, 2026.
 
-**atlassian-access-groups** — Orgs Groups APIs
+**atlassian-access-policies** — Policies APIs
 
-- `keen atlassian-access-groups <orgId>` — **This API is deprecated and will no longer work after June 30, 2026.
+- `keen atlassian-access-policies create-policy` — Create a policy for an org
+- `keen atlassian-access-policies delete-policy` — Delete a policy for an org
+- `keen atlassian-access-policies get` — Returns information about org policies
+- `keen atlassian-access-policies get-policy-by-id` — Returns information about a single policy by ID
+- `keen atlassian-access-policies update-policy` — Update a policy for an org
 
 **atlassian-access-users** — Orgs Users APIs
 
-- `keen atlassian-access-users create` — **The API is presently accessible exclusively to customers who hold a paid subscription.
-- `keen atlassian-access-users create-orgs` — Invite people to your organization. When you invite someone: - they’re given app roles according to your invitation.
+- `keen atlassian-access-users create` — Invite people to your organization. When you invite someone: - they’re given app roles according to your invitation.
 - `keen atlassian-access-users get` — Returns a list of managed accounts in an organization.
-- `keen atlassian-access-users search` — **This API is deprecated and will no longer work after June 30, 2026.
 
 **atlassian-connect** — Manage atlassian connect
 
@@ -207,6 +206,18 @@ These APIs are available to Forge apps with the `devops:buildInfoProvider` modul
 - `keen builds delete-by-property` — Bulk delete all builds data that match the given request.
 - `keen builds get-by-key` — Retrieve the currently stored build data for the given `pipelineId` and `buildNumber` combination.
 - `keen builds submit` — Update / insert builds data.
+
+**bulk** — Manage bulk
+
+- `keen bulk get-available-transitions` — Use this API to retrieve a list of transitions available for the specified issues that can be used or bulk transition
+- `keen bulk get-editable-fields` — Use this API to get a list of fields visible to the user to perform bulk edit operations.
+- `keen bulk get-operation-progress` — Use this to get the progress state for the specified bulk operation `taskId`.
+- `keen bulk submit-delete` — Use this API to submit a bulk delete request. You can delete up to 1,000 issues in a single operation.
+- `keen bulk submit-edit` — Use this API to submit a bulk edit request and simultaneously edit multiple issues.
+- `keen bulk submit-move` — Use this API to submit a bulk issue move request.
+- `keen bulk submit-transition` — Use this API to submit a bulk issue status transition request.
+- `keen bulk submit-unwatch` — Use this API to submit a bulk unwatch request. You can unwatch up to 1,000 issues in a single operation.
+- `keen bulk submit-watch` — Use this API to submit a bulk watch request. You can watch up to 1,000 issues in a single operation.
 
 **changelog** — Manage changelog
 
@@ -305,29 +316,20 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 
 **directories** — Manage directories
 
-- `keen directories <orgId>` — Returns a page of directories in an organization that match the supplied parameters. #### Scopes **[OAuth 2.
+- `keen directories <orgId>` — Returns a page of directories in an organization that match the supplied parameters.
 
 **directory** — Org Directory APIs
 
-- `keen directory assign-role-to-group` — **This API is deprecated and will no longer work after June 30, 2026.
-- `keen directory create` — **This API is deprecated and will no longer work after June 30, 2026.
-- `keen directory create-orgs` — **This API is deprecated and will no longer work after June 30, 2026.
-- `keen directory create-orgs-2` — **This API is deprecated and will no longer work after June 30, 2026.
-- `keen directory create-orgs-3` — **This API is deprecated and will no longer work after June 30, 2026.
-- `keen directory delete` — **This API is deprecated and will no longer work after June 30, 2026.
-- `keen directory delete-orgs` — **This API is deprecated and will no longer work after June 30, 2026.
-- `keen directory delete-orgs-2` — **This API is deprecated and will no longer work after June 30, 2026.
-- `keen directory get` — **Additional response parameters of the API (for e.g.
-- `keen directory revoke-role-to-group` — **This API is deprecated and will no longer work after June 30, 2026.
+- `keen directory <orgId> <accountId>` — **Additional response parameters of the API (for e.g.
 
 **domains** — Domain APIs
 
-- `keen domains get` — Returns a list of domains in an organization one page at a time. #### Scopes **[OAuth 2.
-- `keen domains get-by-id` — Returns information about a single verified domain by ID. #### Scopes **[OAuth 2.
+- `keen domains get` — Returns a list of domains in an organization one page at a time.
+- `keen domains get-by-id` — Returns information about a single verified domain by ID.
 
 **event-actions** — Manage event actions
 
-- `keen event-actions <orgId>` — Returns information localized event actions #### Scopes **[OAuth 2.
+- `keen event-actions <orgId>` — Returns information localized event actions #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read
 
 **events** — Manage events
 
@@ -380,7 +382,7 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 
 **filter** — This resource represents [filters](https://confluence.atlassian.com/x/eQiiLQ). Use it to get, create, update, or delete filters. Also use it to configure the columns for a filter and set favorite filters.
 
-- `keen filter create` — Creates a filter. The filter is shared according to the [default share scope](#api-rest-api-2-filter-post).
+- `keen filter create` — Creates a filter. The filter is shared according to the [default share scope](#api-rest-api-3-filter-post).
 - `keen filter delete` — Delete a filter.
 - `keen filter get` — Returns a filter. This operation can be accessed anonymously.
 - `keen filter get-default-share-scope` — Returns the default sharing settings for new filters and dashboards for a user.
@@ -396,6 +398,7 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 - `keen forge delete-app-property` — Deletes a Forge app's property. **[Permissions](#permissions) required:** Only Forge apps can make this request.
 - `keen forge get-app-property` — Returns the value of a Forge app's property.
 - `keen forge get-app-property-keys` — Returns all property keys for the Forge app.
+- `keen forge get-bulk-pin-status` — Get the pin status of an issue panel (added by a Forge app) for multiple projects.
 - `keen forge put-app-property` — Sets the value of a Forge app's property.
 
 **group** — This resource represents groups of users. Use it to get, create, find, and delete groups as well as add and remove users from groups. (\[WARNING\] The standard Atlassian group names are default names only and can be edited or deleted. For example, an admin or Atlassian support could delete the default group jira-software-users or rename it to jsw-users at any point. See https://support.atlassian.com/user-management/docs/create-and-update-groups/ for details.)
@@ -403,7 +406,7 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 - `keen group add-user-to` — Adds a user to a group.
 - `keen group bulk-get` — Returns a [paginated](#pagination) list of groups.
 - `keen group create` — Creates a group.
-- `keen group get` — This operation is deprecated, use [`group/member`](#api-rest-api-2-group-member-get). Returns all users in a group.
+- `keen group get` — This operation is deprecated, use [`group/member`](#api-rest-api-3-group-member-get). Returns all users in a group.
 - `keen group get-users-from` — Returns a [paginated](#pagination) list of all users in a group.
 - `keen group remove` — Deletes a group.
 - `keen group remove-user-from` — Removes a user from a group.
@@ -424,6 +427,10 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 
 - `keen internal` — Returns worklog details for a list of issue ID and worklog ID pairs.
 
+**invalid-jqls-access-log** — Manage invalid jqls access log
+
+- `keen invalid-jqls-access-log` — Returns JQL searches that need updating because Jira can no longer support them.
+
 **issue** — This resource represents Jira issues. Use it to:
 
  *  create or edit issues, individually or in bulk.
@@ -441,7 +448,7 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 - `keen issue archive` — Enables admins to archive up to 1000 issues in a single request using issue ID/key, returning details of the issue(s)
 - `keen issue archive-async` — Enables admins to archive up to 100,000 issues in a single request using JQL
 - `keen issue bulk-delete-property` — Deletes a property value from multiple issues. The issues to be updated can be specified by filter criteria.
-- `keen issue bulk-fetch` — Returns the details for a set of requested issues. You can request up to 100 issues.
+- `keen issue bulk-fetch` — Returns the details for a set of requested issues. By default you can request up to 100 issues in a single call.
 - `keen issue bulk-set-properties-by` — Sets or updates entity property values on issues.
 - `keen issue bulk-set-properties-list` — Sets or updates a list of entity property values on issues.
 - `keen issue bulk-set-property` — Sets a property value on multiple issues.
@@ -450,6 +457,7 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 - `keen issue delete` — Deletes an issue. An issue cannot be deleted if it has one or more subtasks.
 - `keen issue edit` — Edits an issue. Issue properties may be updated as part of the edit.
 - `keen issue get` — Returns the details for an issue.
+- `keen issue get-adf-limit-report` — Returns all issues whose ADF (rich text) field data breaches the universal ADF size limit.
 - `keen issue get-create-meta` — Returns details of projects, issue types within projects, and, when requested
 - `keen issue get-create-meta-type-id` — Returns a page of field metadata for a specified project and issuetype id.
 - `keen issue get-create-meta-types` — Returns a page of issue type metadata for a specified project.
@@ -552,16 +560,12 @@ To use it, the site must have [issue linking](https://confluence.atlassian.com/x
 
 **jira-cloud-platform-workflow** — Manage jira cloud platform workflow
 
-- `keen jira-cloud-platform-workflow create-transition-property` — This will be removed on [June 1, 2026](https://developer.atlassian.
 - `keen jira-cloud-platform-workflow delete-inactive` — Deletes a workflow. The workflow cannot be deleted if it is: * an active workflow. * a system workflow.
-- `keen jira-cloud-platform-workflow delete-transition-property` — This will be removed on [June 1, 2026](https://developer.atlassian.
 - `keen jira-cloud-platform-workflow delete-transition-rule-configurations` — Deletes workflow transition rules from one or more workflows.
 - `keen jira-cloud-platform-workflow get-paginated` — This will be removed on [June 1, 2026](https://developer.atlassian.
-- `keen jira-cloud-platform-workflow get-transition-properties` — This will be removed on [June 1, 2026](https://developer.atlassian.
 - `keen jira-cloud-platform-workflow get-transition-rule-configurations` — Returns a [paginated](#pagination) list of workflows with transition rules.
 - `keen jira-cloud-platform-workflow list-history` — Returns a list of workflow history entries for a specified workflow id.
 - `keen jira-cloud-platform-workflow read-from-history` — Returns a workflow and related statuses for a specified workflow id and version number.
-- `keen jira-cloud-platform-workflow update-transition-property` — This will be removed on [June 1, 2026](https://developer.atlassian.
 - `keen jira-cloud-platform-workflow update-transition-rule-configurations` — Updates configuration of workflow transition rules.
 
 **jql** — This resource represents JQL search auto-complete details. Use it to obtain JQL search auto-complete data and suggestions for use in programmatic construction of queries or custom query builders. It also provides operations to:
@@ -636,7 +640,7 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 **orgs** — Orgs APIs
 
 - `keen orgs get` — Returns a list of your organizations (based on your API key).
-- `keen orgs get-by-id` — Returns information about a single organization by ID
+- `keen orgs get-by-id` — Returns information about a single organization by ID #### Scopes **[Authorization scopes](/cloud/admin/scopes/)
 
 **permissions** — This resource represents permissions. Use it to obtain details of all permissions and determine whether the user has certain permissions.
 
@@ -671,20 +675,20 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen plans update-atlassian-team` — Updates any of the following planning settings of an Atlassian team in a plan using [JSON Patch](https://datatracker.
 - `keen plans update-only-team` — Updates any of the following planning settings of a plan-only team using [JSON Patch](https://datatracker.ietf.
 
-**policies** — Policies APIs
+**policies** — This resource represents policies. Use it to get, create, update, and delete policies, to apply them to and remove them from projects, and to inspect the policies and rules that apply to a project.
 
-- `keen policies create-policy` — Create a policy for an org
-- `keen policies delete-policy` — Delete a policy for an org
-- `keen policies get` — Returns information about org policies
-- `keen policies get-policy-by-id` — Returns information about a single policy by ID
-- `keen policies update-policy` — Update a policy for an org
+- `keen policies get-policy-state` — Returns the policies applied to a project.
+- `keen policies get-project-rules` — Returns the configuration of the queried rule type IDs for a given project.
+- `keen policies list` — Returns a paginated summary of all known policies, including their names, descriptions
+- `keen policies set-project` — Sets the complete set of policies on a project (full replacement). A project may have at most one policy assigned.
+- `keen policies validate-policy-application` — Validates whether a set of policies can be applied to a project without actually applying them.
 
 **priority** — Manage priority
 
-- `keen priority create` — Creates an issue priority. Deprecation applies to iconUrl param in request body which will be sunset on 16th Mar 2025.
+- `keen priority create` — Creates an issue priority.
 - `keen priority delete` — Deletes an issue priority. This operation is [asynchronous](#async).
-- `keen priority get` — Returns an issue priority. **[Permissions](#permissions) required:** Permission to access Jira.
-- `keen priority get-priorities` — Returns the list of all issue priorities. **[Permissions](#permissions) required:** Permission to access Jira.
+- `keen priority get` — Returns an issue priority.
+- `keen priority get-priorities` — Returns the list of all issue priorities.
 - `keen priority move-priorities` — Changes the order of issue priorities.
 - `keen priority search-priorities` — Returns a [paginated](#pagination) list of priorities.
 - `keen priority set-default` — Sets default issue priority.
@@ -773,7 +777,7 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 
 **role** — Manage role
 
-- `keen role create-project` — Creates a new project role with no [default actors](#api-rest-api-2-resolution-get).
+- `keen role create-project` — Creates a new project role with no [default actors](#api-rest-api-3-resolution-get).
 - `keen role delete-project` — Deletes a project role. You must specify a replacement project role if you wish to delete a project role that is in use.
 - `keen role fully-update-project` — Updates the project role's name and description. You must include both a name and a description in the request.
 - `keen role get-all-project` — Gets a list of all project roles, complete with project role details and default actors.
@@ -805,7 +809,7 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 
 **security** — Manage security
 
-- `keen security delete-linked-workspaces` — Bulk delete all linked Security Workspaces that match the given request.
+- `keen security delete-linked-workspaces` — Bulk delete all linked Security Workspaces that match the given request. e.g. DELETE /bulk?
 - `keen security delete-vulnerabilities-by-property` — Bulk delete all Vulnerabilities that match the given request.
 - `keen security delete-vulnerability-by-id` — Delete the Vulnerability data currently stored for the given ID. Deletion is performed asynchronously.
 - `keen security get-linked-workspace-by-id` — Retrieve a specific Security Workspace linked to the Jira site for the given workspace ID.
@@ -825,6 +829,7 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 **servicedeskapi** — Manage servicedeskapi
 
 - `keen servicedeskapi add-customers` — Adds one or more customers to a service desk.
+- `keen servicedeskapi add-customers-servicedesk` — Adds one or more customers to a service desk on behalf of jsd-nutmeg.
 - `keen servicedeskapi add-organization` — This method adds an organization to a service desk.
 - `keen servicedeskapi add-request-participants` — This method adds participants to a customer request.
 - `keen servicedeskapi add-users-to-organization` — This method adds users to an organization.
@@ -833,6 +838,7 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen servicedeskapi check-request-type-permissions` — Returns: * a list of request type IDs where the given user has permission to administer.
 - `keen servicedeskapi create-comment-with-attachment` — This method creates a comment on a customer request using one or more attachment files (uploaded using
 - `keen servicedeskapi create-customer` — This method adds a customer to the Jira Service Management instance by passing a JSON file including an email address
+- `keen servicedeskapi create-customer-customer` — Creates a customer account on behalf of jsd-nutmeg. This endpoint is restricted to jsd-nutmeg via ASAP authentication.
 - `keen servicedeskapi create-customer-request` — This method creates a customer request in a service desk.
 - `keen servicedeskapi create-organization` — This method creates an organization by passing the name of the organization.
 - `keen servicedeskapi create-request-comment` — This method creates a public or private (internal) comment on a customer request
@@ -895,6 +901,8 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen servicedeskapi set-property-servicedesk` — Sets the value of a request type property. Use this resource to store custom data against a request type.
 - `keen servicedeskapi subscribe` — This method subscribes the user to receiving notifications from a customer request.
 - `keen servicedeskapi unsubscribe` — This method unsubscribes the user from notifications from a customer request.
+- `keen servicedeskapi validate-customer-request` — Validates a customer request payload without creating (persisting) a request.
+- `keen servicedeskapi view-article` — View knowledge base article
 
 **settings** — Manage settings
 
@@ -1009,15 +1017,20 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 
 - `keen wiki add-content-watcher` — Adds a user as a watcher to a piece of content.
 - `keen wiki add-custom-content-permissions` — Adds new custom content permission to space.
+- `keen wiki add-group-to-content-restriction-by-group-id` — Adds a group to a content restriction by Group Id.
 - `keen wiki add-label-watcher` — Adds a user as a watcher to a label.
 - `keen wiki add-labels-to-content` — Adds labels to a piece of content. Does not modify the existing labels.
 - `keen wiki add-labels-to-space` — Adds labels to a piece of content. Does not modify the existing labels.
 - `keen wiki add-permission-to-space` — Adds new permission to space.
-- `keen wiki add-restrictions` — Adds restrictions to a piece of content. Note, this does not change any existing restrictions on the content.
+- `keen wiki add-restrictions` — Adds the supplied users and groups to the content's restrictions, preserving existing restrictions.
+- `keen wiki add-space-watcher` — Adds a user as a watcher to a space.
+- `keen wiki add-user-to-content-restriction` — Adds a user to a content restriction. That is, grant read or update permission to the user for a piece of content.
 - `keen wiki add-user-to-group-by-group-id` — Adds a user as a member in a group represented by its groupId **[Permissions](https://confluence.atlassian.
 - `keen wiki archive-pages` — Archives a list of pages. The pages to be archived are specified as a list of content IDs.
 - `keen wiki async-convert-content-body-request` — Converts a content body from one format to another format asynchronously. Returns the asyncId for the asynchronous task.
 - `keen wiki async-convert-content-body-response` — Returns the content body for the corresponding `asyncId` of a completed conversion task.
+- `keen wiki bulk-async-convert-content-body-request` — Asynchronously converts content bodies from one format to another format in bulk.
+- `keen wiki bulk-async-convert-content-body-response` — Returns the content body for the corresponding `asyncId` of a completed conversion task.
 - `keen wiki check-content-permission` — Check if a user or a group can perform an operation to the specified content. The `operation` to check must be provided.
 - `keen wiki copy-page` — Copies a single page and its associated properties, permissions, attachments, and custom contents.
 - `keen wiki copy-page-hierarchy` — Copy page hierarchy allows the copying of an entire hierarchy of pages and their associated properties
@@ -1027,14 +1040,23 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen wiki create-group` — Creates a new user group. **[Permissions](https://confluence.atlassian.
 - `keen wiki create-or-update-attachments` — Adds an attachment to a piece of content.
 - `keen wiki create-private-space` — Creates a new space that is only visible to the creator.
+- `keen wiki create-relationship` — Creates a relationship between two entities (user, space, content).
 - `keen wiki create-space` — Creates a new space. Note, currently you cannot set space labels when creating a space.
+- `keen wiki create-user-property` — Creates a property for a user.
 - `keen wiki delete-content-version` — Delete a historical version.
 - `keen wiki delete-label-from-space` — Remove label from a space
 - `keen wiki delete-page-tree` — Moves a pagetree rooted at a page to the space's trash: - If the content's type is `page` and its status is `current`
+- `keen wiki delete-relationship` — Deletes a relationship between two entities (user, space, content). **[Permissions](https://confluence.atlassian.
 - `keen wiki delete-restrictions` — Removes all restrictions (read and update) on a piece of content. **[Permissions](https://confluence.atlassian.
 - `keen wiki delete-space` — Permanently deletes a space without sending it to the trash. Note, the space will be deleted in a long running task.
+- `keen wiki delete-user-property` — Deletes a property for the given user.
+- `keen wiki download-attatchment` — Redirects the client to a URL that serves an attachment's binary data.
 - `keen wiki export-audit-records` — Exports audit records as a CSV file or ZIP file. **[Permissions](https://confluence.atlassian.
+- `keen wiki find-sources-for-target` — Returns all target entities that have a particular relationship to the source entity. Note, relationships are one way.
+- `keen wiki find-target-from-source` — Returns all target entities that have a particular relationship to the source entity. Note, relationships are one way.
 - `keen wiki get-all-label-content` — Returns label information and a list of contents associated with the label. **[Permissions](https://confluence.
+- `keen wiki get-and-async-convert-macro-body-by-macro-id` — Returns Async Id of the conversion task which will convert the macro into a content body of the desired format.
+- `keen wiki get-and-convert-macro-body-by-macro-id` — Returns the body of a macro in format specified in path, for the given macro ID.
 - `keen wiki get-anonymous-user` — Returns information about how anonymous users are represented, like the profile picture and display name.
 - `keen wiki get-audit-records` — Returns all records in the audit log, optionally for a certain date range.
 - `keen wiki get-audit-records-for-time-period` — Returns records from the audit log, for a time period back from the current date.
@@ -1042,6 +1064,7 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen wiki get-blueprint-templates` — Returns all templates provided by blueprints.
 - `keen wiki get-bulk-user-lookup` — Returns user details for the ids provided in the request. Currently this API returns a maximum of 100 results.
 - `keen wiki get-content-descendants` — Returns a map of the descendants of a piece of content.
+- `keen wiki get-content-restriction-status-for-user` — Returns whether the specified content restriction applies to a user.
 - `keen wiki get-content-state` — Gets the current content state of the draft or current version of content.
 - `keen wiki get-content-state-settings` — Get object describing whether content states are allowed at all
 - `keen wiki get-content-template` — Returns a content template.
@@ -1056,22 +1079,29 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen wiki get-group-members-by-group-id` — Returns the users that are members of a group. Use updated Get group API **[Permissions](https://confluence.atlassian.
 - `keen wiki get-group-memberships-for-user` — Returns the groups that a user is a member of. **[Permissions](https://confluence.atlassian.
 - `keen wiki get-groups` — Returns all user groups. The returned groups are ordered alphabetically in ascending order by group name.
+- `keen wiki get-individual-group-restriction-status-by-group-id` — Returns whether the specified content restriction applies to a group.
 - `keen wiki get-labels-for-space` — Returns a list of labels associated with a space.
 - `keen wiki get-look-and-feel-settings` — Returns the look and feel settings for the site or a single space.
+- `keen wiki get-macro-body-by-macro-id` — Returns the body of a macro in storage format, for the given macro ID.
+- `keen wiki get-modules` — Returns all modules registered dynamically by the calling app.
 - `keen wiki get-privacy-unsafe-user-email` — Returns a user's email address regardless of the user’s profile visibility settings.
 - `keen wiki get-privacy-unsafe-user-email-bulk` — Returns a user's email address regardless of the user’s profile visibility settings.
+- `keen wiki get-relationship` — Find whether a particular type of relationship exists from a source entity to a target entity.
 - `keen wiki get-restrictions` — Returns the restrictions on a piece of content. **[Permissions](https://confluence.atlassian.
 - `keen wiki get-restrictions-by-operation` — Returns restrictions on a piece of content by operation.
+- `keen wiki get-restrictions-for-operation` — Returns the restictions on a piece of content for a given operation (read or update).
 - `keen wiki get-retention-period` — Returns the retention period for records in the audit log.
 - `keen wiki get-space-content-states` — Get content states that are suggested in the space. **[Permissions](https://confluence.atlassian.
-- `keen wiki get-space-settings` — Returns the settings of a space. Currently only the `routeOverrideEnabled` setting can be returned.
+- `keen wiki get-space-settings` — Returns the settings of a space. **[Permissions](https://confluence.atlassian.
 - `keen wiki get-space-theme` — Returns the theme selected for a space, if one is set.
+- `keen wiki get-system-info` — Returns the system information for the Confluence Cloud tenant. This information is used by Atlassian.
 - `keen wiki get-task` — Returns information about an active long-running task (e.g.
 - `keen wiki get-tasks` — Returns information about all active long-running tasks (e.g.
 - `keen wiki get-theme` — Returns a theme. This includes information about the theme name, description, and icon.
 - `keen wiki get-themes` — Returns all themes, not including the default theme. **[Permissions](https://confluence.atlassian.
 - `keen wiki get-user` — Returns a user.
 - `keen wiki get-user-properties` — Returns the properties for a user as list of property keys.
+- `keen wiki get-user-property` — Returns the property corresponding to `key` for a user.
 - `keen wiki get-viewers` — Get the total number of distinct viewers a piece of content has.
 - `keen wiki get-views` — Get the total number of views a piece of content has.
 - `keen wiki get-watchers-for-space` — Returns a list of watchers of a space
@@ -1079,18 +1109,23 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen wiki get-watches-for-space` — Returns all space watches for the space that the content is in.
 - `keen wiki is-watching-label` — Returns whether a user is watching a label.
 - `keen wiki is-watching-space` — Returns whether a user is watching a space.
+- `keen wiki move-page` — Move a page to a new location relative to a target page: * `before` - move the page under the same parent as the target
 - `keen wiki publish-legacy-draft` — Publishes a legacy draft of a page created from a blueprint.
 - `keen wiki publish-shared-draft` — Publishes a shared draft of a page created from a blueprint. By default, the following objects are expanded: `body.
+- `keen wiki register-modules` — Registers a list of modules.
 - `keen wiki remove-content-state` — Removes the content state of the content specified and creates a new version (publishes the content without changing
 - `keen wiki remove-content-watcher` — Removes a user as a watcher from a piece of content.
 - `keen wiki remove-group-by-id` — Delete user group. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: User must be a site admin.
+- `keen wiki remove-group-from-content-restriction` — Removes a group from a content restriction.
 - `keen wiki remove-label-from-content` — Removes a label from a piece of content. Labels can't be deleted from archived content.
 - `keen wiki remove-label-from-content-using-query-parameter` — Removes a label from a piece of content. Labels can't be deleted from archived content.
 - `keen wiki remove-label-watcher` — Removes a user as a watcher from a label.
 - `keen wiki remove-member-from-group-by-group-id` — Remove user as a member from a group. **[Permissions](https://confluence.atlassian.
+- `keen wiki remove-modules` — Remove all or a list of modules registered by the calling app.
 - `keen wiki remove-permission` — Removes a space permission.
 - `keen wiki remove-space-watch` — Removes a user as a watcher from a space.
 - `keen wiki remove-template` — Deletes a template.
+- `keen wiki remove-user-from-content-restriction` — Removes a user from a content restriction.
 - `keen wiki reset-look-and-feel-settings` — Resets the custom look and feel settings for the site or a single space.
 - `keen wiki reset-space-theme` — Resets the space theme.
 - `keen wiki restore-content-version` — Restores a historical version to be the latest version.
@@ -1101,12 +1136,15 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen wiki set-content-state` — Sets the content state of the content specified and creates a new version (publishes the content without changing the
 - `keen wiki set-retention-period` — Sets the retention period for records in the audit log. The retention period can be set to a maximum of 1 year.
 - `keen wiki set-space-theme` — Sets the theme for a space.
+- `keen wiki update-attachment-data` — Updates the binary data of an attachment, given the attachment ID, and optionally the comment and the minor edit field.
+- `keen wiki update-attachment-properties` — Updates the attachment properties, i.e.
 - `keen wiki update-content-template` — Updates a content template. Note, blueprint templates cannot be updated via the REST API.
 - `keen wiki update-look-and-feel` — Sets the look and feel settings to the default (global) settings, the custom settings
 - `keen wiki update-look-and-feel-settings` — Updates the look and feel settings for the site or for a single space. If custom settings exist, they are updated.
 - `keen wiki update-restrictions` — Updates restrictions for a piece of content.
 - `keen wiki update-space` — Updates the name, description, or homepage of a space.
-- `keen wiki update-space-settings` — Updates the settings for a space. Currently only the `routeOverrideEnabled` setting can be updated.
+- `keen wiki update-space-settings` — Updates the settings for a space. **[Permissions](https://support.atlassian.
+- `keen wiki update-user-property` — Updates a property for the given user. Note, you cannot update the key of a user property, only the value.
 
 **workflows** — This resource represents workflows. Use it to:
 
@@ -1117,6 +1155,7 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
  *  Get workflow capabilities
 
 - `keen workflows capabilities` — Get the list of workflow capabilities for a specific workflow using either the workflow ID
+- `keen workflows copy` — Copies an existing workflow, and the statuses it uses, into a new workflow with the given name.
 - `keen workflows create` — Create workflows and related statuses.
 - `keen workflows get-default-editor` — Get the user's default workflow editor. This can be either the new editor or the legacy editor.
 - `keen workflows read` — Returns a list of workflows and related statuses by providing workflow names, workflow IDs, or project and issue types.

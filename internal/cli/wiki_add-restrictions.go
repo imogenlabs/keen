@@ -19,7 +19,7 @@ func newWikiAddRestrictionsCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "add-restrictions <id>",
-		Short:       "Adds restrictions to a piece of content. Note, this does not change any existing restrictions on the content.",
+		Short:       "Adds the supplied users and groups to the content's restrictions, preserving existing restrictions.",
 		Example:     "  keen wiki add-restrictions 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-restrictions", "pp:method": "POST", "pp:path": "/wiki/rest/api/content/{id}/restriction"},
 		RunE: func(cmd *cobra.Command, args []string) error {

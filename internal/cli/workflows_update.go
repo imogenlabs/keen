@@ -26,7 +26,7 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update",
 		Short:       "Update workflows and related statuses.",
 		Example:     "  keen workflows update",
-		Annotations: map[string]string{"pp:endpoint": "workflows.update", "pp:method": "POST", "pp:path": "/rest/api/2/workflows/update"},
+		Annotations: map[string]string{"pp:endpoint": "workflows.update", "pp:method": "POST", "pp:path": "/rest/api/3/workflows/update"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {
 			}
@@ -35,7 +35,7 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/workflows/update"
+			path := "/rest/api/3/workflows/update"
 			params := map[string]string{}
 			var body map[string]any
 			if stdinBody {
@@ -75,15 +75,15 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 					Resource:       "workflows",
 					Endpoint:       "update",
 					Status:         "submitted",
-					StatusResource: "status",
-					StatusEndpoint: "get-statuses",
+					StatusResource: "operations",
+					StatusEndpoint: "get-workspaces",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/api/2/status", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/operations/1.0/linkedWorkspaces", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

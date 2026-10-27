@@ -17,7 +17,7 @@ func newDomainsGetCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "get <orgId>",
-		Short:       "Returns a list of domains in an organization one page at a time. #### Scopes **[OAuth 2.",
+		Short:       "Returns a list of domains in an organization one page at a time.",
 		Example:     "  keen domains get 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "domains.get", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/domains", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {

@@ -111,13 +111,13 @@ In local mode: searches locally synced data only.`,
 				return cmd.Help()
 			}
 			query := args[0]
-			// This API has a search endpoint: GET /rest/api/2/search
+			// This API has a search endpoint: GET /rest/api/3/search
 			if flags.dataSource != "local" {
 				c, err := flags.newClient()
 				if err != nil {
 					return err
 				}
-				data, getErr := c.Get(cmd.Context(), "/rest/api/2/search", map[string]string{
+				data, getErr := c.Get(cmd.Context(), "/rest/api/3/search", map[string]string{
 					"q": query,
 				})
 				if getErr == nil {
@@ -153,8 +153,6 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchAddons(query, limit)
 			case "agile":
 				results, err = db.SearchAgile(query, limit)
-			case "atlassian-access-groups":
-				results, err = db.SearchAtlassianAccessGroups(query, limit)
 			case "atlassian-connect":
 				results, err = db.SearchAtlassianConnect(query, limit)
 			case "builds":
@@ -239,19 +237,6 @@ In local mode: searches locally synced data only.`,
 					partial, searchErr := db.SearchAgile(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search agile failed: %w", searchErr)
-					}
-					for _, r := range partial {
-						key := string(r)
-						if !seen[key] {
-							seen[key] = true
-							results = append(results, r)
-						}
-					}
-				}
-				{
-					partial, searchErr := db.SearchAtlassianAccessGroups(query, limit)
-					if searchErr != nil {
-						return fmt.Errorf("search atlassian_access_groups failed: %w", searchErr)
 					}
 					for _, r := range partial {
 						key := string(r)

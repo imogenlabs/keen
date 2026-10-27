@@ -60,7 +60,7 @@ func newIssueCommentUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update <issueIdOrKey> <id>",
 		Short:       "Updates a comment. This operation can be accessed anonymously.",
 		Example:     "  keen issue comment update your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "comment.update", "pp:method": "PUT", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/comment/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "comment.update", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/comment/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -72,7 +72,7 @@ func newIssueCommentUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/comment/{id}"
+			path := "/rest/api/3/issue/{issueIdOrKey}/comment/{id}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("id is required\nUsage: %s <%s>", cmd.CommandPath(), "id"))
@@ -402,7 +402,7 @@ func newIssueCommentUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&bodyAuthorName, "author-name", "", "This property is no longer available and will be removed from the documentation soon.")
 	cmd.Flags().StringVar(&bodyAuthorSelf, "author-self", "", "The URL of the user.")
 	cmd.Flags().StringVar(&bodyAuthorTimeZone, "author-time-zone", "", "The time zone specified in the user's profile. Depending on the user’s privacy settings, this may be returned as null.")
-	cmd.Flags().StringVar(&bodyBody, "body", "", "The comment text.")
+	cmd.Flags().StringVar(&bodyBody, "body", "", "The comment text in [Atlassian Document Format](https://developer.atlassian.")
 	cmd.Flags().StringVar(&bodyCreated, "created", "", "The date and time at which the comment was created.")
 	cmd.Flags().StringVar(&bodyId2, "id-2", "", "The ID of the comment.")
 	cmd.Flags().BoolVar(&bodyJsdAuthorCanSeeRequest, "jsd-author-can-see-request", false, "Whether the comment was added from an email sent by a person who is not part of the issue.")

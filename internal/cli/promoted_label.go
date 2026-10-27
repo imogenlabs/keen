@@ -14,6 +14,8 @@ import (
 func newLabelPromotedCmd(flags *rootFlags) *cobra.Command {
 	var flagStartAt int
 	var flagMaxResults int
+	var flagQuery string
+	var flagScope string
 	var flagAll bool
 
 	cmd := &cobra.Command{
@@ -21,17 +23,19 @@ func newLabelPromotedCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Returns a [paginated](#pagination) list of labels.",
 		Long:        "Returns a [paginated](#pagination) list of labels.",
 		Example:     "  keen label",
-		Annotations: map[string]string{"pp:endpoint": "label.get-all", "pp:method": "GET", "pp:path": "/rest/api/2/label", "mcp:read-only": "true"},
+		Annotations: map[string]string{"pp:endpoint": "label.get-all", "pp:method": "GET", "pp:path": "/rest/api/3/label", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "/rest/api/2/label"
+			path := "/rest/api/3/label"
 			data, prov, err := resolvePaginatedRead(cmd.Context(), c, flags, "label", path, map[string]string{
 				"startAt":    fmt.Sprintf("%v", flagStartAt),
 				"maxResults": fmt.Sprintf("%v", flagMaxResults),
+				"query":      fmt.Sprintf("%v", flagQuery),
+				"scope":      fmt.Sprintf("%v", flagScope),
 			}, nil, flagAll, "", "page", "maxResults", "", "", cmd.ErrOrStderr())
 			if err != nil {
 				return classifyAPIError(err, flags)
@@ -88,6 +92,8 @@ func newLabelPromotedCmd(flags *rootFlags) *cobra.Command {
 	}
 	cmd.Flags().IntVar(&flagStartAt, "start-at", 0, "The index of the first item to return in a page of results (page offset).")
 	cmd.Flags().IntVar(&flagMaxResults, "max-results", 1000, "The maximum number of items to return per page.")
+	cmd.Flags().StringVar(&flagQuery, "query", "", "Case-insensitive prefix used to filter labels before pagination.")
+	cmd.Flags().StringVar(&flagScope, "scope", "", "RECENT_PROJECTS or ALL_BROWSEABLE_PROJECTS. Omitted scope retains the unbounded search.")
 	cmd.Flags().BoolVar(&flagAll, "all", false, "Fetch all pages")
 
 	// Wire sibling endpoints and sub-resources as subcommands

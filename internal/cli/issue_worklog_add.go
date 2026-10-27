@@ -65,7 +65,7 @@ func newIssueWorklogAddCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"create"},
 		Short:       "Adds a worklog to an issue. Time tracking must be enabled in Jira, otherwise this operation returns an error.",
 		Example:     "  keen issue worklog add your-token-here",
-		Annotations: map[string]string{"pp:endpoint": "worklog.add", "pp:method": "POST", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/worklog"},
+		Annotations: map[string]string{"pp:endpoint": "worklog.add", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/worklog"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -90,7 +90,7 @@ func newIssueWorklogAddCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/worklog"
+			path := "/rest/api/3/issue/{issueIdOrKey}/worklog"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			params := map[string]string{}
 			if flagNotifyUsers != false {
@@ -431,7 +431,7 @@ func newIssueWorklogAddCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&bodyAuthorName, "author-name", "", "This property is no longer available and will be removed from the documentation soon.")
 	cmd.Flags().StringVar(&bodyAuthorSelf, "author-self", "", "The URL of the user.")
 	cmd.Flags().StringVar(&bodyAuthorTimeZone, "author-time-zone", "", "The time zone specified in the user's profile. Depending on the user’s privacy settings, this may be returned as null.")
-	cmd.Flags().StringVar(&bodyComment, "comment", "", "A comment about the worklog. Optional when creating or updating a worklog.")
+	cmd.Flags().StringVar(&bodyComment, "comment", "", "A comment about the worklog in [Atlassian Document Format](https://developer.atlassian.")
 	cmd.Flags().StringVar(&bodyCreated, "created", "", "The datetime on which the worklog was created.")
 	cmd.Flags().StringVar(&bodyId, "id", "", "The ID of the worklog record.")
 	cmd.Flags().StringVar(&bodyIssueId, "issue-id", "", "The ID of the issue this worklog is for.")

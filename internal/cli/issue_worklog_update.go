@@ -63,7 +63,7 @@ func newIssueWorklogUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "update <issueIdOrKey> <id>",
 		Short:       "Updates a worklog. Time tracking must be enabled in Jira, otherwise this operation returns an error.",
 		Example:     "  keen issue worklog update your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "worklog.update", "pp:method": "PUT", "pp:path": "/rest/api/2/issue/{issueIdOrKey}/worklog/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "worklog.update", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/worklog/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -88,7 +88,7 @@ func newIssueWorklogUpdateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/issue/{issueIdOrKey}/worklog/{id}"
+			path := "/rest/api/3/issue/{issueIdOrKey}/worklog/{id}"
 			path = replacePathParam(path, "issueIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("id is required\nUsage: %s <%s>", cmd.CommandPath(), "id"))
@@ -429,7 +429,7 @@ func newIssueWorklogUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&bodyAuthorName, "author-name", "", "This property is no longer available and will be removed from the documentation soon.")
 	cmd.Flags().StringVar(&bodyAuthorSelf, "author-self", "", "The URL of the user.")
 	cmd.Flags().StringVar(&bodyAuthorTimeZone, "author-time-zone", "", "The time zone specified in the user's profile. Depending on the user’s privacy settings, this may be returned as null.")
-	cmd.Flags().StringVar(&bodyComment, "comment", "", "A comment about the worklog. Optional when creating or updating a worklog.")
+	cmd.Flags().StringVar(&bodyComment, "comment", "", "A comment about the worklog in [Atlassian Document Format](https://developer.atlassian.")
 	cmd.Flags().StringVar(&bodyCreated, "created", "", "The datetime on which the worklog was created.")
 	cmd.Flags().StringVar(&bodyId2, "id-2", "", "The ID of the worklog record.")
 	cmd.Flags().StringVar(&bodyIssueId, "issue-id", "", "The ID of the issue this worklog is for.")

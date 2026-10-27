@@ -22,7 +22,7 @@ func newProjectRoleSetActorsCmd(flags *rootFlags) *cobra.Command {
 		Aliases:     []string{"update"},
 		Short:       "Sets the actors for a project role for a project, replacing all existing actors.",
 		Example:     "  keen project role set-actors your-token-here 550e8400-e29b-41d4-a716-446655440000",
-		Annotations: map[string]string{"pp:endpoint": "role.set-actors", "pp:method": "PUT", "pp:path": "/rest/api/2/project/{projectIdOrKey}/role/{id}"},
+		Annotations: map[string]string{"pp:endpoint": "role.set-actors", "pp:method": "PUT", "pp:path": "/rest/api/3/project/{projectIdOrKey}/role/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -34,7 +34,7 @@ func newProjectRoleSetActorsCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "/rest/api/2/project/{projectIdOrKey}/role/{id}"
+			path := "/rest/api/3/project/{projectIdOrKey}/role/{id}"
 			path = replacePathParam(path, "projectIdOrKey", args[0])
 			if len(args) < 2 {
 				return usageErr(fmt.Errorf("id is required\nUsage: %s <%s>", cmd.CommandPath(), "id"))
@@ -202,7 +202,7 @@ func newProjectRoleSetActorsCmd(flags *rootFlags) *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVar(&bodyCategorisedActors, "categorised-actors", "", "The actors to add to the project role. Add groups using: * `atlassian-group-role-actor` and a list of group names.")
-	cmd.Flags().IntVar(&bodyId2, "id-2", 0, "The ID of the project role. Use [Get all project roles](#api-rest-api-2-role-get) to get a list of project role IDs.")
+	cmd.Flags().IntVar(&bodyId2, "id-2", 0, "The ID of the project role. Use [Get all project roles](#api-rest-api-3-role-get) to get a list of project role IDs.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")
 
 	return cmd
