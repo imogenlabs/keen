@@ -292,7 +292,11 @@ Source: [`docs/diagrams/architecture.drawio`](docs/diagrams/architecture.drawio)
 
 ## Regeneration
 
-Generated from 6 official Atlassian OpenAPI specs using [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press). Source specs in `specs/`. When Atlassian updates their APIs, regenerate:
+Generated from 6 official Atlassian OpenAPI specs using [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press). Source specs in `specs/`.
+
+> **Before regenerating:** `specs/jira-platform.json` is still Atlassian's v2 document, and keen's move to the v3 API was made in the generated code. Replace it with the current [v3 spec](https://developer.atlassian.com/cloud/jira/platform/swagger-v3.v3.json) first, or the regenerated CLI goes back to `/rest/api/2`. Then re-apply the local changes listed in `.printing-press-patches.json`.
+
+When Atlassian updates their APIs, regenerate:
 
 ```bash
 cli-printing-press generate \
@@ -310,7 +314,7 @@ Do not hand-edit generated Go files. They are regenerated from specs.
 
 ## Security
 
-See [SECURITY.md](SECURITY.md) for vulnerability reporting. Keen stores API credentials in environment variables only — never on disk. The local SQLite database contains cached API responses and should be treated as sensitive.
+See [SECURITY.md](SECURITY.md) for vulnerability reporting. Keen reads API credentials from environment variables or from `~/.config/keen/auth.json`. If you use the file, keep it readable only by you (`chmod 600`). The local SQLite database contains cached API responses and should be treated as sensitive.
 
 ## Contributing
 
