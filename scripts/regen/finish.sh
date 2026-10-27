@@ -24,4 +24,4 @@ next=$(git -C "$REPO" -c user.name=regen -c user.email=regen@localhost commit-tr
   -p "$(git -C "$REPO" rev-parse "$BASE_REF")" -m "generator output $(date +%Y-%m-%d), renamed to keen")
 git -C "$REPO" update-ref refs/regen/next-base "$next"
 echo "finish: after this lands on main, move the base forward:"
-echo "  git push origin refs/regen/next-base:refs/heads/build/generator-output"
+echo "  git push origin refs/regen/next-base:refs/regen/base"

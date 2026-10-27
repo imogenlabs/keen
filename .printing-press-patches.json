@@ -3,7 +3,7 @@
   "applied_at": "2026-05-28",
   "base_run_id": "20261027-161200",
   "base_printing_press_version": "4.15.0",
-  "base_generator_output": "branch build/generator-output (regenerate with scripts/regen/regen.sh)",
+  "base_generator_output": "ref refs/regen/base on GitHub (regenerate with scripts/regen/regen.sh)",
   "patches": [
     {
       "id": "compact-summary-field",
