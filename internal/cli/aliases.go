@@ -110,8 +110,11 @@ func rejectStrayArgs(rootCmd *cobra.Command) {
 		if cmd.Annotations["pp:endpoint"] == "" || cmd.Args != nil || cmd.HasSubCommands() || len(strings.Fields(cmd.Use)) > 1 {
 			continue
 		}
+		// `keen which` lists these as "<name> <operation>" (myself get-current-user),
+		// so the operation's own name is accepted and ignored.
+		_, op, _ := strings.Cut(cmd.Annotations["pp:endpoint"], ".")
 		cmd.Args = func(c *cobra.Command, args []string) error {
-			if len(args) == 0 {
+			if len(args) == 0 || (len(args) == 1 && args[0] == op) {
 				return nil
 			}
 			msg := fmt.Sprintf("unknown command %q for %q", args[0], c.CommandPath())
