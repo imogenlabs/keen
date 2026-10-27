@@ -5,63 +5,60 @@
 ```bash
 # Basic search
 keen jira-cloud-platform-search and-reconsile-issues-using-jql-post \
-  --jql "project = EOS AND status = 'In Progress'" --agent
+  --jql "project = PROJ AND status = 'In Progress'" --agent
 
 # With specific fields
 keen jira-cloud-platform-search and-reconsile-issues-using-jql-post \
-  --jql "project = MPAC ORDER BY rank" \
-  --fields '["key","summary","status","priority","customfield_10039"]' \
+  --jql "project = PROJ ORDER BY rank" \
+  --fields '["key","summary","status","priority","customfield_10016"]' \
   --max-results 50 --agent
 
 # All issues in a sprint
 keen jira-cloud-platform-search and-reconsile-issues-using-jql-post \
-  --jql "sprint = 801" --agent
+  --jql "sprint = 7" --agent
 ```
 
 ## Get Issue
 
 ```bash
-keen issue get EOS-42 --agent
+keen issue get PROJ-42 --agent
 ```
 
 ## Edit Issue
 
 ```bash
 # Change priority
-keen issue edit EOS-42 --fields '{"priority":{"name":"High"}}' --agent
+keen issue edit PROJ-42 --fields '{"priority":{"name":"High"}}' --agent
 
-# Set story points (customfield_10039)
-keen issue edit EOS-42 --fields '{"customfield_10039":3}' --agent
+# Set story points (the field id varies by site; customfield_10016 is common)
+keen issue edit PROJ-42 --fields '{"customfield_10016":3}' --agent
 
 # Set resolution
-keen issue edit EOS-42 --fields '{"resolution":{"name":"Done"}}' --agent
+keen issue edit PROJ-42 --fields '{"resolution":{"name":"Done"}}' --agent
 ```
 
 ## Transitions
 
 ```bash
 # Get available transitions
-keen issue transitions get EOS-42 --agent
+keen issue transitions get PROJ-42 --agent
 
 # Transition to a status (by transition ID)
-keen issue transitions do EOS-42 --transition-id 41 --agent
+keen issue transitions do PROJ-42 --transition-id 41 --agent
 ```
 
-Common transition IDs (EOS/MPAC workflow):
-- 11: Backlog
-- 21: Selected for Development
-- 31: In Progress
-- 41: Done
-- 51: QA
-- 61: QA Passed
-- 71: Flopped
-- 81: Blocked
+Transition IDs differ from one workflow to the next. List them with
+`keen issue transitions get`, or pass the name and let keen look the ID up:
+
+```bash
+keen transition PROJ-42 --transition-name "Done" --agent
+```
 
 ## Comments
 
 ```bash
 # Add comment (ADF format)
-keen issue comment create EOS-42 --stdin <<< '{
+keen issue comment add PROJ-42 --stdin <<< '{
   "body": {
     "type": "doc",
     "version": 1,
@@ -73,9 +70,11 @@ keen issue comment create EOS-42 --stdin <<< '{
 ## Bulk Operations
 
 ```bash
-# Bulk edit
-keen bulk submit-edit --stdin < bulk-edit.json
+# Create up to 50 issues in one call
+keen issue create-bulk --stdin < issues.json
 
-# Bulk transition
-keen bulk submit-transition --stdin < bulk-transition.json
+# Fetch up to 100 issues by key or id
+keen issue bulk-fetch --stdin <<< '{"issueIdsOrKeys":["PROJ-42","PROJ-43"]}'
 ```
+
+Bulk edit, move and status changes arrive with the next regeneration from Atlassian's current spec.

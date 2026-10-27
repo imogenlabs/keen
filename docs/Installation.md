@@ -46,7 +46,11 @@ The MCP server exposes every keen command (1,114 tools) over the Model Context P
   "mcpServers": {
     "keen": {
       "command": "/path/to/keen-mcp",
-      "args": []
+      "env": {
+        "JIRA_CLOUD_PLATFORM_USERNAME": "you@example.com",
+        "JIRA_CLOUD_PLATFORM_PASSWORD": "your-api-token",
+        "JIRA_PP_CLI_BASE_URL": "https://your-site.atlassian.net"
+      }
     }
   }
 }
