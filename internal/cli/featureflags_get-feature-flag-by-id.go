@@ -17,7 +17,7 @@ func newFeatureflagsGetFeatureFlagByIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-feature-flag-by-id <featureFlagId>",
 		Aliases:     []string{"get"},
 		Short:       "Retrieve the currently stored Feature Flag data for the given ID.",
-		Example:     "  jira-pp-cli-pp-cli featureflags get-feature-flag-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen featureflags get-feature-flag-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "featureflags.get-feature-flag-by-id", "pp:method": "GET", "pp:path": "/rest/featureflags/0.1/flag/{featureFlagId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

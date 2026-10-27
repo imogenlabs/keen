@@ -17,7 +17,7 @@ func newOperationsDeleteEntityByPropertyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-entity-by-property",
 		Aliases:     []string{"delete"},
 		Short:       "Bulk delete all Entties that match the given request.",
-		Example:     "  jira-pp-cli-pp-cli operations delete-entity-by-property",
+		Example:     "  keen operations delete-entity-by-property",
 		Annotations: map[string]string{"pp:endpoint": "operations.delete-entity-by-property", "pp:method": "DELETE", "pp:path": "/rest/operations/1.0/bulkByProperties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

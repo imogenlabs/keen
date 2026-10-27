@@ -17,7 +17,7 @@ func newWikiGetContentDescendantsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-content-descendants <id>",
 		Short:       "Returns a map of the descendants of a piece of content.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-content-descendants 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-content-descendants 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-content-descendants", "pp:method": "GET", "pp:path": "/wiki/rest/api/content/{id}/descendant", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

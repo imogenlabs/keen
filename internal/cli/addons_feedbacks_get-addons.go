@@ -19,7 +19,7 @@ func newAddonsFeedbacksGetAddonsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-addons <addonKey>",
 		Short:       "Get aggregated feedback for the specified app, aggregated by the specified metric. Feedback can be aggregated by type.",
-		Example:     "  jira-pp-cli-pp-cli addons feedbacks get-addons your-token-here --type disable",
+		Example:     "  keen addons feedbacks get-addons your-token-here --type disable",
 		Annotations: map[string]string{"pp:endpoint": "feedbacks.get-addons", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/feedbacks/distribution", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

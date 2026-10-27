@@ -16,7 +16,7 @@ func newAddonsWatchGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Returns whether or not the current user is watching the specified app. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons watch get your-token-here",
+		Example:     "  keen addons watch get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "watch.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/watch", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

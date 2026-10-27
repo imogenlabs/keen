@@ -1,4 +1,4 @@
-module jira-pp-cli-pp-cli
+module keen
 
 go 1.26.3
 

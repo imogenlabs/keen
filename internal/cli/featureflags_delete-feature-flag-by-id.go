@@ -18,7 +18,7 @@ func newFeatureflagsDeleteFeatureFlagByIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-feature-flag-by-id <featureFlagId>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete the Feature Flag data currently stored for the given ID. Deletion is performed asynchronously.",
-		Example:     "  jira-pp-cli-pp-cli featureflags delete-feature-flag-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen featureflags delete-feature-flag-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "featureflags.delete-feature-flag-by-id", "pp:method": "DELETE", "pp:path": "/rest/featureflags/0.1/flag/{featureFlagId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

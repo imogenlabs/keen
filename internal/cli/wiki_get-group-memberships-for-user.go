@@ -20,7 +20,7 @@ func newWikiGetGroupMembershipsForUserCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-group-memberships-for-user",
 		Short:       "Returns the groups that a user is a member of. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-group-memberships-for-user --account-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-group-memberships-for-user --account-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-group-memberships-for-user", "pp:method": "GET", "pp:path": "/wiki/rest/api/user/memberof", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("account-id") && !flags.dryRun {

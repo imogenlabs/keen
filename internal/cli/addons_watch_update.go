@@ -25,7 +25,7 @@ func newAddonsWatchUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update <addonKey>",
 		Short:       "Updates whether or not the current user is watching the specified app. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons watch update your-token-here",
+		Example:     "  keen addons watch update your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "watch.update", "pp:method": "PUT", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/watch"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

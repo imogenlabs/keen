@@ -17,7 +17,7 @@ func newDirectoryDeleteCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete <orgId> <groupId>",
 		Short:       "**This API is deprecated and will no longer work after June 30, 2026.",
-		Example:     "  jira-pp-cli-pp-cli directory delete 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen directory delete 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "directory.delete", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/groups/{groupId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

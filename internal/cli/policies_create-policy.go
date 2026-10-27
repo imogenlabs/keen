@@ -25,7 +25,7 @@ func newPoliciesCreatePolicyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create-policy <orgId>",
 		Aliases:     []string{"create"},
 		Short:       "Create a policy for an org",
-		Example:     "  jira-pp-cli-pp-cli policies create-policy 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen policies create-policy 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "policies.create-policy", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

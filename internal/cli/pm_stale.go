@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"jira-pp-cli-pp-cli/internal/store"
+	"keen/internal/store"
 )
 
 // staleTimestampFields lists every JSON key the press considers a
@@ -136,25 +136,25 @@ func newStaleCmd(flags *rootFlags) *cobra.Command {
 		Long: `Scan locally synced data for items that have not been updated within
 the specified number of days. Useful for identifying forgotten or blocked work.`,
 		Example: `  # Find items not updated in 30 days (default)
-  jira-pp-cli-pp-cli stale
+  keen stale
 
   # Find items not updated in 14 days
-  jira-pp-cli-pp-cli stale --days 14
+  keen stale --days 14
 
   # Filter by team
-  jira-pp-cli-pp-cli stale --days 7 --team backend
+  keen stale --days 7 --team backend
 
   # Output as JSON
-  jira-pp-cli-pp-cli stale --days 30 --json`,
+  keen stale --days 30 --json`,
 		Annotations: map[string]string{"mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if dbPath == "" {
-				dbPath = defaultDBPath("jira-pp-cli-pp-cli")
+				dbPath = defaultDBPath("keen")
 			}
 
 			db, err := store.OpenWithContext(cmd.Context(), dbPath)
 			if err != nil {
-				return fmt.Errorf("opening local database: %w\nRun 'jira-pp-cli-pp-cli sync' first.", err)
+				return fmt.Errorf("opening local database: %w\nRun 'keen sync' first.", err)
 			}
 			defer db.Close()
 
@@ -290,7 +290,7 @@ the specified number of days. Useful for identifying forgotten or blocked work.`
 
 	cmd.Flags().IntVar(&days, "days", 30, "Number of days without update to consider stale")
 	cmd.Flags().StringVar(&team, "team", "", "Filter by team identifier")
-	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/jira-pp-cli-pp-cli/data.db)")
+	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/keen/data.db)")
 	cmd.Flags().IntVar(&limit, "limit", 50, "Maximum items to show")
 
 	return cmd

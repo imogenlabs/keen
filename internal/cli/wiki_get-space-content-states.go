@@ -16,7 +16,7 @@ func newWikiGetSpaceContentStatesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-space-content-states <spaceKey>",
 		Short:       "Get content states that are suggested in the space. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-space-content-states your-token-here",
+		Example:     "  keen wiki get-space-content-states your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-space-content-states", "pp:method": "GET", "pp:path": "/wiki/rest/api/space/{spaceKey}/state", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

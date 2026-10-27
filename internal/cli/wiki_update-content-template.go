@@ -42,7 +42,7 @@ func newWikiUpdateContentTemplateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-content-template",
 		Short:       "Updates a content template. Note, blueprint templates cannot be updated via the REST API.",
-		Example:     "  jira-pp-cli-pp-cli wiki update-content-template --name example-resource",
+		Example:     "  keen wiki update-content-template --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.update-content-template", "pp:method": "PUT", "pp:path": "/wiki/rest/api/template"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

@@ -16,7 +16,7 @@ func newAddonCategoriesGetAddoncategoriesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-addoncategories <applicationKey>",
 		Short:       "Get a list of categories associated with the parent application.",
-		Example:     "  jira-pp-cli-pp-cli addon-categories get-addoncategories your-token-here",
+		Example:     "  keen addon-categories get-addoncategories your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "addon-categories.get-addoncategories", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addonCategories/app/{applicationKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

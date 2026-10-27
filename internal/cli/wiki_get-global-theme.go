@@ -16,7 +16,7 @@ func newWikiGetGlobalThemeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-global-theme",
 		Short:       "Returns the globally assigned theme. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: None",
-		Example:     "  jira-pp-cli-pp-cli wiki get-global-theme",
+		Example:     "  keen wiki get-global-theme",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-global-theme", "pp:method": "GET", "pp:path": "/wiki/rest/api/settings/theme/selected", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

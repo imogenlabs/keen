@@ -8,9 +8,9 @@
 ## From Source
 
 ```bash
-git clone https://github.com/smashingtags/jira-pp-cli.git
-cd jira-pp-cli
-go build -o atlas-cli ./cmd/jira-pp-cli-pp-cli/
+git clone https://github.com/smashingtags/keen.git
+cd keen
+go build -o atlas-cli ./cmd/keen/
 ```
 
 Move the binary to your PATH:
@@ -26,7 +26,7 @@ ln -s $(pwd)/atlas-cli ~/go/bin/atlas-cli
 ## MCP Server
 
 ```bash
-go build -o atlas-mcp ./cmd/jira-pp-cli-pp-mcp/
+go build -o atlas-mcp ./cmd/keen-mcp/
 ```
 
 The MCP server exposes all 1,091 tools over the Model Context Protocol (stdio transport). Add to your MCP config:

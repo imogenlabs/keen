@@ -23,7 +23,7 @@ func newEventsStreamPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "events-stream <orgId>",
 		Short:       "Returns a paginated list of audit logs events for an organization.",
 		Long:        "Returns a paginated list of audit logs events for an organization.",
-		Example:     "  jira-pp-cli-pp-cli events-stream 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen events-stream 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "events-stream.poll-events", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/events-stream", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("sort-order") {

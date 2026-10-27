@@ -16,7 +16,7 @@ func newServicedeskapiDeleteOrganizationCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-organization <organizationId>",
 		Short:       "This method deletes an organization. Note that the organization is deleted regardless of other associations it may have.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi delete-organization 42",
+		Example:     "  keen servicedeskapi delete-organization 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.delete-organization", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/organization/{organizationId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

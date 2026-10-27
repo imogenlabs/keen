@@ -20,7 +20,7 @@ func newWikiUpdateLookAndFeelCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-look-and-feel",
 		Short:       "Sets the look and feel settings to the default (global) settings, the custom settings",
-		Example:     "  jira-pp-cli-pp-cli wiki update-look-and-feel --look-and-feel-type global",
+		Example:     "  keen wiki update-look-and-feel --look-and-feel-type global",
 		Annotations: map[string]string{"pp:endpoint": "wiki.update-look-and-feel", "pp:method": "PUT", "pp:path": "/wiki/rest/api/settings/lookandfeel"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

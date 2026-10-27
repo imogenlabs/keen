@@ -26,7 +26,7 @@ func newServicedeskapiCreateCustomerRequestCmd(flags *rootFlags) *cobra.Command 
 	cmd := &cobra.Command{
 		Use:         "create-customer-request",
 		Short:       "This method creates a customer request in a service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi create-customer-request",
+		Example:     "  keen servicedeskapi create-customer-request",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.create-customer-request", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/request"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

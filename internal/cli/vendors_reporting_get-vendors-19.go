@@ -20,7 +20,7 @@ func newVendorsReportingGetVendors19Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-19 <vendorId>",
 		Short:       "Get aggregated feedback for the specified vendor, aggregated by the specified metric.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-19 42 --metric reason",
+		Example:     "  keen vendors reporting get-vendors-19 42 --metric reason",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-19", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/feedback/metrics/{metric}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

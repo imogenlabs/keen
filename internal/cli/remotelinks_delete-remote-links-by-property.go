@@ -18,7 +18,7 @@ func newRemotelinksDeleteRemoteLinksByPropertyCmd(flags *rootFlags) *cobra.Comma
 	cmd := &cobra.Command{
 		Use:         "delete-remote-links-by-property",
 		Short:       "Bulk delete all Remote Links data that match the given request.",
-		Example:     "  jira-pp-cli-pp-cli remotelinks delete-remote-links-by-property",
+		Example:     "  keen remotelinks delete-remote-links-by-property",
 		Annotations: map[string]string{"pp:endpoint": "remotelinks.delete-remote-links-by-property", "pp:method": "DELETE", "pp:path": "/rest/remotelinks/1.0/bulkByProperties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

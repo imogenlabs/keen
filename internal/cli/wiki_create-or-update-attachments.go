@@ -21,7 +21,7 @@ func newWikiCreateOrUpdateAttachmentsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create-or-update-attachments <id>",
 		Aliases:     []string{"update"},
 		Short:       "Adds an attachment to a piece of content.",
-		Example:     "  jira-pp-cli-pp-cli wiki create-or-update-attachments 550e8400-e29b-41d4-a716-446655440000 --file example-value",
+		Example:     "  keen wiki create-or-update-attachments 550e8400-e29b-41d4-a716-446655440000 --file example-value",
 		Annotations: map[string]string{"pp:endpoint": "wiki.create-or-update-attachments", "pp:method": "PUT", "pp:path": "/wiki/rest/api/content/{id}/child/attachment"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

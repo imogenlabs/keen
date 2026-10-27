@@ -22,7 +22,7 @@ func newWikiSearchUserCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "search-user",
 		Short:       "Searches for users using user-specific queries from the [Confluence Query Language (CQL)](https://developer.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki search-user --cql example-value",
+		Example:     "  keen wiki search-user --cql example-value",
 		Annotations: map[string]string{"pp:endpoint": "wiki.search-user", "pp:method": "GET", "pp:path": "/wiki/rest/api/search/user", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("cql") && !flags.dryRun {

@@ -18,7 +18,7 @@ func newAtlassianAccessUsersGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <orgId>",
 		Short:       "Returns a list of managed accounts in an organization.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-users get 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen atlassian-access-users get 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "atlassian-access-users.get", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/users", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

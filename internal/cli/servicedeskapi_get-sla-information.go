@@ -19,7 +19,7 @@ func newServicedeskapiGetSlaInformationCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-sla-information <issueIdOrKey>",
 		Short:       "This method returns all the SLA records on a customer request. A customer request can have zero or more SLAs.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-sla-information your-token-here",
+		Example:     "  keen servicedeskapi get-sla-information your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-sla-information", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/sla", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

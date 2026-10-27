@@ -19,7 +19,7 @@ func newAgileMoveIssuesToBacklogCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "move-issues-to-backlog",
 		Short:       "Move issues to the backlog. This operation is equivalent to remove future and active sprints from a given set of issues.",
-		Example:     "  jira-pp-cli-pp-cli agile move-issues-to-backlog",
+		Example:     "  keen agile move-issues-to-backlog",
 		Annotations: map[string]string{"pp:endpoint": "agile.move-issues-to-backlog", "pp:method": "POST", "pp:path": "/rest/agile/1.0/backlog/issue"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

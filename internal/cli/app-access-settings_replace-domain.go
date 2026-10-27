@@ -21,7 +21,7 @@ func newAppAccessSettingsReplaceDomainCmd(flags *rootFlags) *cobra.Command {
 		Use:         "replace-domain <orgId> <domain>",
 		Aliases:     []string{"update"},
 		Short:       "Replaces the full per-product configuration for a domain.",
-		Example:     "  jira-pp-cli-pp-cli app-access-settings replace-domain 550e8400-e29b-41d4-a716-446655440000 example-value",
+		Example:     "  keen app-access-settings replace-domain 550e8400-e29b-41d4-a716-446655440000 example-value",
 		Annotations: map[string]string{"pp:endpoint": "app-access-settings.replace-domain", "pp:method": "PUT", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains/{domain}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

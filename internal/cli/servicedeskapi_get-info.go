@@ -16,7 +16,7 @@ func newServicedeskapiGetInfoCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-info",
 		Short:       "This method retrieves information about the Jira Service Management instance such as software version, builds",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-info",
+		Example:     "  keen servicedeskapi get-info",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-info", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/info", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

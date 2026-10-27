@@ -23,7 +23,7 @@ func newAgileGetBoardIssuesForEpicCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-board-issues-for-epic <boardId> <epicId>",
 		Short:       "Returns all issues that belong to an epic on the board, for the given epic ID and the board ID.",
-		Example:     "  jira-pp-cli-pp-cli agile get-board-issues-for-epic 42 42",
+		Example:     "  keen agile get-board-issues-for-epic 42 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-board-issues-for-epic", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/epic/{epicId}/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

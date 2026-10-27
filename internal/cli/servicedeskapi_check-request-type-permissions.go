@@ -21,7 +21,7 @@ func newServicedeskapiCheckRequestTypePermissionsCmd(flags *rootFlags) *cobra.Co
 	cmd := &cobra.Command{
 		Use:         "check-request-type-permissions <serviceDeskId>",
 		Short:       "Returns: * a list of request type IDs where the given user has permission to administer.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi check-request-type-permissions 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi check-request-type-permissions 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.check-request-type-permissions", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/requesttype/permissions/check"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

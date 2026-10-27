@@ -20,7 +20,7 @@ func newServicedeskapiAddOrganizationCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-organization <serviceDeskId>",
 		Short:       "This method adds an organization to a service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi add-organization 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi add-organization 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.add-organization", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/organization"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

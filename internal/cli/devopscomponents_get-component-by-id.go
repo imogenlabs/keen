@@ -17,7 +17,7 @@ func newDevopscomponentsGetComponentByIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-component-by-id <componentId>",
 		Aliases:     []string{"get"},
 		Short:       "Retrieve the currently stored Component data for the given ID.",
-		Example:     "  jira-pp-cli-pp-cli devopscomponents get-component-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen devopscomponents get-component-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "devopscomponents.get-component-by-id", "pp:method": "GET", "pp:path": "/rest/devopscomponents/1.0/devopscomponents/{componentId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

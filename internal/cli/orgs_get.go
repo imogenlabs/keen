@@ -19,7 +19,7 @@ func newOrgsGetCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get",
 		Aliases:     []string{"list"},
 		Short:       "Returns a list of your organizations (based on your API key).",
-		Example:     "  jira-pp-cli-pp-cli orgs get",
+		Example:     "  keen orgs get",
 		Annotations: map[string]string{"pp:endpoint": "orgs.get", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

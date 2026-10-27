@@ -24,7 +24,7 @@ func newWikiCreatePrivateSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-private-space",
 		Short:       "Creates a new space that is only visible to the creator.",
-		Example:     "  jira-pp-cli-pp-cli wiki create-private-space --name example-resource",
+		Example:     "  keen wiki create-private-space --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.create-private-space", "pp:method": "POST", "pp:path": "/wiki/rest/api/space/_private"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

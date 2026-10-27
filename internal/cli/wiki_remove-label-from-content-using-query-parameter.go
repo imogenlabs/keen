@@ -17,7 +17,7 @@ func newWikiRemoveLabelFromContentUsingQueryParameterCmd(flags *rootFlags) *cobr
 	cmd := &cobra.Command{
 		Use:         "remove-label-from-content-using-query-parameter <id>",
 		Short:       "Removes a label from a piece of content. Labels can't be deleted from archived content.",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-label-from-content-using-query-parameter 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
+		Example:     "  keen wiki remove-label-from-content-using-query-parameter 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-label-from-content-using-query-parameter", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/content/{id}/label"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

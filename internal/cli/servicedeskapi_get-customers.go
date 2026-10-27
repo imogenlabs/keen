@@ -20,7 +20,7 @@ func newServicedeskapiGetCustomersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-customers <serviceDeskId>",
 		Short:       "This method returns a list of the customers on a service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-customers 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi get-customers 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-customers", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/customer", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -25,7 +25,7 @@ func newAddonsReviewsUpdateAddons3Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-addons-3 <addonKey> <reviewId>",
 		Short:       "Updates whether or not the current user has flagged the specified app review. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons reviews update-addons-3 your-token-here 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen addons reviews update-addons-3 your-token-here 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "reviews.update-addons-3", "pp:method": "PUT", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/reviews/id/{reviewId}/flag"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

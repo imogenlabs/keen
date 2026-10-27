@@ -16,7 +16,7 @@ func newServicedeskapiGetAttachmentContentCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-attachment-content <issueIdOrKey> <attachmentId>",
 		Short:       "Returns the contents of an attachment.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-attachment-content your-token-here 42",
+		Example:     "  keen servicedeskapi get-attachment-content your-token-here 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-attachment-content", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/attachment/{attachmentId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

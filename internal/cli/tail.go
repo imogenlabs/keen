@@ -31,13 +31,13 @@ Gracefully shuts down on SIGTERM/SIGINT.
 Note: For APIs with WebSocket or SSE support, a future version will use
 native streaming instead of polling.`,
 		Example: `  # Tail all changes every 10 seconds
-  jira-pp-cli-pp-cli tail --interval 10s
+  keen tail --interval 10s
 
   # Tail a specific resource
-  jira-pp-cli-pp-cli tail messages --interval 5s
+  keen tail messages --interval 5s
 
   # Pipe to jq for filtering
-  jira-pp-cli-pp-cli tail events --interval 30s | jq 'select(.type == "error")'`,
+  keen tail events --interval 30s | jq 'select(.type == "error")'`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) > 0 {
 				resource = args[0]

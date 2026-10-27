@@ -23,7 +23,7 @@ func newWikiAddPermissionToSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-permission-to-space <spaceKey>",
 		Short:       "Adds new permission to space.",
-		Example:     "  jira-pp-cli-pp-cli wiki add-permission-to-space your-token-here",
+		Example:     "  keen wiki add-permission-to-space your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-permission-to-space", "pp:method": "POST", "pp:path": "/wiki/rest/api/space/{spaceKey}/permission"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

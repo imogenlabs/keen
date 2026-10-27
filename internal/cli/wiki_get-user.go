@@ -18,7 +18,7 @@ func newWikiGetUserCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-user",
 		Short:       "Returns a user.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-user --account-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-user --account-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-user", "pp:method": "GET", "pp:path": "/wiki/rest/api/user", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("account-id") && !flags.dryRun {

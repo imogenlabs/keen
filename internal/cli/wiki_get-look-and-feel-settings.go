@@ -17,7 +17,7 @@ func newWikiGetLookAndFeelSettingsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-look-and-feel-settings",
 		Short:       "Returns the look and feel settings for the site or a single space.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-look-and-feel-settings",
+		Example:     "  keen wiki get-look-and-feel-settings",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-look-and-feel-settings", "pp:method": "GET", "pp:path": "/wiki/rest/api/settings/lookandfeel", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

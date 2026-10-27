@@ -19,7 +19,7 @@ func newServicedeskapiGetAssetsWorkspacesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-assets-workspaces",
 		Short:       "Returns a list of Assets workspace IDs.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-assets-workspaces",
+		Example:     "  keen servicedeskapi get-assets-workspaces",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-assets-workspaces", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/assets/workspace", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

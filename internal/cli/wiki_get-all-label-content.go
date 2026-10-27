@@ -21,7 +21,7 @@ func newWikiGetAllLabelContentCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-all-label-content",
 		Short:       "Returns label information and a list of contents associated with the label. **[Permissions](https://confluence.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-all-label-content --name example-resource",
+		Example:     "  keen wiki get-all-label-content --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-all-label-content", "pp:method": "GET", "pp:path": "/wiki/rest/api/label", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("name") && !flags.dryRun {

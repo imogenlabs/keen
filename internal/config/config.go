@@ -41,7 +41,7 @@ func Load(configPath string) (*Config, error) {
 	}
 	if path == "" {
 		home, _ := os.UserHomeDir()
-		path = filepath.Join(home, ".config", "jira-pp-cli-pp-cli", "config.toml")
+		path = filepath.Join(home, ".config", "keen", "config.toml")
 	}
 	cfg.Path = path
 

@@ -16,7 +16,7 @@ func newServicedeskapiDeleteRequestTypeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-request-type <serviceDeskId> <requestTypeId>",
 		Short:       "This method deletes a customer request type from a service desk, and removes it from all customer requests.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi delete-request-type 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen servicedeskapi delete-request-type 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.delete-request-type", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/requesttype/{requestTypeId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

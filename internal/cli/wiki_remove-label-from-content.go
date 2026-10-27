@@ -16,7 +16,7 @@ func newWikiRemoveLabelFromContentCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-label-from-content <id> <label>",
 		Short:       "Removes a label from a piece of content. Labels can't be deleted from archived content.",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-label-from-content 550e8400-e29b-41d4-a716-446655440000 example-value",
+		Example:     "  keen wiki remove-label-from-content 550e8400-e29b-41d4-a716-446655440000 example-value",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-label-from-content", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/content/{id}/label/{label}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

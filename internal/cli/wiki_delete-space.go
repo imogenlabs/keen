@@ -16,7 +16,7 @@ func newWikiDeleteSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-space <spaceKey>",
 		Short:       "Permanently deletes a space without sending it to the trash. Note, the space will be deleted in a long running task.",
-		Example:     "  jira-pp-cli-pp-cli wiki delete-space your-token-here",
+		Example:     "  keen wiki delete-space your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.delete-space", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/space/{spaceKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

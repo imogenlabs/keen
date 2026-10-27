@@ -19,7 +19,7 @@ func newWikiGetUserPropertiesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-user-properties <userId>",
 		Short:       "Returns the properties for a user as list of property keys.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-user-properties 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-user-properties 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-user-properties", "pp:method": "GET", "pp:path": "/wiki/rest/api/user/{userId}/property", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

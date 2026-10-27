@@ -19,7 +19,7 @@ func newWikiRemoveLabelWatcherCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-label-watcher <labelName>",
 		Short:       "Removes a user as a watcher from a label.",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-label-watcher example-resource",
+		Example:     "  keen wiki remove-label-watcher example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-label-watcher", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/user/watch/label/{labelName}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

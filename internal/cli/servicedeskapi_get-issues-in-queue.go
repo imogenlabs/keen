@@ -19,7 +19,7 @@ func newServicedeskapiGetIssuesInQueueCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issues-in-queue <serviceDeskId> <queueId>",
 		Short:       "This method returns the customer requests in a queue. Only fields that the queue is configured to show are returned.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-issues-in-queue 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen servicedeskapi get-issues-in-queue 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-issues-in-queue", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/queue/{queueId}/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

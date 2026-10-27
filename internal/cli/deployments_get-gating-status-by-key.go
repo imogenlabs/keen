@@ -16,7 +16,7 @@ func newDeploymentsGetGatingStatusByKeyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-gating-status-by-key <pipelineId> <environmentId> <deploymentSequenceNumber>",
 		Short:       "Retrieve the Deployment gating status for the given `pipelineId + environmentId + deploymentSequenceNumber` combination.",
-		Example:     "  jira-pp-cli-pp-cli deployments get-gating-status-by-key 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen deployments get-gating-status-by-key 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "deployments.get-gating-status-by-key", "pp:method": "GET", "pp:path": "/rest/deployments/0.1/pipelines/{pipelineId}/environments/{environmentId}/deployments/{deploymentSequenceNumber}/gating-status", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

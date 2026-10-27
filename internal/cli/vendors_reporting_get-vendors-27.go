@@ -19,7 +19,7 @@ func newVendorsReportingGetVendors27Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-27 <vendorId>",
 		Short:       "Get zero search results keywords on the basis of source type.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-27 42 --source-key marketplace",
+		Example:     "  keen vendors reporting get-vendors-27 42 --source-key marketplace",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-27", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/zero-search-results-keywords/source/{sourceKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

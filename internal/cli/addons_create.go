@@ -119,7 +119,7 @@ func newAddonsCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create",
 		Short:       "Create a new app. The associated vendor account must exist prior to the app's creation.",
-		Example:     "  jira-pp-cli-pp-cli addons create --key your-token-here",
+		Example:     "  keen addons create --key your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "addons.create", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/addons"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

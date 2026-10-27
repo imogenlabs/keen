@@ -17,7 +17,7 @@ func newDeploymentsGetByKeyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-by-key <pipelineId> <environmentId> <deploymentSequenceNumber>",
 		Aliases:     []string{"get"},
 		Short:       "Retrieve the currently stored deployment data for the given `pipelineId`",
-		Example:     "  jira-pp-cli-pp-cli deployments get-by-key 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen deployments get-by-key 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "deployments.get-by-key", "pp:method": "GET", "pp:path": "/rest/deployments/0.1/pipelines/{pipelineId}/environments/{environmentId}/deployments/{deploymentSequenceNumber}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

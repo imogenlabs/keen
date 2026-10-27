@@ -20,7 +20,7 @@ func newServicedeskapiRemoveCustomersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-customers <serviceDeskId>",
 		Short:       "This method removes one or more customers from a service desk. The service desk must have closed access.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi remove-customers 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi remove-customers 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.remove-customers", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/customer"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

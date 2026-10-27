@@ -18,7 +18,7 @@ func newServicedeskapiSetPropertyServicedeskCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "set-property-servicedesk <serviceDeskId> <requestTypeId> <propertyKey>",
 		Short:       "Sets the value of a request type property. Use this resource to store custom data against a request type.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi set-property-servicedesk 550e8400-e29b-41d4-a716-446655440000 42 your-token-here",
+		Example:     "  keen servicedeskapi set-property-servicedesk 550e8400-e29b-41d4-a716-446655440000 42 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.set-property-servicedesk", "pp:method": "PUT", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/requesttype/{requestTypeId}/property/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

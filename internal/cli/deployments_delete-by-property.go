@@ -17,7 +17,7 @@ func newDeploymentsDeleteByPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-by-property",
 		Short:       "Bulk delete all deployments that match the given request.",
-		Example:     "  jira-pp-cli-pp-cli deployments delete-by-property",
+		Example:     "  keen deployments delete-by-property",
 		Annotations: map[string]string{"pp:endpoint": "deployments.delete-by-property", "pp:method": "DELETE", "pp:path": "/rest/deployments/0.1/bulkByProperties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

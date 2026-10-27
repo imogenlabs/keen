@@ -22,7 +22,7 @@ func newWikiGetAuditRecordsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-audit-records",
 		Short:       "Returns all records in the audit log, optionally for a certain date range.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-audit-records",
+		Example:     "  keen wiki get-audit-records",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-audit-records", "pp:method": "GET", "pp:path": "/wiki/rest/api/audit", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

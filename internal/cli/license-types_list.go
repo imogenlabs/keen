@@ -16,7 +16,7 @@ func newLicenseTypesListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "list",
 		Short:       "Get a list of license types.",
-		Example:     "  jira-pp-cli-pp-cli license-types list",
+		Example:     "  keen license-types list",
 		Annotations: map[string]string{"pp:endpoint": "license-types.list", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/licenseTypes", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

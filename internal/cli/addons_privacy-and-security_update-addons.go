@@ -44,7 +44,7 @@ func newAddonsPrivacyAndSecurityUpdateAddonsCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "update-addons <addonKey>",
 		Short:       "Create/Update draft version of privacy and security info for the specified app.",
-		Example:     "  jira-pp-cli-pp-cli addons privacy-and-security update-addons your-token-here",
+		Example:     "  keen addons privacy-and-security update-addons your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "privacy-and-security.update-addons", "pp:method": "PUT", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/privacy-and-security"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

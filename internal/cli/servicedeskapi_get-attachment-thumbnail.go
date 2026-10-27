@@ -16,7 +16,7 @@ func newServicedeskapiGetAttachmentThumbnailCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "get-attachment-thumbnail <issueIdOrKey> <attachmentId>",
 		Short:       "Returns the thumbnail of an attachment.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-attachment-thumbnail your-token-here 42",
+		Example:     "  keen servicedeskapi get-attachment-thumbnail your-token-here 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-attachment-thumbnail", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/attachment/{attachmentId}/thumbnail", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

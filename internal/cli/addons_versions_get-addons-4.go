@@ -16,7 +16,7 @@ func newAddonsVersionsGetAddons4Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-addons-4 <addonKey> <pluginBuildNumber>",
 		Short:       "Get a specific app version approval status. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons versions get-addons-4 your-token-here 42",
+		Example:     "  keen addons versions get-addons-4 your-token-here 42",
 		Annotations: map[string]string{"pp:endpoint": "versions.get-addons-4", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/versions/build/{pluginBuildNumber}/approval", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

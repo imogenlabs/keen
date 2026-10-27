@@ -18,7 +18,7 @@ func newDirectoryGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <orgId> <accountId>",
 		Short:       "**Additional response parameters of the API (for e.g.",
-		Example:     "  jira-pp-cli-pp-cli directory get 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen directory get 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "directory.get", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/users/{accountId}/last-active-dates", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

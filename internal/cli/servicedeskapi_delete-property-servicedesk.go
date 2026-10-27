@@ -16,7 +16,7 @@ func newServicedeskapiDeletePropertyServicedeskCmd(flags *rootFlags) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:         "delete-property-servicedesk <serviceDeskId> <requestTypeId> <propertyKey>",
 		Short:       "Removes a property from a request type.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi delete-property-servicedesk 550e8400-e29b-41d4-a716-446655440000 42 your-token-here",
+		Example:     "  keen servicedeskapi delete-property-servicedesk 550e8400-e29b-41d4-a716-446655440000 42 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.delete-property-servicedesk", "pp:method": "DELETE", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/requesttype/{requestTypeId}/property/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

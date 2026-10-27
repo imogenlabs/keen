@@ -32,7 +32,7 @@ func newAddonsListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "list",
 		Short:       "Get a list of apps matching the specified parameters.",
-		Example:     "  jira-pp-cli-pp-cli addons list",
+		Example:     "  keen addons list",
 		Annotations: map[string]string{"pp:endpoint": "addons.list", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("cost") {

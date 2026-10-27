@@ -18,7 +18,7 @@ func newDevinfoDeleteEntityCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-entity <repositoryId> <entityId>",
 		Short:       "Deletes particular development information entity. Deletion is performed asynchronously.",
-		Example:     "  jira-pp-cli-pp-cli devinfo delete-entity 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --entity-type commit",
+		Example:     "  keen devinfo delete-entity 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --entity-type commit",
 		Annotations: map[string]string{"pp:endpoint": "devinfo.delete-entity", "pp:method": "DELETE", "pp:path": "/rest/devinfo/0.10/repository/{repositoryId}/{entityType}/{entityId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

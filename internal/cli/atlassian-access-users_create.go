@@ -23,7 +23,7 @@ func newAtlassianAccessUsersCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create <orgId>",
 		Short:       "**The API is presently accessible exclusively to customers who hold a paid subscription.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-users create 550e8400-e29b-41d4-a716-446655440000 --email user@example.com",
+		Example:     "  keen atlassian-access-users create 550e8400-e29b-41d4-a716-446655440000 --email user@example.com",
 		Annotations: map[string]string{"pp:endpoint": "atlassian-access-users.create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/users/invite"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

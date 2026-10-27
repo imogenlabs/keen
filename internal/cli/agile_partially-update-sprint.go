@@ -28,7 +28,7 @@ func newAgilePartiallyUpdateSprintCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "partially-update-sprint <sprintId>",
 		Short:       "Performs a partial update of a sprint.",
-		Example:     "  jira-pp-cli-pp-cli agile partially-update-sprint 42",
+		Example:     "  keen agile partially-update-sprint 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.partially-update-sprint", "pp:method": "POST", "pp:path": "/rest/agile/1.0/sprint/{sprintId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

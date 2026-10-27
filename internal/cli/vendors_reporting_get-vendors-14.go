@@ -19,7 +19,7 @@ func newVendorsReportingGetVendors14Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-14 <vendorId>",
 		Short:       "Returns details for a single accepted quote line set for the vendor.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-14 42",
+		Example:     "  keen vendors reporting get-vendors-14 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-14", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/quotes/details", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

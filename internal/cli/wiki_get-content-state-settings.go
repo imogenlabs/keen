@@ -16,7 +16,7 @@ func newWikiGetContentStateSettingsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-content-state-settings <spaceKey>",
 		Short:       "Get object describing whether content states are allowed at all",
-		Example:     "  jira-pp-cli-pp-cli wiki get-content-state-settings your-token-here",
+		Example:     "  keen wiki get-content-state-settings your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-content-state-settings", "pp:method": "GET", "pp:path": "/wiki/rest/api/space/{spaceKey}/state/settings", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -19,7 +19,7 @@ func newServicedeskapiGetAttachmentsForRequestCmd(flags *rootFlags) *cobra.Comma
 	cmd := &cobra.Command{
 		Use:         "get-attachments-for-request <issueIdOrKey>",
 		Short:       "This method returns all the attachments for a customer requests.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-attachments-for-request your-token-here --start 42 --limit 50",
+		Example:     "  keen servicedeskapi get-attachments-for-request your-token-here --start 42 --limit 50",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-attachments-for-request", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/attachment", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

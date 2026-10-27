@@ -16,7 +16,7 @@ func newAssetsListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "list",
 		Short:       "Get links to permitted asset resources.",
-		Example:     "  jira-pp-cli-pp-cli assets list",
+		Example:     "  keen assets list",
 		Annotations: map[string]string{"pp:endpoint": "assets.list", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/assets", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

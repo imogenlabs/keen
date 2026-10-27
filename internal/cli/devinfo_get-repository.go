@@ -17,7 +17,7 @@ func newDevinfoGetRepositoryCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-repository <repositoryId>",
 		Aliases:     []string{"get"},
 		Short:       "For the specified repository ID, retrieves the repository and the most recent 400 development information entities.",
-		Example:     "  jira-pp-cli-pp-cli devinfo get-repository 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen devinfo get-repository 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "devinfo.get-repository", "pp:method": "GET", "pp:path": "/rest/devinfo/0.10/repository/{repositoryId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

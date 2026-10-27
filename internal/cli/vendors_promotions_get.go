@@ -16,7 +16,7 @@ func newVendorsPromotionsGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <vendorId>",
 		Short:       "Get a list of promotions for the specified vendor. This resource requires authentication. **This is a deprecated API.",
-		Example:     "  jira-pp-cli-pp-cli vendors promotions get 42",
+		Example:     "  keen vendors promotions get 42",
 		Annotations: map[string]string{"pp:endpoint": "promotions.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/promotions", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

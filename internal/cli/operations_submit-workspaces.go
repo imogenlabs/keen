@@ -19,7 +19,7 @@ func newOperationsSubmitWorkspacesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "submit-workspaces",
 		Short:       "Insert Operations Workspace IDs to establish a relationship between them and the Jira site the app is installed in.",
-		Example:     "  jira-pp-cli-pp-cli operations submit-workspaces",
+		Example:     "  keen operations submit-workspaces",
 		Annotations: map[string]string{"pp:endpoint": "operations.submit-workspaces", "pp:method": "POST", "pp:path": "/rest/operations/1.0/linkedWorkspaces/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

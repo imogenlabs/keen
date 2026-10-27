@@ -19,7 +19,7 @@ func newAddonsPricingGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Get pricing for the specified app. Live pricing is visible to all users.",
-		Example:     "  jira-pp-cli-pp-cli addons pricing get your-token-here --cloud-or-server cloud --live-or-pending live",
+		Example:     "  keen addons pricing get your-token-here --cloud-or-server cloud --live-or-pending live",
 		Annotations: map[string]string{"pp:endpoint": "pricing.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/pricing/{cloudOrServer}/{liveOrPending}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

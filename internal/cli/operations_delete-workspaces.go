@@ -16,7 +16,7 @@ func newOperationsDeleteWorkspacesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-workspaces",
 		Short:       "Bulk delete all Operations Workspaces that match the given request.",
-		Example:     "  jira-pp-cli-pp-cli operations delete-workspaces",
+		Example:     "  keen operations delete-workspaces",
 		Annotations: map[string]string{"pp:endpoint": "operations.delete-workspaces", "pp:method": "DELETE", "pp:path": "/rest/operations/1.0/linkedWorkspaces/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

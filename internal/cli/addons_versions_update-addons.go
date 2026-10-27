@@ -29,7 +29,7 @@ func newAddonsVersionsUpdateAddonsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-addons <addonKey> <pluginBuildNumber>",
 		Short:       "Approve, reject or resubmit an app version for approval.",
-		Example:     "  jira-pp-cli-pp-cli addons versions update-addons your-token-here 42 --status approved",
+		Example:     "  keen addons versions update-addons your-token-here 42 --status approved",
 		Annotations: map[string]string{"pp:endpoint": "versions.update-addons", "pp:method": "PUT", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/versions/build/{pluginBuildNumber}/approval"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

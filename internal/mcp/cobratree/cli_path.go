@@ -27,7 +27,7 @@ func SiblingCLIPath() (string, error) {
 }
 
 func cliExecutableName(goos string) string {
-	name := "jira-pp-cli-pp-cli"
+	name := "keen"
 	if goos == "windows" {
 		return name + ".exe"
 	}

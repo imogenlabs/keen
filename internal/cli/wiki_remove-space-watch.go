@@ -19,7 +19,7 @@ func newWikiRemoveSpaceWatchCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-space-watch <spaceKey>",
 		Short:       "Removes a user as a watcher from a space.",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-space-watch your-token-here",
+		Example:     "  keen wiki remove-space-watch your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-space-watch", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/user/watch/space/{spaceKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

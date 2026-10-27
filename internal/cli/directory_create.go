@@ -20,7 +20,7 @@ func newDirectoryCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create <orgId>",
 		Short:       "**This API is deprecated and will no longer work after June 30, 2026.",
-		Example:     "  jira-pp-cli-pp-cli directory create 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
+		Example:     "  keen directory create 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "directory.create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/directory/groups"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

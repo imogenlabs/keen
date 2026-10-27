@@ -31,7 +31,7 @@ func newWikiAsyncConvertContentBodyRequestCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "async-convert-content-body-request",
 		Short:       "Converts a content body from one format to another format asynchronously. Returns the asyncId for the asynchronous task.",
-		Example:     "  jira-pp-cli-pp-cli wiki async-convert-content-body-request --to export_view --representation view",
+		Example:     "  keen wiki async-convert-content-body-request --to export_view --representation view",
 		Annotations: map[string]string{"pp:endpoint": "wiki.async-convert-content-body-request", "pp:method": "POST", "pp:path": "/wiki/rest/api/contentbody/convert/async/{to}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("to") {

@@ -16,7 +16,7 @@ func newAssetsGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <assetName>",
 		Short:       "Returns details about a previously uploaded file that Marketplace is now storing.",
-		Example:     "  jira-pp-cli-pp-cli assets get example-resource",
+		Example:     "  keen assets get example-resource",
 		Annotations: map[string]string{"pp:endpoint": "assets.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/assets/{assetName}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newVendorsReportingGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <vendorId>",
 		Short:       "Get links to permitted vendor reporting resources. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get 42",
+		Example:     "  keen vendors reporting get 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

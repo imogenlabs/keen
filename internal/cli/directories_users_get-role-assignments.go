@@ -23,7 +23,7 @@ func newDirectoriesUsersGetRoleAssignmentsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-role-assignments <orgId> <directoryId> <accountId>",
 		Short:       "Returns a page of role assignments for a user that match the supplied parameters.",
-		Example:     "  jira-pp-cli-pp-cli directories users get-role-assignments 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen directories users get-role-assignments 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "users.get-role-assignments", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/users/{accountId}/role-assignments", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newAgileGetBoardPropertyKeysCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-board-property-keys <boardId>",
 		Short:       "Returns the keys of all properties for the board identified by the id.",
-		Example:     "  jira-pp-cli-pp-cli agile get-board-property-keys 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen agile get-board-property-keys 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-board-property-keys", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/properties", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

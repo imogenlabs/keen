@@ -17,7 +17,7 @@ func newServicedeskapiGetCustomerRequestByIdOrKeyCmd(flags *rootFlags) *cobra.Co
 	cmd := &cobra.Command{
 		Use:         "get-customer-request-by-id-or-key <issueIdOrKey>",
 		Short:       "This method returns a customer request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-customer-request-by-id-or-key your-token-here",
+		Example:     "  keen servicedeskapi get-customer-request-by-id-or-key your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-customer-request-by-id-or-key", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

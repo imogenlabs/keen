@@ -19,7 +19,7 @@ func newAtlassianAccessUsersRoleAssignmentsCreateOrgsCmd(flags *rootFlags) *cobr
 	cmd := &cobra.Command{
 		Use:         "create-orgs <orgId> <userId>",
 		Short:       "Remove an organization-level role from a user.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-users role-assignments create-orgs 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --role atlassian/org-admin",
+		Example:     "  keen atlassian-access-users role-assignments create-orgs 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --role atlassian/org-admin",
 		Annotations: map[string]string{"pp:endpoint": "role-assignments.create-orgs", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/users/{userId}/role-assignments/revoke"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

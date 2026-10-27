@@ -24,15 +24,15 @@ Every Atlassian workflow we automate used to be a wall of `curl` calls with hand
 ### From source (recommended)
 
 ```bash
-git clone https://github.com/smashingtags/jira-pp-cli.git
-cd jira-pp-cli
-go build -o atlas-cli ./cmd/jira-pp-cli-pp-cli/
+git clone https://github.com/smashingtags/keen.git
+cd keen
+go build -o atlas-cli ./cmd/keen/
 ```
 
 ### MCP Server
 
 ```bash
-go build -o atlas-mcp ./cmd/jira-pp-cli-pp-mcp/
+go build -o atlas-mcp ./cmd/keen-mcp/
 ```
 
 ## Auth
@@ -268,7 +268,7 @@ cli-printing-press generate \
   --spec specs/marketplace.json \
   --spec specs/jira-service-desk.json \
   --spec specs/admin-orgs.json \
-  --name jira-pp-cli --owner smashingtags --force --lenient \
+  --name keen --owner smashingtags --force --lenient \
   --auth-preference basicAuth --max-resources 1500
 ```
 
@@ -278,9 +278,9 @@ cli-printing-press generate \
 
 | Machine | Platform | Path |
 |---------|----------|------|
-| Mac Mini (dev workstation) | macOS arm64 | `~/repos/jira-pp-cli/` + `~/go/bin/` |
-| iMac (build machine) | macOS arm64 | `~/repos/jira-pp-cli/` + `~/go/bin/` |
-| MacBook Pro | macOS arm64 | `~/repos/jira-pp-cli/` + `~/go/bin/` |
+| Mac Mini (dev workstation) | macOS arm64 | `~/repos/keen/` + `~/go/bin/` |
+| iMac (build machine) | macOS arm64 | `~/repos/keen/` + `~/go/bin/` |
+| MacBook Pro | macOS arm64 | `~/repos/keen/` + `~/go/bin/` |
 | Windows Desktop | Windows amd64 | `C:\Users\micha\go\bin\` |
 
 ## License

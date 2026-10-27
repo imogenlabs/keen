@@ -21,7 +21,7 @@ func newWikiSearchGroupsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "search-groups",
 		Short:       "Get search results of groups by partial query provided.",
-		Example:     "  jira-pp-cli-pp-cli wiki search-groups --query example-value",
+		Example:     "  keen wiki search-groups --query example-value",
 		Annotations: map[string]string{"pp:endpoint": "wiki.search-groups", "pp:method": "GET", "pp:path": "/wiki/rest/api/group/picker", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("query") && !flags.dryRun {

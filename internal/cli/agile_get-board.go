@@ -16,7 +16,7 @@ func newAgileGetBoardCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-board <boardId>",
 		Short:       "Returns the board for the given board ID. This board will only be returned if the user has permission to view it.",
-		Example:     "  jira-pp-cli-pp-cli agile get-board 42",
+		Example:     "  keen agile get-board 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-board", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

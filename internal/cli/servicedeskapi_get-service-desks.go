@@ -19,7 +19,7 @@ func newServicedeskapiGetServiceDesksCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-service-desks",
 		Short:       "This method returns all the service desks in the Jira Service Management instance that the user has permission to",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-service-desks",
+		Example:     "  keen servicedeskapi get-service-desks",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-service-desks", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

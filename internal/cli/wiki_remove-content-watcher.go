@@ -19,7 +19,7 @@ func newWikiRemoveContentWatcherCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-content-watcher <contentId>",
 		Short:       "Removes a user as a watcher from a piece of content.",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-content-watcher 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki remove-content-watcher 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-content-watcher", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/user/watch/content/{contentId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

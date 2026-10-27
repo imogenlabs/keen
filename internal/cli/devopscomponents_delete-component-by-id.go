@@ -17,7 +17,7 @@ func newDevopscomponentsDeleteComponentByIdCmd(flags *rootFlags) *cobra.Command 
 		Use:         "delete-component-by-id <componentId>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete the Component data currently stored for the given ID. Deletion is performed asynchronously.",
-		Example:     "  jira-pp-cli-pp-cli devopscomponents delete-component-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen devopscomponents delete-component-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "devopscomponents.delete-component-by-id", "pp:method": "DELETE", "pp:path": "/rest/devopscomponents/1.0/devopscomponents/{componentId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

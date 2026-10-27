@@ -16,7 +16,7 @@ func newDirectoriesUsersGetDirectoryDetailsCmd(flags *rootFlags) *cobra.Command 
 	cmd := &cobra.Command{
 		Use:         "get-directory-details <orgId> <directoryId> <accountId> <userId>",
 		Short:       "Returns detailed information about a specific user in a directory within an organization.",
-		Example:     "  jira-pp-cli-pp-cli directories users get-directory-details 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen directories users get-directory-details 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "users.get-directory-details", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/users/{userId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

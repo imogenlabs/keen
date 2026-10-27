@@ -20,7 +20,7 @@ func newAgileGetEpicsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-epics <boardId>",
 		Short:       "Returns all epics from the board, for the given board ID. This only includes epics that the user has permission to view.",
-		Example:     "  jira-pp-cli-pp-cli agile get-epics 42",
+		Example:     "  keen agile get-epics 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-epics", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/epic", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

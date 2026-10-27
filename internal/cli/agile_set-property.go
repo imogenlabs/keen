@@ -18,7 +18,7 @@ func newAgileSetPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-property <sprintId> <propertyKey>",
 		Short:       "Sets the value of the specified sprint's property.",
-		Example:     "  jira-pp-cli-pp-cli agile set-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen agile set-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "agile.set-property", "pp:method": "PUT", "pp:path": "/rest/agile/1.0/sprint/{sprintId}/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -19,7 +19,7 @@ func newAgileRemoveIssuesFromEpicCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-issues-from-epic",
 		Short:       "Removes issues from epics.",
-		Example:     "  jira-pp-cli-pp-cli agile remove-issues-from-epic",
+		Example:     "  keen agile remove-issues-from-epic",
 		Annotations: map[string]string{"pp:endpoint": "agile.remove-issues-from-epic", "pp:method": "POST", "pp:path": "/rest/agile/1.0/epic/none/issue"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

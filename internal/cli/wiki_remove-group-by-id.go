@@ -17,7 +17,7 @@ func newWikiRemoveGroupByIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-group-by-id",
 		Short:       "Delete user group. **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**: User must be a site admin.",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-group-by-id --id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki remove-group-by-id --id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-group-by-id", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/group/by-id"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("id") && !flags.dryRun {

@@ -25,7 +25,7 @@ func newServicedeskapiGetAllRequestTypesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-all-request-types",
 		Aliases:     []string{"list"},
 		Short:       "This method returns all customer request types used in the Jira Service Management instance",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-all-request-types",
+		Example:     "  keen servicedeskapi get-all-request-types",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-all-request-types", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/requesttype", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

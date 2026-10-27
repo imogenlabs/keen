@@ -37,7 +37,7 @@ func newVendorsReportingCreateVendors3Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-vendors-3 <vendorId>",
 		Short:       "Initiate a POST request to export all transactions that match the specified filters for the vendor's apps.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting create-vendors-3 42",
+		Example:     "  keen vendors reporting create-vendors-3 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.create-vendors-3", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/sales/transactions/async/export"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

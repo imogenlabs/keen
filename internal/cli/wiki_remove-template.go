@@ -16,7 +16,7 @@ func newWikiRemoveTemplateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-template <contentTemplateId>",
 		Short:       "Deletes a template.",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-template 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki remove-template 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-template", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/template/{contentTemplateId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

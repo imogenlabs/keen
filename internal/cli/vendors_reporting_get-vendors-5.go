@@ -19,7 +19,7 @@ func newVendorsReportingGetVendors5Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-5 <vendorId>",
 		Short:       "To fetch count of evaluations and benchmark.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-5 42",
+		Example:     "  keen vendors reporting get-vendors-5 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-5", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/benchmark/evaluations", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -6,7 +6,7 @@ package main
 import (
 	"os"
 
-	"jira-pp-cli-pp-cli/internal/cli"
+	"keen/internal/cli"
 )
 
 func main() {

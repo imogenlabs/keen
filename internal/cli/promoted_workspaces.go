@@ -21,7 +21,7 @@ func newWorkspacesPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "workspaces <orgId>",
 		Short:       "A workspace refers to a specific instance of an Atlassian product that is accessed through a unique URL.",
 		Long:        "A workspace refers to a specific instance of an Atlassian product that is accessed through a unique URL.",
-		Example:     "  jira-pp-cli-pp-cli workspaces 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen workspaces 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "workspaces.query-v2", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/workspaces", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

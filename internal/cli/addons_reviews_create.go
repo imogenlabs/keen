@@ -46,7 +46,7 @@ func newAddonsReviewsCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create <addonKey>",
 		Short:       "Create or update a specific app review. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli addons reviews create your-token-here",
+		Example:     "  keen addons reviews create your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "reviews.create", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/reviews"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -17,7 +17,7 @@ func newWikiGetCurrentUserCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-current-user",
 		Short:       "Returns the currently logged-in user.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-current-user",
+		Example:     "  keen wiki get-current-user",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-current-user", "pp:method": "GET", "pp:path": "/wiki/rest/api/user/current", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

@@ -19,7 +19,7 @@ func newServicedeskapiGetInsightWorkspacesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-insight-workspaces",
 		Short:       "This endpoint is deprecated, please use /assets/workspace/.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-insight-workspaces",
+		Example:     "  keen servicedeskapi get-insight-workspaces",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-insight-workspaces", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/insight/workspace", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

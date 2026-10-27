@@ -21,7 +21,7 @@ func newServicedeskapiAddUsersToOrganizationCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "add-users-to-organization <organizationId>",
 		Short:       "This method adds users to an organization.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi add-users-to-organization 42",
+		Example:     "  keen servicedeskapi add-users-to-organization 42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.add-users-to-organization", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/organization/{organizationId}/user"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

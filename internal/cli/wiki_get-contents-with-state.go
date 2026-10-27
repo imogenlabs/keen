@@ -21,7 +21,7 @@ func newWikiGetContentsWithStateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-contents-with-state <spaceKey>",
 		Short:       "Returns all content that has the provided content state in a space.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-contents-with-state your-token-here --state-id 42",
+		Example:     "  keen wiki get-contents-with-state your-token-here --state-id 42",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-contents-with-state", "pp:method": "GET", "pp:path": "/wiki/rest/api/space/{spaceKey}/state/content", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

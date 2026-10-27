@@ -16,7 +16,7 @@ func newWikiGetCustomContentStatesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-custom-content-states",
 		Short:       "Get custom content states that authenticated user has created. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-custom-content-states",
+		Example:     "  keen wiki get-custom-content-states",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-custom-content-states", "pp:method": "GET", "pp:path": "/wiki/rest/api/content-states", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

@@ -19,7 +19,7 @@ func newServicedeskapiGetCustomerRequestStatusCmd(flags *rootFlags) *cobra.Comma
 	cmd := &cobra.Command{
 		Use:         "get-customer-request-status <issueIdOrKey>",
 		Short:       "This method returns a list of all the statuses a customer Request has achieved.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-customer-request-status your-token-here",
+		Example:     "  keen servicedeskapi get-customer-request-status your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-customer-request-status", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/status", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

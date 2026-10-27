@@ -16,7 +16,7 @@ func newAssetsDeleteCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete <assetName>",
 		Short:       "Removes a file from Marketplace storage which had been previously uploaded. This is only allowed if: 1.",
-		Example:     "  jira-pp-cli-pp-cli assets delete example-resource",
+		Example:     "  keen assets delete example-resource",
 		Annotations: map[string]string{"pp:endpoint": "assets.delete", "pp:method": "DELETE", "pp:path": "https://marketplace.atlassian.com/rest/2/assets/{assetName}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

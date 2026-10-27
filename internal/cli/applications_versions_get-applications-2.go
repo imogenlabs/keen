@@ -16,7 +16,7 @@ func newApplicationsVersionsGetApplications2Cmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "get-applications-2 <applicationKey> <applicationBuildNumber>",
 		Short:       "Get details about a specific version, matching the specified build number, of the specified application.",
-		Example:     "  jira-pp-cli-pp-cli applications versions get-applications-2 your-token-here 42",
+		Example:     "  keen applications versions get-applications-2 your-token-here 42",
 		Annotations: map[string]string{"pp:endpoint": "versions.get-applications-2", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/applications/{applicationKey}/versions/build/{applicationBuildNumber}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

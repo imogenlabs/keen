@@ -40,7 +40,7 @@ func newVendorsReportingGetVendors2Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-2 <vendorId>",
 		Short:       "Get a list of licenses for the specified vendor's apps. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-2 42",
+		Example:     "  keen vendors reporting get-vendors-2 42",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-2", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/licenses", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

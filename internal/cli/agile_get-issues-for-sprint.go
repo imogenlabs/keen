@@ -23,7 +23,7 @@ func newAgileGetIssuesForSprintCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-issues-for-sprint <sprintId>",
 		Short:       "Returns all issues in a sprint, for a given sprint ID. This only includes issues that the user has permission to view.",
-		Example:     "  jira-pp-cli-pp-cli agile get-issues-for-sprint 42",
+		Example:     "  keen agile get-issues-for-sprint 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-issues-for-sprint", "pp:method": "GET", "pp:path": "/rest/agile/1.0/sprint/{sprintId}/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

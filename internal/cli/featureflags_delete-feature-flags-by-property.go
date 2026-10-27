@@ -17,7 +17,7 @@ func newFeatureflagsDeleteFeatureFlagsByPropertyCmd(flags *rootFlags) *cobra.Com
 	cmd := &cobra.Command{
 		Use:         "delete-feature-flags-by-property",
 		Short:       "Bulk delete all Feature Flags that match the given request.",
-		Example:     "  jira-pp-cli-pp-cli featureflags delete-feature-flags-by-property",
+		Example:     "  keen featureflags delete-feature-flags-by-property",
 		Annotations: map[string]string{"pp:endpoint": "featureflags.delete-feature-flags-by-property", "pp:method": "DELETE", "pp:path": "/rest/featureflags/0.1/bulkByProperties"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

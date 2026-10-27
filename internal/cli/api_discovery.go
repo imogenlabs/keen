@@ -25,10 +25,10 @@ agents that need full API coverage.
 Run 'api' with no arguments to list all interfaces.
 Run 'api <interface>' to see that interface's methods.`,
 		Example: `  # List all available interfaces
-  jira-pp-cli-pp-cli api
+  keen api
 
   # Show methods for a specific interface
-  jira-pp-cli-pp-cli api <interface-name>`,
+  keen api <interface-name>`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			root := cmd.Root()
 
@@ -59,11 +59,11 @@ Run 'api <interface>' to see that interface's methods.`,
 						for _, method := range methods {
 							fmt.Fprintf(cmd.OutOrStdout(), "  %-50s %s\n", child.Name()+" "+method.Name(), method.Short)
 						}
-						fmt.Fprintf(cmd.OutOrStdout(), "\nUse '%s-pp-cli %s <method> --help' for details.\n", "jira-pp-cli", child.Name())
+						fmt.Fprintf(cmd.OutOrStdout(), "\nUse '%s %s <method> --help' for details.\n", "keen", child.Name())
 						return nil
 					}
 				}
-				return fmt.Errorf("interface %q not found. Run '%s-pp-cli api' to list all interfaces", args[0], "jira-pp-cli")
+				return fmt.Errorf("interface %q not found. Run '%s api' to list all interfaces", args[0], "keen")
 			}
 
 			// Pre-formatting human strings ahead of time would block the JSON
@@ -100,7 +100,7 @@ Run 'api <interface>' to see that interface's methods.`,
 			for _, e := range ifaces {
 				fmt.Fprintf(cmd.OutOrStdout(), "  %-45s %s\n", e.Name, e.Short)
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "\nUse '%s-pp-cli api <interface>' to see methods.\n", "jira-pp-cli")
+			fmt.Fprintf(cmd.OutOrStdout(), "\nUse '%s api <interface>' to see methods.\n", "keen")
 			return nil
 		},
 	}

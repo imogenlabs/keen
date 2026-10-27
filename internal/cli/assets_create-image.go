@@ -20,7 +20,7 @@ func newAssetsCreateImageCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-image",
 		Short:       "Use this resource to upload an image (`.jpg`, `.png`, `.gif`, `.",
-		Example:     "  jira-pp-cli-pp-cli assets create-image --image-type banner --file example-value",
+		Example:     "  keen assets create-image --image-type banner --file example-value",
 		Annotations: map[string]string{"pp:endpoint": "assets.create-image", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/assets/image/{imageType}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("file") && !flags.dryRun {

@@ -19,7 +19,7 @@ func newWikiCreateGroupCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-group",
 		Short:       "Creates a new user group. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki create-group --name example-resource",
+		Example:     "  keen wiki create-group --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "wiki.create-group", "pp:method": "POST", "pp:path": "/wiki/rest/api/group"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

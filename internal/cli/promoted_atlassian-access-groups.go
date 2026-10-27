@@ -23,7 +23,7 @@ func newAtlassianAccessGroupsPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "atlassian-access-groups <orgId>",
 		Short:       "**This API is deprecated and will no longer work after June 30, 2026.",
 		Long:        "**This API is deprecated and will no longer work after June 30, 2026.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-groups 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen atlassian-access-groups 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "atlassian-access-groups.search", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/groups/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

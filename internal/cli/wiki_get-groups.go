@@ -20,7 +20,7 @@ func newWikiGetGroupsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-groups",
 		Short:       "Returns all user groups. The returned groups are ordered alphabetically in ascending order by group name.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-groups",
+		Example:     "  keen wiki get-groups",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-groups", "pp:method": "GET", "pp:path": "/wiki/rest/api/group", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("access-type") {

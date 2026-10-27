@@ -16,7 +16,7 @@ func newAddonsDistributionGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Get a summary of an app's latest metrics.",
-		Example:     "  jira-pp-cli-pp-cli addons distribution get your-token-here",
+		Example:     "  keen addons distribution get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "distribution.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/distribution", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

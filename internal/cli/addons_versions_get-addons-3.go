@@ -18,7 +18,7 @@ func newAddonsVersionsGetAddons3Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-addons-3 <addonKey> <name>",
 		Short:       "Get details about a specific version, matching the specified name, of the specified app.",
-		Example:     "  jira-pp-cli-pp-cli addons versions get-addons-3 your-token-here example-resource",
+		Example:     "  keen addons versions get-addons-3 your-token-here example-resource",
 		Annotations: map[string]string{"pp:endpoint": "versions.get-addons-3", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/versions/name/{name}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

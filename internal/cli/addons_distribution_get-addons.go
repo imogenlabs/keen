@@ -16,7 +16,7 @@ func newAddonsDistributionGetAddonsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-addons <addonKey>",
 		Short:       "Get a specific app's active installation counts over time.",
-		Example:     "  jira-pp-cli-pp-cli addons distribution get-addons your-token-here",
+		Example:     "  keen addons distribution get-addons your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "distribution.get-addons", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/distribution/active", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

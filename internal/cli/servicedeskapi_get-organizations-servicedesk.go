@@ -20,7 +20,7 @@ func newServicedeskapiGetOrganizationsServicedeskCmd(flags *rootFlags) *cobra.Co
 	cmd := &cobra.Command{
 		Use:         "get-organizations-servicedesk <serviceDeskId>",
 		Short:       "This method returns a list of all organizations associated with a service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-organizations-servicedesk 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi get-organizations-servicedesk 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-organizations-servicedesk", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/organization", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

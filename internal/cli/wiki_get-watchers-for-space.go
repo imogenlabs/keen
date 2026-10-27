@@ -19,7 +19,7 @@ func newWikiGetWatchersForSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-watchers-for-space <spaceKey>",
 		Short:       "Returns a list of watchers of a space",
-		Example:     "  jira-pp-cli-pp-cli wiki get-watchers-for-space your-token-here",
+		Example:     "  keen wiki get-watchers-for-space your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-watchers-for-space", "pp:method": "GET", "pp:path": "/wiki/rest/api/space/{spaceKey}/watch", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

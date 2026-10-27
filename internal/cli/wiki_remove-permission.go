@@ -16,7 +16,7 @@ func newWikiRemovePermissionCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-permission <spaceKey> <id>",
 		Short:       "Removes a space permission.",
-		Example:     "  jira-pp-cli-pp-cli wiki remove-permission your-token-here 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki remove-permission your-token-here 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-permission", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/space/{spaceKey}/permission/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

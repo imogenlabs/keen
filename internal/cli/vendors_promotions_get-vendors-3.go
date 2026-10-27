@@ -16,7 +16,7 @@ func newVendorsPromotionsGetVendors3Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-3 <vendorId> <promotionId>",
 		Short:       "Get a specific promotion status for the specified vendor. This resource requires authentication.",
-		Example:     "  jira-pp-cli-pp-cli vendors promotions get-vendors-3 42 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen vendors promotions get-vendors-3 42 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "promotions.get-vendors-3", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/promotions/{promotionId}/status", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

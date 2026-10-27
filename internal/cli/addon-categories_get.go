@@ -16,7 +16,7 @@ func newAddonCategoriesGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <pluginCategoryId>",
 		Short:       "Get a specific category.",
-		Example:     "  jira-pp-cli-pp-cli addon-categories get 42",
+		Example:     "  keen addon-categories get 42",
 		Annotations: map[string]string{"pp:endpoint": "addon-categories.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addonCategories/{pluginCategoryId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

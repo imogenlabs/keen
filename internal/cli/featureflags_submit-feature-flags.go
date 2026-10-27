@@ -22,7 +22,7 @@ func newFeatureflagsSubmitFeatureFlagsCmd(flags *rootFlags) *cobra.Command {
 		Use:         "submit-feature-flags",
 		Aliases:     []string{"create"},
 		Short:       "Update / insert Feature Flag data.",
-		Example:     "  jira-pp-cli-pp-cli featureflags submit-feature-flags",
+		Example:     "  keen featureflags submit-feature-flags",
 		Annotations: map[string]string{"pp:endpoint": "featureflags.submit-feature-flags", "pp:method": "POST", "pp:path": "/rest/featureflags/0.1/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

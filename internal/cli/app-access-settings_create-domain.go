@@ -22,7 +22,7 @@ func newAppAccessSettingsCreateDomainCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create-domain <orgId>",
 		Aliases:     []string{"create"},
 		Short:       "Registers a new approved-domain configuration for your organization, including the initial per-product configuration.",
-		Example:     "  jira-pp-cli-pp-cli app-access-settings create-domain 550e8400-e29b-41d4-a716-446655440000 --domain example-value",
+		Example:     "  keen app-access-settings create-domain 550e8400-e29b-41d4-a716-446655440000 --domain example-value",
 		Annotations: map[string]string{"pp:endpoint": "app-access-settings.create-domain", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/app-access-settings/domains"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

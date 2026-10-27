@@ -21,7 +21,7 @@ func newWikiAddCustomContentPermissionsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-custom-content-permissions <spaceKey>",
 		Short:       "Adds new custom content permission to space.",
-		Example:     "  jira-pp-cli-pp-cli wiki add-custom-content-permissions your-token-here",
+		Example:     "  keen wiki add-custom-content-permissions your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-custom-content-permissions", "pp:method": "POST", "pp:path": "/wiki/rest/api/space/{spaceKey}/permission/custom-content"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

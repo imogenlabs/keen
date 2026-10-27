@@ -16,7 +16,7 @@ func newAddonsMigrationGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Get migration info about the Server/DC version for this app.",
-		Example:     "  jira-pp-cli-pp-cli addons migration get your-token-here",
+		Example:     "  keen addons migration get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "migration.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/migration", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

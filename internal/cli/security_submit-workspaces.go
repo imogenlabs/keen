@@ -19,7 +19,7 @@ func newSecuritySubmitWorkspacesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "submit-workspaces",
 		Short:       "Insert Security Workspace IDs to establish a relationship between them and the Jira site the app is installed on.",
-		Example:     "  jira-pp-cli-pp-cli security submit-workspaces",
+		Example:     "  keen security submit-workspaces",
 		Annotations: map[string]string{"pp:endpoint": "security.submit-workspaces", "pp:method": "POST", "pp:path": "/rest/security/1.0/linkedWorkspaces/bulk"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

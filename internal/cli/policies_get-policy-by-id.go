@@ -16,7 +16,7 @@ func newPoliciesGetPolicyByIdCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-policy-by-id <orgId> <policyId>",
 		Short:       "Returns information about a single policy by ID",
-		Example:     "  jira-pp-cli-pp-cli policies get-policy-by-id 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen policies get-policy-by-id 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "policies.get-policy-by-id", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/policies/{policyId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

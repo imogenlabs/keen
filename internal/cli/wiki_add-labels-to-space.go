@@ -19,7 +19,7 @@ func newWikiAddLabelsToSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-labels-to-space <spaceKey>",
 		Short:       "Adds labels to a piece of content. Does not modify the existing labels.",
-		Example:     "  jira-pp-cli-pp-cli wiki add-labels-to-space your-token-here",
+		Example:     "  keen wiki add-labels-to-space your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-labels-to-space", "pp:method": "POST", "pp:path": "/wiki/rest/api/space/{spaceKey}/label"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newAgileGetReportsForBoardCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-reports-for-board <boardId>",
 		Short:       "Get reports for board",
-		Example:     "  jira-pp-cli-pp-cli agile get-reports-for-board 42",
+		Example:     "  keen agile get-reports-for-board 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-reports-for-board", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/reports", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

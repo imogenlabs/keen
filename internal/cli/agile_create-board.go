@@ -24,7 +24,7 @@ func newAgileCreateBoardCmd(flags *rootFlags) *cobra.Command {
 		Use:         "create-board",
 		Aliases:     []string{"create"},
 		Short:       "Creates a new board. Board name, type and filter ID is required. * `name` - Must be less than 255 characters.",
-		Example:     "  jira-pp-cli-pp-cli agile create-board",
+		Example:     "  keen agile create-board",
 		Annotations: map[string]string{"pp:endpoint": "agile.create-board", "pp:method": "POST", "pp:path": "/rest/agile/1.0/board"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

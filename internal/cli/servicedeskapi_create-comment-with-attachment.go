@@ -21,7 +21,7 @@ func newServicedeskapiCreateCommentWithAttachmentCmd(flags *rootFlags) *cobra.Co
 	cmd := &cobra.Command{
 		Use:         "create-comment-with-attachment <issueIdOrKey>",
 		Short:       "This method creates a comment on a customer request using one or more attachment files (uploaded using",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi create-comment-with-attachment your-token-here",
+		Example:     "  keen servicedeskapi create-comment-with-attachment your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.create-comment-with-attachment", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/attachment"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

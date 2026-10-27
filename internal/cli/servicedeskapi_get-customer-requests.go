@@ -27,7 +27,7 @@ func newServicedeskapiGetCustomerRequestsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-customer-requests",
 		Short:       "This method returns all customer requests for the user executing the query.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-customer-requests",
+		Example:     "  keen servicedeskapi get-customer-requests",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-customer-requests", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

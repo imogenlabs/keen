@@ -15,7 +15,7 @@ Atlas CLI and 31 Printing Press Library CLIs are installed across the fleet.
 
 | CLI | Category | What it does |
 |-----|----------|-------------|
-| jira-pp-cli (Atlas CLI) | Atlassian | 1,091 endpoints: Jira, Confluence, Agile, Marketplace, JSM, Admin |
+| keen (Atlas CLI) | Atlassian | 1,091 endpoints: Jira, Confluence, Agile, Marketplace, JSM, Admin |
 | icloud-pp-cli | Apple | Query local iCloud Photo Library SQLite (macOS only) |
 | docker-hub-pp-cli | Dev Tools | Search, inspect Docker Hub repos and images |
 | posthog-pp-cli | Analytics | Product analytics |

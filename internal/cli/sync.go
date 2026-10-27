@@ -10,9 +10,9 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"io"
-	"jira-pp-cli-pp-cli/internal/client"
-	"jira-pp-cli-pp-cli/internal/cliutil"
-	"jira-pp-cli-pp-cli/internal/store"
+	"keen/internal/client"
+	"keen/internal/cliutil"
+	"keen/internal/store"
 	"net/url"
 	"os"
 	"regexp"
@@ -85,22 +85,22 @@ Resource scoping:
   the dependent by name; the parent table must already be populated
   from a prior sync.`,
 		Example: `  # Sync all resources
-  jira-pp-cli-pp-cli sync
+  keen sync
 
   # Sync specific resources only
-  jira-pp-cli-pp-cli sync --resources channels,messages
+  keen sync --resources channels,messages
 
   # Full resync (ignore previous checkpoint)
-  jira-pp-cli-pp-cli sync --full
+  keen sync --full
 
   # Incremental sync: only records from the last 7 days
-  jira-pp-cli-pp-cli sync --since 7d
+  keen sync --since 7d
 
   # Parallel sync with 8 workers
-  jira-pp-cli-pp-cli sync --concurrency 8
+  keen sync --concurrency 8
 
   # Latest-only: refresh head of each resource, no historical backfill
-  jira-pp-cli-pp-cli sync --latest-only`,
+  keen sync --latest-only`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			userParams, err := parseSyncUserParams(paramFlags, resourceParamFlags, globalParamFlags)
 			if err != nil {
@@ -114,7 +114,7 @@ Resource scoping:
 			c.NoCache = true
 
 			if dbPath == "" {
-				dbPath = defaultDBPath("jira-pp-cli-pp-cli")
+				dbPath = defaultDBPath("keen")
 			}
 
 			db, err := store.OpenWithContext(cmd.Context(), dbPath)
@@ -353,7 +353,7 @@ Resource scoping:
 	cmd.Flags().BoolVar(&full, "full", false, "Full resync (ignore previous checkpoint)")
 	cmd.Flags().StringVar(&since, "since", "", "Incremental sync duration (e.g. 7d, 24h, 1w, 30m)")
 	cmd.Flags().IntVar(&concurrency, "concurrency", 4, "Number of parallel sync workers")
-	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/jira-pp-cli-pp-cli/data.db)")
+	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/keen/data.db)")
 	cmd.Flags().IntVar(&maxPages, "max-pages", 100, "Maximum pages to fetch per resource (0 = unlimited; cap-hit emits a sync_warning event)")
 	cmd.Flags().BoolVar(&latestOnly, "latest-only", false, "Refresh head of each resource only; clears resume cursor and caps pages at 1. Mutually exclusive with --since (--since wins).")
 	cmd.Flags().BoolVar(&strict, "strict", false, "Exit non-zero on any per-resource failure (default: only critical failures or all-resource failure exit non-zero).")

@@ -17,7 +17,7 @@ func newWikiGetContentTemplateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-content-template <contentTemplateId>",
 		Short:       "Returns a content template.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-content-template 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-content-template 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-content-template", "pp:method": "GET", "pp:path": "/wiki/rest/api/template/{contentTemplateId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

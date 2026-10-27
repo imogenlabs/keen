@@ -20,7 +20,7 @@ func newWikiGetRestrictionsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-restrictions <id>",
 		Short:       "Returns the restrictions on a piece of content. **[Permissions](https://confluence.atlassian.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-restrictions 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-restrictions 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-restrictions", "pp:method": "GET", "pp:path": "/wiki/rest/api/content/{id}/restriction", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

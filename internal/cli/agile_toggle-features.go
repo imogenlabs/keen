@@ -21,7 +21,7 @@ func newAgileToggleFeaturesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "toggle-features <boardId>",
 		Short:       "Toggle features",
-		Example:     "  jira-pp-cli-pp-cli agile toggle-features 42",
+		Example:     "  keen agile toggle-features 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.toggle-features", "pp:method": "PUT", "pp:path": "/rest/agile/1.0/board/{boardId}/features"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

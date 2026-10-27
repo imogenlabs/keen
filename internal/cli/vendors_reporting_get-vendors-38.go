@@ -16,7 +16,7 @@ func newVendorsReportingGetVendors38Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-vendors-38 <vendorId> <exportId>",
 		Short:       "Download async export transactions",
-		Example:     "  jira-pp-cli-pp-cli vendors reporting get-vendors-38 42 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen vendors reporting get-vendors-38 42 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "reporting.get-vendors-38", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/reporting/sales/transactions/async/export/{exportId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

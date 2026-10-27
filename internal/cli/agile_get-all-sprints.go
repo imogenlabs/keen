@@ -20,7 +20,7 @@ func newAgileGetAllSprintsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-all-sprints <boardId>",
 		Short:       "Returns all sprints from a board, for a given board ID. This only includes sprints that the user has permission to view.",
-		Example:     "  jira-pp-cli-pp-cli agile get-all-sprints 42",
+		Example:     "  keen agile get-all-sprints 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-all-sprints", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/sprint", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

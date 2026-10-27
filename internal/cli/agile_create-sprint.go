@@ -23,7 +23,7 @@ func newAgileCreateSprintCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-sprint",
 		Short:       "Creates a future sprint. Sprint name and origin board id are required. Start date, end date, and goal are optional.",
-		Example:     "  jira-pp-cli-pp-cli agile create-sprint",
+		Example:     "  keen agile create-sprint",
 		Annotations: map[string]string{"pp:endpoint": "agile.create-sprint", "pp:method": "POST", "pp:path": "/rest/agile/1.0/sprint"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

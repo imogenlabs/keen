@@ -16,7 +16,7 @@ func newDirectoriesUsersDeleteCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete <orgId> <directoryId> <accountId>",
 		Short:       "Remove a user from a directory if you don’t want them to appear in your directory or have access to your apps anymore.",
-		Example:     "  jira-pp-cli-pp-cli directories users delete 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen directories users delete 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "users.delete", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/users/{accountId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

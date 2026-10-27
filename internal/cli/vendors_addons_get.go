@@ -19,7 +19,7 @@ func newVendorsAddonsGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <vendorId> <addonKey>",
 		Short:       "Fetch the details of searched keywords for which the particular app showed up.",
-		Example:     "  jira-pp-cli-pp-cli vendors addons get 42 your-token-here",
+		Example:     "  keen vendors addons get 42 your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "addons.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/vendors/{vendorId}/addons/{addonKey}/reporting/search-keywords", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

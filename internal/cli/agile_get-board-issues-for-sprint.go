@@ -23,7 +23,7 @@ func newAgileGetBoardIssuesForSprintCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-board-issues-for-sprint <boardId> <sprintId>",
 		Short:       "Get all issues you have access to that belong to the sprint from the board.",
-		Example:     "  jira-pp-cli-pp-cli agile get-board-issues-for-sprint 42 42",
+		Example:     "  keen agile get-board-issues-for-sprint 42 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-board-issues-for-sprint", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/sprint/{sprintId}/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

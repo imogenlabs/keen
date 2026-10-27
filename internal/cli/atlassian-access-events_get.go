@@ -27,7 +27,7 @@ func newAtlassianAccessEventsGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <orgId>",
 		Short:       "Returns a filtered list of audit log events for an organization.",
-		Example:     "  jira-pp-cli-pp-cli atlassian-access-events get 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen atlassian-access-events get 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "atlassian-access-events.get", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/events", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

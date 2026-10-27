@@ -17,7 +17,7 @@ func newDevinfoDeleteRepositoryCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-repository <repositoryId>",
 		Short:       "Deletes the repository data stored by the given ID and all related development information entities.",
-		Example:     "  jira-pp-cli-pp-cli devinfo delete-repository 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen devinfo delete-repository 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "devinfo.delete-repository", "pp:method": "DELETE", "pp:path": "/rest/devinfo/0.10/repository/{repositoryId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

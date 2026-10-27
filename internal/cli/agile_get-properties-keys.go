@@ -16,7 +16,7 @@ func newAgileGetPropertiesKeysCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-properties-keys <sprintId>",
 		Short:       "Returns the keys of all properties for the sprint identified by the id.",
-		Example:     "  jira-pp-cli-pp-cli agile get-properties-keys 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen agile get-properties-keys 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-properties-keys", "pp:method": "GET", "pp:path": "/rest/agile/1.0/sprint/{sprintId}/properties", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

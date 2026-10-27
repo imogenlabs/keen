@@ -20,7 +20,7 @@ func newAgileGetAllQuickFiltersCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-all-quick-filters <boardId>",
 		Aliases:     []string{"get"},
 		Short:       "Returns all quick filters from a board, for a given board ID.",
-		Example:     "  jira-pp-cli-pp-cli agile get-all-quick-filters 42",
+		Example:     "  keen agile get-all-quick-filters 42",
 		Annotations: map[string]string{"pp:endpoint": "agile.get-all-quick-filters", "pp:method": "GET", "pp:path": "/rest/agile/1.0/board/{boardId}/quickfilter", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

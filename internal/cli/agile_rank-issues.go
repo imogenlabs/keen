@@ -22,7 +22,7 @@ func newAgileRankIssuesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "rank-issues",
 		Short:       "Moves (ranks) issues before or after a given issue. At most 50 issues may be ranked at once.",
-		Example:     "  jira-pp-cli-pp-cli agile rank-issues",
+		Example:     "  keen agile rank-issues",
 		Annotations: map[string]string{"pp:endpoint": "agile.rank-issues", "pp:method": "PUT", "pp:path": "/rest/agile/1.0/issue/rank"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

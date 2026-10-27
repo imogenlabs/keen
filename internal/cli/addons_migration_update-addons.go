@@ -28,7 +28,7 @@ func newAddonsMigrationUpdateAddonsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-addons <addonKey>",
 		Short:       "Create app migration information for consumption. All fields are optional",
-		Example:     "  jira-pp-cli-pp-cli addons migration update-addons your-token-here",
+		Example:     "  keen addons migration update-addons your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "migration.update-addons", "pp:method": "PUT", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/migration"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

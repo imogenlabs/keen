@@ -24,7 +24,7 @@ func newSoftwareGetIssuesWithoutEpicForBoardJsisCmd(flags *rootFlags) *cobra.Com
 	cmd := &cobra.Command{
 		Use:         "get-issues-without-epic-for-board-jsis <boardId>",
 		Short:       "Returns all issues that do not belong to any epic on a board, for a given board ID.",
-		Example:     "  jira-pp-cli-pp-cli software get-issues-without-epic-for-board-jsis 42",
+		Example:     "  keen software get-issues-without-epic-for-board-jsis 42",
 		Annotations: map[string]string{"pp:endpoint": "software.get-issues-without-epic-for-board-jsis", "pp:method": "GET", "pp:path": "/rest/software/1.0/board/{boardId}/epic/none/issue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

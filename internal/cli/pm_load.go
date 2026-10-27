@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	"github.com/spf13/cobra"
-	"jira-pp-cli-pp-cli/internal/store"
+	"keen/internal/store"
 )
 
 func newLoadCmd(flags *rootFlags) *cobra.Command {
@@ -22,22 +22,22 @@ func newLoadCmd(flags *rootFlags) *cobra.Command {
 		Long: `Analyze locally synced data to show how many items are assigned to each
 person. Helps identify overloaded team members and unbalanced workload.`,
 		Example: `  # Show workload distribution
-  jira-pp-cli-pp-cli load
+  keen load
 
   # Limit results
-  jira-pp-cli-pp-cli load --limit 10
+  keen load --limit 10
 
   # Output as JSON
-  jira-pp-cli-pp-cli load --json`,
+  keen load --json`,
 		Annotations: map[string]string{"mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if dbPath == "" {
-				dbPath = defaultDBPath("jira-pp-cli-pp-cli")
+				dbPath = defaultDBPath("keen")
 			}
 
 			db, err := store.OpenWithContext(cmd.Context(), dbPath)
 			if err != nil {
-				return fmt.Errorf("opening local database: %w\nRun 'jira-pp-cli-pp-cli sync' first.", err)
+				return fmt.Errorf("opening local database: %w\nRun 'keen sync' first.", err)
 			}
 			defer db.Close()
 
@@ -179,7 +179,7 @@ person. Helps identify overloaded team members and unbalanced workload.`,
 		},
 	}
 
-	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/jira-pp-cli-pp-cli/data.db)")
+	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/keen/data.db)")
 	cmd.Flags().IntVar(&limit, "limit", 50, "Maximum entries to show")
 
 	return cmd

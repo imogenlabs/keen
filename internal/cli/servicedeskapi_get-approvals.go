@@ -19,7 +19,7 @@ func newServicedeskapiGetApprovalsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-approvals <issueIdOrKey>",
 		Short:       "This method returns all approvals on a customer request.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-approvals your-token-here",
+		Example:     "  keen servicedeskapi get-approvals your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-approvals", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/approval", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

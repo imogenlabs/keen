@@ -19,7 +19,7 @@ func newServicedeskapiRevokePortalOnlyAccessForUserCmd(flags *rootFlags) *cobra.
 		Use:         "revoke-portal-only-access-for-user <accountId>",
 		Aliases:     []string{"update"},
 		Short:       "This method revokes portal-only access for a particular user",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi revoke-portal-only-access-for-user 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi revoke-portal-only-access-for-user 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.revoke-portal-only-access-for-user", "pp:method": "PUT", "pp:path": "/rest/servicedeskapi/customer/user/{accountId}/revoke-portal-only-access"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -10,7 +10,7 @@ import (
 	"sort"
 
 	"github.com/spf13/cobra"
-	"jira-pp-cli-pp-cli/internal/store"
+	"keen/internal/store"
 )
 
 func newAnalyticsCmd(flags *rootFlags) *cobra.Command {
@@ -26,22 +26,22 @@ func newAnalyticsCmd(flags *rootFlags) *cobra.Command {
 		Long: `Analyze locally synced data with count, group-by, and summary operations.
 Data must be synced first with the sync command.`,
 		Example: `  # Count records by type
-  jira-pp-cli-pp-cli analytics --type messages
+  keen analytics --type messages
 
   # Group by a field
-  jira-pp-cli-pp-cli analytics --type messages --group-by author_id
+  keen analytics --type messages --group-by author_id
 
   # Top 10 most frequent values
-  jira-pp-cli-pp-cli analytics --type messages --group-by channel_id --limit 10 --json`,
+  keen analytics --type messages --group-by channel_id --limit 10 --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			out := cmd.OutOrStdout()
 			if dbPath == "" {
-				dbPath = defaultDBPath("jira-pp-cli-pp-cli")
+				dbPath = defaultDBPath("keen")
 			}
 
 			db, err := store.OpenWithContext(cmd.Context(), dbPath)
 			if err != nil {
-				return fmt.Errorf("opening local database: %w\nRun 'jira-pp-cli-pp-cli sync' first.", err)
+				return fmt.Errorf("opening local database: %w\nRun 'keen sync' first.", err)
 			}
 			defer db.Close()
 

@@ -17,7 +17,7 @@ func newSecurityGetLinkedWorkspaceByIdCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-linked-workspace-by-id <workspaceId>",
 		Aliases:     []string{"get"},
 		Short:       "Retrieve a specific Security Workspace linked to the Jira site for the given workspace ID.",
-		Example:     "  jira-pp-cli-pp-cli security get-linked-workspace-by-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen security get-linked-workspace-by-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "security.get-linked-workspace-by-id", "pp:method": "GET", "pp:path": "/rest/security/1.0/linkedWorkspaces/{workspaceId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

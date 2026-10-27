@@ -22,7 +22,7 @@ func newWikiSetContentStateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "set-content-state <id>",
 		Short:       "Sets the content state of the content specified and creates a new version (publishes the content without changing the",
-		Example:     "  jira-pp-cli-pp-cli wiki set-content-state 550e8400-e29b-41d4-a716-446655440000 --status current",
+		Example:     "  keen wiki set-content-state 550e8400-e29b-41d4-a716-446655440000 --status current",
 		Annotations: map[string]string{"pp:endpoint": "wiki.set-content-state", "pp:method": "PUT", "pp:path": "/wiki/rest/api/content/{id}/state"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -19,7 +19,7 @@ func newForgePutAppPropertyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "put-app-property <propertyKey>",
 		Aliases:     []string{"update"},
 		Short:       "Sets the value of a Forge app's property.",
-		Example:     "  jira-pp-cli-pp-cli forge put-app-property your-token-here",
+		Example:     "  keen forge put-app-property your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "forge.put-app-property", "pp:method": "PUT", "pp:path": "/rest/forge/1/app/properties/{propertyKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

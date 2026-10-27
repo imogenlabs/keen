@@ -19,7 +19,7 @@ func newWikiIsWatchingSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "is-watching-space <spaceKey>",
 		Short:       "Returns whether a user is watching a space.",
-		Example:     "  jira-pp-cli-pp-cli wiki is-watching-space your-token-here",
+		Example:     "  keen wiki is-watching-space your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.is-watching-space", "pp:method": "GET", "pp:path": "/wiki/rest/api/user/watch/space/{spaceKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

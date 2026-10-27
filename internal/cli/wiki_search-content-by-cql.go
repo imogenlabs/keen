@@ -22,7 +22,7 @@ func newWikiSearchContentByCqlCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "search-content-by-cql",
 		Short:       "Returns the list of content that matches a Confluence Query Language (CQL) query.",
-		Example:     "  jira-pp-cli-pp-cli wiki search-content-by-cql --cql example-value",
+		Example:     "  keen wiki search-content-by-cql --cql example-value",
 		Annotations: map[string]string{"pp:endpoint": "wiki.search-content-by-cql", "pp:method": "GET", "pp:path": "/wiki/rest/api/content/search", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("cql") && !flags.dryRun {

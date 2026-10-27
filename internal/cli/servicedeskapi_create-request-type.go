@@ -22,7 +22,7 @@ func newServicedeskapiCreateRequestTypeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-request-type <serviceDeskId>",
 		Short:       "This method enables a customer request type to be added to a service desk based on an issue type.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi create-request-type 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi create-request-type 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.create-request-type", "pp:method": "POST", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/requesttype"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

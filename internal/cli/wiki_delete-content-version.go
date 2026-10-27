@@ -17,7 +17,7 @@ func newWikiDeleteContentVersionCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-content-version <id> <versionNumber>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete a historical version.",
-		Example:     "  jira-pp-cli-pp-cli wiki delete-content-version 550e8400-e29b-41d4-a716-446655440000 42",
+		Example:     "  keen wiki delete-content-version 550e8400-e29b-41d4-a716-446655440000 42",
 		Annotations: map[string]string{"pp:endpoint": "wiki.delete-content-version", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/content/{id}/version/{versionNumber}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

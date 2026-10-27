@@ -16,7 +16,7 @@ func newApplicationsGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <applicationKey>",
 		Short:       "Get a specific application.",
-		Example:     "  jira-pp-cli-pp-cli applications get your-token-here",
+		Example:     "  keen applications get your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "applications.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/applications/{applicationKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

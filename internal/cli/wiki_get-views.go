@@ -17,7 +17,7 @@ func newWikiGetViewsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-views <contentId>",
 		Short:       "Get the total number of views a piece of content has.",
-		Example:     "  jira-pp-cli-pp-cli wiki get-views 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen wiki get-views 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-views", "pp:method": "GET", "pp:path": "/wiki/rest/api/analytics/content/{contentId}/views", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

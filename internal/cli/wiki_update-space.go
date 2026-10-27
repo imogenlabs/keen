@@ -24,7 +24,7 @@ func newWikiUpdateSpaceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-space <spaceKey>",
 		Short:       "Updates the name, description, or homepage of a space.",
-		Example:     "  jira-pp-cli-pp-cli wiki update-space your-token-here",
+		Example:     "  keen wiki update-space your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.update-space", "pp:method": "PUT", "pp:path": "/wiki/rest/api/space/{spaceKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

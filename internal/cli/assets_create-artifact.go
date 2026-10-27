@@ -19,7 +19,7 @@ func newAssetsCreateArtifactCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-artifact",
 		Short:       "Use this resource to copy and validate an app artifact (`.jar` or `.",
-		Example:     "  jira-pp-cli-pp-cli assets create-artifact --uri example-value",
+		Example:     "  keen assets create-artifact --uri example-value",
 		Annotations: map[string]string{"pp:endpoint": "assets.create-artifact", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/assets/artifact/fetch"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("uri") && !flags.dryRun {

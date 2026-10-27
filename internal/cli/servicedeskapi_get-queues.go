@@ -20,7 +20,7 @@ func newServicedeskapiGetQueuesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-queues <serviceDeskId>",
 		Short:       "This method returns the queues in a service desk.",
-		Example:     "  jira-pp-cli-pp-cli servicedeskapi get-queues 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen servicedeskapi get-queues 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-queues", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/servicedesk/{serviceDeskId}/queue", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
