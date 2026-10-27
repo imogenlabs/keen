@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# Regenerate keen from the current Atlassian OpenAPI specs without losing
+# keen's own changes.
+#
+# How it works: keen's generated code is a three-way merge.
+#   base   = the generator's output last time (renamed to keen), kept on the
+#            branch build/generator-output
+#   ours   = keen as it is now (HEAD), hand changes included
+#   theirs = the generator's output today, from today's specs, renamed the same way
+# git merges base->theirs onto ours, so spec changes land and keen's edits stay.
+# Files keen maintains by hand (README, docs, CHANGELOG, AGENTS.md, the patch list)
+# always keep keen's version.
+#
+# Usage (from the repo root, on a fresh branch):
+#   scripts/regen/regen.sh                 # download current specs, generate, merge
+#   scripts/regen/regen.sh --specs DIR     # use specs already in DIR
+# Afterwards: resolve any conflicts it lists, then run scripts/regen/check.sh.
+set -euo pipefail
+
+REPO=$(git rev-parse --show-toplevel)
+HERE="$REPO/scripts/regen"
+# shellcheck source=/dev/null
+source "$HERE/config.sh"
+
+SPECS_IN=""
+if [[ "${1:-}" == "--specs" ]]; then SPECS_IN=$2; fi
+
+[[ -z "$(git -C "$REPO" status --porcelain)" ]] || { echo "regen: commit or stash your changes first" >&2; exit 1; }
+command -v "$GENERATOR" >/dev/null || { echo "regen: generator not found: $GENERATOR (see config.sh)" >&2; exit 1; }
+
+WORK=${REGEN_WORK:-$(mktemp -d "${TMPDIR:-/tmp}/keen-regen-$(date +%Y%m%d-%H%M%S)-XXXX")}
+echo "regen: working in $WORK"
+mkdir -p "$WORK/specs" "$WORK/base" "$WORK/ours" "$WORK/theirs"
+
+# 1. Specs
+if [[ -n "$SPECS_IN" ]]; then
+  cp "$SPECS_IN"/*.json "$WORK/specs/"
+else
+  for entry in "${SPECS[@]}"; do
+    name=${entry%%=*}; url=${entry#*=}
+    curl -fsSL "$url" -o "$WORK/specs/$name.json"
+    python3 -c "import json,sys; d=json.load(open(sys.argv[1])); assert 'paths' in d" "$WORK/specs/$name.json" \
+      || { echo "regen: $name spec from $url is not an OpenAPI document" >&2; exit 1; }
+  done
+fi
+
+# 2. Generate today's output (named as the base was), then rename it to keen.
+args=()
+for name in "${SPEC_ORDER[@]}"; do args+=(--spec "$WORK/specs/$name.json"); done
+(cd "$WORK" && "$GENERATOR" generate "${args[@]}" "${GENERATOR_FLAGS[@]}" --output "$WORK/theirs" > "$WORK/generate.log" 2>&1) \
+  || { echo "regen: generator failed, see $WORK/generate.log" >&2; exit 1; }
+python3 "$HERE/normalize.py" "$WORK/theirs"
+mkdir -p "$WORK/theirs/specs"
+cp "$WORK/specs/"*.json "$WORK/theirs/specs/"
+for f in "${GENERATOR_ONLY[@]}"; do [[ -e "$WORK/theirs/$f" ]] && mv "$WORK/theirs/$f" "$WORK/$(basename "$f").generated"; done
+
+# 3. Base and ours
+git -C "$REPO" archive "$BASE_REF" | tar -x -C "$WORK/base"
+git -C "$REPO" archive HEAD | tar -x -C "$WORK/ours"
+
+# 4. Three-way merge in a scratch repository.
+M="$WORK/merge"
+git init -q "$M"
+snap() { # snap <dir> <message>
+  git --git-dir="$M/.git" --work-tree="$1" read-tree --empty
+  git --git-dir="$M/.git" --work-tree="$1" add -A .
+  git --git-dir="$M/.git" --work-tree="$1" -c user.name=regen -c user.email=regen@localhost commit -q -m "$2"
+}
+snap "$WORK/base" base
+git --git-dir="$M/.git" branch -q -M base
+git --git-dir="$M/.git" branch -q theirs base
+git --git-dir="$M/.git" branch -q ours base
+git --git-dir="$M/.git" symbolic-ref HEAD refs/heads/theirs; snap "$WORK/theirs" theirs
+git --git-dir="$M/.git" symbolic-ref HEAD refs/heads/ours;   snap "$WORK/ours" ours
+
+for f in "${KEEN_OWNED[@]}"; do echo "$f merge=ours"; done > "$M/.git/info/attributes"
+git --git-dir="$M/.git" config merge.ours.driver true
+git --git-dir="$M/.git" --work-tree="$WORK/ours" checkout -q -f ours
+set +e
+git --git-dir="$M/.git" --work-tree="$WORK/ours" -c user.name=regen -c user.email=regen@localhost \
+  merge -q --no-edit -m "merge generator output" theirs > "$WORK/merge.log" 2>&1
+merge_status=$?
+set -e
+
+# 5. Bring the merged tree into this checkout (git updates and removes tracked files).
+git --git-dir="$M/.git" --work-tree="$WORK/ours" add -A . 2>/dev/null || true
+tree=$(git --git-dir="$M/.git" --work-tree="$WORK/ours" write-tree 2>/dev/null || true)
+if [[ $merge_status -ne 0 ]]; then
+  echo "regen: merge has conflicts. Resolve them in $WORK/ours (look for <<<<<<<), then rerun with:"
+  echo "  REGEN_WORK=$WORK scripts/regen/finish.sh"
+  git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U
+  exit 2
+fi
+git -C "$REPO" fetch -q "$M" theirs:refs/regen/theirs
+git -C "$REPO" read-tree -u --reset "$tree" 2>/dev/null || {
+  git --git-dir="$M/.git" --work-tree="$WORK/ours" commit -q -m merged --allow-empty
+  git -C "$REPO" fetch -q "$M" ours:refs/regen/merged
+  git -C "$REPO" read-tree -u --reset refs/regen/merged
+}
+echo "regen: merged. Review with git status / git diff, then run scripts/regen/check.sh"
+echo "regen: after merging to main, move the base forward:"
+echo "  git push origin refs/regen/theirs:refs/heads/build/generator-output"
