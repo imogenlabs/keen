@@ -86,7 +86,7 @@ set -e
 
 # keen's own files: when the generator dropped or changed one, keep keen's copy.
 if [[ $merge_status -ne 0 ]]; then
-  shopt -s extglob
+  git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U > "$WORK/conflicts.txt"
   while IFS= read -r f; do
     for pat in "${KEEN_OWNED[@]}"; do
       # shellcheck disable=SC2053
@@ -97,7 +97,7 @@ if [[ $merge_status -ne 0 ]]; then
         break
       fi
     done
-  done < <(git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U)
+  done < "$WORK/conflicts.txt"
   if [[ -z "$(git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U)" ]]; then
     git --git-dir="$M/.git" --work-tree="$WORK/ours" -c user.name=regen -c user.email=regen@localhost \
       commit -q --no-edit -m "merge generator output"
