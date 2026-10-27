@@ -145,7 +145,7 @@ func isCobraUsageError(err error) bool {
 func newRootCmd(flags *rootFlags) *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:   "keen",
-		Short: "Manage keen resources via the keen API",
+		Short: "Jira, Confluence and the rest of Atlassian from the command line",
 		Long: `Manage keen resources via the keen API.
 
 Add --agent to any command for JSON output + non-interactive mode.
@@ -362,6 +362,8 @@ Run 'keen doctor' to verify auth and connectivity.`,
 	rootCmd.AddCommand(newVersionCliCmd())
 
 	addAliasCommands(rootCmd, flags)
+	rejectStrayArgs(rootCmd)
+	addWikiPageCommands(rootCmd, flags)
 
 	return rootCmd
 }

@@ -576,6 +576,7 @@ func paginatedGet(ctx context.Context, c interface {
 	// Fetch all pages
 	allItems := make([]json.RawMessage, 0)
 	page := 0
+	atlassianPaged := false
 	for {
 		page++
 		if humanFriendly {
@@ -597,8 +598,22 @@ func paginatedGet(ctx context.Context, c interface {
 			// Response is an object - look for array inside
 			var obj map[string]json.RawMessage
 			if json.Unmarshal(data, &obj) == nil {
-				if nested, ok := extractPaginatedItems(obj); ok {
+				nested, ok := extractPaginatedItems(obj)
+				if ok {
 					allItems = append(allItems, nested...)
+				}
+
+				// Atlassian startAt/isLast paging (see atlassian_pagination.go).
+				if _, offsetPaged := params["startAt"]; offsetPaged && nextCursorPath == "" && hasMoreField == "" && rawHas(obj, "isLast", "total") {
+					atlassianPaged = true
+					if next, ok := atlassianNextStartAt(obj, clean, len(nested)); ok {
+						if page >= paginatedGetMaxPages {
+							emitPaginatedGetMaxPagesWarning()
+							break
+						}
+						clean["startAt"] = next
+						continue
+					}
 				}
 
 				// Check for next cursor
@@ -643,7 +658,7 @@ func paginatedGet(ctx context.Context, c interface {
 		break
 	}
 
-	if fetchAll && page == 1 && nextCursorPath == "" && hasMoreField == "" {
+	if fetchAll && page == 1 && nextCursorPath == "" && hasMoreField == "" && !atlassianPaged {
 		emitMissingPaginationSignalWarning()
 	}
 	if humanFriendly {

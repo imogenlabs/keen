@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `keen wiki create-page`, `keen wiki get-page` and `keen wiki update-page` for Confluence pages. `update-page` reads the current version and sends the next one
+
+### Fixed
+- `keen search` works against Jira again. It called `/rest/api/3/search`, which Atlassian removed (HTTP 410); it now runs a JQL text search
+- `--all` fetches every page from Jira, Agile and Service Desk lists that page with `startAt`; before, it stopped after the first page (for example 50 of 209 sprints)
+- Plain text in `issue comment add --body`, worklog comments, and an issue's `description` or `environment` is wrapped into Atlassian Document Format. Jira v3 rejected it before with "Comment body is not valid!"
+- `keen projects create` and other shortcut commands that take no arguments now refuse stray words instead of silently running a different request. The error points at the right command (`keen project create`)
+- `keen-mcp` reads `~/.config/keen/auth.json` like the CLI does; before, it only looked at `config.toml` and environment variables
+- `JIRA_CLOUD_PLATFORM_URL` sets the site URL, matching the username and password variables. `JIRA_PP_CLI_BASE_URL` still works and wins if both are set
+
+### Changed
+- Docs, `AGENTS.md`, `SKILL.md` and the tool manifest use the keen name throughout. The old install steps and generator names are gone, and the docs show `JIRA_CLOUD_PLATFORM_URL`
+- The GitHub wiki is turned off. It was an outdated copy of `docs/`, still written for the old name
+
 ## [1.1.0] - 2026-10-27
 
 ### Added

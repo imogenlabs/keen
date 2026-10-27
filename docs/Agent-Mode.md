@@ -24,7 +24,7 @@ The `keen-mcp` binary exposes every keen command (1,114 tools) over MCP. Add to 
       "env": {
         "JIRA_CLOUD_PLATFORM_USERNAME": "you@example.com",
         "JIRA_CLOUD_PLATFORM_PASSWORD": "your-token",
-        "JIRA_PP_CLI_BASE_URL": "https://your-site.atlassian.net"
+        "JIRA_CLOUD_PLATFORM_URL": "https://your-site.atlassian.net"
       }
     }
   }

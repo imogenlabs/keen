@@ -80,7 +80,7 @@ Environment variables work too, and override the file:
 ```bash
 export JIRA_CLOUD_PLATFORM_USERNAME="you@example.com"
 export JIRA_CLOUD_PLATFORM_PASSWORD="your-api-token"
-export JIRA_PP_CLI_BASE_URL="https://yoursite.atlassian.net"
+export JIRA_CLOUD_PLATFORM_URL="https://yoursite.atlassian.net"
 ```
 
 ## Install
@@ -132,7 +132,7 @@ Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cach
 
 Source: [`docs/diagrams/mcp-flow.drawio`](docs/diagrams/mcp-flow.drawio).
 
-`keen-mcp` reads its credentials from environment variables. It does not read `~/.config/keen/auth.json` yet, so pass them in the server's `env`.
+`keen-mcp` finds credentials the same way the CLI does: environment variables first, then `~/.config/keen/auth.json` or `config.toml`. If you already set up the CLI, `claude mcp add --transport stdio keen -- keen-mcp` is enough. To pass them explicitly instead:
 
 ### Claude Code
 
@@ -140,7 +140,7 @@ Source: [`docs/diagrams/mcp-flow.drawio`](docs/diagrams/mcp-flow.drawio).
 claude mcp add --transport stdio keen \
   --env JIRA_CLOUD_PLATFORM_USERNAME=you@example.com \
   --env JIRA_CLOUD_PLATFORM_PASSWORD=your-api-token \
-  --env JIRA_PP_CLI_BASE_URL=https://yoursite.atlassian.net \
+  --env JIRA_CLOUD_PLATFORM_URL=https://yoursite.atlassian.net \
   -- keen-mcp
 ```
 
@@ -156,7 +156,7 @@ Add to `.cursor/mcp.json`:
       "env": {
         "JIRA_CLOUD_PLATFORM_USERNAME": "you@example.com",
         "JIRA_CLOUD_PLATFORM_PASSWORD": "your-api-token",
-        "JIRA_PP_CLI_BASE_URL": "https://yoursite.atlassian.net"
+        "JIRA_CLOUD_PLATFORM_URL": "https://yoursite.atlassian.net"
       }
     }
   }
@@ -259,18 +259,21 @@ keen jira-cloud-platform-search and-reconsile-issues-using-jql-post \
   --jql "project = PROJ AND status != Done" --agent
 keen issue transitions get PROJ-42 --agent
 keen issue transitions do PROJ-42 --transition-id 41 --agent
-keen issue comment add PROJ-42 --stdin <<< '{"body":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":"Done."}]}]}}'
+keen issue comment add PROJ-42 --body "Done."    # plain text is wrapped into ADF
 ```
 
 ### Confluence
 
 ```bash
 keen wiki search-content-by-cql --cql "type=page AND space=DOCS" --agent
+keen wiki create-page --space DOCS --title "Release notes" --stdin < notes.xhtml
+keen wiki update-page PAGE_ID --stdin < notes.xhtml   # version bumped for you
+keen wiki get-page PAGE_ID --agent
 keen wiki get-content-descendants PAGE_ID --agent
 keen wiki add-labels-to-content PAGE_ID --stdin <<< '[{"prefix":"global","name":"adr"}]'
 ```
 
-Creating and updating pages is not in keen yet.
+Page bodies are Confluence storage format (XHTML); Markdown is not converted.
 
 ### Marketplace
 

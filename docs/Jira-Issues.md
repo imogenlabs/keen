@@ -57,7 +57,10 @@ keen transition PROJ-42 --transition-name "Done" --agent
 ## Comments
 
 ```bash
-# Add comment (ADF format)
+# Add a comment. Plain text is wrapped into ADF, one paragraph per line
+keen issue comment add PROJ-42 --body "Deployed to prod."
+
+# Or send ADF yourself
 keen issue comment add PROJ-42 --stdin <<< '{
   "body": {
     "type": "doc",

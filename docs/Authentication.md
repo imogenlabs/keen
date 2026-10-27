@@ -6,7 +6,7 @@ Generate at [id.atlassian.com/manage-profile/security/api-tokens](https://id.atl
 
 ### Config File
 
-`~/.config/keen/auth.json` (used by `keen`):
+`~/.config/keen/auth.json` (used by `keen` and `keen-mcp`):
 
 ```json
 { "base_url": "https://your-site.atlassian.net", "username": "you@example.com", "password": "your-api-token" }
@@ -14,8 +14,7 @@ Generate at [id.atlassian.com/manage-profile/security/api-tokens](https://id.atl
 
 Keep it private: `chmod 600 ~/.config/keen/auth.json`.
 
-`keen` also reads `~/.config/keen/config.toml` when there is no `auth.json`. It is the
-only file `keen-mcp` reads today. Note the key names:
+Both also read `~/.config/keen/config.toml` when there is no `auth.json`. Note the key names:
 
 ```toml
 base_url = 'https://your-site.atlassian.net'
@@ -30,8 +29,10 @@ Environment variables override either file and work for both `keen` and `keen-mc
 ```bash
 export JIRA_CLOUD_PLATFORM_USERNAME="you@example.com"
 export JIRA_CLOUD_PLATFORM_PASSWORD="your-api-token"
-export JIRA_PP_CLI_BASE_URL="https://your-site.atlassian.net"
+export JIRA_CLOUD_PLATFORM_URL="https://your-site.atlassian.net"
 ```
+
+`JIRA_PP_CLI_BASE_URL` also sets the site and wins if both are set.
 
 ### Verify
 

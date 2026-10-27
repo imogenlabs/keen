@@ -1,9 +1,9 @@
 ---
-name: pp-jira-pp-cli
-description: "Printing Press CLI for Jira Pp Cli. Combined CLI for multiple API services"
-author: "smashingtags"
+name: keen
+description: "keen: one CLI and MCP server for Jira, Jira Agile, Confluence, Service Desk, Marketplace and Atlassian Admin, with a local searchable copy"
+author: "imogenlabs"
 license: "Apache-2.0"
-argument-hint: "<command> [args] | install cli|mcp"
+argument-hint: "<command> [args]"
 allowed-tools: "Read Bash"
 metadata:
   openclaw:
@@ -12,24 +12,21 @@ metadata:
         - keen
 ---
 
-# Jira Pp Cli — Printing Press CLI
+# keen
 
-## Prerequisites: Install the CLI
+## Prerequisites: install keen
 
-This skill drives the `keen` binary. **You must verify the CLI is installed before invoking any command from this skill.** If it is missing, install it first:
+This skill drives the `keen` binary. Check it is installed before running any command here: `keen version`.
 
-1. Install via the Printing Press installer:
-   ```bash
-   npx -y @mvanhorn/printing-press-library install jira-pp-cli --cli-only
-   ```
-2. Verify: `keen --version`
-3. Ensure `$GOPATH/bin` (or `$HOME/go/bin`) is on `$PATH`.
+If it is missing, install the latest release (macOS Apple Silicon shown; the Linux archives are `keen_linux_amd64` and `keen_linux_arm64`):
 
-If the `npx` install fails before this CLI has a public-library category, install Node or use the category-specific Go fallback after publish.
+```bash
+curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_arm64.tar.gz | tar xz
+sudo mv keen_darwin_arm64/keen keen_darwin_arm64/keen-mcp /usr/local/bin/
+keen version
+```
 
-If `--version` reports "command not found" after install, the install step did not put the binary on `$PATH`. Do not proceed with skill commands until verification succeeds.
-
-Combined CLI for multiple API services
+Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `password` (an Atlassian API token). Check them with `keen doctor --agent`.
 
 ## Command Reference
 

@@ -22,6 +22,9 @@ keen agile get-issues-for-backlog 42 --agent
 # List sprints (active, future, closed)
 keen agile get-all-sprints 42 --state active,future --agent
 
+# Every closed sprint, across all pages
+keen agile get-all-sprints 42 --state closed --all --agent
+
 # Create sprint
 keen agile create-sprint --stdin <<< '{"name":"Sprint 5","originBoardId":42}'
 
