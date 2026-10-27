@@ -1,7 +1,9 @@
 {
   "schema_version": 1,
   "applied_at": "2026-05-28",
-  "base_run_id": "see .printing-press.json",
+  "base_run_id": "20261027-161200",
+  "base_printing_press_version": "4.15.0",
+  "base_generator_output": "branch build/generator-output (regenerate with scripts/regen/regen.sh)",
   "patches": [
     {
       "id": "compact-summary-field",
@@ -103,6 +105,27 @@
       "summary": "Root help text and tools-manifest.json name the tool keen.",
       "reason": "Generated text still said 'Manage keen resources via the keen API' and api_name jira-pp-cli.",
       "files": ["internal/cli/root.go", "tools-manifest.json", "SKILL.md"]
+    },
+    {
+      "id": "command-compat",
+      "summary": "Old command and MCP tool names keep working after Atlassian spec changes.",
+      "reason": "The October 2026 specs retire 21 APIs (Admin v1 directory, app access settings, workflow transition properties) and move the org policy commands to atlassian-access-policies. Without this, 30 commands and tools would vanish.",
+      "files": ["internal/compat/compat.go", "internal/cli/compat.go", "internal/cli/compat_test.go", "internal/mcp/compat.go", "internal/mcp/compat_test.go", "internal/cli/root.go", "cmd/keen-mcp/main.go"],
+      "validated_outcome": "All 1,091 v1.2.2 commands and all 1,114 v1.2.2 MCP tools still resolve; retired ones name their replacement."
+    },
+    {
+      "id": "jobs-ctx",
+      "summary": "WaitForJob passes ctx to GetNoCache.",
+      "reason": "Generator 4.15 emits c.GetNoCache(path, nil) against a client whose method takes ctx first, so the tree does not build.",
+      "files": ["internal/cli/jobs.go"],
+      "validated_outcome": "go build ./... passes."
+    },
+    {
+      "id": "nullable-fk-columns",
+      "summary": "Typed-table parent-id columns are nullable, and their tests expect inserts without a parent id to succeed.",
+      "reason": "Made by hand in May 2026 (partial sync data has no parent id). scripts/regen/postfix.py applies it to tables and tests that a regeneration adds.",
+      "files": ["internal/store/store.go", "internal/store/upsert_batch_test.go", "scripts/regen/postfix.py"],
+      "validated_outcome": "go test ./internal/store passes; TestMigrate_ConcurrentFreshDB 0/200 failures."
     }
   ]
 }

@@ -60,6 +60,12 @@ type AddGroupMembershipInput struct {
 	AccountId string `json:"account_id"`
 }
 
+type AddIssueTypesToContext struct {
+	DefaultValue   json.RawMessage `json:"defaultValue"`
+	IsAnyIssueType bool            `json:"isAnyIssueType"`
+	IssueTypeIds   json.RawMessage `json:"issueTypeIds"`
+}
+
 type AddNotificationsDetails struct {
 	NotificationSchemeEvents json.RawMessage `json:"notificationSchemeEvents"`
 }
@@ -744,36 +750,6 @@ type ApiErrorResponse struct {
 	Errors json.RawMessage `json:"errors"`
 }
 
-type AppAccessSettingsDomainDetail struct {
-	AdminNotifications bool            `json:"adminNotifications"`
-	Domain             string          `json:"domain"`
-	Enabled            bool            `json:"enabled"`
-	Products           json.RawMessage `json:"products"`
-}
-
-type AppAccessSettingsDomainSummary struct {
-	Domain                    string `json:"domain"`
-	Enabled                   bool   `json:"enabled"`
-	NumberOfProductsAppliesTo int    `json:"numberOfProductsAppliesTo"`
-}
-
-type AppAccessSettingsDomainsPage struct {
-	Data  json.RawMessage `json:"data"`
-	Links json.RawMessage `json:"links"`
-}
-
-type AppAccessSettingsPageLinks struct {
-	Next string `json:"next"`
-	Prev string `json:"prev"`
-	Self string `json:"self"`
-}
-
-type AppAccessSettingsProduct struct {
-	AdminApprovalRequired bool   `json:"adminApprovalRequired"`
-	ProductId             string `json:"productId"`
-	Role                  string `json:"role"`
-}
-
 type AppMigrationInformation struct {
 	AddonKey                                   string          `json:"addonKey"`
 	AddonName                                  string          `json:"addonName"`
@@ -1205,6 +1181,24 @@ type AttributionDetails struct {
 	ReferrerDomain  string `json:"referrerDomain"`
 }
 
+type AuditEntry struct {
+	Caller            string          `json:"caller"`
+	CreatedAt         string          `json:"createdAt"`
+	FilterId          string          `json:"filterId"`
+	Jql               string          `json:"jql"`
+	RequestUrl        string          `json:"requestUrl"`
+	User              json.RawMessage `json:"user"`
+	UserAgent         string          `json:"userAgent"`
+	ValidationMessage string          `json:"validationMessage"`
+}
+
+type AuditPage struct {
+	Entries       json.RawMessage `json:"entries"`
+	IsLast        bool            `json:"isLast"`
+	NextPageToken string          `json:"nextPageToken"`
+	NextPageURL   string          `json:"nextPageURL"`
+}
+
 type AuditRecord struct {
 	AffectedObject    json.RawMessage `json:"affectedObject"`
 	AssociatedObjects json.RawMessage `json:"associatedObjects"`
@@ -1258,6 +1252,23 @@ type AuditRecords struct {
 	Offset  int             `json:"offset"`
 	Records json.RawMessage `json:"records"`
 	Total   int             `json:"total"`
+}
+
+type AuditUser struct {
+	AccountId   string          `json:"accountId"`
+	Active      bool            `json:"active"`
+	AvatarUrls  json.RawMessage `json:"avatarUrls"`
+	DisplayName string          `json:"displayName"`
+	Key         string          `json:"key"`
+	Name        string          `json:"name"`
+	Self        string          `json:"self"`
+}
+
+type AuditUserAvatarUrls struct {
+	V16x16 string `json:"16x16"`
+	V24x24 string `json:"24x24"`
+	V32x32 string `json:"32x32"`
+	V48x48 string `json:"48x48"`
 }
 
 type AutoCompleteSuggestion struct {
@@ -1449,6 +1460,7 @@ type BoardPayload struct {
 	CardLayout        json.RawMessage `json:"cardLayout"`
 	CardLayouts       json.RawMessage `json:"cardLayouts"`
 	Columns           json.RawMessage `json:"columns"`
+	EnableCardCover   bool            `json:"enableCardCover"`
 	Features          json.RawMessage `json:"features"`
 	Name              string          `json:"name"`
 	Pcri              json.RawMessage `json:"pcri"`
@@ -1508,6 +1520,37 @@ type BuildData struct {
 	Url                  string          `json:"url"`
 }
 
+type BulkAgentSessionInvocation struct {
+	AgentId    string `json:"agentId"`
+	IssueId    string `json:"issueId"`
+	RequestId  string `json:"requestId"`
+	UserPrompt string `json:"userPrompt"`
+}
+
+type BulkAgentSessionItemError struct {
+	Message    string `json:"message"`
+	StatusCode int    `json:"statusCode"`
+	Type       string `json:"type"`
+}
+
+type BulkAgentSessionOutcome struct {
+	AgentId        string          `json:"agentId"`
+	ConversationId string          `json:"conversationId"`
+	Error          json.RawMessage `json:"error"`
+	IssueId        string          `json:"issueId"`
+	RequestId      string          `json:"requestId"`
+	Result         string          `json:"result"`
+}
+
+type BulkAgentSessionsResponse struct {
+	AlreadyStartedCount int             `json:"alreadyStartedCount"`
+	FailedCount         int             `json:"failedCount"`
+	RateLimitedCount    int             `json:"rateLimitedCount"`
+	Results             json.RawMessage `json:"results"`
+	StartedCount        int             `json:"startedCount"`
+	Success             bool            `json:"success"`
+}
+
 type BulkChangeOwnerDetails struct {
 	AutofixName bool   `json:"autofixName"`
 	NewOwner    string `json:"newOwner"`
@@ -1550,6 +1593,12 @@ type BulkEditActionError struct {
 	Errors        json.RawMessage `json:"errors"`
 }
 
+type BulkEditGetFields struct {
+	EndingBefore  string          `json:"endingBefore"`
+	Fields        json.RawMessage `json:"fields"`
+	StartingAfter string          `json:"startingAfter"`
+}
+
 type BulkEditShareableEntityRequest struct {
 	Action                 string          `json:"action"`
 	ChangeOwnerDetails     string          `json:"changeOwnerDetails"`
@@ -1586,10 +1635,28 @@ type BulkIssueResults struct {
 	Issues      json.RawMessage `json:"issues"`
 }
 
+type BulkOperationErrorResponse struct {
+	Errors json.RawMessage `json:"errors"`
+}
+
 type BulkOperationErrorResult struct {
 	ElementErrors       json.RawMessage `json:"elementErrors"`
 	FailedElementNumber int             `json:"failedElementNumber"`
 	Status              int             `json:"status"`
+}
+
+type BulkOperationProgress struct {
+	Created                         string          `json:"created"`
+	FailedAccessibleIssues          json.RawMessage `json:"failedAccessibleIssues"`
+	InvalidOrInaccessibleIssueCount int             `json:"invalidOrInaccessibleIssueCount"`
+	ProcessedAccessibleIssues       json.RawMessage `json:"processedAccessibleIssues"`
+	ProgressPercent                 int             `json:"progressPercent"`
+	Started                         string          `json:"started"`
+	Status                          string          `json:"status"`
+	SubmittedBy                     json.RawMessage `json:"submittedBy"`
+	TaskId                          string          `json:"taskId"`
+	TotalIssueCount                 int             `json:"totalIssueCount"`
+	Updated                         string          `json:"updated"`
 }
 
 type BulkPermissionGrants struct {
@@ -1601,6 +1668,11 @@ type BulkPermissionsRequestBean struct {
 	AccountId          string          `json:"accountId"`
 	GlobalPermissions  json.RawMessage `json:"globalPermissions"`
 	ProjectPermissions json.RawMessage `json:"projectPermissions"`
+}
+
+type BulkPolicyOperationResponse struct {
+	Failed     json.RawMessage `json:"failed"`
+	Successful json.RawMessage `json:"successful"`
 }
 
 type BulkProjectPermissionGrants struct {
@@ -1615,12 +1687,39 @@ type BulkProjectPermissions struct {
 	Projects    json.RawMessage `json:"projects"`
 }
 
+type BulkProjectPolicyRequest struct {
+	ProjectIds json.RawMessage `json:"projectIds"`
+}
+
 type BulkRedactionRequest struct {
 	Redactions json.RawMessage `json:"redactions"`
 }
 
 type BulkRedactionResponse struct {
 	Results json.RawMessage `json:"results"`
+}
+
+type BulkStartAgentSessionsBatchRequest struct {
+	ClientMutationId string          `json:"clientMutationId"`
+	Invocations      json.RawMessage `json:"invocations"`
+}
+
+type BulkStartUniformAgentSessionsRequest struct {
+	AgentId          string          `json:"agentId"`
+	ClientMutationId string          `json:"clientMutationId"`
+	IssueIds         json.RawMessage `json:"issueIds"`
+	UserPrompt       string          `json:"userPrompt"`
+}
+
+type BulkTransitionGetAvailableTransitions struct {
+	AvailableTransitions json.RawMessage `json:"availableTransitions"`
+	EndingBefore         string          `json:"endingBefore"`
+	StartingAfter        string          `json:"startingAfter"`
+}
+
+type BulkTransitionSubmitInput struct {
+	SelectedIssueIdsOrKeys json.RawMessage `json:"selectedIssueIdsOrKeys"`
+	TransitionId           string          `json:"transitionId"`
 }
 
 type BulkUserLookup struct {
@@ -2338,10 +2437,20 @@ type ContentRestrictionArray struct {
 	Start            int             `json:"start"`
 }
 
+type ContentRestrictionGroupInput struct {
+	Id   string `json:"id"`
+	Type string `json:"type"`
+}
+
 type ContentRestrictionUpdate struct {
 	Content      json.RawMessage `json:"content"`
 	Operation    string          `json:"operation"`
 	Restrictions json.RawMessage `json:"restrictions"`
+}
+
+type ContentRestrictionUserInput struct {
+	AccountId string `json:"accountId"`
+	Type      string `json:"type"`
 }
 
 type ContentState struct {
@@ -2446,6 +2555,11 @@ type Context struct {
 	Scope string `json:"scope"`
 }
 
+type ContextDefaultValues struct {
+	ContextId     int             `json:"contextId"`
+	DefaultValues json.RawMessage `json:"defaultValues"`
+}
+
 type ContextForProjectAndIssueType struct {
 	ContextId   string `json:"contextId"`
 	IssueTypeId string `json:"issueTypeId"`
@@ -2495,12 +2609,6 @@ type CopyPageRequest struct {
 type CopyPageRequestDestination struct {
 	Type  string `json:"type"`
 	Value string `json:"value"`
-}
-
-type CreateAppAccessSettingsDomainRequest struct {
-	AdminNotifications bool            `json:"adminNotifications"`
-	Domain             string          `json:"domain"`
-	Products           json.RawMessage `json:"products"`
 }
 
 type CreateCrossProjectReleaseRequest struct {
@@ -2809,6 +2917,12 @@ type CustomFieldContextDefaultValueLabels struct {
 	Type      string          `json:"type"`
 }
 
+type CustomFieldContextDefaultValueLongText struct {
+	ContextId string `json:"contextId"`
+	Text      string `json:"text"`
+	Type      string `json:"type"`
+}
+
 type CustomFieldContextDefaultValueMultiUserPicker struct {
 	AccountIds json.RawMessage `json:"accountIds"`
 	ContextId  string          `json:"contextId"`
@@ -2884,6 +2998,10 @@ type CustomFieldContextDefaultValueURL struct {
 }
 
 type CustomFieldContextDefaultValueUpdate struct {
+	DefaultValues json.RawMessage `json:"defaultValues"`
+}
+
+type CustomFieldContextDefaultValuesUpdate struct {
 	DefaultValues json.RawMessage `json:"defaultValues"`
 }
 
@@ -3269,39 +3387,6 @@ type DevopscomponentsGetComponentByIdResponse struct {
 	Url                  string `json:"url"`
 }
 
-type DirectoryAssignRoleToGroupResponse struct {
-	Message string `json:"message"`
-}
-
-type DirectoryCreateOrgs2Response struct {
-	Message string `json:"message"`
-}
-
-type DirectoryCreateOrgs3Response struct {
-	Message string `json:"message"`
-}
-
-type DirectoryCreateOrgsResponse struct {
-	Message string `json:"message"`
-}
-
-type DirectoryCreateResponse struct {
-	GroupId string `json:"groupId"`
-	Message string `json:"message"`
-}
-
-type DirectoryDeleteOrgs2Response struct {
-	Message string `json:"message"`
-}
-
-type DirectoryDeleteResponse struct {
-	Message string `json:"message"`
-}
-
-type DirectoryRevokeRoleToGroupResponse struct {
-	Message string `json:"message"`
-}
-
 type DiscountEdition struct {
 	DiscountAmount float64 `json:"discountAmount"`
 	PricingItemId  string  `json:"pricingItemId"`
@@ -3436,8 +3521,8 @@ type ErrorMessage struct {
 }
 
 type ErrorResponse struct {
-	ErrorMessage     string          `json:"errorMessage"`
-	I18nErrorMessage json.RawMessage `json:"i18nErrorMessage"`
+	ErrorMessages json.RawMessage `json:"errorMessages"`
+	Errors        json.RawMessage `json:"errors"`
 }
 
 type Error_CdenPolicyValidationFailed_Model struct {
@@ -3689,20 +3774,22 @@ type FeatureToggleRequestBean struct {
 }
 
 type Field struct {
-	ContextsCount   int             `json:"contextsCount"`
-	Description     string          `json:"description"`
-	Id              string          `json:"id"`
-	IsLocked        bool            `json:"isLocked"`
-	IsUnscreenable  bool            `json:"isUnscreenable"`
-	Key             string          `json:"key"`
-	LastUsed        json.RawMessage `json:"lastUsed"`
-	Name            string          `json:"name"`
-	ProjectsCount   int             `json:"projectsCount"`
-	Schema          json.RawMessage `json:"schema"`
-	ScreensCount    int             `json:"screensCount"`
-	SearcherKey     string          `json:"searcherKey"`
-	StableId        string          `json:"stableId"`
-	TypeDisplayName string          `json:"typeDisplayName"`
+	ContextsCount         int             `json:"contextsCount"`
+	Description           string          `json:"description"`
+	Id                    string          `json:"id"`
+	IsLocked              bool            `json:"isLocked"`
+	IsUnscreenable        bool            `json:"isUnscreenable"`
+	Key                   string          `json:"key"`
+	LastUsed              json.RawMessage `json:"lastUsed"`
+	Name                  string          `json:"name"`
+	ProjectsCount         int             `json:"projectsCount"`
+	Schema                json.RawMessage `json:"schema"`
+	ScreensCount          int             `json:"screensCount"`
+	SearcherKey           string          `json:"searcherKey"`
+	StableId              string          `json:"stableId"`
+	TranslatedDescription string          `json:"translatedDescription"`
+	TranslatedName        string          `json:"translatedName"`
+	TypeDisplayName       string          `json:"typeDisplayName"`
 }
 
 type FieldAssociationItemPayload struct {
@@ -3715,8 +3802,9 @@ type FieldAssociationItemPayload struct {
 }
 
 type FieldAssociationParameters struct {
-	Description string `json:"description"`
-	IsRequired  bool   `json:"isRequired"`
+	Description  string `json:"description"`
+	IsRequired   bool   `json:"isRequired"`
+	RendererType string `json:"rendererType"`
 }
 
 type FieldAssociationSchemeFieldSearchResult struct {
@@ -3991,14 +4079,16 @@ type Fields struct {
 }
 
 type FieldsSchemeItemParameter struct {
-	Description string `json:"description"`
-	IsRequired  bool   `json:"isRequired"`
+	Description  string `json:"description"`
+	IsRequired   bool   `json:"isRequired"`
+	RendererType string `json:"rendererType"`
 }
 
 type FieldsSchemeItemWorkTypeParameter struct {
-	Description string `json:"description"`
-	IsRequired  bool   `json:"isRequired"`
-	WorkTypeId  int    `json:"workTypeId"`
+	Description  string `json:"description"`
+	IsRequired   bool   `json:"isRequired"`
+	RendererType string `json:"rendererType"`
+	WorkTypeId   int    `json:"workTypeId"`
 }
 
 type Filter struct {
@@ -4069,6 +4159,23 @@ type ForgePanelProjectPinRequest struct {
 	ProjectList json.RawMessage `json:"projectList"`
 }
 
+type ForgePanelProjectPinStatus struct {
+	Error          string `json:"error"`
+	Pinned         bool   `json:"pinned"`
+	PinnedAt       int    `json:"pinnedAt"`
+	ProjectIdOrKey string `json:"projectIdOrKey"`
+}
+
+type ForgePanelProjectPinStatusRequest struct {
+	ModuleId    string          `json:"moduleId"`
+	ProjectList json.RawMessage `json:"projectList"`
+}
+
+type ForgePanelProjectPinStatusResponse struct {
+	ModuleId string          `json:"moduleId"`
+	Statuses json.RawMessage `json:"statuses"`
+}
+
 type Form struct {
 	Answers json.RawMessage `json:"answers"`
 }
@@ -4081,6 +4188,25 @@ type FormAnswer struct {
 	Text    string          `json:"text"`
 	Time    string          `json:"time"`
 	Users   json.RawMessage `json:"users"`
+}
+
+type FormValidationErrorContextDTO struct {
+	Id   string `json:"id"`
+	Type string `json:"type"`
+}
+
+type FormValidationErrorDTO struct {
+	Code    string          `json:"code"`
+	Context json.RawMessage `json:"context"`
+	Detail  string          `json:"detail"`
+	Status  int             `json:"status"`
+	Title   string          `json:"title"`
+}
+
+type FormValidationErrorResponseDTO struct {
+	ErrorMessage     string          `json:"errorMessage"`
+	Errors           json.RawMessage `json:"errors"`
+	I18nErrorMessage string          `json:"i18nErrorMessage"`
 }
 
 type FoundGroup struct {
@@ -4179,6 +4305,7 @@ type GetFieldAssociationParametersResponse struct {
 
 type GetFieldAssociationSchemeByIdResponse struct {
 	Description string          `json:"description"`
+	FieldsCount int             `json:"fieldsCount"`
 	Id          string          `json:"id"`
 	IsDefault   bool            `json:"isDefault"`
 	Links       json.RawMessage `json:"links"`
@@ -4339,6 +4466,11 @@ type GroupRoleAssignmentInput struct {
 	RoleAssociations json.RawMessage `json:"roleAssociations"`
 }
 
+type GroupSortBy struct {
+	Direction string `json:"direction"`
+	Field     string `json:"field"`
+}
+
 type GroupTotalCounts struct {
 	All     int `json:"all"`
 	Managed int `json:"managed"`
@@ -4438,6 +4570,11 @@ type HostingSupportModel struct {
 }
 
 type I18nErrorMessage struct {
+	I18nKey    string          `json:"i18nKey"`
+	Parameters json.RawMessage `json:"parameters"`
+}
+
+type I18nErrorMessageDTO struct {
 	I18nKey    string          `json:"i18nKey"`
 	Parameters json.RawMessage `json:"parameters"`
 }
@@ -4600,6 +4737,53 @@ type IssueBean struct {
 	VersionedRepresentations json.RawMessage `json:"versionedRepresentations"`
 }
 
+type IssueBulkDeletePayload struct {
+	SelectedIssueIdsOrKeys json.RawMessage `json:"selectedIssueIdsOrKeys"`
+	SendBulkNotification   bool            `json:"sendBulkNotification"`
+}
+
+type IssueBulkEditField struct {
+	Description             string          `json:"description"`
+	FieldOptions            json.RawMessage `json:"fieldOptions"`
+	Id                      string          `json:"id"`
+	IsRequired              bool            `json:"isRequired"`
+	MultiSelectFieldOptions json.RawMessage `json:"multiSelectFieldOptions"`
+	Name                    string          `json:"name"`
+	SearchUrl               string          `json:"searchUrl"`
+	Type                    string          `json:"type"`
+	UnavailableMessage      string          `json:"unavailableMessage"`
+}
+
+type IssueBulkEditPayload struct {
+	EditedFieldsInput      string          `json:"editedFieldsInput"`
+	SelectedActions        json.RawMessage `json:"selectedActions"`
+	SelectedIssueIdsOrKeys json.RawMessage `json:"selectedIssueIdsOrKeys"`
+	SendBulkNotification   bool            `json:"sendBulkNotification"`
+}
+
+type IssueBulkMovePayload struct {
+	SendBulkNotification   bool            `json:"sendBulkNotification"`
+	TargetToSourcesMapping json.RawMessage `json:"targetToSourcesMapping"`
+}
+
+type IssueBulkOperationsFieldOption struct {
+}
+
+type IssueBulkTransitionForWorkflow struct {
+	IsTransitionsFiltered bool            `json:"isTransitionsFiltered"`
+	Issues                json.RawMessage `json:"issues"`
+	Transitions           json.RawMessage `json:"transitions"`
+}
+
+type IssueBulkTransitionPayload struct {
+	BulkTransitionInputs json.RawMessage `json:"bulkTransitionInputs"`
+	SendBulkNotification bool            `json:"sendBulkNotification"`
+}
+
+type IssueBulkWatchOrUnwatchPayload struct {
+	SelectedIssueIdsOrKeys json.RawMessage `json:"selectedIssueIdsOrKeys"`
+}
+
 type IssueChangeLog struct {
 	ChangeHistories json.RawMessage `json:"changeHistories"`
 	IssueId         string          `json:"issueId"`
@@ -4703,6 +4887,7 @@ type IssueLayoutPayload struct {
 }
 
 type IssueLimitReportResponseBean struct {
+	EntitiesBreachingLimit json.RawMessage `json:"entitiesBreachingLimit"`
 	IssuesApproachingLimit json.RawMessage `json:"issuesApproachingLimit"`
 	IssuesBreachingLimit   json.RawMessage `json:"issuesBreachingLimit"`
 	Limits                 json.RawMessage `json:"limits"`
@@ -4785,11 +4970,29 @@ type IssueTransition struct {
 	To            string          `json:"to"`
 }
 
+type IssueTransitionStatus struct {
+	StatusId   int    `json:"statusId"`
+	StatusName string `json:"statusName"`
+}
+
 type IssueTypeCreateBean struct {
 	Description    string `json:"description"`
 	HierarchyLevel int    `json:"hierarchyLevel"`
 	Name           string `json:"name"`
 	Type           string `json:"type"`
+}
+
+type IssueTypeDefaultValue struct {
+	IsAnyIssueType bool            `json:"isAnyIssueType"`
+	IssueTypeId    string          `json:"issueTypeId"`
+	Value          json.RawMessage `json:"value"`
+}
+
+type IssueTypeDefaultValueUpdate struct {
+	ContextId      int             `json:"contextId"`
+	IsAnyIssueType bool            `json:"isAnyIssueType"`
+	IssueTypeId    string          `json:"issueTypeId"`
+	Value          json.RawMessage `json:"value"`
 }
 
 type IssueTypeDetails struct {
@@ -5087,6 +5290,47 @@ type JexpJqlIssues struct {
 	Validation string `json:"validation"`
 }
 
+type JiraCascadingSelectField struct {
+	ChildOptionValue  json.RawMessage `json:"childOptionValue"`
+	FieldId           string          `json:"fieldId"`
+	ParentOptionValue json.RawMessage `json:"parentOptionValue"`
+}
+
+type JiraColorField struct {
+	Color   json.RawMessage `json:"color"`
+	FieldId string          `json:"fieldId"`
+}
+
+type JiraColorInput struct {
+	Name string `json:"name"`
+}
+
+type JiraComponentField struct {
+	ComponentId int `json:"componentId"`
+}
+
+type JiraDateField struct {
+	Date    json.RawMessage `json:"date"`
+	FieldId string          `json:"fieldId"`
+}
+
+type JiraDateInput struct {
+	FormattedDate string `json:"formattedDate"`
+}
+
+type JiraDateTimeField struct {
+	DateTime json.RawMessage `json:"dateTime"`
+	FieldId  string          `json:"fieldId"`
+}
+
+type JiraDateTimeInput struct {
+	FormattedDateTime string `json:"formattedDateTime"`
+}
+
+type JiraDurationField struct {
+	OriginalEstimateField string `json:"originalEstimateField"`
+}
+
 type JiraExpressionAnalysis struct {
 	Complexity json.RawMessage `json:"complexity"`
 	Errors     json.RawMessage `json:"errors"`
@@ -5171,12 +5415,157 @@ type JiraExpressionsComplexityValueBean struct {
 	Value int `json:"value"`
 }
 
+type JiraGroupInput struct {
+	GroupName string `json:"groupName"`
+}
+
+type JiraIssueFields struct {
+	CascadingSelectFields                   json.RawMessage `json:"cascadingSelectFields"`
+	ClearableNumberFields                   json.RawMessage `json:"clearableNumberFields"`
+	ColorFields                             json.RawMessage `json:"colorFields"`
+	DatePickerFields                        json.RawMessage `json:"datePickerFields"`
+	DateTimePickerFields                    json.RawMessage `json:"dateTimePickerFields"`
+	IssueType                               string          `json:"issueType"`
+	LabelsFields                            json.RawMessage `json:"labelsFields"`
+	MultipleGroupPickerFields               json.RawMessage `json:"multipleGroupPickerFields"`
+	MultipleSelectClearableUserPickerFields json.RawMessage `json:"multipleSelectClearableUserPickerFields"`
+	MultipleSelectFields                    json.RawMessage `json:"multipleSelectFields"`
+	MultipleVersionPickerFields             json.RawMessage `json:"multipleVersionPickerFields"`
+	MultiselectComponents                   string          `json:"multiselectComponents"`
+	OriginalEstimateField                   string          `json:"originalEstimateField"`
+	Priority                                string          `json:"priority"`
+	RichTextFields                          json.RawMessage `json:"richTextFields"`
+	SingleGroupPickerFields                 json.RawMessage `json:"singleGroupPickerFields"`
+	SingleLineTextFields                    json.RawMessage `json:"singleLineTextFields"`
+	SingleSelectClearableUserPickerFields   json.RawMessage `json:"singleSelectClearableUserPickerFields"`
+	SingleSelectFields                      json.RawMessage `json:"singleSelectFields"`
+	SingleVersionPickerFields               json.RawMessage `json:"singleVersionPickerFields"`
+	Status                                  json.RawMessage `json:"status"`
+	TimeTrackingField                       string          `json:"timeTrackingField"`
+	UrlFields                               json.RawMessage `json:"urlFields"`
+}
+
+type JiraIssueTypeField struct {
+	IssueTypeId string `json:"issueTypeId"`
+}
+
+type JiraLabelPropertiesInputJackson1 struct {
+	Color string `json:"color"`
+	Name  string `json:"name"`
+}
+
+type JiraLabelsField struct {
+	BulkEditMultiSelectFieldOption string          `json:"bulkEditMultiSelectFieldOption"`
+	FieldId                        string          `json:"fieldId"`
+	LabelProperties                json.RawMessage `json:"labelProperties"`
+	Labels                         json.RawMessage `json:"labels"`
+}
+
+type JiraLabelsInput struct {
+	Name string `json:"name"`
+}
+
+type JiraMultiSelectComponentField struct {
+	BulkEditMultiSelectFieldOption string          `json:"bulkEditMultiSelectFieldOption"`
+	Components                     json.RawMessage `json:"components"`
+	FieldId                        string          `json:"fieldId"`
+}
+
+type JiraMultipleGroupPickerField struct {
+	FieldId string          `json:"fieldId"`
+	Groups  json.RawMessage `json:"groups"`
+}
+
+type JiraMultipleSelectField struct {
+	FieldId string          `json:"fieldId"`
+	Options json.RawMessage `json:"options"`
+}
+
+type JiraMultipleSelectUserPickerField struct {
+	FieldId string          `json:"fieldId"`
+	Users   json.RawMessage `json:"users"`
+}
+
+type JiraMultipleVersionPickerField struct {
+	BulkEditMultiSelectFieldOption string          `json:"bulkEditMultiSelectFieldOption"`
+	FieldId                        string          `json:"fieldId"`
+	Versions                       json.RawMessage `json:"versions"`
+}
+
+type JiraNumberField struct {
+	FieldId string  `json:"fieldId"`
+	Value   float64 `json:"value"`
+}
+
+type JiraPriorityField struct {
+	PriorityId string `json:"priorityId"`
+}
+
+type JiraRichTextField struct {
+	FieldId  string          `json:"fieldId"`
+	RichText json.RawMessage `json:"richText"`
+}
+
+type JiraRichTextInput struct {
+	AdfValue json.RawMessage `json:"adfValue"`
+}
+
+type JiraSelectedOptionField struct {
+	OptionId int `json:"optionId"`
+}
+
+type JiraSingleGroupPickerField struct {
+	FieldId string          `json:"fieldId"`
+	Group   json.RawMessage `json:"group"`
+}
+
+type JiraSingleLineTextField struct {
+	FieldId string `json:"fieldId"`
+	Text    string `json:"text"`
+}
+
+type JiraSingleSelectField struct {
+	FieldId string          `json:"fieldId"`
+	Option  json.RawMessage `json:"option"`
+}
+
+type JiraSingleSelectUserPickerField struct {
+	FieldId string          `json:"fieldId"`
+	User    json.RawMessage `json:"user"`
+}
+
+type JiraSingleVersionPickerField struct {
+	FieldId string          `json:"fieldId"`
+	Version json.RawMessage `json:"version"`
+}
+
 type JiraStatus struct {
 	Description    string          `json:"description"`
 	Id             string          `json:"id"`
 	Name           string          `json:"name"`
 	Scope          json.RawMessage `json:"scope"`
 	StatusCategory string          `json:"statusCategory"`
+}
+
+type JiraStatusInput struct {
+	StatusId string `json:"statusId"`
+}
+
+type JiraTimeTrackingField struct {
+	TimeRemaining string `json:"timeRemaining"`
+}
+
+type JiraUrlField struct {
+	FieldId string `json:"fieldId"`
+	Url     string `json:"url"`
+}
+
+type JiraUserField struct {
+	AccountId string `json:"accountId"`
+}
+
+type JiraVersionField struct {
+	VersionId string `json:"versionId"`
 }
 
 type JiraWorkflow struct {
@@ -5531,6 +5920,16 @@ type LifetimeGmvMetricsRecord struct {
 	StandardForgeAppVersionsGmv   float64 `json:"standardForgeAppVersionsGmv"`
 }
 
+type LimitExceededResponseBean struct {
+	CurrentCount    int    `json:"current_count"`
+	EntityType      string `json:"entity_type"`
+	ErrorCode       string `json:"error_code"`
+	LimitType       string `json:"limit_type"`
+	MaxAllowedLimit int    `json:"max_allowed_limit"`
+	Message         string `json:"message"`
+	ScopeId         string `json:"scope_id"`
+}
+
 type Link struct {
 	Href  string `json:"href"`
 	Title string `json:"title"`
@@ -5729,6 +6128,18 @@ type ManagementAccess struct {
 	Readable   bool `json:"readable"`
 }
 
+type MandatoryFieldValue struct {
+	Retain bool            `json:"retain"`
+	Type   string          `json:"type"`
+	Value  json.RawMessage `json:"value"`
+}
+
+type MandatoryFieldValueForADF struct {
+	Retain bool            `json:"retain"`
+	Type   string          `json:"type"`
+	Value  json.RawMessage `json:"value"`
+}
+
 type MappingsByIssueTypeOverride struct {
 	IssueTypeId    string          `json:"issueTypeId"`
 	StatusMappings json.RawMessage `json:"statusMappings"`
@@ -5834,9 +6245,40 @@ type MultiDirectoryGroupRoleAssignmentPage struct {
 	Links json.RawMessage `json:"links"`
 }
 
+type MultiDirectoryGroupSearchPage struct {
+	Data  json.RawMessage `json:"data"`
+	Links json.RawMessage `json:"links"`
+}
+
+type MultiDirectoryGroupSearchRequest struct {
+	AccountIds     json.RawMessage `json:"accountIds"`
+	Cursor         string          `json:"cursor"`
+	DirectoryIds   json.RawMessage `json:"directoryIds"`
+	Expand         json.RawMessage `json:"expand"`
+	GroupIds       json.RawMessage `json:"groupIds"`
+	GroupNames     json.RawMessage `json:"groupNames"`
+	Limit          int             `json:"limit"`
+	ResourceIds    json.RawMessage `json:"resourceIds"`
+	ResourceOwners json.RawMessage `json:"resourceOwners"`
+	RoleIds        json.RawMessage `json:"roleIds"`
+	SearchTerm     string          `json:"searchTerm"`
+	SortBy         json.RawMessage `json:"sortBy"`
+}
+
 type MultiDirectoryGroupStats struct {
 	Totals json.RawMessage `json:"totals"`
 	Types  json.RawMessage `json:"types"`
+}
+
+type MultiDirectoryProductAccess struct {
+	Id                  string `json:"id"`
+	Key                 string `json:"key"`
+	LastActiveTimestamp string `json:"lastActiveTimestamp"`
+}
+
+type MultiDirectoryRoleAssignment struct {
+	Role                  string          `json:"role"`
+	RoleAssignmentMethods json.RawMessage `json:"roleAssignmentMethods"`
 }
 
 type MultiDirectoryUser struct {
@@ -5850,6 +6292,7 @@ type MultiDirectoryUser struct {
 	Department       string          `json:"department"`
 	Email            string          `json:"email"`
 	EmailVerified    bool            `json:"emailVerified"`
+	Groups           json.RawMessage `json:"groups"`
 	JobTitle         string          `json:"jobTitle"`
 	Links            json.RawMessage `json:"links"`
 	Location         string          `json:"location"`
@@ -5861,6 +6304,7 @@ type MultiDirectoryUser struct {
 	Organization     string          `json:"organization"`
 	Picture          string          `json:"picture"`
 	PlatformRoles    json.RawMessage `json:"platformRoles"`
+	ProductAccess    json.RawMessage `json:"productAccess"`
 	Status           string          `json:"status"`
 	TimeZone         string          `json:"timeZone"`
 }
@@ -5906,6 +6350,12 @@ type MultiDirectoryUserDirectoryPage struct {
 	Links json.RawMessage `json:"links"`
 }
 
+type MultiDirectoryUserGroup struct {
+	Description string `json:"description"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+}
+
 type MultiDirectoryUserPage struct {
 	Data  json.RawMessage `json:"data"`
 	Links json.RawMessage `json:"links"`
@@ -5915,6 +6365,7 @@ type MultiDirectoryUserRoleAssignment struct {
 	DirectoryId         string          `json:"directoryId"`
 	ResourceId          string          `json:"resourceId"`
 	ResourceOwner       string          `json:"resourceOwner"`
+	RoleAssignments     json.RawMessage `json:"roleAssignments"`
 	Roles               json.RawMessage `json:"roles"`
 	UserDirectoryStatus string          `json:"userDirectoryStatus"`
 }
@@ -5922,6 +6373,31 @@ type MultiDirectoryUserRoleAssignment struct {
 type MultiDirectoryUserRoleAssignmentPage struct {
 	Data  json.RawMessage `json:"data"`
 	Links json.RawMessage `json:"links"`
+}
+
+type MultiDirectoryUserSearchPage struct {
+	Data  json.RawMessage `json:"data"`
+	Links json.RawMessage `json:"links"`
+}
+
+type MultiDirectoryUserSearchRequest struct {
+	AccountIds       json.RawMessage `json:"accountIds"`
+	AccountStatus    json.RawMessage `json:"accountStatus"`
+	ClaimStatus      string          `json:"claimStatus"`
+	Cursor           string          `json:"cursor"`
+	DirectoryIds     json.RawMessage `json:"directoryIds"`
+	EmailDomains     json.RawMessage `json:"emailDomains"`
+	Emails           json.RawMessage `json:"emails"`
+	Expand           json.RawMessage `json:"expand"`
+	GroupIds         json.RawMessage `json:"groupIds"`
+	Limit            int             `json:"limit"`
+	MembershipStatus json.RawMessage `json:"membershipStatus"`
+	MfaEnabled       bool            `json:"mfaEnabled"`
+	ResourceIds      json.RawMessage `json:"resourceIds"`
+	RoleIds          json.RawMessage `json:"roleIds"`
+	SearchTerm       string          `json:"searchTerm"`
+	SortBy           json.RawMessage `json:"sortBy"`
+	Status           json.RawMessage `json:"status"`
 }
 
 type MultiDirectoryUserStats struct {
@@ -6340,6 +6816,16 @@ type PageBeanComponentWithIssueCount struct {
 }
 
 type PageBeanContext struct {
+	IsLast     bool            `json:"isLast"`
+	MaxResults int             `json:"maxResults"`
+	NextPage   string          `json:"nextPage"`
+	Self       string          `json:"self"`
+	StartAt    int             `json:"startAt"`
+	Total      int             `json:"total"`
+	Values     json.RawMessage `json:"values"`
+}
+
+type PageBeanContextDefaultValues struct {
 	IsLast     bool            `json:"isLast"`
 	MaxResults int             `json:"maxResults"`
 	NextPage   string          `json:"nextPage"`
@@ -7226,6 +7712,14 @@ type Policy struct {
 	Data json.RawMessage `json:"data"`
 }
 
+type PolicyApplicationViolation struct {
+	EntityId        string `json:"entityId"`
+	EntityName      string `json:"entityName"`
+	EntityType      string `json:"entityType"`
+	RemediationHint string `json:"remediationHint"`
+	RuleTypeId      string `json:"ruleTypeId"`
+}
+
 type PolicyCreateInput struct {
 	Data json.RawMessage `json:"data"`
 }
@@ -7257,6 +7751,24 @@ type PolicyPage struct {
 	Data  json.RawMessage `json:"data"`
 	Links json.RawMessage `json:"links"`
 	Meta  json.RawMessage `json:"meta"`
+}
+
+type PolicySummary struct {
+	AppliedProjectIds json.RawMessage `json:"appliedProjectIds"`
+	Id                string          `json:"id"`
+	IsDefault         bool            `json:"isDefault"`
+	PolicyDescription string          `json:"policyDescription"`
+	PolicyName        string          `json:"policyName"`
+	Version           int             `json:"version"`
+}
+
+type PolicySummaryResponse struct {
+	IsLast         bool            `json:"isLast"`
+	MaxResults     int             `json:"maxResults"`
+	NextPageCursor string          `json:"nextPageCursor"`
+	StartAt        int             `json:"startAt"`
+	Total          int             `json:"total"`
+	Values         json.RawMessage `json:"values"`
 }
 
 type PolicyUpdateInput struct {
@@ -7733,6 +8245,12 @@ type ProjectPinAction struct {
 	ProjectIdOrKey string `json:"projectIdOrKey"`
 }
 
+type ProjectResult struct {
+	Errors    json.RawMessage `json:"errors"`
+	Message   string          `json:"message"`
+	ProjectId int             `json:"projectId"`
+}
+
 type ProjectRole struct {
 	Actors           json.RawMessage `json:"actors"`
 	Admin            bool            `json:"admin"`
@@ -7984,11 +8502,10 @@ type QuoteCollection struct {
 }
 
 type QuoteCollectionLinks struct {
-	Export json.RawMessage `json:"export"`
-	Next   json.RawMessage `json:"next"`
-	Prev   json.RawMessage `json:"prev"`
-	Query  json.RawMessage `json:"query"`
-	Self   json.RawMessage `json:"self"`
+	Next  json.RawMessage `json:"next"`
+	Prev  json.RawMessage `json:"prev"`
+	Query json.RawMessage `json:"query"`
+	Self  json.RawMessage `json:"self"`
 }
 
 type QuoteDetails struct {
@@ -8237,6 +8754,11 @@ type RequestCreateDTO struct {
 	ServiceDeskId       string          `json:"serviceDeskId"`
 }
 
+type RequestFieldValidationErrorDTO struct {
+	Field   string `json:"field"`
+	Message string `json:"message"`
+}
+
 type RequestNotificationSubscriptionDTO struct {
 	Subscribed bool `json:"subscribed"`
 }
@@ -8309,6 +8831,15 @@ type RequestTypePermissionCheckRequestDTO struct {
 type RequestTypePermissionCheckResponse struct {
 	CanAdminister    json.RawMessage `json:"canAdminister"`
 	CanCreateRequest json.RawMessage `json:"canCreateRequest"`
+}
+
+type RequestValidationResultDTO struct {
+	ErrorMessage  string          `json:"errorMessage"`
+	ErrorMessages json.RawMessage `json:"errorMessages"`
+	FieldErrors   json.RawMessage `json:"fieldErrors"`
+	FormErrors    json.RawMessage `json:"formErrors"`
+	ReasonKey     string          `json:"reasonKey"`
+	Valid         bool            `json:"valid"`
 }
 
 type RequiredMappingByIssueType struct {
@@ -8644,14 +9175,15 @@ type ScreenshotLinks struct {
 }
 
 type SearchAndReconcileRequestBean struct {
-	Expand          string          `json:"expand"`
-	Fields          json.RawMessage `json:"fields"`
-	FieldsByKeys    bool            `json:"fieldsByKeys"`
-	Jql             string          `json:"jql"`
-	MaxResults      int             `json:"maxResults"`
-	NextPageToken   string          `json:"nextPageToken"`
-	Properties      json.RawMessage `json:"properties"`
-	ReconcileIssues json.RawMessage `json:"reconcileIssues"`
+	Expand                  string          `json:"expand"`
+	Fields                  json.RawMessage `json:"fields"`
+	FieldsByKeys            bool            `json:"fieldsByKeys"`
+	IncludeArchivedProjects bool            `json:"includeArchivedProjects"`
+	Jql                     string          `json:"jql"`
+	MaxResults              int             `json:"maxResults"`
+	NextPageToken           string          `json:"nextPageToken"`
+	Properties              json.RawMessage `json:"properties"`
+	ReconcileIssues         json.RawMessage `json:"reconcileIssues"`
 }
 
 type SearchAndReconcileResults struct {
@@ -8660,6 +9192,7 @@ type SearchAndReconcileResults struct {
 	Names         json.RawMessage `json:"names"`
 	NextPageToken string          `json:"nextPageToken"`
 	Schema        json.RawMessage `json:"schema"`
+	Warnings      json.RawMessage `json:"warnings"`
 }
 
 type SearchAutoCompleteFilter struct {
@@ -8786,14 +9319,16 @@ type SearchResult struct {
 }
 
 type SearchResultFieldParameters struct {
-	Description string `json:"description"`
-	IsRequired  bool   `json:"isRequired"`
+	Description  string `json:"description"`
+	IsRequired   bool   `json:"isRequired"`
+	RendererType string `json:"rendererType"`
 }
 
 type SearchResultWorkTypeParameters struct {
-	Description string `json:"description"`
-	IsRequired  bool   `json:"isRequired"`
-	WorkTypeId  string `json:"workTypeId"`
+	Description  string `json:"description"`
+	IsRequired   bool   `json:"isRequired"`
+	RendererType string `json:"rendererType"`
+	WorkTypeId   string `json:"workTypeId"`
 }
 
 type SearchResults struct {
@@ -8805,6 +9340,19 @@ type SearchResults struct {
 	StartAt         int             `json:"startAt"`
 	Total           int             `json:"total"`
 	WarningMessages json.RawMessage `json:"warningMessages"`
+}
+
+type SearchWarning struct {
+	Details string `json:"details"`
+	Message string `json:"message"`
+	Type    string `json:"type"`
+}
+
+type SearchWarningLimitDetails struct {
+	Actual    int    `json:"actual"`
+	Arguments string `json:"arguments"`
+	Clause    string `json:"clause"`
+	Limit     int    `json:"limit"`
 }
 
 type SearchWorkspacesOperand struct {
@@ -8856,6 +9404,7 @@ type SecurityLevelPayload struct {
 	Description          string          `json:"description"`
 	IsDefault            bool            `json:"isDefault"`
 	Name                 string          `json:"name"`
+	Pcri                 json.RawMessage `json:"pcri"`
 	SecurityLevelMembers json.RawMessage `json:"securityLevelMembers"`
 }
 
@@ -9005,6 +9554,10 @@ type SetDefaultResolutionRequest struct {
 	Id string `json:"id"`
 }
 
+type SetProjectPoliciesRequest struct {
+	PolicyIds json.RawMessage `json:"policyIds"`
+}
+
 type SharePermission struct {
 	Group   string `json:"group"`
 	Id      int    `json:"id"`
@@ -9071,6 +9624,12 @@ type SimplifiedHierarchyLevel struct {
 	Level                  int             `json:"level"`
 	Name                   string          `json:"name"`
 	ProjectConfigurationId int             `json:"projectConfigurationId"`
+}
+
+type SimplifiedIssueTransition struct {
+	To             string `json:"to"`
+	TransitionId   int    `json:"transitionId"`
+	TransitionName string `json:"transitionName"`
 }
 
 type SingleAdminInviteResult struct {
@@ -9261,13 +9820,15 @@ type SpacePropertyUpdate struct {
 }
 
 type SpaceSettings struct {
+	ContentMode          string          `json:"contentMode"`
 	Editor               json.RawMessage `json:"editor"`
 	RouteOverrideEnabled bool            `json:"routeOverrideEnabled"`
 	SpaceKey             string          `json:"spaceKey"`
 }
 
 type SpaceSettingsUpdate struct {
-	RouteOverrideEnabled bool `json:"routeOverrideEnabled"`
+	ContentMode          string `json:"contentMode"`
+	RouteOverrideEnabled bool   `json:"routeOverrideEnabled"`
 }
 
 type SpaceUpdate struct {
@@ -9316,6 +9877,23 @@ type SprintCreateBean struct {
 
 type SprintSwapBean struct {
 	SprintToSwapWith int `json:"sprintToSwapWith"`
+}
+
+type StatePolicyDocument struct {
+	Id                string          `json:"id"`
+	IsDefault         bool            `json:"isDefault"`
+	PolicyDescription string          `json:"policyDescription"`
+	PolicyName        string          `json:"policyName"`
+	RulesByDomain     json.RawMessage `json:"rulesByDomain"`
+	Version           int             `json:"version"`
+}
+
+type StatePolicyRule struct {
+	Description string          `json:"description"`
+	Domain      string          `json:"domain"`
+	Properties  json.RawMessage `json:"properties"`
+	RuleId      string          `json:"ruleId"`
+	RuleTypeId  string          `json:"ruleTypeId"`
 }
 
 type Status struct {
@@ -9447,6 +10025,7 @@ type StatusPayload struct {
 	Name           string          `json:"name"`
 	OnConflict     string          `json:"onConflict"`
 	Pcri           json.RawMessage `json:"pcri"`
+	Scope          string          `json:"scope"`
 	StatusCategory string          `json:"statusCategory"`
 }
 
@@ -9569,6 +10148,10 @@ type SubmitVulnerabilitiesResponse struct {
 	AcceptedVulnerabilities json.RawMessage `json:"acceptedVulnerabilities"`
 	FailedVulnerabilities   json.RawMessage `json:"failedVulnerabilities"`
 	UnknownAssociations     json.RawMessage `json:"unknownAssociations"`
+}
+
+type SubmittedBulkOperation struct {
+	TaskId string `json:"taskId"`
 }
 
 type SubqueryBean struct {
@@ -10078,11 +10661,6 @@ type UnrestrictedUserEmail struct {
 	Email     string `json:"email"`
 }
 
-type UpdateAppAccessSettingsDomainRequest struct {
-	AdminNotifications bool            `json:"adminNotifications"`
-	Products           json.RawMessage `json:"products"`
-}
-
 type UpdateCustomFieldDetails struct {
 	Description string `json:"description"`
 	Name        string `json:"name"`
@@ -10493,6 +11071,10 @@ type UsersSearchRequest struct {
 type UsersUserKeys struct {
 	UserKeys json.RawMessage `json:"userKeys"`
 	Users    json.RawMessage `json:"users"`
+}
+
+type ValidatePolicyRequest struct {
+	PolicyIds json.RawMessage `json:"policyIds"`
 }
 
 type ValidationOptionsForCreate struct {
@@ -10932,14 +11514,19 @@ type WikiGetViewsResponse struct {
 	Id    int `json:"id"`
 }
 
+type WikiMovePageResponse struct {
+	PageId string `json:"pageId"`
+}
+
 type WorkManagementNavigationInfo struct {
 	BoardName string `json:"boardName"`
 }
 
 type WorkTypeParameters struct {
-	Description string `json:"description"`
-	IsRequired  bool   `json:"isRequired"`
-	WorkTypeId  int    `json:"workTypeId"`
+	Description  string `json:"description"`
+	IsRequired   bool   `json:"isRequired"`
+	RendererType string `json:"rendererType"`
+	WorkTypeId   int    `json:"workTypeId"`
 }
 
 type Workflow struct {
@@ -10983,6 +11570,12 @@ type WorkflowCompoundCondition struct {
 }
 
 type WorkflowCondition struct {
+}
+
+type WorkflowCopyRequest struct {
+	Description  string `json:"description"`
+	WorkflowId   string `json:"workflowId"`
+	WorkflowName string `json:"workflowName"`
 }
 
 type WorkflowCreate struct {
@@ -11392,12 +11985,6 @@ type WorkflowTransitionLinks struct {
 	ToPort              int    `json:"toPort"`
 }
 
-type WorkflowTransitionProperty struct {
-	Id    string `json:"id"`
-	Key   string `json:"key"`
-	Value string `json:"value"`
-}
-
 type WorkflowTransitionRule struct {
 	Configuration string `json:"configuration"`
 	Type          string `json:"type"`
@@ -11779,6 +12366,12 @@ type confluence_cloud_Version struct {
 	When                string          `json:"when"`
 }
 
+type fields struct {
+	Retain bool            `json:"retain"`
+	Type   string          `json:"type"`
+	Value  json.RawMessage `json:"value"`
+}
+
 type jira_software_cloud_AvatarUrlsBean struct {
 	V16x16 string `json:"16x16"`
 	V24x24 string `json:"24x24"`
@@ -12066,6 +12659,11 @@ type service_management_public_EntityProperty struct {
 	Value string `json:"value"`
 }
 
+type service_management_public_ErrorResponse struct {
+	ErrorMessage     string          `json:"errorMessage"`
+	I18nErrorMessage json.RawMessage `json:"i18nErrorMessage"`
+}
+
 type service_management_public_FieldMetadata struct {
 	AllowedValues   json.RawMessage `json:"allowedValues"`
 	AutoCompleteUrl string          `json:"autoCompleteUrl"`
@@ -12310,4 +12908,29 @@ type service_management_public_UserDetails struct {
 	Name         string `json:"name"`
 	Self         string `json:"self"`
 	TimeZone     string `json:"timeZone"`
+}
+
+type targetClassification struct {
+	Classifications json.RawMessage `json:"classifications"`
+	IssueType       string          `json:"issueType"`
+	ProjectKeyOrId  string          `json:"projectKeyOrId"`
+}
+
+type targetMandatoryFields struct {
+	Fields json.RawMessage `json:"fields"`
+}
+
+type targetStatus struct {
+	Statuses json.RawMessage `json:"statuses"`
+}
+
+type targetToSourcesMapping struct {
+	InferClassificationDefaults bool            `json:"inferClassificationDefaults"`
+	InferFieldDefaults          bool            `json:"inferFieldDefaults"`
+	InferStatusDefaults         bool            `json:"inferStatusDefaults"`
+	InferSubtaskTypeDefault     bool            `json:"inferSubtaskTypeDefault"`
+	IssueIdsOrKeys              json.RawMessage `json:"issueIdsOrKeys"`
+	TargetClassification        json.RawMessage `json:"targetClassification"`
+	TargetMandatoryFields       json.RawMessage `json:"targetMandatoryFields"`
+	TargetStatus                json.RawMessage `json:"targetStatus"`
 }

@@ -13,31 +13,25 @@ import (
 )
 
 func newAtlassianAccessUsersCreateCmd(flags *rootFlags) *cobra.Command {
-	var bodyEmail string
+	var bodyAdditionalGroups string
+	var bodyEmails string
 	var bodyNotificationText string
-	var bodyPermissionRuleResource string
-	var bodyPermissionRuleRole string
+	var bodyPermissionRules string
 	var bodySendNotification bool
 	var stdinBody bool
 
 	cmd := &cobra.Command{
 		Use:         "create <orgId>",
-		Short:       "**The API is presently accessible exclusively to customers who hold a paid subscription.",
-		Example:     "  keen atlassian-access-users create 550e8400-e29b-41d4-a716-446655440000 --email user@example.com",
-		Annotations: map[string]string{"pp:endpoint": "atlassian-access-users.create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/users/invite"},
+		Short:       "Invite people to your organization. When you invite someone: - they’re given app roles according to your invitation.",
+		Example:     "  keen atlassian-access-users create 550e8400-e29b-41d4-a716-446655440000",
+		Annotations: map[string]string{"pp:endpoint": "atlassian-access-users.create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/users/invite"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
 			}
 			if !stdinBody {
-				if !cmd.Flags().Changed("email") && !flags.dryRun {
-					return fmt.Errorf("required flag \"%s\" not set", "email")
-				}
-				if !cmd.Flags().Changed("permission-rule-resource") && !flags.dryRun {
-					return fmt.Errorf("required flag \"%s\" not set", "permission-rule-resource")
-				}
-				if !cmd.Flags().Changed("permission-rule-role") && !flags.dryRun {
-					return fmt.Errorf("required flag \"%s\" not set", "permission-rule-role")
+				if !cmd.Flags().Changed("emails") && !flags.dryRun {
+					return fmt.Errorf("required flag \"%s\" not set", "emails")
 				}
 			}
 			c, err := flags.newClient()
@@ -45,7 +39,7 @@ func newAtlassianAccessUsersCreateCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "https://api.atlassian.com/admin/v1/orgs/{orgId}/users/invite"
+			path := "https://api.atlassian.com/admin/v2/orgs/{orgId}/users/invite"
 			path = replacePathParam(path, "orgId", args[0])
 			params := map[string]string{}
 			var body map[string]any
@@ -61,23 +55,29 @@ func newAtlassianAccessUsersCreateCmd(flags *rootFlags) *cobra.Command {
 				body = jsonBody
 			} else {
 				body = map[string]any{}
-				if bodyEmail != "" {
-					body["email"] = bodyEmail
+				if bodyAdditionalGroups != "" {
+					var parsedAdditionalGroups any
+					if err := json.Unmarshal([]byte(bodyAdditionalGroups), &parsedAdditionalGroups); err != nil {
+						return fmt.Errorf("parsing --additional-groups JSON: %w", err)
+					}
+					body["additionalGroups"] = parsedAdditionalGroups
+				}
+				if bodyEmails != "" {
+					var parsedEmails any
+					if err := json.Unmarshal([]byte(bodyEmails), &parsedEmails); err != nil {
+						return fmt.Errorf("parsing --emails JSON: %w", err)
+					}
+					body["emails"] = parsedEmails
 				}
 				if bodyNotificationText != "" {
 					body["notificationText"] = bodyNotificationText
 				}
-				{
-					nestedPermissionRule := map[string]any{}
-					if bodyPermissionRuleResource != "" {
-						nestedPermissionRule["resource"] = bodyPermissionRuleResource
+				if bodyPermissionRules != "" {
+					var parsedPermissionRules any
+					if err := json.Unmarshal([]byte(bodyPermissionRules), &parsedPermissionRules); err != nil {
+						return fmt.Errorf("parsing --permission-rules JSON: %w", err)
 					}
-					if bodyPermissionRuleRole != "" {
-						nestedPermissionRule["role"] = bodyPermissionRuleRole
-					}
-					if len(nestedPermissionRule) > 0 {
-						body["permissionRule"] = nestedPermissionRule
-					}
+					body["permissionRules"] = parsedPermissionRules
 				}
 				if cmd.Flags().Changed("send-notification") {
 					body["sendNotification"] = bodySendNotification
@@ -106,7 +106,7 @@ func newAtlassianAccessUsersCreateCmd(flags *rootFlags) *cobra.Command {
 				}
 			}
 			if !flags.dryRun && statusCode >= 200 && statusCode < 300 && (partialFailure == nil || flags.allowPartialFailure) {
-				writeMutationResponseToStore(cmd.Context(), "atlassian-access-users", data, "")
+				writeMutationResponseToStore(cmd.Context(), "atlassian-access-users", data, "data")
 			}
 			if wantsHumanTable(cmd.OutOrStdout(), flags) {
 				// Check if response contains an array (directly or wrapped in "data")
@@ -219,11 +219,11 @@ func newAtlassianAccessUsersCreateCmd(flags *rootFlags) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&bodyEmail, "email", "", "Email")
-	cmd.Flags().StringVar(&bodyNotificationText, "notification-text", "", "Notification text")
-	cmd.Flags().StringVar(&bodyPermissionRuleResource, "permission-rule-resource", "", "Use the [Get Workspaces API](https://developer.atlassian.")
-	cmd.Flags().StringVar(&bodyPermissionRuleRole, "permission-rule-role", "", "Role to assign to a resource")
-	cmd.Flags().BoolVar(&bodySendNotification, "send-notification", false, "Send notification")
+	cmd.Flags().StringVar(&bodyAdditionalGroups, "additional-groups", "", "The groups you want to add users to from this invitation. Use the [Get groups in an organization](https://developer.")
+	cmd.Flags().StringVar(&bodyEmails, "emails", "", "Email addresses of the people you want to invite.")
+	cmd.Flags().StringVar(&bodyNotificationText, "notification-text", "", "Add a message to your email invitation.")
+	cmd.Flags().StringVar(&bodyPermissionRules, "permission-rules", "", "The access you want to give users from this invitation.")
+	cmd.Flags().BoolVar(&bodySendNotification, "send-notification", false, "Set to true if you want to send an email invitation.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")
 
 	return cmd

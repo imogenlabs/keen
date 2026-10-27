@@ -122,14 +122,14 @@ func newWikiAsyncConvertContentBodyRequestCmd(flags *rootFlags) *cobra.Command {
 					Endpoint:       "async-convert-content-body-request",
 					Status:         "submitted",
 					StatusResource: "wiki",
-					StatusEndpoint: "get-content-watch-status",
+					StatusEndpoint: "get-content-restriction-status-for-user",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/wiki/rest/api/user/watch/content/{contentId}", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/user", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

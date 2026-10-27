@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-27T16:12:00.239707Z",
+  "printing_press_version": "4.15.0",
+  "api_name": "keen",
+  "display_name": "keen",
+  "cli_name": "keen",
+  "owner": "smashingtags",
+  "printer": "smashingtags",
+  "printer_name": "smashingtags",
+  "spec_path": "specs/jira-platform.json",
+  "spec_format": "openapi3",
+  "spec_checksum": "sha256:f22db3da5febbb9a8184a43161eefdf712f6950c614910db7aa90854a5078859",
+  "run_id": "20261027-161200",
+  "description": "Combined CLI for multiple API services",
+  "mcp_binary": "keen-mcp",
+  "mcp_tool_count": 1130,
+  "mcp_public_tool_count": 249,
+  "mcp_ready": "full",
+  "api_version": "1001.0.0-SNAPSHOT-f6465463661722583daccffab8c9da1746fe0520",
+  "auth_type": "api_key",
+  "auth_env_vars": [
+    "JIRA_CLOUD_PLATFORM_USERNAME",
+    "JIRA_CLOUD_PLATFORM_PASSWORD"
+  ]
+}

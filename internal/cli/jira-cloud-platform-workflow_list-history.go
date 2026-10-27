@@ -19,6 +19,7 @@ func newJiraCloudPlatformWorkflowListHistoryCmd(flags *rootFlags) *cobra.Command
 
 	cmd := &cobra.Command{
 		Use:         "list-history",
+		Aliases:     []string{"create"},
 		Short:       "Returns a list of workflow history entries for a specified workflow id.",
 		Example:     "  keen jira-cloud-platform-workflow list-history",
 		Annotations: map[string]string{"pp:endpoint": "jira-cloud-platform-workflow.list-history", "pp:method": "POST", "pp:path": "/rest/api/3/workflow/history/list"},

@@ -22,7 +22,7 @@ func newIssueBulkFetchCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "bulk-fetch",
-		Short:       "Returns the details for a set of requested issues. You can request up to 100 issues.",
+		Short:       "Returns the details for a set of requested issues. By default you can request up to 100 issues in a single call.",
 		Example:     "  keen issue bulk-fetch",
 		Annotations: map[string]string{"pp:endpoint": "issue.bulk-fetch", "pp:method": "POST", "pp:path": "/rest/api/3/issue/bulkfetch"},
 		RunE: func(cmd *cobra.Command, args []string) error {

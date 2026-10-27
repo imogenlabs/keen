@@ -15,16 +15,12 @@ func newJiraCloudPlatformWorkflowCmd(flags *rootFlags) *cobra.Command {
 		RunE:   parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newJiraCloudPlatformWorkflowCreateTransitionPropertyCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowDeleteInactiveCmd(flags))
-	cmd.AddCommand(newJiraCloudPlatformWorkflowDeleteTransitionPropertyCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowDeleteTransitionRuleConfigurationsCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowGetPaginatedCmd(flags))
-	cmd.AddCommand(newJiraCloudPlatformWorkflowGetTransitionPropertiesCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowGetTransitionRuleConfigurationsCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowListHistoryCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowReadFromHistoryCmd(flags))
-	cmd.AddCommand(newJiraCloudPlatformWorkflowUpdateTransitionPropertyCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowUpdateTransitionRuleConfigurationsCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowProjectCmd(flags))
 	cmd.AddCommand(newJiraCloudPlatformWorkflowProjectUsagesCmd(flags))

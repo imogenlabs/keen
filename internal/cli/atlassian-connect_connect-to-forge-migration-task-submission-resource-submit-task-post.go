@@ -13,6 +13,7 @@ import (
 )
 
 func newAtlassianConnectConnectToForgeMigrationTaskSubmissionResourceSubmitTaskPostCmd(flags *rootFlags) *cobra.Command {
+	var flagRetriggerCompletedMigration bool
 	var stdinBody bool
 
 	cmd := &cobra.Command{
@@ -39,6 +40,9 @@ func newAtlassianConnectConnectToForgeMigrationTaskSubmissionResourceSubmitTaskP
 			}
 			path = replacePathParam(path, "jiraIssueFieldsKey", args[1])
 			params := map[string]string{}
+			if flagRetriggerCompletedMigration != false {
+				params["retriggerCompletedMigration"] = fmt.Sprintf("%v", flagRetriggerCompletedMigration)
+			}
 			var body map[string]any
 			if stdinBody {
 				stdinData, err := io.ReadAll(os.Stdin)
@@ -189,6 +193,7 @@ func newAtlassianConnectConnectToForgeMigrationTaskSubmissionResourceSubmitTaskP
 			return nil
 		},
 	}
+	cmd.Flags().BoolVar(&flagRetriggerCompletedMigration, "retrigger-completed-migration", false, "Whether to retrigger the migration if it has already completed.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")
 
 	return cmd

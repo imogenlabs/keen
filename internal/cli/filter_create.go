@@ -68,7 +68,7 @@ func newFilterCreateCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "create",
-		Short:       "Creates a filter. The filter is shared according to the [default share scope](#api-rest-api-2-filter-post).",
+		Short:       "Creates a filter. The filter is shared according to the [default share scope](#api-rest-api-3-filter-post).",
 		Example:     "  keen filter create --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "filter.create", "pp:method": "POST", "pp:path": "/rest/api/3/filter"},
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -500,7 +500,7 @@ func newFilterCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&bodyOwnerName, "owner-name", "", "This property is no longer available and will be removed from the documentation soon.")
 	cmd.Flags().StringVar(&bodyOwnerSelf, "owner-self", "", "The URL of the user.")
 	cmd.Flags().StringVar(&bodyOwnerTimeZone, "owner-time-zone", "", "The time zone specified in the user's profile.")
-	cmd.Flags().StringVar(&bodySearchUrl, "search-url", "", "A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-2-filter-search-get)")
+	cmd.Flags().StringVar(&bodySearchUrl, "search-url", "", "A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-3-filter-search-get)")
 	cmd.Flags().StringVar(&bodySelf, "self", "", "The URL of the filter.")
 	cmd.Flags().StringVar(&bodySharePermissions, "share-permissions", "", "The groups and projects that the filter is shared with.")
 	cmd.Flags().IntVar(&bodySharedUsersEndIndex, "shared-users-end-index", 0, "The index of the last item returned on the page.")

@@ -75,8 +75,8 @@ func newWorkflowsUpdateCmd(flags *rootFlags) *cobra.Command {
 					Resource:       "workflows",
 					Endpoint:       "update",
 					Status:         "submitted",
-					StatusResource: "status",
-					StatusEndpoint: "get-statuses",
+					StatusResource: "operations",
+					StatusEndpoint: "get-workspaces",
 				})
 				if flagWait {
 					ctx := cmd.Context()

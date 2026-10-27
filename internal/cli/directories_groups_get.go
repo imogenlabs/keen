@@ -27,7 +27,7 @@ func newDirectoriesGroupsGetCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "get <orgId> <directoryId>",
-		Short:       "Returns a page of groups in an organization that match the supplied parameters.",
+		Short:       "**This API is deprecated and will no longer work after June 30, 2027.",
 		Example:     "  keen directories groups get 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "groups.get", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v2/orgs/{orgId}/directories/{directoryId}/groups", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {

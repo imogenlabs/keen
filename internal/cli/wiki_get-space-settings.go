@@ -15,7 +15,7 @@ func newWikiGetSpaceSettingsCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "get-space-settings <spaceKey>",
-		Short:       "Returns the settings of a space. Currently only the `routeOverrideEnabled` setting can be returned.",
+		Short:       "Returns the settings of a space. **[Permissions](https://confluence.atlassian.",
 		Example:     "  keen wiki get-space-settings your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-space-settings", "pp:method": "GET", "pp:path": "/wiki/rest/api/space/{spaceKey}/settings", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {

@@ -245,6 +245,11 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "addons_versions", column: "addons_id", decl: "TEXT"},
 		{table: "addons_versions", column: "parent_id", decl: "TEXT"},
 		{table: "watch", column: "addons_id", decl: "TEXT"},
+		{table: "agents", column: "already_started_count", decl: "INTEGER"},
+		{table: "agents", column: "failed_count", decl: "INTEGER"},
+		{table: "agents", column: "rate_limited_count", decl: "INTEGER"},
+		{table: "agents", column: "started_count", decl: "INTEGER"},
+		{table: "agents", column: "success", decl: "INTEGER"},
 		{table: "agile", column: "is_last", decl: "INTEGER"},
 		{table: "agile", column: "max_results", decl: "INTEGER"},
 		{table: "agile", column: "start_at", decl: "INTEGER"},
@@ -273,11 +278,6 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "app", column: "self", decl: "TEXT"},
 		{table: "app", column: "start_at", decl: "INTEGER"},
 		{table: "app", column: "total", decl: "INTEGER"},
-		{table: "app_access_settings", column: "admin_notifications", decl: "INTEGER"},
-		{table: "app_access_settings", column: "domain", decl: "TEXT"},
-		{table: "app_access_settings", column: "enabled", decl: "INTEGER"},
-		{table: "app_access_settings", column: "number_of_products_applies_to", decl: "INTEGER"},
-		{table: "app_access_settings", column: "parent_id", decl: "TEXT"},
 		{table: "application_properties", column: "default_value", decl: "TEXT"},
 		{table: "application_properties", column: "desc", decl: "TEXT"},
 		{table: "application_properties", column: "example", decl: "TEXT"},
@@ -302,8 +302,12 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "atlassian_access_events", column: "action", decl: "TEXT"},
 		{table: "atlassian_access_events", column: "time", decl: "DATETIME"},
 		{table: "atlassian_access_events", column: "parent_id", decl: "TEXT"},
-		{table: "atlassian_access_groups", column: "description", decl: "TEXT"},
-		{table: "atlassian_access_groups", column: "name", decl: "TEXT"},
+		{table: "atlassian_access_policies", column: "name", decl: "TEXT"},
+		{table: "atlassian_access_policies", column: "status", decl: "TEXT"},
+		{table: "atlassian_access_policies", column: "type", decl: "TEXT"},
+		{table: "atlassian_access_policies", column: "parent_id", decl: "TEXT"},
+		{table: "resources", column: "atlassian_access_policies_id", decl: "TEXT"},
+		{table: "validate", column: "atlassian_access_policies_id", decl: "TEXT"},
 		{table: "atlassian_access_users", column: "account_id", decl: "TEXT"},
 		{table: "atlassian_access_users", column: "account_type", decl: "TEXT"},
 		{table: "atlassian_access_users", column: "active", decl: "INTEGER"},
@@ -362,6 +366,16 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "builds", column: "state", decl: "TEXT"},
 		{table: "builds", column: "update_sequence_number", decl: "INTEGER"},
 		{table: "builds", column: "url", decl: "TEXT"},
+		{table: "bulk", column: "ending_before", decl: "TEXT"},
+		{table: "bulk", column: "starting_after", decl: "TEXT"},
+		{table: "bulk", column: "created", decl: "DATETIME"},
+		{table: "bulk", column: "invalid_or_inaccessible_issue_count", decl: "INTEGER"},
+		{table: "bulk", column: "progress_percent", decl: "INTEGER"},
+		{table: "bulk", column: "started", decl: "DATETIME"},
+		{table: "bulk", column: "status", decl: "TEXT"},
+		{table: "bulk", column: "task_id", decl: "TEXT"},
+		{table: "bulk", column: "total_issue_count", decl: "INTEGER"},
+		{table: "bulk", column: "updated", decl: "DATETIME"},
 		{table: "comment", column: "is_last", decl: "INTEGER"},
 		{table: "comment", column: "max_results", decl: "INTEGER"},
 		{table: "comment", column: "next_page", decl: "TEXT"},
@@ -390,6 +404,7 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "component", column: "real_assignee_type", decl: "TEXT"},
 		{table: "component_related_issue_counts", column: "component_id", decl: "TEXT"},
 		{table: "config", column: "description", decl: "TEXT"},
+		{table: "config", column: "fields_count", decl: "INTEGER"},
 		{table: "config", column: "is_default", decl: "INTEGER"},
 		{table: "config", column: "name", decl: "TEXT"},
 		{table: "config", column: "field_id", decl: "TEXT"},
@@ -672,8 +687,6 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "jira_cloud_platform_workflow", column: "self", decl: "TEXT"},
 		{table: "jira_cloud_platform_workflow", column: "start_at", decl: "INTEGER"},
 		{table: "jira_cloud_platform_workflow", column: "total", decl: "INTEGER"},
-		{table: "jira_cloud_platform_workflow", column: "key", decl: "TEXT"},
-		{table: "jira_cloud_platform_workflow", column: "value", decl: "TEXT"},
 		{table: "jira_cloud_platform_workflow_project", column: "jira_cloud_platform_workflow_id", decl: "TEXT"},
 		{table: "jira_cloud_platform_workflow_project_usages", column: "jira_cloud_platform_workflow_id", decl: "TEXT"},
 		{table: "jira_cloud_platform_workflow_project_usages", column: "parent_id", decl: "TEXT"},
@@ -755,12 +768,21 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "plans", column: "scheduling", decl: "TEXT"},
 		{table: "plans", column: "status", decl: "TEXT"},
 		{table: "plans", column: "parent_id", decl: "TEXT"},
-		{table: "policies", column: "name", decl: "TEXT"},
-		{table: "policies", column: "status", decl: "TEXT"},
-		{table: "policies", column: "type", decl: "TEXT"},
-		{table: "policies", column: "parent_id", decl: "TEXT"},
-		{table: "resources", column: "policies_id", decl: "TEXT"},
-		{table: "validate", column: "policies_id", decl: "TEXT"},
+		{table: "policies", column: "is_default", decl: "INTEGER"},
+		{table: "policies", column: "policy_description", decl: "TEXT"},
+		{table: "policies", column: "policy_name", decl: "TEXT"},
+		{table: "policies", column: "version", decl: "INTEGER"},
+		{table: "policies", column: "description", decl: "TEXT"},
+		{table: "policies", column: "domain", decl: "TEXT"},
+		{table: "policies", column: "rule_id", decl: "TEXT"},
+		{table: "policies", column: "rule_type_id", decl: "TEXT"},
+		{table: "policies", column: "is_last", decl: "INTEGER"},
+		{table: "policies", column: "max_results", decl: "INTEGER"},
+		{table: "policies", column: "next_page_cursor", decl: "TEXT"},
+		{table: "policies", column: "start_at", decl: "INTEGER"},
+		{table: "policies", column: "total", decl: "INTEGER"},
+		{table: "apply", column: "policies_id", decl: "TEXT"},
+		{table: "remove", column: "policies_id", decl: "TEXT"},
 		{table: "priority", column: "avatar_id", decl: "INTEGER"},
 		{table: "priority", column: "description", decl: "TEXT"},
 		{table: "priority", column: "icon_url", decl: "TEXT"},
@@ -1050,11 +1072,12 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "wiki", column: "representation", decl: "TEXT"},
 		{table: "wiki", column: "status", decl: "TEXT"},
 		{table: "wiki", column: "value", decl: "TEXT"},
-		{table: "wiki", column: "display_name", decl: "TEXT"},
-		{table: "wiki", column: "type", decl: "TEXT"},
 		{table: "wiki", column: "limit", decl: "INTEGER"},
 		{table: "wiki", column: "size", decl: "INTEGER"},
 		{table: "wiki", column: "start", decl: "INTEGER"},
+		{table: "wiki", column: "async_id", decl: "TEXT"},
+		{table: "wiki", column: "display_name", decl: "TEXT"},
+		{table: "wiki", column: "type", decl: "TEXT"},
 		{table: "wiki", column: "last_updated", decl: "TEXT"},
 		{table: "wiki", column: "content_states_allowed", decl: "INTEGER"},
 		{table: "wiki", column: "custom_content_states_allowed", decl: "INTEGER"},
@@ -1087,16 +1110,31 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "wiki", column: "total_size", decl: "INTEGER"},
 		{table: "wiki", column: "selected", decl: "TEXT"},
 		{table: "wiki", column: "email", decl: "TEXT"},
+		{table: "wiki", column: "source", decl: "TEXT"},
+		{table: "wiki", column: "target", decl: "TEXT"},
 		{table: "wiki", column: "restrictions_hash", decl: "TEXT"},
+		{table: "wiki", column: "operation", decl: "TEXT"},
 		{table: "wiki", column: "number", decl: "INTEGER"},
 		{table: "wiki", column: "units", decl: "TEXT"},
+		{table: "wiki", column: "content_mode", decl: "TEXT"},
 		{table: "wiki", column: "route_override_enabled", decl: "INTEGER"},
 		{table: "wiki", column: "space_key", decl: "TEXT"},
+		{table: "wiki", column: "base_url", decl: "TEXT"},
+		{table: "wiki", column: "cloud_id", decl: "TEXT"},
+		{table: "wiki", column: "commit_hash", decl: "TEXT"},
+		{table: "wiki", column: "default_locale", decl: "TEXT"},
+		{table: "wiki", column: "default_time_zone", decl: "TEXT"},
+		{table: "wiki", column: "edition", decl: "TEXT"},
+		{table: "wiki", column: "fallback_base_url", decl: "TEXT"},
+		{table: "wiki", column: "micros_perimeter", decl: "TEXT"},
+		{table: "wiki", column: "site_title", decl: "TEXT"},
 		{table: "wiki", column: "ari", decl: "TEXT"},
 		{table: "wiki", column: "elapsed_time", decl: "INTEGER"},
 		{table: "wiki", column: "finished", decl: "INTEGER"},
 		{table: "wiki", column: "percentage_complete", decl: "INTEGER"},
 		{table: "wiki", column: "successful", decl: "INTEGER"},
+		{table: "wiki", column: "created_date", decl: "DATETIME"},
+		{table: "wiki", column: "last_modified_date", decl: "DATETIME"},
 		{table: "wiki", column: "count", decl: "INTEGER"},
 		{table: "wiki", column: "archived_result_count", decl: "INTEGER"},
 		{table: "wiki", column: "cql_query", decl: "TEXT"},
@@ -1343,6 +1381,16 @@ func (s *Store) migrate(ctx context.Context) error {
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_watch_addons_id" ON "watch"("addons_id")`,
+		`CREATE TABLE IF NOT EXISTS "agents" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"already_started_count" INTEGER,
+			"failed_count" INTEGER,
+			"rate_limited_count" INTEGER,
+			"started_count" INTEGER,
+			"success" INTEGER
+		)`,
 		`CREATE TABLE IF NOT EXISTS "agile" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -1407,17 +1455,6 @@ func (s *Store) migrate(ctx context.Context) error {
 			"start_at" INTEGER,
 			"total" INTEGER
 		)`,
-		`CREATE TABLE IF NOT EXISTS "app_access_settings" (
-			"id" TEXT PRIMARY KEY,
-			"data" JSON NOT NULL,
-			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
-			"admin_notifications" INTEGER,
-			"domain" TEXT,
-			"enabled" INTEGER,
-			"number_of_products_applies_to" INTEGER,
-			"parent_id" TEXT
-		)`,
-		`CREATE INDEX IF NOT EXISTS "idx_app_access_settings_parent_id" ON "app_access_settings"("parent_id")`,
 		`CREATE TABLE IF NOT EXISTS "application_properties" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -1470,33 +1507,30 @@ func (s *Store) migrate(ctx context.Context) error {
 			"parent_id" TEXT
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_atlassian_access_events_parent_id" ON "atlassian_access_events"("parent_id")`,
-		`CREATE TABLE IF NOT EXISTS "atlassian_access_groups" (
+		`CREATE TABLE IF NOT EXISTS "atlassian_access_policies" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
-			"description" TEXT,
-			"name" TEXT
+			"name" TEXT,
+			"status" TEXT,
+			"type" TEXT,
+			"parent_id" TEXT
 		)`,
-		`CREATE VIRTUAL TABLE IF NOT EXISTS "atlassian_access_groups_fts" USING fts5(
-			"description",
-			"name",
-			content='atlassian_access_groups',
-			content_rowid='rowid'
+		`CREATE INDEX IF NOT EXISTS "idx_atlassian_access_policies_parent_id" ON "atlassian_access_policies"("parent_id")`,
+		`CREATE TABLE IF NOT EXISTS "resources" (
+			"id" TEXT PRIMARY KEY,
+			"atlassian_access_policies_id" TEXT,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
-		`CREATE TRIGGER IF NOT EXISTS "atlassian_access_groups_ai" AFTER INSERT ON "atlassian_access_groups" BEGIN
-			INSERT INTO "atlassian_access_groups_fts"(rowid, "description", "name")
-			VALUES (new.rowid,new."description", new."name");
-		END`,
-		`CREATE TRIGGER IF NOT EXISTS "atlassian_access_groups_ad" AFTER DELETE ON "atlassian_access_groups" BEGIN
-			INSERT INTO "atlassian_access_groups_fts"("atlassian_access_groups_fts", rowid, "description", "name")
-			VALUES ('delete', old.rowid,old."description", old."name");
-		END`,
-		`CREATE TRIGGER IF NOT EXISTS "atlassian_access_groups_au" AFTER UPDATE ON "atlassian_access_groups" BEGIN
-			INSERT INTO "atlassian_access_groups_fts"("atlassian_access_groups_fts", rowid, "description", "name")
-			VALUES ('delete', old.rowid,old."description", old."name");
-			INSERT INTO "atlassian_access_groups_fts"(rowid, "description", "name")
-			VALUES (new.rowid,new."description", new."name");
-		END`,
+		`CREATE INDEX IF NOT EXISTS "idx_resources_atlassian_access_policies_id" ON "resources"("atlassian_access_policies_id")`,
+		`CREATE TABLE IF NOT EXISTS "validate" (
+			"id" TEXT PRIMARY KEY,
+			"atlassian_access_policies_id" TEXT,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_validate_atlassian_access_policies_id" ON "validate"("atlassian_access_policies_id")`,
 		`CREATE TABLE IF NOT EXISTS "atlassian_access_users" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -1641,6 +1675,21 @@ func (s *Store) migrate(ctx context.Context) error {
 			INSERT INTO "builds_fts"(rowid, "description", "label")
 			VALUES (new.rowid,new."description", new."label");
 		END`,
+		`CREATE TABLE IF NOT EXISTS "bulk" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"ending_before" TEXT,
+			"starting_after" TEXT,
+			"created" DATETIME,
+			"invalid_or_inaccessible_issue_count" INTEGER,
+			"progress_percent" INTEGER,
+			"started" DATETIME,
+			"status" TEXT,
+			"task_id" TEXT,
+			"total_issue_count" INTEGER,
+			"updated" DATETIME
+		)`,
 		`CREATE TABLE IF NOT EXISTS "comment" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -1715,6 +1764,7 @@ func (s *Store) migrate(ctx context.Context) error {
 			"data" JSON NOT NULL,
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
 			"description" TEXT,
+			"fields_count" INTEGER,
 			"is_default" INTEGER,
 			"name" TEXT,
 			"field_id" TEXT,
@@ -2598,9 +2648,7 @@ func (s *Store) migrate(ctx context.Context) error {
 			"next_page" TEXT,
 			"self" TEXT,
 			"start_at" INTEGER,
-			"total" INTEGER,
-			"key" TEXT,
-			"value" TEXT
+			"total" INTEGER
 		)`,
 		`CREATE TABLE IF NOT EXISTS "jira_cloud_platform_workflow_project" (
 			"id" TEXT PRIMARY KEY,
@@ -2835,26 +2883,34 @@ func (s *Store) migrate(ctx context.Context) error {
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
-			"name" TEXT,
-			"status" TEXT,
-			"type" TEXT,
-			"parent_id" TEXT
+			"is_default" INTEGER,
+			"policy_description" TEXT,
+			"policy_name" TEXT,
+			"version" INTEGER,
+			"description" TEXT,
+			"domain" TEXT,
+			"rule_id" TEXT,
+			"rule_type_id" TEXT,
+			"is_last" INTEGER,
+			"max_results" INTEGER,
+			"next_page_cursor" TEXT,
+			"start_at" INTEGER,
+			"total" INTEGER
 		)`,
-		`CREATE INDEX IF NOT EXISTS "idx_policies_parent_id" ON "policies"("parent_id")`,
-		`CREATE TABLE IF NOT EXISTS "resources" (
+		`CREATE TABLE IF NOT EXISTS "apply" (
 			"id" TEXT PRIMARY KEY,
 			"policies_id" TEXT,
 			"data" JSON NOT NULL,
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
-		`CREATE INDEX IF NOT EXISTS "idx_resources_policies_id" ON "resources"("policies_id")`,
-		`CREATE TABLE IF NOT EXISTS "validate" (
+		`CREATE INDEX IF NOT EXISTS "idx_apply_policies_id" ON "apply"("policies_id")`,
+		`CREATE TABLE IF NOT EXISTS "remove" (
 			"id" TEXT PRIMARY KEY,
 			"policies_id" TEXT,
 			"data" JSON NOT NULL,
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
-		`CREATE INDEX IF NOT EXISTS "idx_validate_policies_id" ON "validate"("policies_id")`,
+		`CREATE INDEX IF NOT EXISTS "idx_remove_policies_id" ON "remove"("policies_id")`,
 		`CREATE TABLE IF NOT EXISTS "priority" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -3751,11 +3807,12 @@ func (s *Store) migrate(ctx context.Context) error {
 			"representation" TEXT,
 			"status" TEXT,
 			"value" TEXT,
-			"display_name" TEXT,
-			"type" TEXT,
 			"limit" INTEGER,
 			"size" INTEGER,
 			"start" INTEGER,
+			"async_id" TEXT,
+			"display_name" TEXT,
+			"type" TEXT,
 			"last_updated" TEXT,
 			"content_states_allowed" INTEGER,
 			"custom_content_states_allowed" INTEGER,
@@ -3788,16 +3845,31 @@ func (s *Store) migrate(ctx context.Context) error {
 			"total_size" INTEGER,
 			"selected" TEXT,
 			"email" TEXT,
+			"source" TEXT,
+			"target" TEXT,
 			"restrictions_hash" TEXT,
+			"operation" TEXT,
 			"number" INTEGER,
 			"units" TEXT,
+			"content_mode" TEXT,
 			"route_override_enabled" INTEGER,
 			"space_key" TEXT,
+			"base_url" TEXT,
+			"cloud_id" TEXT,
+			"commit_hash" TEXT,
+			"default_locale" TEXT,
+			"default_time_zone" TEXT,
+			"edition" TEXT,
+			"fallback_base_url" TEXT,
+			"micros_perimeter" TEXT,
+			"site_title" TEXT,
 			"ari" TEXT,
 			"elapsed_time" INTEGER,
 			"finished" INTEGER,
 			"percentage_complete" INTEGER,
 			"successful" INTEGER,
+			"created_date" DATETIME,
+			"last_modified_date" DATETIME,
 			"count" INTEGER,
 			"archived_result_count" INTEGER,
 			"cql_query" TEXT,
@@ -5183,6 +5255,61 @@ func (s *Store) UpsertWatch(data json.RawMessage) error {
 	return tx.Commit()
 }
 
+// upsertAgentsTx writes the per-resource domain-table portion of a
+// agents upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertAgentsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "agents" ("id", "data", "synced_at", "already_started_count", "failed_count", "rate_limited_count", "started_count", "success")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "already_started_count" = excluded."already_started_count", "failed_count" = excluded."failed_count", "rate_limited_count" = excluded."rate_limited_count", "started_count" = excluded."started_count", "success" = excluded."success"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "already_started_count"),
+		lookupFieldValue(obj, "failed_count"),
+		lookupFieldValue(obj, "rate_limited_count"),
+		lookupFieldValue(obj, "started_count"),
+		lookupFieldValue(obj, "success"),
+	); err != nil {
+		return fmt.Errorf("insert into agents: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertAgents inserts or updates a agents record with domain-specific columns.
+func (s *Store) UpsertAgents(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling agents: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for agents")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "agents", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertAgentsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 // upsertAgileTx writes the per-resource domain-table portion of a
 // agile upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
@@ -5355,61 +5482,6 @@ func (s *Store) UpsertApp(data json.RawMessage) error {
 		return err
 	}
 	if err := s.upsertAppTx(tx, id, obj, data); err != nil {
-		return err
-	}
-
-	return tx.Commit()
-}
-
-// upsertAppAccessSettingsTx writes the per-resource domain-table portion of a
-// app_access_settings upsert inside an existing transaction. The caller is
-// responsible for the generic resources insert (via upsertGenericResourceTx)
-// and for committing the tx. Splitting this out lets UpsertBatch dispatch
-// domain inserts per item without opening a per-item transaction.
-func (s *Store) upsertAppAccessSettingsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
-	if _, err := tx.Exec(
-		`INSERT INTO "app_access_settings" ("id", "data", "synced_at", "admin_notifications", "domain", "enabled", "number_of_products_applies_to", "parent_id")
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "admin_notifications" = excluded."admin_notifications", "domain" = excluded."domain", "enabled" = excluded."enabled", "number_of_products_applies_to" = excluded."number_of_products_applies_to", "parent_id" = excluded."parent_id"`,
-		id,
-		string(data),
-		time.Now(),
-		lookupFieldValue(obj, "admin_notifications"),
-		lookupFieldValue(obj, "domain"),
-		lookupFieldValue(obj, "enabled"),
-		lookupFieldValue(obj, "number_of_products_applies_to"),
-		lookupFieldValue(obj, "parent_id"),
-	); err != nil {
-		return fmt.Errorf("insert into app_access_settings: %w", err)
-	}
-
-	return nil
-}
-
-// UpsertAppAccessSettings inserts or updates a app_access_settings record with domain-specific columns.
-func (s *Store) UpsertAppAccessSettings(data json.RawMessage) error {
-	var obj map[string]any
-	if err := json.Unmarshal(data, &obj); err != nil {
-		return fmt.Errorf("unmarshaling app_access_settings: %w", err)
-	}
-
-	id := extractObjectID(obj)
-	if id == "" {
-		return fmt.Errorf("missing id for app_access_settings")
-	}
-
-	s.writeMu.Lock()
-	defer s.writeMu.Unlock()
-	tx, err := s.db.Begin()
-	if err != nil {
-		return err
-	}
-	defer tx.Rollback()
-
-	if err := s.upsertGenericResourceTx(tx, "app-access-settings", id, data); err != nil {
-		return err
-	}
-	if err := s.upsertAppAccessSettingsTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -5690,38 +5762,40 @@ func (s *Store) UpsertAtlassianAccessEvents(data json.RawMessage) error {
 	return tx.Commit()
 }
 
-// upsertAtlassianAccessGroupsTx writes the per-resource domain-table portion of a
-// atlassian_access_groups upsert inside an existing transaction. The caller is
+// upsertAtlassianAccessPoliciesTx writes the per-resource domain-table portion of a
+// atlassian_access_policies upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
 // and for committing the tx. Splitting this out lets UpsertBatch dispatch
 // domain inserts per item without opening a per-item transaction.
-func (s *Store) upsertAtlassianAccessGroupsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+func (s *Store) upsertAtlassianAccessPoliciesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "atlassian_access_groups" ("id", "data", "synced_at", "description", "name")
-		 VALUES (?, ?, ?, ?, ?)
-		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "description" = excluded."description", "name" = excluded."name"`,
+		`INSERT INTO "atlassian_access_policies" ("id", "data", "synced_at", "name", "status", "type", "parent_id")
+		 VALUES (?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "name" = excluded."name", "status" = excluded."status", "type" = excluded."type", "parent_id" = excluded."parent_id"`,
 		id,
 		string(data),
 		time.Now(),
-		lookupFieldValue(obj, "description"),
 		lookupFieldValue(obj, "name"),
+		lookupFieldValue(obj, "status"),
+		lookupFieldValue(obj, "type"),
+		lookupFieldValue(obj, "parent_id"),
 	); err != nil {
-		return fmt.Errorf("insert into atlassian_access_groups: %w", err)
+		return fmt.Errorf("insert into atlassian_access_policies: %w", err)
 	}
 
 	return nil
 }
 
-// UpsertAtlassianAccessGroups inserts or updates a atlassian_access_groups record with domain-specific columns.
-func (s *Store) UpsertAtlassianAccessGroups(data json.RawMessage) error {
+// UpsertAtlassianAccessPolicies inserts or updates a atlassian_access_policies record with domain-specific columns.
+func (s *Store) UpsertAtlassianAccessPolicies(data json.RawMessage) error {
 	var obj map[string]any
 	if err := json.Unmarshal(data, &obj); err != nil {
-		return fmt.Errorf("unmarshaling atlassian_access_groups: %w", err)
+		return fmt.Errorf("unmarshaling atlassian_access_policies: %w", err)
 	}
 
 	id := extractObjectID(obj)
 	if id == "" {
-		return fmt.Errorf("missing id for atlassian_access_groups")
+		return fmt.Errorf("missing id for atlassian_access_policies")
 	}
 
 	s.writeMu.Lock()
@@ -5732,10 +5806,112 @@ func (s *Store) UpsertAtlassianAccessGroups(data json.RawMessage) error {
 	}
 	defer tx.Rollback()
 
-	if err := s.upsertGenericResourceTx(tx, "atlassian-access-groups", id, data); err != nil {
+	if err := s.upsertGenericResourceTx(tx, "atlassian-access-policies", id, data); err != nil {
 		return err
 	}
-	if err := s.upsertAtlassianAccessGroupsTx(tx, id, obj, data); err != nil {
+	if err := s.upsertAtlassianAccessPoliciesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertResourcesTx writes the per-resource domain-table portion of a
+// resources upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertResourcesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "resources" ("id", "atlassian_access_policies_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "atlassian_access_policies_id" = excluded."atlassian_access_policies_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "atlassian_access_policies_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into resources: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertResources inserts or updates a resources record with domain-specific columns.
+func (s *Store) UpsertResources(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling resources: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for resources")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "resources", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertResourcesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertValidateTx writes the per-resource domain-table portion of a
+// validate upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertValidateTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "validate" ("id", "atlassian_access_policies_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "atlassian_access_policies_id" = excluded."atlassian_access_policies_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "atlassian_access_policies_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into validate: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertValidate inserts or updates a validate record with domain-specific columns.
+func (s *Store) UpsertValidate(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling validate: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for validate")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "validate", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertValidateTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -6200,6 +6376,66 @@ func (s *Store) UpsertBuilds(data json.RawMessage) error {
 	return tx.Commit()
 }
 
+// upsertBulkTx writes the per-resource domain-table portion of a
+// bulk upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBulkTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bulk" ("id", "data", "synced_at", "ending_before", "starting_after", "created", "invalid_or_inaccessible_issue_count", "progress_percent", "started", "status", "task_id", "total_issue_count", "updated")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "ending_before" = excluded."ending_before", "starting_after" = excluded."starting_after", "created" = excluded."created", "invalid_or_inaccessible_issue_count" = excluded."invalid_or_inaccessible_issue_count", "progress_percent" = excluded."progress_percent", "started" = excluded."started", "status" = excluded."status", "task_id" = excluded."task_id", "total_issue_count" = excluded."total_issue_count", "updated" = excluded."updated"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "ending_before"),
+		lookupFieldValue(obj, "starting_after"),
+		lookupFieldValue(obj, "created"),
+		lookupFieldValue(obj, "invalid_or_inaccessible_issue_count"),
+		lookupFieldValue(obj, "progress_percent"),
+		lookupFieldValue(obj, "started"),
+		lookupFieldValue(obj, "status"),
+		lookupFieldValue(obj, "task_id"),
+		lookupFieldValue(obj, "total_issue_count"),
+		lookupFieldValue(obj, "updated"),
+	); err != nil {
+		return fmt.Errorf("insert into bulk: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBulk inserts or updates a bulk record with domain-specific columns.
+func (s *Store) UpsertBulk(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bulk: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bulk")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bulk", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBulkTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 // upsertCommentTx writes the per-resource domain-table portion of a
 // comment upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
@@ -6434,13 +6670,14 @@ func (s *Store) UpsertComponentRelatedIssueCounts(data json.RawMessage) error {
 // domain inserts per item without opening a per-item transaction.
 func (s *Store) upsertConfigTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "config" ("id", "data", "synced_at", "description", "is_default", "name", "field_id", "is_last", "max_results", "next_page", "self", "start_at", "total")
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "description" = excluded."description", "is_default" = excluded."is_default", "name" = excluded."name", "field_id" = excluded."field_id", "is_last" = excluded."is_last", "max_results" = excluded."max_results", "next_page" = excluded."next_page", "self" = excluded."self", "start_at" = excluded."start_at", "total" = excluded."total"`,
+		`INSERT INTO "config" ("id", "data", "synced_at", "description", "fields_count", "is_default", "name", "field_id", "is_last", "max_results", "next_page", "self", "start_at", "total")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "description" = excluded."description", "fields_count" = excluded."fields_count", "is_default" = excluded."is_default", "name" = excluded."name", "field_id" = excluded."field_id", "is_last" = excluded."is_last", "max_results" = excluded."max_results", "next_page" = excluded."next_page", "self" = excluded."self", "start_at" = excluded."start_at", "total" = excluded."total"`,
 		id,
 		string(data),
 		time.Now(),
 		lookupFieldValue(obj, "description"),
+		lookupFieldValue(obj, "fields_count"),
 		lookupFieldValue(obj, "is_default"),
 		lookupFieldValue(obj, "name"),
 		lookupFieldValue(obj, "field_id"),
@@ -10361,9 +10598,9 @@ func (s *Store) UpsertUnresolvedIssueCount(data json.RawMessage) error {
 // domain inserts per item without opening a per-item transaction.
 func (s *Store) upsertJiraCloudPlatformWorkflowTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "jira_cloud_platform_workflow" ("id", "data", "synced_at", "is_last", "max_results", "next_page", "self", "start_at", "total", "key", "value")
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "is_last" = excluded."is_last", "max_results" = excluded."max_results", "next_page" = excluded."next_page", "self" = excluded."self", "start_at" = excluded."start_at", "total" = excluded."total", "key" = excluded."key", "value" = excluded."value"`,
+		`INSERT INTO "jira_cloud_platform_workflow" ("id", "data", "synced_at", "is_last", "max_results", "next_page", "self", "start_at", "total")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "is_last" = excluded."is_last", "max_results" = excluded."max_results", "next_page" = excluded."next_page", "self" = excluded."self", "start_at" = excluded."start_at", "total" = excluded."total"`,
 		id,
 		string(data),
 		time.Now(),
@@ -10373,8 +10610,6 @@ func (s *Store) upsertJiraCloudPlatformWorkflowTx(tx *sql.Tx, id string, obj map
 		lookupFieldValue(obj, "self"),
 		lookupFieldValue(obj, "start_at"),
 		lookupFieldValue(obj, "total"),
-		lookupFieldValue(obj, "key"),
-		lookupFieldValue(obj, "value"),
 	); err != nil {
 		return fmt.Errorf("insert into jira_cloud_platform_workflow: %w", err)
 	}
@@ -11300,16 +11535,25 @@ func (s *Store) UpsertPlans(data json.RawMessage) error {
 // domain inserts per item without opening a per-item transaction.
 func (s *Store) upsertPoliciesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "policies" ("id", "data", "synced_at", "name", "status", "type", "parent_id")
-		 VALUES (?, ?, ?, ?, ?, ?, ?)
-		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "name" = excluded."name", "status" = excluded."status", "type" = excluded."type", "parent_id" = excluded."parent_id"`,
+		`INSERT INTO "policies" ("id", "data", "synced_at", "is_default", "policy_description", "policy_name", "version", "description", "domain", "rule_id", "rule_type_id", "is_last", "max_results", "next_page_cursor", "start_at", "total")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "is_default" = excluded."is_default", "policy_description" = excluded."policy_description", "policy_name" = excluded."policy_name", "version" = excluded."version", "description" = excluded."description", "domain" = excluded."domain", "rule_id" = excluded."rule_id", "rule_type_id" = excluded."rule_type_id", "is_last" = excluded."is_last", "max_results" = excluded."max_results", "next_page_cursor" = excluded."next_page_cursor", "start_at" = excluded."start_at", "total" = excluded."total"`,
 		id,
 		string(data),
 		time.Now(),
-		lookupFieldValue(obj, "name"),
-		lookupFieldValue(obj, "status"),
-		lookupFieldValue(obj, "type"),
-		lookupFieldValue(obj, "parent_id"),
+		lookupFieldValue(obj, "is_default"),
+		lookupFieldValue(obj, "policy_description"),
+		lookupFieldValue(obj, "policy_name"),
+		lookupFieldValue(obj, "version"),
+		lookupFieldValue(obj, "description"),
+		lookupFieldValue(obj, "domain"),
+		lookupFieldValue(obj, "rule_id"),
+		lookupFieldValue(obj, "rule_type_id"),
+		lookupFieldValue(obj, "is_last"),
+		lookupFieldValue(obj, "max_results"),
+		lookupFieldValue(obj, "next_page_cursor"),
+		lookupFieldValue(obj, "start_at"),
+		lookupFieldValue(obj, "total"),
 	); err != nil {
 		return fmt.Errorf("insert into policies: %w", err)
 	}
@@ -11347,14 +11591,14 @@ func (s *Store) UpsertPolicies(data json.RawMessage) error {
 	return tx.Commit()
 }
 
-// upsertResourcesTx writes the per-resource domain-table portion of a
-// resources upsert inside an existing transaction. The caller is
+// upsertApplyTx writes the per-resource domain-table portion of a
+// apply upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
 // and for committing the tx. Splitting this out lets UpsertBatch dispatch
 // domain inserts per item without opening a per-item transaction.
-func (s *Store) upsertResourcesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+func (s *Store) upsertApplyTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "resources" ("id", "policies_id", "data", "synced_at")
+		`INSERT INTO "apply" ("id", "policies_id", "data", "synced_at")
 		 VALUES (?, ?, ?, ?)
 		 ON CONFLICT("id") DO UPDATE SET "policies_id" = excluded."policies_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
 		id,
@@ -11362,22 +11606,22 @@ func (s *Store) upsertResourcesTx(tx *sql.Tx, id string, obj map[string]any, dat
 		string(data),
 		time.Now(),
 	); err != nil {
-		return fmt.Errorf("insert into resources: %w", err)
+		return fmt.Errorf("insert into apply: %w", err)
 	}
 
 	return nil
 }
 
-// UpsertResources inserts or updates a resources record with domain-specific columns.
-func (s *Store) UpsertResources(data json.RawMessage) error {
+// UpsertApply inserts or updates a apply record with domain-specific columns.
+func (s *Store) UpsertApply(data json.RawMessage) error {
 	var obj map[string]any
 	if err := json.Unmarshal(data, &obj); err != nil {
-		return fmt.Errorf("unmarshaling resources: %w", err)
+		return fmt.Errorf("unmarshaling apply: %w", err)
 	}
 
 	id := extractObjectID(obj)
 	if id == "" {
-		return fmt.Errorf("missing id for resources")
+		return fmt.Errorf("missing id for apply")
 	}
 
 	s.writeMu.Lock()
@@ -11388,24 +11632,24 @@ func (s *Store) UpsertResources(data json.RawMessage) error {
 	}
 	defer tx.Rollback()
 
-	if err := s.upsertGenericResourceTx(tx, "resources", id, data); err != nil {
+	if err := s.upsertGenericResourceTx(tx, "apply", id, data); err != nil {
 		return err
 	}
-	if err := s.upsertResourcesTx(tx, id, obj, data); err != nil {
+	if err := s.upsertApplyTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
 	return tx.Commit()
 }
 
-// upsertValidateTx writes the per-resource domain-table portion of a
-// validate upsert inside an existing transaction. The caller is
+// upsertRemoveTx writes the per-resource domain-table portion of a
+// remove upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
 // and for committing the tx. Splitting this out lets UpsertBatch dispatch
 // domain inserts per item without opening a per-item transaction.
-func (s *Store) upsertValidateTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+func (s *Store) upsertRemoveTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "validate" ("id", "policies_id", "data", "synced_at")
+		`INSERT INTO "remove" ("id", "policies_id", "data", "synced_at")
 		 VALUES (?, ?, ?, ?)
 		 ON CONFLICT("id") DO UPDATE SET "policies_id" = excluded."policies_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
 		id,
@@ -11413,22 +11657,22 @@ func (s *Store) upsertValidateTx(tx *sql.Tx, id string, obj map[string]any, data
 		string(data),
 		time.Now(),
 	); err != nil {
-		return fmt.Errorf("insert into validate: %w", err)
+		return fmt.Errorf("insert into remove: %w", err)
 	}
 
 	return nil
 }
 
-// UpsertValidate inserts or updates a validate record with domain-specific columns.
-func (s *Store) UpsertValidate(data json.RawMessage) error {
+// UpsertRemove inserts or updates a remove record with domain-specific columns.
+func (s *Store) UpsertRemove(data json.RawMessage) error {
 	var obj map[string]any
 	if err := json.Unmarshal(data, &obj); err != nil {
-		return fmt.Errorf("unmarshaling validate: %w", err)
+		return fmt.Errorf("unmarshaling remove: %w", err)
 	}
 
 	id := extractObjectID(obj)
 	if id == "" {
-		return fmt.Errorf("missing id for validate")
+		return fmt.Errorf("missing id for remove")
 	}
 
 	s.writeMu.Lock()
@@ -11439,10 +11683,10 @@ func (s *Store) UpsertValidate(data json.RawMessage) error {
 	}
 	defer tx.Rollback()
 
-	if err := s.upsertGenericResourceTx(tx, "validate", id, data); err != nil {
+	if err := s.upsertGenericResourceTx(tx, "remove", id, data); err != nil {
 		return err
 	}
-	if err := s.upsertValidateTx(tx, id, obj, data); err != nil {
+	if err := s.upsertRemoveTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -14940,9 +15184,9 @@ func (s *Store) UpsertWebhook(data json.RawMessage) error {
 // domain inserts per item without opening a per-item transaction.
 func (s *Store) upsertWikiTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "wiki" ("id", "data", "synced_at", "error", "render_task_id", "representation", "status", "value", "display_name", "type", "limit", "size", "start", "last_updated", "content_states_allowed", "custom_content_states_allowed", "space_content_states_allowed", "description", "editor_version", "name", "referencing_blueprint", "template_id", "template_type", "watching", "account_id", "account_type", "active", "app_type", "application_roles", "avatar_urls", "email_address", "expand", "groups", "guest", "key", "locale", "self", "time_zone", "color", "theme_key", "group_id", "users", "total_size", "selected", "email", "restrictions_hash", "number", "units", "route_override_enabled", "space_key", "ari", "elapsed_time", "finished", "percentage_complete", "successful", "count", "archived_result_count", "cql_query", "search_duration", "parent_id")
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "error" = excluded."error", "render_task_id" = excluded."render_task_id", "representation" = excluded."representation", "status" = excluded."status", "value" = excluded."value", "display_name" = excluded."display_name", "type" = excluded."type", "limit" = excluded."limit", "size" = excluded."size", "start" = excluded."start", "last_updated" = excluded."last_updated", "content_states_allowed" = excluded."content_states_allowed", "custom_content_states_allowed" = excluded."custom_content_states_allowed", "space_content_states_allowed" = excluded."space_content_states_allowed", "description" = excluded."description", "editor_version" = excluded."editor_version", "name" = excluded."name", "referencing_blueprint" = excluded."referencing_blueprint", "template_id" = excluded."template_id", "template_type" = excluded."template_type", "watching" = excluded."watching", "account_id" = excluded."account_id", "account_type" = excluded."account_type", "active" = excluded."active", "app_type" = excluded."app_type", "application_roles" = excluded."application_roles", "avatar_urls" = excluded."avatar_urls", "email_address" = excluded."email_address", "expand" = excluded."expand", "groups" = excluded."groups", "guest" = excluded."guest", "key" = excluded."key", "locale" = excluded."locale", "self" = excluded."self", "time_zone" = excluded."time_zone", "color" = excluded."color", "theme_key" = excluded."theme_key", "group_id" = excluded."group_id", "users" = excluded."users", "total_size" = excluded."total_size", "selected" = excluded."selected", "email" = excluded."email", "restrictions_hash" = excluded."restrictions_hash", "number" = excluded."number", "units" = excluded."units", "route_override_enabled" = excluded."route_override_enabled", "space_key" = excluded."space_key", "ari" = excluded."ari", "elapsed_time" = excluded."elapsed_time", "finished" = excluded."finished", "percentage_complete" = excluded."percentage_complete", "successful" = excluded."successful", "count" = excluded."count", "archived_result_count" = excluded."archived_result_count", "cql_query" = excluded."cql_query", "search_duration" = excluded."search_duration", "parent_id" = excluded."parent_id"`,
+		`INSERT INTO "wiki" ("id", "data", "synced_at", "error", "render_task_id", "representation", "status", "value", "limit", "size", "start", "async_id", "display_name", "type", "last_updated", "content_states_allowed", "custom_content_states_allowed", "space_content_states_allowed", "description", "editor_version", "name", "referencing_blueprint", "template_id", "template_type", "watching", "account_id", "account_type", "active", "app_type", "application_roles", "avatar_urls", "email_address", "expand", "groups", "guest", "key", "locale", "self", "time_zone", "color", "theme_key", "group_id", "users", "total_size", "selected", "email", "source", "target", "restrictions_hash", "operation", "number", "units", "content_mode", "route_override_enabled", "space_key", "base_url", "cloud_id", "commit_hash", "default_locale", "default_time_zone", "edition", "fallback_base_url", "micros_perimeter", "site_title", "ari", "elapsed_time", "finished", "percentage_complete", "successful", "created_date", "last_modified_date", "count", "archived_result_count", "cql_query", "search_duration", "parent_id")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "error" = excluded."error", "render_task_id" = excluded."render_task_id", "representation" = excluded."representation", "status" = excluded."status", "value" = excluded."value", "limit" = excluded."limit", "size" = excluded."size", "start" = excluded."start", "async_id" = excluded."async_id", "display_name" = excluded."display_name", "type" = excluded."type", "last_updated" = excluded."last_updated", "content_states_allowed" = excluded."content_states_allowed", "custom_content_states_allowed" = excluded."custom_content_states_allowed", "space_content_states_allowed" = excluded."space_content_states_allowed", "description" = excluded."description", "editor_version" = excluded."editor_version", "name" = excluded."name", "referencing_blueprint" = excluded."referencing_blueprint", "template_id" = excluded."template_id", "template_type" = excluded."template_type", "watching" = excluded."watching", "account_id" = excluded."account_id", "account_type" = excluded."account_type", "active" = excluded."active", "app_type" = excluded."app_type", "application_roles" = excluded."application_roles", "avatar_urls" = excluded."avatar_urls", "email_address" = excluded."email_address", "expand" = excluded."expand", "groups" = excluded."groups", "guest" = excluded."guest", "key" = excluded."key", "locale" = excluded."locale", "self" = excluded."self", "time_zone" = excluded."time_zone", "color" = excluded."color", "theme_key" = excluded."theme_key", "group_id" = excluded."group_id", "users" = excluded."users", "total_size" = excluded."total_size", "selected" = excluded."selected", "email" = excluded."email", "source" = excluded."source", "target" = excluded."target", "restrictions_hash" = excluded."restrictions_hash", "operation" = excluded."operation", "number" = excluded."number", "units" = excluded."units", "content_mode" = excluded."content_mode", "route_override_enabled" = excluded."route_override_enabled", "space_key" = excluded."space_key", "base_url" = excluded."base_url", "cloud_id" = excluded."cloud_id", "commit_hash" = excluded."commit_hash", "default_locale" = excluded."default_locale", "default_time_zone" = excluded."default_time_zone", "edition" = excluded."edition", "fallback_base_url" = excluded."fallback_base_url", "micros_perimeter" = excluded."micros_perimeter", "site_title" = excluded."site_title", "ari" = excluded."ari", "elapsed_time" = excluded."elapsed_time", "finished" = excluded."finished", "percentage_complete" = excluded."percentage_complete", "successful" = excluded."successful", "created_date" = excluded."created_date", "last_modified_date" = excluded."last_modified_date", "count" = excluded."count", "archived_result_count" = excluded."archived_result_count", "cql_query" = excluded."cql_query", "search_duration" = excluded."search_duration", "parent_id" = excluded."parent_id"`,
 		id,
 		string(data),
 		time.Now(),
@@ -14951,11 +15195,12 @@ func (s *Store) upsertWikiTx(tx *sql.Tx, id string, obj map[string]any, data jso
 		lookupFieldValue(obj, "representation"),
 		lookupFieldValue(obj, "status"),
 		lookupFieldValue(obj, "value"),
-		lookupFieldValue(obj, "display_name"),
-		lookupFieldValue(obj, "type"),
 		lookupFieldValue(obj, "limit"),
 		lookupFieldValue(obj, "size"),
 		lookupFieldValue(obj, "start"),
+		lookupFieldValue(obj, "async_id"),
+		lookupFieldValue(obj, "display_name"),
+		lookupFieldValue(obj, "type"),
 		lookupFieldValue(obj, "last_updated"),
 		lookupFieldValue(obj, "content_states_allowed"),
 		lookupFieldValue(obj, "custom_content_states_allowed"),
@@ -14988,16 +15233,31 @@ func (s *Store) upsertWikiTx(tx *sql.Tx, id string, obj map[string]any, data jso
 		lookupFieldValue(obj, "total_size"),
 		lookupFieldValue(obj, "selected"),
 		lookupFieldValue(obj, "email"),
+		lookupFieldValue(obj, "source"),
+		lookupFieldValue(obj, "target"),
 		lookupFieldValue(obj, "restrictions_hash"),
+		lookupFieldValue(obj, "operation"),
 		lookupFieldValue(obj, "number"),
 		lookupFieldValue(obj, "units"),
+		lookupFieldValue(obj, "content_mode"),
 		lookupFieldValue(obj, "route_override_enabled"),
 		lookupFieldValue(obj, "space_key"),
+		lookupFieldValue(obj, "base_url"),
+		lookupFieldValue(obj, "cloud_id"),
+		lookupFieldValue(obj, "commit_hash"),
+		lookupFieldValue(obj, "default_locale"),
+		lookupFieldValue(obj, "default_time_zone"),
+		lookupFieldValue(obj, "edition"),
+		lookupFieldValue(obj, "fallback_base_url"),
+		lookupFieldValue(obj, "micros_perimeter"),
+		lookupFieldValue(obj, "site_title"),
 		lookupFieldValue(obj, "ari"),
 		lookupFieldValue(obj, "elapsed_time"),
 		lookupFieldValue(obj, "finished"),
 		lookupFieldValue(obj, "percentage_complete"),
 		lookupFieldValue(obj, "successful"),
+		lookupFieldValue(obj, "created_date"),
+		lookupFieldValue(obj, "last_modified_date"),
 		lookupFieldValue(obj, "count"),
 		lookupFieldValue(obj, "archived_result_count"),
 		lookupFieldValue(obj, "cql_query"),
@@ -15607,6 +15867,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"applicationrole":                          "key",
 	"applications_versions":                    "count",
 	"atlassian_access_events":                  "id",
+	"atlassian_access_policies":                "id",
 	"atlassian_access_users":                   "name",
 	"auditing":                                 "id",
 	"classification-levels":                    "id",
@@ -15647,7 +15908,6 @@ var resourceIDFieldOverrides = map[string]string{
 	"issuetypescreenscheme":                    "id",
 	"issuetypescreenscheme-mapping":            "issueTypeId",
 	"issuetypescreenscheme_project":            "id",
-	"jira-cloud-platform-search-jql":           "id",
 	"jira-cloud-platform-workflow":             "id",
 	"jql":                                      "id",
 	"members":                                  "id",
@@ -15822,14 +16082,14 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertAddonsVersionsTx(tx, id, obj, item)
 		case "watch":
 			typedErr = s.upsertWatchTx(tx, id, obj, item)
+		case "agents":
+			typedErr = s.upsertAgentsTx(tx, id, obj, item)
 		case "agile":
 			typedErr = s.upsertAgileTx(tx, id, obj, item)
 		case "announcement-banner":
 			typedErr = s.upsertAnnouncementBannerTx(tx, id, obj, item)
 		case "app":
 			typedErr = s.upsertAppTx(tx, id, obj, item)
-		case "app-access-settings":
-			typedErr = s.upsertAppAccessSettingsTx(tx, id, obj, item)
 		case "application-properties":
 			typedErr = s.upsertApplicationPropertiesTx(tx, id, obj, item)
 		case "applicationrole":
@@ -15840,8 +16100,12 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertApplicationsVersionsTx(tx, id, obj, item)
 		case "atlassian-access-events":
 			typedErr = s.upsertAtlassianAccessEventsTx(tx, id, obj, item)
-		case "atlassian-access-groups":
-			typedErr = s.upsertAtlassianAccessGroupsTx(tx, id, obj, item)
+		case "atlassian-access-policies":
+			typedErr = s.upsertAtlassianAccessPoliciesTx(tx, id, obj, item)
+		case "resources":
+			typedErr = s.upsertResourcesTx(tx, id, obj, item)
+		case "validate":
+			typedErr = s.upsertValidateTx(tx, id, obj, item)
 		case "atlassian-access-users":
 			typedErr = s.upsertAtlassianAccessUsersTx(tx, id, obj, item)
 		case "role_assignments":
@@ -15858,6 +16122,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertSystemTx(tx, id, obj, item)
 		case "builds":
 			typedErr = s.upsertBuildsTx(tx, id, obj, item)
+		case "bulk":
+			typedErr = s.upsertBulkTx(tx, id, obj, item)
 		case "comment":
 			typedErr = s.upsertCommentTx(tx, id, obj, item)
 		case "comment_properties":
@@ -16048,10 +16314,10 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertPlansTx(tx, id, obj, item)
 		case "policies":
 			typedErr = s.upsertPoliciesTx(tx, id, obj, item)
-		case "resources":
-			typedErr = s.upsertResourcesTx(tx, id, obj, item)
-		case "validate":
-			typedErr = s.upsertValidateTx(tx, id, obj, item)
+		case "apply":
+			typedErr = s.upsertApplyTx(tx, id, obj, item)
+		case "remove":
+			typedErr = s.upsertRemoveTx(tx, id, obj, item)
 		case "priority":
 			typedErr = s.upsertPriorityTx(tx, id, obj, item)
 		case "priorityscheme":
@@ -16273,34 +16539,6 @@ func (s *Store) SearchAgile(query string, limit int) ([]json.RawMessage, error) 
 		`SELECT t.data FROM "agile" t
 		 JOIN "agile_fts" f ON f.rowid = t.rowid
 			 WHERE "agile_fts" MATCH ?
-			 ORDER BY f.rank LIMIT ?`,
-		query, limit,
-	)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var results []json.RawMessage
-	for rows.Next() {
-		var data string
-		if err := rows.Scan(&data); err != nil {
-			return nil, err
-		}
-		results = append(results, json.RawMessage(data))
-	}
-	return results, rows.Err()
-}
-
-// SearchAtlassianAccessGroups searches the atlassian_access_groups_fts index with optional filters.
-func (s *Store) SearchAtlassianAccessGroups(query string, limit int) ([]json.RawMessage, error) {
-	if limit <= 0 {
-		limit = 50
-	}
-	rows, err := s.db.Query(
-		`SELECT t.data FROM "atlassian_access_groups" t
-		 JOIN "atlassian_access_groups_fts" f ON f.rowid = t.rowid
-			 WHERE "atlassian_access_groups_fts" MATCH ?
 			 ORDER BY f.rank LIMIT ?`,
 		query, limit,
 	)

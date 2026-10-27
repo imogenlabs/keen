@@ -16,6 +16,7 @@ func newServicedeskapiCmd(flags *rootFlags) *cobra.Command {
 	}
 
 	cmd.AddCommand(newServicedeskapiAddCustomersCmd(flags))
+	cmd.AddCommand(newServicedeskapiAddCustomersServicedeskCmd(flags))
 	cmd.AddCommand(newServicedeskapiAddOrganizationCmd(flags))
 	cmd.AddCommand(newServicedeskapiAddRequestParticipantsCmd(flags))
 	cmd.AddCommand(newServicedeskapiAddUsersToOrganizationCmd(flags))
@@ -24,6 +25,7 @@ func newServicedeskapiCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newServicedeskapiCheckRequestTypePermissionsCmd(flags))
 	cmd.AddCommand(newServicedeskapiCreateCommentWithAttachmentCmd(flags))
 	cmd.AddCommand(newServicedeskapiCreateCustomerCmd(flags))
+	cmd.AddCommand(newServicedeskapiCreateCustomerCustomerCmd(flags))
 	cmd.AddCommand(newServicedeskapiCreateCustomerRequestCmd(flags))
 	cmd.AddCommand(newServicedeskapiCreateOrganizationCmd(flags))
 	cmd.AddCommand(newServicedeskapiCreateRequestCommentCmd(flags))
@@ -86,5 +88,7 @@ func newServicedeskapiCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newServicedeskapiSetPropertyServicedeskCmd(flags))
 	cmd.AddCommand(newServicedeskapiSubscribeCmd(flags))
 	cmd.AddCommand(newServicedeskapiUnsubscribeCmd(flags))
+	cmd.AddCommand(newServicedeskapiValidateCustomerRequestCmd(flags))
+	cmd.AddCommand(newServicedeskapiViewArticleCmd(flags))
 	return cmd
 }

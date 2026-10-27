@@ -402,7 +402,7 @@ func newIssueCommentUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&bodyAuthorName, "author-name", "", "This property is no longer available and will be removed from the documentation soon.")
 	cmd.Flags().StringVar(&bodyAuthorSelf, "author-self", "", "The URL of the user.")
 	cmd.Flags().StringVar(&bodyAuthorTimeZone, "author-time-zone", "", "The time zone specified in the user's profile. Depending on the user’s privacy settings, this may be returned as null.")
-	cmd.Flags().StringVar(&bodyBody, "body", "", "The comment text.")
+	cmd.Flags().StringVar(&bodyBody, "body", "", "The comment text in [Atlassian Document Format](https://developer.atlassian.")
 	cmd.Flags().StringVar(&bodyCreated, "created", "", "The date and time at which the comment was created.")
 	cmd.Flags().StringVar(&bodyId2, "id-2", "", "The ID of the comment.")
 	cmd.Flags().BoolVar(&bodyJsdAuthorCanSeeRequest, "jsd-author-can-see-request", false, "Whether the comment was added from an email sent by a person who is not part of the issue.")

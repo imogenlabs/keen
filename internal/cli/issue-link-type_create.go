@@ -200,9 +200,9 @@ func newIssueLinkTypeCreateCmd(flags *rootFlags) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&bodyId, "id", "", "The ID of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")
+	cmd.Flags().StringVar(&bodyId, "id", "", "The ID of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")
 	cmd.Flags().StringVar(&bodyInward, "inward", "", "The description of the issue link type inward link and is used as follows")
-	cmd.Flags().StringVar(&bodyName, "name", "", "The name of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-2-issueLink-post)")
+	cmd.Flags().StringVar(&bodyName, "name", "", "The name of the issue link type and is used as follows: * In the [ issueLink](#api-rest-api-3-issueLink-post)")
 	cmd.Flags().StringVar(&bodyOutward, "outward", "", "The description of the issue link type outward link and is used as follows")
 	cmd.Flags().StringVar(&bodySelf, "self", "", "The URL of the issue link type. Read only.")
 	cmd.Flags().BoolVar(&stdinBody, "stdin", false, "Read request body as JSON from stdin")

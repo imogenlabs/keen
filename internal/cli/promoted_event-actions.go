@@ -15,8 +15,8 @@ func newEventActionsPromotedCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "event-actions <orgId>",
-		Short:       "Returns information localized event actions #### Scopes **[OAuth 2.",
-		Long:        "Returns information localized event actions #### Scopes **[OAuth 2.",
+		Short:       "Returns information localized event actions #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read",
+		Long:        "Returns information localized event actions #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read",
 		Example:     "  keen event-actions 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "event-actions.get", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/v1/orgs/{orgId}/event-actions", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {

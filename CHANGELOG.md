@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Regenerated from Atlassian's current OpenAPI specs (October 2026): 60 new commands and MCP tools. Among them: Jira bulk operations (`keen bulk submit-edit`, `submit-move`, `submit-transition`, `submit-delete`, watch/unwatch, progress), Jira policies (`keen policies list`, `apply`, `set-project`), `keen workflows copy`, Confluence content restrictions, user properties, page moves and macros, four Service Desk customer and knowledge base commands, and directory search in Atlassian Admin
+- `scripts/regen/`: one command refreshes keen from Atlassian's current specs and merges the result onto keen's own changes; `check.sh` gates the result
+
+### Changed
+- The org policy commands now live under `keen atlassian-access-policies`, because Jira added its own policies API. The old `keen policies create-policy`, `get`, `resources ...` names and MCP tools still work
+- Commands for 21 APIs Atlassian retired (the Admin v1 directory API, app access settings, workflow transition properties) still exist under their old names and MCP tool names. They now say which command replaced them instead of failing with HTTP 401
+
 ## [1.2.2] - 2026-10-27
 
 ### Fixed

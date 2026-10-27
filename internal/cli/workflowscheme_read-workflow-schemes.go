@@ -75,15 +75,15 @@ func newWorkflowschemeReadWorkflowSchemesCmd(flags *rootFlags) *cobra.Command {
 					Resource:       "workflowscheme",
 					Endpoint:       "read-workflow-schemes",
 					Status:         "submitted",
-					StatusResource: "operations",
-					StatusEndpoint: "get-workspaces",
+					StatusResource: "task",
+					StatusEndpoint: "get",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/operations/1.0/linkedWorkspaces", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/task/{taskId}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})
