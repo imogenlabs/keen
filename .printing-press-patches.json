@@ -62,6 +62,34 @@
       "reason": "newMCPClient passed an explicit config.toml path, which skipped the auth.json lookup in config.Load. JIRA_CLOUD_PLATFORM_URL was documented but read nowhere.",
       "files": ["internal/mcp/tools.go", "internal/config/config.go", "internal/config/config_test.go"],
       "validated_outcome": "Clean-HOME credential matrix: auth.json, cloud_platform_* config.toml, and both env layouts pass for keen and keen-mcp."
+    },
+    {
+      "id": "wiki-pages",
+      "summary": "Add keen wiki create-page, get-page and update-page on the Confluence v2 API.",
+      "reason": "Atlassian removed content create/read/update from the Confluence v1 spec, so the generator cannot produce them. Agents fell back to raw urllib calls.",
+      "files": ["internal/cli/wiki_pages.go", "internal/cli/root.go"],
+      "validated_outcome": "Live: created a page in a test space, update-page moved it to version 2 then 3, get-page returned the new body; drafts stay at version 1 as Confluence requires."
+    },
+    {
+      "id": "adf-plain-text",
+      "summary": "Wrap plain-string rich-text fields into ADF before Jira v3 writes.",
+      "reason": "Jira v3 rejects a string comment body, worklog comment, description or environment. The generated flags take them as strings.",
+      "files": ["internal/client/adf.go", "internal/client/adf_test.go", "internal/client/client.go"],
+      "validated_outcome": "keen issue comment add KEY --body 'text' posts (201); ADF passed via --stdin is unchanged."
+    },
+    {
+      "id": "atlassian-offset-pagination",
+      "summary": "--all follows Atlassian startAt/isLast (or total) paging.",
+      "reason": "Specs declare no cursor or has-more field for startAt endpoints, so --all returned page 1 only (95 commands).",
+      "files": ["internal/cli/atlassian_pagination.go", "internal/cli/atlassian_pagination_test.go", "internal/cli/helpers.go"],
+      "validated_outcome": "get-all-sprints 216 --state closed --all returns 209 of 209; get-all-boards and project search match REST totals."
+    },
+    {
+      "id": "promoted-stray-args",
+      "summary": "Promoted no-argument commands reject stray positional words.",
+      "reason": "keen projects create silently ran GET /rest/api/3/projects/fields and ignored 'create'.",
+      "files": ["internal/cli/aliases.go", "internal/cli/aliases_test.go", "internal/cli/root.go"],
+      "validated_outcome": "keen projects create exits 2 with: did you mean \"keen project create\"?"
     }
   ]
 }

@@ -533,6 +533,9 @@ func (c *Client) doInternal(ctx context.Context, method, path string, params map
 
 	var bodyBytes []byte
 	var contentType string
+	if body != nil && !isAbsoluteURL(path) {
+		body = wrapRichText(method, path, body)
+	}
 	if body != nil {
 		if multipartBody, ok := body.(multipartRequestBody); ok {
 			b, ct, err := encodeMultipartBody(multipartBody)

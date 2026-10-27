@@ -99,3 +99,31 @@ func resolveTransitionID(ctx context.Context, flags *rootFlags, issueKey, name s
 	}
 	return "", fmt.Errorf("no transition named %q available for %s (available: %s)", name, issueKey, strings.Join(names, ", "))
 }
+
+// rejectStrayArgs makes promoted endpoint commands that take no positional
+// arguments refuse them. Without it `keen projects create` silently ran the
+// projects/fields read and ignored "create". When a sibling group has that
+// subcommand (`keen project create`), the error names it.
+func rejectStrayArgs(rootCmd *cobra.Command) {
+	for _, cmd := range rootCmd.Commands() {
+		if cmd.Annotations["pp:endpoint"] == "" || cmd.Args != nil || cmd.HasSubCommands() || strings.Contains(cmd.Use, "<") {
+			continue
+		}
+		cmd.Args = func(c *cobra.Command, args []string) error {
+			if len(args) == 0 {
+				return nil
+			}
+			msg := fmt.Sprintf("unknown command %q for %q", args[0], c.CommandPath())
+			for _, group := range []string{strings.TrimSuffix(c.Name(), "s"), c.Name() + "s"} {
+				if group == c.Name() {
+					continue
+				}
+				if g, _, err := rootCmd.Find([]string{group, args[0]}); err == nil && g.Name() == args[0] {
+					msg += fmt.Sprintf("; did you mean %q?", g.CommandPath())
+					break
+				}
+			}
+			return fmt.Errorf("%s", msg)
+		}
+	}
+}

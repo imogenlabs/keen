@@ -259,13 +259,16 @@ keen jira-cloud-platform-search and-reconsile-issues-using-jql-post \
   --jql "project = PROJ AND status != Done" --agent
 keen issue transitions get PROJ-42 --agent
 keen issue transitions do PROJ-42 --transition-id 41 --agent
-keen issue comment add PROJ-42 --stdin <<< '{"body":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":"Done."}]}]}}'
+keen issue comment add PROJ-42 --body "Done."    # plain text is wrapped into ADF
 ```
 
 ### Confluence
 
 ```bash
 keen wiki search-content-by-cql --cql "type=page AND space=DOCS" --agent
+keen wiki create-page --space DOCS --title "Release notes" --stdin < notes.xhtml
+keen wiki update-page PAGE_ID --stdin < notes.xhtml   # version bumped for you
+keen wiki get-page PAGE_ID --agent
 keen wiki get-content-descendants PAGE_ID --agent
 keen wiki add-labels-to-content PAGE_ID --stdin <<< '[{"prefix":"global","name":"adr"}]'
 ```

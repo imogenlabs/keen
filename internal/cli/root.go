@@ -362,6 +362,8 @@ Run 'keen doctor' to verify auth and connectivity.`,
 	rootCmd.AddCommand(newVersionCliCmd())
 
 	addAliasCommands(rootCmd, flags)
+	rejectStrayArgs(rootCmd)
+	addWikiPageCommands(rootCmd, flags)
 
 	return rootCmd
 }
