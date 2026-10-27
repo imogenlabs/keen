@@ -44,7 +44,7 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 |-----|-----------|-------------|
 | **Jira Platform v3** | 610 | Issues, transitions, search, bulk ops, fields, workflows, permissions |
 | **Jira Agile** | 105 | Sprints, boards, backlogs, epics, ranking, velocity |
-| **Confluence** | 100 | Pages, blog posts, spaces, search, templates, permissions |
+| **Confluence** | 100 | CQL search, spaces, labels, templates, attachments, permissions, content states |
 | **Marketplace v2** | 143 | Addons, versions, vendors, distribution, reviews, reporting |
 | **Service Desk** | 71 | Requests, queues, customers, SLAs, approvals |
 | **Admin Orgs** | 62 | Organizations, directories, groups, policies, domains |
@@ -56,10 +56,12 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_arm64.tar.gz | tar xz
 sudo mv keen_darwin_arm64/keen keen_darwin_arm64/keen-mcp /usr/local/bin/
 
-# 2. Set your credentials
-export JIRA_CLOUD_PLATFORM_USERNAME="you@example.com"
-export JIRA_CLOUD_PLATFORM_PASSWORD="your-api-token"
-export JIRA_CLOUD_PLATFORM_URL="https://yoursite.atlassian.net"
+# 2. Save your credentials
+mkdir -p ~/.config/keen
+cat > ~/.config/keen/auth.json <<'JSON'
+{ "base_url": "https://yoursite.atlassian.net", "username": "you@example.com", "password": "your-api-token" }
+JSON
+chmod 600 ~/.config/keen/auth.json
 
 # 3. Check connectivity
 keen doctor
@@ -72,6 +74,14 @@ keen search "authentication bug" --data-source local
 ```
 
 Generate an API token at [id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens).
+
+Environment variables work too, and override the file:
+
+```bash
+export JIRA_CLOUD_PLATFORM_USERNAME="you@example.com"
+export JIRA_CLOUD_PLATFORM_PASSWORD="your-api-token"
+export JIRA_PP_CLI_BASE_URL="https://yoursite.atlassian.net"
+```
 
 ## Install
 
@@ -108,9 +118,11 @@ make build-all   # builds bin/keen and bin/keen-mcp
 
 Requires Go 1.26.10 or newer.
 
+What changed in each release: [CHANGELOG.md](CHANGELOG.md).
+
 ## MCP Server
 
-Keen includes an MCP server (`keen-mcp`) that exposes all 1,091 endpoints as tools for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
+Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,114 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
 
 Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cache; writes hit the Atlassian API and update the cache before returning.
 
@@ -120,23 +132,16 @@ Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cach
 
 Source: [`docs/diagrams/mcp-flow.drawio`](docs/diagrams/mcp-flow.drawio).
 
+`keen-mcp` reads its credentials from environment variables. It does not read `~/.config/keen/auth.json` yet, so pass them in the server's `env`.
+
 ### Claude Code
 
-Add to `~/.claude/settings.json`:
-
-```json
-{
-  "mcpServers": {
-    "keen": {
-      "command": "keen-mcp",
-      "env": {
-        "JIRA_CLOUD_PLATFORM_USERNAME": "you@example.com",
-        "JIRA_CLOUD_PLATFORM_PASSWORD": "your-api-token",
-        "JIRA_CLOUD_PLATFORM_URL": "https://yoursite.atlassian.net"
-      }
-    }
-  }
-}
+```bash
+claude mcp add --transport stdio keen \
+  --env JIRA_CLOUD_PLATFORM_USERNAME=you@example.com \
+  --env JIRA_CLOUD_PLATFORM_PASSWORD=your-api-token \
+  --env JIRA_PP_CLI_BASE_URL=https://yoursite.atlassian.net \
+  -- keen-mcp
 ```
 
 ### Cursor
@@ -151,7 +156,7 @@ Add to `.cursor/mcp.json`:
       "env": {
         "JIRA_CLOUD_PLATFORM_USERNAME": "you@example.com",
         "JIRA_CLOUD_PLATFORM_PASSWORD": "your-api-token",
-        "JIRA_CLOUD_PLATFORM_URL": "https://yoursite.atlassian.net"
+        "JIRA_PP_CLI_BASE_URL": "https://yoursite.atlassian.net"
       }
     }
   }
@@ -183,7 +188,16 @@ Every command supports `--agent` which sets JSON output, no interactive prompts,
 
 ```bash
 keen agile get-all-boards --agent
-keen issue transitions get EOS-42 --agent | jq '.results.transitions[] | {id, name}'
+keen issue transitions get PROJ-42 --agent | jq '.results.transitions[] | {id, name}'
+```
+
+The everyday Jira calls have short forms:
+
+```bash
+keen find-issues --jql "project = PROJ AND status = 'In Progress'" --agent
+keen get PROJ-42 --agent
+keen transition PROJ-42 --transition-name "In Progress" --agent   # name resolved to its id
+keen sprints 42 --state active --agent
 ```
 
 ## Key Flags
@@ -217,9 +231,9 @@ keen api agile               # browse Agile endpoints
 ```bash
 keen agile get-all-boards --agent
 keen agile get-all-sprints BOARD_ID --state active,future --agent
-keen agile create-sprint --stdin <<< '{"name":"Sprint 5","originBoardId":216}'
+keen agile create-sprint --stdin <<< '{"name":"Sprint 5","originBoardId":42}'
 keen agile move-issues-to-sprint-and-rank SPRINT_ID \
-  --stdin <<< '{"issues": ["EOS-42", "EOS-43"]}'
+  --stdin <<< '{"issues": ["PROJ-42", "PROJ-43"]}'
 keen agile partially-update-sprint SPRINT_ID --stdin <<< '{"state": "active"}'
 ```
 
@@ -242,23 +256,21 @@ as a Fix Version; existing Fix Versions are added to, never replaced.
 
 ```bash
 keen jira-cloud-platform-search and-reconsile-issues-using-jql-post \
-  --jql "project = EOS AND status != Done" --agent
-keen issue transitions get EOS-42 --agent
-keen issue transitions do EOS-42 --transition-id 41 --agent
-keen issue comment create EOS-42 --stdin <<< '{"body":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":"Done."}]}]}}'
+  --jql "project = PROJ AND status != Done" --agent
+keen issue transitions get PROJ-42 --agent
+keen issue transitions do PROJ-42 --transition-id 41 --agent
+keen issue comment add PROJ-42 --stdin <<< '{"body":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":"Done."}]}]}}'
 ```
 
 ### Confluence
 
 ```bash
-keen wiki get-spaces --agent
-keen wiki search-content-by-cql --cql "type=page AND space=EOS" --agent
-keen wiki create-or-update-content --stdin <<< '{
-  "type": "page", "title": "ADR: API Gateway",
-  "space": {"key": "EOS"},
-  "body": {"storage": {"value": "<p>Content</p>", "representation": "storage"}}
-}'
+keen wiki search-content-by-cql --cql "type=page AND space=DOCS" --agent
+keen wiki get-content-descendants PAGE_ID --agent
+keen wiki add-labels-to-content PAGE_ID --stdin <<< '[{"prefix":"global","name":"adr"}]'
 ```
+
+Creating and updating pages is not in keen yet.
 
 ### Marketplace
 
