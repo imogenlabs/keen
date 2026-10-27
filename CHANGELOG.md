@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Compact output (`--agent`) keeps the issue `summary` and flattens Jira's nested `fields`
 
 ### Changed
-- Built with Go 1.26.10. Cobra, pflag, go-toml, modernc SQLite and mcp-go (v1.4.0) are updated
+- Built with Go 1.26.10. Cobra, pflag, go-toml and mcp-go (v1.4.0) are updated. SQLite stays on the driver 1.0.0 shipped with
 - `keen-mcp` identifies itself to MCP clients as `keen` with its release version, not "Jira Pp Cli" 1.0.0
 - Builds made without release flags report version `dev`
 - Release archives are named `keen_<os>_<arch>.tar.gz` with no version, so `releases/latest/download/` links stay stable
