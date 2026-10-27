@@ -273,7 +273,7 @@ keen wiki get-content-descendants PAGE_ID --agent
 keen wiki add-labels-to-content PAGE_ID --stdin <<< '[{"prefix":"global","name":"adr"}]'
 ```
 
-Creating and updating pages is not in keen yet.
+Page bodies are Confluence storage format (XHTML); Markdown is not converted.
 
 ### Marketplace
 
