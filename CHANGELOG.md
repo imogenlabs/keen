@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `--output-summary[=N]`: output over N bytes (default 4096) goes to a private temp file, and keen prints a one-line JSON summary with the file path, size, record count and top-level keys. Smaller output prints as usual. Works on every command
+
+### Fixed
+- `--select` with a mistyped field now fails (exit code 2) with a "did you mean" suggestion and the fields that exist there. Before, it could print the whole response
+- `--select` on a nested field a record doesn't have (for example `fields.parent` on an issue without a parent) no longer prints every other field of that object. It prints a warning and leaves the field out
+
 ## [1.3.0] - 2026-10-27
 
 ### Added

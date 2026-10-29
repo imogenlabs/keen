@@ -56,4 +56,26 @@ Agent mode returns JSON envelopes:
 }
 ```
 
-The actual API response is in `data`. Use `--compact` to minimize token usage. Use `--select "key,summary,status"` to pick specific fields.
+The actual API response is in `data`.
+
+## Keeping Output Small
+
+Every byte keen prints lands in the agent's context. Three ways to cut it:
+
+```bash
+# Keep only the fields you need (dotted paths reach nested ones)
+keen get PROJ-42 --agent --select key,fields.summary,fields.status.name
+
+# Large results go to a file; stdout gets a one-line summary
+keen find-issues --jql "project = PROJ" --agent --output-summary
+# {"output_summary":{"bytes":41309,"file":"/tmp/keen-output-1234.json","keys":["action","data",...],"records":17}}
+
+# Set your own limit in bytes (default 4096, about 1,000 tokens)
+keen find-issues --jql "project = PROJ" --agent --output-summary=20000
+```
+
+`--output-summary` prints small results as usual. The file is created in your temp directory (`TMPDIR`), readable only by you; delete it when you're done.
+
+`--select` checks the fields you ask for. A likely typo fails with exit code 2 and a suggestion (`Did you mean "fields.summary"?`), instead of printing the whole response. A field Jira simply left out of this record, such as `fields.parent` on an issue without a parent, prints a warning and is skipped.
+
+`--compact` (part of `--agent`) keeps only the usual key fields when you don't pass `--select`.

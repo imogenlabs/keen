@@ -210,7 +210,8 @@ keen sprints 42 --state active --agent
 | `--csv` | CSV output |
 | `--dry-run` | Show what would be sent without sending |
 | `--stdin` | Read request body as JSON from stdin |
-| `--select "id,name"` | Pick specific fields from response |
+| `--select "key,fields.summary"` | Keep only these fields (dotted paths reach nested ones). A mistyped field fails with a suggestion |
+| `--output-summary[=N]` | If the output is over N bytes (default 4096), save it to a private temp file and print a one-line JSON summary with the file path, size and record count |
 | `--quiet` | One value per line |
 | `--data-source local` | Query local SQLite cache only |
 
