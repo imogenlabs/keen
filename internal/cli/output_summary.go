@@ -39,8 +39,7 @@ func noteSelectPaths(data json.RawMessage, fields string) {
 func addOutputSummaryFlag(rootCmd *cobra.Command, flags *rootFlags) {
 	f := rootCmd.PersistentFlags()
 	f.IntVar(&outputSummary.limit, "output-summary", 0,
-		"Write output larger than N bytes to a temp file and print a short JSON summary instead (bare flag: "+
-			strconv.Itoa(defaultSummaryLimit)+")")
+		"If the output is over `bytes`, save it to a temp file and print a one-line JSON summary instead")
 	f.Lookup("output-summary").NoOptDefVal = strconv.Itoa(defaultSummaryLimit)
 
 	pre := rootCmd.PersistentPreRunE
