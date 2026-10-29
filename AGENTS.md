@@ -13,7 +13,8 @@ keen which "<capability>"     # find the command for a task
 keen <command> --help
 ```
 
-Add `--agent` to every call: JSON, compact output, no prompts, no color.
+Add `--agent` to every call: JSON, compact output, no prompts, no color. Keep responses small with
+`--select key,fields.summary` and `--output-summary` (big results go to a temp file; you get a one-line summary).
 
 The everyday shortcuts:
 

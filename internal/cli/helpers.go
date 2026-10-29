@@ -981,6 +981,7 @@ func printJSONFiltered(w io.Writer, v any, flags *rootFlags) error {
 // Supports dotted paths like "events.shortName" to descend into nested structures.
 // Arrays are traversed element-wise: "events.shortName" keeps shortName on each event.
 func filterFields(data json.RawMessage, fields string) json.RawMessage {
+	noteSelectPaths(data, fields)
 	var paths [][]string
 	for _, f := range strings.Split(fields, ",") {
 		f = strings.TrimSpace(f)
@@ -996,17 +997,19 @@ func filterFields(data json.RawMessage, fields string) json.RawMessage {
 	if len(paths) == 0 {
 		return data
 	}
-	return filterFieldsRec(data, paths)
+	return filterFieldsRec(data, paths, true)
 }
 
 // filterFieldsRec applies path filters to a JSON value. Each path is a list of
-// lowercase segments; arrays descend element-wise.
-func filterFieldsRec(data json.RawMessage, paths [][]string) json.RawMessage {
+// lowercase segments; arrays descend element-wise. envelope allows the list
+// envelope fallback below; it applies to the top level only, so a field
+// missing from a nested object drops out instead of exposing its siblings.
+func filterFieldsRec(data json.RawMessage, paths [][]string, envelope bool) json.RawMessage {
 	var arr []json.RawMessage
 	if err := json.Unmarshal(data, &arr); err == nil {
 		out := make([]json.RawMessage, len(arr))
 		for i, el := range arr {
-			out[i] = filterFieldsRec(el, paths)
+			out[i] = filterFieldsRec(el, paths, false)
 		}
 		result, _ := json.Marshal(out)
 		return result
@@ -1040,7 +1043,7 @@ func filterFieldsRec(data json.RawMessage, paths [][]string) json.RawMessage {
 				continue
 			}
 			if subs := subPaths[matched]; subs != nil {
-				filtered[k] = filterFieldsRec(v, subs)
+				filtered[k] = filterFieldsRec(v, subs, false)
 			}
 		}
 		// Envelope fallback: when no top-level keys matched but at least one
@@ -1053,14 +1056,14 @@ func filterFieldsRec(data json.RawMessage, paths [][]string) json.RawMessage {
 		// array exists. The `arr != nil` check rejects JSON null, which
 		// json.Unmarshal otherwise accepts into a []json.RawMessage as a
 		// nil slice and would coerce to `[]`.
-		if !matchedAny {
+		if !matchedAny && envelope {
 			pending := map[string]json.RawMessage{}
 			foundArray := false
 			for k, v := range obj {
 				var arr []json.RawMessage
 				if json.Unmarshal(v, &arr) == nil && arr != nil {
 					foundArray = true
-					pending[k] = filterFieldsRec(v, paths)
+					pending[k] = filterFieldsRec(v, paths, false)
 				} else {
 					pending[k] = v
 				}

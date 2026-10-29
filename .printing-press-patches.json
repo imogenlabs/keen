@@ -133,6 +133,13 @@
       "reason": "The generator guessed the status endpoint differently on each run, often wrongly (bulk edit polled linkedWorkspaces), and used {taskId}, which jobs.go never fills in.",
       "files": ["scripts/regen/normalize.py", "internal/cli/bulk_*.go", "internal/cli/workflows_update.go", "internal/cli/workflowscheme_read-workflow-schemes.go", "internal/cli/wiki_async-convert-content-body-request.go", "internal/cli/wiki_get-and-async-convert-macro-body-by-macro-id.go"],
       "validated_outcome": "A second regen on unchanged specs merges with no changes."
+    },
+    {
+      "id": "agent-output-summary",
+      "summary": "--output-summary writes large output to a private temp file and prints a JSON summary; --select checks its paths and no longer leaks siblings of a missing nested field.",
+      "reason": "Agents pay for every byte keen prints (one issue read is about 25 KB). A mistyped or absent nested --select field used to print the whole object through the list-envelope fallback.",
+      "files": ["internal/cli/output_summary.go", "internal/cli/output_summary_test.go", "internal/cli/helpers.go", "internal/cli/root.go"],
+      "validated_outcome": "keen get on a 25,400-byte issue with --output-summary prints a 170-byte summary; --select fields.summery exits 2 with a suggestion; fields.parent on an epic warns and prints 100 bytes."
     }
   ]
 }

@@ -66,6 +66,9 @@ func Execute() error {
 	rootCmd := newRootCmd(&flags)
 
 	err := rootCmd.Execute()
+	if ferr := flushOutputSummary(os.Stdout); ferr != nil && err == nil {
+		err = ferr
+	}
 	if err != nil && strings.Contains(err.Error(), "unknown flag") {
 		msg := err.Error()
 		// Extract the flag name from the error message (e.g., "unknown flag: --foob")
@@ -167,7 +170,7 @@ Run 'keen doctor' to verify auth and connectivity.`,
 	rootCmd.PersistentFlags().BoolVar(&flags.noInput, "no-input", false, "Disable all interactive prompts (for CI/agents)")
 	rootCmd.PersistentFlags().BoolVar(&flags.idempotent, "idempotent", false, "Treat already-existing create results as a successful no-op")
 	rootCmd.PersistentFlags().BoolVar(&flags.ignoreMissing, "ignore-missing", false, "Treat missing delete targets as a successful no-op")
-	rootCmd.PersistentFlags().StringVar(&flags.selectFields, "select", "", "Comma-separated fields to include in output (e.g. --select id,name,status)")
+	rootCmd.PersistentFlags().StringVar(&flags.selectFields, "select", "", "Comma-separated fields to keep; dots reach nested fields (e.g. --select key,fields.summary)")
 	rootCmd.PersistentFlags().BoolVar(&flags.yes, "yes", false, "Skip confirmation prompts (for agents and scripts)")
 	rootCmd.PersistentFlags().BoolVar(&noColor, "no-color", false, "Disable colored output")
 	rootCmd.PersistentFlags().BoolVar(&humanFriendly, "human-friendly", false, "Enable colored output and rich formatting")
@@ -367,6 +370,7 @@ Run 'keen doctor' to verify auth and connectivity.`,
 	rejectStrayArgs(rootCmd)
 	addWikiPageCommands(rootCmd, flags)
 	addCompatCommands(rootCmd, flags)
+	addOutputSummaryFlag(rootCmd, flags)
 
 	return rootCmd
 }
