@@ -31,4 +31,6 @@ Thumbs.db
 dist/
 # internal agent docs — never commit
 CLAUDE.md
-HANDOFF.md__pycache__/
+HANDOFF.md
+__pycache__/
+
