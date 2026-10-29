@@ -16,7 +16,10 @@ var (
 	commentPath = regexp.MustCompile(`^/rest/api/3/issue/[^/]+/comment(/[^/]+)?$`)
 	worklogPath = regexp.MustCompile(`^/rest/api/3/issue/[^/]+/worklog(/[^/]+)?$`)
 	issuePath   = regexp.MustCompile(`^/rest/api/3/issue(/[^/]+)?$`)
+	bulkPath    = regexp.MustCompile(`^/rest/api/3/issue/bulk$`)
 )
+
+var issueRichText = []string{"description", "environment"}
 
 // wrapRichText returns body with any plain-string rich-text field replaced
 // by an ADF doc. Values that are already objects pass through untouched.
@@ -25,35 +28,45 @@ func wrapRichText(method, path string, body any) any {
 		return body
 	}
 	path, _, _ = strings.Cut(path, "?")
-	var keys []string
-	nested := false
-	switch {
-	case commentPath.MatchString(path):
-		keys = []string{"body"}
-	case worklogPath.MatchString(path):
-		keys = []string{"comment"}
-	case issuePath.MatchString(path):
-		keys, nested = []string{"description", "environment"}, true
-	default:
+	// issuePath also matches /issue/bulk.
+	if !commentPath.MatchString(path) && !worklogPath.MatchString(path) && !issuePath.MatchString(path) {
 		return body
 	}
-
 	m, ok := asMap(body)
 	if !ok {
 		return body
 	}
-	target := m
-	if nested {
-		if target, ok = m["fields"].(map[string]any); !ok {
-			return body
+	switch {
+	case commentPath.MatchString(path):
+		wrapKeys(m, "body")
+	case worklogPath.MatchString(path):
+		wrapKeys(m, "comment")
+	case bulkPath.MatchString(path):
+		// create-bulk: {"issueUpdates": [{"fields": {...}}, ...]}
+		updates, _ := m["issueUpdates"].([]any)
+		for _, u := range updates {
+			if um, ok := u.(map[string]any); ok {
+				if fields, ok := um["fields"].(map[string]any); ok {
+					wrapKeys(fields, issueRichText...)
+				}
+			}
 		}
-	}
-	for _, k := range keys {
-		if s, ok := target[k].(string); ok {
-			target[k] = textToADF(s)
+	case issuePath.MatchString(path):
+		if fields, ok := m["fields"].(map[string]any); ok {
+			wrapKeys(fields, issueRichText...)
 		}
+	default:
+		return body
 	}
 	return m
+}
+
+func wrapKeys(m map[string]any, keys ...string) {
+	for _, k := range keys {
+		if s, ok := m[k].(string); ok {
+			m[k] = textToADF(s)
+		}
+	}
 }
 
 func asMap(body any) (map[string]any, bool) {

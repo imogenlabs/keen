@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `keen issue create-bulk` accepts plain-text `description` and `environment` fields, as `issue create` and `issue edit` already did. keen wraps them into Atlassian Document Format; before, Jira refused them with "must be ADF"
+
 ## [1.4.0] - 2026-10-28
 
 ### Added

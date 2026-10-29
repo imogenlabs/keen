@@ -77,7 +77,7 @@
       "summary": "Wrap plain-string rich-text fields into ADF before Jira v3 writes.",
       "reason": "Jira v3 rejects a string comment body, worklog comment, description or environment. The generated flags take them as strings.",
       "files": ["internal/client/adf.go", "internal/client/adf_test.go", "internal/client/client.go"],
-      "validated_outcome": "keen issue comment add KEY --body 'text' posts (201); ADF passed via --stdin is unchanged."
+      "validated_outcome": "keen issue comment add KEY --body 'text' posts (201); ADF passed via --stdin is unchanged. 1.4.1: create-bulk wraps issueUpdates[].fields too; a bulk-created story with a plain-text description kept its literal headers and held in Selected for Development."
     },
     {
       "id": "atlassian-offset-pagination",
