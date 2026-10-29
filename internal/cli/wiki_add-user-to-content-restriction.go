@@ -21,7 +21,7 @@ func newWikiAddUserToContentRestrictionCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-user-to-content-restriction <id> <operationKey>",
 		Short:       "Adds a user to a content restriction. That is, grant read or update permission to the user for a piece of content.",
-		Example:     "  keen wiki add-user-to-content-restriction 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen wiki add-user-to-content-restriction 550e8400-e29b-41d4-a716-446655440000 my-operation",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-user-to-content-restriction", "pp:method": "PUT", "pp:path": "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/user"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

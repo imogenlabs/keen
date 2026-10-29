@@ -19,7 +19,7 @@ func newWikiCreateUserPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-user-property <userId> <key>",
 		Short:       "Creates a property for a user.",
-		Example:     "  keen wiki create-user-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen wiki create-user-property 550e8400-e29b-41d4-a716-446655440000 my-property",
 		Annotations: map[string]string{"pp:endpoint": "wiki.create-user-property", "pp:method": "POST", "pp:path": "/wiki/rest/api/user/{userId}/property/{key}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -18,7 +18,7 @@ func newAddonsTokensCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create <addonKey>",
 		Short:       "Create a new access token. This resource requires authentication.",
-		Example:     "  keen addons tokens create your-token-here",
+		Example:     "  keen addons tokens create com.example.my-app",
 		Annotations: map[string]string{"pp:endpoint": "tokens.create", "pp:method": "POST", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/tokens"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

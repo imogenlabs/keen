@@ -316,7 +316,7 @@ scripts/regen/regen.sh        # download current specs, generate, merge onto kee
 scripts/regen/check.sh        # build, tests, lint, vulnerabilities, old-name and help checks
 ```
 
-How it works: the generator's previous output (renamed to keen) is kept on GitHub as the hidden ref `refs/regen/base` (not a branch; `regen.sh` fetches it). `regen.sh` generates again from today's specs, renames that output the same way, and does a three-way git merge onto keen. Spec changes land, and keen's own edits stay. Files keen writes by hand (README, docs, changelog, the patch list) always keep keen's version. `scripts/regen/postfix.py` applies keen's standing rules to code the generator adds for the first time.
+How it works: the generator's previous output (renamed to keen) is kept on GitHub as the hidden ref `refs/regen/base` (not a branch; `regen.sh` fetches it). `regen.sh` generates again from today's specs, renames that output the same way, and does a three-way git merge onto keen. Spec changes land, and keen's own edits stay. Files keen writes by hand (README, docs, changelog, the patch list) always keep keen's version. `scripts/regen/postfix.py` applies keen's standing rules to code the generator adds for the first time. `scripts/regen/placeholders.py` gives help examples a placeholder that fits each argument (the generator puts `your-token-here` in every `*Key` argument), and `check.sh` fails if one slips back.
 
 If the merge stops on a conflict, the script lists the files. Resolve them in the work folder it prints (`scripts/regen/resolve.py ours|theirs <file>` takes one side for a whole file), then run `scripts/regen/finish.sh`. When the branch is merged to `main`, move the base forward as `regen.sh` says.
 

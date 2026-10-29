@@ -43,6 +43,7 @@ step "golangci-lint"                 make lint
 step "govulncheck"                   govulncheck ./...
 step "no old names in the tree"      names
 step "every command's help is clean" help_text
+step "help examples fit their arguments" python3 scripts/regen/placeholders.py --check .
 step "binaries build as keen"        bash -c "go build -o '$BIN/keen' ./cmd/keen && go build -o '$BIN/keen-mcp' ./cmd/keen-mcp && '$BIN/keen' version"
 if [[ -n "${KEEN_LIVE_SMOKE:-}" ]]; then
   step "live smoke test"             bash -c "bash '$KEEN_LIVE_SMOKE' '$BIN' | tee /dev/stderr | grep -q 'failures: 0'"

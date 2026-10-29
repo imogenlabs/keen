@@ -16,7 +16,7 @@ func newAddonsReviewsGetAddonsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-addons <addonKey>",
 		Short:       "Get a specific app review written by the current user. This resource requires authentication.",
-		Example:     "  keen addons reviews get-addons your-token-here",
+		Example:     "  keen addons reviews get-addons com.example.my-app",
 		Annotations: map[string]string{"pp:endpoint": "reviews.get-addons", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/reviews/mine", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

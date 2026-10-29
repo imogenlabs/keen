@@ -17,7 +17,7 @@ func newPoliciesGetProjectRulesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-project-rules <projectIdOrKey>",
 		Short:       "Returns the configuration of the queried rule type IDs for a given project.",
-		Example:     "  keen policies get-project-rules your-token-here",
+		Example:     "  keen policies get-project-rules PROJ",
 		Annotations: map[string]string{"pp:endpoint": "policies.get-project-rules", "pp:method": "GET", "pp:path": "/rest/api/3/policies/project/{projectIdOrKey}/rules", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

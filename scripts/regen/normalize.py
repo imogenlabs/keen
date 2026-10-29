@@ -11,6 +11,8 @@ import os
 import re
 import sys
 
+from placeholders import fix_placeholders
+
 DIRS = {
     "cmd/jira-pp-cli-pp-cli": "cmd/keen",
     "cmd/jira-pp-cli-pp-mcp": "cmd/keen-mcp",
@@ -92,4 +94,5 @@ def normalize(root):
 if __name__ == "__main__":
     if len(sys.argv) != 2 or not os.path.isdir(sys.argv[1]):
         sys.exit(__doc__)
-    print(f"normalized {normalize(sys.argv[1])} files, pinned {pin_job_status(sys.argv[1])} job status endpoints")
+    print(f"normalized {normalize(sys.argv[1])} files, pinned {pin_job_status(sys.argv[1])} job status endpoints, "
+          f"fixed example placeholders in {len(fix_placeholders(sys.argv[1]))} files")
