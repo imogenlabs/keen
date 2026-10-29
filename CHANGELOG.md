@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-10-28
+
 ### Fixed
 - `keen issue create-bulk` accepts plain-text `description` and `environment` fields, as `issue create` and `issue edit` already did. keen wraps them into Atlassian Document Format; before, Jira refused them with "must be ADF"
 - Help examples show a value that fits each argument: `PROJ-42` for an issue key, `PROJ` for a project, `TEAM` for a space, `com.example.my-app` for an app. Before, 277 commands showed `your-token-here` there. The setup hint now asks for your email as the username, not a token
