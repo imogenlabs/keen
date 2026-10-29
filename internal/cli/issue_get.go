@@ -22,7 +22,7 @@ func newIssueGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <issueIdOrKey>",
 		Short:       "Returns the details for an issue.",
-		Example:     "  keen issue get your-token-here",
+		Example:     "  keen issue get PROJ-42",
 		Annotations: map[string]string{"pp:endpoint": "issue.get", "pp:method": "GET", "pp:path": "/rest/api/3/issue/{issueIdOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

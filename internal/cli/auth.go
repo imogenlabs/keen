@@ -39,7 +39,7 @@ func newAuthSetupCmd(_ *rootFlags) *cobra.Command {
 			fmt.Fprintln(w, "No setup URL is configured for this CLI; check the API's docs.")
 			fmt.Fprintln(w, "")
 			fmt.Fprintln(w, "Then set:")
-			fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_USERNAME=\"<your-token>\"")
+			fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_USERNAME=\"you@example.com\"")
 			fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_PASSWORD=\"<your-token>\"")
 			fmt.Fprintln(w, "  keen auth set-token <token>")
 			if !launch {
@@ -89,7 +89,7 @@ func newAuthStatusCmd(flags *rootFlags) *cobra.Command {
 				fmt.Fprintln(w, red("Not authenticated"))
 				fmt.Fprintln(w, "")
 				fmt.Fprintln(w, "Set your token:")
-				fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_USERNAME=\"your-token-here\"")
+				fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_USERNAME=\"you@example.com\"")
 				fmt.Fprintln(w, "  export JIRA_CLOUD_PLATFORM_PASSWORD=\"your-token-here\"")
 				fmt.Fprintf(w, "  keen auth set-token <token>\n")
 				return authErr(fmt.Errorf("no credentials configured"))

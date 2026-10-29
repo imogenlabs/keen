@@ -19,7 +19,7 @@ func newIssueWatchersRemoveCmd(flags *rootFlags) *cobra.Command {
 		Use:         "remove <issueIdOrKey>",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a user as a watcher of an issue. This operation requires the **Allow users to watch issues** option to be *ON*.",
-		Example:     "  keen issue watchers remove your-token-here",
+		Example:     "  keen issue watchers remove PROJ-42",
 		Annotations: map[string]string{"pp:endpoint": "watchers.remove", "pp:method": "DELETE", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/watchers"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

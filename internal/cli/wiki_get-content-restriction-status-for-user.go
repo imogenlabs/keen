@@ -19,7 +19,7 @@ func newWikiGetContentRestrictionStatusForUserCmd(flags *rootFlags) *cobra.Comma
 	cmd := &cobra.Command{
 		Use:         "get-content-restriction-status-for-user <id> <operationKey>",
 		Short:       "Returns whether the specified content restriction applies to a user.",
-		Example:     "  keen wiki get-content-restriction-status-for-user 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen wiki get-content-restriction-status-for-user 550e8400-e29b-41d4-a716-446655440000 my-operation",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-content-restriction-status-for-user", "pp:method": "GET", "pp:path": "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/user", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -67,7 +67,7 @@ func newIssueEditCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "edit <issueIdOrKey>",
 		Short:       "Edits an issue. Issue properties may be updated as part of the edit.",
-		Example:     "  keen issue edit your-token-here",
+		Example:     "  keen issue edit PROJ-42",
 		Annotations: map[string]string{"pp:endpoint": "issue.edit", "pp:method": "PUT", "pp:path": "/rest/api/3/issue/{issueIdOrKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

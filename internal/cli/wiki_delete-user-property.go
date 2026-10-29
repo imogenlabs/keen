@@ -16,7 +16,7 @@ func newWikiDeleteUserPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-user-property <userId> <key>",
 		Short:       "Deletes a property for the given user.",
-		Example:     "  keen wiki delete-user-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen wiki delete-user-property 550e8400-e29b-41d4-a716-446655440000 my-property",
 		Annotations: map[string]string{"pp:endpoint": "wiki.delete-user-property", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/user/{userId}/property/{key}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

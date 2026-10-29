@@ -19,7 +19,7 @@ func newAddonsMigrationUpdateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update <addonKey>",
 		Short:       "Update migration information for this app.",
-		Example:     "  keen addons migration update your-token-here",
+		Example:     "  keen addons migration update com.example.my-app",
 		Annotations: map[string]string{"pp:endpoint": "migration.update", "pp:method": "PATCH", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/migration"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

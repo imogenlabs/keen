@@ -17,7 +17,7 @@ func newPoliciesGetPolicyStateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-policy-state <projectIdOrKey>",
 		Aliases:     []string{"get"},
 		Short:       "Returns the policies applied to a project.",
-		Example:     "  keen policies get-policy-state your-token-here",
+		Example:     "  keen policies get-policy-state PROJ",
 		Annotations: map[string]string{"pp:endpoint": "policies.get-policy-state", "pp:method": "GET", "pp:path": "/rest/api/3/policies/project/{projectIdOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

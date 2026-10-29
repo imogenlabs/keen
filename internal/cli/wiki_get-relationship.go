@@ -23,7 +23,7 @@ func newWikiGetRelationshipCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-relationship <relationName> <sourceKey> <targetKey>",
 		Short:       "Find whether a particular type of relationship exists from a source entity to a target entity.",
-		Example:     "  keen wiki get-relationship example-resource your-token-here your-token-here --source-type user --target-type user",
+		Example:     "  keen wiki get-relationship example-resource PROJ PROJ --source-type user --target-type user",
 		Annotations: map[string]string{"pp:endpoint": "wiki.get-relationship", "pp:method": "GET", "pp:path": "/wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}/{targetKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

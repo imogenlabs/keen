@@ -22,7 +22,7 @@ func newWikiDeleteRelationshipCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-relationship <relationName> <sourceKey> <targetKey>",
 		Short:       "Deletes a relationship between two entities (user, space, content). **[Permissions](https://confluence.atlassian.",
-		Example:     "  keen wiki delete-relationship example-resource your-token-here your-token-here --source-type user --target-type user",
+		Example:     "  keen wiki delete-relationship example-resource PROJ PROJ --source-type user --target-type user",
 		Annotations: map[string]string{"pp:endpoint": "wiki.delete-relationship", "pp:method": "DELETE", "pp:path": "/wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}/{targetKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

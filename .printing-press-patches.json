@@ -140,6 +140,13 @@
       "reason": "Agents pay for every byte keen prints (one issue read is about 25 KB). A mistyped or absent nested --select field used to print the whole object through the list-envelope fallback.",
       "files": ["internal/cli/output_summary.go", "internal/cli/output_summary_test.go", "internal/cli/helpers.go", "internal/cli/root.go"],
       "validated_outcome": "keen get on a 25,400-byte issue with --output-summary prints a 170-byte summary; --select fields.summery exits 2 with a suggestion; fields.parent on an epic warns and prints 100 bytes."
+    },
+    {
+      "id": "help-example-placeholders",
+      "summary": "Help examples use a placeholder that fits each argument (PROJ-42 for an issue key, TEAM for a space key) instead of your-token-here; the auth hint asks for an email as the username.",
+      "reason": "The generator fills every argument named *Key with your-token-here, so 277 examples showed a token where an issue, project, space or app key goes.",
+      "files": ["scripts/regen/placeholders.py", "scripts/regen/normalize.py", "scripts/regen/check.sh", "internal/cli/*.go (Example lines, auth.go)"],
+      "validated_outcome": "Applied by normalize.py on every regen; check.sh fails on a wrong placeholder (fired on a reverted file). keen issue comment get-issue --help shows PROJ-42."
     }
   ]
 }

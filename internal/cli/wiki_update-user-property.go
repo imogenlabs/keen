@@ -19,7 +19,7 @@ func newWikiUpdateUserPropertyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-user-property <userId> <key>",
 		Short:       "Updates a property for the given user. Note, you cannot update the key of a user property, only the value.",
-		Example:     "  keen wiki update-user-property 550e8400-e29b-41d4-a716-446655440000 your-token-here",
+		Example:     "  keen wiki update-user-property 550e8400-e29b-41d4-a716-446655440000 my-property",
 		Annotations: map[string]string{"pp:endpoint": "wiki.update-user-property", "pp:method": "PUT", "pp:path": "/wiki/rest/api/user/{userId}/property/{key}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

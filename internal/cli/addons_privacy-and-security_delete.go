@@ -16,7 +16,7 @@ func newAddonsPrivacyAndSecurityDeleteCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete <addonKey>",
 		Short:       "Discards the draft version of privacy and security information for the specified app.",
-		Example:     "  keen addons privacy-and-security delete your-token-here",
+		Example:     "  keen addons privacy-and-security delete com.example.my-app",
 		Annotations: map[string]string{"pp:endpoint": "privacy-and-security.delete", "pp:method": "DELETE", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/privacy-and-security"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

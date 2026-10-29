@@ -17,7 +17,7 @@ func newAddonsPrivacyAndSecurityGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <addonKey>",
 		Short:       "Get the privacy and security info for the specified app.",
-		Example:     "  keen addons privacy-and-security get your-token-here",
+		Example:     "  keen addons privacy-and-security get com.example.my-app",
 		Annotations: map[string]string{"pp:endpoint": "privacy-and-security.get", "pp:method": "GET", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/privacy-and-security", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

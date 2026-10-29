@@ -18,7 +18,7 @@ func newProjectGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get <projectIdOrKey>",
 		Short:       "Returns the [project details](https://confluence.atlassian.com/x/ahLpNw) for a project.",
-		Example:     "  keen project get your-token-here",
+		Example:     "  keen project get PROJ",
 		Annotations: map[string]string{"pp:endpoint": "project.get", "pp:method": "GET", "pp:path": "/rest/api/3/project/{projectIdOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
