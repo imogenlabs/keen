@@ -37,6 +37,18 @@ keen issue edit PROJ-42 --fields '{"customfield_10016":3}' --agent
 keen issue edit PROJ-42 --fields '{"resolution":{"name":"Done"}}' --agent
 ```
 
+### Descriptions
+
+Jira wants `description` and `environment` as Atlassian Document Format. Send plain
+text and keen wraps it for you, one paragraph per line. The text is kept exactly as
+written: `## User Story` stays the literal characters, not a heading. This works for
+`issue create`, `issue edit` and `issue create-bulk`. A value that is already an ADF
+object is sent unchanged.
+
+```bash
+keen issue edit PROJ-42 --stdin --agent <<< '{"fields":{"description":"First line\nSecond line"}}'
+```
+
 ## Transitions
 
 ```bash
@@ -73,11 +85,16 @@ keen issue comment add PROJ-42 --stdin <<< '{
 ## Bulk Operations
 
 ```bash
-# Create up to 50 issues in one call
-keen issue create-bulk --stdin < issues.json
+# Create up to 50 issues in one call; descriptions can be plain text
+keen issue create-bulk --stdin --agent <<< '{"issueUpdates":[
+  {"fields":{"project":{"key":"PROJ"},"issuetype":{"name":"Task"},"summary":"First","description":"Plain text is fine"}},
+  {"fields":{"project":{"key":"PROJ"},"issuetype":{"name":"Task"},"summary":"Second"}}
+]}'
 
 # Fetch up to 100 issues by key or id
 keen issue bulk-fetch --stdin <<< '{"issueIdsOrKeys":["PROJ-42","PROJ-43"]}'
 ```
 
-Bulk edit, move and status changes arrive with the next regeneration from Atlassian's current spec.
+Bulk edit, move, status changes, delete and watch are under `keen bulk`
+(`submit-edit`, `submit-move`, `submit-transition`, `submit-delete`, `submit-watch`,
+`submit-unwatch`). They run as a Jira job; add `--wait` and keen waits for it to finish.
