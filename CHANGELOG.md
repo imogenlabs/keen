@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-10-28
+
 ### Added
 - `--output-summary[=N]`: output over N bytes (default 4096) goes to a private temp file, and keen prints a one-line JSON summary with the file path, size, record count and top-level keys. Smaller output prints as usual. Works on every command
 
