@@ -6,8 +6,8 @@ Two spec shapes need it:
   site template: Confluence v2 gives its server as https://{your-domain}/wiki/api/v2.
   The generator cannot fill {your-domain} and writes https://no-default/... into
   every command. Point it at your-domain.atlassian.net, the server the Jira spec
-  uses, and move /wiki/api/v2 onto each path, so the commands become paths on the
-  configured base_url like every other site command.
+  uses. The server path stays, so the commands are grouped by resource (pages,
+  spaces, ...); postfix.py then makes those URLs relative to the configured site.
 
   ids in the server path: Assets gives https://api.atlassian.com/ex/jira/{cloudId}/
   jsm/assets/workspace/{workspaceId}/v1. Move that path onto every operation and
@@ -40,10 +40,11 @@ def fix(spec):
     if VAR.search(host_part):
         host_part = "your-domain.atlassian.net"
 
-    # The server path moves onto every operation, so the server is a bare host.
+    # Ids in the server path move onto every operation as path parameters.
     ids = VAR.findall(path_part)
-    spec["paths"] = {path_part + p: item for p, item in spec["paths"].items()}
     if ids:
+        spec["paths"] = {path_part + p: item for p, item in spec["paths"].items()}
+        path_part = ""
         for item in spec["paths"].values():
             for method, op in item.items():
                 if method not in METHODS:
@@ -55,7 +56,7 @@ def fix(spec):
                               for n in missing]
 
     scheme = urlsplit(url).scheme or "https"
-    spec["servers"] = [{"url": f"{scheme}://{host_part}"}]
+    spec["servers"] = [{"url": f"{scheme}://{host_part}{path_part}"}]
     return spec
 
 
