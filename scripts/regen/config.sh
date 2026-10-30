@@ -39,6 +39,10 @@ SPECS=(
 # a spec when it is first added: on a shipped spec this renames its commands.
 FIX_IDS=(admin-users admin-control)
 
+# Specs whose auth schemes specfix.py removes (--no-auth), so the generator keeps
+# keen's own login; keen picks their credential by host (internal/client/hostauth.go).
+STRIP_AUTH=(bitbucket)
+
 # Server URL placeholders keen fills at run time: placeholder=marker. specfix.py
 # writes the marker into the URL; internal/client/sitevars.go swaps it for the
 # env var of the same name, the auth.json value, or a lookup on the site.

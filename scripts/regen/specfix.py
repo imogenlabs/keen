@@ -27,13 +27,18 @@ Command names come from operation ids, so two id shapes are fixed too:
   "apis-" in front of every command. A prefix ending in "_" that every id in
   the spec shares is dropped.
 
+  auth schemes: keen chooses each API's credential itself (internal/client/
+  hostauth.go). A spec whose auth schemes would make the generator rebuild keen's
+  login around them (Bitbucket's OAuth2 did) is listed in STRIP_AUTH and has its
+  security schemes and requirements removed (--no-auth).
+
 The id rules run only for specs listed in FIX_IDS in config.sh (--ids): applied
 to a spec keen already ships, they would rename its commands. Specs that need
 none of this are left exactly as published. The downloaded
 copies in specs/ stay as Atlassian publishes them; this writes the fixed copies
 the generator reads.
 
-Usage: specfix.py [--ids] <in.json> <out.json>
+Usage: specfix.py [--ids] [--no-auth] <in.json> <out.json>
 """
 import json
 import os
@@ -71,9 +76,18 @@ def template_vars():
     return dict(pairs)
 
 
-def fix(spec, ids=False):
+def strip_auth(spec):
+    spec.pop("security", None)
+    spec.get("components", {}).pop("securitySchemes", None)
+    for op in operations_of(spec):
+        op.pop("security", None)
+
+
+def fix(spec, ids=False, no_auth=False):
     if ids:
         fix_operation_ids(spec)
+    if no_auth:
+        strip_auth(spec)
     servers = spec.get("servers") or []
     if not servers:
         return spec
@@ -113,11 +127,12 @@ def fix(spec, ids=False):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    ids = args[:1] == ["--ids"]
-    args = args[1:] if ids else args
+    ids = "--ids" in args
+    no_auth = "--no-auth" in args
+    args = [a for a in args if a not in ("--ids", "--no-auth")]
     if len(args) != 2:
         sys.exit(__doc__)
     with open(args[0]) as f:
         spec = json.load(f)
     with open(args[1], "w") as f:
-        json.dump(fix(spec, ids), f)
+        json.dump(fix(spec, ids, no_auth), f)
