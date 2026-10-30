@@ -10,17 +10,17 @@ import (
 func newRepositoriesPermissionsConfigCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "permissions-config",
-		Short: "Get, update, and delete permissions config for repositories",
+		Short: "List, get, update, and delete permissions config for repositories",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesPermissionsConfigDeleteCmd(flags))
-	cmd.AddCommand(newRepositoriesPermissionsConfigDeleteRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesPermissionsConfigGetCmd(flags))
-	cmd.AddCommand(newRepositoriesPermissionsConfigGetRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesPermissionsConfigGetRepositories2Cmd(flags))
-	cmd.AddCommand(newRepositoriesPermissionsConfigGetRepositories3Cmd(flags))
-	cmd.AddCommand(newRepositoriesPermissionsConfigUpdateCmd(flags))
-	cmd.AddCommand(newRepositoriesPermissionsConfigUpdateRepositoriesCmd(flags))
+	cmd.AddCommand(newRepositoriesPermissionsConfigDeleteExplicitGroupPermissionForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesPermissionsConfigDeleteExplicitUserPermissionForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesPermissionsConfigGetExplicitGroupPermissionForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesPermissionsConfigGetExplicitUserPermissionForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesPermissionsConfigListExplicitGroupPermissionsForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesPermissionsConfigListExplicitUserPermissionsForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesPermissionsConfigUpdateExplicitGroupPermissionForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesPermissionsConfigUpdateExplicitUserPermissionForRepositoryCmd(flags))
 	return cmd
 }

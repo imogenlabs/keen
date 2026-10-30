@@ -30,6 +30,7 @@ func newRepositoriesCommitCreateOrUpdateAnnotationCmd(flags *rootFlags) *cobra.C
 
 	cmd := &cobra.Command{
 		Use:         "create-or-update-annotation <workspace> <repo_slug> <commit> <reportId> <annotationId>",
+		Aliases:     []string{"update"},
 		Short:       "Creates or updates an individual annotation for the specified report.",
 		Example:     "  keen bitbucket-repositories commit create-or-update-annotation example-value example-value example-value 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --type example-value",
 		Annotations: map[string]string{"pp:endpoint": "commit.create-or-update-annotation", "pp:method": "PUT", "pp:path": "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations/{annotationId}"},

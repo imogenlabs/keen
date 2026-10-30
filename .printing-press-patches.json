@@ -164,7 +164,7 @@
     },
     {
       "id": "readable-operation-ids",
-      "summary": "For specs listed in FIX_IDS, specfix.py makes missing operation ids from summaries and drops an Xxx_ prefix every id shares, before generating.",
+      "summary": "For specs listed in FIX_IDS (admin-users, admin-control, bitbucket), specfix.py makes missing operation ids from summaries (possessives dropped; repeated summaries told apart by API area or the extra id), and drops an Xxx_ prefix every id shares, before generating.",
       "reason": "User management has no operation ids (commands came out as create-users-2) and admin control prefixes every id with APIs_.",
       "files": ["scripts/regen/specfix.py", "scripts/regen/config.sh (FIX_IDS)", "scripts/regen/regen.sh"],
       "validated_outcome": "user-management deactivate-user, admin-control create-policy (group names from group-renames); ids of every spec not in FIX_IDS unchanged (checked on all seven shipped specs)."

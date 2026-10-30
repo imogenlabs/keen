@@ -14,6 +14,6 @@ func newRepositoriesDiffCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesDiffGetCmd(flags))
+	cmd.AddCommand(newRepositoriesDiffCompareTwoCommitsCmd(flags))
 	return cmd
 }

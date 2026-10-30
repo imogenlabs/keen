@@ -15,11 +15,11 @@ func newRepositoriesCmd(flags *rootFlags) *cobra.Command {
 		RunE:   parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesCreateCmd(flags))
-	cmd.AddCommand(newRepositoriesDeleteCmd(flags))
-	cmd.AddCommand(newRepositoriesGetCmd(flags))
-	cmd.AddCommand(newRepositoriesGetWorkspaceCmd(flags))
-	cmd.AddCommand(newRepositoriesUpdateCmd(flags))
+	cmd.AddCommand(newRepositoriesCreateRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesDeleteRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesGetRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesListInWorkspaceCmd(flags))
+	cmd.AddCommand(newRepositoriesUpdateRepositoryCmd(flags))
 	cmd.AddCommand(newRepositoriesBranchRestrictionsCmd(flags))
 	cmd.AddCommand(newRepositoriesBranchingModelCmd(flags))
 	cmd.AddCommand(newRepositoriesCommitCmd(flags))

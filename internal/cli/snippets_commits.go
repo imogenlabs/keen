@@ -14,7 +14,7 @@ func newSnippetsCommitsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newSnippetsCommitsGetCmd(flags))
-	cmd.AddCommand(newSnippetsCommitsGetSnippetsCmd(flags))
+	cmd.AddCommand(newSnippetsCommitsGetPreviousSnippetChangeCmd(flags))
+	cmd.AddCommand(newSnippetsCommitsListSnippetChangesCmd(flags))
 	return cmd
 }

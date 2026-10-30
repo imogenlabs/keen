@@ -14,6 +14,6 @@ func newRepositoriesMergeBaseCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesMergeBaseGetCmd(flags))
+	cmd.AddCommand(newRepositoriesMergeBaseGetCommonAncestorBetweenTwoCommitsCmd(flags))
 	return cmd
 }

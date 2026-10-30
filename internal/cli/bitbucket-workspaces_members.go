@@ -10,11 +10,11 @@ import (
 func newBitbucketWorkspacesMembersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "members",
-		Short: "Get members for bitbucket workspaces",
+		Short: "List and get members for bitbucket workspaces",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newBitbucketWorkspacesMembersGetCmd(flags))
-	cmd.AddCommand(newBitbucketWorkspacesMembersGetWorkspacesCmd(flags))
+	cmd.AddCommand(newBitbucketWorkspacesMembersGetUserMembershipForWorkspaceCmd(flags))
+	cmd.AddCommand(newBitbucketWorkspacesMembersListUsersInWorkspaceCmd(flags))
 	return cmd
 }

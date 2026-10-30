@@ -10,10 +10,10 @@ import (
 func newRepositoriesWatchersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "watchers",
-		Short: "Get watchers for repositories",
+		Short: "List watchers for repositories",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesWatchersGetCmd(flags))
+	cmd.AddCommand(newRepositoriesWatchersListRepositoriesCmd(flags))
 	return cmd
 }

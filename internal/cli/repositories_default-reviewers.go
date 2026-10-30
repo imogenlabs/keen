@@ -10,13 +10,13 @@ import (
 func newRepositoriesDefaultReviewersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "default-reviewers",
-		Short: "Get, update, and delete default reviewers for repositories",
+		Short: "List, get, add, and remove default reviewers for repositories",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesDefaultReviewersDeleteCmd(flags))
-	cmd.AddCommand(newRepositoriesDefaultReviewersGetCmd(flags))
-	cmd.AddCommand(newRepositoriesDefaultReviewersGetRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesDefaultReviewersUpdateCmd(flags))
+	cmd.AddCommand(newRepositoriesDefaultReviewersAddUserToCmd(flags))
+	cmd.AddCommand(newRepositoriesDefaultReviewersGetInRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesDefaultReviewersListCmd(flags))
+	cmd.AddCommand(newRepositoriesDefaultReviewersRemoveUserFromCmd(flags))
 	return cmd
 }

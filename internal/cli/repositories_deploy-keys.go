@@ -10,14 +10,14 @@ import (
 func newRepositoriesDeployKeysCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "deploy-keys",
-		Short: "Get, create, update, and delete deploy keys for repositories",
+		Short: "List, get, add, update, and delete deploy keys for repositories",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesDeployKeysCreateCmd(flags))
-	cmd.AddCommand(newRepositoriesDeployKeysDeleteCmd(flags))
-	cmd.AddCommand(newRepositoriesDeployKeysGetCmd(flags))
-	cmd.AddCommand(newRepositoriesDeployKeysGetRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesDeployKeysUpdateCmd(flags))
+	cmd.AddCommand(newRepositoriesDeployKeysAddRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesDeployKeysDeleteRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesDeployKeysGetRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesDeployKeysListRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesDeployKeysUpdateRepositoryCmd(flags))
 	return cmd
 }

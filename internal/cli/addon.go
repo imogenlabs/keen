@@ -15,8 +15,8 @@ func newAddonCmd(flags *rootFlags) *cobra.Command {
 		RunE:   parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newAddonDeleteCmd(flags))
-	cmd.AddCommand(newAddonUpdateCmd(flags))
+	cmd.AddCommand(newAddonDeleteAppCmd(flags))
+	cmd.AddCommand(newAddonUpdateInstalledAppCmd(flags))
 	cmd.AddCommand(newAddonClientKeyCmd(flags))
 	return cmd
 }

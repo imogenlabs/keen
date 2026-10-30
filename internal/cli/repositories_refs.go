@@ -14,14 +14,14 @@ func newRepositoriesRefsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesRefsCreateCmd(flags))
-	cmd.AddCommand(newRepositoriesRefsCreateRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesRefsDeleteCmd(flags))
-	cmd.AddCommand(newRepositoriesRefsDeleteRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesRefsGetCmd(flags))
-	cmd.AddCommand(newRepositoriesRefsGetRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesRefsGetRepositories2Cmd(flags))
-	cmd.AddCommand(newRepositoriesRefsGetRepositories3Cmd(flags))
-	cmd.AddCommand(newRepositoriesRefsGetRepositories4Cmd(flags))
+	cmd.AddCommand(newRepositoriesRefsCreateBranchCmd(flags))
+	cmd.AddCommand(newRepositoriesRefsCreateTagCmd(flags))
+	cmd.AddCommand(newRepositoriesRefsDeleteBranchCmd(flags))
+	cmd.AddCommand(newRepositoriesRefsDeleteTagCmd(flags))
+	cmd.AddCommand(newRepositoriesRefsGetBranchCmd(flags))
+	cmd.AddCommand(newRepositoriesRefsGetTagCmd(flags))
+	cmd.AddCommand(newRepositoriesRefsListBranchesAndTagsCmd(flags))
+	cmd.AddCommand(newRepositoriesRefsListOpenBranchesCmd(flags))
+	cmd.AddCommand(newRepositoriesRefsListTagsCmd(flags))
 	return cmd
 }

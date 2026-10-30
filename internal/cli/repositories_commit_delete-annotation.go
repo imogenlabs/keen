@@ -15,6 +15,7 @@ func newRepositoriesCommitDeleteAnnotationCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:         "delete-annotation <workspace> <repo_slug> <commit> <reportId> <annotationId>",
+		Aliases:     []string{"delete"},
 		Short:       "Deletes a single Annotation matching the provided ID.",
 		Example:     "  keen bitbucket-repositories commit delete-annotation example-value example-value example-value 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "commit.delete-annotation", "pp:method": "DELETE", "pp:path": "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations/{annotationId}"},

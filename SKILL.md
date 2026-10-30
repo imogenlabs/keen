@@ -33,8 +33,8 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 **addon** — The addon resource is intended to use used by Bitbucket Cloud Connect
 Apps, and only supports JWT authentication.
 
-- `keen bitbucket-addon delete` — Deletes the application for the user.
-- `keen bitbucket-addon update` — Updates the application installation for the user.
+- `keen bitbucket-addon delete-app` — Deletes the application for the user.
+- `keen bitbucket-addon update-installed-app` — Updates the application installation for the user.
 
 **addon-categories** — Manage addon categories
 
@@ -279,12 +279,12 @@ Apps, and only supports JWT authentication.
 associated with a user account. Most resources in the users
 endpoint have been deprecated in favor of workspaces.
 
-- `keen bitbucket-user get` — Returns details about a specific one of the authenticated user's email addresses.
-- `keen bitbucket-user get-workspaces` — Returns the caller's effective role; as in, the highest level of privilege the caller has for the workspace.
-- `keen bitbucket-user get-workspaces-2` — Returns an object for each repository the caller has explicit access to in the specified workspace and their effective
-- `keen bitbucket-user list` — Returns the currently logged in user.
-- `keen bitbucket-user list-emails` — Returns all the authenticated user's email addresses. Both confirmed and unconfirmed.
-- `keen bitbucket-user list-workspaces` — Returns an object for each workspace accessible to the caller.
+- `keen bitbucket-user get-current` — Returns the currently logged in user.
+- `keen bitbucket-user get-email-address-for-current` — Returns details about a specific one of the authenticated user's email addresses.
+- `keen bitbucket-user get-permission-on-workspace` — Returns the caller's effective role; as in, the highest level of privilege the caller has for the workspace.
+- `keen bitbucket-user list-email-addresses-for-current` — Returns all the authenticated user's email addresses. Both confirmed and unconfirmed.
+- `keen bitbucket-user list-repository-permissions-in-workspace-for` — Returns an object for each repository the caller has explicit access to in the specified workspace and their effective
+- `keen bitbucket-user list-workspaces-for-current` — Returns an object for each workspace accessible to the caller.
 
 **bitbucket-users** — The users resource allows you to access public information
 associated with a user account. Most resources in the users
@@ -1070,11 +1070,11 @@ allows you to save versions of your code, which you can access
 when needed. The repo resource allows you to access public repos,
 or repos that belong to a specific workspace.
 
-- `keen bitbucket-repositories create` — Creates a new repository.
-- `keen bitbucket-repositories delete` — Deletes the repository. This is an irreversible operation. This does not affect its forks.
-- `keen bitbucket-repositories get` — Returns a paginated list of all repositories owned by the specified workspace.
-- `keen bitbucket-repositories get-workspace` — Returns the object describing this repository.
-- `keen bitbucket-repositories update` — Since this endpoint can be used to both update and to create a repository, the request body depends on the intent.
+- `keen bitbucket-repositories create-repository` — Creates a new repository.
+- `keen bitbucket-repositories delete-repository` — Deletes the repository. This is an irreversible operation. This does not affect its forks.
+- `keen bitbucket-repositories get-repository` — Returns the object describing this repository.
+- `keen bitbucket-repositories list-in-workspace` — Returns a paginated list of all repositories owned by the specified workspace.
+- `keen bitbucket-repositories update-repository` — Since this endpoint can be used to both update and to create a repository, the request body depends on the intent.
 
 **resolution** — Manage resolution
 
@@ -1264,14 +1264,14 @@ snippets by other users that the current user is either watching or has
  collaborated on (for instance by commenting on it).
 
 - `keen bitbucket-snippets create` — Creates a new snippet under the authenticated user's account. Snippets can contain multiple files.
-- `keen bitbucket-snippets create-workspace` — Identical to [`/snippets`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-post)
+- `keen bitbucket-snippets create-for-workspace` — Identical to [`/snippets`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-post)
 - `keen bitbucket-snippets delete` — Deletes a snippet and returns an empty response.
-- `keen bitbucket-snippets delete-workspace` — Deletes the snippet. Note that this only works for versioned URLs that point to the latest commit of the snippet.
-- `keen bitbucket-snippets get` — Returns a paginated list of snippets owned by `{workspace}`. To limit the set of returned snippets, apply the `?
-- `keen bitbucket-snippets get-workspace` — Retrieves a single snippet.
-- `keen bitbucket-snippets get-workspace-2` — Identical to `GET /snippets/encoded_id`
+- `keen bitbucket-snippets delete-previous-revision-of` — Deletes the snippet. Note that this only works for versioned URLs that point to the latest commit of the snippet.
+- `keen bitbucket-snippets get` — Retrieves a single snippet.
+- `keen bitbucket-snippets get-previous-revision-of` — Identical to `GET /snippets/encoded_id`
+- `keen bitbucket-snippets list-in-workspace` — Returns a paginated list of snippets owned by `{workspace}`. To limit the set of returned snippets, apply the `?
 - `keen bitbucket-snippets update` — Used to update a snippet. Use this to add and delete files and to change a snippet's title.
-- `keen bitbucket-snippets update-workspace` — Identical to `UPDATE /snippets/encoded_id`, except that this endpoint takes an explicit commit revision.
+- `keen bitbucket-snippets update-previous-revision-of` — Identical to `UPDATE /snippets/encoded_id`, except that this endpoint takes an explicit commit revision.
 
 **software** — Manage software
 

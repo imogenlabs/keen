@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Bitbucket command names say what they do: `bitbucket-user get-current` (was `list`), `bitbucket-repositories list-in-workspace` (was `get`), `pullrequests create-pull-request`, and 168 more. Atlassian gives most Bitbucket operations no id, so the refresh now names them from Atlassian's summaries
+
 ## [1.6.0] - 2026-10-30
 
 keen now covers Jira, Confluence, Service Management, Assets, Compass, Bitbucket, Marketplace and Atlassian Admin, plus the org chart and Teamwork Graph: 1,843 REST endpoints and 18 GraphQL queries, with 1,939 MCP tools, in one binary.

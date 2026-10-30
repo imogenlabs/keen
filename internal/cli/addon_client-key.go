@@ -14,6 +14,6 @@ func newAddonClientKeyCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newAddonClientKeyGetCmd(flags))
+	cmd.AddCommand(newAddonClientKeyGetOfConnectAddonCmd(flags))
 	return cmd
 }
