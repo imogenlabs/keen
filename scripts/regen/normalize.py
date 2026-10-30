@@ -46,6 +46,23 @@ STATUS_ENDPOINT = re.compile(r'(StatusEndpoint: )"[^"]*"')
 WAIT_PATH = re.compile(r'(WaitForJob\(ctx, c, )"[^"]*"')
 
 
+# doctor checks the API with a GET the generator picks from the specs; with
+# Bitbucket in the list it picked Bitbucket's /user, which the site does not have.
+DOCTOR_FILE = "internal/cli/doctor.go"
+DOCTOR_PATH = re.compile(r'((?:healthPath|verifyPath) := )"[^"]*"')
+
+
+def pin_doctor(root):
+    f = os.path.join(root, DOCTOR_FILE)
+    if not os.path.exists(f):
+        return 0
+    text = open(f, encoding="utf-8").read()
+    new, n = DOCTOR_PATH.subn(r'\g<1>"/rest/api/3/user"', text)
+    if new != text:
+        open(f, "w", encoding="utf-8").write(new)
+    return n
+
+
 def pin_job_status(root):
     pinned = 0
     for rel, (res, ep, path) in JOB_STATUS.items():
@@ -86,6 +103,11 @@ GROUP_RENAMES = {
     "global": "assets-global",
     "progress": "assets-progress",
     "usage": "assets-usage",
+    "repositories": "bitbucket-repositories",
+    "snippets": "bitbucket-snippets",
+    "teams": "bitbucket-teams",
+    "addon": "bitbucket-addon",
+    "hook-events": "bitbucket-hook-events",
 }
 
 
@@ -163,4 +185,4 @@ if __name__ == "__main__":
         sys.exit(__doc__)
     print(f"normalized {normalize(sys.argv[1])} files, pinned {pin_job_status(sys.argv[1])} job status endpoints, "
           f"fixed example placeholders in {len(fix_placeholders(sys.argv[1]))} files, "
-          f"renamed command groups in {rename_groups(sys.argv[1])} files")
+          f"renamed command groups in {rename_groups(sys.argv[1])} files, pinned {pin_doctor(sys.argv[1])} doctor paths")
