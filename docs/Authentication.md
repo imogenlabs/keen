@@ -51,6 +51,18 @@ Expected output:
 
 The same Jira API token works for Marketplace operations. The CLI automatically routes requests to `marketplace.atlassian.com` for addon/vendor endpoints.
 
-## Admin API
+## Admin APIs
 
-Admin endpoints use a different base URL (`api.atlassian.com`). The same token works if your account has org admin permissions.
+Atlassian's admin APIs on `api.atlassian.com` do not take your email and API token. keen sends each one the key it needs and uses your normal login for everything else:
+
+| Commands | Address | Key |
+|----------|---------|-----|
+| Organizations, policies, API tokens, service accounts, data loss prevention, user management (`orgs`, `admin-control-admin`, `api-tokens`, `service-accounts`, `manage`, ...) | `/admin/...`, `/users/...` | Organization admin API key: admin.atlassian.com > Settings > API keys |
+| User provisioning (`scim`) | `/scim/...` | The API key of your identity-provider directory: admin.atlassian.com > Security > Identity providers |
+
+```bash
+export KEEN_ADMIN_API_KEY="your-org-admin-api-key"
+export KEEN_SCIM_API_KEY="your-directory-api-key"   # only for scim commands
+```
+
+Or add `admin_api_key` and `scim_api_key` to `~/.config/keen/auth.json`. Without the key, an admin command stops before calling Atlassian and says which key to set. `keen doctor` shows whether each key is set.

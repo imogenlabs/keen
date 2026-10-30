@@ -24,11 +24,26 @@ SPECS=(
   "jira-service-desk=https://developer.atlassian.com/cloud/jira/service-desk/swagger.v3.json"
   "admin-orgs=https://developer.atlassian.com/cloud/admin/organization/swagger.v3.json"
   "confluence-v2=https://developer.atlassian.com/cloud/confluence/openapi-v2.v3.json"
+  "admin-users=https://developer.atlassian.com/cloud/admin/user-management/swagger.v3.json"
+  "admin-provisioning=https://developer.atlassian.com/cloud/admin/user-provisioning/swagger.v3.json"
+  "admin-api-access=https://developer.atlassian.com/cloud/admin/api-access/swagger.v3.json"
+  "admin-control=https://developer.atlassian.com/cloud/admin/control/swagger.v3.json"
+  "admin-dlp=https://developer.atlassian.com/cloud/admin/dlp/swagger.v3.json"
 )
+
+# Specs whose operation ids specfix.py fixes (made from summaries where missing,
+# a shared "Xxx_" prefix dropped), so their commands get readable names. Only list
+# a spec when it is first added: on a shipped spec this renames its commands.
+FIX_IDS=(admin-users admin-control)
 
 # Files keen writes by hand: the merge always keeps keen's copy.
 KEEN_OWNED=(README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md
   NOTICE LICENSE .printing-press-patches.json ".github/**" "docs/**" "scripts/**" .gitignore go.sum)
+
+# Generated files keen has hand fixes in. When the generator changes the same
+# lines, regen.sh keeps keen's side of each conflicting hunk (resolve.py ours);
+# the rest of the generator's changes to the file still land.
+KEEN_HUNKS=(internal/cli/search.go internal/store/upsert_batch_test.go)
 
 # Generator byproducts that are not part of keen.
 GENERATOR_ONLY=(manifest.json spec.json .printing-press-patches.json)

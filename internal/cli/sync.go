@@ -720,7 +720,7 @@ type paginationDefaults struct {
 func determinePaginationDefaults() paginationDefaults {
 	return paginationDefaults{
 		cursorParam: "cursor",
-		cursorType:  "offset",
+		cursorType:  "cursor",
 		limitParam:  "limit",
 		limit:       100,
 	}
@@ -736,9 +736,13 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "addons_versions":
 		return true
+	case "admin_control_admin":
+		return true
 	case "agile":
 		return true
 	case "agile-1-0-epic-none-issue":
+		return true
+	case "api_keys":
 		return true
 	case "applications":
 		return true
@@ -895,6 +899,10 @@ func resourceSupportsPagination(resource string) bool {
 	case "option":
 		return true
 	case "orgs":
+		return true
+	case "orgs_api_tokens":
+		return true
+	case "orgs_oauth_clients":
 		return true
 	case "pages":
 		return true
@@ -1619,6 +1627,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertAddonsVersions(data)
 	case "watch":
 		return db.UpsertWatch(data)
+	case "admin-control-admin":
+		return db.UpsertAdminControlAdmin(data)
 	case "admin-key":
 		return db.UpsertAdminKey(data)
 	case "agents":
@@ -1627,6 +1637,10 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertAgile(data)
 	case "announcement-banner":
 		return db.UpsertAnnouncementBanner(data)
+	case "api-keys":
+		return db.UpsertApiKeys(data)
+	case "api-tokens":
+		return db.UpsertApiTokens(data)
 	case "app":
 		return db.UpsertApp(data)
 	case "application-properties":
@@ -1747,6 +1761,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertGadget(data)
 	case "items":
 		return db.UpsertItems(data)
+	case "data-loss-prevention-classification-levels":
+		return db.UpsertDataLossPreventionClassificationLevels(data)
 	case "data-policies":
 		return db.UpsertDataPolicies(data)
 	case "data-policy":
@@ -1977,6 +1993,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertLicense(data)
 	case "license-types":
 		return db.UpsertLicenseTypes(data)
+	case "manage":
+		return db.UpsertManage(data)
 	case "mypreferences":
 		return db.UpsertMypreferences(data)
 	case "myself":
@@ -1985,6 +2003,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertNotificationscheme(data)
 	case "notification":
 		return db.UpsertNotification(data)
+	case "oauth-clients":
+		return db.UpsertOauthClients(data)
 	case "operations":
 		return db.UpsertOperations(data)
 	case "orgs":
@@ -2115,6 +2135,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertRole(data)
 	case "actors":
 		return db.UpsertActors(data)
+	case "scim":
+		return db.UpsertScim(data)
 	case "screens":
 		return db.UpsertScreens(data)
 	case "available_fields":
@@ -2129,6 +2151,12 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertSecuritylevel(data)
 	case "server-info":
 		return db.UpsertServerInfo(data)
+	case "service-accounts":
+		return db.UpsertServiceAccounts(data)
+	case "service_accounts_api_tokens":
+		return db.UpsertServiceAccountsApiTokens(data)
+	case "service_accounts_oauth_clients":
+		return db.UpsertServiceAccountsOauthClients(data)
 	case "servicedeskapi":
 		return db.UpsertServicedeskapi(data)
 	case "settings":
@@ -2659,8 +2687,17 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "addons_versions", ParentTable: "addons", ParentIDParam: "addonKey", PathTemplate: "/addons/{addonKey}/versions", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "addonKey", Field: "key"},
 		}},
+		{Name: "admin_control_admin", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/admin/control/v1/orgs/{orgId}/policies", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "orgId", Field: "id"},
+		}},
+		{Name: "admin_control_admin", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/admin/control/v2/orgs/{orgId}/policies", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "orgId", Field: "id"},
+		}},
 		{Name: "agile", ParentTable: "filter", ParentIDParam: "filterId", PathTemplate: "/rest/agile/1.0/board/filter/{filterId}", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "filterId", Field: "id"},
+		}},
+		{Name: "api_keys", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/orgs/{orgId}/api-keys", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "orgId", Field: "id"},
 		}},
 		{Name: "applications_versions", ParentTable: "applications", ParentIDParam: "applicationKey", PathTemplate: "/applications/{applicationKey}/versions", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "applicationKey", Field: "key"},
@@ -2716,19 +2753,19 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "blogposts_versions", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/versions", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "id", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/issuetypemapping", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "fieldId", Field: "id"},
-		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/projectmapping", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "fieldId", Field: "id"},
-		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValues", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValue", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValues", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "fieldId", Field: "id"},
+		}},
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/issuetypemapping", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "fieldId", Field: "id"},
+		}},
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/projectmapping", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "contexts", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/contexts", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2793,14 +2830,20 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "members", ParentTable: "issuesecurityschemes", ParentIDParam: "issueSecuritySchemeId", PathTemplate: "/rest/api/3/issuesecurityschemes/{issueSecuritySchemeId}/members", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "issueSecuritySchemeId", Field: "id"},
 		}},
-		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/edit", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "fieldKey", Field: "key"},
-		}},
 		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/search", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
 		}},
 		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
+		}},
+		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/edit", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "fieldKey", Field: "key"},
+		}},
+		{Name: "orgs_api_tokens", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/orgs/{orgId}/api-tokens", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "orgId", Field: "id"},
+		}},
+		{Name: "orgs_oauth_clients", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/orgs/{orgId}/oauth-clients", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "orgId", Field: "id"},
 		}},
 		{Name: "pages_ancestors", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/ancestors", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "id", Field: "id"},
@@ -3283,6 +3326,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"addons-search-brief":     "name",
 	"addons_versions":         "count",
 	"agile":                   "id",
+	"api_keys":                "id",
 	"application-properties":  "id",
 	"application-properties-advanced-settings": "id",
 	"applicationrole":                          "key",
@@ -3307,7 +3351,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"config":                                   "id",
 	"configuration":                            "name",
 	"confluence-cloud-classification-levels":   "id",
-	"context":                                  "id",
+	"context":                                  "contextId",
 	"context_option":                           "id",
 	"contexts":                                 "id",
 	"dashboard":                                "id",
@@ -3356,6 +3400,8 @@ var resourceIDFieldOverrides = map[string]string{
 	"notificationscheme":                       "id",
 	"option":                                   "id",
 	"orgs":                                     "id",
+	"orgs_api_tokens":                          "id",
+	"orgs_oauth_clients":                       "clientId",
 	"pages":                                    "id",
 	"pages_ancestors":                          "id",
 	"pages_attachments":                        "id",

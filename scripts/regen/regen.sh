@@ -55,7 +55,8 @@ mv "$WORK/specs" "$WORK/raw-specs"; mkdir -p "$WORK/specs"
 args=()
 for entry in "${SPECS[@]}"; do
   name=${entry%%=*}
-  python3 "$HERE/specfix.py" "$WORK/raw-specs/$name.json" "$WORK/specs/$name.json"
+  idflag=(); [[ " ${FIX_IDS[*]} " == *" $name "* ]] && idflag=(--ids)
+  python3 "$HERE/specfix.py" ${idflag[@]+"${idflag[@]}"} "$WORK/raw-specs/$name.json" "$WORK/specs/$name.json"
   args+=(--spec "$WORK/specs/$name.json")
 done
 (cd "$WORK" && "$GENERATOR" generate "${args[@]}" "${GENERATOR_FLAGS[@]}" --output "$WORK/theirs" > "$WORK/generate.log" 2>&1) \
@@ -110,6 +111,13 @@ if [[ $merge_status -ne 0 ]]; then
         git --git-dir="$M/.git" --work-tree="$WORK/ours" add -f -- "$f"
         echo "regen: kept keen's $f"
         break
+      fi
+    done
+    for k in "${KEEN_HUNKS[@]}"; do
+      if [[ "$f" == "$k" ]]; then
+        python3 "$HERE/resolve.py" ours "$WORK/ours/$f" >/dev/null
+        git --git-dir="$M/.git" --work-tree="$WORK/ours" add -f -- "$f"
+        echo "regen: kept keen's hunks in $f"
       fi
     done
   done < "$WORK/conflicts.txt"

@@ -7,14 +7,14 @@ The CLI is designed for AI agents first. The `--agent` flag sets `--json --compa
 Reference the CLI in CLAUDE.md:
 
 ```markdown
-**Keen:** `keen` — 1,382-endpoint CLI for all Atlassian APIs.
+**Keen:** `keen` — 1,468-endpoint CLI for all Atlassian APIs.
 Use this instead of raw curl for ALL Atlassian API calls.
 Auth: `~/.config/keen/auth.json`, or `export JIRA_CLOUD_PLATFORM_USERNAME=... JIRA_CLOUD_PLATFORM_PASSWORD=...`
 ```
 
 ## MCP Server
 
-The `keen-mcp` binary exposes every keen command (1,438 tools) over MCP. Add to your MCP config:
+The `keen-mcp` binary exposes every keen command (1,524 tools) over MCP. Add to your MCP config:
 
 ```json
 {

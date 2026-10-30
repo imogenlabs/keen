@@ -88,7 +88,7 @@ func New(cfg *config.Config, timeout time.Duration, rateLimit float64) *Client {
 		// receive the auth credential, even though we are inside
 		// CheckRedirect where Go's automatic stripping has already run.
 		if req.URL.Host == via[0].URL.Host {
-			if h, err := c.authHeader(req.Context()); err == nil && h != "" {
+			if h, err := c.authHeaderFor(req.Context(), req.URL.String()); err == nil && h != "" {
 				req.Header.Set("Authorization", h)
 			}
 		} else {
@@ -558,7 +558,7 @@ func (c *Client) doInternal(ctx context.Context, method, path string, params map
 	// exactly what would be sent. Uses only cached credentials; a token that
 	// requires a network refresh will be re-fetched on the live request path,
 	// not during dry-run.
-	authHeader, err := c.authHeader(ctx)
+	authHeader, err := c.authHeaderFor(ctx, targetURL)
 	if err != nil {
 		return nil, 0, err
 	}

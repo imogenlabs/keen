@@ -28,6 +28,8 @@ type Config struct {
 	Path                      string            `toml:"-" json:"-"`
 	JiraCloudPlatformUsername string            `toml:"cloud_platform_username" json:"username,omitempty"`
 	JiraCloudPlatformPassword string            `toml:"cloud_platform_password" json:"password,omitempty"`
+	AdminAPIKey               string            `toml:"admin_api_key" json:"admin_api_key,omitempty"`
+	ScimAPIKey                string            `toml:"scim_api_key" json:"scim_api_key,omitempty"`
 }
 
 func Load(configPath string) (*Config, error) {
@@ -80,6 +82,13 @@ func Load(configPath string) (*Config, error) {
 	if v := os.Getenv("JIRA_CLOUD_PLATFORM_PASSWORD"); v != "" {
 		cfg.JiraCloudPlatformPassword = v
 		cfg.AuthSource = "env:JIRA_CLOUD_PLATFORM_PASSWORD"
+	}
+
+	if v := os.Getenv("KEEN_ADMIN_API_KEY"); v != "" {
+		cfg.AdminAPIKey = v
+	}
+	if v := os.Getenv("KEEN_SCIM_API_KEY"); v != "" {
+		cfg.ScimAPIKey = v
 	}
 
 	// Label config-file-derived credentials so doctor can distinguish

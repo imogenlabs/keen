@@ -8,11 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Atlassian's admin APIs: user management, user provisioning (SCIM), API tokens and service accounts, admin control policies and data loss prevention. 86 commands and MCP tools; keen now covers 1,468 endpoints with 1,524 MCP tools
+- `keen doctor` shows whether the admin and SCIM API keys are set
 - The Confluence v2 API: 252 commands and MCP tools grouped by resource (`pages`, `blogposts`, `spaces`, `folders`, `databases`, `whiteboards`, comments, attachments, space roles and more). keen now covers 1,382 endpoints with 1,438 MCP tools. The v1 `wiki` commands are unchanged
 - `scripts/regen/specdiff.py` lists what Atlassian added, removed or changed in each API spec since keen was last refreshed
 - A weekly workflow runs that check, opens one issue when Atlassian's specs change and closes it once keen is current
 
+### Fixed
+- Admin commands work: keen sends the organization admin API key (`KEEN_ADMIN_API_KEY` or `admin_api_key`) to Atlassian's admin APIs and the directory key (`KEEN_SCIM_API_KEY` or `scim_api_key`) to SCIM. Before, every admin command sent your site login and failed with 401. Without the key, an admin command now stops before calling Atlassian and says which key to set
+- Error hints after a 400, 401 or 403 name the credential that API needs. Before, they told you to put an API key in the username variable
+
 ### Changed
+- New APIs whose specs lack operation ids, or prefix them all, get readable command names (`manage deactivate-user`, not `manage create-users-2`)
+- Conflicts in generated files keen has hand fixes in (`search.go`, a store test) resolve to keen's side during a refresh, so adding an API no longer stops on them
 - The Atlassian specs keen is built from are listed in one place (`SPECS` in `scripts/regen/config.sh`); adding an API is one line
 - The refresh fills Atlassian's templated server addresses (`scripts/regen/specfix.py`) and points site URLs at your configured site
 - `scripts/regen/resolve.py` is back: the README pointed to it after it was removed
