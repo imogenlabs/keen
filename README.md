@@ -320,7 +320,7 @@ How it works: the generator's previous output (renamed to keen) is kept on GitHu
 
 If the merge stops on a conflict, the script lists the files. Resolve them in the work folder it prints (`scripts/regen/resolve.py ours|theirs <file>` takes one side for a whole file), then run `scripts/regen/finish.sh`. When the branch is merged to `main`, move the base forward as `regen.sh` says.
 
-To see what Atlassian has changed since the last refresh, without changing anything, run `scripts/regen/specdiff.py`. It lists the operations added, removed or changed in each spec. A weekly GitHub workflow (`.github/workflows/spec-check.yml`) runs the same check and opens one issue when anything differs, so a change is never missed.
+To see what Atlassian has changed since the last refresh, without changing anything, run `scripts/regen/specdiff.py`. It lists the operations added, removed or changed in each spec. A weekly GitHub workflow (`.github/workflows/spec-check.yml`) runs the same check, opens one issue when anything differs and closes it once keen is current again, so a change is never missed.
 
 To add an Atlassian API, add one `name=URL` line to the end of `SPECS` and run the two commands above. Nothing else needs editing.
 

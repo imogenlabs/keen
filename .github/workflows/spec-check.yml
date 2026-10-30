@@ -2,7 +2,8 @@ name: Atlassian spec check
 
 # Weekly: compare Atlassian's current API specs with the copies keen was built
 # from (specs/). When any differ, open one issue listing what changed, or update
-# the open one. Applying the change is one local run of scripts/regen/regen.sh.
+# the open one; when they match again, close it. Applying the change is one local
+# run of scripts/regen/regen.sh.
 
 on:
   schedule:
@@ -30,12 +31,17 @@ jobs:
           [ "$status" -le 1 ] || exit "$status"
           echo "changed=$([ "$status" -eq 1 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
-      - name: Open or update the issue
-        if: steps.diff.outputs.changed == 'true'
+      - name: Open, update or close the issue
         env:
           GH_TOKEN: ${{ github.token }}
           TITLE: Atlassian changed the API specs keen is built from
+          CHANGED: ${{ steps.diff.outputs.changed }}
         run: |
+          number=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number')
+          if [ "$CHANGED" != true ]; then
+            [ -z "$number" ] || gh issue close "$number" --comment "keen is built from Atlassian's current specs again."
+            exit 0
+          fi
           {
             echo "Atlassian's published specs no longer match the copies in \`specs/\`."
             echo
@@ -49,7 +55,6 @@ jobs:
             echo
             echo "See README, Regeneration. This issue updates itself each week until the specs match."
           } > body.md
-          number=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number')
           if [ -n "$number" ]; then
             gh issue edit "$number" --body-file body.md
           else
