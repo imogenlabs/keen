@@ -24,6 +24,11 @@ SPECS=(
   "jira-service-desk=https://developer.atlassian.com/cloud/jira/service-desk/swagger.v3.json"
   "admin-orgs=https://developer.atlassian.com/cloud/admin/organization/swagger.v3.json"
   "confluence-v2=https://developer.atlassian.com/cloud/confluence/openapi-v2.v3.json"
+  "admin-users=https://developer.atlassian.com/cloud/admin/user-management/swagger.v3.json"
+  "admin-provisioning=https://developer.atlassian.com/cloud/admin/user-provisioning/swagger.v3.json"
+  "admin-api-access=https://developer.atlassian.com/cloud/admin/api-access/swagger.v3.json"
+  "admin-control=https://developer.atlassian.com/cloud/admin/control/swagger.v3.json"
+  "admin-dlp=https://developer.atlassian.com/cloud/admin/dlp/swagger.v3.json"
 )
 
 # Files keen writes by hand: the merge always keeps keen's copy.
