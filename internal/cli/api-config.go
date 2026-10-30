@@ -9,7 +9,7 @@ import (
 
 func newApiConfigCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "api-config",
+		Use:    "assets-config",
 		Short:  "Get, create, update, and delete API config",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),

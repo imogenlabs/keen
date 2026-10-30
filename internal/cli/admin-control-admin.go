@@ -9,8 +9,8 @@ import (
 
 func newAdminControlAdminCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "admin-control-admin",
-		Short:  "Manage admin control admin",
+		Use:    "admin-control",
+		Short:  "Manage admin control",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),
 	}

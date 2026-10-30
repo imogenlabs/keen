@@ -29,7 +29,7 @@ func newObjectNavigatorListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "navigator-list",
 		Short:       "Retrieve a list of objects based on an AQL. Deprecated from <b>30 September 2024</b>.",
-		Example:     "  keen object navigator-list --object-schema-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-object navigator-list --object-schema-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "object.navigator-list", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/navlist/aql"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

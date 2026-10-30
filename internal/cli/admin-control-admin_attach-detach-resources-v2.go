@@ -19,7 +19,7 @@ func newAdminControlAdminAttachDetachResourcesV2Cmd(flags *rootFlags) *cobra.Com
 	cmd := &cobra.Command{
 		Use:         "attach-detach-resources-v2 <orgId> <policyId>",
 		Short:       "Add or remove resources to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write",
-		Example:     "  keen admin-control-admin attach-detach-resources-v2 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control attach-detach-resources-v2 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.attach-detach-resources-v2", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

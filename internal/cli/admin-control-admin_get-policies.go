@@ -20,7 +20,7 @@ func newAdminControlAdminGetPoliciesCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-policies <orgId>",
 		Aliases:     []string{"get"},
 		Short:       "Returns comprehensive details on organizational policies, including both rules and resources.",
-		Example:     "  keen admin-control-admin get-policies 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control get-policies 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.get-policies", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

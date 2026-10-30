@@ -14,10 +14,10 @@ import (
 func newApiImportPromotedCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:         "api-import <id>",
+		Use:         "assets-import <id>",
 		Short:       "Start configured imports. To see an ongoing import see the Progress resource",
 		Long:        "Start configured imports. To see an ongoing import see the Progress resource",
-		Example:     "  keen api-import 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "api-import.start", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/import/start/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

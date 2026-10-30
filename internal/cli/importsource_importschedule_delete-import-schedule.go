@@ -17,7 +17,7 @@ func newImportsourceImportscheduleDeleteImportScheduleCmd(flags *rootFlags) *cob
 		Use:         "delete-import-schedule <importSourceId> <importScheduleId>",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a scheduled import configuration. The import source will remain, but will no longer execute on a schedule.",
-		Example:     "  keen importsource importschedule delete-import-schedule 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source importschedule delete-import-schedule 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "importschedule.delete-import-schedule", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/importschedule/{importScheduleId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -9,8 +9,8 @@ import (
 
 func newManageCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "manage",
-		Short:  "Get, create, update, and delete manage",
+		Use:    "user-management",
+		Short:  "Get, create, update, and delete user management",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),
 	}

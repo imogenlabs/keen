@@ -20,7 +20,7 @@ func newAdminControlAdminAddUsersToPolicyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "add-users-to-policy <orgId> <policyId>",
 		Aliases:     []string{"create"},
 		Short:       "Add users to an authentication policy to address the security of different user sets.",
-		Example:     "  keen admin-control-admin add-users-to-policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control add-users-to-policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.add-users-to-policy", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/auth-policy/{policyId}/add-users"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

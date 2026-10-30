@@ -18,7 +18,7 @@ func newImportsourceExecutionsSubmitDataForIngestionCmd(flags *rootFlags) *cobra
 	cmd := &cobra.Command{
 		Use:         "submit-data-for-ingestion <importExecutionId> <importSourceId>",
 		Short:       "Providing data to be ingested",
-		Example:     "  keen importsource executions submit-data-for-ingestion 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source executions submit-data-for-ingestion 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "executions.submit-data-for-ingestion", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions/{importExecutionId}/data"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -29,7 +29,7 @@ func newObjectNavigatorListDeprecatedCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "navigator-list-deprecated",
 		Short:       "Deprecated. Use `/object/navlist/aql` instead.",
-		Example:     "  keen object navigator-list-deprecated --object-schema-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-object navigator-list-deprecated --object-schema-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "object.navigator-list-deprecated", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/navlist/iql"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

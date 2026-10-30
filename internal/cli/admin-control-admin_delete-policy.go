@@ -17,7 +17,7 @@ func newAdminControlAdminDeletePolicyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-policy <orgId> <policyId>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete a policy with a policyId #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:policies",
-		Example:     "  keen admin-control-admin delete-policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control delete-policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.delete-policy", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

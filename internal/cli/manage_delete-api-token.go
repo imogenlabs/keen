@@ -17,7 +17,7 @@ func newManageDeleteApiTokenCmd(flags *rootFlags) *cobra.Command {
 		Use:         "delete-api-token <account_id> <tokenId>",
 		Aliases:     []string{"delete"},
 		Short:       "Deletes a specifid API token by ID.",
-		Example:     "  keen manage delete-api-token 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-management delete-api-token 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "manage.delete-api-token", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/users/{account_id}/manage/api-tokens/{tokenId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

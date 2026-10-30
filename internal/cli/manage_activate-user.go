@@ -19,7 +19,7 @@ func newManageActivateUserCmd(flags *rootFlags) *cobra.Command {
 		Use:         "activate-user <account_id>",
 		Aliases:     []string{"create"},
 		Short:       "Activates the specified user account. The permission to make use of this resource is exposed by the `lifecycle.",
-		Example:     "  keen manage activate-user 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-management activate-user 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "manage.activate-user", "pp:method": "POST", "pp:path": "https://api.atlassian.com/users/{account_id}/manage/lifecycle/enable"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

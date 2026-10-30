@@ -17,7 +17,7 @@ func newImportsourceMappingGetTheProgressOfAnAsynchronousSchemaAndOperationCmd(f
 		Use:         "get-the-progress-of-an-asynchronous-schema-and-operation <importSourceId> <resourceId>",
 		Aliases:     []string{"get"},
 		Short:       "Get the progress of an asynchronous schema and mapping operation",
-		Example:     "  keen importsource mapping get-the-progress-of-an-asynchronous-schema-and-operation 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source mapping get-the-progress-of-an-asynchronous-schema-and-operation 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "mapping.get-the-progress-of-an-asynchronous-schema-and-operation", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/mapping/progress/{resourceId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

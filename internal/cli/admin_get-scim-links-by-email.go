@@ -20,7 +20,7 @@ func newAdminGetScimLinksByEmailCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-scim-links-by-email <orgId>",
 		Aliases:     []string{"create"},
 		Short:       "Get SCIM Links for an email address in an organization.",
-		Example:     "  keen admin get-scim-links-by-email 550e8400-e29b-41d4-a716-446655440000 --email user@example.com",
+		Example:     "  keen user-provisioning get-scim-links-by-email 550e8400-e29b-41d4-a716-446655440000 --email user@example.com",
 		Annotations: map[string]string{"pp:endpoint": "admin.get-scim-links-by-email", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/user-provisioning/v1/org/{orgId}/get-scim-links-for-email"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

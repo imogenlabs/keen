@@ -62,6 +62,73 @@ def pin_job_status(root):
     return pinned
 
 
+# Clear names for top-level command groups the generator names badly (a name
+# clash, or a generic Assets resource). Only the names people type and read
+# change: the command, help examples, `keen which`, MCP tool names, SKILL.md and
+# the tool manifest. Store tables, sync resource names (keen sync --resources),
+# files and Go identifiers keep the generator's name. A group is only ever renamed before it ships; after that, add the old
+# name to internal/compat instead of changing an entry here.
+GROUP_RENAMES = {
+    "admin-control-admin": "admin-control",
+    "manage": "user-management",
+    "admin": "user-provisioning",
+    "aql": "assets-aql",
+    "iql": "assets-iql",
+    "icon": "assets-icon",
+    "object": "assets-object",
+    "objectschema": "assets-objectschema",
+    "objecttype": "assets-objecttype",
+    "objecttypeattribute": "assets-objecttypeattribute",
+    "objectconnectedtickets": "assets-object-tickets",
+    "importsource": "assets-import-source",
+    "api-config": "assets-config",
+    "api-import": "assets-import",
+    "global": "assets-global",
+    "progress": "assets-progress",
+    "usage": "assets-usage",
+}
+
+
+def group_patterns(old, new):
+    o = re.escape(old)
+    return [
+        (re.compile(r'(\{Command: ")' + o + r'([ "])'), r"\g<1>" + new + r"\2"),
+        (re.compile(r'(Group: ")' + o + r'(")'), r"\g<1>" + new + r"\2"),
+        (re.compile(r'(\bkeen )' + o + r'([ "`\n])'), r"\g<1>" + new + r"\2"),
+        (re.compile(r'(NewTool\(")' + o + r'([_"])'), r"\g<1>" + new + r"\2"),
+        (re.compile(r'("name": +")' + o + r'(_)'), r"\g<1>" + new + r"\2"),
+        (re.compile(r'(\*\*)' + o + r'(\*\* — Manage )[^\n]*'), r"\g<1>" + new + r"\2" + new.replace("-", " ")),
+    ]
+
+
+def rename_groups(root):
+    """Apply GROUP_RENAMES; returns the number of files changed."""
+    subs = [p for old, new in GROUP_RENAMES.items() for p in group_patterns(old, new)]
+    changed = 0
+    targets = [os.path.join(root, f) for f in ("SKILL.md", "tools-manifest.json")]
+    for sub in ("internal/cli", "internal/mcp"):
+        for dirpath, _, files in os.walk(os.path.join(root, sub)):
+            targets += [os.path.join(dirpath, f) for f in files if f.endswith(".go")]
+    for path in targets:
+        if not os.path.exists(path):
+            continue
+        text = open(path, encoding="utf-8").read()
+        new = text
+        for pat, rep in subs:
+            new = pat.sub(rep, new)
+        # The group command itself: Use and Short in its own file.
+        name = os.path.basename(path)
+        for old, repl in GROUP_RENAMES.items():
+            if name in (old + ".go", "promoted_" + old + ".go"):
+                new = re.sub(r'(Use:\s+")' + re.escape(old) + '([ "])', r"\g<1>" + repl + r"\2", new)
+                spaced = "(?:" + re.escape(old) + "|" + re.escape(old.replace("-", " ")) + ")"
+                new = re.sub(r'(Short:\s+"[^"]*?)\b' + spaced + '"', r"\g<1>" + repl.replace("-", " ") + '"', new)
+        if new != text:
+            open(path, "w", encoding="utf-8").write(new)
+            changed += 1
+    return changed
+
+
 TEXT_EXT = {".go", ".mod", ".md", ".json", ".yaml", ".yml", ".toml", ".txt", ""}
 
 
@@ -95,4 +162,5 @@ if __name__ == "__main__":
     if len(sys.argv) != 2 or not os.path.isdir(sys.argv[1]):
         sys.exit(__doc__)
     print(f"normalized {normalize(sys.argv[1])} files, pinned {pin_job_status(sys.argv[1])} job status endpoints, "
-          f"fixed example placeholders in {len(fix_placeholders(sys.argv[1]))} files")
+          f"fixed example placeholders in {len(fix_placeholders(sys.argv[1]))} files, "
+          f"renamed command groups in {rename_groups(sys.argv[1])} files")

@@ -14,10 +14,10 @@ import (
 func newImportsourcePromotedCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:         "importsource <id>",
+		Use:         "assets-import-source <id>",
 		Short:       "Retrieves a specific import source configuration by its ID.",
 		Long:        "Retrieves a specific import source configuration by its ID.",
-		Example:     "  keen importsource 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "importsource.get-import-source", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

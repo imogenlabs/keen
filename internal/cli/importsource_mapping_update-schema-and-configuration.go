@@ -21,7 +21,7 @@ func newImportsourceMappingUpdateSchemaAndConfigurationCmd(flags *rootFlags) *co
 	cmd := &cobra.Command{
 		Use:         "update-schema-and-configuration <importSourceId>",
 		Short:       "Update object schema and mapping configuration for the external import",
-		Example:     "  keen importsource mapping update-schema-and-configuration 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source mapping update-schema-and-configuration 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "mapping.update-schema-and-configuration", "pp:method": "PATCH", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/mapping"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

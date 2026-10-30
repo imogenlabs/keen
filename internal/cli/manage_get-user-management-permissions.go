@@ -17,7 +17,7 @@ func newManageGetUserManagementPermissionsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-user-management-permissions <account_id>",
 		Short:       "Returns the set of permissions you have for managing the specified Atlassian account",
-		Example:     "  keen manage get-user-management-permissions 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-management get-user-management-permissions 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "manage.get-user-management-permissions", "pp:method": "GET", "pp:path": "https://api.atlassian.com/users/{account_id}/manage", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -21,7 +21,7 @@ func newAdminControlAdminPublishDraftPoliciesCmd(flags *rootFlags) *cobra.Comman
 	cmd := &cobra.Command{
 		Use:         "publish-draft-policies <orgId>",
 		Short:       "Publishes policies by a bulk request for a specific ruleName.",
-		Example:     "  keen admin-control-admin publish-draft-policies 550e8400-e29b-41d4-a716-446655440000 --rule-name example-resource",
+		Example:     "  keen admin-control publish-draft-policies 550e8400-e29b-41d4-a716-446655440000 --rule-name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.publish-draft-policies", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/publishDraftPolicies"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

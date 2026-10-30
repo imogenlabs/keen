@@ -23,7 +23,7 @@ func newObjectschemaSchemaCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "schema-create",
 		Aliases:     []string{"create"},
 		Short:       "Create a new object schema",
-		Example:     "  keen objectschema schema-create --name example-resource",
+		Example:     "  keen assets-objectschema schema-create --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "objectschema.schema-create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/create"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

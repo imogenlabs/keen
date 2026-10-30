@@ -18,7 +18,7 @@ func newImportsourceExecutionsStartDataIngestionCmd(flags *rootFlags) *cobra.Com
 	cmd := &cobra.Command{
 		Use:         "start-data-ingestion <importSourceId>",
 		Short:       "Move to the data ingestion steps of external imports",
-		Example:     "  keen importsource executions start-data-ingestion 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source executions start-data-ingestion 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "executions.start-data-ingestion", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

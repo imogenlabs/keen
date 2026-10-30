@@ -17,7 +17,7 @@ func newObjectFindCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find <id>",
 		Aliases:     []string{"get"},
 		Short:       "Load one object",
-		Example:     "  keen object find 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-object find 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "object.find", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/{id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

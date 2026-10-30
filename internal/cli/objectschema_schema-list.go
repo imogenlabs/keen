@@ -22,7 +22,7 @@ func newObjectschemaSchemaListCmd(flags *rootFlags) *cobra.Command {
 		Use:         "schema-list",
 		Aliases:     []string{"list"},
 		Short:       "Resource to find object schemas in Assets",
-		Example:     "  keen objectschema schema-list",
+		Example:     "  keen assets-objectschema schema-list",
 		Annotations: map[string]string{"pp:endpoint": "objectschema.schema-list", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/list", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

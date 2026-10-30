@@ -17,7 +17,7 @@ func newManageGetApiTokensCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-api-tokens <account_id>",
 		Aliases:     []string{"get"},
 		Short:       "Gets the API tokens owned by the specified user.",
-		Example:     "  keen manage get-api-tokens 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-management get-api-tokens 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "manage.get-api-tokens", "pp:method": "GET", "pp:path": "https://api.atlassian.com/users/{account_id}/manage/api-tokens", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

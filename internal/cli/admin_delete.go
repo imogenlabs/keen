@@ -16,7 +16,7 @@ func newAdminDeleteCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete <orgId> <AAID>",
 		Short:       "Delete a user in our SCIM DB with a Atlassian Account ID (AAID).",
-		Example:     "  keen admin delete 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-provisioning delete 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin.delete", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/admin/user-provisioning/v1/org/{orgId}/user/{AAID}/onlyDeleteUserInDB"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

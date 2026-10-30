@@ -47,37 +47,37 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 - `keen addons list-search` — Get a list of apps with names matching a search term.
 - `keen addons update` — Update a specific app. The request body must be a valid JSON Patch document.
 
-**admin** — Manage admin
+**user-provisioning** — Manage user provisioning
 
-- `keen admin delete` — Delete a user in our SCIM DB with a Atlassian Account ID (AAID).
-- `keen admin get-scim-links` — Get SCIM Links for a Atlassian Account ID (AAID).
-- `keen admin get-scim-links-by-email` — Get SCIM Links for an email address in an organization.
-- `keen admin unlink-scim-user` — Unlinks a SCIM user from their Atlassian account without deleting the user.
+- `keen user-provisioning delete` — Delete a user in our SCIM DB with a Atlassian Account ID (AAID).
+- `keen user-provisioning get-scim-links` — Get SCIM Links for a Atlassian Account ID (AAID).
+- `keen user-provisioning get-scim-links-by-email` — Get SCIM Links for an email address in an organization.
+- `keen user-provisioning unlink-scim-user` — Unlinks a SCIM user from their Atlassian account without deleting the user.
 
-**admin-control-admin** — Manage admin control admin
+**admin-control** — Manage admin control
 
-- `keen admin-control-admin add-users-to-policy` — Add users to an authentication policy to address the security of different user sets.
-- `keen admin-control-admin attach-detach-resources-v2` — Add or remove resources to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write
-- `keen admin-control-admin bulk-fetch-auth-policy` — Get authentication policy information for a given list of managed users. This is a bulk action.
-- `keen admin-control-admin create-policy` — Create a policy aligned with your organization's standards.
-- `keen admin-control-admin create-policy-v2` — Create a policy aligned with your organization's standards.
-- `keen admin-control-admin create-resource` — Add a new resource to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
-- `keen admin-control-admin delete-policy` — Delete a policy with a policyId #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:policies
-- `keen admin-control-admin delete-resource` — Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
-- `keen admin-control-admin delete-resources` — Remove all resources from a policy.
-- `keen admin-control-admin delete-resources-v2` — Remove all resources from a policy.
-- `keen admin-control-admin get-policies` — Returns comprehensive details on organizational policies, including both rules and resources.
-- `keen admin-control-admin get-policies-v2` — Returns comprehensive details on organizational policies, including both rules and status.
-- `keen admin-control-admin get-policy` — Returns information about a policy by policyId.
-- `keen admin-control-admin get-policy-v2` — Returns information about a policy by policyId.
-- `keen admin-control-admin get-resources` — **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
-- `keen admin-control-admin get-resources-v2` — **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
-- `keen admin-control-admin get-task-status` — Verify that users are assigned to the intended policy and report errors, if any.
-- `keen admin-control-admin publish-draft-policies` — Publishes policies by a bulk request for a specific ruleName.
-- `keen admin-control-admin update-policy` — Update a policy with a policyId.
-- `keen admin-control-admin update-policy-v2` — Update a policy with a policyId.
-- `keen admin-control-admin update-resource` — Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
-- `keen admin-control-admin validate-policy` — Validate a policy to view potential issues in your policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/)
+- `keen admin-control add-users-to-policy` — Add users to an authentication policy to address the security of different user sets.
+- `keen admin-control attach-detach-resources-v2` — Add or remove resources to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write
+- `keen admin-control bulk-fetch-auth-policy` — Get authentication policy information for a given list of managed users. This is a bulk action.
+- `keen admin-control create-policy` — Create a policy aligned with your organization's standards.
+- `keen admin-control create-policy-v2` — Create a policy aligned with your organization's standards.
+- `keen admin-control create-resource` — Add a new resource to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
+- `keen admin-control delete-policy` — Delete a policy with a policyId #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:policies
+- `keen admin-control delete-resource` — Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
+- `keen admin-control delete-resources` — Remove all resources from a policy.
+- `keen admin-control delete-resources-v2` — Remove all resources from a policy.
+- `keen admin-control get-policies` — Returns comprehensive details on organizational policies, including both rules and resources.
+- `keen admin-control get-policies-v2` — Returns comprehensive details on organizational policies, including both rules and status.
+- `keen admin-control get-policy` — Returns information about a policy by policyId.
+- `keen admin-control get-policy-v2` — Returns information about a policy by policyId.
+- `keen admin-control get-resources` — **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- `keen admin-control get-resources-v2` — **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- `keen admin-control get-task-status` — Verify that users are assigned to the intended policy and report errors, if any.
+- `keen admin-control publish-draft-policies` — Publishes policies by a bulk request for a specific ruleName.
+- `keen admin-control update-policy` — Update a policy with a policyId.
+- `keen admin-control update-policy-v2` — Update a policy with a policyId.
+- `keen admin-control update-resource` — Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
+- `keen admin-control validate-policy` — Validate a policy to view potential issues in your policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/)
 
 **admin-key** — The [Admin Key feature](https://support.atlassian.com/confluence-cloud/docs/bypass-access-restrictions-on-a-page-with-admin-key/) is only offered with Confluence Cloud Premium and Enterprise to organization or site admins.
 
@@ -151,19 +151,19 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 - `keen announcement-banner get-banner` — Returns the current announcement banner configuration.
 - `keen announcement-banner set-banner` — Updates the announcement banner configuration.
 
-**api-config** — Manage api config
+**assets-config** — Manage assets config
 
-- `keen api-config reference-type-create` — Update a reference type
-- `keen api-config reference-type-list` — Get reference type
-- `keen api-config status-create` — Create a new status
-- `keen api-config status-delete` — Delete an existing status
-- `keen api-config status-find` — Find a status by id
-- `keen api-config status-list` — Find all status
-- `keen api-config status-update` — Update an existing status
+- `keen assets-config reference-type-create` — Update a reference type
+- `keen assets-config reference-type-list` — Get reference type
+- `keen assets-config status-create` — Create a new status
+- `keen assets-config status-delete` — Delete an existing status
+- `keen assets-config status-find` — Find a status by id
+- `keen assets-config status-list` — Find all status
+- `keen assets-config status-update` — Update an existing status
 
-**api-import** — Manage api import
+**assets-import** — Manage assets import
 
-- `keen api-import <id>` — Start configured imports. To see an ongoing import see the Progress resource
+- `keen assets-import <id>` — Start configured imports. To see an ongoing import see the Progress resource
 
 **api-keys** — API Key APIs
 
@@ -201,9 +201,9 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 - `keen applications get` — Get a specific application.
 - `keen applications list` — Get a list of applications.
 
-**aql** — Manage aql
+**assets-aql** — Manage assets aql
 
-- `keen aql` — This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead.
+- `keen assets-aql` — This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead.
 
 **assets** — For uploading app/image files
 
@@ -569,9 +569,9 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 - `keen forge get-bulk-pin-status` — Get the pin status of an issue panel (added by a Forge app) for multiple projects.
 - `keen forge put-app-property` — Sets the value of a Forge app's property.
 
-**global** — Manage global
+**assets-global** — Manage assets global
 
-- `keen global <id>` — Update general configuration for object schema
+- `keen assets-global <id>` — Update general configuration for object schema
 
 **group** — This resource represents groups of users. Use it to get, create, find, and delete groups as well as add and remove users from groups. (\[WARNING\] The standard Atlassian group names are default names only and can be edited or deleted. For example, an admin or Atlassian support could delete the default group jira-software-users or rename it to jsw-users at any point. See https://support.atlassian.com/user-management/docs/create-and-update-groups/ for details.)
 
@@ -591,14 +591,14 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 
 - `keen groupuserpicker` — Returns a list of users and groups matching a string.
 
-**icon** — Manage icon
+**assets-icon** — Manage assets icon
 
-- `keen icon find` — Load a single icon by id
-- `keen icon find-global` — Return all global icons i.e. icons not associated with a particular object schema
+- `keen assets-icon find` — Load a single icon by id
+- `keen assets-icon find-global` — Return all global icons i.e. icons not associated with a particular object schema
 
-**importsource** — Manage importsource
+**assets-import-source** — Manage assets import source
 
-- `keen importsource <id>` — Retrieves a specific import source configuration by its ID.
+- `keen assets-import-source <id>` — Retrieves a specific import source configuration by its ID.
 
 **inline-comments** — Manage inline comments
 
@@ -620,9 +620,9 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 
 - `keen invalid-jqls-access-log` — Returns JQL searches that need updating because Jira can no longer support them.
 
-**iql** — Manage iql
+**assets-iql** — Manage assets iql
 
-- `keen iql` — This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead.
+- `keen assets-iql` — This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead.
 
 **issue** — This resource represents Jira issues. Use it to:
 
@@ -795,18 +795,18 @@ To use it, the site must have [issue linking](https://confluence.atlassian.com/x
 - `keen license-types get` — Get a specific license type.
 - `keen license-types list` — Get a list of license types.
 
-**manage** — Manage APIs
+**user-management** — Manage user management
 
-- `keen manage activate-user` — Activates the specified user account. The permission to make use of this resource is exposed by the `lifecycle.
-- `keen manage cancel-delete-account` — This API will: - Cancel the scheduled deletion of the specified managed account.
-- `keen manage deactivate-user` — Deactivate (block) the specified user account from logging into Atlassian.
-- `keen manage delete-account` — This API will: - Delete a managed account from Atlassian Administration.
-- `keen manage delete-api-token` — Deletes a specifid API token by ID.
-- `keen manage get-api-tokens` — Gets the API tokens owned by the specified user.
-- `keen manage get-profile` — Returns information about a single Atlassian account by ID
-- `keen manage get-user-management-permissions` — Returns the set of permissions you have for managing the specified Atlassian account
-- `keen manage set-email` — Sets the specified user's email address.
-- `keen manage update-profile` — Updates fields in a user account. The `profile.write` privilege details which fields you can change.
+- `keen user-management activate-user` — Activates the specified user account. The permission to make use of this resource is exposed by the `lifecycle.
+- `keen user-management cancel-delete-account` — This API will: - Cancel the scheduled deletion of the specified managed account.
+- `keen user-management deactivate-user` — Deactivate (block) the specified user account from logging into Atlassian.
+- `keen user-management delete-account` — This API will: - Delete a managed account from Atlassian Administration.
+- `keen user-management delete-api-token` — Deletes a specifid API token by ID.
+- `keen user-management get-api-tokens` — Gets the API tokens owned by the specified user.
+- `keen user-management get-profile` — Returns information about a single Atlassian account by ID
+- `keen user-management get-user-management-permissions` — Returns the set of permissions you have for managing the specified Atlassian account
+- `keen user-management set-email` — Sets the specified user's email address.
+- `keen user-management update-profile` — Updates fields in a user account. The `profile.write` privilege details which fields you can change.
 
 **mypermissions** — Manage mypermissions
 
@@ -842,40 +842,40 @@ To use it, the site must have [issue linking](https://confluence.atlassian.com/x
 - `keen oauth-clients list` — Retrieves all OAuth clients for the specified organization. #### Scopes **[OAuth 2.
 - `keen oauth-clients update` — Updates the name, token endpoint authentication method, or public keys of an OAuth client in the specified organization.
 
-**object** — Manage object
+**assets-object** — Manage assets object
 
-- `keen object by-aql` — Fetch Objects by AQL
-- `keen object count-by-aql` — This API provides the total count of objects that match a specified AQL query.
-- `keen object create` — Create a new object in Assets
-- `keen object delete` — Delete the referenced object
-- `keen object find` — Load one object
-- `keen object navigator-list` — Retrieve a list of objects based on an AQL. Deprecated from <b>30 September 2024</b>.
-- `keen object navigator-list-deprecated` — Deprecated. Use `/object/navlist/aql` instead.
-- `keen object update` — Update an existing object in Assets
+- `keen assets-object by-aql` — Fetch Objects by AQL
+- `keen assets-object count-by-aql` — This API provides the total count of objects that match a specified AQL query.
+- `keen assets-object create` — Create a new object in Assets
+- `keen assets-object delete` — Delete the referenced object
+- `keen assets-object find` — Load one object
+- `keen assets-object navigator-list` — Retrieve a list of objects based on an AQL. Deprecated from <b>30 September 2024</b>.
+- `keen assets-object navigator-list-deprecated` — Deprecated. Use `/object/navlist/aql` instead.
+- `keen assets-object update` — Update an existing object in Assets
 
-**objectconnectedtickets** — Manage objectconnectedtickets
+**assets-object-tickets** — Manage assets object tickets
 
 
-**objectschema** — Manage objectschema
+**assets-objectschema** — Manage assets objectschema
 
-- `keen objectschema schema-create` — Create a new object schema
-- `keen objectschema schema-delete` — Delete a schema
-- `keen objectschema schema-find` — Find a schema by id
-- `keen objectschema schema-list` — Resource to find object schemas in Assets
-- `keen objectschema schema-update` — Update an object schema
+- `keen assets-objectschema schema-create` — Create a new object schema
+- `keen assets-objectschema schema-delete` — Delete a schema
+- `keen assets-objectschema schema-find` — Find a schema by id
+- `keen assets-objectschema schema-list` — Resource to find object schemas in Assets
+- `keen assets-objectschema schema-update` — Update an object schema
 
-**objecttype** — Manage objecttype
+**assets-objecttype** — Manage assets objecttype
 
-- `keen objecttype object-type-create` — Create a new object type
-- `keen objecttype object-type-delete` — Delete an object type
-- `keen objecttype object-type-find` — Find an object type by id
-- `keen objecttype object-type-update` — Update an existing object type
+- `keen assets-objecttype object-type-create` — Create a new object type
+- `keen assets-objecttype object-type-delete` — Delete an object type
+- `keen assets-objecttype object-type-find` — Find an object type by id
+- `keen assets-objecttype object-type-update` — Update an existing object type
 
-**objecttypeattribute** — Manage objecttypeattribute
+**assets-objecttypeattribute** — Manage assets objecttypeattribute
 
-- `keen objecttypeattribute object-type-attribute-create` — Create a new attribute on the given object type
-- `keen objecttypeattribute object-type-attribute-delete` — Delete an existing object type attribute
-- `keen objecttypeattribute object-type-attribute-update` — Update an existing object type attribute
+- `keen assets-objecttypeattribute object-type-attribute-create` — Create a new attribute on the given object type
+- `keen assets-objecttypeattribute object-type-attribute-delete` — Delete an existing object type attribute
+- `keen assets-objecttypeattribute object-type-attribute-update` — Update an existing object type attribute
 
 **operations** — APIs related to integrating Incident and Post-Incident Review (PIR) data with Jira Software.
 
@@ -974,9 +974,9 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen products get-key-4` — Get details about a specific version, matching the specified name, of the specified product.
 - `keen products list` — Get a list of products matching the specified parameters.
 
-**progress** — Manage progress
+**assets-progress** — Manage assets progress
 
-- `keen progress <id>` — Show ongoing import process
+- `keen assets-progress <id>` — Show ongoing import process
 
 **project** — This resource represents projects. Use it to get, create, update, and delete projects. Also get statuses available to a project, a project's notification schemes, and update a project's type.
 
@@ -1293,9 +1293,9 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen universal-avatar get-avatars` — Returns the system and custom avatars for a project, issue type or priority. This operation can be accessed anonymously.
 - `keen universal-avatar store-avatar` — Loads a custom avatar for a project, issue type or priority.
 
-**usage** — Manage usage
+**assets-usage** — Manage assets usage
 
-- `keen usage` — Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema
+- `keen assets-usage` — Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema
 
 **user** — This resource represent users. Use it to:
 

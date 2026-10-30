@@ -24,7 +24,7 @@ func newAdminControlAdminCreateResourceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-resource <orgId> <policyId>",
 		Short:       "Add a new resource to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies",
-		Example:     "  keen admin-control-admin create-resource 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control create-resource 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.create-resource", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

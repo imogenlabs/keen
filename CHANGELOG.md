@@ -20,8 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error hints after a 400, 401 or 403 name the credential that API needs. Before, they told you to put an API key in the username variable
 
 ### Changed
+- Clear names for command groups that came out badly: `admin-control` (admin policies), `user-management`, `user-provisioning`, and every Assets group starts with `assets-` (`assets-object`, `assets-objectschema`, `assets-aql`, ...). Applied by the refresh (`GROUP_RENAMES` in `scripts/regen/normalize.py`); `keen sync --resources` keeps the original resource names
 - The refresh writes a marker for ids keen fills at run time (`TEMPLATE_VARS`); the generator drops its own server variables when it combines specs
-- New APIs whose specs lack operation ids, or prefix them all, get readable command names (`manage deactivate-user`, not `manage create-users-2`)
+- New APIs whose specs lack operation ids, or prefix them all, get readable command names (`user-management deactivate-user`, not `manage create-users-2`)
 - Conflicts in generated files keen has hand fixes in (`search.go`, a store test) resolve to keen's side during a refresh, so adding an API no longer stops on them
 - The Atlassian specs keen is built from are listed in one place (`SPECS` in `scripts/regen/config.sh`); adding an API is one line
 - The refresh fills Atlassian's templated server addresses (`scripts/regen/specfix.py`) and points site URLs at your configured site

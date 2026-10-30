@@ -39,7 +39,7 @@ func newObjecttypeattributeObjectTypeAttributeUpdateCmd(flags *rootFlags) *cobra
 		Use:         "object-type-attribute-update <id> <objectTypeId>",
 		Aliases:     []string{"update"},
 		Short:       "Update an existing object type attribute",
-		Example:     "  keen objecttypeattribute object-type-attribute-update 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-objecttypeattribute object-type-attribute-update 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "objecttypeattribute.object-type-attribute-update", "pp:method": "PUT", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttypeattribute/{objectTypeId}/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

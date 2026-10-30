@@ -17,7 +17,7 @@ func newAdminGetScimLinksCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-scim-links <orgId> <aaId>",
 		Aliases:     []string{"get"},
 		Short:       "Get SCIM Links for a Atlassian Account ID (AAID).",
-		Example:     "  keen admin get-scim-links 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-provisioning get-scim-links 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin.get-scim-links", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/user-provisioning/v1/org/{orgId}/user/{aaId}/get-scim-links", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
