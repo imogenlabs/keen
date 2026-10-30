@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `keen-mcp` can be used from AI apps again. It listed all 1,939 tools, about half a million tokens, more than most models can hold. It now offers `keen_search` (find the tools for a task) and `keen_run` (run one by name); `KEEN_MCP_TOOLS=all` lists every tool as before
+
 ## [1.6.0] - 2026-10-30
 
 keen now covers Jira, Confluence, Service Management, Assets, Compass, Bitbucket, Marketplace and Atlassian Admin, plus the org chart and Teamwork Graph: 1,843 REST endpoints and 18 GraphQL queries, with 1,939 MCP tools, in one binary.
