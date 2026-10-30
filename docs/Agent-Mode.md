@@ -14,7 +14,7 @@ Auth: `~/.config/keen/auth.json`, or `export JIRA_CLOUD_PLATFORM_USERNAME=... JI
 
 ## MCP Server
 
-The `keen-mcp` binary gives agents every keen command (1,939 tools) through two MCP tools: `keen_search` (describe the task, get matching tools and their parameters) and `keen_run` (run one by name). The full list would not fit in most models' context; set `KEEN_MCP_TOOLS=all` if you want it anyway. Add to your MCP config:
+The `keen-mcp` binary gives agents every keen command (1,939 tools) through two MCP tools: `keen_search` (describe the task, get matching tools and their parameters) and `keen_run` (run one by name). The full list would not fit in most models' context; set `KEEN_MCP_TOOLS=all` if you want it anyway. `keen_search` ranks tools for APIs Atlassian has deprecated below the alternatives and leaves out ones it has switched off. Add to your MCP config:
 
 ```json
 {

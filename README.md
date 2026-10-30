@@ -335,6 +335,8 @@ The org chart and Teamwork Graph commands come from Atlassian's GraphQL schema i
 
 If Atlassian retires an API, the generator stops producing its command. Add it to `internal/compat/compat.go` so the old command and MCP tool keep their name and tell people what replaced it. Every local change is listed in `.printing-press-patches.json`.
 
+Atlassian also keeps deprecated APIs in its specs, sometimes after switching them off. `scripts/regen/deprecated.py` lists every operation the specs mark deprecated (the refresh runs it, and `check.sh` fails if the list is out of date); keen labels those commands and tools, and `keen_search` ranks them below the alternatives. When one starts answering 410 Gone, add it to `RemovedEndpoints` in `internal/compat/deprecated.go` with what to use instead: keen then hides it, its command and tool name the replacement, and `keen sync` skips it.
+
 ## Security
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting. Keen reads API credentials from environment variables or from `~/.config/keen/auth.json`. If you use the file, keep it readable only by you (`chmod 600`). The local SQLite database contains cached API responses and should be treated as sensitive.

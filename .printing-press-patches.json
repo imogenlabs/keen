@@ -217,6 +217,13 @@
       "reason": "tools/list was 2.2 MB (about 500k tokens) for 1,939 tools, larger than most models' context.",
       "files": ["internal/mcp/searchrun.go", "internal/mcp/searchrun_test.go", "cmd/keen-mcp/main.go (mcptools.Register)"],
       "validated_outcome": "tools/list 1,504 bytes by default, 2,229,695 with KEEN_MCP_TOOLS=all. Live: keen_search finds issue_transitions_do for 'move issue to done'; keen_run issue_get KEEN-32 returns the issue; keen_run teamwork_graph_user_created returns rows."
+    },
+    {
+      "id": "deprecated-endpoints",
+      "summary": "deprecated.py lists the operations the specs mark deprecated or 'being removed' in internal/compat/deprecated_gen.go (with the MCP tools that call them); regen.sh and finish.sh run it. compat.RemovedEndpoints names the ones Atlassian has already switched off and what replaces them. The CLI labels deprecated commands and hides removed ones behind an error naming the replacement; keen_search ranks deprecated tools lower and drops removed ones; sync's default list skips removed endpoints.",
+      "reason": "GET/POST /rest/api/3/search answer 410 Gone but are still in the specs, so keen_search offered the dead tool first for JQL search, and every default sync errored on it.",
+      "files": ["scripts/regen/deprecated.py", "scripts/regen/regen.sh", "scripts/regen/finish.sh", "internal/compat/deprecated.go", "internal/compat/deprecated_gen.go", "internal/cli/deprecated.go", "internal/cli/root.go (markDeprecatedCommands)", "internal/cli/sync.go (withoutRemoved)", "internal/mcp/compat.go", "internal/mcp/searchrun.go"],
+      "validated_outcome": "128 deprecated operations, 128 tools mapped. Tests: removed endpoints stay in the deprecated list, JQL search leads to the and-reconsile tool, the removed tool errors with the replacement, default sync skips it. Live MCP check: 10 of 10 tasks found and answered the same as the CLI."
     }
   ]
 }
