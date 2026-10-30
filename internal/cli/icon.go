@@ -9,7 +9,7 @@ import (
 
 func newIconCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "icon",
+		Use:    "assets-icon",
 		Short:  "Manage icon command groups",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),

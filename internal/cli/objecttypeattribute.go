@@ -9,8 +9,8 @@ import (
 
 func newObjecttypeattributeCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "objecttypeattribute",
-		Short:  "Create, update, and delete objecttypeattribute",
+		Use:    "assets-objecttypeattribute",
+		Short:  "Create, update, and delete assets objecttypeattribute",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),
 	}

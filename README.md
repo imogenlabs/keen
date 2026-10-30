@@ -48,7 +48,7 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 | **Confluence v2** | 252 | Pages, blog posts, spaces, folders, databases, whiteboards, comments, attachments, space roles |
 | **Marketplace v2** | 143 | Addons, versions, vendors, distribution, reviews, reporting |
 | **Service Desk** | 75 | Requests, queues, customers, SLAs, approvals |
-| **Assets** | 64 | Objects, object schemas and types, AQL search, imports. keen finds your cloud and workspace ids from the site |
+| **Assets** | 64 | Objects, object schemas and types, AQL search, imports (`keen assets-...`). keen finds your cloud and workspace ids from the site |
 | **Compass** | 11 | Events, metric values, attachments and API specs for components |
 | **Admin** | 133 | Organizations, directories, groups, domains, policies, user management, user provisioning (SCIM), API tokens and service accounts, data loss prevention. Needs an admin API key ([Authentication](docs/Authentication.md)) |
 

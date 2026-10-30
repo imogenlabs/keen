@@ -24,7 +24,7 @@ func newApiConfigReferenceTypeCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "reference-type-create",
 		Aliases:     []string{"create"},
 		Short:       "Update a reference type",
-		Example:     "  keen api-config reference-type-create --name example-resource",
+		Example:     "  keen assets-config reference-type-create --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "api-config.reference-type-create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/referencetype"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

@@ -57,7 +57,7 @@ Atlassian's admin APIs on `api.atlassian.com` do not take your email and API tok
 
 | Commands | Address | Key |
 |----------|---------|-----|
-| Organizations, policies, API tokens, service accounts, data loss prevention, user management (`orgs`, `admin-control-admin`, `api-tokens`, `service-accounts`, `manage`, ...) | `/admin/...`, `/users/...` | Organization admin API key: admin.atlassian.com > Settings > API keys |
+| Organizations, policies, API tokens, service accounts, data loss prevention, user management (`orgs`, `admin-control`, `api-tokens`, `api-keys`, `service-accounts`, `user-management`, `user-provisioning`, ...) | `/admin/...`, `/users/...` | Organization admin API key: admin.atlassian.com > Settings > API keys |
 | User provisioning (`scim`) | `/scim/...` | The API key of your identity-provider directory: admin.atlassian.com > Security > Identity providers |
 
 ```bash
@@ -69,7 +69,7 @@ Or add `admin_api_key` and `scim_api_key` to `~/.config/keen/auth.json`. Without
 
 ## Assets
 
-Assets commands (`objectschema`, `object`, `aql`, `importsource`, ...) use your normal login. Their address needs your site's cloud id and Assets workspace id; keen looks both up from your site the first time a command needs them. To skip the lookup, set them yourself:
+Assets commands (all named `assets-...`: `assets-objectschema`, `assets-object`, `assets-aql`, `assets-import-source`, ...) use your normal login. Their address needs your site's cloud id and Assets workspace id; keen looks both up from your site the first time a command needs them. To skip the lookup, set them yourself:
 
 ```bash
 export KEEN_CLOUD_ID="your-cloud-id"

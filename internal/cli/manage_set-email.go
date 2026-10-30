@@ -20,7 +20,7 @@ func newManageSetEmailCmd(flags *rootFlags) *cobra.Command {
 		Use:         "set-email <account_id>",
 		Aliases:     []string{"update"},
 		Short:       "Sets the specified user's email address.",
-		Example:     "  keen manage set-email 550e8400-e29b-41d4-a716-446655440000 --email user@example.com",
+		Example:     "  keen user-management set-email 550e8400-e29b-41d4-a716-446655440000 --email user@example.com",
 		Annotations: map[string]string{"pp:endpoint": "manage.set-email", "pp:method": "PUT", "pp:path": "https://api.atlassian.com/users/{account_id}/manage/email"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

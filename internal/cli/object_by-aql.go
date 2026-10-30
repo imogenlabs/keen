@@ -22,7 +22,7 @@ func newObjectByAqlCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "by-aql",
 		Short:       "Fetch Objects by AQL",
-		Example:     "  keen object by-aql --ql-query example-value",
+		Example:     "  keen assets-object by-aql --ql-query example-value",
 		Annotations: map[string]string{"pp:endpoint": "object.by-aql", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/aql"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

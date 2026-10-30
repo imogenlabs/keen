@@ -9,8 +9,8 @@ import (
 
 func newObjectCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "object",
-		Short:  "Find, count, create, update, and delete object",
+		Use:    "assets-object",
+		Short:  "Find, count, create, update, and delete assets object",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),
 	}

@@ -908,7 +908,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/watch", false, false, nil, []mcpParamBinding{{PublicName: "addonKey", WireName: "addonKey", Location: "path"}, {PublicName: "_links", WireName: "_links", Location: "body"}, {PublicName: "state", WireName: "state", Location: "body"}}, []string{"addonKey"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin_delete",
+		mcplib.NewTool("user-provisioning_delete",
 			mcplib.WithDescription("Delete a user in our SCIM DB with a Atlassian Account ID (AAID). This will apply to all directories in your organization matching that AAID and only works for managed users. You will have to completely reprovision the user to their respective groups after deletion. Explore more about [updating managed SCIM email addresses](../../email-change/). Required: orgId, AAID. Destructive."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("AAID", mcplib.Required(), mcplib.Description("Unique ID of the user's account.")),
@@ -918,7 +918,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/user-provisioning/v1/org/{orgId}/user/{AAID}/onlyDeleteUserInDB", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "AAID", WireName: "AAID", Location: "path"}}, []string{"orgId", "AAID"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin_get-scim-links",
+		mcplib.NewTool("user-provisioning_get-scim-links",
 			mcplib.WithDescription("Get SCIM Links for a Atlassian Account ID (AAID). Required: orgId, aaId. Returns the GetScimLinksForAaIdInAnOrgResponse."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("aaId", mcplib.Required(), mcplib.Description("Unique ID of the user's account.")),
@@ -929,7 +929,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/user-provisioning/v1/org/{orgId}/user/{aaId}/get-scim-links", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "aaId", WireName: "aaId", Location: "path"}}, []string{"orgId", "aaId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin_get-scim-links-by-email",
+		mcplib.NewTool("user-provisioning_get-scim-links-by-email",
 			mcplib.WithDescription("Get SCIM Links for an email address in an organization. Required: orgId, email. Returns the new GetScimLinksForEmailResponse."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("email", mcplib.Required(), mcplib.Description("The email address to look up SCIM links for")),
@@ -939,7 +939,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/admin/user-provisioning/v1/org/{orgId}/get-scim-links-for-email", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "email", WireName: "email", Location: "body"}}, []string{"orgId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin_unlink-scim-user",
+		mcplib.NewTool("user-provisioning_unlink-scim-user",
 			mcplib.WithDescription("Unlinks a SCIM user from their Atlassian account without deleting the user. Required: orgId, scimDirectoryId, scimUserId. Partial update."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("scimDirectoryId", mcplib.Required(), mcplib.Description("The SCIM base URL that is generated when [conecting an identity provider with SCIM provisioning](https://support.")),
@@ -949,7 +949,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PATCH", "https://api.atlassian.com/admin/user-provisioning/v1/org/{orgId}/scimDirectoryId/{scimDirectoryId}/scimUserId/{scimUserId}/unlink", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "scimDirectoryId", WireName: "scimDirectoryId", Location: "path"}, {PublicName: "scimUserId", WireName: "scimUserId", Location: "path"}}, []string{"orgId", "scimDirectoryId", "scimUserId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_add-users-to-policy",
+		mcplib.NewTool("admin-control_add-users-to-policy",
 			mcplib.WithDescription("Add users to an authentication policy to address the security of different user sets. [Understand how to add users to a policy and check the status](https://developer.atlassian.com/cloud/admin/auth-policy-cookbook/) #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -960,7 +960,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/auth-policy/{policyId}/add-users", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "users", WireName: "users", Location: "body"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_attach-detach-resources-v2",
+		mcplib.NewTool("admin-control_attach-detach-resources-v2",
 			mcplib.WithDescription("Add or remove resources to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -971,7 +971,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "body_json", WireName: "body_json", Location: "body_json"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_bulk-fetch-auth-policy",
+		mcplib.NewTool("admin-control_bulk-fetch-auth-policy",
 			mcplib.WithDescription("Get authentication policy information for a given list of managed users. This is a bulk action. Required: orgId, accountIds. Returns array of ModelsUserPolicyInfo."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("accountIds", mcplib.Required(), mcplib.Description("Unique ID of the user's account. Use the [Search for users in an organization API](https://developer.atlassian.")),
@@ -981,7 +981,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/users/auth-policies/bulk-fetch", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "accountIds", WireName: "accountIds", Location: "body"}}, []string{"orgId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_create-policy",
+		mcplib.NewTool("admin-control_create-policy",
 			mcplib.WithDescription("Create a policy aligned with your organization's standards. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("data", mcplib.Required(), mcplib.Description("Data")),
@@ -991,7 +991,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "data", WireName: "data", Location: "body"}}, []string{"orgId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_create-policy-v2",
+		mcplib.NewTool("admin-control_create-policy-v2",
 			mcplib.WithDescription("Create a policy aligned with your organization's standards. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("data", mcplib.Required(), mcplib.Description("Data")),
@@ -1001,7 +1001,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "data", WireName: "data", Location: "body"}}, []string{"orgId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_create-resource",
+		mcplib.NewTool("admin-control_create-resource",
 			mcplib.WithDescription("Add a new resource to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1014,7 +1014,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "meta", WireName: "meta", Location: "body"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_delete-policy",
+		mcplib.NewTool("admin-control_delete-policy",
 			mcplib.WithDescription("Delete a policy with a policyId #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:policies:admin`. Destructive."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1024,7 +1024,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_delete-resource",
+		mcplib.NewTool("admin-control_delete-resource",
 			mcplib.WithDescription("Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`. Destructive."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1035,7 +1035,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "path"}}, []string{"orgId", "policyId", "resourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_delete-resources",
+		mcplib.NewTool("admin-control_delete-resources",
 			mcplib.WithDescription("Remove all resources from a policy. Required: orgId, policyId. Destructive."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1045,7 +1045,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_delete-resources-v2",
+		mcplib.NewTool("admin-control_delete-resources-v2",
 			mcplib.WithDescription("Remove all resources from a policy. Required: orgId, policyId. Destructive."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1055,7 +1055,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_get-policies",
+		mcplib.NewTool("admin-control_get-policies",
 			mcplib.WithDescription("Returns comprehensive details on organizational policies, including both rules and resources. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return.")),
@@ -1067,7 +1067,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "type", WireName: "type", Location: "query"}}, []string{"orgId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_get-policies-v2",
+		mcplib.NewTool("admin-control_get-policies-v2",
 			mcplib.WithDescription("Returns comprehensive details on organizational policies, including both rules and status. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("cursor", mcplib.Description("Sets the starting point for the page of results to return.")),
@@ -1079,7 +1079,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "cursor", WireName: "cursor", Location: "query"}, {PublicName: "type", WireName: "type", Location: "query"}}, []string{"orgId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_get-policy",
+		mcplib.NewTool("admin-control_get-policy",
 			mcplib.WithDescription("Returns information about a policy by policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1090,7 +1090,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_get-policy-v2",
+		mcplib.NewTool("admin-control_get-policy-v2",
 			mcplib.WithDescription("Returns information about a policy by policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1101,7 +1101,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/{policyId}", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_get-resources",
+		mcplib.NewTool("admin-control_get-resources",
 			mcplib.WithDescription("**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1112,7 +1112,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_get-resources-v2",
+		mcplib.NewTool("admin-control_get-resources-v2",
 			mcplib.WithDescription("**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1123,7 +1123,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_get-task-status",
+		mcplib.NewTool("admin-control_get-task-status",
 			mcplib.WithDescription("Verify that users are assigned to the intended policy and report errors, if any. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("taskId", mcplib.Required(), mcplib.Description("Unique Id obtained after adding users to an authentication policy.")),
@@ -1134,7 +1134,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/auth-policy/task/{taskId}", true, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "taskId", WireName: "taskId", Location: "path"}}, []string{"orgId", "taskId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_publish-draft-policies",
+		mcplib.NewTool("admin-control_publish-draft-policies",
 			mcplib.WithDescription("Publishes policies by a bulk request for a specific ruleName. This is the only way to create or modify published policies. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyOperations", mcplib.Required(), mcplib.Description("Array of policy operations to perform")),
@@ -1146,7 +1146,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/publishDraftPolicies", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyOperations", WireName: "policyOperations", Location: "body"}, {PublicName: "ruleName", WireName: "ruleName", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{"orgId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_update-policy",
+		mcplib.NewTool("admin-control_update-policy",
 			mcplib.WithDescription("Update a policy with a policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1156,7 +1156,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "data", WireName: "data", Location: "body"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_update-policy-v2",
+		mcplib.NewTool("admin-control_update-policy-v2",
 			mcplib.WithDescription("Update a policy with a policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1166,7 +1166,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/{policyId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "data", WireName: "data", Location: "body"}}, []string{"orgId", "policyId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_update-resource",
+		mcplib.NewTool("admin-control_update-resource",
 			mcplib.WithDescription("Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1178,7 +1178,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "policyId", WireName: "policyId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "path"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "meta", WireName: "meta", Location: "body"}}, []string{"orgId", "policyId", "resourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("admin-control-admin_validate-policy",
+		mcplib.NewTool("admin-control_validate-policy",
 			mcplib.WithDescription("Validate a policy to view potential issues in your policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`."),
 			mcplib.WithString("orgId", mcplib.Required(), mcplib.Description("Your organization is identified by a Unique ID.")),
 			mcplib.WithString("policyId", mcplib.Required(), mcplib.Description("Unique Id associated with each policy.")),
@@ -1881,7 +1881,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "/rest/api/3/announcementBanner", false, false, nil, []mcpParamBinding{{PublicName: "isDismissible", WireName: "isDismissible", Location: "body"}, {PublicName: "isEnabled", WireName: "isEnabled", Location: "body"}, {PublicName: "message", WireName: "message", Location: "body"}, {PublicName: "visibility", WireName: "visibility", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("api-config_reference-type-create",
+		mcplib.NewTool("assets-config_reference-type-create",
 			mcplib.WithDescription("Update a reference type. Required: name. Optional: color, description, displayName (plus 1 more). Returns the new ReferenceType."),
 			mcplib.WithString("color", mcplib.Description("Color")),
 			mcplib.WithString("description", mcplib.Description("Description")),
@@ -1894,7 +1894,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/referencetype", false, false, nil, []mcpParamBinding{{PublicName: "color", WireName: "color", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "objectSchemaId", WireName: "objectSchemaId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("api-config_reference-type-list",
+		mcplib.NewTool("assets-config_reference-type-list",
 			mcplib.WithDescription("Get reference type. Optional: objectSchemaId, includeAll. Returns array of ReferenceType."),
 			mcplib.WithString("objectSchemaId", mcplib.Description("Include reference types for the object schema id.")),
 			mcplib.WithBoolean("includeAll", mcplib.Description("Include all reference types. Defaults to false")),
@@ -1905,7 +1905,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/referencetype", true, false, nil, []mcpParamBinding{{PublicName: "objectSchemaId", WireName: "objectSchemaId", Location: "query"}, {PublicName: "includeAll", WireName: "includeAll", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("api-config_status-create",
+		mcplib.NewTool("assets-config_status-create",
 			mcplib.WithDescription("Create a new status. Required: category, name. Optional: description, displayName, objectSchemaId. Returns the new Status."),
 			mcplib.WithNumber("category", mcplib.Required(), mcplib.Description("| Name | Value | Color | | ---- | ----- | ----- | | ACTIVE | 1 | Green | | INACTIVE | 0 | Red | | PENDING | 2 | Yellow |")),
 			mcplib.WithString("description", mcplib.Description("Description")),
@@ -1918,7 +1918,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/statustype", false, false, nil, []mcpParamBinding{{PublicName: "category", WireName: "category", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "objectSchemaId", WireName: "objectSchemaId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("api-config_status-delete",
+		mcplib.NewTool("assets-config_status-delete",
 			mcplib.WithDescription("Delete an existing status. Required: id. Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Status type id")),
 			mcplib.WithDestructiveHintAnnotation(true),
@@ -1927,7 +1927,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/statustype/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("api-config_status-find",
+		mcplib.NewTool("assets-config_status-find",
 			mcplib.WithDescription("Find a status by id. Required: id. Returns the Status."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Status type id")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -1937,7 +1937,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/statustype/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("api-config_status-list",
+		mcplib.NewTool("assets-config_status-list",
 			mcplib.WithDescription("Find all status. Optional: objectSchemaId. Returns array of Status."),
 			mcplib.WithString("objectSchemaId", mcplib.Description("Include statuses for the object schema id.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -1947,7 +1947,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/statustype", true, false, nil, []mcpParamBinding{{PublicName: "objectSchemaId", WireName: "objectSchemaId", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("api-config_status-update",
+		mcplib.NewTool("assets-config_status-update",
 			mcplib.WithDescription("Update an existing status. Required: id, category, name. Optional: description, displayName, objectSchemaId. Returns the updated Status."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Status type id")),
 			mcplib.WithNumber("category", mcplib.Required(), mcplib.Description("| Name | Value | Color | | ---- | ----- | ----- | | ACTIVE | 1 | Green | | INACTIVE | 0 | Red | | PENDING | 2 | Yellow |")),
@@ -1960,7 +1960,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/statustype/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "category", WireName: "category", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "objectSchemaId", WireName: "objectSchemaId", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("api-import_start",
+		mcplib.NewTool("assets-import_start",
 			mcplib.WithDescription("Start configured imports. To see an ongoing import see the Progress resource. Required: id. Returns the new Progress."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The id of the import configuration that should be started")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -2277,7 +2277,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://marketplace.atlassian.com/rest/2/applications/{applicationKey}/versions/name/{name}", true, false, nil, []mcpParamBinding{{PublicName: "applicationKey", WireName: "applicationKey", Location: "path"}, {PublicName: "name", WireName: "name", Location: "path"}}, []string{"applicationKey", "name"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("aql_find-objects",
+		mcplib.NewTool("assets-aql_find-objects",
 			mcplib.WithDescription("This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead. Find objects based on Assets Query Language (AQL). Optional: qlQuery, page (default: 1), resultPerPage (default: 25) (plus 4 more). Returns the ObjectListResult."),
 			mcplib.WithString("qlQuery", mcplib.Description("The query to determine which objects that should be fetched. E.g. objectType = 'Computer'.")),
 			mcplib.WithNumber("page", mcplib.Description("Which page to fetch when paginating through the response")),
@@ -7013,7 +7013,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "/rest/forge/1/app/properties/{propertyKey}", false, false, nil, []mcpParamBinding{{PublicName: "propertyKey", WireName: "propertyKey", Location: "path"}}, []string{"propertyKey"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("global_general-configuration-update",
+		mcplib.NewTool("assets-global_general-configuration-update",
 			mcplib.WithDescription("Update general configuration for object schema. Required: id. Optional: allowOtherObjectSchema, quickCreateObjects, validateQuickCreate."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Object schema id")),
 			mcplib.WithBoolean("allowOtherObjectSchema", mcplib.Description("Allow other object schema")),
@@ -7146,7 +7146,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/rest/api/3/groupuserpicker", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "showAvatar", WireName: "showAvatar", Location: "query"}, {PublicName: "fieldId", WireName: "fieldId", Location: "query"}, {PublicName: "projectId", WireName: "projectId", Location: "query"}, {PublicName: "issueTypeId", WireName: "issueTypeId", Location: "query"}, {PublicName: "avatarSize", WireName: "avatarSize", Location: "query"}, {PublicName: "caseInsensitive", WireName: "caseInsensitive", Location: "query"}, {PublicName: "excludeConnectAddons", WireName: "excludeConnectAddons", Location: "query"}, {PublicName: "includeAiAgents", WireName: "includeAiAgents", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("icon_find",
+		mcplib.NewTool("assets-icon_find",
 			mcplib.WithDescription("Load a single icon by id. Required: id. Returns the Icon."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -7156,7 +7156,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/icon/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("icon_find-global",
+		mcplib.NewTool("assets-icon_find-global",
 			mcplib.WithDescription("Return all global icons i.e. icons not associated with a particular object schema. Returns array of Icon."),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -7165,7 +7165,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/icon/global", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("icon_icon-png_icon-load-image",
+		mcplib.NewTool("assets-icon_icon-png_icon-load-image",
 			mcplib.WithDescription("Load a single icon PNG by id. Required: id. Optional: size."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
 			mcplib.WithNumber("size", mcplib.Description("Size")),
@@ -7176,7 +7176,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/icon/{id}/icon.png", true, true, map[string]string{"Accept": "image/png"}, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "size", WireName: "size", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_get-import-source",
+		mcplib.NewTool("assets-import-source_get-import-source",
 			mcplib.WithDescription("Retrieves a specific import source configuration by its ID. If scheduled imports are enabled, the response includes scheduling information. Required: id. Returns the ImportSourceResponse."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The unique identifier of the import source")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -7186,7 +7186,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_configstatus_status-of-import-configuration",
+		mcplib.NewTool("assets-import-source_configstatus_status-of-import-configuration",
 			mcplib.WithDescription("Get the current status of the import configuration. Required: importSourceId."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -7196,7 +7196,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/configstatus", true, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_executions_cancel-import",
+		mcplib.NewTool("assets-import-source_executions_cancel-import",
 			mcplib.WithDescription("Cancel current on-going import. Required: importExecutionId, importSourceId. Destructive."),
 			mcplib.WithString("importExecutionId", mcplib.Required(), mcplib.Description("The importExecutionId of the import")),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
@@ -7206,7 +7206,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions/{importExecutionId}", false, false, nil, []mcpParamBinding{{PublicName: "importExecutionId", WireName: "importExecutionId", Location: "path"}, {PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importExecutionId", "importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_executions_create-failed-import-history",
+		mcplib.NewTool("assets-import-source_executions_create-failed-import-history",
 			mcplib.WithDescription("Creates a failed import history record for the specified import source and execution with the given failure reason. Required: importSourceId, executionId."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
 			mcplib.WithString("executionId", mcplib.Required(), mcplib.Description("The executionId of the import execution")),
@@ -7216,7 +7216,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions/{executionId}/history/failed", false, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}, {PublicName: "executionId", WireName: "executionId", Location: "path"}}, []string{"importSourceId", "executionId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_executions_start-data-ingestion",
+		mcplib.NewTool("assets-import-source_executions_start-data-ingestion",
 			mcplib.WithDescription("Move to the data ingestion steps of external imports. Required: importSourceId."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -7225,7 +7225,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions", false, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_executions_status-of-import",
+		mcplib.NewTool("assets-import-source_executions_status-of-import",
 			mcplib.WithDescription("Get the status of the import. Required: importExecutionId, importSourceId."),
 			mcplib.WithString("importExecutionId", mcplib.Required(), mcplib.Description("The importExecutionId of the import")),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
@@ -7236,7 +7236,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions/{importExecutionId}/status", true, false, nil, []mcpParamBinding{{PublicName: "importExecutionId", WireName: "importExecutionId", Location: "path"}, {PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importExecutionId", "importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_executions_status-of-most-recently-created-import",
+		mcplib.NewTool("assets-import-source_executions_status-of-most-recently-created-import",
 			mcplib.WithDescription("Get the status of the most recently created import execution. Required: importSourceId."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -7246,7 +7246,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions/status", true, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_executions_submit-data-for-ingestion",
+		mcplib.NewTool("assets-import-source_executions_submit-data-for-ingestion",
 			mcplib.WithDescription("Providing data to be ingested. Required: importExecutionId, importSourceId."),
 			mcplib.WithString("importExecutionId", mcplib.Required(), mcplib.Description("The importExecutionId of the import")),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
@@ -7256,7 +7256,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions/{importExecutionId}/data", false, false, nil, []mcpParamBinding{{PublicName: "importExecutionId", WireName: "importExecutionId", Location: "path"}, {PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importExecutionId", "importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_executions_submit-progress",
+		mcplib.NewTool("assets-import-source_executions_submit-progress",
 			mcplib.WithDescription("Submit progress of ingesting data. Required: importExecutionId, importSourceId."),
 			mcplib.WithString("importExecutionId", mcplib.Required(), mcplib.Description("The importExecutionId of the import")),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
@@ -7265,7 +7265,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/executions/{importExecutionId}/progress", false, false, nil, []mcpParamBinding{{PublicName: "importExecutionId", WireName: "importExecutionId", Location: "path"}, {PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importExecutionId", "importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_importschedule_create-import-schedule",
+		mcplib.NewTool("assets-import-source_importschedule_create-import-schedule",
 			mcplib.WithDescription("Creates a new scheduled import configuration for the specified import source. Scheduled imports allow you to automate data imports on a recurring basis (daily, weekly, monthly) or run them once at a specific time. Required: importSourceId, runInterval, startTime. Optional: callbackUrl. Returns the new ImportScheduleResponse."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The ID of the import source to schedule")),
 			mcplib.WithString("callbackUrl", mcplib.Description("Optional webhook URL to call after each scheduled import execution.")),
@@ -7277,7 +7277,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/importschedule", false, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}, {PublicName: "callbackUrl", WireName: "callbackUrl", Location: "body"}, {PublicName: "runInterval", WireName: "runInterval", Location: "body"}, {PublicName: "startTime", WireName: "startTime", Location: "body"}}, []string{"importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_importschedule_delete-import-schedule",
+		mcplib.NewTool("assets-import-source_importschedule_delete-import-schedule",
 			mcplib.WithDescription("Deletes a scheduled import configuration. The import source will remain, but will no longer execute on a schedule. Required: importSourceId, importScheduleId. Destructive."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The ID of the import source")),
 			mcplib.WithString("importScheduleId", mcplib.Required(), mcplib.Description("The ID of the import schedule to delete")),
@@ -7287,7 +7287,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/importschedule/{importScheduleId}", false, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}, {PublicName: "importScheduleId", WireName: "importScheduleId", Location: "path"}}, []string{"importSourceId", "importScheduleId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_importschedule_get-import-schedule",
+		mcplib.NewTool("assets-import-source_importschedule_get-import-schedule",
 			mcplib.WithDescription("Retrieves a specific scheduled import configuration by ID. Required: importSourceId, importScheduleId. Returns the ImportScheduleResponse."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The ID of the import source")),
 			mcplib.WithString("importScheduleId", mcplib.Required(), mcplib.Description("The ID of the import schedule")),
@@ -7298,7 +7298,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/importschedule/{importScheduleId}", true, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}, {PublicName: "importScheduleId", WireName: "importScheduleId", Location: "path"}}, []string{"importSourceId", "importScheduleId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_importschedule_update-import-schedule",
+		mcplib.NewTool("assets-import-source_importschedule_update-import-schedule",
 			mcplib.WithDescription("Updates an existing scheduled import configuration. You can modify the start time, run interval, or callback URL. Required: importSourceId, importScheduleId, runInterval, startTime. Optional: callbackUrl. Returns the updated ImportScheduleResponse."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The ID of the import source")),
 			mcplib.WithString("importScheduleId", mcplib.Required(), mcplib.Description("The ID of the import schedule to update")),
@@ -7310,7 +7310,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/importschedule/{importScheduleId}", false, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}, {PublicName: "importScheduleId", WireName: "importScheduleId", Location: "path"}, {PublicName: "callbackUrl", WireName: "callbackUrl", Location: "body"}, {PublicName: "runInterval", WireName: "runInterval", Location: "body"}, {PublicName: "startTime", WireName: "startTime", Location: "body"}}, []string{"importSourceId", "importScheduleId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_mapping_get-the-progress-of-an-asynchronous-schema-and-operation",
+		mcplib.NewTool("assets-import-source_mapping_get-the-progress-of-an-asynchronous-schema-and-operation",
 			mcplib.WithDescription("Get the progress of an asynchronous schema and mapping operation. Required: importSourceId, resourceId."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
 			mcplib.WithString("resourceId", mcplib.Required(), mcplib.Description("The resourceId references the running schema and mapping operation")),
@@ -7321,7 +7321,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/mapping/progress/{resourceId}", true, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}, {PublicName: "resourceId", WireName: "resourceId", Location: "path"}}, []string{"importSourceId", "resourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_mapping_submit-schema-and-configuration",
+		mcplib.NewTool("assets-import-source_mapping_submit-schema-and-configuration",
 			mcplib.WithDescription("Provide object schema and mapping configuration for the external import. Required: importSourceId. Optional: async, mapping, schema."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The uuid of the import source configuration for the external import")),
 			mcplib.WithBoolean("async", mcplib.Description("Execute the operation asynchronously")),
@@ -7332,7 +7332,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/mapping", false, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}, {PublicName: "async", WireName: "async", Location: "query"}, {PublicName: "mapping", WireName: "mapping", Location: "body"}, {PublicName: "schema", WireName: "schema", Location: "body"}}, []string{"importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_mapping_update-schema-and-configuration",
+		mcplib.NewTool("assets-import-source_mapping_update-schema-and-configuration",
 			mcplib.WithDescription("Update object schema and mapping configuration for the external import. Required: importSourceId. Optional: async, mapping, schema. Partial update."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The uuid of the import source configuration for the external import")),
 			mcplib.WithBoolean("async", mcplib.Description("Execute the operation asynchronously")),
@@ -7343,7 +7343,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PATCH", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/mapping", false, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}, {PublicName: "async", WireName: "async", Location: "query"}, {PublicName: "mapping", WireName: "mapping", Location: "body"}, {PublicName: "schema", WireName: "schema", Location: "body"}}, []string{"importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_schedule_get-import-links",
+		mcplib.NewTool("assets-import-source_schedule_get-import-links",
 			mcplib.WithDescription("Retrieve links for import schedule operations (create, get, update, delete). Returns a createSchedule link to POST a new schedule, and if a schedule already exists, returns a schedule link that can be used with GET, PUT, or DELETE operations. Required: importSourceId."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration for the external import")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -7353,7 +7353,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/schedule", true, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_schema-and-mapping_get-of-import-configuration",
+		mcplib.NewTool("assets-import-source_schema-and-mapping_get-of-import-configuration",
 			mcplib.WithDescription("Get the current schema and mapping of the import configuration. Required: importSourceId. Returns the ImportSchemaAndMapping."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("The importSourceId of the import source configuration. For use with external imports only")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -7363,7 +7363,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/schema-and-mapping", true, false, nil, []mcpParamBinding{{PublicName: "importSourceId", WireName: "importSourceId", Location: "path"}}, []string{"importSourceId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("importsource_token_generate-bearer",
+		mcplib.NewTool("assets-import-source_token_generate-bearer",
 			mcplib.WithDescription("Generate a Bearer token which can be used to authenticate against Assets `/importsource/` APIs, to take actions against the specified import source. Required: importSourceId."),
 			mcplib.WithString("importSourceId", mcplib.Required(), mcplib.Description("importSourceId")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -7536,7 +7536,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/rest/api/3/invalid-jqls-access-log", true, false, nil, []mcpParamBinding{{PublicName: "userAccountId", WireName: "userAccountId", Location: "query"}, {PublicName: "nextPageToken", WireName: "nextPageToken", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("iql_find-objects",
+		mcplib.NewTool("assets-iql_find-objects",
 			mcplib.WithDescription("This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead. Optional: iql, page (default: 1), resultPerPage (default: 25) (plus 4 more). Returns the ObjectListResult."),
 			mcplib.WithString("iql", mcplib.Description("The query to determine which objects that should be fetched. E.g. objectType = 'Computer'.")),
 			mcplib.WithNumber("page", mcplib.Description("Which page to fetch when paginating through the response")),
@@ -9525,7 +9525,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://marketplace.atlassian.com/rest/2/licenseTypes", true, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_activate-user",
+		mcplib.NewTool("user-management_activate-user",
 			mcplib.WithDescription("Activates the specified user account. The permission to make use of this resource is exposed by the `lifecycle.enablement` privilege. User accounts that were deactivated due to US export controls cannot be reactivated using this API. If you believe the account was incorrectly blocked, please contact [Atlassian Support](https://support.atlassian.com/contact). User accounts that have been deleted need the deletion to be canceled before reactivating. Required: account_id."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("The unique identifier of the user to activate.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -9534,7 +9534,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/users/{account_id}/manage/lifecycle/enable", false, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}}, []string{"account_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_cancel-delete-account",
+		mcplib.NewTool("user-management_cancel-delete-account",
 			mcplib.WithDescription("This API will: - Cancel the scheduled deletion of the specified managed account. - Restore and activate the user’s account. Specifications: - You can cancel the deletion within the 14-day grace period of deleting a managed account. After that the account is permanently deleted. The permission to make use of this resource is exposed by the `lifecycle.delete` privilege. Learn more about [Get user management permissions API](https://developer.atlassian.com/cloud/admin/user-management/rest/api-group-manage/#api-users-account-id-manage-get) to manage the specified user. Required: account_id. Returns the new ResultMessage."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("Unique ID of the user's account that you are deleting. Use the [Get users in an organization API](https://developer.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -9543,7 +9543,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/users/{account_id}/manage/lifecycle/cancel-delete", false, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}}, []string{"account_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_deactivate-user",
+		mcplib.NewTool("user-management_deactivate-user",
 			mcplib.WithDescription("Deactivate (block) the specified user account from logging into Atlassian. The permission to make use of this resource is exposed by the `lifecycle.enablement` privilege. You can optionally set a message associated with the block. If none is supplied, a default message will be used. Required: account_id. Optional: message."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("The ID of the user")),
 			mcplib.WithString("message", mcplib.Description("Message")),
@@ -9553,7 +9553,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/users/{account_id}/manage/lifecycle/disable", false, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}, {PublicName: "message", WireName: "message", Location: "body"}}, []string{"account_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_delete-account",
+		mcplib.NewTool("user-management_delete-account",
 			mcplib.WithDescription("This API will: - Delete a managed account from Atlassian Administration. - Withdraw complete access to all products and services listed in Atlassian Administration. - Remove reference to the account from all lists under Directory in Atlassian Administration. Specifications: - Deleting an account is permanent. If you think you’ll need the account again, we recommend you [deactivate](https://support.atlassian.com/user-management/docs/deactivate-a-managed-account/) it instead. - Before you permanently delete the account, you’ll have a 14-day grace period, during which the account will appear as temporarily deactivated. Learn more about [deleting a managed account](https://support.atlassian.com/user-management/docs/delete-a-managed-account/). Learn the fastest way to get the paramaters and delete account with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/user-management/delete-managed-account/#delete-account). The permission to make use of this resource is exposed by the `lifecycle.delete` privilege. Learn more about [Get user management permissions API](https://developer.atlassian.com/cloud/admin/user-management/rest/api-group-manage/#api-users-account-id-manage-get) to manage the specified user. Required: account_id. Returns the new ResultMessage."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("Unique ID of the user's account that you are deleting. Use the [Get users in an organization API](https://developer.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -9562,7 +9562,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/users/{account_id}/manage/lifecycle/delete", false, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}}, []string{"account_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_delete-api-token",
+		mcplib.NewTool("user-management_delete-api-token",
 			mcplib.WithDescription("Deletes a specifid API token by ID. Required: account_id, tokenId. Destructive."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("The ID of the user")),
 			mcplib.WithString("tokenId", mcplib.Required(), mcplib.Description("The ID of the API token")),
@@ -9572,7 +9572,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/users/{account_id}/manage/api-tokens/{tokenId}", false, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}, {PublicName: "tokenId", WireName: "tokenId", Location: "path"}}, []string{"account_id", "tokenId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_get-api-tokens",
+		mcplib.NewTool("user-management_get-api-tokens",
 			mcplib.WithDescription("Gets the API tokens owned by the specified user. Required: account_id. Returns array of ApiTokenModel."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("The ID of the user")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -9582,7 +9582,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/users/{account_id}/manage/api-tokens", true, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}}, []string{"account_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_get-profile",
+		mcplib.NewTool("user-management_get-profile",
 			mcplib.WithDescription("Returns information about a single Atlassian account by ID. Required: account_id."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("The ID of the user")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -9592,7 +9592,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/users/{account_id}/manage/profile", true, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}}, []string{"account_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_get-user-management-permissions",
+		mcplib.NewTool("user-management_get-user-management-permissions",
 			mcplib.WithDescription("Returns the set of permissions you have for managing the specified Atlassian account. Required: account_id. Optional: privileges."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("The user account to manage")),
 			mcplib.WithString("privileges", mcplib.Description("Privileges")),
@@ -9603,7 +9603,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/users/{account_id}/manage", true, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}, {PublicName: "privileges", WireName: "privileges", Location: "query"}}, []string{"account_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_set-email",
+		mcplib.NewTool("user-management_set-email",
 			mcplib.WithDescription("Sets the specified user's email address. Before using this endpoint, you must [verify the target domain](https://confluence.atlassian.com/x/gjcWN) as the new email address will be considered verified. The permission to make use of this resource is exposed by the `email.set` privilege. This call invalidates all active sessions. Required: account_id, email."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("The ID of the user")),
 			mcplib.WithString("email", mcplib.Required(), mcplib.Description("The email address of the user.")),
@@ -9612,7 +9612,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/users/{account_id}/manage/email", false, false, nil, []mcpParamBinding{{PublicName: "account_id", WireName: "account_id", Location: "path"}, {PublicName: "email", WireName: "email", Location: "body"}}, []string{"account_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("manage_update-profile",
+		mcplib.NewTool("user-management_update-profile",
 			mcplib.WithDescription("Updates fields in a user account. The `profile.write` privilege details which fields you can change. Required: account_id, account-id-2, account_status, account_type, email, name, nickname, picture. Optional: characteristics, extended_profile, locale (plus 1 more). Returns the updated ManageUpdateProfileResponse."),
 			mcplib.WithString("account_id", mcplib.Required(), mcplib.Description("The ID of the user to update")),
 			mcplib.WithString("account-id-2", mcplib.Required(), mcplib.Description("A unique account identifier")),
@@ -9859,7 +9859,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PATCH", "https://api.atlassian.com/admin/api-access/v1/orgs/{orgId}/oauth-clients/{clientId}", false, false, nil, []mcpParamBinding{{PublicName: "orgId", WireName: "orgId", Location: "path"}, {PublicName: "clientId", WireName: "clientId", Location: "path"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "publicKeys", WireName: "publicKeys", Location: "body"}, {PublicName: "tokenEndpointAuthMethod", WireName: "tokenEndpointAuthMethod", Location: "body"}}, []string{"orgId", "clientId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_by-aql",
+		mcplib.NewTool("assets-object_by-aql",
 			mcplib.WithDescription("Fetch Objects by AQL. Required: qlQuery. Optional: startAt (default: 0), maxResults (default: 25), includeAttributes (default: true). Returns the new ObjectListInclTypeAttributesEntryResult."),
 			mcplib.WithNumber("startAt", mcplib.Description("The starting index for the next page of results")),
 			mcplib.WithNumber("maxResults", mcplib.Description("The maximum number of objects to return in this page of results.")),
@@ -9871,7 +9871,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/aql", false, false, nil, []mcpParamBinding{{PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "includeAttributes", WireName: "includeAttributes", Location: "query"}, {PublicName: "qlQuery", WireName: "qlQuery", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_count-by-aql",
+		mcplib.NewTool("assets-object_count-by-aql",
 			mcplib.WithDescription("This API provides the total count of objects that match a specified AQL query. Please note that this operation may incur performance latency. Required: qlQuery. Returns the new ObjectAqltotalCountResult."),
 			mcplib.WithString("qlQuery", mcplib.Required(), mcplib.Description("The AQL that will filter the objects.")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -9880,7 +9880,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/aql/totalcount", false, false, nil, []mcpParamBinding{{PublicName: "qlQuery", WireName: "qlQuery", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_create",
+		mcplib.NewTool("assets-object_create",
 			mcplib.WithDescription("Create a new object in Assets. Required: attributes, objectTypeId. Optional: avatarUUID, hasAvatar. Returns the new Object."),
 			mcplib.WithString("attributes", mcplib.Required(), mcplib.Description("Attributes")),
 			mcplib.WithString("avatarUUID", mcplib.Description("The UUID as retrieved by uploading an avatar.")),
@@ -9892,7 +9892,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/create", false, false, nil, []mcpParamBinding{{PublicName: "attributes", WireName: "attributes", Location: "body"}, {PublicName: "avatarUUID", WireName: "avatarUUID", Location: "body"}, {PublicName: "hasAvatar", WireName: "hasAvatar", Location: "body"}, {PublicName: "objectTypeId", WireName: "objectTypeId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_delete",
+		mcplib.NewTool("assets-object_delete",
 			mcplib.WithDescription("Delete the referenced object. Required: id. Returns the Object. Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object id to operate on")),
 			mcplib.WithDestructiveHintAnnotation(true),
@@ -9901,7 +9901,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_find",
+		mcplib.NewTool("assets-object_find",
 			mcplib.WithDescription("Load one object. Required: id. Returns the Object."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object id to operate on")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -9911,7 +9911,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_navigator-list",
+		mcplib.NewTool("assets-object_navigator-list",
 			mcplib.WithDescription("Retrieve a list of objects based on an AQL. Deprecated from <b>30 September 2024</b>. Please use POST /object/aql instead. For more information please see https://developer.atlassian.com/changelog/#CHANGE-1661. Required: objectSchemaId, objectTypeId, qlQuery, resultsPerPage. Optional: asc, attributesToDisplay, includeAttributes (plus 4 more). Returns the new ObjectListResult."),
 			mcplib.WithNumber("asc", mcplib.Description("Sort objects in ascending order or descending order based on the attribute identified by orderByTypeAttrId.")),
 			mcplib.WithString("attributesToDisplay", mcplib.Description("Identifies attributes to be displayed")),
@@ -9930,7 +9930,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/navlist/aql", false, false, nil, []mcpParamBinding{{PublicName: "asc", WireName: "asc", Location: "body"}, {PublicName: "attributesToDisplay", WireName: "attributesToDisplay", Location: "body"}, {PublicName: "includeAttributes", WireName: "includeAttributes", Location: "body"}, {PublicName: "iql", WireName: "iql", Location: "body"}, {PublicName: "objectId", WireName: "objectId", Location: "body"}, {PublicName: "objectSchemaId", WireName: "objectSchemaId", Location: "body"}, {PublicName: "objectTypeId", WireName: "objectTypeId", Location: "body"}, {PublicName: "orderByTypeAttrId", WireName: "orderByTypeAttrId", Location: "body"}, {PublicName: "page", WireName: "page", Location: "body"}, {PublicName: "qlQuery", WireName: "qlQuery", Location: "body"}, {PublicName: "resultsPerPage", WireName: "resultsPerPage", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_navigator-list-deprecated",
+		mcplib.NewTool("assets-object_navigator-list-deprecated",
 			mcplib.WithDescription("Deprecated. Use `/object/navlist/aql` instead. Required: objectSchemaId, objectTypeId, qlQuery, resultsPerPage. Optional: asc, attributesToDisplay, includeAttributes (plus 4 more). Returns the new ObjectListResult."),
 			mcplib.WithNumber("asc", mcplib.Description("Sort objects in ascending order or descending order based on the attribute identified by orderByTypeAttrId.")),
 			mcplib.WithString("attributesToDisplay", mcplib.Description("Identifies attributes to be displayed")),
@@ -9949,7 +9949,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/navlist/iql", false, false, nil, []mcpParamBinding{{PublicName: "asc", WireName: "asc", Location: "body"}, {PublicName: "attributesToDisplay", WireName: "attributesToDisplay", Location: "body"}, {PublicName: "includeAttributes", WireName: "includeAttributes", Location: "body"}, {PublicName: "iql", WireName: "iql", Location: "body"}, {PublicName: "objectId", WireName: "objectId", Location: "body"}, {PublicName: "objectSchemaId", WireName: "objectSchemaId", Location: "body"}, {PublicName: "objectTypeId", WireName: "objectTypeId", Location: "body"}, {PublicName: "orderByTypeAttrId", WireName: "orderByTypeAttrId", Location: "body"}, {PublicName: "page", WireName: "page", Location: "body"}, {PublicName: "qlQuery", WireName: "qlQuery", Location: "body"}, {PublicName: "resultsPerPage", WireName: "resultsPerPage", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_update",
+		mcplib.NewTool("assets-object_update",
 			mcplib.WithDescription("Update an existing object in Assets. Required: id, attributes, objectTypeId. Optional: avatarUUID, hasAvatar. Returns the updated Object."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object id to operate on")),
 			mcplib.WithString("attributes", mcplib.Required(), mcplib.Description("Attributes")),
@@ -9961,7 +9961,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "attributes", WireName: "attributes", Location: "body"}, {PublicName: "avatarUUID", WireName: "avatarUUID", Location: "body"}, {PublicName: "hasAvatar", WireName: "hasAvatar", Location: "body"}, {PublicName: "objectTypeId", WireName: "objectTypeId", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_attributes_object-find",
+		mcplib.NewTool("assets-object_attributes_object-find",
 			mcplib.WithDescription("List all attributes for the given object. Required: id. Returns array of ObjectAttribute."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object id to operate on")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -9971,7 +9971,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/{id}/attributes", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_history_object-find-entries",
+		mcplib.NewTool("assets-object_history_object-find-entries",
 			mcplib.WithDescription("Retrieve the history entries for this object. Required: id. Optional: asc. Returns array of ObjectHistory."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object id to operate on")),
 			mcplib.WithBoolean("asc", mcplib.Description("Should the history be retrieved in ascending order")),
@@ -9982,7 +9982,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/{id}/history", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "asc", WireName: "asc", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("object_referenceinfo_object-find-references",
+		mcplib.NewTool("assets-object_referenceinfo_object-find-references",
 			mcplib.WithDescription("Find all references for an object. Required: id. Returns array of ObjectReferenceTypeInfo."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object id to operate on")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -9992,7 +9992,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/{id}/referenceinfo", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectconnectedtickets_tickets_object-connected",
+		mcplib.NewTool("assets-object-tickets_tickets_object-connected",
 			mcplib.WithDescription("Relation between Jira issues and Assets objects. Required: objectId. Returns the Tickets."),
 			mcplib.WithString("objectId", mcplib.Required(), mcplib.Description("The id of the object to get connected tickets for")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -10002,7 +10002,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectconnectedtickets/{objectId}/tickets", true, false, nil, []mcpParamBinding{{PublicName: "objectId", WireName: "objectId", Location: "path"}}, []string{"objectId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectschema_schema-create",
+		mcplib.NewTool("assets-objectschema_schema-create",
 			mcplib.WithDescription("Create a new object schema. Required: name, objectSchemaKey. Optional: description, displayName. Returns the new ObjectSchema."),
 			mcplib.WithString("description", mcplib.Description("Description")),
 			mcplib.WithString("displayName", mcplib.Description("Display name")),
@@ -10014,7 +10014,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/create", false, false, nil, []mcpParamBinding{{PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "objectSchemaKey", WireName: "objectSchemaKey", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectschema_schema-delete",
+		mcplib.NewTool("assets-objectschema_schema-delete",
 			mcplib.WithDescription("Delete a schema. Required: id. Returns the ObjectSchema. Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object schema id")),
 			mcplib.WithDestructiveHintAnnotation(true),
@@ -10023,7 +10023,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectschema_schema-find",
+		mcplib.NewTool("assets-objectschema_schema-find",
 			mcplib.WithDescription("Find a schema by id. Required: id. Returns the ObjectSchema."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object schema id")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -10033,7 +10033,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectschema_schema-list",
+		mcplib.NewTool("assets-objectschema_schema-list",
 			mcplib.WithDescription("Resource to find object schemas in Assets. Optional: query, startAt (default: 0), maxResults (default: 25) (plus 1 more). Returns the ObjectSchemaList."),
 			mcplib.WithString("query", mcplib.Description("A case-insensitive query used to filter object schemas whose name or display name contains the value")),
 			mcplib.WithNumber("startAt", mcplib.Description("The starting index for the next page of results")),
@@ -10046,7 +10046,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/list", true, false, nil, []mcpParamBinding{{PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "startAt", WireName: "startAt", Location: "query"}, {PublicName: "maxResults", WireName: "maxResults", Location: "query"}, {PublicName: "includeCounts", WireName: "includeCounts", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectschema_schema-update",
+		mcplib.NewTool("assets-objectschema_schema-update",
 			mcplib.WithDescription("Update an object schema. Required: id. Optional: description, displayName, name (plus 1 more). Returns the updated ObjectSchema."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object schema id")),
 			mcplib.WithString("description", mcplib.Description("Description")),
@@ -10058,7 +10058,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "objectSchemaKey", WireName: "objectSchemaKey", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectschema_attributes_schema-find-all",
+		mcplib.NewTool("assets-objectschema_attributes_schema-find-all",
 			mcplib.WithDescription("Find all object type attributes for this object schema. Required: id. Optional: onlyValueEditable (default: false), extended (default: false), query. Returns array of ObjectTypeAttribute."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object schema id")),
 			mcplib.WithBoolean("onlyValueEditable", mcplib.Description("Return only values that are associated with values that can be edited")),
@@ -10071,7 +10071,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}/attributes", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "onlyValueEditable", WireName: "onlyValueEditable", Location: "query"}, {PublicName: "extended", WireName: "extended", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectschema_objecttypes_schema-find-all-object-types",
+		mcplib.NewTool("assets-objectschema_objecttypes_schema-find-all-object-types",
 			mcplib.WithDescription("Find all object types for this object schema. Required: id. Optional: excludeAbstract (default: false). Returns array of ObjectType."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object schema id")),
 			mcplib.WithBoolean("excludeAbstract", mcplib.Description("If true, filters out Abstract Object Types from the results")),
@@ -10082,7 +10082,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}/objecttypes", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "excludeAbstract", WireName: "excludeAbstract", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objectschema_objecttypes_schema-find-all-object-types-flat",
+		mcplib.NewTool("assets-objectschema_objecttypes_schema-find-all-object-types-flat",
 			mcplib.WithDescription("Find all object types for this object schema. Required: id. Optional: query, exclude, includeObjectCounts (default: false). Returns array of ObjectType."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object schema id")),
 			mcplib.WithString("query", mcplib.Description("A case-insensitive query used to filter object types whose name or display name starts with the value")),
@@ -10095,7 +10095,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}/objecttypes/flat", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "exclude", WireName: "exclude", Location: "query"}, {PublicName: "includeObjectCounts", WireName: "includeObjectCounts", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttype_object-type-create",
+		mcplib.NewTool("assets-objecttype_object-type-create",
 			mcplib.WithDescription("Create a new object type. Required: iconId, name, objectSchemaId. Optional: abstractObjectType, description, displayName (plus 2 more). Returns the new ObjectType."),
 			mcplib.WithBoolean("abstractObjectType", mcplib.Description("Abstract object type")),
 			mcplib.WithString("description", mcplib.Description("Description")),
@@ -10111,7 +10111,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/create", false, false, nil, []mcpParamBinding{{PublicName: "abstractObjectType", WireName: "abstractObjectType", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "iconId", WireName: "iconId", Location: "body"}, {PublicName: "inherited", WireName: "inherited", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "objectSchemaId", WireName: "objectSchemaId", Location: "body"}, {PublicName: "parentObjectTypeId", WireName: "parentObjectTypeId", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttype_object-type-delete",
+		mcplib.NewTool("assets-objecttype_object-type-delete",
 			mcplib.WithDescription("Delete an object type. Required: id. Returns the ObjectType. Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
 			mcplib.WithDestructiveHintAnnotation(true),
@@ -10120,7 +10120,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttype_object-type-find",
+		mcplib.NewTool("assets-objecttype_object-type-find",
 			mcplib.WithDescription("Find an object type by id. Required: id. Returns the ObjectType."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -10130,7 +10130,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttype_object-type-update",
+		mcplib.NewTool("assets-objecttype_object-type-update",
 			mcplib.WithDescription("Update an existing object type. Required: id. Optional: abstractObjectType, description, displayName (plus 3 more). Returns the updated ObjectType."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
 			mcplib.WithBoolean("abstractObjectType", mcplib.Description("Abstract object type")),
@@ -10144,7 +10144,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "abstractObjectType", WireName: "abstractObjectType", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "iconId", WireName: "iconId", Location: "body"}, {PublicName: "inherited", WireName: "inherited", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttype_attributes_object-type-find-all",
+		mcplib.NewTool("assets-objecttype_attributes_object-type-find-all",
 			mcplib.WithDescription("Find all attributes for this object type. Required: id. Optional: onlyValueEditable (default: false), orderByName (default: false), query (plus 4 more). Returns array of ObjectTypeAttribute."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
 			mcplib.WithBoolean("onlyValueEditable", mcplib.Description("Only value editable")),
@@ -10161,7 +10161,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/{id}/attributes", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "onlyValueEditable", WireName: "onlyValueEditable", Location: "query"}, {PublicName: "orderByName", WireName: "orderByName", Location: "query"}, {PublicName: "query", WireName: "query", Location: "query"}, {PublicName: "includeValuesExist", WireName: "includeValuesExist", Location: "query"}, {PublicName: "excludeParentAttributes", WireName: "excludeParentAttributes", Location: "query"}, {PublicName: "includeChildren", WireName: "includeChildren", Location: "query"}, {PublicName: "orderByRequired", WireName: "orderByRequired", Location: "query"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttype_position_object-type-change",
+		mcplib.NewTool("assets-objecttype_position_object-type-change",
 			mcplib.WithDescription("Change position of this object type. Required: id, position. Optional: toObjectTypeId. Returns the new ObjectType."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("Id")),
 			mcplib.WithNumber("position", mcplib.Required(), mcplib.Description("The preffered position")),
@@ -10172,7 +10172,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/{id}/position", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "position", WireName: "position", Location: "body"}, {PublicName: "toObjectTypeId", WireName: "toObjectTypeId", Location: "body"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttypeattribute_object-type-attribute-create",
+		mcplib.NewTool("assets-objecttypeattribute_object-type-attribute-create",
 			mcplib.WithDescription("Create a new attribute on the given object type. Required: objectTypeId, name, type. Optional: additionalValue, defaultTypeId, description (plus 15 more). Returns the new ObjectTypeAttribute."),
 			mcplib.WithString("objectTypeId", mcplib.Required(), mcplib.Description("The object type id that has this object type attribute associated with it")),
 			mcplib.WithString("additionalValue", mcplib.Description("Valid for Type Url, User, Object and Confluence.")),
@@ -10201,7 +10201,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttypeattribute/{objectTypeId}", false, false, nil, []mcpParamBinding{{PublicName: "objectTypeId", WireName: "objectTypeId", Location: "path"}, {PublicName: "additionalValue", WireName: "additionalValue", Location: "body"}, {PublicName: "defaultTypeId", WireName: "defaultTypeId", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "displayName", WireName: "displayName", Location: "body"}, {PublicName: "hidden", WireName: "hidden", Location: "body"}, {PublicName: "includeChildObjectTypes", WireName: "includeChildObjectTypes", Location: "body"}, {PublicName: "iql", WireName: "iql", Location: "body"}, {PublicName: "label", WireName: "label", Location: "body"}, {PublicName: "maximumCardinality", WireName: "maximumCardinality", Location: "body"}, {PublicName: "minimumCardinality", WireName: "minimumCardinality", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "options", WireName: "options", Location: "body"}, {PublicName: "qlQuery", WireName: "qlQuery", Location: "body"}, {PublicName: "regexValidation", WireName: "regexValidation", Location: "body"}, {PublicName: "suffix", WireName: "suffix", Location: "body"}, {PublicName: "summable", WireName: "summable", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "typeValue", WireName: "typeValue", Location: "body"}, {PublicName: "typeValueMulti", WireName: "typeValueMulti", Location: "body"}, {PublicName: "uniqueAttribute", WireName: "uniqueAttribute", Location: "body"}}, []string{"objectTypeId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttypeattribute_object-type-attribute-delete",
+		mcplib.NewTool("assets-objecttypeattribute_object-type-attribute-delete",
 			mcplib.WithDescription("Delete an existing object type attribute. Required: id. Destructive."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object type attribute id to be manipulated")),
 			mcplib.WithDestructiveHintAnnotation(true),
@@ -10210,7 +10210,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttypeattribute/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}}, []string{"id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("objecttypeattribute_object-type-attribute-update",
+		mcplib.NewTool("assets-objecttypeattribute_object-type-attribute-update",
 			mcplib.WithDescription("Update an existing object type attribute. Required: id, objectTypeId. Optional: additionalValue, defaultTypeId, description (plus 17 more). Returns the updated ObjectTypeAttribute."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The object type attribute to manipulate")),
 			mcplib.WithString("objectTypeId", mcplib.Required(), mcplib.Description("The object type id that has this object type attribute associated with it")),
@@ -11464,7 +11464,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://marketplace.atlassian.com/rest/2/products", true, false, nil, []mcpParamBinding{{PublicName: "application", WireName: "application", Location: "query"}, {PublicName: "applicationBuild", WireName: "applicationBuild", Location: "query"}, {PublicName: "cost", WireName: "cost", Location: "query"}, {PublicName: "hosting", WireName: "hosting", Location: "query"}, {PublicName: "withVersion", WireName: "withVersion", Location: "query"}, {PublicName: "offset", WireName: "offset", Location: "query"}, {PublicName: "limit", WireName: "limit", Location: "query"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("progress_import",
+		mcplib.NewTool("assets-progress_import",
 			mcplib.WithDescription("Show ongoing import process. Required: id. Returns the Progress."),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The id of the import source configuration that the progress should be fetched for")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -14865,7 +14865,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "/rest/api/3/universal_avatar/type/{type}/owner/{entityId}", false, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}, {PublicName: "entityId", WireName: "entityId", Location: "path"}, {PublicName: "x", WireName: "x", Location: "query"}, {PublicName: "y", WireName: "y", Location: "query"}, {PublicName: "size", WireName: "size", Location: "query"}}, []string{"type", "entityId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("usage_get-tenant-info",
+		mcplib.NewTool("assets-usage_get-tenant-info",
 			mcplib.WithDescription("Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema breakdown for billing and analytics. Returns the TenantUsageResponse."),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),

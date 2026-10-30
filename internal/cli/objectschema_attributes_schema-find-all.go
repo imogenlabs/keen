@@ -20,7 +20,7 @@ func newObjectschemaAttributesSchemaFindAllCmd(flags *rootFlags) *cobra.Command 
 		Use:         "schema-find-all <id>",
 		Aliases:     []string{"get"},
 		Short:       "Find all object type attributes for this object schema",
-		Example:     "  keen objectschema attributes schema-find-all 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-objectschema attributes schema-find-all 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "attributes.schema-find-all", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}/attributes", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

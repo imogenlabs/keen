@@ -19,7 +19,7 @@ func newAdminControlAdminBulkFetchAuthPolicyCmd(flags *rootFlags) *cobra.Command
 	cmd := &cobra.Command{
 		Use:         "bulk-fetch-auth-policy <orgId>",
 		Short:       "Get authentication policy information for a given list of managed users. This is a bulk action.",
-		Example:     "  keen admin-control-admin bulk-fetch-auth-policy 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control bulk-fetch-auth-policy 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.bulk-fetch-auth-policy", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/users/auth-policies/bulk-fetch"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

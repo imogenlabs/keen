@@ -9,8 +9,8 @@ import (
 
 func newObjectschemaCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "objectschema",
-		Short:  "Get, create, update, and delete objectschema",
+		Use:    "assets-objectschema",
+		Short:  "Get, create, update, and delete assets objectschema",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),
 	}

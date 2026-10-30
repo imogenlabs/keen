@@ -22,7 +22,7 @@ func newImportsourceImportscheduleUpdateImportScheduleCmd(flags *rootFlags) *cob
 		Use:         "update-import-schedule <importSourceId> <importScheduleId>",
 		Aliases:     []string{"update"},
 		Short:       "Updates an existing scheduled import configuration. You can modify the start time, run interval, or callback URL.",
-		Example:     "  keen importsource importschedule update-import-schedule 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --run-interval ONCE",
+		Example:     "  keen assets-import-source importschedule update-import-schedule 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --run-interval ONCE",
 		Annotations: map[string]string{"pp:endpoint": "importschedule.update-import-schedule", "pp:method": "PUT", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/importschedule/{importScheduleId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

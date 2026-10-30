@@ -19,7 +19,7 @@ func newApiConfigReferenceTypeListCmd(flags *rootFlags) *cobra.Command {
 		Use:         "reference-type-list",
 		Aliases:     []string{"list"},
 		Short:       "Get reference type",
-		Example:     "  keen api-config reference-type-list",
+		Example:     "  keen assets-config reference-type-list",
 		Annotations: map[string]string{"pp:endpoint": "api-config.reference-type-list", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/referencetype", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

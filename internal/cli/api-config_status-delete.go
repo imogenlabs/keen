@@ -17,7 +17,7 @@ func newApiConfigStatusDeleteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "status-delete <id>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete an existing status",
-		Example:     "  keen api-config status-delete 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-config status-delete 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "api-config.status-delete", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/statustype/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -16,7 +16,7 @@ func newAdminControlAdminValidatePolicyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "validate-policy <orgId> <policyId>",
 		Short:       "Validate a policy to view potential issues in your policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/)",
-		Example:     "  keen admin-control-admin validate-policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control validate-policy 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.validate-policy", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/validate", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

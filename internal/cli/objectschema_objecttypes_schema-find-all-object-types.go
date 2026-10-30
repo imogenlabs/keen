@@ -18,7 +18,7 @@ func newObjectschemaObjecttypesSchemaFindAllObjectTypesCmd(flags *rootFlags) *co
 		Use:         "schema-find-all-object-types <id>",
 		Aliases:     []string{"get"},
 		Short:       "Find all object types for this object schema",
-		Example:     "  keen objectschema objecttypes schema-find-all-object-types 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-objectschema objecttypes schema-find-all-object-types 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "objecttypes.schema-find-all-object-types", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}/objecttypes", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

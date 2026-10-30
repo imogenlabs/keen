@@ -9,7 +9,7 @@ import (
 
 func newObjectconnectedticketsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "objectconnectedtickets",
+		Use:    "assets-object-tickets",
 		Short:  "Manage objectconnectedtickets command groups",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),

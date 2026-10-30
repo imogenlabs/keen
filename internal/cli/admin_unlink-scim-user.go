@@ -19,7 +19,7 @@ func newAdminUnlinkScimUserCmd(flags *rootFlags) *cobra.Command {
 		Use:         "unlink-scim-user <orgId> <scimDirectoryId> <scimUserId>",
 		Aliases:     []string{"update"},
 		Short:       "Unlinks a SCIM user from their Atlassian account without deleting the user.",
-		Example:     "  keen admin unlink-scim-user 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-provisioning unlink-scim-user 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin.unlink-scim-user", "pp:method": "PATCH", "pp:path": "https://api.atlassian.com/admin/user-provisioning/v1/org/{orgId}/scimDirectoryId/{scimDirectoryId}/scimUserId/{scimUserId}/unlink"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

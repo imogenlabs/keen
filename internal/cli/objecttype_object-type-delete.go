@@ -17,7 +17,7 @@ func newObjecttypeObjectTypeDeleteCmd(flags *rootFlags) *cobra.Command {
 		Use:         "object-type-delete <id>",
 		Aliases:     []string{"delete"},
 		Short:       "Delete an object type",
-		Example:     "  keen objecttype object-type-delete 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-objecttype object-type-delete 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "objecttype.object-type-delete", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

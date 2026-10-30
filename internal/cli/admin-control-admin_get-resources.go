@@ -16,7 +16,7 @@ func newAdminControlAdminGetResourcesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-resources <orgId> <policyId>",
 		Short:       "**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`",
-		Example:     "  keen admin-control-admin get-resources 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control get-resources 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.get-resources", "pp:method": "GET", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -17,7 +17,7 @@ func newObjectconnectedticketsTicketsObjectConnectedCmd(flags *rootFlags) *cobra
 		Use:         "object-connected <objectId>",
 		Aliases:     []string{"get"},
 		Short:       "Relation between Jira issues and Assets objects",
-		Example:     "  keen objectconnectedtickets tickets object-connected 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-object-tickets tickets object-connected 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "tickets.object-connected", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectconnectedtickets/{objectId}/tickets", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

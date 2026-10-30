@@ -167,14 +167,21 @@
       "summary": "For specs listed in FIX_IDS, specfix.py makes missing operation ids from summaries and drops an Xxx_ prefix every id shares, before generating.",
       "reason": "User management has no operation ids (commands came out as create-users-2) and admin control prefixes every id with APIs_.",
       "files": ["scripts/regen/specfix.py", "scripts/regen/config.sh (FIX_IDS)", "scripts/regen/regen.sh"],
-      "validated_outcome": "manage deactivate-user, admin-control-admin create-policy; ids of every spec not in FIX_IDS unchanged (checked on all seven shipped specs)."
+      "validated_outcome": "user-management deactivate-user, admin-control create-policy (group names from group-renames); ids of every spec not in FIX_IDS unchanged (checked on all seven shipped specs)."
     },
     {
       "id": "site-ids-in-urls",
       "summary": "Server URL ids listed in TEMPLATE_VARS (cloudId, workspaceId) become markers (KEEN_CLOUD_ID, KEEN_ASSETS_WORKSPACE_ID) that the client fills at request time from the env var, auth.json, or a lookup on the site.",
       "reason": "Assets' server is api.atlassian.com/ex/jira/{cloudId}/jsm/assets/workspace/{workspaceId}/v1. In a multi-spec build the generator dropped both ids from every URL, even with x-path-template-env-vars.",
       "files": ["scripts/regen/specfix.py", "scripts/regen/config.sh (TEMPLATE_VARS)", "scripts/regen/regen.sh", "internal/client/sitevars.go", "internal/client/client.go (siteVarCache field, fillSiteVars call)", "internal/config/config.go (cloud_id, assets_workspace_id)"],
-      "validated_outcome": "sitevars_test.go (lookup cached once per id; env and config win; clear hint when the site has no workspace). Live: keen usage get-tenant-info and keen objectschema schema-list return data with no ids configured."
+      "validated_outcome": "sitevars_test.go (lookup cached once per id; env and config win; clear hint when the site has no workspace). Live: keen assets-usage and keen assets-objectschema schema-list return data with no ids configured."
+    },
+    {
+      "id": "group-renames",
+      "summary": "normalize.py GROUP_RENAMES gives clear names to top-level groups the generator names badly: admin-control, user-management, user-provisioning, assets-* for every Assets group. Only user-facing names change (command, examples, keen which, MCP tool names, SKILL.md, manifest).",
+      "reason": "Name clashes produced admin-control-admin, manage and admin; Assets came out as 13 generic groups (object, usage, icon...). The name also appears in ordinary help text, so a blanket replace is unsafe.",
+      "files": ["scripts/regen/normalize.py", "internal/cli/*.go, internal/mcp/tools.go, SKILL.md, tools-manifest.json (renamed groups)"],
+      "validated_outcome": "Command list before and after differs exactly by the renames (1,543 both); check.sh all passed (help of every command, TestEveryWhichSuggestionParses); no MCP tool keeps an old group name; keen admin-control get-policies and keen assets-usage live."
     }
   ]
 }

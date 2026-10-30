@@ -9,8 +9,8 @@ import (
 
 func newAdminCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:    "admin",
-		Short:  "Get, update, and delete admin",
+		Use:    "user-provisioning",
+		Short:  "Get, update, and delete user provisioning",
 		Hidden: true,
 		RunE:   parentNoSubcommandRunE(flags),
 	}

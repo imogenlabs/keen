@@ -18,7 +18,7 @@ func newManageDeleteAccountCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-account <account_id>",
 		Short:       "This API will: - Delete a managed account from Atlassian Administration.",
-		Example:     "  keen manage delete-account 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-management delete-account 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "manage.delete-account", "pp:method": "POST", "pp:path": "https://api.atlassian.com/users/{account_id}/manage/lifecycle/delete"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
