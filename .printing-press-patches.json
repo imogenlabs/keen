@@ -154,6 +154,20 @@
       "reason": "Confluence v2 publishes https://{your-domain}/wiki/api/v2; the generator wrote https://no-default/... into all 252 commands. Assets puts {cloudId} and {workspaceId} in its server path.",
       "files": ["scripts/regen/specfix.py", "scripts/regen/postfix.py", "scripts/regen/regen.sh", "internal/cli/*.go and internal/mcp/tools.go (Confluence v2 paths)"],
       "validated_outcome": "Applied on every regen. keen spaces get --dry-run shows GET <site>/wiki/api/v2/spaces; live spaces get and pages get-by-id return data; no no-default left in internal/."
+    },
+    {
+      "id": "admin-api-keys",
+      "summary": "Requests to api.atlassian.com/admin/... and /users/... send the organization admin API key; /scim/... sends the directory key; everything else keeps the site login. Error hints and doctor name the key an API needs.",
+      "reason": "Atlassian's admin APIs reject the site email + API token. Every admin command failed with 401 and the hint said to put a key in the username variable.",
+      "files": ["internal/client/hostauth.go", "internal/client/client.go (two authHeaderFor calls)", "internal/config/config.go (admin_api_key, scim_api_key, KEEN_ADMIN_API_KEY, KEEN_SCIM_API_KEY)", "internal/cli/helpers.go and internal/mcp/tools.go (hints)", "internal/cli/doctor.go, internal/cli/doctor_keys.go"],
+      "validated_outcome": "hostauth_test.go (fails when the admin route is removed). keen orgs get without a key stops with the KEEN_ADMIN_API_KEY message; with a wrong key the 401 hint names KEEN_ADMIN_API_KEY; site commands unchanged; smoke test failures: 0."
+    },
+    {
+      "id": "readable-operation-ids",
+      "summary": "For specs listed in FIX_IDS, specfix.py makes missing operation ids from summaries and drops an Xxx_ prefix every id shares, before generating.",
+      "reason": "User management has no operation ids (commands came out as create-users-2) and admin control prefixes every id with APIs_.",
+      "files": ["scripts/regen/specfix.py", "scripts/regen/config.sh (FIX_IDS)", "scripts/regen/regen.sh"],
+      "validated_outcome": "manage deactivate-user, admin-control-admin create-policy; ids of every spec not in FIX_IDS unchanged (checked on all seven shipped specs)."
     }
   ]
 }

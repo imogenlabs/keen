@@ -2601,6 +2601,675 @@
       ]
     },
     {
+      "name": "admin_delete",
+      "description": "Delete a user in our SCIM DB with a Atlassian Account ID (AAID). This will apply to all directories in your organization matching that AAID and only works for managed users. You will have to completely reprovision the user to their respective groups after deletion. Explore more about [updating managed SCIM email addresses](../../email-change/). Required: orgId, AAID. Destructive.",
+      "method": "DELETE",
+      "path": "/admin/user-provisioning/v1/org/{orgId}/user/{AAID}/onlyDeleteUserInDB",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "AAID",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID of the user's account. The AAID can either be found in the URL of a user's profile, when browsing in the 'Users' tab or the 'Managed Users' tab or use the [Get Users API](https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-users/#api-scim-directory-directoryid-users-get) to get the AAID. The URL could look like: ```https://admin.atlassian.com/o/{orgId}/users/{aaId}``` ```https://admin.atlassian.com/o/{orgId}/members/{aaId}``` ```https://admin.atlassian.com/s/{siteId}/users/{aaId}```",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin_get-scim-links",
+      "description": "Get SCIM Links for a Atlassian Account ID (AAID). Required: orgId, aaId. Returns the GetScimLinksForAaIdInAnOrgResponse.",
+      "method": "GET",
+      "path": "/admin/user-provisioning/v1/org/{orgId}/user/{aaId}/get-scim-links",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "aaId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID of the user's account. The AAID can either be found in the URL of a user's profile, when browsing in the 'Users' tab or the 'Managed Users' tab or use the [Get Users API](https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-users/#api-scim-directory-directoryid-users-get) to get the AAID. The URL could look like: ```https://admin.atlassian.com/o/{orgId}/users/{aaId}``` ```https://admin.atlassian.com/o/{orgId}/members/{aaId}``` ```https://admin.atlassian.com/s/{siteId}/users/{aaId}```",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin_get-scim-links-by-email",
+      "description": "Get SCIM Links for an email address in an organization. Required: orgId, email. Returns the new GetScimLinksForEmailResponse.",
+      "method": "POST",
+      "path": "/admin/user-provisioning/v1/org/{orgId}/get-scim-links-for-email",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "location": "body",
+          "description": "The email address to look up SCIM links for",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin_unlink-scim-user",
+      "description": "Unlinks a SCIM user from their Atlassian account without deleting the user. Required: orgId, scimDirectoryId, scimUserId. Partial update.",
+      "method": "PATCH",
+      "path": "/admin/user-provisioning/v1/org/{orgId}/scimDirectoryId/{scimDirectoryId}/scimUserId/{scimUserId}/unlink",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "scimDirectoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM provisioning](https://support.atlassian.com/provisioning-users/docs/configure-user-provisioning-with-an-identity-provider/#Connect-an-identity-provider-with-SCIM-provisioning).",
+          "required": true
+        },
+        {
+          "name": "scimUserId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM user ID to unlink. Use the [Get SCIM Links for an email API](https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-admin-apis/#api-admin-user-provisioning-v1-org-orgid-get-scim-links-for-email-post) to get the SCIM User ID.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_add-users-to-policy",
+      "description": "Add users to an authentication policy to address the security of different user sets. [Understand how to add users to a policy and check the status](https://developer.atlassian.com/cloud/admin/auth-policy-cookbook/) #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "POST",
+      "path": "/admin/control/v1/orgs/{orgId}/auth-policy/{policyId}/add-users",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        },
+        {
+          "name": "users",
+          "type": "array",
+          "location": "body",
+          "description": "List of email addresses of the users to be added to the policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_attach-detach-resources-v2",
+      "description": "Add or remove resources to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "POST",
+      "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_bulk-fetch-auth-policy",
+      "description": "Get authentication policy information for a given list of managed users. This is a bulk action. Required: orgId, accountIds. Returns array of ModelsUserPolicyInfo.",
+      "method": "POST",
+      "path": "/admin/control/v1/orgs/{orgId}/users/auth-policies/bulk-fetch",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "accountIds",
+          "type": "array",
+          "location": "body",
+          "description": "Unique ID of the user's account. Use the [Search for users in an organization API](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-v1-orgs-orgid-users-search-post) to get the accountIds.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_create-policy",
+      "description": "Create a policy aligned with your organization's standards. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "POST",
+      "path": "/admin/control/v1/orgs/{orgId}/policies",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "location": "body",
+          "description": "Data",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_create-policy-v2",
+      "description": "Create a policy aligned with your organization's standards. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "POST",
+      "path": "/admin/control/v2/orgs/{orgId}/policies",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "location": "body",
+          "description": "Data",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_create-resource",
+      "description": "Add a new resource to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "POST",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "location": "body",
+          "description": "Id",
+          "required": true
+        },
+        {
+          "name": "links",
+          "type": "object",
+          "location": "body",
+          "description": "Links"
+        },
+        {
+          "name": "meta",
+          "type": "object",
+          "location": "body",
+          "description": "Meta"
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_delete-policy",
+      "description": "Delete a policy with a policyId #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:policies:admin`. Destructive.",
+      "method": "DELETE",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_delete-resource",
+      "description": "Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`. Destructive.",
+      "method": "DELETE",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        },
+        {
+          "name": "resourceId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with a resource.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_delete-resources",
+      "description": "Remove all resources from a policy. Required: orgId, policyId. Destructive.",
+      "method": "DELETE",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_delete-resources-v2",
+      "description": "Remove all resources from a policy. Required: orgId, policyId. Destructive.",
+      "method": "DELETE",
+      "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_get-policies",
+      "description": "Returns comprehensive details on organizational policies, including both rules and resources. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
+      "method": "GET",
+      "path": "/admin/control/v1/orgs/{orgId}/policies",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "Sets the starting point for the page of results to return."
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "location": "query",
+          "description": "Sets the type for the page of policies to return."
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_get-policies-v2",
+      "description": "Returns comprehensive details on organizational policies, including both rules and status. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
+      "method": "GET",
+      "path": "/admin/control/v2/orgs/{orgId}/policies",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "Sets the starting point for the page of results to return."
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "location": "query",
+          "description": "Sets the type for the page of policies to return."
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_get-policy",
+      "description": "Returns information about a policy by policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
+      "method": "GET",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_get-policy-v2",
+      "description": "Returns information about a policy by policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
+      "method": "GET",
+      "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_get-resources",
+      "description": "**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
+      "method": "GET",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_get-resources-v2",
+      "description": "**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
+      "method": "GET",
+      "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_get-task-status",
+      "description": "Verify that users are assigned to the intended policy and report errors, if any. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "GET",
+      "path": "/admin/control/v1/orgs/{orgId}/auth-policy/task/{taskId}",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "taskId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id obtained after adding users to an authentication policy.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_publish-draft-policies",
+      "description": "Publishes policies by a bulk request for a specific ruleName. This is the only way to create or modify published policies. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "POST",
+      "path": "/admin/control/v2/orgs/{orgId}/policies/publishDraftPolicies",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyOperations",
+          "type": "array",
+          "location": "body",
+          "description": "Array of policy operations to perform",
+          "required": true
+        },
+        {
+          "name": "ruleName",
+          "type": "string",
+          "location": "body",
+          "description": "Name of the rule being published",
+          "required": true
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "location": "body",
+          "description": "Type of policy being published",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_update-policy",
+      "description": "Update a policy with a policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "PUT",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "location": "body",
+          "description": "Data",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_update-policy-v2",
+      "description": "Update a policy with a policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "PUT",
+      "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "location": "body",
+          "description": "Data",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_update-resource",
+      "description": "Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
+      "method": "PUT",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        },
+        {
+          "name": "resourceId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with a resource.",
+          "required": true
+        },
+        {
+          "name": "links",
+          "type": "object",
+          "location": "body",
+          "description": "Links"
+        },
+        {
+          "name": "meta",
+          "type": "object",
+          "location": "body",
+          "description": "Meta"
+        }
+      ]
+    },
+    {
+      "name": "admin-control-admin_validate-policy",
+      "description": "Validate a policy to view potential issues in your policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
+      "method": "GET",
+      "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/validate",
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique Id associated with each policy.",
+          "required": true
+        }
+      ]
+    },
+    {
       "name": "admin-key_disable",
       "description": "Disables admin key access for the calling user within the site. **[Permissions](https://support.atlassian.com/user-management/docs/give-users-admin-permissions/#Centralized-user-management-content) required**: User must be an organization or site admin. Destructive.",
       "method": "DELETE",
@@ -4355,6 +5024,529 @@
           "type": "string",
           "location": "body",
           "description": "Visibility of the announcement banner. Can be public or private."
+        }
+      ]
+    },
+    {
+      "name": "api-keys_get-all-by-org-id",
+      "description": "Gets all user API keys in an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:keys:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/api-keys",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "q",
+          "type": "string",
+          "location": "query",
+          "description": "Free text search filter to be applied to API token results."
+        },
+        {
+          "name": "keyType",
+          "type": "string",
+          "location": "query",
+          "description": "Key type filter for API keys to return keys of a certain type."
+        },
+        {
+          "name": "expiresAtSearchType",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API keys by expiry date. Depending on search type provided, additional parameters shall be supplied."
+        },
+        {
+          "name": "expiresAtUom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API keys by expiry date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search."
+        },
+        {
+          "name": "expiresAtValue",
+          "type": "int",
+          "location": "query",
+          "description": "Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search."
+        },
+        {
+          "name": "expiresAtFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `expiresAtTo` is **required** if searching on expiry date using `range` search."
+        },
+        {
+          "name": "expiresAtTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `expiresAtFrom` is **required** if searching on expiry date using `range` search."
+        },
+        {
+          "name": "expiresAtRangeFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API keys by expiry date range. This represents the starting relative time window for a range time search. Either this parameter is or `expiresAtRangeTo` is **required** if searching on expiry date using `range_time` search. **Note:** Range time windows use the format `1w 2d 3h 4m` where `w -\u003e weeks, d -\u003e days, h -\u003e hours, m -\u003e minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate '3 weeks ago.' Values are optional and must be presented in descending order."
+        },
+        {
+          "name": "expiresAtRangeTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API keys by expiry date range. This represents the ending relative time window for a range time search. Either this parameter is or `expiresAtRangeFrom` is **required** if searching on expiry date using `range_time` search. **Note:** Range time windows use the format `1w 2d 3h 4m` where `w -\u003e weeks, d -\u003e days, h -\u003e hours, m -\u003e minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate '3 weeks ago.' Values are optional and must be presented in descending order."
+        },
+        {
+          "name": "lastActiveAtSearchType",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtUom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtValue",
+          "type": "int",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtRangeFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date range."
+        },
+        {
+          "name": "lastActiveAtRangeTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date range."
+        },
+        {
+          "name": "sort",
+          "type": "string",
+          "location": "query",
+          "description": "Sort the API keys based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list."
+        },
+        {
+          "name": "pageSize",
+          "type": "int",
+          "location": "query",
+          "description": "Select the number of records to include in the results."
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "Navigate to a specific page of paginated results."
+        }
+      ]
+    },
+    {
+      "name": "api-keys_get-count-by-org-id",
+      "description": "Gets count of user API keys in an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:keys:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/api-keys/count",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "q",
+          "type": "string",
+          "location": "query",
+          "description": "Free text search filter to be applied to API token results."
+        },
+        {
+          "name": "keyType",
+          "type": "string",
+          "location": "query",
+          "description": "Key type filter for API keys to return keys of a certain type."
+        },
+        {
+          "name": "expiresAtSearchType",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API keys by expiry date. Depending on search type provided, additional parameters shall be supplied."
+        },
+        {
+          "name": "expiresAtUom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API keys by expiry date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search."
+        },
+        {
+          "name": "expiresAtValue",
+          "type": "int",
+          "location": "query",
+          "description": "Filter the API tokens by last active date. This represents the value of time scale for window search. This parameter is **required** if searching on expiry date using `gt` or `lt` search."
+        },
+        {
+          "name": "expiresAtFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date. This represents the starting timestamp for a window search. Either this parameter or `expiresAtTo` is **required** if searching on expiry date using `range` search."
+        },
+        {
+          "name": "expiresAtTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date. This represents the ending timestamp for a window search. Either this parameter or `expiresAtFrom` is **required** if searching on expiry date using `range` search."
+        },
+        {
+          "name": "expiresAtRangeFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API keys by expiry date range. This represents the starting relative time window for a range time search. Either this parameter is or `expiresAtRangeTo` is **required** if searching on expiry date using `range_time` search. **Note:** Range time windows use the format `1w 2d 3h 4m` where `w -\u003e weeks, d -\u003e days, h -\u003e hours, m -\u003e minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate '3 weeks ago.' Values are optional and must be presented in descending order."
+        },
+        {
+          "name": "expiresAtRangeTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API keys by expiry date range. This represents the ending relative time window for a range time search. Either this parameter is or `expiresAtRangeFrom` is **required** if searching on expiry date using `range_time` search. **Note:** Range time windows use the format `1w 2d 3h 4m` where `w -\u003e weeks, d -\u003e days, h -\u003e hours, m -\u003e minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate '3 weeks ago.' Values are optional and must be presented in descending order."
+        },
+        {
+          "name": "lastActiveAtSearchType",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtUom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtValue",
+          "type": "int",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtRangeFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date range."
+        },
+        {
+          "name": "lastActiveAtRangeTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date range."
+        }
+      ]
+    },
+    {
+      "name": "api-keys_revoke",
+      "description": "Revokes an existing API key #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:keys:admin`. Partial update. (public)",
+      "method": "PATCH",
+      "path": "/orgs/{orgId}/api-keys/revoke/{apiKeyId}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "apiKeyId",
+          "type": "string",
+          "location": "path",
+          "description": "ID for the API key you want to revoke.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "api-tokens_bulk-revoke",
+      "description": "Revokes all managed user API tokens in an organization by orgID. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:tokens:admin`. Destructive. (public)",
+      "method": "DELETE",
+      "path": "/orgs/{orgId}/api-tokens",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Id of organization revoking the token",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "api-tokens_get-all-by-org-id",
+      "description": "Gets all [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:tokens:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/api-tokens",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "q",
+          "type": "string",
+          "location": "query",
+          "description": "Free text search filter to be applied to API token results."
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by status to retrieve tokens of a specific type."
+        },
+        {
+          "name": "createdAtSearchType",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. This parameter is **required** if searching on creation date. Depending on search type provided, additional parameters shall be supplied."
+        },
+        {
+          "name": "createdAtUom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search."
+        },
+        {
+          "name": "createdAtValue",
+          "type": "int",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. This represents the value of time scale for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search."
+        },
+        {
+          "name": "createdAtFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. This represents the starting timestamp for a window search. Either this parameter or `createdAtTo` is **required** if searching on creation date using `range` search."
+        },
+        {
+          "name": "createdAtTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. This represents the ending timestamp for a window search. Either this parameter or `createdAtFrom` is **required** if searching on creation date using `range` search."
+        },
+        {
+          "name": "createdAtRangeFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date range. This represents the starting relative time window for a range time search. Either this parameter is or `createdAtRangeTo` is **required** if searching on creation date using `range_time` search. **Note:** Range time windows use the format `1w 2d 3h 4m` where `w -\u003e weeks, d -\u003e days, h -\u003e hours, m -\u003e minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate '3 weeks ago.' Values are optional and must be presented in descending order."
+        },
+        {
+          "name": "createdAtRangeTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date range. This represents the ending relative time window for a range time search. Either this parameter is or `createdAtRangeFrom` is **required** if searching on creation date using `range_time` search. **Note:** Range time windows use the format `1w 2d 3h 4m` where `w -\u003e weeks, d -\u003e days, h -\u003e hours, m -\u003e minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate '3 weeks ago.' Values are optional and must be presented in descending order."
+        },
+        {
+          "name": "lastActiveAtSearchType",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtUom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtValue",
+          "type": "int",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtRangeFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date range."
+        },
+        {
+          "name": "lastActiveAtRangeTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date range."
+        },
+        {
+          "name": "sort",
+          "type": "string",
+          "location": "query",
+          "description": "Sort the API tokens based on the following criteria: ascending is represented with `+` as the first character (optional); descending is represented with `-` as the first character. Multiple values may be supplied as a comma-separated list."
+        },
+        {
+          "name": "pageSize",
+          "type": "int",
+          "location": "query",
+          "description": "Select the number of records to include in the results."
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "Navigate to a specific page of paginated results."
+        }
+      ]
+    },
+    {
+      "name": "api-tokens_get-count-by-org-id",
+      "description": "Gets count of [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:tokens:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/api-tokens/count",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "q",
+          "type": "string",
+          "location": "query",
+          "description": "Free text search filter to be applied to API token results."
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by status to retrieve tokens of a specific type."
+        },
+        {
+          "name": "createdAtSearchType",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. This parameter is **required** if searching on creation date. Depending on search type provided, additional parameters shall be supplied."
+        },
+        {
+          "name": "createdAtUom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. Unit of measure represents the scale of time for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search."
+        },
+        {
+          "name": "createdAtValue",
+          "type": "int",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. This represents the value of time scale for window search. This parameter is **required** if searching on creation date using `gt` or `lt` search."
+        },
+        {
+          "name": "createdAtFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. This represents the starting timestamp for a window search. Either this parameter or `createdAtTo` is **required** if searching on creation date using `range` search."
+        },
+        {
+          "name": "createdAtTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date. This represents the ending timestamp for a window search. Either this parameter or `createdAtFrom` is **required** if searching on creation date using `range` search."
+        },
+        {
+          "name": "createdAtRangeFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date range. This represents the starting relative time window for a range time search. Either this parameter is or `createdAtRangeTo` is **required** if searching on creation date using `range_time` search. **Note:** Range time windows use the format `1w 2d 3h 4m` where `w -\u003e weeks, d -\u003e days, h -\u003e hours, m -\u003e minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate '3 weeks ago.' Values are optional and must be presented in descending order."
+        },
+        {
+          "name": "createdAtRangeTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by creation date range. This represents the ending relative time window for a range time search. Either this parameter is or `createdAtRangeFrom` is **required** if searching on creation date using `range_time` search. **Note:** Range time windows use the format `1w 2d 3h 4m` where `w -\u003e weeks, d -\u003e days, h -\u003e hours, m -\u003e minutes`. Look-back is possible with the use of `-`, ex: `-3w` to indicate '3 weeks ago.' Values are optional and must be presented in descending order."
+        },
+        {
+          "name": "lastActiveAtSearchType",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtUom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtValue",
+          "type": "int",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date."
+        },
+        {
+          "name": "lastActiveAtRangeFrom",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date range."
+        },
+        {
+          "name": "lastActiveAtRangeTo",
+          "type": "string",
+          "location": "query",
+          "description": "Filter the API tokens by last active date range."
         }
       ]
     },
@@ -10038,6 +11230,226 @@
           "type": "string",
           "location": "path",
           "description": "The key of the dashboard item property. The maximum length is 255 characters. For dashboard items with a spec URI and no complete module key, if the provided propertyKey is equal to 'config', the request body's JSON must be an object with all keys and values as strings.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "data-loss-prevention-classification-levels_archive-level",
+      "description": "- Archives a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelId (batch not currently supported). When you archive a published classification level: - Users won’t be able to classify pages at this level - Any page or issues classified at this level will become unclassified - Pages and issues will retain history In the event that the classification level is restored and published, those pages and issues will regain this classification level. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/classification-levels/archive",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "levelIds",
+          "type": "array",
+          "location": "body",
+          "description": "Unique ID associated with the classification level, obtained during its creation.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "data-loss-prevention-classification-levels_create-level",
+      "description": "Creates a draft [classification level](cloud/admin/dlp/rest/intro/#classification%20level) for an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/classification-levels",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "location": "body",
+          "description": "The color of the classification level badge displayed on a page or issue when it’s classified at this level."
+        },
+        {
+          "name": "definition",
+          "type": "string",
+          "location": "body",
+          "description": "A user-facing description of the types of data that fall under this classification level."
+        },
+        {
+          "name": "guideline",
+          "type": "string",
+          "location": "body",
+          "description": "A user-facing explanation of any rules and expectations around using, moving, or storing data classified at a level."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "What the classification level is known as, for example, Confidential.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "data-loss-prevention-classification-levels_edit-level",
+      "description": "Edits a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`. (public)",
+      "method": "PUT",
+      "path": "/orgs/{orgId}/classification-levels/{levelId}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "levelId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID associated with the classification level, obtained during its creation.",
+          "required": true
+        },
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "location": "body",
+          "description": "The color of the classification level badge displayed on a page or issue when it’s classified at this level."
+        },
+        {
+          "name": "definition",
+          "type": "string",
+          "location": "body",
+          "description": "A user-facing description of the types of data that fall under this classification level."
+        },
+        {
+          "name": "guideline",
+          "type": "string",
+          "location": "body",
+          "description": "A user-facing explanation of any rules and expectations around using, moving, or storing data classified at a level."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "What the classification level is known as, for example, Confidential.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "data-loss-prevention-classification-levels_get-level",
+      "description": "Gets a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:classification-levels:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/classification-levels/{levelId}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "levelId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID associated with the classification level obtained during its creation.",
+          "required": true
+        },
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "data-loss-prevention-classification-levels_get-level-list",
+      "description": "Gets all [classification levels](/cloud/admin/dlp/rest/intro/#classification%20level) in an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:classification-levels:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/classification-levels",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "data-loss-prevention-classification-levels_publish-level",
+      "description": "Publishes one or more [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelIds. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/classification-levels/publish",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "levelIds",
+          "type": "array",
+          "location": "body",
+          "description": "Unique ID associated with the classification level, obtained during its creation.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "data-loss-prevention-classification-levels_reorder",
+      "description": "Changes the order of [classification levels](/cloud/admin/dlp/rest/intro/#classification%20level). The most sensitive classification level should be ranked 1. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/classification-levels/reorder",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "requestedOrder",
+          "type": "object",
+          "location": "body",
+          "description": "Requested order",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "data-loss-prevention-classification-levels_restore-level",
+      "description": "Restores a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with supplied levelId. When you restore an archived classification level, it’s restored as a draft. When you’re ready for your users to start classifying Confluence pages and Jira issues, you can publish the classification level. If the classification level had been published before being archived, restored, and published again, any pages and issues classified at this level before it was archived will regain this classification level. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/classification-levels/restore",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "levelIds",
+          "type": "array",
+          "location": "body",
+          "description": "Unique ID associated with the classification level, obtained during its creation.",
           "required": true
         }
       ]
@@ -22226,6 +23638,256 @@
       "params": []
     },
     {
+      "name": "manage_activate-user",
+      "description": "Activates the specified user account. The permission to make use of this resource is exposed by the `lifecycle.enablement` privilege. User accounts that were deactivated due to US export controls cannot be reactivated using this API. If you believe the account was incorrectly blocked, please contact [Atlassian Support](https://support.atlassian.com/contact). User accounts that have been deleted need the deletion to be canceled before reactivating. Required: account_id.",
+      "method": "POST",
+      "path": "/users/{account_id}/manage/lifecycle/enable",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "The unique identifier of the user to activate.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "manage_cancel-delete-account",
+      "description": "This API will: - Cancel the scheduled deletion of the specified managed account. - Restore and activate the user’s account. Specifications: - You can cancel the deletion within the 14-day grace period of deleting a managed account. After that the account is permanently deleted. The permission to make use of this resource is exposed by the `lifecycle.delete` privilege. Learn more about [Get user management permissions API](https://developer.atlassian.com/cloud/admin/user-management/rest/api-group-manage/#api-users-account-id-manage-get) to manage the specified user. Required: account_id. Returns the new ResultMessage.",
+      "method": "POST",
+      "path": "/users/{account_id}/manage/lifecycle/cancel-delete",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID of the user's account that you are deleting. Use the [Get users in an organization API](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-orgs-orgid-users-get) to get the accountId.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "manage_deactivate-user",
+      "description": "Deactivate (block) the specified user account from logging into Atlassian. The permission to make use of this resource is exposed by the `lifecycle.enablement` privilege. You can optionally set a message associated with the block. If none is supplied, a default message will be used. Required: account_id. Optional: message.",
+      "method": "POST",
+      "path": "/users/{account_id}/manage/lifecycle/disable",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the user",
+          "required": true
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "location": "body",
+          "description": "Message"
+        }
+      ]
+    },
+    {
+      "name": "manage_delete-account",
+      "description": "This API will: - Delete a managed account from Atlassian Administration. - Withdraw complete access to all products and services listed in Atlassian Administration. - Remove reference to the account from all lists under Directory in Atlassian Administration. Specifications: - Deleting an account is permanent. If you think you’ll need the account again, we recommend you [deactivate](https://support.atlassian.com/user-management/docs/deactivate-a-managed-account/) it instead. - Before you permanently delete the account, you’ll have a 14-day grace period, during which the account will appear as temporarily deactivated. Learn more about [deleting a managed account](https://support.atlassian.com/user-management/docs/delete-a-managed-account/). Learn the fastest way to get the paramaters and delete account with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/user-management/delete-managed-account/#delete-account). The permission to make use of this resource is exposed by the `lifecycle.delete` privilege. Learn more about [Get user management permissions API](https://developer.atlassian.com/cloud/admin/user-management/rest/api-group-manage/#api-users-account-id-manage-get) to manage the specified user. Required: account_id. Returns the new ResultMessage.",
+      "method": "POST",
+      "path": "/users/{account_id}/manage/lifecycle/delete",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID of the user's account that you are deleting. Use the [Get users in an organization API](https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/#api-orgs-orgid-users-get) to get the accountId.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "manage_delete-api-token",
+      "description": "Deletes a specifid API token by ID. Required: account_id, tokenId. Destructive.",
+      "method": "DELETE",
+      "path": "/users/{account_id}/manage/api-tokens/{tokenId}",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the user",
+          "required": true
+        },
+        {
+          "name": "tokenId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the API token",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "manage_get-api-tokens",
+      "description": "Gets the API tokens owned by the specified user. Required: account_id. Returns array of ApiTokenModel.",
+      "method": "GET",
+      "path": "/users/{account_id}/manage/api-tokens",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the user",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "manage_get-profile",
+      "description": "Returns information about a single Atlassian account by ID. Required: account_id.",
+      "method": "GET",
+      "path": "/users/{account_id}/manage/profile",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the user",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "manage_get-user-management-permissions",
+      "description": "Returns the set of permissions you have for managing the specified Atlassian account. Required: account_id. Optional: privileges.",
+      "method": "GET",
+      "path": "/users/{account_id}/manage",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "The user account to manage",
+          "required": true
+        },
+        {
+          "name": "privileges",
+          "type": "array",
+          "location": "query",
+          "description": "Privileges"
+        }
+      ]
+    },
+    {
+      "name": "manage_set-email",
+      "description": "Sets the specified user's email address. Before using this endpoint, you must [verify the target domain](https://confluence.atlassian.com/x/gjcWN) as the new email address will be considered verified. The permission to make use of this resource is exposed by the `email.set` privilege. This call invalidates all active sessions. Required: account_id, email.",
+      "method": "PUT",
+      "path": "/users/{account_id}/manage/email",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the user",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "location": "body",
+          "description": "The email address of the user. _Constraints_ - `partMaxLength`: The maximum length of the user part and of any subdomain is 255 characters. - `validCharacters`: Control and null characters are not allowed",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "manage_update-profile",
+      "description": "Updates fields in a user account. The `profile.write` privilege details which fields you can change. Required: account_id, account-id-2, account_status, account_type, email, name, nickname, picture. Optional: characteristics, extended_profile, locale (plus 1 more). Returns the updated ManageUpdateProfileResponse.",
+      "method": "PATCH",
+      "path": "/users/{account_id}/manage/profile",
+      "params": [
+        {
+          "name": "account_id",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the user to update",
+          "required": true
+        },
+        {
+          "name": "account-id-2",
+          "wire_name": "account_id",
+          "type": "string",
+          "location": "body",
+          "description": "A unique account identifier",
+          "required": true
+        },
+        {
+          "name": "account_status",
+          "type": "string",
+          "location": "body",
+          "description": "The lifecycle status of the account",
+          "required": true
+        },
+        {
+          "name": "account_type",
+          "type": "string",
+          "location": "body",
+          "description": "The type of account",
+          "required": true
+        },
+        {
+          "name": "characteristics",
+          "type": "object",
+          "location": "body",
+          "description": "Characteristics"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "location": "body",
+          "description": "The email address of the user. _Constraints_ - `partMaxLength`: The maximum length of the user part and of any subdomain is 255 characters. - `validCharacters`: Control and null characters are not allowed",
+          "required": true
+        },
+        {
+          "name": "extended_profile",
+          "type": "object",
+          "location": "body",
+          "description": "Extended profile"
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "location": "body",
+          "description": "An IETF BCP 47 locale string"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "The display name of the user. Should be used for contextual rendering of content authorship. _Constraints_ - `maxLength`: The maximum display name length is 100 characters - `validCharacters`: Control and null characters are not allowed",
+          "required": true
+        },
+        {
+          "name": "nickname",
+          "type": "string",
+          "location": "body",
+          "description": "A nickname for the user in content references to the user. _Constraints_ - `maxLength`: The maximum nickname length is 30 characters - `validCharacters`: Control and null characters are not allowed",
+          "required": true
+        },
+        {
+          "name": "picture",
+          "type": "string",
+          "location": "body",
+          "description": "The absolute URI (RFC3986) to the avatar name of the user.",
+          "required": true
+        },
+        {
+          "name": "zoneinfo",
+          "type": "string",
+          "location": "body",
+          "description": "A unix zoneinfo string describing the local timezone of the user"
+        }
+      ]
+    },
+    {
       "name": "mypermissions_get-my-permissions",
       "description": "Returns a list of permissions indicating which permissions the user has. Details of the user's permissions can be obtained in a global, project, issue or comment context. The user is reported as having a project permission: * in the global context, if the user has the project permission in any project. * for a project, where the project permission is determined using issue data, if the user meets the permission's criteria for any issue in the project. Otherwise, if the user has the project permission in the project. * for an issue, where a project permission is determined using issue data, if the user has the permission in the issue. Otherwise, if the user has the project permission in the project containing the issue. * for a comment, where the user has both the permission to browse the comment and the project permission for the comment's parent issue. Only the BROWSE_PROJECTS permission is supported. If a `commentId` is provided whose `permissions` does not equal BROWSE_PROJECTS, a 400 error will be returned. This means that users may be shown as having an issue permission (such as EDIT_ISSUES) in the global context or a project context but may not have the permission for any or all issues. For example, if Reporters have the EDIT_ISSUES permission a user would be shown as having this permission in the global context or the context of a project, because any user can be a reporter. However, if they are not the user who reported the issue queried they would not have EDIT_ISSUES permission for that issue. For [Jira Service Management project permissions](https://support.atlassian.com/jira-cloud-administration/docs/customize-jira-service-management-permissions/), this will be evaluated similarly to a user in the customer portal. For example, if the BROWSE_PROJECTS permission is granted to Service Project Customer - Portal Access, any users with access to the customer portal will have the BROWSE_PROJECTS permission. Global permissions are unaffected by context. This operation can be accessed anonymously. **[Permissions](#permissions) required:** None. (public)",
       "method": "GET",
@@ -22570,6 +24232,186 @@
           "location": "path",
           "description": "The ID of the notification.",
           "required": true
+        }
+      ]
+    },
+    {
+      "name": "oauth-clients_count",
+      "description": "Gets the count of OAuth clients in the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/oauth-clients/count",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "oauth-clients_create",
+      "description": "Creates a new OAuth client for a service account in the specified organization. Set `tokenEndpointAuthMethod` to `private_key_jwt` and supply `publicKeys` to authenticate using a signed JWT. Private Key JWT must be enabled for your organization. The response contains `clientId` and, when available, the supplied `keyId`; `clientSecret` is null for `private_key_jwt` clients. An active admin session with org management permissions is supported. API access requires OAuth client creation to be enabled for your organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts-tokens:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/oauth-clients",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "The display name of the OAuth client.",
+          "required": true
+        },
+        {
+          "name": "publicKeys",
+          "type": "array",
+          "location": "body",
+          "description": "Public keys for Private Key JWT authentication. Supply when creating a private_key_jwt client."
+        },
+        {
+          "name": "scopes",
+          "type": "array",
+          "location": "body",
+          "description": "The OAuth scopes to grant to the client.",
+          "required": true
+        },
+        {
+          "name": "serviceAccountId",
+          "type": "string",
+          "location": "body",
+          "description": "The Atlassian account ID of the service account to associate with this OAuth client.",
+          "required": true
+        },
+        {
+          "name": "tokenEndpointAuthMethod",
+          "type": "string",
+          "location": "body",
+          "description": "Token endpoint authentication method. Set to `private_key_jwt` to authenticate with a signed JWT and supply `publicKeys`. Omit to use the default client profile. Client-secret methods include `basic`, `post`, `basic_pkce`, and `post_pkce`."
+        }
+      ]
+    },
+    {
+      "name": "oauth-clients_delete",
+      "description": "Deletes an existing OAuth client from the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `delete:service-accounts-tokens:admin`. Destructive. (public)",
+      "method": "DELETE",
+      "path": "/orgs/{orgId}/oauth-clients/{clientId}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "clientId",
+          "type": "string",
+          "location": "path",
+          "description": "The unique identifier of the OAuth client to delete.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "oauth-clients_get",
+      "description": "Retrieves a specific OAuth client by ID for the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/oauth-clients/{clientId}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "clientId",
+          "type": "string",
+          "location": "path",
+          "description": "The unique identifier of the OAuth client.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "oauth-clients_list",
+      "description": "Retrieves all OAuth clients for the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/oauth-clients",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "pageSize",
+          "type": "int",
+          "location": "query",
+          "description": "Select the number of OAuth client records to include in the results."
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "Navigate to a specific page of paginated results."
+        }
+      ]
+    },
+    {
+      "name": "oauth-clients_update",
+      "description": "Updates the name, token endpoint authentication method, or public keys of an OAuth client in the specified organization. Omitted fields remain unchanged. Supply `publicKeys` to replace the configured key set, including when rotating keys. When switching to `private_key_jwt`, supply the public keys to use for authentication. Private Key JWT must be enabled for your organization. The response includes the supplied `keyId` when available. When explicitly switching from `private_key_jwt` to a client-secret method (`basic`, `post`, `basic_pkce`, or `post_pkce`), the response can include `clientSecret`. Save it securely at this point; GET responses do not return it. Other updates return a null `clientSecret`. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts-tokens:admin`. Partial update. (public)",
+      "method": "PATCH",
+      "path": "/orgs/{orgId}/oauth-clients/{clientId}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "The unique identifier of your organization.",
+          "required": true
+        },
+        {
+          "name": "clientId",
+          "type": "string",
+          "location": "path",
+          "description": "The unique identifier of the OAuth client to update.",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "The new display name of the OAuth client."
+        },
+        {
+          "name": "publicKeys",
+          "type": "array",
+          "location": "body",
+          "description": "The replacement public key set. Omit to keep the existing keys."
+        },
+        {
+          "name": "tokenEndpointAuthMethod",
+          "type": "string",
+          "location": "body",
+          "description": "The new token endpoint authentication method, such as private_key_jwt or post."
         }
       ]
     },
@@ -27848,6 +29690,783 @@
       ]
     },
     {
+      "name": "scim_create-agroup-in-active-directory",
+      "description": "Creates a read-only group in the organization's directory. You can only edit groups from your identity provider. **Note:** An attempt to create a group with an existing name will fail with a 409 (Conflict) error. Required: directoryId. Optional: displayName, externalId, id (plus 3 more). Returns the new ScimGroup.",
+      "method": "POST",
+      "path": "/scim/directory/{directoryId}/Groups",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Group display name. This is a immutable, required, and read-only field."
+        },
+        {
+          "name": "externalId",
+          "type": "string",
+          "location": "body",
+          "description": "Identifier defined by provisioning client. CaseExact. Uniqueness is controlled by client."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "location": "body",
+          "description": "Unique identifier defined by Atlassian SCIM Service. This is a read-only and case-sensitive field. It is ignored if specified in the payload during user creation or modification."
+        },
+        {
+          "name": "members",
+          "type": "array",
+          "location": "body",
+          "description": "Group members"
+        },
+        {
+          "name": "meta",
+          "type": "object",
+          "location": "body",
+          "description": "Group metadata information."
+        },
+        {
+          "name": "schemas",
+          "type": "array",
+          "location": "body",
+          "description": "SCIM schemas that define the attributes present in the current JSON structure. This ia a required field during user creation or modification."
+        }
+      ]
+    },
+    {
+      "name": "scim_create-auser-in-an-active-directory",
+      "description": "Creates a user in the directory. **Note:** An attempt to create an existing user will fail with a 409 (Conflict) error. Use this API to manage accounts outside your organization when assigning these users to SCIM groups. If there's already a managed Atlassian account associated with the specified email address on the Atlassian platform, the user in your identity provider will be connected or linked to the user in your Atlassian organization. Required: directoryId. Optional: attributes, excludedAttributes, active (plus 18 more). Returns the new ScimUser.",
+      "method": "POST",
+      "path": "/scim/directory/{directoryId}/Users",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "attributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be included in response. Mutually exclusive from `excludedAttributes`. Example: `userName,emails.value`"
+        },
+        {
+          "name": "excludedAttributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be excluded from response. Mutually exclusive from `attributes`. Example: `timezone,emails.type,department`"
+        },
+        {
+          "name": "active",
+          "type": "bool",
+          "location": "body",
+          "description": "A boolean value indicating the user's administrative status. This value will default to true if not provided."
+        },
+        {
+          "name": "department",
+          "type": "string",
+          "location": "body",
+          "description": "User's department."
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "User's display name."
+        },
+        {
+          "name": "emails",
+          "type": "array",
+          "location": "body",
+          "description": "Email addresses of the User. This is a required field during user creation or modification. One value must be marked as primary."
+        },
+        {
+          "name": "externalId",
+          "type": "string",
+          "location": "body",
+          "description": "Identifier defined by provisioning client. This is a case-sensitive field. Uniqueness is controlled by client."
+        },
+        {
+          "name": "groups",
+          "type": "array",
+          "location": "body",
+          "description": "Groups to which the user is associated in SCIM."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "location": "body",
+          "description": "Unique identifier defined by Atlassian SCIM Service. CaseExact. This is a read-only field and will be disregarded if included in the payload during user creation or modification.."
+        },
+        {
+          "name": "meta",
+          "type": "object",
+          "location": "body",
+          "description": "User metadata information."
+        },
+        {
+          "name": "name",
+          "type": "object",
+          "location": "body",
+          "description": "The components of the user's name."
+        },
+        {
+          "name": "nickName",
+          "type": "string",
+          "location": "body",
+          "description": "User's nickname."
+        },
+        {
+          "name": "organization",
+          "type": "string",
+          "location": "body",
+          "description": "User's organization."
+        },
+        {
+          "name": "phoneNumbers",
+          "type": "array",
+          "location": "body",
+          "description": "Phone numbers of the user."
+        },
+        {
+          "name": "preferredLanguage",
+          "type": "string",
+          "location": "body",
+          "description": "User's preferred language."
+        },
+        {
+          "name": "schemas",
+          "type": "array",
+          "location": "body",
+          "description": "SCIM schemas that define the attributes present in the current JSON structure This is a required field during user creation or modification."
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "location": "body",
+          "description": "User's timezone. e.g. America/Los_Angeles ."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "location": "body",
+          "description": "User's title."
+        },
+        {
+          "name": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+          "type": "object",
+          "location": "body",
+          "description": "Enterprise user information"
+        },
+        {
+          "name": "urn:scim:schemas:extension:atlassian-external:1.0",
+          "type": "object",
+          "location": "body",
+          "description": "Atlassian specific SCIM Extension"
+        },
+        {
+          "name": "userName",
+          "type": "string",
+          "location": "body",
+          "description": "Unique identifier defined by the provisioning client. Atlassian SCIM service will verify the value and guarantee its uniqueness. This is a required field during user creation or modification."
+        }
+      ]
+    },
+    {
+      "name": "scim_delete-agroup",
+      "description": "Deletes a group to remove the group from the organization's directory. **Note**: An attempt to delete a non-existent group will fail with a 404 (Resource Not found) error. **Note**: Deleting a synced group from your identity provider will delete the group from your organization's directory and associated sites. 1. If this group is used for allocating product license (granting role in a product), then members of this group may lose access to corresponding product after group deletion. 2. If this group is used to grant permissions in product, then members of this group may lose their permissions in the corresponding product. Required: directoryId, id. Destructive.",
+      "method": "DELETE",
+      "path": "/scim/directory/{directoryId}/Groups/{id}",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Unique SCIM id that serves as reference to the group.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_delete-auser-from-an-active-directory",
+      "description": "Deleting a user via the SCIM APIs will unlink the user from your identity provider and deactivate the user within Atlassian if they are managed by your organization. The deleted user is not available for future requests until created with a new `userId`. If the user is deactivated they can be activated again via [Atlassian Administration](https://admin.atlassian.com/). **Note:** Executing this API call will result in the deletion of the SCIM record, and there is no method to reverse these changes except by creating a new SCIM record with [Create a user API](https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-users/#api-scim-directory-directoryid-users-post). Required: directoryId, userId. Destructive.",
+      "method": "DELETE",
+      "path": "/scim/directory/{directoryId}/Users/{userId}",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID assigned to your identity provider when linked to your Atlassian organization.",
+          "required": true
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID to identiy the SCIM users. Use the [Get users API](https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-users/#api-scim-directory-directoryid-users-get) to get the userId.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get",
+      "description": "Gets the details of a group based on the id. Required: directoryId, id. Returns the ScimGroup.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/Groups/{id}",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Unique SCIM id that serves as reference to the group.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-all-groups-from-an-active-directory",
+      "description": "Get groups from the directory. Filter the groups by name supported with a single exact match (`eq`) against the `displayName` attribute. **Note**: While this API enables pagination, sorting functionality is not supported. Required: directoryId. Optional: filter, startIndex (default: 1), count. Returns the ScimGroupListResponse.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/Groups",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "filter",
+          "type": "string",
+          "location": "query",
+          "description": "Filter for `displayName`. Example: `displayName eq 'SCIM_GROUP'`"
+        },
+        {
+          "name": "startIndex",
+          "type": "int",
+          "location": "query",
+          "description": "A 1-based index of the first query result."
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": "query",
+          "description": "Desired maximum number of query results in the list response page."
+        }
+      ]
+    },
+    {
+      "name": "scim_get-auser-from-active-directory",
+      "description": "Retrieves a user from the directory based on their `userId`. Required: directoryId, userId. Optional: attributes, excludedAttributes. Returns the ScimUser.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/Users/{userId}",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID to identiy the users.",
+          "required": true
+        },
+        {
+          "name": "attributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be included in response. Mutually exclusive with `excludedAttributes`. Example: `userName,emails.value`"
+        },
+        {
+          "name": "excludedAttributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be excluded from response. Mutually exclusive with `attributes`. Example: `timezone,emails.type,department`"
+        }
+      ]
+    },
+    {
+      "name": "scim_get-config",
+      "description": "Get metadata about the supported SCIM features. This is a service provider configuration endpoint providing supported SCIM features. **Note:** This API does not support filtering, pagination, or sorting. Required: directoryId.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/ServiceProviderConfig",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-extension-user-schemas",
+      "description": "Get the user enterprise extension schemas from the SCIM provider. **Note:** This API does not support filtering, pagination, or sorting. Required: directoryId.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/Schemas/urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-group-resource-type",
+      "description": "Retrieves group resource type of this SCIM service provider. **Note:** This API does not support filtering, pagination, or sorting. Required: directoryId.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/ResourceTypes/Group",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-group-schemas",
+      "description": "Get the group schemas from the SCIM provider. **Note:** This API does not support filtering, pagination, or sorting. Required: directoryId.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/Schemas/urn:ietf:params:scim:schemas:core:2.0:Group",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-resource-types",
+      "description": "Get different types of resources available on a SCIM service provider (e.g., Users and Groups). **Note:** This API does not support filtering, pagination, or sorting. Required: directoryId.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/ResourceTypes",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-schemas",
+      "description": "Get all SCIM features metadata of your organization. **Note:** This API does not support filtering, pagination, or sorting. Required: directoryId.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/Schemas",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-user-resource-type",
+      "description": "Retrieves user resource types from the SCIM service provider. **Note:** This API does not support filtering, pagination, or sorting. Required: directoryId.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/ResourceTypes/User",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-user-schemas",
+      "description": "Get the user schemas from the SCIM provider. **Note:** This API does not support filtering, pagination, or sorting. Required: directoryId.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/Schemas/urn:ietf:params:scim:schemas:core:2.0:User",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "scim_get-users-from-an-active-directory",
+      "description": "Get users from the specified directory. Filtering is supported with a single exact match (`eq`) against the `userName` and `externalId` attributes. **Note**: While this API enables pagination, sorting functionality is not supported. Required: directoryId. Optional: attributes, excludedAttributes, filter (plus 2 more). Returns the ScimUserListResponse.",
+      "method": "GET",
+      "path": "/scim/directory/{directoryId}/Users",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "attributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be included in response. Mutually exclusive from `excludedAttributes`. Example: `userName,emails.value`"
+        },
+        {
+          "name": "excludedAttributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be excluded from response. Mutually exclusive from `attributes`. Example: `timezone,emails.type,department`"
+        },
+        {
+          "name": "filter",
+          "type": "string",
+          "location": "query",
+          "description": "Filter for `userName` or `externalId`. Example: `userName eq 'Atlassian'`"
+        },
+        {
+          "name": "startIndex",
+          "type": "int",
+          "location": "query",
+          "description": "A 1-based index of the first query result."
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": "query",
+          "description": "Desired maximum number of query results in the list response page."
+        }
+      ]
+    },
+    {
+      "name": "scim_patch",
+      "description": "Updates a group's information in the directory and manages group membership. **Note:** Renaming groups after they've synced to your Atlassian organization isn't supported in this release of User Provisioning API. To rename a group, create a new group with the desired name, update membership, and then delete the old group. #### Example Some HTTP headers omitted and JSON payloads formatted for readability. ``` # Request PATCH /scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Groups/50202593-bc47-45df-8fa0-3f63343aa3c1 HTTP/1.1 Accept: application/scim+json Accept-Charset: utf-8 Content-Type: application/scim+json; charset=utf-8 Authorization: Bearer 0j6lDgrjU7HmGagocgLe Host: api.atlassian.com { 'schemas':[ 'urn:ietf:params:scim:api:messages:2.0:PatchOp' ], 'Operations':[ { 'op':'add', 'path':'members', 'value':[ { 'value':'c6993c94-dbda-40f1-b6f0-18c855522ade', 'display':'dave.meyer@demotime.authteam.com' }, { 'value':'f0ae48f7-1466-445e-85ea-e83ef754aefd', 'display':'lingbo.lu@demotime.authteam.com' }, { 'value':'432d6f10-2e28-454e-be99-0f8c732a046f', 'display':'joanna@demotime.authteam.com' } ] } ] } # Response HTTP/1.1 200 Content-Type: application/scim+json { 'schemas':[ 'urn:ietf:params:scim:schemas:core:2.0:Group' ], 'id':'50202593-bc47-45df-8fa0-3f63343aa3c1', 'displayName':'demotime-confluence-users', 'members':[ { 'type':'User', 'value':'f0ae48f7-1466-445e-85ea-e83ef754aefd', 'display':'lingbo.lu@demotime.authteam.com', '$ref':'https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/f0ae48f7-1466-445e-85ea-e83ef754aefd' }, { 'type':'User', 'value':'c6993c94-dbda-40f1-b6f0-18c855522ade', 'display':'dave.meyer@demotime.authteam.com', '$ref':'https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/c6993c94-dbda-40f1-b6f0-18c855522ade' }, { 'type':'User', 'value':'432d6f10-2e28-454e-be99-0f8c732a046f', 'display':'joanna@demotime.authteam.com', '$ref':'https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/432d6f10-2e28-454e-be99-0f8c732a046f' } ], 'meta':{ 'resourceType':'Group', 'location':'https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Groups/50202593-bc47-45df-8fa0-3f63343aa3c1', 'lastModified':'2018-09-26T17:49:09.420654Z', 'created':'2018-09-26T17:41:35.49073Z' } } ```. Required: directoryId, id. Optional: operations, schemas. Returns the updated ScimGroup.",
+      "method": "PATCH",
+      "path": "/scim/directory/{directoryId}/Groups/{id}",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Unique SCIM id that serves as reference to the group.",
+          "required": true
+        },
+        {
+          "name": "operations",
+          "type": "array",
+          "location": "body",
+          "description": "SCIM patch operations."
+        },
+        {
+          "name": "schemas",
+          "type": "array",
+          "location": "body",
+          "description": "SCIM patch schemas."
+        }
+      ]
+    },
+    {
+      "name": "scim_patch-user-information-in-an-active-directory",
+      "description": "Updates a user's information in the directory based on their `userId` via `PATCH`. Refer to [Service Provider Configuration APIs](https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-service-provider-configuration/#api-group-service-provider-configuration) for details on supported operations. Required: directoryId, userId. Optional: attributes, excludedAttributes, operations (plus 1 more). Returns the updated ScimUser.",
+      "method": "PATCH",
+      "path": "/scim/directory/{directoryId}/Users/{userId}",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID to identiy the users.",
+          "required": true
+        },
+        {
+          "name": "attributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be included in the response. Mutually exclusive from `excludedAttributes`. Example: `userName,emails.value`"
+        },
+        {
+          "name": "excludedAttributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be included in the response. Mutually exclusive from `attributes`. Example: `timezone,emails.type,department`"
+        },
+        {
+          "name": "operations",
+          "type": "array",
+          "location": "body",
+          "description": "SCIM patch operations."
+        },
+        {
+          "name": "schemas",
+          "type": "array",
+          "location": "body",
+          "description": "SCIM patch schemas."
+        }
+      ]
+    },
+    {
+      "name": "scim_put",
+      "description": "Updates the details of a group with its unique ID. Required: directoryId, id. Optional: displayName, externalId, id-2 (plus 3 more). Returns the updated ScimGroup.",
+      "method": "PUT",
+      "path": "/scim/directory/{directoryId}/Groups/{id}",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Unique SCIM id that serves as reference to the group. Use the [Get groups API] (https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-groups/#api-scim-directory-directoryid-groups-get) to get the SCIM id.",
+          "required": true
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Group display name. This is a immutable, required, and read-only field."
+        },
+        {
+          "name": "externalId",
+          "type": "string",
+          "location": "body",
+          "description": "Identifier defined by provisioning client. CaseExact. Uniqueness is controlled by client."
+        },
+        {
+          "name": "id-2",
+          "wire_name": "id",
+          "type": "string",
+          "location": "body",
+          "description": "Unique identifier defined by Atlassian SCIM Service. This is a read-only and case-sensitive field. It is ignored if specified in the payload during user creation or modification."
+        },
+        {
+          "name": "members",
+          "type": "array",
+          "location": "body",
+          "description": "Group members"
+        },
+        {
+          "name": "meta",
+          "type": "object",
+          "location": "body",
+          "description": "Group metadata information."
+        },
+        {
+          "name": "schemas",
+          "type": "array",
+          "location": "body",
+          "description": "SCIM schemas that define the attributes present in the current JSON structure. This ia a required field during user creation or modification."
+        }
+      ]
+    },
+    {
+      "name": "scim_update-user-information-in-an-active-directory",
+      "description": "Update the directory-based user information using the user attributes associated with their `userId`. User information is replaced attribute-by-attribute, with the exception of immutable and read-only attributes. Existing values of unspecified attributes are cleaned. Required: directoryId, userId. Optional: attributes, excludedAttributes, active (plus 18 more). Returns the updated ScimUser.",
+      "method": "PUT",
+      "path": "/scim/directory/{directoryId}/Users/{userId}",
+      "params": [
+        {
+          "name": "directoryId",
+          "type": "string",
+          "location": "path",
+          "description": "The SCIM base URL that is generated when [conecting an identity provider with SCIM...",
+          "required": true
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "location": "path",
+          "description": "Unique ID to identiy the users.",
+          "required": true
+        },
+        {
+          "name": "attributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be included in the response. Mutually exclusive from `excludedAttributes`. Example: `userName,emails.value`"
+        },
+        {
+          "name": "excludedAttributes",
+          "type": "string",
+          "location": "query",
+          "description": "Resource attributes to be excluded in the response. Mutually exclusive from `attributes`. Example: `timezone,emails.type,department`"
+        },
+        {
+          "name": "active",
+          "type": "bool",
+          "location": "body",
+          "description": "A boolean value indicating the user's administrative status. This value will default to true if not provided."
+        },
+        {
+          "name": "department",
+          "type": "string",
+          "location": "body",
+          "description": "User's department."
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "User's display name."
+        },
+        {
+          "name": "emails",
+          "type": "array",
+          "location": "body",
+          "description": "Email addresses of the User. This is a required field during user creation or modification. One value must be marked as primary."
+        },
+        {
+          "name": "externalId",
+          "type": "string",
+          "location": "body",
+          "description": "Identifier defined by provisioning client. This is a case-sensitive field. Uniqueness is controlled by client."
+        },
+        {
+          "name": "groups",
+          "type": "array",
+          "location": "body",
+          "description": "Groups to which the user is associated in SCIM."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "location": "body",
+          "description": "Unique identifier defined by Atlassian SCIM Service. CaseExact. This is a read-only field and will be disregarded if included in the payload during user creation or modification.."
+        },
+        {
+          "name": "meta",
+          "type": "object",
+          "location": "body",
+          "description": "User metadata information."
+        },
+        {
+          "name": "name",
+          "type": "object",
+          "location": "body",
+          "description": "The components of the user's name."
+        },
+        {
+          "name": "nickName",
+          "type": "string",
+          "location": "body",
+          "description": "User's nickname."
+        },
+        {
+          "name": "organization",
+          "type": "string",
+          "location": "body",
+          "description": "User's organization."
+        },
+        {
+          "name": "phoneNumbers",
+          "type": "array",
+          "location": "body",
+          "description": "Phone numbers of the user."
+        },
+        {
+          "name": "preferredLanguage",
+          "type": "string",
+          "location": "body",
+          "description": "User's preferred language."
+        },
+        {
+          "name": "schemas",
+          "type": "array",
+          "location": "body",
+          "description": "SCIM schemas that define the attributes present in the current JSON structure This is a required field during user creation or modification."
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "location": "body",
+          "description": "User's timezone. e.g. America/Los_Angeles ."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "location": "body",
+          "description": "User's title."
+        },
+        {
+          "name": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+          "type": "object",
+          "location": "body",
+          "description": "Enterprise user information"
+        },
+        {
+          "name": "urn:scim:schemas:extension:atlassian-external:1.0",
+          "type": "object",
+          "location": "body",
+          "description": "Atlassian specific SCIM Extension"
+        },
+        {
+          "name": "userName",
+          "type": "string",
+          "location": "body",
+          "description": "Unique identifier defined by the provisioning client. Atlassian SCIM service will verify the value and guarantee its uniqueness. This is a required field during user creation or modification."
+        }
+      ]
+    },
+    {
       "name": "screens_add-field-to-default",
       "description": "Adds a field to the default tab of the default screen. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). (public)",
       "method": "POST",
@@ -28552,6 +31171,263 @@
       "path": "/rest/api/3/serverInfo",
       "no_auth": true,
       "params": []
+    },
+    {
+      "name": "service-accounts_count-api-tokens",
+      "description": "Gets count of API tokens for specified service accounts within an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/service-accounts/count",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_create",
+      "description": "Creates a new service account for the specified organization. The service account is created with the given display name and optional description, then invited with the specified permission rules and optional additional group memberships. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`. (public)",
+      "method": "POST",
+      "path": "/orgs/{orgId}/service-accounts",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "additionalGroups",
+          "type": "array",
+          "location": "body",
+          "description": "An optional list of additional groups to add the service account to."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "An optional description for the service account."
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "The display name for the service account. Must be between 6 and 30 characters.",
+          "required": true
+        },
+        {
+          "name": "permissionRules",
+          "type": "array",
+          "location": "body",
+          "description": "A list of permission rules to assign to the service account. Each rule specifies a resource and role.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_delete",
+      "description": "Deletes a service account from the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`. Destructive. (public)",
+      "method": "DELETE",
+      "path": "/orgs/{orgId}/service-accounts/{serviceAccountId}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "serviceAccountId",
+          "type": "string",
+          "location": "path",
+          "description": "The unique identifier of the service account to delete.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_list",
+      "description": "Retrieves all service accounts for the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/service-accounts",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_list-api-tokens",
+      "description": "Retrieves API tokens belonging to service accounts in the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/service-accounts/api-tokens",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "tokenLabel",
+          "type": "string",
+          "location": "query",
+          "description": "Optional filter to search for tokens by label."
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_list-oauth-clients",
+      "description": "Retrieves OAuth clients belonging to service accounts in the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/service-accounts/oauth-clients",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "clientName",
+          "type": "string",
+          "location": "query",
+          "description": "Optional filter to search for OAuth clients by name."
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_update",
+      "description": "Updates a service account's display name and/or description within the specified organization. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`. Partial update. (public)",
+      "method": "PATCH",
+      "path": "/orgs/{orgId}/service-accounts",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "atlassianId",
+          "type": "string",
+          "location": "body",
+          "description": "The Atlassian account ID of the service account to update.",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "The updated description for the service account."
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "The updated display name for the service account."
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_api-tokens_get-service-account",
+      "description": "Retrieves API tokens for a specific service account within an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/service-accounts/{serviceAccountId}/api-tokens",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "serviceAccountId",
+          "type": "string",
+          "location": "path",
+          "description": "ID for the service account whose API tokens you want to retrieve.",
+          "required": true
+        },
+        {
+          "name": "tokenLabel",
+          "type": "string",
+          "location": "query",
+          "description": "Optional filter to search for tokens by label."
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_api-tokens_revoke",
+      "description": "Revokes all API tokens for a specific service account within an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:service-accounts-tokens:admin`. Destructive. (public)",
+      "method": "DELETE",
+      "path": "/orgs/{orgId}/service-accounts/{serviceAccountId}/api-tokens",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "serviceAccountId",
+          "type": "string",
+          "location": "path",
+          "description": "ID for the service account whose API tokens you want to revoke.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "service-accounts_oauth-clients_list-service-account-by-service-account-id",
+      "description": "Retrieves OAuth clients belonging to the specified service account. #### Scopes **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`. (public)",
+      "method": "GET",
+      "path": "/orgs/{orgId}/service-accounts/{serviceAccountId}/oauth-clients",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "orgId",
+          "type": "string",
+          "location": "path",
+          "description": "Your organization is identified by a Unique ID.",
+          "required": true
+        },
+        {
+          "name": "serviceAccountId",
+          "type": "string",
+          "location": "path",
+          "description": "ID for the service account whose OAuth clients you want to retrieve.",
+          "required": true
+        },
+        {
+          "name": "clientName",
+          "type": "string",
+          "location": "query",
+          "description": "Optional filter to search for OAuth clients by name."
+        }
+      ]
     },
     {
       "name": "servicedeskapi_add-customers",
