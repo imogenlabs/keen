@@ -721,7 +721,7 @@ func determinePaginationDefaults() paginationDefaults {
 	return paginationDefaults{
 		cursorParam: "cursor",
 		cursorType:  "offset",
-		limitParam:  "maxResults",
+		limitParam:  "limit",
 		limit:       100,
 	}
 }
@@ -752,11 +752,43 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "atlassian_access_users":
 		return true
+	case "attachments":
+		return true
+	case "attachments_footer_comments":
+		return true
+	case "attachments_labels":
+		return true
+	case "attachments_properties":
+		return true
+	case "attachments_versions":
+		return true
 	case "auditing":
+		return true
+	case "blogposts":
+		return true
+	case "blogposts_attachments":
+		return true
+	case "blogposts_custom_content":
+		return true
+	case "blogposts_footer_comments":
+		return true
+	case "blogposts_inline_comments":
+		return true
+	case "blogposts_labels":
+		return true
+	case "blogposts_likes":
+		return true
+	case "blogposts_permissions":
+		return true
+	case "blogposts_properties":
+		return true
+	case "blogposts_versions":
 		return true
 	case "component":
 		return true
 	case "config":
+		return true
+	case "confluence-cloud-app":
 		return true
 	case "context":
 		return true
@@ -765,6 +797,8 @@ func resourceSupportsPagination(resource string) bool {
 	case "contexts":
 		return true
 	case "dashboard":
+		return true
+	case "data-policies":
 		return true
 	case "directories":
 		return true
@@ -784,11 +818,19 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "fieldconfiguration":
 		return true
+	case "fieldconfiguration_fields":
+		return true
 	case "fieldconfigurationscheme":
 		return true
 	case "fieldconfigurationscheme-mapping":
 		return true
-	case "fields":
+	case "footer-comments":
+		return true
+	case "footer_comments_children":
+		return true
+	case "footer_comments_likes":
+		return true
+	case "footer_comments_versions":
 		return true
 	case "group":
 		return true
@@ -797,6 +839,14 @@ func resourceSupportsPagination(resource string) bool {
 	case "groups":
 		return true
 	case "groups_role_assignments":
+		return true
+	case "inline-comments":
+		return true
+	case "inline_comments_children":
+		return true
+	case "inline_comments_likes":
+		return true
+	case "inline_comments_versions":
 		return true
 	case "invalid-jqls-access-log":
 		return true
@@ -828,6 +878,14 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "label":
 		return true
+	case "labels":
+		return true
+	case "labels_attachments":
+		return true
+	case "labels_blogposts":
+		return true
+	case "labels_pages":
+		return true
 	case "members":
 		return true
 	case "notificationscheme":
@@ -837,6 +895,34 @@ func resourceSupportsPagination(resource string) bool {
 	case "option":
 		return true
 	case "orgs":
+		return true
+	case "pages":
+		return true
+	case "pages_ancestors":
+		return true
+	case "pages_attachments":
+		return true
+	case "pages_children":
+		return true
+	case "pages_custom_content":
+		return true
+	case "pages_descendants":
+		return true
+	case "pages_direct_children":
+		return true
+	case "pages_footer_comments":
+		return true
+	case "pages_inline_comments":
+		return true
+	case "pages_labels":
+		return true
+	case "pages_likes":
+		return true
+	case "pages_permissions":
+		return true
+	case "pages_properties":
+		return true
+	case "pages_versions":
 		return true
 	case "plans":
 		return true
@@ -874,9 +960,35 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "software":
 		return true
+	case "space-permissions":
+		return true
+	case "space-permissions-transition-combinations":
+		return true
+	case "space-roles":
+		return true
+	case "spaces":
+		return true
+	case "spaces_blogposts":
+		return true
+	case "spaces_content":
+		return true
+	case "spaces_custom_content":
+		return true
+	case "spaces_labels":
+		return true
+	case "spaces_pages":
+		return true
+	case "spaces_permissions":
+		return true
+	case "spaces_properties":
+		return true
+	case "spaces_role_assignments":
+		return true
 	case "statuses":
 		return true
 	case "statuses_project_usages":
+		return true
+	case "tasks":
 		return true
 	case "ui-modifications":
 		return true
@@ -938,6 +1050,10 @@ func syncResourceFieldSelector(resource string) (string, string) {
 	switch resource {
 	case "agile":
 		return "expand", "admins,location"
+	case "blogposts":
+		return "body-format", "id,authorId,createdAt,spaceId,status,title"
+	case "confluence-cloud-app":
+		return "limit", "key"
 	case "field-search-trashed":
 		return "expand", "lastUsed,schema"
 	case "fieldconfiguration":
@@ -950,6 +1066,10 @@ func syncResourceFieldSelector(resource string) (string, string) {
 		return "expand", "editPermissions,owner,sharePermissions,sharedUsers,subscriptions"
 	case "filter-favourite":
 		return "expand", "editPermissions,owner,sharePermissions,sharedUsers,subscriptions"
+	case "footer-comments":
+		return "body-format", "id,attachmentId,blogPostId,customContentId,pageId,parentCommentId,status,title"
+	case "inline-comments":
+		return "body-format", "id,blogPostId,pageId,parentCommentId,resolutionLastModifiedAt,resolutionLastModifierId,resolutionStatus,status,title"
 	case "issuesecurityschemes-level-member":
 		return "expand", "holder"
 	case "jira-cloud-platform-search":
@@ -960,6 +1080,8 @@ func syncResourceFieldSelector(resource string) (string, string) {
 		return "expand", "id,operations,projects,schemes,statuses,transitions"
 	case "notificationscheme":
 		return "expand", "notificationSchemeEvents,scope"
+	case "pages":
+		return "body-format", "id,authorId,createdAt,lastOwnerId,ownerId,parentId,parentType,position,spaceId,status,subtype,title"
 	case "permissionscheme":
 		return "expand", "permissions,scope"
 	case "priorityscheme":
@@ -976,6 +1098,12 @@ func syncResourceFieldSelector(resource string) (string, string) {
 		return "expand", "values"
 	case "software":
 		return "nextPageToken", "expand,isLast,issues.id,nextPageToken"
+	case "space-permissions-transition-combinations":
+		return "cursor", "combinationId,permissions.id,principalCount,spaceCount"
+	case "spaces":
+		return "description-format", "id,authorId,createdAt,currentActiveAlias,homepageId,key,name,spaceOwnerId,status,type"
+	case "tasks":
+		return "body-format", "id,assignedTo,blogPostId,completedAt,completedBy,createdAt,createdBy,dueAt,localId,pageId,spaceId,status,updatedAt"
 	case "ui-modifications":
 		return "expand", "contexts"
 	case "users":
@@ -986,12 +1114,48 @@ func syncResourceFieldSelector(resource string) (string, string) {
 		return "expand", "body,labels,originalTemplate,space"
 	case "workflows":
 		return "expand", "statuses,values"
+	case "attachments_footer_comments":
+		return "body-format", "id,attachmentId,status,title"
+	case "blogposts_custom_content":
+		return "body-format", "id,authorId,blogPostId,createdAt,customContentId,pageId,spaceId,status,title,type"
+	case "blogposts_footer_comments":
+		return "body-format", "id,blogPostId,status,title"
+	case "blogposts_inline_comments":
+		return "body-format", "id,blogPostId,resolutionStatus,status,title"
+	case "blogposts_versions":
+		return "body-format", "authorId,blogpost.id,createdAt,message,minorEdit,number"
 	case "context":
 		return "contextId", "contextId"
 	case "field_screens":
 		return "expand", "scope,tab"
+	case "footer_comments_children":
+		return "body-format", "id,parentCommentId,status,title"
+	case "footer_comments_versions":
+		return "body-format", "authorId,comment.id,createdAt,message,minorEdit,number"
+	case "inline_comments_children":
+		return "body-format", "id,parentCommentId,resolutionStatus,status,title"
+	case "inline_comments_versions":
+		return "body-format", "authorId,comment.id,createdAt,message,minorEdit,number"
+	case "labels_blogposts":
+		return "body-format", "id,authorId,createdAt,spaceId,status,title"
+	case "labels_pages":
+		return "body-format", "id,authorId,createdAt,lastOwnerId,ownerId,parentId,parentType,position,spaceId,status,subtype,title"
 	case "members":
 		return "expand", "holder"
+	case "pages_custom_content":
+		return "body-format", "id,authorId,blogPostId,createdAt,customContentId,pageId,spaceId,status,title,type"
+	case "pages_footer_comments":
+		return "body-format", "id,pageId,status,title"
+	case "pages_inline_comments":
+		return "body-format", "id,pageId,resolutionStatus,status,title"
+	case "pages_versions":
+		return "body-format", "authorId,createdAt,message,minorEdit,number,page.id"
+	case "spaces_blogposts":
+		return "body-format", "id,authorId,createdAt,spaceId,status,title"
+	case "spaces_custom_content":
+		return "body-format", "id,authorId,blogPostId,createdAt,customContentId,pageId,spaceId,status,title,type"
+	case "spaces_pages":
+		return "body-format", "id,authorId,createdAt,lastOwnerId,ownerId,parentId,parentType,position,spaceId,status,subtype,title"
 	case "version":
 		return "expand", "approvers,issuesStatusForFixVersion,operations"
 	case "wiki":
@@ -1455,6 +1619,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertAddonsVersions(data)
 	case "watch":
 		return db.UpsertWatch(data)
+	case "admin-key":
+		return db.UpsertAdminKey(data)
 	case "agents":
 		return db.UpsertAgents(data)
 	case "agile":
@@ -1481,8 +1647,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertValidate(data)
 	case "atlassian-access-users":
 		return db.UpsertAtlassianAccessUsers(data)
-	case "role_assignments":
-		return db.UpsertRoleAssignments(data)
+	case "atlassian_access_users_role_assignments":
+		return db.UpsertAtlassianAccessUsersRoleAssignments(data)
 	case "roles":
 		return db.UpsertRoles(data)
 	case "atlassian-connect":
@@ -1491,8 +1657,50 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertAttachment(data)
 	case "expand":
 		return db.UpsertExpand(data)
+	case "attachments":
+		return db.UpsertAttachments(data)
+	case "attachments_footer_comments":
+		return db.UpsertAttachmentsFooterComments(data)
+	case "attachments_labels":
+		return db.UpsertAttachmentsLabels(data)
+	case "attachments_operations":
+		return db.UpsertAttachmentsOperations(data)
+	case "attachments_properties":
+		return db.UpsertAttachmentsProperties(data)
+	case "thumbnail":
+		return db.UpsertThumbnail(data)
+	case "attachments_versions":
+		return db.UpsertAttachmentsVersions(data)
 	case "system":
 		return db.UpsertSystem(data)
+	case "blogposts":
+		return db.UpsertBlogposts(data)
+	case "blogposts_attachments":
+		return db.UpsertBlogpostsAttachments(data)
+	case "blogposts_classification_level":
+		return db.UpsertBlogpostsClassificationLevel(data)
+	case "blogposts_custom_content":
+		return db.UpsertBlogpostsCustomContent(data)
+	case "blogposts_footer_comments":
+		return db.UpsertBlogpostsFooterComments(data)
+	case "blogposts_inline_comments":
+		return db.UpsertBlogpostsInlineComments(data)
+	case "blogposts_labels":
+		return db.UpsertBlogpostsLabels(data)
+	case "blogposts_likes":
+		return db.UpsertBlogpostsLikes(data)
+	case "blogposts_operations":
+		return db.UpsertBlogpostsOperations(data)
+	case "blogposts_permissions":
+		return db.UpsertBlogpostsPermissions(data)
+	case "blogposts_properties":
+		return db.UpsertBlogpostsProperties(data)
+	case "blogposts_redact":
+		return db.UpsertBlogpostsRedact(data)
+	case "blogposts_restriction_state":
+		return db.UpsertBlogpostsRestrictionState(data)
+	case "blogposts_versions":
+		return db.UpsertBlogpostsVersions(data)
 	case "builds":
 		return db.UpsertBuilds(data)
 	case "bulk":
@@ -1501,6 +1709,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertComment(data)
 	case "comment_properties":
 		return db.UpsertCommentProperties(data)
+	case "comments_properties":
+		return db.UpsertCommentsProperties(data)
 	case "component":
 		return db.UpsertComponent(data)
 	case "component_related_issue_counts":
@@ -1509,6 +1719,26 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertConfig(data)
 	case "configuration":
 		return db.UpsertConfiguration(data)
+	case "confluence-cloud-app":
+		return db.UpsertConfluenceCloudApp(data)
+	case "confluence-cloud-classification-levels":
+		return db.UpsertConfluenceCloudClassificationLevels(data)
+	case "custom-content":
+		return db.UpsertCustomContent(data)
+	case "custom_content_attachments":
+		return db.UpsertCustomContentAttachments(data)
+	case "custom_content_children":
+		return db.UpsertCustomContentChildren(data)
+	case "custom_content_footer_comments":
+		return db.UpsertCustomContentFooterComments(data)
+	case "custom_content_labels":
+		return db.UpsertCustomContentLabels(data)
+	case "custom_content_operations":
+		return db.UpsertCustomContentOperations(data)
+	case "custom_content_properties":
+		return db.UpsertCustomContentProperties(data)
+	case "custom_content_versions":
+		return db.UpsertCustomContentVersions(data)
 	case "dashboard":
 		return db.UpsertDashboard(data)
 	case "copy":
@@ -1517,8 +1747,34 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertGadget(data)
 	case "items":
 		return db.UpsertItems(data)
+	case "data-policies":
+		return db.UpsertDataPolicies(data)
 	case "data-policy":
 		return db.UpsertDataPolicy(data)
+	case "databases":
+		return db.UpsertDatabases(data)
+	case "databases_ancestors":
+		return db.UpsertDatabasesAncestors(data)
+	case "databases_classification_level":
+		return db.UpsertDatabasesClassificationLevel(data)
+	case "databases_descendants":
+		return db.UpsertDatabasesDescendants(data)
+	case "databases_direct_children":
+		return db.UpsertDatabasesDirectChildren(data)
+	case "entries":
+		return db.UpsertEntries(data)
+	case "databases_fields":
+		return db.UpsertDatabasesFields(data)
+	case "databases_operations":
+		return db.UpsertDatabasesOperations(data)
+	case "databases_permissions":
+		return db.UpsertDatabasesPermissions(data)
+	case "databases_properties":
+		return db.UpsertDatabasesProperties(data)
+	case "databases_restriction_state":
+		return db.UpsertDatabasesRestrictionState(data)
+	case "views":
+		return db.UpsertViews(data)
 	case "deployments":
 		return db.UpsertDeployments(data)
 	case "devinfo":
@@ -1533,6 +1789,18 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertDirectoriesUsers(data)
 	case "domains":
 		return db.UpsertDomains(data)
+	case "embeds":
+		return db.UpsertEmbeds(data)
+	case "embeds_ancestors":
+		return db.UpsertEmbedsAncestors(data)
+	case "embeds_descendants":
+		return db.UpsertEmbedsDescendants(data)
+	case "embeds_direct_children":
+		return db.UpsertEmbedsDirectChildren(data)
+	case "embeds_operations":
+		return db.UpsertEmbedsOperations(data)
+	case "embeds_properties":
+		return db.UpsertEmbedsProperties(data)
 	case "events":
 		return db.UpsertEvents(data)
 	case "events-stream":
@@ -1559,8 +1827,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertTrash(data)
 	case "fieldconfiguration":
 		return db.UpsertFieldconfiguration(data)
-	case "fields":
-		return db.UpsertFields(data)
+	case "fieldconfiguration_fields":
+		return db.UpsertFieldconfigurationFields(data)
 	case "fieldconfigurationscheme":
 		return db.UpsertFieldconfigurationscheme(data)
 	case "fieldconfigurationscheme_mapping":
@@ -1575,16 +1843,52 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertOwner(data)
 	case "filter_permission":
 		return db.UpsertFilterPermission(data)
+	case "folders":
+		return db.UpsertFolders(data)
+	case "folders_ancestors":
+		return db.UpsertFoldersAncestors(data)
+	case "folders_descendants":
+		return db.UpsertFoldersDescendants(data)
+	case "folders_direct_children":
+		return db.UpsertFoldersDirectChildren(data)
+	case "folders_operations":
+		return db.UpsertFoldersOperations(data)
+	case "folders_permissions":
+		return db.UpsertFoldersPermissions(data)
+	case "folders_properties":
+		return db.UpsertFoldersProperties(data)
+	case "folders_restriction_state":
+		return db.UpsertFoldersRestrictionState(data)
+	case "footer-comments":
+		return db.UpsertFooterComments(data)
+	case "footer_comments_children":
+		return db.UpsertFooterCommentsChildren(data)
+	case "footer_comments_likes":
+		return db.UpsertFooterCommentsLikes(data)
+	case "footer_comments_operations":
+		return db.UpsertFooterCommentsOperations(data)
+	case "footer_comments_versions":
+		return db.UpsertFooterCommentsVersions(data)
 	case "forge":
 		return db.UpsertForge(data)
 	case "group":
 		return db.UpsertGroup(data)
+	case "inline-comments":
+		return db.UpsertInlineComments(data)
+	case "inline_comments_children":
+		return db.UpsertInlineCommentsChildren(data)
+	case "inline_comments_likes":
+		return db.UpsertInlineCommentsLikes(data)
+	case "inline_comments_operations":
+		return db.UpsertInlineCommentsOperations(data)
+	case "inline_comments_versions":
+		return db.UpsertInlineCommentsVersions(data)
 	case "issue":
 		return db.UpsertIssue(data)
 	case "assignee":
 		return db.UpsertAssignee(data)
-	case "attachments":
-		return db.UpsertAttachments(data)
+	case "issue_attachments":
+		return db.UpsertIssueAttachments(data)
 	case "issue_changelog":
 		return db.UpsertIssueChangelog(data)
 	case "issue_comment":
@@ -1663,6 +1967,12 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertJql(data)
 	case "label":
 		return db.UpsertLabel(data)
+	case "labels_attachments":
+		return db.UpsertLabelsAttachments(data)
+	case "labels_blogposts":
+		return db.UpsertLabelsBlogposts(data)
+	case "labels_pages":
+		return db.UpsertLabelsPages(data)
 	case "license":
 		return db.UpsertLicense(data)
 	case "license-types":
@@ -1679,6 +1989,44 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertOperations(data)
 	case "orgs":
 		return db.UpsertOrgs(data)
+	case "pages":
+		return db.UpsertPages(data)
+	case "pages_ancestors":
+		return db.UpsertPagesAncestors(data)
+	case "pages_attachments":
+		return db.UpsertPagesAttachments(data)
+	case "pages_children":
+		return db.UpsertPagesChildren(data)
+	case "pages_classification_level":
+		return db.UpsertPagesClassificationLevel(data)
+	case "pages_custom_content":
+		return db.UpsertPagesCustomContent(data)
+	case "pages_descendants":
+		return db.UpsertPagesDescendants(data)
+	case "pages_direct_children":
+		return db.UpsertPagesDirectChildren(data)
+	case "pages_footer_comments":
+		return db.UpsertPagesFooterComments(data)
+	case "pages_inline_comments":
+		return db.UpsertPagesInlineComments(data)
+	case "pages_labels":
+		return db.UpsertPagesLabels(data)
+	case "pages_likes":
+		return db.UpsertPagesLikes(data)
+	case "pages_operations":
+		return db.UpsertPagesOperations(data)
+	case "pages_permissions":
+		return db.UpsertPagesPermissions(data)
+	case "pages_properties":
+		return db.UpsertPagesProperties(data)
+	case "pages_redact":
+		return db.UpsertPagesRedact(data)
+	case "pages_restriction_state":
+		return db.UpsertPagesRestrictionState(data)
+	case "title":
+		return db.UpsertTitle(data)
+	case "pages_versions":
+		return db.UpsertPagesVersions(data)
 	case "permissionscheme":
 		return db.UpsertPermissionscheme(data)
 	case "permissionscheme_permission":
@@ -1713,8 +2061,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertAvatars(data)
 	case "classification_config":
 		return db.UpsertClassificationConfig(data)
-	case "classification_level":
-		return db.UpsertClassificationLevel(data)
+	case "project_classification_level":
+		return db.UpsertProjectClassificationLevel(data)
 	case "project_component":
 		return db.UpsertProjectComponent(data)
 	case "components":
@@ -1787,6 +2135,32 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertSettings(data)
 	case "software":
 		return db.UpsertSoftware(data)
+	case "space-permissions":
+		return db.UpsertSpacePermissions(data)
+	case "space-roles":
+		return db.UpsertSpaceRoles(data)
+	case "spaces":
+		return db.UpsertSpaces(data)
+	case "spaces_blogposts":
+		return db.UpsertSpacesBlogposts(data)
+	case "spaces_classification_level":
+		return db.UpsertSpacesClassificationLevel(data)
+	case "spaces_content":
+		return db.UpsertSpacesContent(data)
+	case "spaces_custom_content":
+		return db.UpsertSpacesCustomContent(data)
+	case "spaces_labels":
+		return db.UpsertSpacesLabels(data)
+	case "spaces_operations":
+		return db.UpsertSpacesOperations(data)
+	case "spaces_pages":
+		return db.UpsertSpacesPages(data)
+	case "spaces_permissions":
+		return db.UpsertSpacesPermissions(data)
+	case "spaces_properties":
+		return db.UpsertSpacesProperties(data)
+	case "spaces_role_assignments":
+		return db.UpsertSpacesRoleAssignments(data)
 	case "status":
 		return db.UpsertStatus(data)
 	case "statuscategory":
@@ -1803,6 +2177,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertTask(data)
 	case "cancel":
 		return db.UpsertCancel(data)
+	case "tasks":
+		return db.UpsertTasks(data)
 	case "ui-modifications":
 		return db.UpsertUiModifications(data)
 	case "user":
@@ -1819,6 +2195,24 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertReporting(data)
 	case "webhook":
 		return db.UpsertWebhook(data)
+	case "whiteboards":
+		return db.UpsertWhiteboards(data)
+	case "whiteboards_ancestors":
+		return db.UpsertWhiteboardsAncestors(data)
+	case "whiteboards_classification_level":
+		return db.UpsertWhiteboardsClassificationLevel(data)
+	case "whiteboards_descendants":
+		return db.UpsertWhiteboardsDescendants(data)
+	case "whiteboards_direct_children":
+		return db.UpsertWhiteboardsDirectChildren(data)
+	case "whiteboards_operations":
+		return db.UpsertWhiteboardsOperations(data)
+	case "whiteboards_permissions":
+		return db.UpsertWhiteboardsPermissions(data)
+	case "whiteboards_properties":
+		return db.UpsertWhiteboardsProperties(data)
+	case "whiteboards_restriction_state":
+		return db.UpsertWhiteboardsRestrictionState(data)
 	case "wiki":
 		return db.UpsertWiki(data)
 	case "workflows":
@@ -1889,13 +2283,18 @@ func defaultSyncResources() []string {
 		"applications",
 		"assets",
 		"atlassian-connect",
+		"attachments",
 		"auditing",
+		"blogposts",
 		"classification-levels",
 		"component",
 		"config",
 		"configuration",
+		"confluence-cloud-app",
+		"confluence-cloud-classification-levels",
 		"dashboard",
 		"dashboard-gadgets",
+		"data-policies",
 		"data-policy",
 		"events",
 		"field",
@@ -1905,10 +2304,12 @@ func defaultSyncResources() []string {
 		"fieldconfigurationscheme-mapping",
 		"filter",
 		"filter-favourite",
+		"footer-comments",
 		"forge",
 		"group",
 		"group-member",
 		"groups",
+		"inline-comments",
 		"invalid-jqls-access-log",
 		"issuesecurityschemes",
 		"issuesecurityschemes-level",
@@ -1925,10 +2326,12 @@ func defaultSyncResources() []string {
 		"jql",
 		"jql-autocompletedata-suggestions",
 		"label",
+		"labels",
 		"license-types",
 		"notificationscheme",
 		"notificationscheme-project",
 		"orgs",
+		"pages",
 		"permissions",
 		"permissionscheme",
 		"plans",
@@ -1953,9 +2356,14 @@ func defaultSyncResources() []string {
 		"servicedeskapi-servicedesk",
 		"settings",
 		"software",
+		"space-permissions",
+		"space-permissions-transition-combinations",
+		"space-roles",
+		"spaces",
 		"status",
 		"statuscategory",
 		"statuses",
+		"tasks",
 		"ui-modifications",
 		"user",
 		"user-bulk-migration",
@@ -1995,13 +2403,18 @@ func knownSyncResourceNames() []string {
 		"applications",
 		"assets",
 		"atlassian-connect",
+		"attachments",
 		"auditing",
+		"blogposts",
 		"classification-levels",
 		"component",
 		"config",
 		"configuration",
+		"confluence-cloud-app",
+		"confluence-cloud-classification-levels",
 		"dashboard",
 		"dashboard-gadgets",
+		"data-policies",
 		"data-policy",
 		"events",
 		"field",
@@ -2011,10 +2424,12 @@ func knownSyncResourceNames() []string {
 		"fieldconfigurationscheme-mapping",
 		"filter",
 		"filter-favourite",
+		"footer-comments",
 		"forge",
 		"group",
 		"group-member",
 		"groups",
+		"inline-comments",
 		"invalid-jqls-access-log",
 		"issuesecurityschemes",
 		"issuesecurityschemes-level",
@@ -2031,10 +2446,12 @@ func knownSyncResourceNames() []string {
 		"jql",
 		"jql-autocompletedata-suggestions",
 		"label",
+		"labels",
 		"license-types",
 		"notificationscheme",
 		"notificationscheme-project",
 		"orgs",
+		"pages",
 		"permissions",
 		"permissionscheme",
 		"plans",
@@ -2059,9 +2476,14 @@ func knownSyncResourceNames() []string {
 		"servicedeskapi-servicedesk",
 		"settings",
 		"software",
+		"space-permissions",
+		"space-permissions-transition-combinations",
+		"space-roles",
+		"spaces",
 		"status",
 		"statuscategory",
 		"statuses",
+		"tasks",
 		"ui-modifications",
 		"user",
 		"user-bulk-migration",
@@ -2105,13 +2527,18 @@ func syncResourcePath(resource string) (string, error) {
 		"applications":                             "/applications",
 		"assets":                                   "/assets",
 		"atlassian-connect":                        "/rest/atlassian-connect/1/app/module/dynamic",
+		"attachments":                              "/attachments",
 		"auditing":                                 "/rest/api/3/auditing/record",
+		"blogposts":                                "/blogposts",
 		"classification-levels":                    "/rest/api/3/classification-levels",
 		"component":                                "/rest/api/3/component",
 		"config":                                   "/rest/api/3/config/fieldschemes",
 		"configuration":                            "/rest/api/3/configuration/timetracking/list",
+		"confluence-cloud-app":                     "/app/properties",
+		"confluence-cloud-classification-levels":   "/classification-levels",
 		"dashboard":                                "/rest/api/3/dashboard",
 		"dashboard-gadgets":                        "/rest/api/3/dashboard/gadgets",
+		"data-policies":                            "/data-policies/spaces",
 		"data-policy":                              "/rest/api/3/data-policy/project",
 		"events":                                   "/rest/api/3/events",
 		"field":                                    "/rest/api/3/field",
@@ -2121,10 +2548,12 @@ func syncResourcePath(resource string) (string, error) {
 		"fieldconfigurationscheme-mapping":         "/rest/api/3/fieldconfigurationscheme/mapping",
 		"filter":                                   "/rest/api/3/filter/my",
 		"filter-favourite":                         "/rest/api/3/filter/favourite",
+		"footer-comments":                          "/footer-comments",
 		"forge":                                    "/rest/forge/1/app/properties",
 		"group":                                    "/rest/api/3/group/bulk",
 		"group-member":                             "/rest/api/3/group/member",
 		"groups":                                   "/rest/api/3/groups/picker",
+		"inline-comments":                          "/inline-comments",
 		"invalid-jqls-access-log":                  "/rest/api/3/invalid-jqls-access-log",
 		"issuesecurityschemes":                     "/rest/api/3/issuesecurityschemes",
 		"issuesecurityschemes-level":               "/rest/api/3/issuesecurityschemes/level",
@@ -2141,10 +2570,12 @@ func syncResourcePath(resource string) (string, error) {
 		"jql":                                      "/rest/api/3/jql/function/computation",
 		"jql-autocompletedata-suggestions":         "/rest/api/3/jql/autocompletedata/suggestions",
 		"label":                                    "/rest/api/3/label",
+		"labels":                                   "/labels",
 		"license-types":                            "/licenseTypes",
 		"notificationscheme":                       "/rest/api/3/notificationscheme",
 		"notificationscheme-project":               "/rest/api/3/notificationscheme/project",
 		"orgs":                                     "/v1/orgs",
+		"pages":                                    "/pages",
 		"permissions":                              "/rest/api/3/permissions",
 		"permissionscheme":                         "/rest/api/3/permissionscheme",
 		"plans":                                    "/rest/api/3/plans/plan",
@@ -2169,25 +2600,30 @@ func syncResourcePath(resource string) (string, error) {
 		"servicedeskapi-servicedesk":               "/rest/servicedeskapi/servicedesk",
 		"settings":                                 "/rest/api/3/settings/columns",
 		"software":                                 "/rest/software/1.0/epic/none/issue",
-		"status":                                   "/rest/api/3/status",
-		"statuscategory":                           "/rest/api/3/statuscategory",
-		"statuses":                                 "/rest/api/3/statuses/search",
-		"ui-modifications":                         "/rest/api/3/uiModifications",
-		"user":                                     "/rest/api/3/user/search",
-		"user-bulk-migration":                      "/rest/api/3/user/bulk/migration",
-		"user-columns":                             "/rest/api/3/user/columns",
-		"user-properties":                          "/rest/api/3/user/properties",
-		"users":                                    "/rest/api/3/users",
-		"webhook":                                  "/rest/api/3/webhook",
-		"webhook-failed":                           "/rest/api/3/webhook/failed",
-		"wiki":                                     "/wiki/rest/api/audit",
-		"wiki-rest-api-audit-since":                "/wiki/rest/api/audit/since",
-		"wiki-rest-api-content-states":             "/wiki/rest/api/content-states",
-		"wiki-rest-api-group":                      "/wiki/rest/api/group",
-		"wiki-rest-api-longtask":                   "/wiki/rest/api/longtask",
-		"wiki-rest-api-settings-theme":             "/wiki/rest/api/settings/theme",
-		"wiki-rest-api-template-blueprint":         "/wiki/rest/api/template/blueprint",
-		"wiki-rest-api-template-page":              "/wiki/rest/api/template/page",
+		"space-permissions":                        "/space-permissions",
+		"space-permissions-transition-combinations": "/space-permissions/transition/combinations",
+		"space-roles":                      "/space-roles",
+		"spaces":                           "/spaces",
+		"status":                           "/rest/api/3/status",
+		"statuscategory":                   "/rest/api/3/statuscategory",
+		"statuses":                         "/rest/api/3/statuses/search",
+		"tasks":                            "/tasks",
+		"ui-modifications":                 "/rest/api/3/uiModifications",
+		"user":                             "/rest/api/3/user/search",
+		"user-bulk-migration":              "/rest/api/3/user/bulk/migration",
+		"user-columns":                     "/rest/api/3/user/columns",
+		"user-properties":                  "/rest/api/3/user/properties",
+		"users":                            "/rest/api/3/users",
+		"webhook":                          "/rest/api/3/webhook",
+		"webhook-failed":                   "/rest/api/3/webhook/failed",
+		"wiki":                             "/wiki/rest/api/audit",
+		"wiki-rest-api-audit-since":        "/wiki/rest/api/audit/since",
+		"wiki-rest-api-content-states":     "/wiki/rest/api/content-states",
+		"wiki-rest-api-group":              "/wiki/rest/api/group",
+		"wiki-rest-api-longtask":           "/wiki/rest/api/longtask",
+		"wiki-rest-api-settings-theme":     "/wiki/rest/api/settings/theme",
+		"wiki-rest-api-template-blueprint": "/wiki/rest/api/template/blueprint",
+		"wiki-rest-api-template-page":      "/wiki/rest/api/template/page",
 		"wiki-rest-atlassian-connect-1-app-module-dynamic": "/wiki/rest/atlassian-connect/1/app/module/dynamic",
 		"workflows":      "/rest/api/3/workflows/search",
 		"workflowscheme": "/rest/api/3/workflowscheme",
@@ -2241,19 +2677,58 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "atlassian_access_users", ParentTable: "orgs", ParentIDParam: "orgId", PathTemplate: "/v1/orgs/{orgId}/users", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "orgId", Field: "id"},
 		}},
+		{Name: "attachments_footer_comments", ParentTable: "attachments", ParentIDParam: "id", PathTemplate: "/attachments/{id}/footer-comments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "attachments_labels", ParentTable: "attachments", ParentIDParam: "id", PathTemplate: "/attachments/{id}/labels", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "attachments_properties", ParentTable: "attachments", ParentIDParam: "attachment-id", PathTemplate: "/attachments/{attachment-id}/properties", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "attachment-id", Field: "id"},
+		}},
+		{Name: "attachments_versions", ParentTable: "attachments", ParentIDParam: "id", PathTemplate: "/attachments/{id}/versions", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "blogposts_attachments", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/attachments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "blogposts_custom_content", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/custom-content", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "blogposts_footer_comments", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/footer-comments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "blogposts_inline_comments", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/inline-comments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "blogposts_labels", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/labels", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "blogposts_likes", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/likes/users", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "blogposts_permissions", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/permissions", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "blogposts_properties", ParentTable: "blogposts", ParentIDParam: "blogpost-id", PathTemplate: "/blogposts/{blogpost-id}/properties", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "blogpost-id", Field: "id"},
+		}},
+		{Name: "blogposts_versions", ParentTable: "blogposts", ParentIDParam: "id", PathTemplate: "/blogposts/{id}/versions", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/issuetypemapping", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "fieldId", Field: "id"},
+		}},
 		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/projectmapping", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/issuetypemapping", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValues", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValue", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "fieldId", Field: "id"},
-		}},
-		{Name: "context", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/context/defaultValues", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
 		{Name: "contexts", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/contexts", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2274,7 +2749,16 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "field_screens", ParentTable: "field", ParentIDParam: "fieldId", PathTemplate: "/rest/api/3/field/{fieldId}/screens", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldId", Field: "id"},
 		}},
-		{Name: "fields", ParentTable: "fieldconfiguration", ParentIDParam: "id", PathTemplate: "/rest/api/3/fieldconfiguration/{id}/fields", KeyField: "", PathParams: []dependentPathParamDef{
+		{Name: "fieldconfiguration_fields", ParentTable: "fieldconfiguration", ParentIDParam: "id", PathTemplate: "/rest/api/3/fieldconfiguration/{id}/fields", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "footer_comments_children", ParentTable: "footer-comments", ParentIDParam: "id", PathTemplate: "/footer-comments/{id}/children", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "footer_comments_likes", ParentTable: "footer-comments", ParentIDParam: "id", PathTemplate: "/footer-comments/{id}/likes/users", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "footer_comments_versions", ParentTable: "footer-comments", ParentIDParam: "id", PathTemplate: "/footer-comments/{id}/versions", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "id", Field: "id"},
 		}},
 		{Name: "groups_role_assignments", ParentTable: "groups", ParentIDParam: "groupId", PathTemplate: "/v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/role-assignments", KeyField: "", PathParams: []dependentPathParamDef{
@@ -2282,23 +2766,80 @@ func dependentResourceDefs() []dependentResourceDef {
 			{Param: "directoryId", Field: "directories_id"},
 			{Param: "groupId", Field: "id"},
 		}},
+		{Name: "inline_comments_children", ParentTable: "inline-comments", ParentIDParam: "id", PathTemplate: "/inline-comments/{id}/children", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "inline_comments_likes", ParentTable: "inline-comments", ParentIDParam: "id", PathTemplate: "/inline-comments/{id}/likes/users", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "inline_comments_versions", ParentTable: "inline-comments", ParentIDParam: "id", PathTemplate: "/inline-comments/{id}/versions", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
 		{Name: "issuetypescreenscheme_project", ParentTable: "issuetypescreenscheme", ParentIDParam: "issueTypeScreenSchemeId", PathTemplate: "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/project", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "issueTypeScreenSchemeId", Field: "id"},
 		}},
 		{Name: "jira_cloud_platform_workflow_project_usages", ParentTable: "jira-cloud-platform-workflow", ParentIDParam: "workflowId", PathTemplate: "/rest/api/3/workflow/{workflowId}/projectUsages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "workflowId", Field: "workflow_id"},
 		}},
+		{Name: "labels_attachments", ParentTable: "labels", ParentIDParam: "id", PathTemplate: "/labels/{id}/attachments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "labels_blogposts", ParentTable: "labels", ParentIDParam: "id", PathTemplate: "/labels/{id}/blogposts", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "labels_pages", ParentTable: "labels", ParentIDParam: "id", PathTemplate: "/labels/{id}/pages", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
 		{Name: "members", ParentTable: "issuesecurityschemes", ParentIDParam: "issueSecuritySchemeId", PathTemplate: "/rest/api/3/issuesecurityschemes/{issueSecuritySchemeId}/members", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "issueSecuritySchemeId", Field: "id"},
-		}},
-		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/search", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "fieldKey", Field: "key"},
 		}},
 		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/edit", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
 		}},
+		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/search", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "fieldKey", Field: "key"},
+		}},
 		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
+		}},
+		{Name: "pages_ancestors", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/ancestors", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_attachments", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/attachments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_children", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/children", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_custom_content", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/custom-content", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_descendants", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/descendants", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_direct_children", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/direct-children", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_footer_comments", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/footer-comments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_inline_comments", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/inline-comments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_labels", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/labels", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_likes", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/likes/users", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_permissions", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/permissions", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "pages_properties", ParentTable: "pages", ParentIDParam: "page-id", PathTemplate: "/pages/{page-id}/properties", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "page-id", Field: "id"},
+		}},
+		{Name: "pages_versions", ParentTable: "pages", ParentIDParam: "id", PathTemplate: "/pages/{id}/versions", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
 		}},
 		{Name: "priorities", ParentTable: "priorityscheme", ParentIDParam: "schemeId", PathTemplate: "/rest/api/3/priorityscheme/{schemeId}/priorities", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "schemeId", Field: "id"},
@@ -2319,6 +2860,30 @@ func dependentResourceDefs() []dependentResourceDef {
 		}},
 		{Name: "reviews", ParentTable: "addons", ParentIDParam: "addonKey", PathTemplate: "/addons/{addonKey}/reviews", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "addonKey", Field: "key"},
+		}},
+		{Name: "spaces_blogposts", ParentTable: "spaces", ParentIDParam: "id", PathTemplate: "/spaces/{id}/blogposts", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "spaces_content", ParentTable: "spaces", ParentIDParam: "id", PathTemplate: "/spaces/{id}/content/labels", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "spaces_custom_content", ParentTable: "spaces", ParentIDParam: "id", PathTemplate: "/spaces/{id}/custom-content", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "spaces_labels", ParentTable: "spaces", ParentIDParam: "id", PathTemplate: "/spaces/{id}/labels", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "spaces_pages", ParentTable: "spaces", ParentIDParam: "id", PathTemplate: "/spaces/{id}/pages", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "spaces_permissions", ParentTable: "spaces", ParentIDParam: "id", PathTemplate: "/spaces/{id}/permissions", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
+		}},
+		{Name: "spaces_properties", ParentTable: "spaces", ParentIDParam: "space-id", PathTemplate: "/spaces/{space-id}/properties", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "space-id", Field: "id"},
+		}},
+		{Name: "spaces_role_assignments", ParentTable: "spaces", ParentIDParam: "id", PathTemplate: "/spaces/{id}/role-assignments", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "id", Field: "id"},
 		}},
 		{Name: "statuses_project_usages", ParentTable: "statuses", ParentIDParam: "statusId", PathTemplate: "/rest/api/3/statuses/{statusId}/projectUsages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "statusId", Field: "id"},
@@ -2725,16 +3290,29 @@ var resourceIDFieldOverrides = map[string]string{
 	"atlassian_access_events":                  "id",
 	"atlassian_access_policies":                "id",
 	"atlassian_access_users":                   "name",
+	"attachments":                              "id",
+	"attachments_footer_comments":              "id",
+	"attachments_labels":                       "id",
+	"attachments_properties":                   "id",
 	"auditing":                                 "id",
+	"blogposts":                                "id",
+	"blogposts_attachments":                    "id",
+	"blogposts_custom_content":                 "id",
+	"blogposts_footer_comments":                "id",
+	"blogposts_inline_comments":                "id",
+	"blogposts_labels":                         "id",
+	"blogposts_properties":                     "id",
 	"classification-levels":                    "id",
 	"component":                                "id",
 	"config":                                   "id",
 	"configuration":                            "name",
-	"context":                                  "contextId",
+	"confluence-cloud-classification-levels":   "id",
+	"context":                                  "id",
 	"context_option":                           "id",
 	"contexts":                                 "id",
 	"dashboard":                                "id",
 	"dashboard-gadgets":                        "title",
+	"data-policies":                            "id",
 	"data-policy":                              "id",
 	"directories":                              "directoryId",
 	"directories_groups":                       "id",
@@ -2747,14 +3325,18 @@ var resourceIDFieldOverrides = map[string]string{
 	"field-search-trashed":                     "id",
 	"field_screens":                            "id",
 	"fieldconfiguration":                       "name",
+	"fieldconfiguration_fields":                "id",
 	"fieldconfigurationscheme":                 "id",
 	"fieldconfigurationscheme-mapping":         "fieldConfigurationId",
-	"fields":                                   "id",
 	"filter":                                   "id",
 	"filter-favourite":                         "id",
+	"footer-comments":                          "id",
+	"footer_comments_children":                 "id",
 	"group":                                    "groupId",
 	"group-member":                             "name",
 	"groups":                                   "groupId",
+	"inline-comments":                          "id",
+	"inline_comments_children":                 "id",
 	"issuesecurityschemes":                     "id",
 	"issuesecurityschemes-level":               "id",
 	"issuesecurityschemes-level-member":        "id",
@@ -2766,10 +3348,25 @@ var resourceIDFieldOverrides = map[string]string{
 	"issuetypescreenscheme_project":            "id",
 	"jira-cloud-platform-workflow":             "id",
 	"jql":                                      "id",
+	"labels":                                   "id",
+	"labels_attachments":                       "id",
+	"labels_blogposts":                         "id",
+	"labels_pages":                             "id",
 	"members":                                  "id",
 	"notificationscheme":                       "id",
 	"option":                                   "id",
 	"orgs":                                     "id",
+	"pages":                                    "id",
+	"pages_ancestors":                          "id",
+	"pages_attachments":                        "id",
+	"pages_children":                           "id",
+	"pages_custom_content":                     "id",
+	"pages_descendants":                        "id",
+	"pages_direct_children":                    "id",
+	"pages_footer_comments":                    "id",
+	"pages_inline_comments":                    "id",
+	"pages_labels":                             "id",
+	"pages_properties":                         "id",
 	"permissionscheme":                         "id",
 	"plans":                                    "id",
 	"policies":                                 "id",
@@ -2788,24 +3385,36 @@ var resourceIDFieldOverrides = map[string]string{
 	"role":                                     "id",
 	"screens":                                  "id",
 	"screenscheme":                             "id",
-	"status":                                   "id",
-	"statuscategory":                           "id",
-	"statuses":                                 "id",
-	"ui-modifications":                         "id",
-	"user":                                     "name",
-	"users":                                    "name",
-	"version":                                  "id",
-	"webhook":                                  "id",
-	"webhook-failed":                           "id",
-	"wiki":                                     "category",
-	"wiki-rest-api-audit-since":                "category",
-	"wiki-rest-api-content-states":             "id",
-	"wiki-rest-api-group":                      "id",
-	"wiki-rest-api-longtask":                   "id",
-	"wiki-rest-api-settings-theme":             "name",
-	"wiki-rest-api-template-blueprint":         "name",
-	"wiki-rest-api-template-page":              "name",
-	"workflowscheme":                           "id",
+	"space-permissions":                        "id",
+	"space-permissions-transition-combinations": "combinationId",
+	"space-roles":                      "id",
+	"spaces":                           "id",
+	"spaces_blogposts":                 "id",
+	"spaces_content":                   "id",
+	"spaces_custom_content":            "id",
+	"spaces_labels":                    "id",
+	"spaces_pages":                     "id",
+	"spaces_permissions":               "id",
+	"spaces_properties":                "id",
+	"status":                           "id",
+	"statuscategory":                   "id",
+	"statuses":                         "id",
+	"tasks":                            "id",
+	"ui-modifications":                 "id",
+	"user":                             "name",
+	"users":                            "name",
+	"version":                          "id",
+	"webhook":                          "id",
+	"webhook-failed":                   "id",
+	"wiki":                             "category",
+	"wiki-rest-api-audit-since":        "category",
+	"wiki-rest-api-content-states":     "id",
+	"wiki-rest-api-group":              "id",
+	"wiki-rest-api-longtask":           "id",
+	"wiki-rest-api-settings-theme":     "name",
+	"wiki-rest-api-template-blueprint": "name",
+	"wiki-rest-api-template-page":      "name",
+	"workflowscheme":                   "id",
 }
 
 // genericIDFieldFallbacks is the runtime safety net for resources that did
