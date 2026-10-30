@@ -38,9 +38,9 @@ SPECS=(
 # a spec when it is first added: on a shipped spec this renames its commands.
 FIX_IDS=(admin-users admin-control)
 
-# Server URL placeholders keen fills at run time: placeholder=env var. When the
-# env var is not set, keen looks the value up from the site
-# (internal/client/sitevars.go).
+# Server URL placeholders keen fills at run time: placeholder=marker. specfix.py
+# writes the marker into the URL; internal/client/sitevars.go swaps it for the
+# env var of the same name, the auth.json value, or a lookup on the site.
 TEMPLATE_VARS="cloudId=KEEN_CLOUD_ID workspaceId=KEEN_ASSETS_WORKSPACE_ID"
 
 # Files keen writes by hand: the merge always keeps keen's copy.
