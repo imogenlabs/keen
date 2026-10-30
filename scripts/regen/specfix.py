@@ -57,12 +57,40 @@ def operations_of(spec):
                 yield op
 
 
+def singular(word):
+    if word.endswith("ies"):
+        return word[:-3] + "y"
+    return word[:-1] if word.endswith("s") else word
+
+
+def camel(words):
+    return "".join(w[:1].upper() + w[1:] for w in words)
+
+
 def fix_operation_ids(spec):
     ops = list(operations_of(spec))
-    for op in ops:
-        if not op.get("operationId") and op.get("summary"):
-            words = [w for w in re.findall(r"[A-Za-z0-9]+", op["summary"]) if w.lower() not in ("a", "an", "the")]
-            op["operationId"] = words[0].lower() + "".join(w[:1].upper() + w[1:].lower() for w in words[1:])
+    made = {}  # id made from a summary -> [(path, op)]
+    for path, item in spec.get("paths", {}).items():
+        for method, op in item.items():
+            if method in METHODS and not op.get("operationId") and op.get("summary"):
+                summary = re.sub(r"['\u2019]s\b", "", op["summary"])  # "project's" -> "project"
+                words = [w for w in re.findall(r"[A-Za-z0-9]+", summary) if w.lower() not in ("a", "an", "the")]
+                op["operationId"] = words[0].lower() + camel(w.lower() for w in words[1:])
+                made.setdefault(op["operationId"], []).append((path, op))
+    # Two operations with the same summary: tell them apart by the area of the
+    # API they sit in, or else by the id the narrower one takes.
+    for same in made.values():
+        if len(same) < 2:
+            continue
+        areas = [p.strip("/").split("/")[0] for p, _ in same]
+        if len(set(areas)) == len(areas):
+            for (p, op), area in zip(same, areas):
+                op["operationId"] += "In" + camel(re.findall(r"[A-Za-z0-9]+", singular(area)))
+            continue
+        for p, op in same:
+            params = re.findall(r"\{([^}]+)\}", p)
+            if len(params) == max(len(re.findall(r"\{([^}]+)\}", q)) for q, _ in same) and len({len(re.findall(r"\{", q)) for q, _ in same}) > 1:
+                op["operationId"] += "By" + camel(re.findall(r"[A-Za-z0-9]+", params[-1]))
     ids = [op.get("operationId", "") for op in ops]
     prefix = re.match(r"[A-Za-z0-9]+_", ids[0]) if ids else None
     if prefix and all(i.startswith(prefix.group()) for i in ids):
