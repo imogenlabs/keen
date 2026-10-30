@@ -120,7 +120,7 @@ def rename_groups(root):
         name = os.path.basename(path)
         for old, repl in GROUP_RENAMES.items():
             if name in (old + ".go", "promoted_" + old + ".go"):
-                new = re.sub(r'(Use:\s+")' + re.escape(old) + '"', r"\g<1>" + repl + '"', new)
+                new = re.sub(r'(Use:\s+")' + re.escape(old) + '([ "])', r"\g<1>" + repl + r"\2", new)
                 new = re.sub(r'(Short:\s+")Manage [^"]*"', r"\g<1>Manage " + repl.replace("-", " ") + '"', new)
         if new != text:
             open(path, "w", encoding="utf-8").write(new)
