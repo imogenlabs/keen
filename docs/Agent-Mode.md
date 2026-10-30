@@ -14,7 +14,7 @@ Auth: `~/.config/keen/auth.json`, or `export JIRA_CLOUD_PLATFORM_USERNAME=... JI
 
 ## MCP Server
 
-The `keen-mcp` binary exposes every keen command (1,920 tools) over MCP. Add to your MCP config:
+The `keen-mcp` binary exposes every keen command (1,939 tools) over MCP. Add to your MCP config:
 
 ```json
 {

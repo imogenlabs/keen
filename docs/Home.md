@@ -10,4 +10,5 @@
 - [[Sprints & Boards]] — Sprint CRUD, board management, backlog operations
 - [[Confluence]] — Pages, blog posts, spaces, search
 - [[Marketplace]] — Addon management, versions, vendor operations
+- [[Teamwork Graph]] — Org chart, teams, and a person's work across Atlassian
 - [[Agent Mode]] — Using the CLI with AI agents (Claude Code, Codex, etc.)

@@ -39,7 +39,7 @@ ln -s $(pwd)/keen ~/go/bin/keen
 go build -o keen-mcp ./cmd/keen-mcp/
 ```
 
-The MCP server exposes every keen command (1,920 tools) over the Model Context Protocol (stdio transport). Add to your MCP config:
+The MCP server exposes every keen command (1,939 tools) over the Model Context Protocol (stdio transport). Add to your MCP config:
 
 ```json
 {

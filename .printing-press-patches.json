@@ -196,6 +196,20 @@
       "reason": "The generator picks the health endpoint from the specs; with Bitbucket in the list it chose /user, which the site does not have.",
       "files": ["scripts/regen/normalize.py", "internal/cli/doctor.go"],
       "validated_outcome": "keen doctor output identical to the v1.5.0 release (credentials: ok from /rest/api/3/user)."
+    },
+    {
+      "id": "teamwork-graph",
+      "summary": "keen teamwork-graph (18 queries) and keen graphql over Atlassian's GraphQL gateway. graphql.py reads the schema without login, keeps specs/graphql.json and writes internal/cli/teamwork_graph_gen.go; regen.sh and finish.sh run it, specdiff.py checks it weekly.",
+      "reason": "Org chart and Teamwork Graph exist only on the GraphQL gateway. Each query needs its @optIn name (from the field description), the site as X-Query-Context, ARIs for users and teams, and X-Force-Dynamo on two fields; errors come back with HTTP 200.",
+      "files": ["scripts/regen/graphql.py", "scripts/regen/config.sh (GRAPHQL_PREFIXES)", "scripts/regen/regen.sh", "scripts/regen/finish.sh", "scripts/regen/specdiff.py", "specs/graphql.json", "internal/cli/teamwork_graph.go", "internal/cli/teamwork_graph_gen.go", "internal/client/graphql.go", "internal/cli/root.go (addTeamworkGraphCommands)"],
+      "validated_outcome": "teamwork_graph_test.go, graphql_test.go (fails when 200-with-errors handling is removed). Live: user-created returns Jira items, user-viewed returns viewed issues, user-manager/teams/report-chain answer (empty on a one-person site); specdiff exits 1 on a changed or removed field."
+    },
+    {
+      "id": "pinned-guesses",
+      "summary": "normalize.py pins the status endpoints of space-roles delete/update, space-permissions get-transition-task-status and wiki bulk-async-convert, and sync's cursorType (offset); GENERATOR_HUNKS takes the generator's side of .printing-press.json conflicts.",
+      "reason": "The generator guessed these differently on consecutive runs over the same specs (Jira /rest/api/3/status and /task for Confluence tasks); every release shipped cursorType offset.",
+      "files": ["scripts/regen/normalize.py", "scripts/regen/config.sh (GENERATOR_HUNKS)", "scripts/regen/regen.sh"],
+      "validated_outcome": "Three consecutive regens: the second changed only run metadata, the third resolved that automatically."
     }
   ]
 }

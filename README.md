@@ -50,6 +50,7 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 | **Service Desk** | 75 | Requests, queues, customers, SLAs, approvals |
 | **Assets** | 64 | Objects, object schemas and types, AQL search, imports (`keen assets-...`). keen finds your cloud and workspace ids from the site |
 | **Compass** | 11 | Events, metric values, attachments and API specs for components |
+| **Teamwork Graph** | 18 queries | Org chart (manager, direct reports, report chain), teams, a person's created, commented, mentioned and viewed work, over GraphQL ([Teamwork Graph](docs/Teamwork-Graph.md)). Plus `keen graphql` for any read query |
 | **Bitbucket** | 300 | Repositories, pull requests, pipelines, branches, commits, snippets, workspaces (`keen bitbucket-...`). Public data works without a token; private data needs a Bitbucket-scoped token ([Authentication](docs/Authentication.md)) |
 | **Admin** | 133 | Organizations, directories, groups, domains, policies, user management, user provisioning (SCIM), API tokens and service accounts, data loss prevention. Needs an admin API key ([Authentication](docs/Authentication.md)) |
 
@@ -126,7 +127,7 @@ What changed in each release: [CHANGELOG.md](CHANGELOG.md).
 
 ## MCP Server
 
-Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,920 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
+Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,939 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
 
 Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cache; writes hit the Atlassian API and update the cache before returning.
 
@@ -327,6 +328,8 @@ If the merge stops on a conflict, the script lists the files. Resolve them in th
 To see what Atlassian has changed since the last refresh, without changing anything, run `scripts/regen/specdiff.py`. It lists the operations added, removed or changed in each spec. A weekly GitHub workflow (`.github/workflows/spec-check.yml`) runs the same check, opens one issue when anything differs and closes it once keen is current again, so a change is never missed.
 
 To add an Atlassian API, add one `name=URL` line to the end of `SPECS` and run the two commands above. Nothing else needs editing.
+
+The org chart and Teamwork Graph commands come from Atlassian's GraphQL schema instead of an OpenAPI spec. `scripts/regen/graphql.py` reads it (no login needed), keeps a snapshot in `specs/graphql.json` and writes the command table; the refresh runs it, and the weekly check compares the live schema with the snapshot.
 
 If Atlassian retires an API, the generator stops producing its command. Add it to `internal/compat/compat.go` so the old command and MCP tool keep their name and tell people what replaced it. Every local change is listed in `.printing-press-patches.json`.
 
