@@ -5,6 +5,7 @@ package mcp
 import (
 	"context"
 	"encoding/json"
+	"strings"
 	"testing"
 
 	mcplib "github.com/mark3labs/mcp-go/mcp"
@@ -93,5 +94,29 @@ func TestRegisterModes(t *testing.T) {
 	Register(s)
 	if n := len(s.ListTools()); n < 1000 {
 		t.Errorf("KEEN_MCP_TOOLS=all lists %d tools, want every tool", n)
+	}
+}
+
+// With keen's real tools: Atlassian switched off GET /rest/api/3/search, so a
+// JQL search must lead to the tool that works, and the removed one must say
+// what to use when called by name.
+func TestSearchSkipsRemovedTools(t *testing.T) {
+	all := server.NewMCPServer("all", "")
+	RegisterTools(all)
+	RegisterCompatTools(all)
+	s := server.NewMCPServer("t", "")
+	RegisterSearchRun(s, all)
+	for _, query := range []string{"search issues with jql", "search for issues using jql", "find issues by jql"} {
+		if got := firstTool(t, call(t, s, "keen_search", map[string]any{"query": query})); got != "jira-cloud-platform-search_and-reconsile-issues-using-jql" {
+			t.Errorf("search %q: first = %s, want the and-reconsile JQL tool", query, got)
+		}
+	}
+	removed := "jira-cloud-platform-search_for-issues-using-jql"
+	if got := firstTool(t, call(t, s, "keen_search", map[string]any{"query": removed})); got != removed {
+		t.Errorf("exact name search: first = %s", got)
+	}
+	res := call(t, s, "keen_run", map[string]any{"tool": removed, "arguments": map[string]any{"jql": "project = X"}})
+	if !res.IsError || !strings.Contains(res.Content[0].(mcplib.TextContent).Text, "and-reconsile-issues-using-jql") {
+		t.Errorf("running the removed tool = %v, want an error naming the replacement", res.Content)
 	}
 }

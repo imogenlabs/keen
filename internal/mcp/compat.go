@@ -14,7 +14,7 @@ import (
 )
 
 // RegisterCompatTools adds the old names after RegisterTools: renamed tools
-// answer under their old name too, retired ones say what replaced them.
+// answer under their old name too, retired and removed ones say what replaced them.
 func RegisterCompatTools(s *server.MCPServer) {
 	for oldGroup, newGroup := range compat.Renamed {
 		for name, t := range s.ListTools() {
@@ -30,6 +30,19 @@ func RegisterCompatTools(s *server.MCPServer) {
 			tool.Description = "Old name of " + name + ". " + tool.Description
 			s.AddTool(tool, t.Handler)
 		}
+	}
+	for name, key := range compat.DeprecatedTools {
+		r, ok := compat.RemovedEndpoints[key]
+		t := s.GetTool(name)
+		if !ok || t == nil {
+			continue
+		}
+		note := compat.RemovedNote(r, true)
+		tool := t.Tool
+		tool.Description = "Removed by Atlassian. " + note
+		s.AddTool(tool, func(ctx context.Context, req mcplib.CallToolRequest) (*mcplib.CallToolResult, error) {
+			return mcplib.NewToolResultError(note), nil
+		})
 	}
 	for _, r := range compat.RetiredCommands {
 		name := strings.ReplaceAll(r.Path, " ", "_")

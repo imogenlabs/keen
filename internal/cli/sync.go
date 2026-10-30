@@ -130,7 +130,7 @@ Resource scoping:
 
 			// If no specific resources, sync top-level resources
 			if len(resources) == 0 {
-				resources = defaultSyncResources()
+				resources = withoutRemoved(defaultSyncResources())
 			}
 
 			// Reject --resource-param keys that don't match a known resource.

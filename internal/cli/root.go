@@ -427,6 +427,7 @@ Run 'keen doctor' to verify auth and connectivity.`,
 	addWikiPageCommands(rootCmd, flags)
 	addTeamworkGraphCommands(rootCmd, flags)
 	addCompatCommands(rootCmd, flags)
+	markDeprecatedCommands(rootCmd)
 	addOutputSummaryFlag(rootCmd, flags)
 
 	return rootCmd

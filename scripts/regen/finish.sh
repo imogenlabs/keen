@@ -19,6 +19,7 @@ git -C "$REPO" fetch -q "$M" +theirs:refs/regen/theirs +ours:refs/regen/merged
 git -C "$REPO" read-tree -u --reset refs/regen/merged
 python3 "$REPO/scripts/regen/postfix.py" "$REPO"
 python3 "$REPO/scripts/regen/graphql.py" --write
+python3 "$REPO/scripts/regen/deprecated.py"
 echo "finish: merged tree is in the checkout. Run scripts/regen/check.sh"
 # Today's generator output, stacked on the base so moving the base is a fast-forward.
 next=$(git -C "$REPO" -c user.name=regen -c user.email=regen@localhost commit-tree "refs/regen/theirs^{tree}" \

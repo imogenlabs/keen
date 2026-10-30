@@ -11,6 +11,8 @@ import (
 
 	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
+
+	"keen/internal/compat"
 )
 
 // keen has about 1,900 tools. Listed one by one, their names, descriptions and
@@ -86,11 +88,13 @@ func RegisterSearchRun(s, all *server.MCPServer) {
 }
 
 type indexedTool struct {
-	name     string
-	words    map[string]bool // from the name
-	text     string          // lower-case name and description
-	summary  map[string]any
-	readOnly bool
+	name       string
+	words      map[string]bool // from the name
+	text       string          // lower-case name and description
+	summary    map[string]any
+	readOnly   bool
+	deprecated bool // Atlassian deprecated the API; ranked below the others
+	removed    bool // Atlassian switched the API off; found only by exact name
 }
 
 type toolIndex []indexedTool
@@ -100,6 +104,11 @@ func buildToolIndex(all *server.MCPServer) toolIndex {
 	for name, t := range all.ListTools() {
 		desc := t.Tool.Description
 		readOnly := t.Tool.Annotations.ReadOnlyHint != nil && *t.Tool.Annotations.ReadOnlyHint
+		key, deprecated := compat.DeprecatedTools[name]
+		_, removed := compat.RemovedEndpoints[key]
+		if deprecated && !removed {
+			desc = "Deprecated by Atlassian; prefer another tool if one fits. " + desc
+		}
 		short := desc
 		if len(short) > 300 {
 			short = short[:300] + "..."
@@ -111,10 +120,12 @@ func buildToolIndex(all *server.MCPServer) toolIndex {
 			}
 		}
 		idx = append(idx, indexedTool{
-			name:     name,
-			words:    words,
-			text:     strings.ToLower(name + " " + desc),
-			readOnly: readOnly,
+			name:       name,
+			words:      words,
+			text:       strings.ToLower(name + " " + desc),
+			readOnly:   readOnly,
+			deprecated: deprecated,
+			removed:    removed,
 			summary: map[string]any{
 				"name":        name,
 				"description": short,
@@ -129,8 +140,9 @@ func buildToolIndex(all *server.MCPServer) toolIndex {
 
 // search ranks tools by how many query words appear in their name (weighted)
 // and description, minus the name words the query did not ask for, so the
-// plain tool beats a longer one that merely shares a word. An exact tool name
-// comes first.
+// plain tool beats a longer one that merely shares a word. Deprecated tools
+// lose the worth of one name word; removed ones show up only by exact name.
+// An exact tool name comes first.
 func (idx toolIndex) search(query string, limit int) []map[string]any {
 	q := strings.TrimSpace(query)
 	words := splitWords(q)
@@ -143,6 +155,8 @@ func (idx toolIndex) search(query string, limit int) []map[string]any {
 		score := 0
 		if strings.EqualFold(t.name, q) {
 			score += 1000
+		} else if t.removed {
+			continue
 		}
 		matched := map[string]bool{}
 		for _, w := range words {
@@ -164,6 +178,9 @@ func (idx toolIndex) search(query string, limit int) []map[string]any {
 			// Name words the query did not ask for cost a little; a tool whose
 			// name matched at all stays in the results.
 			score = max(score-2*(len(t.words)-len(matched)), 1)
+		}
+		if t.deprecated && score > 0 && score < 1000 {
+			score = max(score-5, 1)
 		}
 		if score > 0 {
 			hits = append(hits, scored{t, score})
@@ -194,7 +211,7 @@ var nameNoise = map[string]bool{"jira": true, "cloud": true, "platform": true, "
 var actionWords = map[string][]string{
 	"list":   {"get", "all", "list"},
 	"show":   {"get"},
-	"find":   {"search", "get"},
+	"find":   {"search"},
 	"move":   {"transition"},
 	"change": {"update", "edit"},
 	"remove": {"delete"},
