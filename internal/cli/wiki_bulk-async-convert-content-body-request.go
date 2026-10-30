@@ -68,14 +68,14 @@ func newWikiBulkAsyncConvertContentBodyRequestCmd(flags *rootFlags) *cobra.Comma
 					Endpoint:       "bulk-async-convert-content-body-request",
 					Status:         "submitted",
 					StatusResource: "wiki",
-					StatusEndpoint: "get-content-restriction-status-for-user",
+					StatusEndpoint: "get-individual-group-restriction-status-by-group-id",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/user", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}/byGroupId/{groupId}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

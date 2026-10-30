@@ -748,6 +748,8 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "applications_versions":
 		return true
+	case "aql":
+		return true
 	case "association":
 		return true
 	case "atlassian_access_events":
@@ -854,6 +856,8 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "invalid-jqls-access-log":
 		return true
+	case "iql":
+		return true
 	case "issuesecurityschemes-level":
 		return true
 	case "issuesecurityschemes-level-member":
@@ -895,6 +899,8 @@ func resourceSupportsPagination(resource string) bool {
 	case "notificationscheme":
 		return true
 	case "notificationscheme-project":
+		return true
+	case "objectschema":
 		return true
 	case "option":
 		return true
@@ -1637,6 +1643,10 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertAgile(data)
 	case "announcement-banner":
 		return db.UpsertAnnouncementBanner(data)
+	case "api-config":
+		return db.UpsertApiConfig(data)
+	case "api-import":
+		return db.UpsertApiImport(data)
 	case "api-keys":
 		return db.UpsertApiKeys(data)
 	case "api-tokens":
@@ -1651,6 +1661,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertApplications(data)
 	case "applications_versions":
 		return db.UpsertApplicationsVersions(data)
+	case "aql":
+		return db.UpsertAql(data)
 	case "atlassian-access-events":
 		return db.UpsertAtlassianAccessEvents(data)
 	case "atlassian-access-policies":
@@ -1725,6 +1737,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertCommentProperties(data)
 	case "comments_properties":
 		return db.UpsertCommentsProperties(data)
+	case "compass":
+		return db.UpsertCompass(data)
 	case "component":
 		return db.UpsertComponent(data)
 	case "component_related_issue_counts":
@@ -1889,6 +1903,26 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertForge(data)
 	case "group":
 		return db.UpsertGroup(data)
+	case "icon":
+		return db.UpsertIcon(data)
+	case "icon_png":
+		return db.UpsertIconPng(data)
+	case "importsource":
+		return db.UpsertImportsource(data)
+	case "configstatus":
+		return db.UpsertConfigstatus(data)
+	case "executions":
+		return db.UpsertExecutions(data)
+	case "importschedule":
+		return db.UpsertImportschedule(data)
+	case "importsource_mapping":
+		return db.UpsertImportsourceMapping(data)
+	case "schedule":
+		return db.UpsertSchedule(data)
+	case "schema_and_mapping":
+		return db.UpsertSchemaAndMapping(data)
+	case "token":
+		return db.UpsertToken(data)
 	case "inline-comments":
 		return db.UpsertInlineComments(data)
 	case "inline_comments_children":
@@ -1899,6 +1933,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertInlineCommentsOperations(data)
 	case "inline_comments_versions":
 		return db.UpsertInlineCommentsVersions(data)
+	case "iql":
+		return db.UpsertIql(data)
 	case "issue":
 		return db.UpsertIssue(data)
 	case "assignee":
@@ -2005,6 +2041,30 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertNotification(data)
 	case "oauth-clients":
 		return db.UpsertOauthClients(data)
+	case "object":
+		return db.UpsertObject(data)
+	case "object_attributes":
+		return db.UpsertObjectAttributes(data)
+	case "history":
+		return db.UpsertHistory(data)
+	case "referenceinfo":
+		return db.UpsertReferenceinfo(data)
+	case "tickets":
+		return db.UpsertTickets(data)
+	case "objectschema":
+		return db.UpsertObjectschema(data)
+	case "objectschema_attributes":
+		return db.UpsertObjectschemaAttributes(data)
+	case "objecttypes":
+		return db.UpsertObjecttypes(data)
+	case "objecttype":
+		return db.UpsertObjecttype(data)
+	case "objecttype_attributes":
+		return db.UpsertObjecttypeAttributes(data)
+	case "position":
+		return db.UpsertPosition(data)
+	case "objecttypeattribute":
+		return db.UpsertObjecttypeattribute(data)
 	case "operations":
 		return db.UpsertOperations(data)
 	case "orgs":
@@ -2069,6 +2129,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertPriorityschemeProjects(data)
 	case "products":
 		return db.UpsertProducts(data)
+	case "progress":
+		return db.UpsertProgress(data)
 	case "project":
 		return db.UpsertProject(data)
 	case "archive":
@@ -2305,10 +2367,13 @@ func defaultSyncResources() []string {
 		"addons-search-brief",
 		"agile",
 		"agile-1-0-epic-none-issue",
+		"api-config",
+		"api-config-referencetype",
 		"application-properties",
 		"application-properties-advanced-settings",
 		"applicationrole",
 		"applications",
+		"aql",
 		"assets",
 		"atlassian-connect",
 		"attachments",
@@ -2337,8 +2402,10 @@ func defaultSyncResources() []string {
 		"group",
 		"group-member",
 		"groups",
+		"icon",
 		"inline-comments",
 		"invalid-jqls-access-log",
+		"iql",
 		"issuesecurityschemes",
 		"issuesecurityschemes-level",
 		"issuesecurityschemes-level-member",
@@ -2358,6 +2425,7 @@ func defaultSyncResources() []string {
 		"license-types",
 		"notificationscheme",
 		"notificationscheme-project",
+		"objectschema",
 		"orgs",
 		"pages",
 		"permissions",
@@ -2393,6 +2461,7 @@ func defaultSyncResources() []string {
 		"statuses",
 		"tasks",
 		"ui-modifications",
+		"usage",
 		"user",
 		"user-bulk-migration",
 		"user-columns",
@@ -2425,10 +2494,13 @@ func knownSyncResourceNames() []string {
 		"addons-search-brief",
 		"agile",
 		"agile-1-0-epic-none-issue",
+		"api-config",
+		"api-config-referencetype",
 		"application-properties",
 		"application-properties-advanced-settings",
 		"applicationrole",
 		"applications",
+		"aql",
 		"assets",
 		"atlassian-connect",
 		"attachments",
@@ -2457,8 +2529,10 @@ func knownSyncResourceNames() []string {
 		"group",
 		"group-member",
 		"groups",
+		"icon",
 		"inline-comments",
 		"invalid-jqls-access-log",
+		"iql",
 		"issuesecurityschemes",
 		"issuesecurityschemes-level",
 		"issuesecurityschemes-level-member",
@@ -2478,6 +2552,7 @@ func knownSyncResourceNames() []string {
 		"license-types",
 		"notificationscheme",
 		"notificationscheme-project",
+		"objectschema",
 		"orgs",
 		"pages",
 		"permissions",
@@ -2513,6 +2588,7 @@ func knownSyncResourceNames() []string {
 		"statuses",
 		"tasks",
 		"ui-modifications",
+		"usage",
 		"user",
 		"user-bulk-migration",
 		"user-columns",
@@ -2549,10 +2625,13 @@ func syncResourcePath(resource string) (string, error) {
 		"addons-search-brief":       "/addons/search/brief",
 		"agile":                     "/rest/agile/1.0/board",
 		"agile-1-0-epic-none-issue": "/rest/agile/1.0/epic/none/issue",
+		"api-config":                "/config/statustype",
+		"api-config-referencetype":  "/config/referencetype",
 		"application-properties":    "/rest/api/3/application-properties",
 		"application-properties-advanced-settings": "/rest/api/3/application-properties/advanced-settings",
 		"applicationrole":                          "/rest/api/3/applicationrole",
 		"applications":                             "/applications",
+		"aql":                                      "/aql/objects",
 		"assets":                                   "/assets",
 		"atlassian-connect":                        "/rest/atlassian-connect/1/app/module/dynamic",
 		"attachments":                              "/attachments",
@@ -2581,8 +2660,10 @@ func syncResourcePath(resource string) (string, error) {
 		"group":                                    "/rest/api/3/group/bulk",
 		"group-member":                             "/rest/api/3/group/member",
 		"groups":                                   "/rest/api/3/groups/picker",
+		"icon":                                     "/icon/global",
 		"inline-comments":                          "/inline-comments",
 		"invalid-jqls-access-log":                  "/rest/api/3/invalid-jqls-access-log",
+		"iql":                                      "/iql/objects",
 		"issuesecurityschemes":                     "/rest/api/3/issuesecurityschemes",
 		"issuesecurityschemes-level":               "/rest/api/3/issuesecurityschemes/level",
 		"issuesecurityschemes-level-member":        "/rest/api/3/issuesecurityschemes/level/member",
@@ -2602,6 +2683,7 @@ func syncResourcePath(resource string) (string, error) {
 		"license-types":                            "/licenseTypes",
 		"notificationscheme":                       "/rest/api/3/notificationscheme",
 		"notificationscheme-project":               "/rest/api/3/notificationscheme/project",
+		"objectschema":                             "/objectschema/list",
 		"orgs":                                     "/v1/orgs",
 		"pages":                                    "/pages",
 		"permissions":                              "/rest/api/3/permissions",
@@ -2637,6 +2719,7 @@ func syncResourcePath(resource string) (string, error) {
 		"statuses":                         "/rest/api/3/statuses/search",
 		"tasks":                            "/tasks",
 		"ui-modifications":                 "/rest/api/3/uiModifications",
+		"usage":                            "/usage",
 		"user":                             "/rest/api/3/user/search",
 		"user-bulk-migration":              "/rest/api/3/user/bulk/migration",
 		"user-columns":                     "/rest/api/3/user/columns",
@@ -3320,17 +3403,20 @@ func dependentParentRows(db *store.Store, parentTable string, pathParams []depen
 // annotations on a child path-item are honored at runtime, not just on
 // flat paths.
 var resourceIDFieldOverrides = map[string]string{
-	"addons":                  "count",
-	"addons-archived":         "count",
-	"addons-listings-banners": "count",
-	"addons-search-brief":     "name",
-	"addons_versions":         "count",
-	"agile":                   "id",
-	"api_keys":                "id",
-	"application-properties":  "id",
+	"addons":                   "count",
+	"addons-archived":          "count",
+	"addons-listings-banners":  "count",
+	"addons-search-brief":      "name",
+	"addons_versions":          "count",
+	"agile":                    "id",
+	"api-config":               "id",
+	"api-config-referencetype": "id",
+	"api_keys":                 "id",
+	"application-properties":   "id",
 	"application-properties-advanced-settings": "id",
 	"applicationrole":                          "key",
 	"applications_versions":                    "count",
+	"aql":                                      "startIndex",
 	"atlassian_access_events":                  "id",
 	"atlassian_access_policies":                "id",
 	"atlassian_access_users":                   "name",
@@ -3379,8 +3465,10 @@ var resourceIDFieldOverrides = map[string]string{
 	"group":                                    "groupId",
 	"group-member":                             "name",
 	"groups":                                   "groupId",
+	"icon":                                     "id",
 	"inline-comments":                          "id",
 	"inline_comments_children":                 "id",
+	"iql":                                      "startIndex",
 	"issuesecurityschemes":                     "id",
 	"issuesecurityschemes-level":               "id",
 	"issuesecurityschemes-level-member":        "id",
@@ -3398,6 +3486,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"labels_pages":                             "id",
 	"members":                                  "id",
 	"notificationscheme":                       "id",
+	"objectschema":                             "id",
 	"option":                                   "id",
 	"orgs":                                     "id",
 	"orgs_api_tokens":                          "id",
@@ -3447,6 +3536,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"statuses":                         "id",
 	"tasks":                            "id",
 	"ui-modifications":                 "id",
+	"usage":                            "schemaId",
 	"user":                             "name",
 	"users":                            "name",
 	"version":                          "id",

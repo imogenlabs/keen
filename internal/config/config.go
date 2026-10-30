@@ -30,6 +30,8 @@ type Config struct {
 	JiraCloudPlatformPassword string            `toml:"cloud_platform_password" json:"password,omitempty"`
 	AdminAPIKey               string            `toml:"admin_api_key" json:"admin_api_key,omitempty"`
 	ScimAPIKey                string            `toml:"scim_api_key" json:"scim_api_key,omitempty"`
+	CloudID                   string            `toml:"cloud_id" json:"cloud_id,omitempty"`
+	AssetsWorkspaceID         string            `toml:"assets_workspace_id" json:"assets_workspace_id,omitempty"`
 }
 
 func Load(configPath string) (*Config, error) {

@@ -17,7 +17,7 @@
           <mxGeometry x="560" y="170" width="220" height="70" as="geometry" />
         </mxCell>
 
-        <mxCell id="router" value="&lt;b&gt;CLI Router&lt;/b&gt;&#xa;Cobra commands &#183; 1,468 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a3c6e;fontSize=13;" vertex="1" parent="1">
+        <mxCell id="router" value="&lt;b&gt;CLI Router&lt;/b&gt;&#xa;Cobra commands &#183; 1,543 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a3c6e;fontSize=13;" vertex="1" parent="1">
           <mxGeometry x="380" y="310" width="260" height="70" as="geometry" />
         </mxCell>
 
