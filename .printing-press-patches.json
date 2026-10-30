@@ -210,6 +210,13 @@
       "reason": "The generator guessed these differently on consecutive runs over the same specs (Jira /rest/api/3/status and /task for Confluence tasks); every release shipped cursorType offset.",
       "files": ["scripts/regen/normalize.py", "scripts/regen/config.sh (GENERATOR_HUNKS)", "scripts/regen/regen.sh"],
       "validated_outcome": "Three consecutive regens: the second changed only run metadata, the third resolved that automatically."
+    },
+    {
+      "id": "mcp-search-run",
+      "summary": "keen-mcp registers every tool on an inner server and offers keen_search and keen_run by default; KEEN_MCP_TOOLS=all lists every tool.",
+      "reason": "tools/list was 2.2 MB (about 500k tokens) for 1,939 tools, larger than most models' context.",
+      "files": ["internal/mcp/searchrun.go", "internal/mcp/searchrun_test.go", "cmd/keen-mcp/main.go (mcptools.Register)"],
+      "validated_outcome": "tools/list 1,504 bytes by default, 2,229,695 with KEEN_MCP_TOOLS=all. Live: keen_search finds issue_transitions_do for 'move issue to done'; keen_run issue_get KEEN-32 returns the issue; keen_run teamwork_graph_user_created returns rows."
     }
   ]
 }

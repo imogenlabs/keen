@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `keen-mcp` can be used from AI apps again. It listed all 1,939 tools, about half a million tokens, more than most models can hold. It now offers `keen_search` (find the tools for a task) and `keen_run` (run one by name); `KEEN_MCP_TOOLS=all` lists every tool as before
+
 ### Changed
 - Bitbucket command names say what they do: `bitbucket-user get-current` (was `list`), `bitbucket-repositories list-in-workspace` (was `get`), `pullrequests create-pull-request`, and 168 more. Atlassian gives most Bitbucket operations no id, so the refresh now names them from Atlassian's summaries
 

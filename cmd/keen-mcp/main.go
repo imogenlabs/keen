@@ -21,8 +21,7 @@ func main() {
 		server.WithToolCapabilities(false),
 	)
 
-	mcptools.RegisterTools(s)
-	mcptools.RegisterCompatTools(s)
+	mcptools.Register(s)
 
 	if err := server.ServeStdio(s); err != nil {
 		fmt.Fprintf(os.Stderr, "MCP server error: %v\n", err)
