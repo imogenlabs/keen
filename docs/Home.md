@@ -1,6 +1,6 @@
 # Keen Wiki
 
-**The complete Atlassian platform CLI.** 1,130 endpoints across 6 APIs.
+**The complete Atlassian platform CLI.** 1,382 endpoints across 7 APIs.
 
 ## Pages
 

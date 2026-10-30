@@ -8,11 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- The Confluence v2 API: 252 commands and MCP tools grouped by resource (`pages`, `blogposts`, `spaces`, `folders`, `databases`, `whiteboards`, comments, attachments, space roles and more). keen now covers 1,382 endpoints with 1,438 MCP tools. The v1 `wiki` commands are unchanged
 - `scripts/regen/specdiff.py` lists what Atlassian added, removed or changed in each API spec since keen was last refreshed
 - A weekly workflow runs that check, opens one issue when Atlassian's specs change and closes it once keen is current
 
 ### Changed
 - The Atlassian specs keen is built from are listed in one place (`SPECS` in `scripts/regen/config.sh`); adding an API is one line
+- The refresh fills Atlassian's templated server addresses (`scripts/regen/specfix.py`) and points site URLs at your configured site
 - `scripts/regen/resolve.py` is back: the README pointed to it after it was removed
 
 ## [1.4.1] - 2026-10-28

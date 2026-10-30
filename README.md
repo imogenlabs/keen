@@ -28,7 +28,7 @@
 
 ---
 
-1,130 API endpoints across Jira, Confluence, Agile, Marketplace, Service Desk, and Admin — in a single Go binary. SQLite-backed local sync with full-text search. MCP server for AI agents. Built for automation first, humans second.
+1,382 API endpoints across Jira, Confluence, Agile, Marketplace, Service Desk, and Admin — in a single Go binary. SQLite-backed local sync with full-text search. MCP server for AI agents. Built for automation first, humans second.
 
 ## What is Keen?
 
@@ -45,6 +45,7 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 | **Jira Platform v3** | 630 | Issues, transitions, search, bulk ops, fields, workflows, permissions |
 | **Jira Agile** | 105 | Sprints, boards, backlogs, epics, ranking, velocity |
 | **Confluence** | 130 | CQL search, spaces, labels, templates, attachments, permissions, content states |
+| **Confluence v2** | 252 | Pages, blog posts, spaces, folders, databases, whiteboards, comments, attachments, space roles |
 | **Marketplace v2** | 143 | Addons, versions, vendors, distribution, reviews, reporting |
 | **Service Desk** | 75 | Requests, queues, customers, SLAs, approvals |
 | **Admin Orgs** | 47 | Organizations, directories, groups, policies, domains |
@@ -122,7 +123,7 @@ What changed in each release: [CHANGELOG.md](CHANGELOG.md).
 
 ## MCP Server
 
-Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,183 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
+Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,438 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
 
 Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cache; writes hit the Atlassian API and update the cache before returning.
 
@@ -288,7 +289,7 @@ keen addons versions get io.example.my-addon --agent
 
 | Feature | Keen | Atlassian Rovo MCP | jira-cli | ACLI (Appfire) |
 |---------|------|--------------------|----------|----------------|
-| Endpoints | 1,130 | 46+ | Jira only | Many |
+| Endpoints | 1,382 | 46+ | Jira only | Many |
 | Local cache | SQLite + FTS5 | No | No | No |
 | MCP server | Yes | Yes (official) | No | No |
 | Products | 6 (Jira, Confluence, Agile, Marketplace, Service Desk, Admin) | 5 | 1 | 4 |
@@ -298,7 +299,7 @@ keen addons versions get io.example.my-addon --agent
 
 ## Architecture
 
-Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,130 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
+Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,382 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
 
 <p align="center">
   <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share a Cobra router that splits between a live HTTP client and a local SQLite + FTS5 store, talking to six Atlassian Cloud APIs (Jira Platform, Jira Agile, Confluence, Marketplace, Service Desk, Admin Orgs)." width="660">
@@ -308,7 +309,7 @@ Source: [`docs/diagrams/architecture.drawio`](docs/diagrams/architecture.drawio)
 
 ## Regeneration
 
-keen is generated from 6 official Atlassian OpenAPI specs (in `specs/`) by [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press), then carries its own changes on top. The list of specs lives in one place, `SPECS` in `scripts/regen/config.sh`. One script refreshes keen from Atlassian's current specs without losing those changes:
+keen is generated from 7 official Atlassian OpenAPI specs (in `specs/`) by [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press), then carries its own changes on top. The list of specs lives in one place, `SPECS` in `scripts/regen/config.sh`. One script refreshes keen from Atlassian's current specs without losing those changes:
 
 ```bash
 git switch -c build/refresh-specs

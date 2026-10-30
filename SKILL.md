@@ -47,6 +47,14 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 - `keen addons list-search` — Get a list of apps with names matching a search term.
 - `keen addons update` — Update a specific app. The request body must be a valid JSON Patch document.
 
+**admin-key** — The [Admin Key feature](https://support.atlassian.com/confluence-cloud/docs/bypass-access-restrictions-on-a-page-with-admin-key/) is only offered with Confluence Cloud Premium and Enterprise to organization or site admins.
+
+**NOTE:** Users can only make calls to our public REST APIs using a valid Admin Key by adding the following HTTP header on their requests: `Atl-Confluence-With-Admin-Key: true`. Visit the [Confluence Cloud Changelog](https://developer.atlassian.com/cloud/confluence/changelog/#CHANGE-2480) for more details.
+
+- `keen admin-key disable` — Disables admin key access for the calling user within the site. **[Permissions](https://support.atlassian.
+- `keen admin-key enable` — Enables admin key access for the calling user within the site.
+- `keen admin-key get` — Returns information about the admin key if one is currently enabled for the calling user within the site.
+
 **agents** — Use the APIs to invoke agents in bulk for multiple issues. Bulk invocation responses report session-start outcomes; the agent's work continues asynchronously.
 
 - `keen agents start-batch` — Starts agent sessions for a batch of issues, with an agent and optional prompt specified per invocation.
@@ -186,12 +194,26 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 - `keen attachment get-thumbnail` — Returns the thumbnail of an attachment.
 - `keen attachment remove` — Deletes an attachment from an issue. This operation can be accessed anonymously.
 
+**attachments** — Manage attachments
+
+- `keen attachments delete` — Delete an attachment by id. Deleting an attachment moves the attachment to the trash, where it can be restored later.
+- `keen attachments get` — Returns all attachments.
+- `keen attachments get-by-id` — Returns a specific attachment. **[Permissions](https://confluence.atlassian.
+
 **auditing** — Manage auditing
 
 - `keen auditing` — Returns a list of audit records.
 
 **avatar** — This resource represents system and custom avatars. Use it to obtain the details of system or custom avatars, add and remove avatars from a project, issue type or priority and obtain avatar images.
 
+
+**blogposts** — Manage blogposts
+
+- `keen blogposts create-blog-post` — Creates a new blog post in the space specified by the spaceId.
+- `keen blogposts delete-blog-post` — Delete a blog post by id. By default this will delete blog posts that are non-drafts.
+- `keen blogposts get-blog-post-by-id` — Returns a specific blog post. **[Permissions](https://confluence.atlassian.
+- `keen blogposts get-blog-posts` — Returns all blog posts.
+- `keen blogposts update-blog-post` — Update a blog post by id. **[Permissions](https://confluence.atlassian.
 
 **builds** — APIs related to integrating build data with Jira Software.
 
@@ -228,6 +250,9 @@ These APIs are available to Forge apps with the `devops:buildInfoProvider` modul
 
 - `keen comment` — Returns a [paginated](#pagination) list of comments specified by a list of comment IDs.
 
+**comments** — Manage comments
+
+
 **component** — Manage component
 
 - `keen component create` — Creates a component. Use components to provide containers for issues within a project.
@@ -263,6 +288,34 @@ These APIs are available to Forge apps with the `devops:buildInfoProvider` modul
 - `keen configuration select-time-tracking-implementation` — Selects a time tracking provider.
 - `keen configuration set-shared-time-tracking` — Sets the time tracking settings.
 
+**confluence-cloud-app** — Manage confluence cloud app
+
+- `keen confluence-cloud-app delete-forge-property` — Deletes a Forge app property. This API can only be accessed using **[asApp()](https://developer.atlassian.
+- `keen confluence-cloud-app get-forge-properties` — Gets Forge app properties. This API can only be accessed using **[asApp()](https://developer.atlassian.
+- `keen confluence-cloud-app get-forge-property` — Gets a Forge app property by property key. This API can only be accessed using **[asApp()](https://developer.atlassian.
+- `keen confluence-cloud-app put-forge-property` — Creates or updates a Forge app property. This API can only be accessed using **[asApp()](https://developer.atlassian.
+
+**confluence-cloud-classification-levels** — Manage confluence cloud classification levels
+
+- `keen confluence-cloud-classification-levels` — Returns a list of [classification levels](https://developer.atlassian.
+
+**confluence-cloud-user** — Manage confluence cloud user
+
+- `keen confluence-cloud-user check-access-by-email` — Returns the list of emails from the input list that do not have access to site. **[Permissions](https://confluence.
+- `keen confluence-cloud-user invite-by-email` — Invite a list of emails to the site.
+
+**content** — Manage content
+
+- `keen content` — Converts a list of content ids into their associated content types.
+
+**custom-content** — Manage custom content
+
+- `keen custom-content create` — Creates a new custom content in the given space, page, blogpost or other custom content.
+- `keen custom-content delete` — Delete a custom content by id.
+- `keen custom-content get-by-id` — Returns a specific piece of custom content. **[Permissions](https://confluence.atlassian.
+- `keen custom-content get-by-type` — Returns all custom content for a given type.
+- `keen custom-content update` — Update a custom content by id.
+
 **custom-field-option** — Manage custom field option
 
 - `keen custom-field-option <id>` — Returns a custom field option. For example, an option in a select list.
@@ -278,10 +331,21 @@ These APIs are available to Forge apps with the `devops:buildInfoProvider` modul
 - `keen dashboard get-paginated` — Returns a [paginated](#pagination) list of dashboards.
 - `keen dashboard update` — Updates a dashboard, replacing all the dashboard details with those provided.
 
+**data-policies** — Manage data policies
+
+- `keen data-policies get-data-policy-metadata` — Returns data policy metadata for the workspace.
+- `keen data-policies get-data-policy-spaces` — Returns all spaces. The results will be sorted by id ascending.
+
 **data-policy** — Manage data policy
 
 - `keen data-policy get-policies` — Returns data policies for the projects specified in the request.
 - `keen data-policy get-policy` — Returns data policy for the workspace.
+
+**databases** — Manage databases
+
+- `keen databases create` — Creates a database in the space. **[Permissions](https://confluence.atlassian.
+- `keen databases delete` — Delete a database by id.
+- `keen databases get-by-id` — Returns a specific database. **[Permissions](https://confluence.atlassian.
 
 **deployments** — APIs related to integrating deployment data with Jira Software.
 
@@ -323,6 +387,12 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 
 - `keen domains get` — Returns a list of domains in an organization one page at a time.
 - `keen domains get-by-id` — Returns information about a single verified domain by ID.
+
+**embeds** — Manage embeds
+
+- `keen embeds create-smart-link` — Creates a Smart Link in the content tree in the space. **[Permissions](https://confluence.atlassian.
+- `keen embeds delete-smart-link` — Delete a Smart Link in the content tree by id.
+- `keen embeds get-smart-link-by-id` — Returns a specific Smart Link in the content tree. **[Permissions](https://confluence.atlassian.
 
 **event-actions** — Manage event actions
 
@@ -389,6 +459,20 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 - `keen filter set-default-share-scope` — Sets the default sharing for new filters and dashboards for a user.
 - `keen filter update` — Updates a filter. Use this operation to update a filter's name, description, JQL, or sharing.
 
+**folders** — Manage folders
+
+- `keen folders create` — Creates a folder in the space. **[Permissions](https://confluence.atlassian.
+- `keen folders delete` — Delete a folder by id.
+- `keen folders get-by-id` — Returns a specific folder. **[Permissions](https://confluence.atlassian.
+
+**footer-comments** — Manage footer comments
+
+- `keen footer-comments create` — Create a footer comment.
+- `keen footer-comments delete` — Deletes a footer comment. This is a permanent deletion and cannot be reverted. **[Permissions](https://confluence.
+- `keen footer-comments get` — Returns all footer comments.
+- `keen footer-comments get-by-id` — Retrieves a footer comment by id **[Permissions](https://confluence.atlassian.
+- `keen footer-comments update` — Update a footer comment. This can be used to update the body text of a comment. **[Permissions](https://confluence.
+
 **forge** — Manage forge
 
 - `keen forge bulk-pin-unpin-projects-async` — Bulk pin or unpin an issue panel (added by a Forge app) to or from multiple projects. The operation runs asynchronously.
@@ -415,6 +499,14 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 **groupuserpicker** — Manage groupuserpicker
 
 - `keen groupuserpicker` — Returns a list of users and groups matching a string.
+
+**inline-comments** — Manage inline comments
+
+- `keen inline-comments create` — Create an inline comment.
+- `keen inline-comments delete` — Deletes an inline comment. This is a permanent deletion and cannot be reverted. **[Permissions](https://confluence.
+- `keen inline-comments get` — Returns all inline comments.
+- `keen inline-comments get-by-id` — Retrieves an inline comment by id **[Permissions](https://confluence.atlassian.
+- `keen inline-comments update` — Update an inline comment.
 
 **instance** — Manage instance
 
@@ -585,6 +677,10 @@ To use it, the site must have [issue linking](https://confluence.atlassian.com/x
 
 - `keen label` — Returns a [paginated](#pagination) list of labels.
 
+**labels** — Manage labels
+
+- `keen labels` — Returns all labels.
+
 **license** — Manage license
 
 - `keen license get-approximate-application-count` — Returns the total approximate number of user accounts for a single Jira license.
@@ -638,6 +734,14 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 
 - `keen orgs get` — Returns a list of your organizations (based on your API key).
 - `keen orgs get-by-id` — Returns information about a single organization by ID #### Scopes **[Authorization scopes](/cloud/admin/scopes/)
+
+**pages** — Manage pages
+
+- `keen pages create` — Creates a page in the space. Pages are created as published by default unless specified as a draft in the status field.
+- `keen pages delete` — Delete a page by id. By default this will delete pages that are non-drafts.
+- `keen pages get` — Returns all pages.
+- `keen pages get-by-id` — Returns a specific page. **[Permissions](https://confluence.atlassian.
+- `keen pages update` — Update a page by id.
 
 **permissions** — This resource represents permissions. Use it to obtain details of all permissions and determine whether the user has certain permissions.
 
@@ -919,6 +1023,33 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen software get-issues-without-epic-for-board-jsis` — Returns all issues that do not belong to any epic on a board, for a given board ID.
 - `keen software get-issues-without-epic-jsis` — Returns all issues that do not belong to any epic.
 
+**space-permissions** — Manage space permissions
+
+- `keen space-permissions bulk-assign-roles` — Bulk assigns roles for one or more permission combination IDs obtained from the space permission combinations.
+- `keen space-permissions bulk-remove-access` — Bulk removes access for one or more permission combination IDs obtained from the space permission combinations.
+- `keen space-permissions generate-combinations` — Submits a task to refresh the space permission combinations in the database
+- `keen space-permissions get-available` — Retrieves the available space permissions. Available on tenants with [Role-Based Access Control](https://support.
+- `keen space-permissions get-transition-task-status` — Retrieves the status of an async space permission transition task.
+- `keen space-permissions list-combinations` — Lists the unique unassigned space permission combinations currently present on the tenant.
+
+**space-role-mode** — Manage space role mode
+
+- `keen space-role-mode` — Retrieves the space role mode. Available on tenants with [Role-Based Access Control](https://support.atlassian.
+
+**space-roles** — Manage space roles
+
+- `keen space-roles create` — Create a space role. Available on tenants with [Role-Based Access Control](https://support.atlassian.
+- `keen space-roles delete` — Delete a space role Available on tenants with [Role-Based Access Control](https://support.atlassian.
+- `keen space-roles get-available` — Retrieves the available space roles. Available on tenants with [Role-Based Access Control](https://support.atlassian.
+- `keen space-roles get-by-id` — Retrieves the space role by ID. Available on tenants with [Role-Based Access Control](https://support.atlassian.
+- `keen space-roles update` — Update a space role. Available on tenants with [Role-Based Access Control](https://support.atlassian.
+
+**spaces** — Manage spaces
+
+- `keen spaces create` — Creates a Space as specified in the payload. Available on tenants with [Role-Based Access Control](https://support.
+- `keen spaces get` — Returns all spaces. The results will be sorted by id ascending.
+- `keen spaces get-by-id` — Returns a specific space. **[Permissions](https://confluence.atlassian.
+
 **status** — This resource represents statuses. Use it to search, get, create, delete, and change statuses.
 
 - `keen status get` — Returns a status. The status must be associated with an active workflow to be returned.
@@ -941,6 +1072,12 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 **task** — This resource represents a [long-running asynchronous tasks](#async-operations). Use it to obtain details about the progress of a long-running task or cancel a long-running task.
 
 - `keen task <taskId>` — Returns the status of a [long-running asynchronous task](#async).
+
+**tasks** — Manage tasks
+
+- `keen tasks get` — Returns all tasks.
+- `keen tasks get-by-id` — Returns a specific task. **[Permissions](https://confluence.atlassian.
+- `keen tasks update` — Update a task by id. This endpoint currently only supports updating task status. **[Permissions](https://confluence.
 
 **ui-modifications** — Manage ui modifications
 
@@ -999,6 +1136,10 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen users get-all` — Returns a list of all users, including active users
 - `keen users get-all-default` — Returns a list of all users, including active users
 
+**users-bulk** — Manage users bulk
+
+- `keen users-bulk` — Returns user details for the ids provided in the request body. **[Permissions](https://confluence.atlassian.
+
 **vendors** — Information about vendors
 
 
@@ -1009,6 +1150,12 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen webhook get-failed` — Returns webhooks that have recently failed to be delivered to the requesting app after the maximum number of retries.
 - `keen webhook refresh` — Extends the life of webhook. Webhooks registered through the REST API expire after 30 days.
 - `keen webhook register-dynamic` — Registers webhooks.
+
+**whiteboards** — Manage whiteboards
+
+- `keen whiteboards create` — Creates a whiteboard in the space. **[Permissions](https://confluence.atlassian.
+- `keen whiteboards delete` — Delete a whiteboard by id.
+- `keen whiteboards get-by-id` — Returns a specific whiteboard. **[Permissions](https://confluence.atlassian.
 
 **wiki** — Manage wiki
 

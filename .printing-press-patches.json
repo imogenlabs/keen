@@ -147,6 +147,13 @@
       "reason": "The generator fills every argument named *Key with your-token-here, so 277 examples showed a token where an issue, project, space or app key goes.",
       "files": ["scripts/regen/placeholders.py", "scripts/regen/normalize.py", "scripts/regen/check.sh", "internal/cli/*.go (Example lines, auth.go)"],
       "validated_outcome": "Applied by normalize.py on every regen; check.sh fails on a wrong placeholder (fired on a reverted file). keen issue comment get-issue --help shows PROJ-42."
+    },
+    {
+      "id": "templated-server-urls",
+      "summary": "Specs whose server URL is a template are fixed before generating (specfix.py), and site URLs that come out absolute are made relative to the configured base_url (postfix.py site-relative-urls).",
+      "reason": "Confluence v2 publishes https://{your-domain}/wiki/api/v2; the generator wrote https://no-default/... into all 252 commands. Assets puts {cloudId} and {workspaceId} in its server path.",
+      "files": ["scripts/regen/specfix.py", "scripts/regen/postfix.py", "scripts/regen/regen.sh", "internal/cli/*.go and internal/mcp/tools.go (Confluence v2 paths)"],
+      "validated_outcome": "Applied on every regen. keen spaces get --dry-run shows GET <site>/wiki/api/v2/spaces; live spaces get and pages get-by-id return data; no no-default left in internal/."
     }
   ]
 }
