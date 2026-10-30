@@ -14,6 +14,6 @@ func newBitbucketWorkspacesSettingsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newBitbucketWorkspacesSettingsGetCmd(flags))
+	cmd.AddCommand(newBitbucketWorkspacesSettingsGetWorkspaceSystemGpgPublicKeySCmd(flags))
 	return cmd
 }

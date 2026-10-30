@@ -14,6 +14,6 @@ func newRepositoriesEffectiveBranchingModelCmd(flags *rootFlags) *cobra.Command 
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesEffectiveBranchingModelGetCmd(flags))
+	cmd.AddCommand(newRepositoriesEffectiveBranchingModelGetEffectiveOrCurrentlyAppliedBranchingModelForRepositoryCmd(flags))
 	return cmd
 }

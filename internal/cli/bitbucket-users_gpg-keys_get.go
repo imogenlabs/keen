@@ -14,10 +14,10 @@ import (
 func newBitbucketUsersGpgKeysGetCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:         "get <selected_user>",
-		Short:       "Returns a paginated list of the user's GPG public keys.",
-		Example:     "  keen bitbucket-users gpg-keys get example-value",
-		Annotations: map[string]string{"pp:endpoint": "gpg-keys.get", "pp:method": "GET", "pp:path": "https://api.bitbucket.org/2.0/users/{selected_user}/gpg-keys", "mcp:read-only": "true"},
+		Use:         "get <fingerprint> <selected_user>",
+		Short:       "Returns a specific GPG public key belonging to a user.",
+		Example:     "  keen bitbucket-users gpg-keys get example-value example-value",
+		Annotations: map[string]string{"pp:endpoint": "gpg-keys.get", "pp:method": "GET", "pp:path": "https://api.bitbucket.org/2.0/users/{selected_user}/gpg-keys/{fingerprint}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
@@ -27,8 +27,12 @@ func newBitbucketUsersGpgKeysGetCmd(flags *rootFlags) *cobra.Command {
 				return err
 			}
 
-			path := "https://api.bitbucket.org/2.0/users/{selected_user}/gpg-keys"
-			path = replacePathParam(path, "selected_user", args[0])
+			path := "https://api.bitbucket.org/2.0/users/{selected_user}/gpg-keys/{fingerprint}"
+			path = replacePathParam(path, "fingerprint", args[0])
+			if len(args) < 2 {
+				return usageErr(fmt.Errorf("selected_user is required\nUsage: %s <%s>", cmd.CommandPath(), "selected_user"))
+			}
+			path = replacePathParam(path, "selected_user", args[1])
 			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "gpg-keys", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {

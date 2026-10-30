@@ -14,7 +14,7 @@ func newSnippetsFilesCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newSnippetsFilesGetCmd(flags))
-	cmd.AddCommand(newSnippetsFilesGetSnippetsCmd(flags))
+	cmd.AddCommand(newSnippetsFilesGetSnippetRawCmd(flags))
+	cmd.AddCommand(newSnippetsFilesGetSnippetRawAtHeadCmd(flags))
 	return cmd
 }

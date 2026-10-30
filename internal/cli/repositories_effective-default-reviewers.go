@@ -14,6 +14,6 @@ func newRepositoriesEffectiveDefaultReviewersCmd(flags *rootFlags) *cobra.Comman
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesEffectiveDefaultReviewersGetCmd(flags))
+	cmd.AddCommand(newRepositoriesEffectiveDefaultReviewersListCmd(flags))
 	return cmd
 }

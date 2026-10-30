@@ -15,11 +15,11 @@ func newBitbucketUserCmd(flags *rootFlags) *cobra.Command {
 		RunE:   parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newBitbucketUserGetCmd(flags))
-	cmd.AddCommand(newBitbucketUserGetWorkspacesCmd(flags))
-	cmd.AddCommand(newBitbucketUserGetWorkspaces2Cmd(flags))
-	cmd.AddCommand(newBitbucketUserListCmd(flags))
-	cmd.AddCommand(newBitbucketUserListEmailsCmd(flags))
-	cmd.AddCommand(newBitbucketUserListWorkspacesCmd(flags))
+	cmd.AddCommand(newBitbucketUserGetCurrentCmd(flags))
+	cmd.AddCommand(newBitbucketUserGetEmailAddressForCurrentCmd(flags))
+	cmd.AddCommand(newBitbucketUserGetPermissionOnWorkspaceCmd(flags))
+	cmd.AddCommand(newBitbucketUserListEmailAddressesForCurrentCmd(flags))
+	cmd.AddCommand(newBitbucketUserListRepositoryPermissionsInWorkspaceForCmd(flags))
+	cmd.AddCommand(newBitbucketUserListWorkspacesForCurrentCmd(flags))
 	return cmd
 }

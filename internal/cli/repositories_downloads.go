@@ -14,9 +14,9 @@ func newRepositoriesDownloadsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesDownloadsCreateCmd(flags))
-	cmd.AddCommand(newRepositoriesDownloadsDeleteCmd(flags))
-	cmd.AddCommand(newRepositoriesDownloadsGetCmd(flags))
-	cmd.AddCommand(newRepositoriesDownloadsGetRepositoriesCmd(flags))
+	cmd.AddCommand(newRepositoriesDownloadsDeleteArtifactCmd(flags))
+	cmd.AddCommand(newRepositoriesDownloadsGetArtifactLinkCmd(flags))
+	cmd.AddCommand(newRepositoriesDownloadsListArtifactsCmd(flags))
+	cmd.AddCommand(newRepositoriesDownloadsUploadArtifactCmd(flags))
 	return cmd
 }

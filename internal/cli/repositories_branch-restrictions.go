@@ -14,10 +14,10 @@ func newRepositoriesBranchRestrictionsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesBranchRestrictionsCreateCmd(flags))
-	cmd.AddCommand(newRepositoriesBranchRestrictionsDeleteCmd(flags))
-	cmd.AddCommand(newRepositoriesBranchRestrictionsGetCmd(flags))
-	cmd.AddCommand(newRepositoriesBranchRestrictionsGetRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesBranchRestrictionsUpdateCmd(flags))
+	cmd.AddCommand(newRepositoriesBranchRestrictionsCreateRuleCmd(flags))
+	cmd.AddCommand(newRepositoriesBranchRestrictionsDeleteRuleCmd(flags))
+	cmd.AddCommand(newRepositoriesBranchRestrictionsGetRuleCmd(flags))
+	cmd.AddCommand(newRepositoriesBranchRestrictionsListCmd(flags))
+	cmd.AddCommand(newRepositoriesBranchRestrictionsUpdateRuleCmd(flags))
 	return cmd
 }

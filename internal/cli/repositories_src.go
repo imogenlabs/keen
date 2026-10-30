@@ -14,8 +14,8 @@ func newRepositoriesSrcCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesSrcCreateCmd(flags))
-	cmd.AddCommand(newRepositoriesSrcGetCmd(flags))
-	cmd.AddCommand(newRepositoriesSrcGetRepositoriesCmd(flags))
+	cmd.AddCommand(newRepositoriesSrcCreateCommitByUploadingFileCmd(flags))
+	cmd.AddCommand(newRepositoriesSrcGetFileOrDirectoryContentsCmd(flags))
+	cmd.AddCommand(newRepositoriesSrcGetRootDirectoryOfMainBranchCmd(flags))
 	return cmd
 }

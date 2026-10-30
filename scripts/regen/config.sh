@@ -37,7 +37,8 @@ SPECS=(
 # Specs whose operation ids specfix.py fixes (made from summaries where missing,
 # a shared "Xxx_" prefix dropped), so their commands get readable names. Only list
 # a spec when it is first added: on a shipped spec this renames its commands.
-FIX_IDS=(admin-users admin-control)
+# bitbucket was added a few minutes after it shipped in 1.6.0, before anyone used it.
+FIX_IDS=(admin-users admin-control bitbucket)
 
 # Specs whose auth schemes specfix.py removes (--no-auth), so the generator keeps
 # keen's own login; keen picks their credential by host (internal/client/hostauth.go).

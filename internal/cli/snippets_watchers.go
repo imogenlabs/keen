@@ -10,10 +10,10 @@ import (
 func newSnippetsWatchersCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "watchers",
-		Short: "Get watchers for snippets",
+		Short: "List watchers for snippets",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newSnippetsWatchersGetCmd(flags))
+	cmd.AddCommand(newSnippetsWatchersListUsersWatchingSnippetCmd(flags))
 	return cmd
 }

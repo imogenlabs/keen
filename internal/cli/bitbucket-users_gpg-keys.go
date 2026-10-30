@@ -10,13 +10,13 @@ import (
 func newBitbucketUsersGpgKeysCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "gpg-keys",
-		Short: "Get, create, and delete gpg keys for bitbucket users",
+		Short: "List, get, add, and delete gpg keys for bitbucket users",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newBitbucketUsersGpgKeysCreateCmd(flags))
+	cmd.AddCommand(newBitbucketUsersGpgKeysAddNewCmd(flags))
 	cmd.AddCommand(newBitbucketUsersGpgKeysDeleteCmd(flags))
 	cmd.AddCommand(newBitbucketUsersGpgKeysGetCmd(flags))
-	cmd.AddCommand(newBitbucketUsersGpgKeysGetUsersCmd(flags))
+	cmd.AddCommand(newBitbucketUsersGpgKeysListCmd(flags))
 	return cmd
 }

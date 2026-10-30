@@ -10,11 +10,11 @@ import (
 func newRepositoriesForksCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "forks",
-		Short: "Get and create forks for repositories",
+		Short: "List and create forks for repositories",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesForksCreateCmd(flags))
-	cmd.AddCommand(newRepositoriesForksGetCmd(flags))
+	cmd.AddCommand(newRepositoriesForksListRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesForksRepositoryCmd(flags))
 	return cmd
 }

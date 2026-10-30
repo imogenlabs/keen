@@ -12,41 +12,28 @@ import (
 )
 
 func newSnippetsGetCmd(flags *rootFlags) *cobra.Command {
-	var flagRole string
 
 	cmd := &cobra.Command{
-		Use:         "get <workspace>",
-		Short:       "Returns a paginated list of snippets owned by `{workspace}`. To limit the set of returned snippets, apply the `?",
-		Example:     "  keen bitbucket-snippets get example-value",
-		Annotations: map[string]string{"pp:endpoint": "snippets.get", "pp:method": "GET", "pp:path": "https://api.bitbucket.org/2.0/snippets/{workspace}", "mcp:read-only": "true"},
+		Use:         "get <encoded_id> <workspace>",
+		Short:       "Retrieves a single snippet.",
+		Example:     "  keen bitbucket-snippets get 550e8400-e29b-41d4-a716-446655440000 example-value",
+		Annotations: map[string]string{"pp:endpoint": "snippets.get", "pp:method": "GET", "pp:path": "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
 				return cmd.Help()
-			}
-			if cmd.Flags().Changed("role") {
-				allowedRole := []string{"owner", "contributor", "member"}
-				validRole := false
-				for _, v := range allowedRole {
-					if flagRole == v {
-						validRole = true
-						break
-					}
-				}
-				if !validRole {
-					fmt.Fprintf(os.Stderr, "warning: --%s %q not in allowed set %v\n", "role", flagRole, allowedRole)
-				}
 			}
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 
-			path := "https://api.bitbucket.org/2.0/snippets/{workspace}"
-			path = replacePathParam(path, "workspace", args[0])
-			params := map[string]string{}
-			if flagRole != "" {
-				params["role"] = fmt.Sprintf("%v", flagRole)
+			path := "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}"
+			path = replacePathParam(path, "encoded_id", args[0])
+			if len(args) < 2 {
+				return usageErr(fmt.Errorf("workspace is required\nUsage: %s <%s>", cmd.CommandPath(), "workspace"))
 			}
+			path = replacePathParam(path, "workspace", args[1])
+			params := map[string]string{}
 			data, prov, err := resolveRead(cmd.Context(), c, flags, "snippets", false, path, params, nil, cmd.ErrOrStderr())
 			if err != nil {
 				return classifyAPIError(err, flags)
@@ -95,7 +82,6 @@ func newSnippetsGetCmd(flags *rootFlags) *cobra.Command {
 			return printOutputWithFlags(cmd.OutOrStdout(), data, flags)
 		},
 	}
-	cmd.Flags().StringVar(&flagRole, "role", "", "Filter down the result based on the authenticated user's role (`owner`, `contributor`, or `member`). (one of: owner, contributor, member)")
 
 	return cmd
 }
