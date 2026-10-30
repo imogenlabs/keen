@@ -91,12 +91,14 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 				header := cfg.AuthHeader()
 				if header == "" {
 					report["auth"] = "not configured"
-					report["auth_hint"] = "export JIRA_CLOUD_PLATFORM_USERNAME=<your-key>"
+					report["auth_hint"] = "export JIRA_CLOUD_PLATFORM_USERNAME=<email> JIRA_CLOUD_PLATFORM_PASSWORD=<api-token>"
 				} else {
 					authConfigured = true
 					report["auth"] = "configured"
 					report["auth_source"] = cfg.AuthSource
 				}
+				report["admin_api_key"] = keyStatus(cfg.AdminAPIKey, "KEEN_ADMIN_API_KEY", "organization admin APIs")
+				report["scim_api_key"] = keyStatus(cfg.ScimAPIKey, "KEEN_SCIM_API_KEY", "user provisioning (SCIM)")
 			}
 
 			// Check auth environment variables

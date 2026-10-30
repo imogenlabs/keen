@@ -16840,17 +16840,17 @@ func makeAPIHandler(method, pathTemplate string, readOnly bool, binaryResponse b
 			case strings.Contains(msg, "HTTP 400") && cliutil.LooksLikeAuthError(msg):
 				return mcplib.NewToolResultError("authentication error: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: the API rejected the request — this usually means auth is missing or invalid." +
-					"\n      Set your API key: export JIRA_CLOUD_PLATFORM_USERNAME=<your-key>" +
+					"\n      " + client.CredentialHint(msg) +
 					"\n      Run 'keen doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 401"):
 				return mcplib.NewToolResultError("authentication failed: " + cliutil.SanitizeErrorBody(msg) +
-					"\nhint: check your API key." +
-					"\n      Set it with: export JIRA_CLOUD_PLATFORM_USERNAME=<your-key>" +
+					"\nhint: check your credentials." +
+					"\n      " + client.CredentialHint(msg) +
 					"\n      Run 'keen doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 403"):
 				return mcplib.NewToolResultError("permission denied: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: your credentials are valid but lack access to this resource." +
-					"\n      Set it with: export JIRA_CLOUD_PLATFORM_USERNAME=<your-key>" +
+					"\n      " + client.CredentialHint(msg) +
 					"\n      Run 'keen doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 404"):
 				if method == "DELETE" {
