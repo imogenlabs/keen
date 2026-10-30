@@ -50,6 +50,38 @@ Combined CLI for multiple API services
 - `keen addons list-search` — Get a list of apps with names matching a search term.
 - `keen addons update` — Update a specific app. The request body must be a valid JSON Patch document.
 
+**admin** — Manage admin
+
+- `keen admin delete` — Delete a user in our SCIM DB with a Atlassian Account ID (AAID).
+- `keen admin get-scim-links` — Get SCIM Links for a Atlassian Account ID (AAID).
+- `keen admin get-scim-links-by-email` — Get SCIM Links for an email address in an organization.
+- `keen admin unlink-scim-user` — Unlinks a SCIM user from their Atlassian account without deleting the user.
+
+**admin-control-admin** — Manage admin control admin
+
+- `keen admin-control-admin add-users-to-policy` — Add users to an authentication policy to address the security of different user sets.
+- `keen admin-control-admin attach-detach-resources-v2` — Add or remove resources to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write
+- `keen admin-control-admin bulk-fetch-auth-policy` — Get authentication policy information for a given list of managed users. This is a bulk action.
+- `keen admin-control-admin create-policy` — Create a policy aligned with your organization's standards.
+- `keen admin-control-admin create-policy-v2` — Create a policy aligned with your organization's standards.
+- `keen admin-control-admin create-resource` — Add a new resource to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
+- `keen admin-control-admin delete-policy` — Delete a policy with a policyId #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:policies
+- `keen admin-control-admin delete-resource` — Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
+- `keen admin-control-admin delete-resources` — Remove all resources from a policy.
+- `keen admin-control-admin delete-resources-v2` — Remove all resources from a policy.
+- `keen admin-control-admin get-policies` — Returns comprehensive details on organizational policies, including both rules and resources.
+- `keen admin-control-admin get-policies-v2` — Returns comprehensive details on organizational policies, including both rules and status.
+- `keen admin-control-admin get-policy` — Returns information about a policy by policyId.
+- `keen admin-control-admin get-policy-v2` — Returns information about a policy by policyId.
+- `keen admin-control-admin get-resources` — **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- `keen admin-control-admin get-resources-v2` — **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- `keen admin-control-admin get-task-status` — Verify that users are assigned to the intended policy and report errors, if any.
+- `keen admin-control-admin publish-draft-policies` — Publishes policies by a bulk request for a specific ruleName.
+- `keen admin-control-admin update-policy` — Update a policy with a policyId.
+- `keen admin-control-admin update-policy-v2` — Update a policy with a policyId.
+- `keen admin-control-admin update-resource` — Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies
+- `keen admin-control-admin validate-policy` — Validate a policy to view potential issues in your policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/)
+
 **admin-key** — The [Admin Key feature](https://support.atlassian.com/confluence-cloud/docs/bypass-access-restrictions-on-a-page-with-admin-key/) is only offered with Confluence Cloud Premium and Enterprise to organization or site admins.
 
 **NOTE:** Users can only make calls to our public REST APIs using a valid Admin Key by adding the following HTTP header on their requests: `Atl-Confluence-With-Admin-Key: true`. Visit the [Confluence Cloud Changelog](https://developer.atlassian.com/cloud/confluence/changelog/#CHANGE-2480) for more details.
@@ -121,6 +153,18 @@ Combined CLI for multiple API services
 
 - `keen announcement-banner get-banner` — Returns the current announcement banner configuration.
 - `keen announcement-banner set-banner` — Updates the announcement banner configuration.
+
+**api-keys** — API Key APIs
+
+- `keen api-keys get-all-by-org-id` — Gets all user API keys in an organization.
+- `keen api-keys get-count-by-org-id` — Gets count of user API keys in an organization.
+- `keen api-keys revoke` — Revokes an existing API key #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:keys:admin`
+
+**api-tokens** — API Token APIs
+
+- `keen api-tokens bulk-revoke` — Revokes all managed user API tokens in an organization by orgID.
+- `keen api-tokens get-all-by-org-id` — Gets all [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization.
+- `keen api-tokens get-count-by-org-id` — Gets count of [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization.
 
 **app** — Manage app
 
@@ -333,6 +377,17 @@ These APIs are available to Forge apps with the `devops:buildInfoProvider` modul
 - `keen dashboard get-all-available-gadgets` — Gets a list of all available gadgets that can be added to all dashboards.
 - `keen dashboard get-paginated` — Returns a [paginated](#pagination) list of dashboards.
 - `keen dashboard update` — Updates a dashboard, replacing all the dashboard details with those provided.
+
+**data-loss-prevention-classification-levels** — Classification Level APIs"
+
+- `keen data-loss-prevention-classification-levels archive-level` — - Archives a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level)
+- `keen data-loss-prevention-classification-levels create-level` — Creates a draft [classification level](cloud/admin/dlp/rest/intro/#classification%20level) for an organization.
+- `keen data-loss-prevention-classification-levels edit-level` — Edits a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelId.
+- `keen data-loss-prevention-classification-levels get-level` — Gets a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelId.
+- `keen data-loss-prevention-classification-levels get-level-list` — Gets all [classification levels](/cloud/admin/dlp/rest/intro/#classification%20level) in an organization.
+- `keen data-loss-prevention-classification-levels publish-level` — Publishes one or more [classification level](/cloud/admin/dlp/rest/intro/#classification%20level)
+- `keen data-loss-prevention-classification-levels reorder` — Changes the order of [classification levels](/cloud/admin/dlp/rest/intro/#classification%20level).
+- `keen data-loss-prevention-classification-levels restore-level` — Restores a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with supplied levelId.
 
 **data-policies** — Manage data policies
 
@@ -694,6 +749,19 @@ To use it, the site must have [issue linking](https://confluence.atlassian.com/x
 - `keen license-types get` — Get a specific license type.
 - `keen license-types list` — Get a list of license types.
 
+**manage** — Manage APIs
+
+- `keen manage activate-user` — Activates the specified user account. The permission to make use of this resource is exposed by the `lifecycle.
+- `keen manage cancel-delete-account` — This API will: - Cancel the scheduled deletion of the specified managed account.
+- `keen manage deactivate-user` — Deactivate (block) the specified user account from logging into Atlassian.
+- `keen manage delete-account` — This API will: - Delete a managed account from Atlassian Administration.
+- `keen manage delete-api-token` — Deletes a specifid API token by ID.
+- `keen manage get-api-tokens` — Gets the API tokens owned by the specified user.
+- `keen manage get-profile` — Returns information about a single Atlassian account by ID
+- `keen manage get-user-management-permissions` — Returns the set of permissions you have for managing the specified Atlassian account
+- `keen manage set-email` — Sets the specified user's email address.
+- `keen manage update-profile` — Updates fields in a user account. The `profile.write` privilege details which fields you can change.
+
 **mypermissions** — Manage mypermissions
 
 - `keen mypermissions` — Returns a list of permissions indicating which permissions the user has.
@@ -718,6 +786,15 @@ To use it, the site must have [issue linking](https://confluence.atlassian.com/x
 - `keen notificationscheme get-notification-scheme-to-project-mappings` — Returns a [paginated](#pagination) mapping of project that have notification scheme assigned.
 - `keen notificationscheme get-notification-schemes` — Returns a [paginated](#pagination) list of [notification schemes](https://confluence.atlassian.
 - `keen notificationscheme update-notification-scheme` — Updates a notification scheme.
+
+**oauth-clients** — OAuth Client Management APIs
+
+- `keen oauth-clients count` — Gets the count of OAuth clients in the specified organization. #### Scopes **[OAuth 2.
+- `keen oauth-clients create` — Creates a new OAuth client for a service account in the specified organization.
+- `keen oauth-clients delete` — Deletes an existing OAuth client from the specified organization. #### Scopes **[OAuth 2.
+- `keen oauth-clients get` — Retrieves a specific OAuth client by ID for the specified organization. #### Scopes **[OAuth 2.
+- `keen oauth-clients list` — Retrieves all OAuth clients for the specified organization. #### Scopes **[OAuth 2.
+- `keen oauth-clients update` — Updates the name, token endpoint authentication method, or public keys of an OAuth client in the specified organization.
 
 **operations** — APIs related to integrating Incident and Post-Incident Review (PIR) data with Jira Software.
 
@@ -888,6 +965,29 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen role get-project-by-id` — Gets the project role details and the default actors associated with the role.
 - `keen role partial-update-project` — Updates either the project role's name or its description.
 
+**scim** — Manage scim
+
+- `keen scim create-agroup-in-active-directory` — Creates a read-only group in the organization's directory. You can only edit groups from your identity provider.
+- `keen scim create-auser-in-an-active-directory` — Creates a user in the directory. **Note:** An attempt to create an existing user will fail with a 409 (Conflict) error.
+- `keen scim delete-agroup` — Deletes a group to remove the group from the organization's directory.
+- `keen scim delete-auser-from-an-active-directory` — Deleting a user via the SCIM APIs will unlink the user from your identity provider and deactivate the user within
+- `keen scim get` — Gets the details of a group based on the id.
+- `keen scim get-all-groups-from-an-active-directory` — Get groups from the directory.
+- `keen scim get-auser-from-active-directory` — Retrieves a user from the directory based on their `userId`.
+- `keen scim get-config` — Get metadata about the supported SCIM features.
+- `keen scim get-extension-user-schemas` — Get the user enterprise extension schemas from the SCIM provider.
+- `keen scim get-group-resource-type` — Retrieves group resource type of this SCIM service provider.
+- `keen scim get-group-schemas` — Get the group schemas from the SCIM provider. **Note:** This API does not support filtering, pagination, or sorting.
+- `keen scim get-resource-types` — Get different types of resources available on a SCIM service provider (e.g., Users and Groups).
+- `keen scim get-schemas` — Get all SCIM features metadata of your organization.
+- `keen scim get-user-resource-type` — Retrieves user resource types from the SCIM service provider.
+- `keen scim get-user-schemas` — Get the user schemas from the SCIM provider. **Note:** This API does not support filtering, pagination, or sorting.
+- `keen scim get-users-from-an-active-directory` — Get users from the specified directory.
+- `keen scim patch` — Updates a group's information in the directory and manages group membership.
+- `keen scim patch-user-information-in-an-active-directory` — Updates a user's information in the directory based on their `userId` via `PATCH`.
+- `keen scim put` — Updates the details of a group with its unique ID.
+- `keen scim update-user-information-in-an-active-directory` — Update the directory-based user information using the user attributes associated with their `userId`.
+
 **screens** — This resource represents the screens used to record issue details. Use it to:
 
  *  get details of all screens.
@@ -929,6 +1029,16 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 **server-info** — This resource provides information about the Jira instance.
 
 - `keen server-info` — Returns information about the Jira instance. This operation can be accessed anonymously.
+
+**service-accounts** — Service Account lifecycle and credential APIs
+
+- `keen service-accounts count-api-tokens` — Gets count of API tokens for specified service accounts within an organization.
+- `keen service-accounts create` — Creates a new service account for the specified organization.
+- `keen service-accounts delete` — Deletes a service account from the specified organization. #### Scopes **[OAuth 2.
+- `keen service-accounts list` — Retrieves all service accounts for the specified organization. #### Scopes **[OAuth 2.
+- `keen service-accounts list-api-tokens` — Retrieves API tokens belonging to service accounts in the specified organization. #### Scopes **[OAuth 2.
+- `keen service-accounts list-oauth-clients` — Retrieves OAuth clients belonging to service accounts in the specified organization. #### Scopes **[OAuth 2.
+- `keen service-accounts update` — Updates a service account's display name and/or description within the specified organization. #### Scopes **[OAuth 2.
 
 **servicedeskapi** — Manage servicedeskapi
 

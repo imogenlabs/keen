@@ -209,6 +209,8 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchResolution(query, limit)
 			case "role":
 				results, err = db.SearchRole(query, limit)
+			case "scim":
+				results, err = db.SearchScim(query, limit)
 			case "securitylevel":
 				results, err = db.SearchSecuritylevel(query, limit)
 			case "space-roles":
@@ -565,6 +567,19 @@ In local mode: searches locally synced data only.`,
 					partial, searchErr := db.SearchRole(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search role failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchScim(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search scim failed: %w", searchErr)
 					}
 					for _, r := range partial {
 						key := string(r)

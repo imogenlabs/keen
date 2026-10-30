@@ -168,6 +168,101 @@ The request body must be a valid <a href="https://tools.ietf.org/html/rfc6902">J
 
 This resource requires authentication.
 
+### admin
+
+Manage admin
+
+- **`keen admin delete`** - Delete a user in our SCIM DB with a Atlassian Account ID (AAID). This will apply to all directories in your organization matching that AAID and only works for managed users. 
+<br/>
+<br/>
+You will have to completely reprovision the user to their respective groups after deletion. 
+<br/>
+<br/>
+Explore more about [updating managed SCIM email addresses](../../email-change/).
+- **`keen admin get-scim-links`** - Get SCIM Links for a Atlassian Account ID (AAID).
+- **`keen admin get-scim-links-by-email`** - Get SCIM Links for an email address in an organization.
+- **`keen admin unlink-scim-user`** - Unlinks a SCIM user from their Atlassian account without deleting the user.
+
+### admin-control-admin
+
+Manage admin control admin
+
+- **`keen admin-control-admin add-users-to-policy`** - Add users to an authentication policy to address the security of different user sets. [Understand how to add users to a policy and check the status](https://developer.atlassian.com/cloud/admin/auth-policy-cookbook/)
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin attach-detach-resources-v2`** - Add or remove resources to a policy
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin bulk-fetch-auth-policy`** - Get authentication policy information for a given list of managed users. This is a bulk action.
+- **`keen admin-control-admin create-policy`** - Create a policy aligned with your organization's standards.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin create-policy-v2`** - Create a policy aligned with your organization's standards.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin create-resource`** - Add a new resource to a policy
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin delete-policy`** - Delete a policy with a policyId
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `delete:policies:admin`
+- **`keen admin-control-admin delete-resource`** - Delete one resource from a policy
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin delete-resources`** - Remove all resources from a policy.
+- **`keen admin-control-admin delete-resources-v2`** - Remove all resources from a policy.
+- **`keen admin-control-admin get-policies`** - Returns comprehensive details on organizational policies, including both rules and resources.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- **`keen admin-control-admin get-policies-v2`** - Returns comprehensive details on organizational policies, including both rules and status.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- **`keen admin-control-admin get-policy`** - Returns information about a policy by policyId.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- **`keen admin-control-admin get-policy-v2`** - Returns information about a policy by policyId.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- **`keen admin-control-admin get-resources`** - #### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- **`keen admin-control-admin get-resources-v2`** - #### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+- **`keen admin-control-admin get-task-status`** - Verify that users are assigned to the intended policy and report errors, if any.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin publish-draft-policies`** - Publishes policies by a bulk request for a specific ruleName. This is the only way to create or modify published policies.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin update-policy`** - Update a policy with a policyId.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin update-policy-v2`** - Update a policy with a policyId.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin update-resource`** - Delete one resource from a policy
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`
+- **`keen admin-control-admin validate-policy`** - Validate a policy to view potential issues in your policy
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`
+
 ### admin-key
 
 The [Admin Key feature](https://support.atlassian.com/confluence-cloud/docs/bypass-access-restrictions-on-a-page-with-admin-key/) is only offered with Confluence Cloud Premium and Enterprise to organization or site admins.
@@ -351,6 +446,39 @@ This resource represents an announcement banner. Use it to retrieve and update b
 - **`keen announcement-banner set-banner`** - Updates the announcement banner configuration.
 
 **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+
+### api-keys
+
+API Key APIs
+
+- **`keen api-keys get-all-by-org-id`** - Gets all user API keys in an organization.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:keys:admin`
+- **`keen api-keys get-count-by-org-id`** - Gets count of user API keys in an organization.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:keys:admin`
+- **`keen api-keys revoke`** - Revokes an existing API key
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `delete:keys:admin`
+
+### api-tokens
+
+API Token APIs
+
+- **`keen api-tokens bulk-revoke`** - Revokes all managed user API tokens in an organization by orgID.
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `delete:tokens:admin`
+- **`keen api-tokens get-all-by-org-id`** - Gets all [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:tokens:admin`
+- **`keen api-tokens get-count-by-org-id`** - Gets count of [user API tokens](/cloud/admin/api-access/rest/intro/#API%20Tokens) in an organization.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:tokens:admin`
 
 ### app
 
@@ -1249,6 +1377,54 @@ This operation can be accessed anonymously.
 **[Permissions](#permissions) required:** None
 
 The dashboard to be updated must be owned by the user.
+
+### data-loss-prevention-classification-levels
+
+Classification Level APIs"
+
+- **`keen data-loss-prevention-classification-levels archive-level`** - -
+Archives a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelId (batch not currently supported).
+When you archive a published classification level:
+- Users won’t be able to classify pages at this level
+- Any page or issues classified at this level will become unclassified
+- Pages and issues will retain history
+
+In the event that the classification level is restored and published, those pages and issues will regain this classification level.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`
+- **`keen data-loss-prevention-classification-levels create-level`** - Creates a draft [classification level](cloud/admin/dlp/rest/intro/#classification%20level) for an organization.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`
+- **`keen data-loss-prevention-classification-levels edit-level`** - Edits a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelId.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`
+- **`keen data-loss-prevention-classification-levels get-level`** - Gets a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelId.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:classification-levels:admin`
+- **`keen data-loss-prevention-classification-levels get-level-list`** - Gets all [classification levels](/cloud/admin/dlp/rest/intro/#classification%20level) in an organization.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:classification-levels:admin`
+- **`keen data-loss-prevention-classification-levels publish-level`** - Publishes one or more [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with the supplied levelIds.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`
+- **`keen data-loss-prevention-classification-levels reorder`** - Changes the order of [classification levels](/cloud/admin/dlp/rest/intro/#classification%20level). The most sensitive classification level should be ranked 1.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`
+- **`keen data-loss-prevention-classification-levels restore-level`** - Restores a [classification level](/cloud/admin/dlp/rest/intro/#classification%20level) with supplied levelId. When you restore an archived classification level, it’s restored as a draft. 
+
+When you’re ready for your users to start classifying Confluence pages and Jira issues, you can publish the classification level.
+
+If the classification level had been published before being archived, restored, and published again, any pages and issues classified at this level before it was archived will regain this classification level.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `write:classification-levels:admin`
 
 ### data-policies
 
@@ -2810,6 +2986,50 @@ Information about license types
 - **`keen license-types get`** - Get a specific license type.
 - **`keen license-types list`** - Get a list of license types.
 
+### manage
+
+Manage APIs
+
+- **`keen manage activate-user`** - Activates the specified user account. The permission to make use of this resource is exposed by the
+`lifecycle.enablement` privilege.
+
+User accounts that were deactivated due to US export controls cannot be reactivated using this API. If you believe
+the account was incorrectly blocked, please contact [Atlassian Support](https://support.atlassian.com/contact).
+
+User accounts that have been deleted need the deletion to be canceled before reactivating.
+- **`keen manage cancel-delete-account`** - This API will:
+ - Cancel the scheduled deletion of the specified managed account.
+ - Restore and activate the user’s account.
+ 
+ Specifications:
+ - You can cancel the deletion within the 14-day grace period of deleting a managed account. After that the account is permanently deleted.
+ 
+ The permission to make use of this resource is exposed by the `lifecycle.delete` privilege. Learn more about [Get user management permissions API](https://developer.atlassian.com/cloud/admin/user-management/rest/api-group-manage/#api-users-account-id-manage-get) to manage the specified user.
+- **`keen manage deactivate-user`** - Deactivate (block) the specified user account from logging into Atlassian. The permission to make use of this resource is exposed by the `lifecycle.enablement` privilege.
+You can optionally set a message associated with the block. If none is supplied, a default message will be used.
+- **`keen manage delete-account`** - This API will:
+- Delete a managed account from Atlassian Administration.
+- Withdraw complete access to all products and services listed in Atlassian Administration.
+- Remove reference to the account from all lists under Directory in Atlassian Administration.
+
+Specifications:
+- Deleting an account is permanent. If you think you’ll need the account again, we recommend you [deactivate](https://support.atlassian.com/user-management/docs/deactivate-a-managed-account/) it instead.
+- Before you permanently delete the account, you’ll have a 14-day grace period, during which the account will appear as temporarily deactivated.
+
+Learn more about [deleting a managed account](https://support.atlassian.com/user-management/docs/delete-a-managed-account/).
+
+Learn the fastest way to get the paramaters and delete account with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/user-management/delete-managed-account/#delete-account). 
+
+The permission to make use of this resource is exposed by the `lifecycle.delete` privilege. Learn more about [Get user management permissions API](https://developer.atlassian.com/cloud/admin/user-management/rest/api-group-manage/#api-users-account-id-manage-get) to manage the specified user.
+- **`keen manage delete-api-token`** - Deletes a specifid API token by ID.
+- **`keen manage get-api-tokens`** - Gets the API tokens owned by the specified user.
+- **`keen manage get-profile`** - Returns information about a single Atlassian account by ID
+- **`keen manage get-user-management-permissions`** - Returns the set of permissions you have for managing the specified Atlassian account
+- **`keen manage set-email`** - Sets the specified user's email address. Before using this endpoint, you must [verify the target domain](https://confluence.atlassian.com/x/gjcWN) as the new email address will be considered verified.
+The permission to make use of this resource is exposed by the `email.set` privilege.
+This call invalidates all active sessions.
+- **`keen manage update-profile`** - Updates fields in a user account. The `profile.write` privilege details which fields you can change.
+
 ### mypermissions
 
 Manage mypermissions
@@ -2932,6 +3152,50 @@ Manage notificationscheme
 - **`keen notificationscheme update-notification-scheme`** - Updates a notification scheme.
 
 **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+
+### oauth-clients
+
+OAuth Client Management APIs
+
+- **`keen oauth-clients count`** - Gets the count of OAuth clients in the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+- **`keen oauth-clients create`** - Creates a new OAuth client for a service account in the specified organization.
+Set `tokenEndpointAuthMethod` to `private_key_jwt` and supply `publicKeys` to
+authenticate using a signed JWT. Private Key JWT must be enabled for your organization.
+The response contains `clientId` and, when available, the supplied `keyId`;
+`clientSecret` is null for `private_key_jwt` clients.
+
+An active admin session with org management permissions is supported. API access requires OAuth client creation to be enabled for your organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts-tokens:admin`
+- **`keen oauth-clients delete`** - Deletes an existing OAuth client from the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `delete:service-accounts-tokens:admin`
+- **`keen oauth-clients get`** - Retrieves a specific OAuth client by ID for the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+- **`keen oauth-clients list`** - Retrieves all OAuth clients for the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+- **`keen oauth-clients update`** - Updates the name, token endpoint authentication method, or public keys of an
+OAuth client in the specified organization. Omitted fields remain unchanged.
+Supply `publicKeys` to replace the configured key set, including when rotating keys.
+When switching to `private_key_jwt`, supply the public keys to use for authentication.
+Private Key JWT must be enabled for your organization.
+
+The response includes the supplied `keyId` when available. When explicitly switching
+from `private_key_jwt` to a client-secret method (`basic`, `post`, `basic_pkce`, or
+`post_pkce`), the response can include `clientSecret`. Save it securely at this point;
+GET responses do not return it. Other updates return a null `clientSecret`.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts-tokens:admin`
 
 ### operations
 
@@ -3718,6 +3982,149 @@ You cannot update both the name and description at the same time using this oper
 
 **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
 
+### scim
+
+Manage scim
+
+- **`keen scim create-agroup-in-active-directory`** - Creates a read-only group in the organization's directory. You can only edit groups from your identity provider. 
+
+**Note:** An attempt to create a group with an existing name will fail with a 409 (Conflict) error.
+- **`keen scim create-auser-in-an-active-directory`** - Creates a user in the directory.
+**Note:** An attempt to create an existing user will fail with a 409 (Conflict) error.
+
+Use this API to manage accounts outside your organization when assigning these users to SCIM groups.
+
+If there's already a managed Atlassian account associated with the specified email address on the Atlassian platform, the user in your identity provider will be connected or linked to the user in your Atlassian organization.
+- **`keen scim delete-agroup`** - Deletes a group to remove the group from the organization's directory.
+ 
+ **Note**: An attempt to delete a non-existent group will fail with a 404 (Resource Not found) error.
+
+ **Note**: Deleting a synced group from your identity provider will delete the group from your organization's directory and associated sites. 
+ 1. If this group is used for allocating product license (granting role in a product), then members of this group may lose access to corresponding product after group deletion. 
+ 2. If this group is used to grant permissions in product, then members of this group may lose their permissions in the corresponding product.
+- **`keen scim delete-auser-from-an-active-directory`** - Deleting a user via the SCIM APIs will unlink the user from your identity provider and deactivate the user within Atlassian if they are managed by your organization.
+
+The deleted user is not available for future requests until created with a new `userId`. If the user is deactivated they can be activated again via [Atlassian Administration](https://admin.atlassian.com/).
+
+**Note:** Executing this API call will result in the deletion of the SCIM record, and there is no method to reverse these changes except by creating a new SCIM record with [Create a user API](https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-users/#api-scim-directory-directoryid-users-post).
+- **`keen scim get`** - Gets the details of a group based on the id.
+- **`keen scim get-all-groups-from-an-active-directory`** - Get groups from the directory. Filter the groups by name supported with a single exact match (`eq`) against the `displayName` attribute. 
+
+**Note**: While this API enables pagination, sorting functionality is not supported.
+- **`keen scim get-auser-from-active-directory`** - Retrieves a user from the directory based on their `userId`.
+- **`keen scim get-config`** - Get metadata about the supported SCIM features. This is a service provider configuration  endpoint providing supported SCIM features. 
+
+**Note:** This API does not support filtering, pagination, or sorting.
+- **`keen scim get-extension-user-schemas`** - Get the user enterprise extension schemas from the SCIM provider. 
+
+**Note:** This API does not support filtering, pagination, or sorting.
+- **`keen scim get-group-resource-type`** - Retrieves group resource type of this SCIM service provider. 
+
+**Note:** This API does not support filtering, pagination, or sorting.
+- **`keen scim get-group-schemas`** - Get the group schemas from the SCIM provider. 
+
+**Note:** This API does not support filtering, pagination, or sorting.
+- **`keen scim get-resource-types`** - Get different types of resources available on a SCIM service provider (e.g., Users and Groups).  
+**Note:** This API does not support filtering, pagination, or sorting.
+- **`keen scim get-schemas`** - Get all SCIM features metadata of your organization. 
+
+**Note:** This API does not support filtering, pagination, or sorting.
+- **`keen scim get-user-resource-type`** - Retrieves user resource types from the SCIM service provider. 
+
+**Note:** This API does not support filtering, pagination, or sorting.
+- **`keen scim get-user-schemas`** - Get the user schemas from the SCIM provider. 
+
+**Note:** This API does not support filtering, pagination, or sorting.
+- **`keen scim get-users-from-an-active-directory`** - Get users from the specified directory. Filtering is supported with a single exact match  (`eq`) against the `userName` and `externalId` attributes.
+
+ **Note**: While this API enables pagination, sorting functionality is not supported.
+- **`keen scim patch`** - Updates a group's information in the directory and manages group membership.
+
+**Note:** Renaming groups after they've synced to your Atlassian organization isn't supported in this 
+release of User Provisioning API. To rename a group, create a new group with the desired 
+name, update membership, and then delete the old group.
+
+#### Example
+
+Some HTTP headers omitted and JSON payloads formatted for readability.
+
+```
+# Request
+PATCH /scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Groups/50202593-bc47-45df-8fa0-3f63343aa3c1 HTTP/1.1
+Accept: application/scim+json
+Accept-Charset: utf-8
+Content-Type: application/scim+json; charset=utf-8
+Authorization: Bearer 0j6lDgrjU7HmGagocgLe
+Host: api.atlassian.com
+
+{
+   "schemas":[
+      "urn:ietf:params:scim:api:messages:2.0:PatchOp"
+   ],
+   "Operations":[
+      {
+         "op":"add",
+         "path":"members",
+         "value":[
+            {
+               "value":"c6993c94-dbda-40f1-b6f0-18c855522ade",
+               "display":"dave.meyer@demotime.authteam.com"
+            },
+            {
+               "value":"f0ae48f7-1466-445e-85ea-e83ef754aefd",
+               "display":"lingbo.lu@demotime.authteam.com"
+            },
+            {
+               "value":"432d6f10-2e28-454e-be99-0f8c732a046f",
+               "display":"joanna@demotime.authteam.com"
+            }
+         ]
+      }
+   ]
+}
+
+# Response
+HTTP/1.1 200
+Content-Type: application/scim+json
+
+{
+   "schemas":[
+      "urn:ietf:params:scim:schemas:core:2.0:Group"
+   ],
+   "id":"50202593-bc47-45df-8fa0-3f63343aa3c1",
+   "displayName":"demotime-confluence-users",
+   "members":[
+      {
+         "type":"User",
+         "value":"f0ae48f7-1466-445e-85ea-e83ef754aefd",
+         "display":"lingbo.lu@demotime.authteam.com",
+         "$ref":"https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/f0ae48f7-1466-445e-85ea-e83ef754aefd"
+      },
+      {
+         "type":"User",
+         "value":"c6993c94-dbda-40f1-b6f0-18c855522ade",
+         "display":"dave.meyer@demotime.authteam.com",
+         "$ref":"https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/c6993c94-dbda-40f1-b6f0-18c855522ade"
+      },
+      {
+         "type":"User",
+         "value":"432d6f10-2e28-454e-be99-0f8c732a046f",
+         "display":"joanna@demotime.authteam.com",
+         "$ref":"https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Users/432d6f10-2e28-454e-be99-0f8c732a046f"
+      }
+   ],
+   "meta":{
+      "resourceType":"Group",
+      "location":"https://api.atlassian.com/scim/directory/2fb21891-7bee-4c2d-a61a-ade3834c8b2b/Groups/50202593-bc47-45df-8fa0-3f63343aa3c1",
+      "lastModified":"2018-09-26T17:49:09.420654Z",
+      "created":"2018-09-26T17:41:35.49073Z"
+   }
+}
+```
+- **`keen scim patch-user-information-in-an-active-directory`** - Updates a user's information in the directory based on their `userId` via `PATCH`. Refer to  [Service Provider Configuration APIs](https://developer.atlassian.com/cloud/admin/user-provisioning/rest/api-group-service-provider-configuration/#api-group-service-provider-configuration) for details on supported operations.
+- **`keen scim put`** - Updates the details of a group with its unique ID.
+- **`keen scim update-user-information-in-an-active-directory`** - Update the directory-based user information using the user attributes associated with their `userId`. User information  is replaced attribute-by-attribute, with the exception of immutable and read-only  attributes. Existing values of unspecified attributes are cleaned.
+
 ### screens
 
 This resource represents the screens used to record issue details. Use it to:
@@ -3831,6 +4238,39 @@ This resource provides information about the Jira instance.
 This operation can be accessed anonymously.
 
 **[Permissions](#permissions) required:** None.
+
+### service-accounts
+
+Service Account lifecycle and credential APIs
+
+- **`keen service-accounts count-api-tokens`** - Gets count of API tokens for specified service accounts within an organization.
+
+#### Scopes
+**[Authorization scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+- **`keen service-accounts create`** - Creates a new service account for the specified organization. The service account is created with the given display name and optional description, then invited with the specified permission rules and optional additional group memberships.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`
+- **`keen service-accounts delete`** - Deletes a service account from the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`
+- **`keen service-accounts list`** - Retrieves all service accounts for the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts:admin`
+- **`keen service-accounts list-api-tokens`** - Retrieves API tokens belonging to service accounts in the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+- **`keen service-accounts list-oauth-clients`** - Retrieves OAuth clients belonging to service accounts in the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `read:service-accounts-tokens:admin`
+- **`keen service-accounts update`** - Updates a service account's display name and/or description within the specified organization.
+
+#### Scopes
+**[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts:admin`
 
 ### servicedeskapi
 

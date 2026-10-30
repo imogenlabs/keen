@@ -11,6 +11,10 @@ type AbstractPageLinks struct {
 	Webui  string `json:"webui"`
 }
 
+type AccountCharacteristics struct {
+	NotMentionable bool `json:"not_mentionable"`
+}
+
 type AccountId struct {
 	AccountId string `json:"accountId"`
 }
@@ -82,6 +86,11 @@ type AddSecuritySchemeLevelsRequestBean struct {
 
 type AdditionalCommentDTO struct {
 	Body string `json:"body"`
+}
+
+type AdditionalGroup struct {
+	DirectoryId string `json:"directoryId"`
+	GroupId     string `json:"groupId"`
 }
 
 type Addon struct {
@@ -766,6 +775,61 @@ type ApiErrorResponse struct {
 	Errors json.RawMessage `json:"errors"`
 }
 
+type ApiKey struct {
+	CreatedAt       string          `json:"createdAt"`
+	CreatedBy       json.RawMessage `json:"createdBy"`
+	ExpiresAt       string          `json:"expiresAt"`
+	Id              string          `json:"id"`
+	Label           string          `json:"label"`
+	LastActiveAt    string          `json:"lastActiveAt"`
+	OrgId           string          `json:"orgId"`
+	Resource        string          `json:"resource"`
+	Scopes          json.RawMessage `json:"scopes"`
+	SystemAccountId string          `json:"systemAccountId"`
+}
+
+type ApiKeySearchResponse struct {
+	Data  json.RawMessage `json:"data"`
+	Links json.RawMessage `json:"links"`
+}
+
+type ApiKeyUser struct {
+	Email string `json:"email"`
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+}
+
+type ApiToken struct {
+	CreatedAt    string          `json:"createdAt"`
+	ExpiresAt    string          `json:"expiresAt"`
+	Id           string          `json:"id"`
+	Label        string          `json:"label"`
+	LastActiveAt string          `json:"lastActiveAt"`
+	Scopes       json.RawMessage `json:"scopes"`
+	Status       string          `json:"status"`
+	User         json.RawMessage `json:"user"`
+}
+
+type ApiTokenModel struct {
+	CreatedAt  string `json:"createdAt"`
+	Expiry     string `json:"expiry"`
+	Id         string `json:"id"`
+	Label      string `json:"label"`
+	LastAccess string `json:"lastAccess"`
+}
+
+type ApiTokenSearchResponse struct {
+	Data  json.RawMessage `json:"data"`
+	Links json.RawMessage `json:"links"`
+}
+
+type ApiTokenUser struct {
+	Email string `json:"email"`
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+	OrgId string `json:"orgId"`
+}
+
 type AppGetForgePropertyResponse struct {
 	Key   string          `json:"key"`
 	Value json.RawMessage `json:"value"`
@@ -1079,6 +1143,20 @@ type AsyncContentBody struct {
 
 type AsyncId struct {
 	AsyncId string `json:"asyncId"`
+}
+
+type AtlassianAccountUser struct {
+	AccountId       string          `json:"account_id"`
+	AccountStatus   string          `json:"account_status"`
+	AccountType     string          `json:"account_type"`
+	Characteristics json.RawMessage `json:"characteristics"`
+	Email           string          `json:"email"`
+	ExtendedProfile json.RawMessage `json:"extended_profile"`
+	Locale          string          `json:"locale"`
+	Name            string          `json:"name"`
+	Nickname        string          `json:"nickname"`
+	Picture         string          `json:"picture"`
+	Zoneinfo        string          `json:"zoneinfo"`
 }
 
 type Attachment struct {
@@ -1462,6 +1540,16 @@ type AvatarUrlsBean struct {
 type Avatars struct {
 	Custom json.RawMessage `json:"custom"`
 	System json.RawMessage `json:"system"`
+}
+
+type BadRequestException struct {
+	Cause            json.RawMessage `json:"cause"`
+	LocalizedMessage string          `json:"localizedMessage"`
+	Message          string          `json:"message"`
+	ResponseStatus   string          `json:"responseStatus"`
+	ScimErrorType    string          `json:"scimErrorType"`
+	StackTrace       json.RawMessage `json:"stackTrace"`
+	Suppressed       json.RawMessage `json:"suppressed"`
 }
 
 type BenchmarkReportingLink struct {
@@ -3028,6 +3116,22 @@ type CopyPageRequestDestination struct {
 	Value string `json:"value"`
 }
 
+type CreateApiKeyRequestBody struct {
+	ExpiresAt string          `json:"expiresAt"`
+	Label     string          `json:"label"`
+	Scopes    json.RawMessage `json:"scopes"`
+}
+
+type CreateApiKeyResponse struct {
+	CreatedAt string          `json:"createdAt"`
+	CreatedBy json.RawMessage `json:"createdBy"`
+	ExpiresAt string          `json:"expiresAt"`
+	Id        string          `json:"id"`
+	Label     string          `json:"label"`
+	Scopes    json.RawMessage `json:"scopes"`
+	Token     string          `json:"token"`
+}
+
 type CreateCrossProjectReleaseRequest struct {
 	Name       string          `json:"name"`
 	ReleaseIds json.RawMessage `json:"releaseIds"`
@@ -3110,10 +3214,25 @@ type CreateIssueSourceRequest struct {
 	Value int    `json:"value"`
 }
 
+type CreateLevelModel struct {
+	Color      string `json:"color"`
+	Definition string `json:"definition"`
+	Guideline  string `json:"guideline"`
+	Name       string `json:"name"`
+}
+
 type CreateNotificationSchemeDetails struct {
 	Description              string          `json:"description"`
 	Name                     string          `json:"name"`
 	NotificationSchemeEvents json.RawMessage `json:"notificationSchemeEvents"`
+}
+
+type CreateOAuthClientRequest struct {
+	Name                    string          `json:"name"`
+	PublicKeys              json.RawMessage `json:"publicKeys"`
+	Scopes                  json.RawMessage `json:"scopes"`
+	ServiceAccountId        string          `json:"serviceAccountId"`
+	TokenEndpointAuthMethod string          `json:"tokenEndpointAuthMethod"`
 }
 
 type CreatePermissionHolderRequest struct {
@@ -3196,6 +3315,23 @@ type CreateSchedulingRequest struct {
 	Estimation    string `json:"estimation"`
 	InferredDates string `json:"inferredDates"`
 	StartDate     string `json:"startDate"`
+}
+
+type CreateServiceAccountRequest struct {
+	AdditionalGroups json.RawMessage `json:"additionalGroups"`
+	Description      string          `json:"description"`
+	DisplayName      string          `json:"displayName"`
+	PermissionRules  json.RawMessage `json:"permissionRules"`
+}
+
+type CreateServiceAccountResponse struct {
+	AtlassianId string `json:"atlassianId"`
+	Container   string `json:"container"`
+	DisplayName string `json:"displayName"`
+	Email       string `json:"email"`
+	Id          string `json:"id"`
+	Status      string `json:"status"`
+	UpdatedAt   int    `json:"updatedAt"`
 }
 
 type CreateUiModificationDetails struct {
@@ -4531,6 +4667,11 @@ type EmbedsGetSmartLinkByIdResponse struct {
 	Version    json.RawMessage `json:"version"`
 }
 
+type EnterpriseUserExtension struct {
+	Department   string `json:"department"`
+	Organization string `json:"organization"`
+}
+
 type EntitlementModelV2 struct {
 	Id      string `json:"id"`
 	Key     string `json:"key"`
@@ -4786,6 +4927,17 @@ type ExportArchivedIssuesTaskProgressResponse struct {
 	TaskId        string `json:"taskId"`
 }
 
+type ExtendedProfile struct {
+	Department   string `json:"department"`
+	JobTitle     string `json:"job_title"`
+	Location     string `json:"location"`
+	Organization string `json:"organization"`
+}
+
+type ExternalAtlassianScimExtension struct {
+	AtlassianAccountId string `json:"atlassianAccountId"`
+}
+
 type FailedWebhook struct {
 	Body        string `json:"body"`
 	FailureTime int    `json:"failureTime"`
@@ -4797,6 +4949,11 @@ type FailedWebhooks struct {
 	MaxResults int             `json:"maxResults"`
 	Next       string          `json:"next"`
 	Values     json.RawMessage `json:"values"`
+}
+
+type Failure struct {
+	Error   string `json:"error"`
+	TraceId string `json:"traceId"`
 }
 
 type FeatureBean struct {
@@ -5553,6 +5710,18 @@ type GetSchedulingResponse struct {
 	Estimation    string `json:"estimation"`
 	InferredDates string `json:"inferredDates"`
 	StartDate     string `json:"startDate"`
+}
+
+type GetScimLinksForAaIdInAnOrgResponse struct {
+	ScimLinks json.RawMessage `json:"scimLinks"`
+}
+
+type GetScimLinksForEmailRequest struct {
+	Email string `json:"email"`
+}
+
+type GetScimLinksForEmailResponse struct {
+	ScimLinks json.RawMessage `json:"scimLinks"`
 }
 
 type GetTeamResponseForPage struct {
@@ -7075,6 +7244,30 @@ type LabeledContentPageResponse struct {
 	Start   int             `json:"start"`
 }
 
+type Level struct {
+	ChangedBy   json.RawMessage `json:"changedBy"`
+	ChangedOn   string          `json:"changedOn"`
+	Color       string          `json:"color"`
+	CreatedBy   json.RawMessage `json:"createdBy"`
+	CreatedOn   string          `json:"createdOn"`
+	Definition  string          `json:"definition"`
+	Guideline   string          `json:"guideline"`
+	LevelId     string          `json:"levelId"`
+	Name        string          `json:"name"`
+	OrgId       string          `json:"orgId"`
+	Sensitivity float64         `json:"sensitivity"`
+	Status      string          `json:"status"`
+}
+
+type LevelIdList struct {
+	LevelIds json.RawMessage `json:"levelIds"`
+}
+
+type LevelList struct {
+	Levels json.RawMessage `json:"levels"`
+	Links  json.RawMessage `json:"links"`
+}
+
 type License struct {
 	Applications json.RawMessage `json:"applications"`
 }
@@ -7397,6 +7590,44 @@ type MacroInstance struct {
 	Parameters json.RawMessage `json:"parameters"`
 }
 
+type ManageGetProfileResponse struct {
+	Account string `json:"account"`
+}
+
+type ManageGetUserManagementPermissionsResponse struct {
+	ApiTokenDelete      json.RawMessage `json:"apiToken.delete"`
+	ApiTokenRead        json.RawMessage `json:"apiToken.read"`
+	EmailSet            json.RawMessage `json:"email.set"`
+	LifecycleDelete     json.RawMessage `json:"lifecycle.delete"`
+	LifecycleEnablement json.RawMessage `json:"lifecycle.enablement"`
+	Profile             json.RawMessage `json:"profile"`
+	ProfileRead         json.RawMessage `json:"profile.read"`
+	ProfileWrite        json.RawMessage `json:"profile.write"`
+}
+
+type ManageUpdateProfileResponse struct {
+	Account string `json:"account"`
+}
+
+type Manageability_Allowed struct {
+	Allowed bool `json:"allowed"`
+}
+
+type Manageability_RestrictionReason struct {
+	Key string `json:"key"`
+}
+
+type Manageability_Rule_ObjectMutability struct {
+}
+
+type Manageability_Rule_Simple struct {
+}
+
+type Manageability_Unallowed struct {
+	Allowed bool            `json:"allowed"`
+	Reason  json.RawMessage `json:"reason"`
+}
+
 type ManagementAccess struct {
 	Deletable  bool `json:"deletable"`
 	Modifiable bool `json:"modifiable"`
@@ -7480,6 +7711,260 @@ type MinimalFieldSchemeToFieldsPartialFailure struct {
 
 type MinimalFieldSchemeToFieldsResponse struct {
 	Results json.RawMessage `json:"results"`
+}
+
+type Models_AddUsersToPolicyRequest struct {
+	Users json.RawMessage `json:"users"`
+}
+
+type Models_AddUsersToPolicyTaskStatus struct {
+	FailureCount    int             `json:"failureCount"`
+	FailureReasons  json.RawMessage `json:"failureReasons"`
+	InProgressCount int             `json:"inProgressCount"`
+	SuccessCount    int             `json:"successCount"`
+}
+
+type Models_AsyncResponseModel struct {
+	TaskId   string `json:"taskId"`
+	TaskLink string `json:"taskLink"`
+}
+
+type Models_AuthPolicyInfo struct {
+	DateAdded float64 `json:"dateAdded"`
+	PolicyId  string  `json:"policyId"`
+}
+
+type Models_BasePolicyAttributes struct {
+	Name   string `json:"name"`
+	Status string `json:"status"`
+	Type   string `json:"type"`
+}
+
+type Models_BulkUserPolicyFetchRequest struct {
+	AccountIds json.RawMessage `json:"accountIds"`
+}
+
+type Models_DataResidencyCreatePolicy struct {
+	Attributes json.RawMessage `json:"attributes"`
+	Type       string          `json:"type"`
+}
+
+type Models_DataResidencyPolicy struct {
+	Attributes string `json:"attributes"`
+	Id         string `json:"id"`
+	Type       string `json:"type"`
+}
+
+type Models_DataResidencyPolicyAttributes struct {
+	Name   string          `json:"name"`
+	Rule   json.RawMessage `json:"rule"`
+	Status string          `json:"status"`
+	Type   string          `json:"type"`
+}
+
+type Models_DataSecurityCreatePolicy struct {
+	Attributes json.RawMessage `json:"attributes"`
+	Type       string          `json:"type"`
+}
+
+type Models_DataSecurityPolicy struct {
+	Id string `json:"id"`
+}
+
+type Models_DataSecurityPolicyAttributes struct {
+	CreatedAt string          `json:"createdAt"`
+	Id        string          `json:"id"`
+	Metadata  json.RawMessage `json:"metadata"`
+	Name      string          `json:"name"`
+	OwnerId   string          `json:"ownerId"`
+	QueryData json.RawMessage `json:"queryData"`
+	Rule      json.RawMessage `json:"rule"`
+	Status    string          `json:"status"`
+	Type      string          `json:"type"`
+	UpdatedAt string          `json:"updatedAt"`
+}
+
+type Models_DataSecurityPolicyRuleMetadata struct {
+	AddedAt       string `json:"addedAt"`
+	AddedBy       string `json:"addedBy"`
+	LastUpdatedAt string `json:"lastUpdatedAt"`
+	LastUpdatedBy string `json:"lastUpdatedBy"`
+}
+
+type Models_Errors_BadRequest struct {
+	Errors json.RawMessage `json:"errors"`
+}
+
+type Models_Errors_CommonApplicationError struct {
+	Code   string `json:"code"`
+	Detail string `json:"detail"`
+	Id     string `json:"id"`
+	Status string `json:"status"`
+	Title  string `json:"title"`
+}
+
+type Models_Errors_Forbidden struct {
+	Code    float64 `json:"code"`
+	Message string  `json:"message"`
+}
+
+type Models_Errors_InternalServerError struct {
+	Errors json.RawMessage `json:"errors"`
+}
+
+type Models_Errors_NotFound struct {
+	Code    float64 `json:"code"`
+	Message string  `json:"message"`
+}
+
+type Models_FailureDetails struct {
+	Detail string `json:"detail"`
+	Status int    `json:"status"`
+	Title  string `json:"title"`
+}
+
+type Models_FailureReason struct {
+	Details json.RawMessage `json:"details"`
+	Emails  json.RawMessage `json:"emails"`
+}
+
+type Models_IPAllowListCreatePolicy struct {
+	Attributes json.RawMessage `json:"attributes"`
+	Type       string          `json:"type"`
+}
+
+type Models_IPAllowListPolicy struct {
+	Attributes string `json:"attributes"`
+	Id         string `json:"id"`
+	Type       string `json:"type"`
+}
+
+type Models_IPAllowListPolicyAttributes struct {
+	Name   string          `json:"name"`
+	Rule   json.RawMessage `json:"rule"`
+	Status string          `json:"status"`
+	Type   string          `json:"type"`
+}
+
+type Models_PageLinks struct {
+	Next     string `json:"next"`
+	PageSize string `json:"page_size"`
+	Prev     string `json:"prev"`
+	Self     string `json:"self"`
+}
+
+type Models_PageMeta struct {
+	Next     string `json:"next"`
+	PageSize int    `json:"page_size"`
+}
+
+type Models_PolicyOperation struct {
+	Action              string `json:"action"`
+	PolicyCoverageLevel string `json:"policyCoverageLevel"`
+	PolicyId            string `json:"policyId"`
+}
+
+type Models_PolicyPage struct {
+	Data  json.RawMessage `json:"data"`
+	Links string          `json:"links"`
+	Meta  json.RawMessage `json:"meta"`
+}
+
+type Models_PolicyPageV2 struct {
+	Data  json.RawMessage `json:"data"`
+	Links string          `json:"links"`
+	Meta  json.RawMessage `json:"meta"`
+}
+
+type Models_PolicyResource struct {
+	ApplicationStatus string          `json:"applicationStatus"`
+	Id                string          `json:"id"`
+	Links             json.RawMessage `json:"links"`
+	Meta              json.RawMessage `json:"meta"`
+}
+
+type Models_PolicyResourceCreateModel struct {
+	Id    string          `json:"id"`
+	Links json.RawMessage `json:"links"`
+	Meta  json.RawMessage `json:"meta"`
+}
+
+type Models_PolicyResourceLinks struct {
+	Ticket string `json:"ticket"`
+}
+
+type Models_PolicyResourceMeta struct {
+	AtlassianAccountId     string `json:"atlassianAccountId"`
+	MigrationEndDateTime   string `json:"migrationEndDateTime"`
+	MigrationStartDateTime string `json:"migrationStartDateTime"`
+	ScheduledDate          string `json:"scheduledDate"`
+}
+
+type Models_PolicyResourcePage struct {
+	Data  json.RawMessage `json:"data"`
+	Links string          `json:"links"`
+	Meta  json.RawMessage `json:"meta"`
+}
+
+type Models_PolicyResourcePageV2 struct {
+	Data  json.RawMessage `json:"data"`
+	Links string          `json:"links"`
+	Meta  json.RawMessage `json:"meta"`
+}
+
+type Models_PolicyResourceUpdateModel struct {
+	Links json.RawMessage `json:"links"`
+	Meta  json.RawMessage `json:"meta"`
+}
+
+type Models_PolicyResourceV2 struct {
+	ApplicationStatus string          `json:"applicationStatus"`
+	CreatedAt         string          `json:"createdAt"`
+	ParentResourceId  string          `json:"parentResourceId"`
+	ProjectType       string          `json:"projectType"`
+	ResourceId        string          `json:"resourceId"`
+	ResourceKey       string          `json:"resourceKey"`
+	ResourceLogoUrls  json.RawMessage `json:"resourceLogoUrls"`
+	ResourceName      string          `json:"resourceName"`
+	Self              string          `json:"self"`
+	Type              string          `json:"type"`
+	UpdatedAt         string          `json:"updatedAt"`
+}
+
+type Models_PolicyResponse struct {
+	Data string `json:"data"`
+}
+
+type Models_PolicyResponseV2 struct {
+	Data string `json:"data"`
+}
+
+type Models_PublishDraftPoliciesRequest struct {
+	PolicyOperations json.RawMessage `json:"policyOperations"`
+	RuleName         string          `json:"ruleName"`
+	Type             string          `json:"type"`
+}
+
+type Models_PublishDraftPoliciesResponse struct {
+	Messages json.RawMessage `json:"messages"`
+}
+
+type Models_PublishMessage struct {
+	MessageId string          `json:"messageId"`
+	Ticket    json.RawMessage `json:"ticket"`
+}
+
+type Models_PublishTicket struct {
+	ContainerAri string `json:"containerAri"`
+	Id           string `json:"id"`
+	Scope        string `json:"scope"`
+}
+
+type Models_UserPolicyInfo struct {
+	AccountId      string          `json:"accountId"`
+	AuthPolicyInfo json.RawMessage `json:"authPolicyInfo"`
+	Email          string          `json:"email"`
+	Name           string          `json:"name"`
 }
 
 type MoveFieldBean struct {
@@ -8001,6 +8486,45 @@ type NotificationSchemePayload struct {
 	Pcri                     json.RawMessage `json:"pcri"`
 }
 
+type OAuthClient struct {
+	ClientId                string `json:"clientId"`
+	CreatedAt               int    `json:"createdAt"`
+	Name                    string `json:"name"`
+	Status                  string `json:"status"`
+	TokenEndpointAuthMethod string `json:"tokenEndpointAuthMethod"`
+	UpdatedAt               int    `json:"updatedAt"`
+}
+
+type OAuthClientCredentials struct {
+	ClientId     string `json:"clientId"`
+	ClientSecret string `json:"clientSecret"`
+	KeyId        string `json:"keyId"`
+}
+
+type OAuthClientListResponse struct {
+	Data  json.RawMessage `json:"data"`
+	Links json.RawMessage `json:"links"`
+}
+
+type OAuthClientPublicKey struct {
+	Kid    string `json:"kid"`
+	Source string `json:"source"`
+	Value  string `json:"value"`
+}
+
+type OAuthClientUpdateResult struct {
+	ClientId                string `json:"clientId"`
+	ClientSecret            string `json:"clientSecret"`
+	Disabled                bool   `json:"disabled"`
+	KeyId                   string `json:"keyId"`
+	Name                    string `json:"name"`
+	TokenEndpointAuthMethod string `json:"tokenEndpointAuthMethod"`
+}
+
+type OauthClientsCountResponse struct {
+	Total int `json:"total"`
+}
+
 type OldToNewSecurityLevelMappingsBean struct {
 	NewLevelId string `json:"newLevelId"`
 	OldLevelId string `json:"oldLevelId"`
@@ -8014,6 +8538,12 @@ type Operation struct {
 type OperationCheckResult struct {
 	Operation  string `json:"operation"`
 	TargetType string `json:"targetType"`
+}
+
+type OperationForAScimPatch struct {
+	Op    string          `json:"op"`
+	Path  string          `json:"path"`
+	Value json.RawMessage `json:"value"`
 }
 
 type OperationMessage struct {
@@ -9252,6 +9782,11 @@ type PermissionPayloadDTO struct {
 	Pcri         json.RawMessage `json:"pcri"`
 }
 
+type PermissionRule struct {
+	Resource string `json:"resource"`
+	Role     string `json:"role"`
+}
+
 type PermissionScheme struct {
 	Description string          `json:"description"`
 	Expand      string          `json:"expand"`
@@ -10385,6 +10920,11 @@ type RequestParticipantUpdateDTO struct {
 	Usernames  json.RawMessage `json:"usernames"`
 }
 
+type RequestPayloadToPatch struct {
+	Operations json.RawMessage `json:"operations"`
+	Schemas    json.RawMessage `json:"schemas"`
+}
+
 type RequestTypeCreateDTO struct {
 	Description string `json:"description"`
 	HelpText    string `json:"helpText"`
@@ -10513,6 +11053,38 @@ type ResourceUpdateInput struct {
 	Meta  json.RawMessage `json:"meta"`
 }
 
+type Response_BadRequest_BodyParseFailure struct {
+	Key string `json:"key"`
+}
+
+type Response_BadRequest_FieldConstraintsViolated struct {
+	Context json.RawMessage `json:"context"`
+	Key     string          `json:"key"`
+}
+
+type Response_Forbidden_Action struct {
+	Context json.RawMessage `json:"context"`
+	Key     string          `json:"key"`
+}
+
+type Response_Forbidden_Basic struct {
+	Key string `json:"key"`
+}
+
+type Response_Forbidden_ObjectMutability struct {
+	Context json.RawMessage `json:"context"`
+	Key     string          `json:"key"`
+}
+
+type Response_Forbidden_TargetUnverified struct {
+	Key string `json:"key"`
+}
+
+type Response_Forbidden_UnclaimedDomain struct {
+	Context json.RawMessage `json:"context"`
+	Key     string          `json:"key"`
+}
+
 type RestrictedPermission struct {
 	Id  string `json:"id"`
 	Key string `json:"key"`
@@ -10523,6 +11095,10 @@ type RestrictionStateResponse struct {
 	CreatedBy     string `json:"createdBy"`
 	CreatedByAaid string `json:"createdByAaid"`
 	State         string `json:"state"`
+}
+
+type ResultMessage struct {
+	Message string `json:"message"`
 }
 
 type RetentionDurationInDays struct {
@@ -10687,6 +11263,109 @@ type SaveTemplateRequest struct {
 
 type SaveTemplateResponse struct {
 	ProjectTemplateKey json.RawMessage `json:"projectTemplateKey"`
+}
+
+type ScimError struct {
+	Detail   string          `json:"detail"`
+	Schemas  json.RawMessage `json:"schemas"`
+	ScimType string          `json:"scimType"`
+	Status   string          `json:"status"`
+}
+
+type ScimGroup struct {
+	DisplayName string          `json:"displayName"`
+	ExternalId  string          `json:"externalId"`
+	Id          string          `json:"id"`
+	Members     json.RawMessage `json:"members"`
+	Meta        string          `json:"meta"`
+	Schemas     json.RawMessage `json:"schemas"`
+}
+
+type ScimGroupForUser struct {
+	Ref     string `json:"$ref"`
+	Display string `json:"display"`
+	Type    string `json:"type"`
+	Value   string `json:"value"`
+}
+
+type ScimGroupListResponse struct {
+	Resources    json.RawMessage `json:"Resources"`
+	ItemsPerPage int             `json:"itemsPerPage"`
+	Schemas      json.RawMessage `json:"schemas"`
+	StartIndex   int             `json:"startIndex"`
+	TotalResults int             `json:"totalResults"`
+}
+
+type ScimGroupMember struct {
+	Ref     string `json:"$ref"`
+	Display string `json:"display"`
+	Type    string `json:"type"`
+	Value   string `json:"value"`
+}
+
+type ScimMetadata struct {
+	Created      string `json:"created"`
+	LastModified string `json:"lastModified"`
+	Location     string `json:"location"`
+	ResourceType string `json:"resourceType"`
+}
+
+type ScimUser struct {
+	Active                                            bool            `json:"active"`
+	Department                                        string          `json:"department"`
+	DisplayName                                       string          `json:"displayName"`
+	Emails                                            json.RawMessage `json:"emails"`
+	ExternalId                                        string          `json:"externalId"`
+	Groups                                            json.RawMessage `json:"groups"`
+	Id                                                string          `json:"id"`
+	Meta                                              string          `json:"meta"`
+	Name                                              string          `json:"name"`
+	NickName                                          string          `json:"nickName"`
+	Organization                                      string          `json:"organization"`
+	PhoneNumbers                                      json.RawMessage `json:"phoneNumbers"`
+	PreferredLanguage                                 string          `json:"preferredLanguage"`
+	Schemas                                           json.RawMessage `json:"schemas"`
+	Timezone                                          string          `json:"timezone"`
+	Title                                             string          `json:"title"`
+	UrnIetfParamsScimSchemasExtensionEnterprise20User string          `json:"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"`
+	UrnScimSchemasExtensionAtlassianExternal10        string          `json:"urn:scim:schemas:extension:atlassian-external:1.0"`
+	UserName                                          string          `json:"userName"`
+}
+
+type ScimUserEmail struct {
+	Primary bool   `json:"primary"`
+	Type    string `json:"type"`
+	Value   string `json:"value"`
+}
+
+type ScimUserLink struct {
+	AtlassianAccountId string `json:"atlassianAccountId"`
+	DirectoryId        string `json:"directoryId"`
+	OrgId              string `json:"orgId"`
+	ScimUserId         string `json:"scimUserId"`
+}
+
+type ScimUserListResponse struct {
+	Resources    json.RawMessage `json:"Resources"`
+	ItemsPerPage int             `json:"itemsPerPage"`
+	Schemas      json.RawMessage `json:"schemas"`
+	StartIndex   int             `json:"startIndex"`
+	TotalResults int             `json:"totalResults"`
+}
+
+type ScimUserName struct {
+	FamilyName      string `json:"familyName"`
+	Formatted       string `json:"formatted"`
+	GivenName       string `json:"givenName"`
+	HonorificPrefix string `json:"honorificPrefix"`
+	HonorificSuffix string `json:"honorificSuffix"`
+	MiddleName      string `json:"middleName"`
+}
+
+type ScimUserPhoneNumber struct {
+	Primary bool   `json:"primary"`
+	Type    string `json:"type"`
+	Value   string `json:"value"`
 }
 
 type Scope struct {
@@ -11113,6 +11792,59 @@ type ServerInformation struct {
 	ServerTitle                     string          `json:"serverTitle"`
 	Version                         string          `json:"version"`
 	VersionNumbers                  json.RawMessage `json:"versionNumbers"`
+}
+
+type ServiceAccount struct {
+	AtlassianId string `json:"atlassianId"`
+	Container   string `json:"container"`
+	CreatedById string `json:"createdById"`
+	Description string `json:"description"`
+	DisplayName string `json:"displayName"`
+	Email       string `json:"email"`
+	Id          string `json:"id"`
+	Picture     string `json:"picture"`
+	Status      string `json:"status"`
+	UpdatedAt   int    `json:"updatedAt"`
+}
+
+type ServiceAccountApiToken struct {
+	CreatedAt    string          `json:"createdAt"`
+	ExpiresAt    string          `json:"expiresAt"`
+	Id           string          `json:"id"`
+	Label        string          `json:"label"`
+	LastActiveAt string          `json:"lastActiveAt"`
+	Scopes       json.RawMessage `json:"scopes"`
+	Status       string          `json:"status"`
+	User         json.RawMessage `json:"user"`
+}
+
+type ServiceAccountCredentialCount struct {
+	CredentialsCount int    `json:"credentialsCount"`
+	ServiceAccountId string `json:"serviceAccountId"`
+}
+
+type ServiceAccountCredentialCountResponse struct {
+	InvalidServiceAccountIds json.RawMessage `json:"invalidServiceAccountIds"`
+	ValidServiceAccountIds   json.RawMessage `json:"validServiceAccountIds"`
+}
+
+type ServiceAccountListResponse struct {
+	Items json.RawMessage `json:"items"`
+	Links json.RawMessage `json:"links"`
+	Total int             `json:"total"`
+}
+
+type ServiceAccountOAuthClient struct {
+	ClientId                string          `json:"clientId"`
+	ClientName              string          `json:"clientName"`
+	ClientRevocationTime    string          `json:"clientRevocationTime"`
+	ClientRevokerId         string          `json:"clientRevokerId"`
+	CreatedAt               string          `json:"createdAt"`
+	CreatedBy               string          `json:"createdBy"`
+	ExpiresAt               string          `json:"expiresAt"`
+	Scopes                  json.RawMessage `json:"scopes"`
+	ServiceAccount          string          `json:"serviceAccount"`
+	TokenEndpointAuthMethod string          `json:"tokenEndpointAuthMethod"`
 }
 
 type ServiceDeskCustomerDTO struct {
@@ -11640,6 +12372,14 @@ type SprintSwapBean struct {
 	SprintToSwapWith int `json:"sprintToSwapWith"`
 }
 
+type StackTraceElement struct {
+	ClassName    string `json:"className"`
+	FileName     string `json:"fileName"`
+	LineNumber   int    `json:"lineNumber"`
+	MethodName   string `json:"methodName"`
+	NativeMethod bool   `json:"nativeMethod"`
+}
+
 type StatePolicyDocument struct {
 	Id                string          `json:"id"`
 	IsDefault         bool            `json:"isDefault"`
@@ -12147,6 +12887,14 @@ type ThirdPartyInformation struct {
 	ThirdPartyDetails   json.RawMessage `json:"thirdPartyDetails"`
 }
 
+type Throwable struct {
+	Cause            json.RawMessage `json:"cause"`
+	LocalizedMessage string          `json:"localizedMessage"`
+	Message          string          `json:"message"`
+	StackTrace       json.RawMessage `json:"stackTrace"`
+	Suppressed       json.RawMessage `json:"suppressed"`
+}
+
 type TierInsightsReportingLink struct {
 	Query json.RawMessage `json:"query"`
 	Self  json.RawMessage `json:"self"`
@@ -12231,6 +12979,15 @@ type TokenCollectionLinks struct {
 type TokenLinks struct {
 	Descriptor json.RawMessage `json:"descriptor"`
 	Self       json.RawMessage `json:"self"`
+}
+
+type TokenUser struct {
+	AppType    string `json:"appType"`
+	Email      string `json:"email"`
+	Id         string `json:"id"`
+	Name       string `json:"name"`
+	OrgId      string `json:"orgId"`
+	UserStatus string `json:"userStatus"`
 }
 
 type TopNavigationLookAndFeel struct {
@@ -12529,9 +13286,22 @@ type UpdateIssueSecuritySchemeRequestBean struct {
 	Name        string `json:"name"`
 }
 
+type UpdateLevelModel struct {
+	Color      string `json:"color"`
+	Definition string `json:"definition"`
+	Guideline  string `json:"guideline"`
+	Name       string `json:"name"`
+}
+
 type UpdateNotificationSchemeDetails struct {
 	Description string `json:"description"`
 	Name        string `json:"name"`
+}
+
+type UpdateOAuthClientRequest struct {
+	Name                    string          `json:"name"`
+	PublicKeys              json.RawMessage `json:"publicKeys"`
+	TokenEndpointAuthMethod string          `json:"tokenEndpointAuthMethod"`
 }
 
 type UpdatePrioritiesInSchemeRequestBean struct {
@@ -12603,6 +13373,12 @@ type UpdateScreenTypes struct {
 	Default string `json:"default"`
 	Edit    string `json:"edit"`
 	View    string `json:"view"`
+}
+
+type UpdateServiceAccountRequest struct {
+	AtlassianId string `json:"atlassianId"`
+	Description string `json:"description"`
+	DisplayName string `json:"displayName"`
 }
 
 type UpdateSpaceRoleResponse struct {
@@ -14044,6 +14820,24 @@ type ZeroSearchResultsKeywordsLink struct {
 	Self   json.RawMessage `json:"self"`
 }
 
+type access_Error struct {
+	Code   string `json:"code"`
+	Detail string `json:"detail"`
+	Id     string `json:"id"`
+	Status string `json:"status"`
+	Title  string `json:"title"`
+}
+
+type access_ErrorResponse struct {
+	Errors json.RawMessage `json:"errors"`
+}
+
+type access_Links struct {
+	Next string `json:"next"`
+	Prev string `json:"prev"`
+	Self string `json:"self"`
+}
+
 type appTrustInformation struct {
 	DataAccessAndStorage  json.RawMessage `json:"dataAccessAndStorage"`
 	DataResidency         json.RawMessage `json:"dataResidency"`
@@ -14270,10 +15064,43 @@ type confluence_cloud_Version struct {
 	Number    int    `json:"number"`
 }
 
+type data_loss_prevention_Error struct {
+	Code   string `json:"code"`
+	Detail string `json:"detail"`
+	Id     string `json:"id"`
+	Status string `json:"status"`
+	Title  string `json:"title"`
+}
+
+type data_loss_prevention_Errors struct {
+	Errors json.RawMessage `json:"errors"`
+}
+
+type data_loss_prevention_Links struct {
+	First string `json:"first"`
+	Next  string `json:"next"`
+	Prev  string `json:"prev"`
+}
+
+type data_loss_prevention_User struct {
+	AccountId string `json:"accountId"`
+	Name      string `json:"name"`
+}
+
 type fields struct {
 	Retain bool            `json:"retain"`
 	Type   string          `json:"type"`
 	Value  json.RawMessage `json:"value"`
+}
+
+type idv2_user_management_User struct {
+	AccountId       string          `json:"account_id"`
+	AccountStatus   string          `json:"account_status"`
+	AccountType     string          `json:"account_type"`
+	Characteristics json.RawMessage `json:"characteristics"`
+	Email           string          `json:"email"`
+	Name            string          `json:"name"`
+	Picture         string          `json:"picture"`
 }
 
 type jira_software_cloud_AvatarUrlsBean struct {
@@ -14837,4 +15664,28 @@ type targetToSourcesMapping struct {
 	TargetClassification        json.RawMessage `json:"targetClassification"`
 	TargetMandatoryFields       json.RawMessage `json:"targetMandatoryFields"`
 	TargetStatus                json.RawMessage `json:"targetStatus"`
+}
+
+type user_provisioning_JsonNode struct {
+	Array               bool   `json:"array"`
+	BigDecimal          bool   `json:"bigDecimal"`
+	BigInteger          bool   `json:"bigInteger"`
+	Binary              bool   `json:"binary"`
+	Boolean             bool   `json:"boolean"`
+	ContainerNode       bool   `json:"containerNode"`
+	Double              bool   `json:"double"`
+	Float               bool   `json:"float"`
+	FloatingPointNumber bool   `json:"floatingPointNumber"`
+	Int                 bool   `json:"int"`
+	IntegralNumber      bool   `json:"integralNumber"`
+	Long                bool   `json:"long"`
+	MissingNode         bool   `json:"missingNode"`
+	NodeType            string `json:"nodeType"`
+	Null                bool   `json:"null"`
+	Number              bool   `json:"number"`
+	Object              bool   `json:"object"`
+	Pojo                bool   `json:"pojo"`
+	Short               bool   `json:"short"`
+	Textual             bool   `json:"textual"`
+	ValueNode           bool   `json:"valueNode"`
 }
