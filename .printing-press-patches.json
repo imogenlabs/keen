@@ -9,18 +9,14 @@
       "id": "compact-summary-field",
       "summary": "Add 'summary' to compact keep-fields allow-list.",
       "reason": "Jira issue search with --agent returned only 'id' because 'summary' wasn't in the keep-fields map. Also added field promotion from nested 'fields' sub-object to flatten Jira issue responses.",
-      "files": [
-        "internal/cli/helpers.go"
-      ],
+      "files": ["internal/cli/helpers.go"],
       "validated_outcome": "keen find-issues --agent now returns key, summary, status for each issue."
     },
     {
       "id": "keen-auth-config",
       "summary": "Add ~/.config/keen/auth.json as credential fallback.",
       "reason": "Agents must re-export JIRA_CLOUD_PLATFORM_USERNAME/PASSWORD env vars in every shell invocation. Config file fallback eliminates this friction.",
-      "files": [
-        "internal/config/config.go"
-      ],
+      "files": ["internal/config/config.go"],
       "validated_outcome": "keen doctor passes when credentials are in ~/.config/keen/auth.json and env vars are unset.",
       "deferred_to_upstream": [
         {
@@ -33,10 +29,7 @@
       "id": "top-level-aliases",
       "summary": "Add find-issues, transition, sprints, get as top-level command aliases.",
       "reason": "Most-used commands have 40-60 char paths (e.g. jira-cloud-platform-search and-reconsile-issues-using-jql-post). Aliases save agent tokens and reduce errors.",
-      "files": [
-        "internal/cli/aliases.go",
-        "internal/cli/root.go"
-      ],
+      "files": ["internal/cli/aliases.go", "internal/cli/root.go"],
       "validated_outcome": "keen find-issues, keen transition, keen sprints, keen get all resolve correctly.",
       "deferred_to_upstream": [
         {
@@ -49,24 +42,14 @@
       "id": "release-sync",
       "summary": "Add `keen release sync` to record git release tags as Jira versions and Fix Versions.",
       "reason": "Releases were cut in GitHub only, so Jira had no versions and no issue carried a Fix Version. This joins git history to Jira, which no single API endpoint does.",
-      "files": [
-        "internal/cli/release_git.go",
-        "internal/cli/release_sync.go",
-        "internal/cli/release_sync_test.go",
-        "internal/cli/root.go"
-      ],
+      "files": ["internal/cli/release_git.go", "internal/cli/release_sync.go", "internal/cli/release_sync_test.go", "internal/cli/root.go"],
       "validated_outcome": "Unit tests cover key extraction, first-containing-release mapping, add-never-replace, the next rename and re-run idempotence; a backfill dry-run over 82 tags matched git tag --contains on 5 spot-checked keys."
     },
     {
       "id": "keen-identity",
       "summary": "keen-mcp reports itself as keen with the release version; unstamped builds say dev.",
       "reason": "The generator left keen-mcp announcing 'Jira Pp Cli' 1.0.0 to every MCP client, and both binaries defaulted to 1.0.0, so a local build claimed to be the old release.",
-      "files": [
-        "cmd/keen-mcp/main.go",
-        "internal/cli/root.go",
-        "internal/cli/auth.go",
-        ".goreleaser.yaml"
-      ],
+      "files": ["cmd/keen-mcp/main.go", "internal/cli/root.go", "internal/cli/auth.go", ".goreleaser.yaml"],
       "validated_outcome": "MCP initialize returns serverInfo name keen with the stamped version; go build without ldflags prints 'keen dev'.",
       "deferred_to_upstream": [
         {
@@ -79,159 +62,97 @@
       "id": "mcp-credentials",
       "summary": "keen-mcp uses the CLI's config lookup; JIRA_CLOUD_PLATFORM_URL sets the base URL.",
       "reason": "newMCPClient passed an explicit config.toml path, which skipped the auth.json lookup in config.Load. JIRA_CLOUD_PLATFORM_URL was documented but read nowhere.",
-      "files": [
-        "internal/mcp/tools.go",
-        "internal/config/config.go",
-        "internal/config/config_test.go"
-      ],
+      "files": ["internal/mcp/tools.go", "internal/config/config.go", "internal/config/config_test.go"],
       "validated_outcome": "Clean-HOME credential matrix: auth.json, cloud_platform_* config.toml, and both env layouts pass for keen and keen-mcp."
     },
     {
       "id": "wiki-pages",
       "summary": "Add keen wiki create-page, get-page and update-page on the Confluence v2 API.",
       "reason": "Atlassian removed content create/read/update from the Confluence v1 spec, so the generator cannot produce them. Agents fell back to raw urllib calls.",
-      "files": [
-        "internal/cli/wiki_pages.go",
-        "internal/cli/root.go"
-      ],
+      "files": ["internal/cli/wiki_pages.go", "internal/cli/root.go"],
       "validated_outcome": "Live: created a page in a test space, update-page moved it to version 2 then 3, get-page returned the new body; drafts stay at version 1 as Confluence requires."
     },
     {
       "id": "adf-plain-text",
       "summary": "Wrap plain-string rich-text fields into ADF before Jira v3 writes.",
       "reason": "Jira v3 rejects a string comment body, worklog comment, description or environment. The generated flags take them as strings.",
-      "files": [
-        "internal/client/adf.go",
-        "internal/client/adf_test.go",
-        "internal/client/client.go"
-      ],
+      "files": ["internal/client/adf.go", "internal/client/adf_test.go", "internal/client/client.go"],
       "validated_outcome": "keen issue comment add KEY --body 'text' posts (201); ADF passed via --stdin is unchanged. 1.4.1: create-bulk wraps issueUpdates[].fields too; a bulk-created story with a plain-text description kept its literal headers and held in Selected for Development."
     },
     {
       "id": "atlassian-offset-pagination",
       "summary": "--all follows Atlassian startAt/isLast (or total) paging.",
       "reason": "Specs declare no cursor or has-more field for startAt endpoints, so --all returned page 1 only (95 commands).",
-      "files": [
-        "internal/cli/atlassian_pagination.go",
-        "internal/cli/atlassian_pagination_test.go",
-        "internal/cli/helpers.go"
-      ],
+      "files": ["internal/cli/atlassian_pagination.go", "internal/cli/atlassian_pagination_test.go", "internal/cli/helpers.go"],
       "validated_outcome": "get-all-sprints 216 --state closed --all returns 209 of 209; get-all-boards and project search match REST totals."
     },
     {
       "id": "promoted-stray-args",
       "summary": "Promoted no-argument commands reject stray positional words.",
       "reason": "keen projects create silently ran GET /rest/api/3/projects/fields and ignored 'create'.",
-      "files": [
-        "internal/cli/aliases.go",
-        "internal/cli/aliases_test.go",
-        "internal/cli/root.go"
-      ],
+      "files": ["internal/cli/aliases.go", "internal/cli/aliases_test.go", "internal/cli/root.go"],
       "validated_outcome": "keen projects create exits 2 with: did you mean \"keen project create\"?"
     },
     {
       "id": "search-jql",
       "summary": "keen search uses GET /rest/api/3/search/jql with a text ~ query.",
       "reason": "The generated live search called /rest/api/3/search, which Atlassian removed (HTTP 410), with a q parameter Jira never read.",
-      "files": [
-        "internal/cli/search.go",
-        "internal/cli/search_jql_test.go"
-      ],
+      "files": ["internal/cli/search.go", "internal/cli/search_jql_test.go"],
       "validated_outcome": "keen search 'release sync' returns live KEEN issues."
     },
     {
       "id": "keen-naming",
       "summary": "Root help text and tools-manifest.json name the tool keen.",
       "reason": "Generated text still said 'Manage keen resources via the keen API' and api_name jira-pp-cli.",
-      "files": [
-        "internal/cli/root.go",
-        "tools-manifest.json",
-        "SKILL.md"
-      ]
+      "files": ["internal/cli/root.go", "tools-manifest.json", "SKILL.md"]
     },
     {
       "id": "command-compat",
       "summary": "Old command and MCP tool names keep working after Atlassian spec changes.",
       "reason": "The October 2026 specs retire 21 APIs (Admin v1 directory, app access settings, workflow transition properties) and move the org policy commands to atlassian-access-policies. Without this, 30 commands and tools would vanish.",
-      "files": [
-        "internal/compat/compat.go",
-        "internal/cli/compat.go",
-        "internal/cli/compat_test.go",
-        "internal/mcp/compat.go",
-        "internal/mcp/compat_test.go",
-        "internal/cli/root.go",
-        "cmd/keen-mcp/main.go"
-      ],
+      "files": ["internal/compat/compat.go", "internal/cli/compat.go", "internal/cli/compat_test.go", "internal/mcp/compat.go", "internal/mcp/compat_test.go", "internal/cli/root.go", "cmd/keen-mcp/main.go"],
       "validated_outcome": "All 1,091 v1.2.2 commands and all 1,114 v1.2.2 MCP tools still resolve; retired ones name their replacement."
     },
     {
       "id": "jobs-ctx",
       "summary": "WaitForJob passes ctx to GetNoCache.",
       "reason": "Generator 4.15 emits c.GetNoCache(path, nil) against a client whose method takes ctx first, so the tree does not build.",
-      "files": [
-        "internal/cli/jobs.go"
-      ],
+      "files": ["internal/cli/jobs.go"],
       "validated_outcome": "go build ./... passes."
     },
     {
       "id": "nullable-fk-columns",
       "summary": "Typed-table parent-id columns are nullable, and their tests expect inserts without a parent id to succeed.",
       "reason": "Made by hand in May 2026 (partial sync data has no parent id). scripts/regen/postfix.py applies it to tables and tests that a regeneration adds.",
-      "files": [
-        "internal/store/store.go",
-        "internal/store/upsert_batch_test.go",
-        "scripts/regen/postfix.py"
-      ],
+      "files": ["internal/store/store.go", "internal/store/upsert_batch_test.go", "scripts/regen/postfix.py"],
       "validated_outcome": "go test ./internal/store passes; TestMigrate_ConcurrentFreshDB 0/200 failures."
     },
     {
       "id": "job-status-endpoints",
       "summary": "Async commands poll Atlassian's documented progress endpoint, pinned in scripts/regen/normalize.py.",
       "reason": "The generator guessed the status endpoint differently on each run, often wrongly (bulk edit polled linkedWorkspaces), and used {taskId}, which jobs.go never fills in.",
-      "files": [
-        "scripts/regen/normalize.py",
-        "internal/cli/bulk_*.go",
-        "internal/cli/workflows_update.go",
-        "internal/cli/workflowscheme_read-workflow-schemes.go",
-        "internal/cli/wiki_async-convert-content-body-request.go",
-        "internal/cli/wiki_get-and-async-convert-macro-body-by-macro-id.go"
-      ],
+      "files": ["scripts/regen/normalize.py", "internal/cli/bulk_*.go", "internal/cli/workflows_update.go", "internal/cli/workflowscheme_read-workflow-schemes.go", "internal/cli/wiki_async-convert-content-body-request.go", "internal/cli/wiki_get-and-async-convert-macro-body-by-macro-id.go"],
       "validated_outcome": "A second regen on unchanged specs merges with no changes."
     },
     {
       "id": "agent-output-summary",
       "summary": "--output-summary writes large output to a private temp file and prints a JSON summary; --select checks its paths and no longer leaks siblings of a missing nested field.",
       "reason": "Agents pay for every byte keen prints (one issue read is about 25 KB). A mistyped or absent nested --select field used to print the whole object through the list-envelope fallback.",
-      "files": [
-        "internal/cli/output_summary.go",
-        "internal/cli/output_summary_test.go",
-        "internal/cli/helpers.go",
-        "internal/cli/root.go"
-      ],
+      "files": ["internal/cli/output_summary.go", "internal/cli/output_summary_test.go", "internal/cli/helpers.go", "internal/cli/root.go"],
       "validated_outcome": "keen get on a 25,400-byte issue with --output-summary prints a 170-byte summary; --select fields.summery exits 2 with a suggestion; fields.parent on an epic warns and prints 100 bytes."
     },
     {
       "id": "help-example-placeholders",
       "summary": "Help examples use a placeholder that fits each argument (PROJ-42 for an issue key, TEAM for a space key) instead of your-token-here; the auth hint asks for an email as the username.",
       "reason": "The generator fills every argument named *Key with your-token-here, so 277 examples showed a token where an issue, project, space or app key goes.",
-      "files": [
-        "scripts/regen/placeholders.py",
-        "scripts/regen/normalize.py",
-        "scripts/regen/check.sh",
-        "internal/cli/*.go (Example lines, auth.go)"
-      ],
+      "files": ["scripts/regen/placeholders.py", "scripts/regen/normalize.py", "scripts/regen/check.sh", "internal/cli/*.go (Example lines, auth.go)"],
       "validated_outcome": "Applied by normalize.py on every regen; check.sh fails on a wrong placeholder (fired on a reverted file). keen issue comment get-issue --help shows PROJ-42."
     },
     {
       "id": "templated-server-urls",
       "summary": "Specs whose server URL is a template are fixed before generating (specfix.py), and site URLs that come out absolute are made relative to the configured base_url (postfix.py site-relative-urls).",
       "reason": "Confluence v2 publishes https://{your-domain}/wiki/api/v2; the generator wrote https://no-default/... into all 252 commands. Assets puts {cloudId} and {workspaceId} in its server path.",
-      "files": [
-        "scripts/regen/specfix.py",
-        "scripts/regen/postfix.py",
-        "scripts/regen/regen.sh",
-        "internal/cli/*.go and internal/mcp/tools.go (Confluence v2 paths)"
-      ],
+      "files": ["scripts/regen/specfix.py", "scripts/regen/postfix.py", "scripts/regen/regen.sh", "internal/cli/*.go and internal/mcp/tools.go (Confluence v2 paths)"],
       "validated_outcome": "Applied on every regen. keen spaces get --dry-run shows GET <site>/wiki/api/v2/spaces; live spaces get and pages get-by-id return data; no no-default left in internal/."
     }
   ]
