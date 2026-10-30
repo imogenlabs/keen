@@ -20,7 +20,7 @@ func newAtlassianConnectConnectToForgeMigrationTaskSubmissionResourceSubmitTaskP
 		Use:         "connect-to-forge-migration-task-submission-resource-submit-task-post <connectKey> <jiraIssueFieldsKey>",
 		Aliases:     []string{"create"},
 		Short:       "Submits a request to trigger migration of connect issue field to its Forge custom field counterpart.",
-		Example:     "  keen atlassian-connect connect-to-forge-migration-task-submission-resource-submit-task-post your-token-here your-token-here",
+		Example:     "  keen atlassian-connect connect-to-forge-migration-task-submission-resource-submit-task-post com.example.my-app customfield_10000",
 		Annotations: map[string]string{"pp:endpoint": "atlassian-connect.connect-to-forge-migration-task-submission-resource-submit-task-post", "pp:method": "POST", "pp:path": "/rest/atlassian-connect/1/migration/{connectKey}/{jiraIssueFieldsKey}/task"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

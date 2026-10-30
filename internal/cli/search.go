@@ -111,14 +111,22 @@ In local mode: searches locally synced data only.`,
 				return cmd.Help()
 			}
 			query := args[0]
-			// This API has a search endpoint: GET /rest/api/3/search
+			// This API has a search endpoint: POST /rest/api/3/search
 			if flags.dataSource != "local" {
 				c, err := flags.newClient()
 				if err != nil {
 					return err
 				}
-				data, getErr := c.Get(cmd.Context(), "/rest/api/3/search", map[string]string{
-					"q": query,
+				data, _, getErr := c.Post(cmd.Context(), "/rest/api/3/search", map[string]any{
+					"q":             query,
+					"expand":        []any{},
+					"fields":        []any{},
+					"fieldsByKeys":  nil,
+					"jql":           "",
+					"maxResults":    50,
+					"properties":    []any{},
+					"startAt":       nil,
+					"validateQuery": "strict",
 				})
 				if getErr == nil {
 					// Live search succeeded
@@ -155,12 +163,16 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchAgile(query, limit)
 			case "atlassian-connect":
 				results, err = db.SearchAtlassianConnect(query, limit)
+			case "attachments":
+				results, err = db.SearchAttachments(query, limit)
 			case "builds":
 				results, err = db.SearchBuilds(query, limit)
 			case "component":
 				results, err = db.SearchComponent(query, limit)
 			case "config":
 				results, err = db.SearchConfig(query, limit)
+			case "confluence-cloud-classification-levels":
+				results, err = db.SearchConfluenceCloudClassificationLevels(query, limit)
 			case "dashboard":
 				results, err = db.SearchDashboard(query, limit)
 			case "deployments":
@@ -199,12 +211,16 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchRole(query, limit)
 			case "securitylevel":
 				results, err = db.SearchSecuritylevel(query, limit)
+			case "space-roles":
+				results, err = db.SearchSpaceRoles(query, limit)
 			case "status":
 				results, err = db.SearchStatus(query, limit)
 			case "statuses":
 				results, err = db.SearchStatuses(query, limit)
 			case "task":
 				results, err = db.SearchTask(query, limit)
+			case "tasks":
+				results, err = db.SearchTasks(query, limit)
 			case "user":
 				results, err = db.SearchUser(query, limit)
 			case "wiki":
@@ -260,6 +276,19 @@ In local mode: searches locally synced data only.`,
 					}
 				}
 				{
+					partial, searchErr := db.SearchAttachments(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search attachments failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
 					partial, searchErr := db.SearchBuilds(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search builds failed: %w", searchErr)
@@ -289,6 +318,19 @@ In local mode: searches locally synced data only.`,
 					partial, searchErr := db.SearchConfig(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search config failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchConfluenceCloudClassificationLevels(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search confluence_cloud_classification_levels failed: %w", searchErr)
 					}
 					for _, r := range partial {
 						key := string(r)
@@ -546,6 +588,19 @@ In local mode: searches locally synced data only.`,
 					}
 				}
 				{
+					partial, searchErr := db.SearchSpaceRoles(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search space_roles failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
 					partial, searchErr := db.SearchStatus(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search status failed: %w", searchErr)
@@ -575,6 +630,19 @@ In local mode: searches locally synced data only.`,
 					partial, searchErr := db.SearchTask(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search task failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchTasks(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search tasks failed: %w", searchErr)
 					}
 					for _, r := range partial {
 						key := string(r)

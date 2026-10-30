@@ -20,7 +20,7 @@ func newWikiUpdateSpaceSettingsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-space-settings <spaceKey>",
 		Short:       "Updates the settings for a space. **[Permissions](https://support.atlassian.",
-		Example:     "  keen wiki update-space-settings your-token-here",
+		Example:     "  keen wiki update-space-settings TEAM",
 		Annotations: map[string]string{"pp:endpoint": "wiki.update-space-settings", "pp:method": "PUT", "pp:path": "/wiki/rest/api/space/{spaceKey}/settings"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

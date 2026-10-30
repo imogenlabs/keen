@@ -168,6 +168,27 @@ The request body must be a valid <a href="https://tools.ietf.org/html/rfc6902">J
 
 This resource requires authentication.
 
+### admin-key
+
+The [Admin Key feature](https://support.atlassian.com/confluence-cloud/docs/bypass-access-restrictions-on-a-page-with-admin-key/) is only offered with Confluence Cloud Premium and Enterprise to organization or site admins.
+
+**NOTE:** Users can only make calls to our public REST APIs using a valid Admin Key by adding the following HTTP header on their requests: `Atl-Confluence-With-Admin-Key: true`. Visit the [Confluence Cloud Changelog](https://developer.atlassian.com/cloud/confluence/changelog/#CHANGE-2480) for more details.
+
+- **`keen admin-key disable`** - Disables admin key access for the calling user within the site.
+
+**[Permissions](https://support.atlassian.com/user-management/docs/give-users-admin-permissions/#Centralized-user-management-content) required**:
+User must be an organization or site admin.
+- **`keen admin-key enable`** - Enables admin key access for the calling user within the site. If an admin key already exists for the user, a new one will be issued with an updated expiration time.
+
+**Note:** The `durationInMinutes` field within the request body is optional. If the request body is empty or if the `durationInMinutes` is set to 0 minutes, a new admin key will be issued to the calling user with a default duration of 10 minutes.
+
+**[Permissions](https://support.atlassian.com/user-management/docs/give-users-admin-permissions/#Centralized-user-management-content) required**:
+User must be an organization or site admin.
+- **`keen admin-key get`** - Returns information about the admin key if one is currently enabled for the calling user within the site.
+
+**[Permissions](https://support.atlassian.com/user-management/docs/give-users-admin-permissions/#Centralized-user-management-content) required**:
+User must be an organization or site admin.
+
 ### agents
 
 Use the APIs to invoke agents in bulk for multiple issues. Bulk invocation responses report session-start outcomes; the agent's work continues asynchronously.
@@ -675,6 +696,31 @@ This operation can be accessed anonymously.
  *  *Delete own attachments* [project permission](https://confluence.atlassian.com/x/yodKLg) to delete an attachment created by the calling user.
  *  *Delete all attachments* [project permission](https://confluence.atlassian.com/x/yodKLg) to delete an attachment created by any user.
 
+### attachments
+
+Manage attachments
+
+- **`keen attachments delete`** - Delete an attachment by id.
+
+Deleting an attachment moves the attachment to the trash, where it can be restored later. To permanently delete an attachment (or "purge" it),
+the endpoint must be called on a **trashed** attachment with the following param `purge=true`.
+
+**[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+Permission to view the container of the attachment.
+Permission to delete attachments in the space.
+[`manage/content`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space (if attempting to purge).
+
+**Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
+- **`keen attachments get`** - Returns all attachments. The number of results is limited by the `limit` parameter and additional results (if available)
+will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the container of the attachment.
+- **`keen attachments get-by-id`** - Returns a specific attachment.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the attachment's container.
+
 ### auditing
 
 Manage auditing
@@ -703,6 +749,45 @@ Manage auditing
 
 This resource represents system and custom avatars. Use it to obtain the details of system or custom avatars, add and remove avatars from a project, issue type or priority and obtain avatar images.
 
+
+### blogposts
+
+Manage blogposts
+
+- **`keen blogposts create-blog-post`** - Creates a new blog post in the space specified by the spaceId.
+
+By default this will create the blog post as a non-draft, unless the status is specified as draft.
+If creating a non-draft, the title must not be empty.
+
+Currently only supports the storage representation specified in the body.representation enums below
+- **`keen blogposts delete-blog-post`** - Delete a blog post by id.
+
+By default this will delete blog posts that are non-drafts. To delete a blog post that is a draft, the endpoint must be called on a 
+draft with the following param `draft=true`. Discarded drafts are not sent to the trash and are permanently deleted.
+
+Deleting a blog post that is not a draft moves the blog post to the trash, where it can be restored later.
+To permanently delete a blog post (or "purge" it), the endpoint must be called on a **trashed** blog post with the following param `purge=true`.
+
+**[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+Permission to view the blog post and its corresponding space.
+Permission to delete blog posts in the space.
+[`manage/content`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space (if attempting to purge).
+
+**Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
+- **`keen blogposts get-blog-post-by-id`** - Returns a specific blog post.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the blog post and its corresponding space.
+- **`keen blogposts get-blog-posts`** - Returns all blog posts. The number of results is limited by the `limit` parameter and additional results (if available)
+will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+Only blog posts that the user has permission to view will be returned.
+- **`keen blogposts update-blog-post`** - Update a blog post by id.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the blog post and its corresponding space. Permission to update blog posts in the space.
 
 ### builds
 
@@ -891,6 +976,11 @@ This operation can be accessed anonymously.
  *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
  *  If the comment has visibility restrictions, belongs to the group or has the role visibility is restricted to.
 
+### comments
+
+Manage comments
+
+
 ### component
 
 Manage component
@@ -1011,6 +1101,91 @@ Manage configuration
 
 **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
 
+### confluence-cloud-app
+
+Manage confluence cloud app
+
+- **`keen confluence-cloud-app delete-forge-property`** - Deletes a Forge app property. This API can only be accessed using **[asApp()](https://developer.atlassian.com/platform/forge/apis-reference/fetch-api-product.requestconfluence/#method-signature)** requests from Forge.
+- **`keen confluence-cloud-app get-forge-properties`** - Gets Forge app properties. This API can only be accessed using **[asApp()](https://developer.atlassian.com/platform/forge/apis-reference/fetch-api-product.requestconfluence/#method-signature)** requests from Forge.
+- **`keen confluence-cloud-app get-forge-property`** - Gets a Forge app property by property key. This API can only be accessed using **[asApp()](https://developer.atlassian.com/platform/forge/apis-reference/fetch-api-product.requestconfluence/#method-signature)** requests from Forge.
+- **`keen confluence-cloud-app put-forge-property`** - Creates or updates a Forge app property. This API can only be accessed using **[asApp()](https://developer.atlassian.com/platform/forge/apis-reference/fetch-api-product.requestconfluence/#method-signature)** requests from Forge.
+
+### confluence-cloud-classification-levels
+
+Manage confluence cloud classification levels
+
+- **`keen confluence-cloud-classification-levels`** - Returns a list of [classification levels](https://developer.atlassian.com/cloud/admin/dlp/rest/intro/#Classification%20level) 
+available.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+'Permission to access the Confluence site ('Can use' global permission).
+
+### confluence-cloud-user
+
+Manage confluence cloud user
+
+- **`keen confluence-cloud-user check-access-by-email`** - Returns the list of emails from the input list that do not have access to site.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+- **`keen confluence-cloud-user invite-by-email`** - Invite a list of emails to the site.
+
+Ignores all invalid emails and no action is taken for the emails that already have access to the site.
+
+<b>NOTE:</b> This API is asynchronous and may take some time to complete.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+
+### content
+
+Manage content
+
+- **`keen content`** - Converts a list of content ids into their associated content types. This is useful for users migrating from v1 to v2
+who may have stored just content ids without their associated type. This will return types as they should be used in v2.
+Notably, this will return `inline-comment` for inline comments and `footer-comment` for footer comments, which is distinct from them
+both being represented by `comment` in v1.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the requested content. Any content that the user does not have permission to view or does not exist will map to `null` in the response.
+
+### custom-content
+
+Manage custom content
+
+- **`keen custom-content create`** - Creates a new custom content in the given space, page, blogpost or other custom content.
+
+Only one of `spaceId`, `pageId`, `blogPostId`, or `customContentId` is required in the request body.
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space. Permission to create custom content in the space.
+- **`keen custom-content delete`** - Delete a custom content by id.
+
+Deleting a custom content will either move it to the trash or permanently delete it (purge it), depending on the apiSupport.
+To permanently delete a **trashed** custom content, the endpoint must be called with the following param `purge=true`.
+
+**[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+Permission to view the content of the page or blogpost and its corresponding space.
+Permission to delete custom content in the space.
+[`manage/content`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space (if attempting to purge).
+
+**Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
+- **`keen custom-content get-by-id`** - Returns a specific piece of custom content. 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the custom content, the container of the custom content, and the corresponding space (if different from the container).
+- **`keen custom-content get-by-type`** - Returns all custom content for a given type. The number of results is limited by the `limit` parameter and additional results (if available)
+will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the custom content, the container of the custom content, and the corresponding space (if different from the container).
+- **`keen custom-content update`** - Update a custom content by id.
+At most one of `spaceId`, `pageId`, `blogPostId`, or `customContentId` is allowed in the request body.
+Note that if `spaceId` is specified, it must be the same as the `spaceId` used for creating the custom content
+as moving custom content to a different space is not supported.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space. Permission to update custom content in the space.
+
 ### custom-field-option
 
 Manage custom field option
@@ -1075,12 +1250,49 @@ This operation can be accessed anonymously.
 
 The dashboard to be updated must be owned by the user.
 
+### data-policies
+
+Manage data policies
+
+- **`keen data-policies get-data-policy-metadata`** - Returns data policy metadata for the workspace.
+
+**[Permissions](#permissions) required:**
+Only apps can make this request.
+Permission to access the Confluence site ('Can use' global permission).
+- **`keen data-policies get-data-policy-spaces`** - Returns all spaces. The results will be sorted by id ascending. The number of results is limited by the `limit` parameter and
+additional results (if available) will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Only apps can make this request.
+Permission to access the Confluence site ('Can use' global permission).
+Only spaces that the app has permission to view will be returned.
+
 ### data-policy
 
 Manage data policy
 
 - **`keen data-policy get-policies`** - Returns data policies for the projects specified in the request.
 - **`keen data-policy get-policy`** - Returns data policy for the workspace.
+
+### databases
+
+Manage databases
+
+- **`keen databases create`** - Creates a database in the space.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the corresponding space. Permission to create a database in the space.
+- **`keen databases delete`** - Delete a database by id.
+
+Deleting a database moves the database to the trash, where it can be restored later
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the database and its corresponding space.
+Permission to delete databases in the space.
+- **`keen databases get-by-id`** - Returns a specific database.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the database and its corresponding space.
 
 ### deployments
 
@@ -1202,6 +1414,26 @@ Domain APIs
 
 #### Scopes
 **[Authorization scopes](/cloud/admin/scopes/) required:** `read:domains:admin`
+
+### embeds
+
+Manage embeds
+
+- **`keen embeds create-smart-link`** - Creates a Smart Link in the content tree in the space.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the corresponding space. Permission to create a Smart Link in the content tree in the space.
+- **`keen embeds delete-smart-link`** - Delete a Smart Link in the content tree by id.
+
+Deleting a Smart Link in the content tree moves the Smart Link to the trash, where it can be restored later
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the Smart Link in the content tree and its corresponding space.
+Permission to delete Smart Links in the content tree in the space.
+- **`keen embeds get-smart-link-by-id`** - Returns a specific Smart Link in the content tree.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the Smart Link in the content tree and its corresponding space.
 
 ### event-actions
 
@@ -1554,6 +1786,58 @@ This operation can be accessed anonymously.
 
 **[Permissions](#permissions) required:** Permission to access Jira, however the user must own the filter.
 
+### folders
+
+Manage folders
+
+- **`keen folders create`** - Creates a folder in the space.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the corresponding space. Permission to create a folder in the space.
+- **`keen folders delete`** - Delete a folder by id.
+
+Deleting a folder moves the folder to the trash, where it can be restored later
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the folder and its corresponding space.
+Permission to delete folders in the space.
+- **`keen folders get-by-id`** - Returns a specific folder.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the folder and its corresponding space.
+
+### footer-comments
+
+Manage footer comments
+
+- **`keen footer-comments create`** - Create a footer comment.
+
+The footer comment can be made against several locations: 
+- at the top level (specifying pageId or blogPostId in the request body)
+- as a reply (specifying parentCommentId in the request body)
+- against an attachment (note: this is different than the comments added via the attachment properties page on the UI, which are referred to as version comments)
+- against a custom content
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space. Permission to create comments in the space.
+- **`keen footer-comments delete`** - Deletes a footer comment. This is a permanent deletion and cannot be reverted.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space. Permission to delete comments in the space.
+- **`keen footer-comments get`** - Returns all footer comments. The number of results is limited by the `limit` parameter and additional results (if available)
+will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the container and its corresponding space.
+- **`keen footer-comments get-by-id`** - Retrieves a footer comment by id
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the container and its corresponding space.
+- **`keen footer-comments update`** - Update a footer comment. This can be used to update the body text of a comment.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space. Permission to create comments in the space.
+
 ### forge
 
 Manage forge
@@ -1671,6 +1955,35 @@ The primary use case for this resource is to populate a picker field suggestion 
 This operation can be accessed anonymously.
 
 **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/yodKLg).
+
+### inline-comments
+
+Manage inline comments
+
+- **`keen inline-comments create`** - Create an inline comment. This can be at the top level (specifying pageId or blogPostId in the request body)
+or as a reply (specifying parentCommentId in the request body). Note the inlineCommentProperties object in the
+request body is used to select the text the inline comment should be tied to. This is what determines the text 
+highlighting when viewing a page in Confluence.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space. Permission to create comments in the space.
+- **`keen inline-comments delete`** - Deletes an inline comment. This is a permanent deletion and cannot be reverted.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space. Permission to delete comments in the space.
+- **`keen inline-comments get`** - Returns all inline comments. The number of results is limited by the `limit` parameter and additional results (if available)
+will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page and its corresponding space.
+- **`keen inline-comments get-by-id`** - Retrieves an inline comment by id
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space.
+- **`keen inline-comments update`** - Update an inline comment. This can be used to update the body text of a comment and/or to resolve the comment
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the content of the page or blogpost and its corresponding space. Permission to create comments in the space.
 
 ### instance
 
@@ -2468,6 +2781,17 @@ This resource represents available labels. Use it to get available labels for th
 
 - **`keen label`** - Returns a [paginated](#pagination) list of labels.
 
+### labels
+
+Manage labels
+
+- **`keen labels`** - Returns all labels. The number of results is limited by the `limit` parameter and additional results (if available)
+will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+Only labels that the user has permission to view will be returned.
+
 ### license
 
 Manage license
@@ -2691,6 +3015,49 @@ Orgs APIs
 
 #### Scopes
 **[Authorization scopes](/cloud/admin/scopes/) required:** `read:orgs:admin`
+
+### pages
+
+Manage pages
+
+- **`keen pages create`** - Creates a page in the space.
+
+Pages are created as published by default unless specified as a draft in the status field. If creating a published page, the title must be specified.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the corresponding space. Permission to create a page in the space.
+- **`keen pages delete`** - Delete a page by id.
+
+By default this will delete pages that are non-drafts. To delete a page that is a draft, the endpoint must be called on a 
+draft with the following param `draft=true`. Discarded drafts are not sent to the trash and are permanently deleted.
+
+Deleting a page moves the page to the trash, where it can be restored later. To permanently delete a page (or "purge" it),
+the endpoint must be called on a **trashed** page with the following param `purge=true`.
+
+**[Permissions](https://support.atlassian.com/confluence-cloud/docs/what-are-confluences-roles/) required**:
+Permission to view the page and its corresponding space.
+Permission to delete pages in the space.
+[`manage/content`](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) permission for the space (if attempting to purge).
+
+**Note:** To find the display name for each permission ID, call the [Get available space permissions](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space-permissions/#api-space-permissions-get) API.
+- **`keen pages get`** - Returns all pages. The number of results is limited by the `limit` parameter and additional results (if available)
+will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+Only pages that the user has permission to view will be returned.
+- **`keen pages get-by-id`** - Returns a specific page.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the page and its corresponding space.
+- **`keen pages update`** - Update a page by id.
+
+When the "current" version is updated, the provided body content is considered as the latest version. This latest body content
+will be attempted to be merged into the draft version through a content reconciliation algorithm. If two versions are significantly diverged, 
+the latest provided content may entirely override what was previously in the draft. 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the page and its corresponding space. Permission to update pages in the space.
 
 ### permissions
 
@@ -3873,6 +4240,121 @@ Manage software
 - **`keen software get-issues-without-epic-for-board-jsis`** - Returns all issues that do not belong to any epic on a board, for a given board ID. Result pagination is token based, using `nextPageToken` and `maxResults`. This only includes issues that the user has permission to view. Note, if the user does not have permission to view the board, no issues will be returned at all. Issues returned from this resource include Software project fields, like sprint, closedSprints, flagged, and epic. By default, the returned issues are ordered by rank.
 - **`keen software get-issues-without-epic-jsis`** - Returns all issues that do not belong to any epic. Result pagination is token based, using `nextPageToken` and `maxResults`. This only includes issues that the user has permission to view. Issues returned from this resource include Software project fields, like sprint, closedSprints, flagged, and epic. By default, the returned issues are ordered by rank. **Note:** If you are querying a Team Managed project, do not use this operation. Instead, search for issues that don't belong to an epic by using the [Search for issues using JQL enhanced search](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-get) operation in the Jira platform REST API. Build your JQL query using the `parent is empty` clause. For more information on the `parent` JQL field, see [Advanced searching](https://confluence.atlassian.com/x/dAiiLQ#Advancedsearching-fieldsreference-Parent).
 
+### space-permissions
+
+Manage space permissions
+
+- **`keen space-permissions bulk-assign-roles`** - Bulk assigns roles for one or more permission combination IDs obtained from the space permission
+combinations. Supports targeting all spaces, specific spaces, or excluding specific spaces.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+User must be a Confluence administrator.
+- **`keen space-permissions bulk-remove-access`** - Bulk removes access for one or more permission combination IDs obtained from the space permission
+combinations. This removes all space permissions for the specified combinations across
+the targeted spaces.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+User must be a Confluence administrator.
+- **`keen space-permissions generate-combinations`** - Submits a task to refresh the space permission combinations in the database, which identifies
+all unique permission combinations across the site. This provides permission combination IDs
+that can be used with the assign-roles and remove-access endpoints.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+User must be a Confluence administrator.
+- **`keen space-permissions get-available`** - Retrieves the available space permissions.
+
+Available on tenants with [Role-Based Access Control](https://support.atlassian.com/confluence-cloud/docs/manage-user-roles/). 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site.
+- **`keen space-permissions get-transition-task-status`** - Retrieves the status of an async space permission transition task. Use the taskId returned
+from the generate-combinations, assign-roles, or remove-access endpoints to poll for
+progress and completion.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+User must be a Confluence administrator.
+- **`keen space-permissions list-combinations`** - Lists the unique unassigned space permission combinations currently present on the tenant.
+Combinations that already map to a space role are filtered out server-side. Each row carries
+the decoded set of space permissions and the principal types that currently hold the
+combination — these inform which `principalType` values are valid to include in the matching
+bulk role-assignments request.
+
+Results are always sorted by `principalCount` descending. Sort field and sort order are not
+configurable; page size is controlled by the `limit` query parameter (default 25, min 1,
+max 250). Use the `cursor` field to page through additional results. The `generatedAt` field
+reflects the last audit run that populated the combinations table — call the
+generate-combinations endpoint to refresh stale data.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+User must be a Confluence administrator.
+
+### space-role-mode
+
+Manage space role mode
+
+- **`keen space-role-mode`** - Retrieves the space role mode.
+
+Available on tenants with [Role-Based Access Control](https://support.atlassian.com/confluence-cloud/docs/manage-user-roles/). 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+
+### space-roles
+
+Manage space roles
+
+- **`keen space-roles create`** - Create a space role.
+
+Available on tenants with [Role-Based Access Control](https://support.atlassian.com/confluence-cloud/docs/manage-user-roles/). 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+User must be an organization or site admin. Connect and Forge app users are not authorized to access this resource.
+- **`keen space-roles delete`** - Delete a space role
+
+Available on tenants with [Role-Based Access Control](https://support.atlassian.com/confluence-cloud/docs/manage-user-roles/). 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+User must be an organization or site admin. Connect and Forge app users are not authorized to access this resource.
+- **`keen space-roles get-available`** - Retrieves the available space roles.
+
+Available on tenants with [Role-Based Access Control](https://support.atlassian.com/confluence-cloud/docs/manage-user-roles/). 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site; if requesting a certain space's roles, permission to view the space.
+- **`keen space-roles get-by-id`** - Retrieves the space role by ID.
+
+Available on tenants with [Role-Based Access Control](https://support.atlassian.com/confluence-cloud/docs/manage-user-roles/). 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site.
+- **`keen space-roles update`** - Update a space role.
+
+Available on tenants with [Role-Based Access Control](https://support.atlassian.com/confluence-cloud/docs/manage-user-roles/). 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+User must be an organization or site admin. Connect and Forge app users are not authorized to access this resource.
+
+### spaces
+
+Manage spaces
+
+- **`keen spaces create`** - Creates a Space as specified in the payload.
+
+Available on tenants with [Role-Based Access Control](https://support.atlassian.com/confluence-cloud/docs/manage-user-roles/). 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to create spaces.
+- **`keen spaces get`** - Returns all spaces. The results will be sorted by id ascending. The number of results is limited by the `limit` parameter and
+additional results (if available) will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+Only spaces that the user has permission to view will be returned.
+- **`keen spaces get-by-id`** - Returns a specific space.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the space.
+
 ### status
 
 This resource represents statuses. Use it to search, get, create, delete, and change statuses.
@@ -3959,6 +4441,25 @@ When a task has finished, this operation returns the JSON blob applicable to the
 
  *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
  *  Creator of the task.
+
+### tasks
+
+Manage tasks
+
+- **`keen tasks get`** - Returns all tasks. The number of results is limited by the `limit` parameter and additional results (if available)
+will be available through the `next` URL present in the `Link` response header.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+Only tasks that the user has permission to view will be returned.
+- **`keen tasks get-by-id`** - Returns a specific task. 
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the containing page or blog post and its corresponding space.
+- **`keen tasks update`** - Update a task by id. This endpoint currently only supports updating task status.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to edit the containing page or blog post and view its corresponding space.
 
 ### ui-modifications
 
@@ -4325,6 +4826,16 @@ Privacy controls are applied to the response based on the users' preferences. Th
 
 **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/x4dKLg).
 
+### users-bulk
+
+Manage users bulk
+
+- **`keen users-bulk`** - Returns user details for the ids provided in the request body.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to access the Confluence site ('Can use' global permission).
+The user must be able to view user profiles in the Confluence site.
+
 ### vendors
 
 Information about vendors
@@ -4359,6 +4870,26 @@ Unrecognized webhook IDs (those that are not found or belong to other apps) are 
 **NOTE:** for non-public OAuth apps, webhooks are delivered only if there is a match between the app owner and the user who registered a dynamic webhook.
 
 **[Permissions](#permissions) required:** Only [Connect](https://developer.atlassian.com/cloud/jira/platform/#connect-apps) and [OAuth 2.0](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps) apps can use this operation.
+
+### whiteboards
+
+Manage whiteboards
+
+- **`keen whiteboards create`** - Creates a whiteboard in the space.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the corresponding space. Permission to create a whiteboard in the space.
+- **`keen whiteboards delete`** - Delete a whiteboard by id.
+
+Deleting a whiteboard moves the whiteboard to the trash, where it can be restored later
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the whiteboard and its corresponding space.
+Permission to delete whiteboards in the space.
+- **`keen whiteboards get-by-id`** - Returns a specific whiteboard.
+
+**[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
+Permission to view the whiteboard and its corresponding space.
 
 ### wiki
 

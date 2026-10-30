@@ -22,7 +22,7 @@ func newServicedeskapiGetRequestCommentsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-request-comments <issueIdOrKey>",
 		Short:       "This method returns all comments on a customer request.",
-		Example:     "  keen servicedeskapi get-request-comments your-token-here",
+		Example:     "  keen servicedeskapi get-request-comments PROJ-42",
 		Annotations: map[string]string{"pp:endpoint": "servicedeskapi.get-request-comments", "pp:method": "GET", "pp:path": "/rest/servicedeskapi/request/{issueIdOrKey}/comment", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

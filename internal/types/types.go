@@ -5,6 +5,12 @@ package types
 
 import "encoding/json"
 
+type AbstractPageLinks struct {
+	Editui string `json:"editui"`
+	Tinyui string `json:"tinyui"`
+	Webui  string `json:"webui"`
+}
+
 type AccountId struct {
 	AccountId string `json:"accountId"`
 }
@@ -568,6 +574,11 @@ type AdminInviteResponse struct {
 	Results json.RawMessage `json:"results"`
 }
 
+type AdminKeyResponse struct {
+	AccountId      string `json:"accountId"`
+	ExpirationTime string `json:"expirationTime"`
+}
+
 type AffectedObject struct {
 	Name       string `json:"name"`
 	ObjectType string `json:"objectType"`
@@ -719,6 +730,11 @@ type AllowIfContainedRule struct {
 	In json.RawMessage `json:"in"`
 }
 
+type Ancestor struct {
+	Id   string `json:"id"`
+	Type string `json:"type"`
+}
+
 type AndOperator struct {
 	And json.RawMessage `json:"and"`
 }
@@ -748,6 +764,11 @@ type ApiError struct {
 
 type ApiErrorResponse struct {
 	Errors json.RawMessage `json:"errors"`
+}
+
+type AppGetForgePropertyResponse struct {
+	Key   string          `json:"key"`
+	Value json.RawMessage `json:"value"`
 }
 
 type AppMigrationInformation struct {
@@ -1108,6 +1129,33 @@ type AttachmentArchiveMetadataReadable struct {
 	TotalEntryCount int             `json:"totalEntryCount"`
 }
 
+type AttachmentBulk struct {
+	BlogPostId           string          `json:"blogPostId"`
+	Comment              string          `json:"comment"`
+	CreatedAt            string          `json:"createdAt"`
+	CustomContentId      string          `json:"customContentId"`
+	DownloadLink         string          `json:"downloadLink"`
+	FileId               string          `json:"fileId"`
+	FileSize             int             `json:"fileSize"`
+	Id                   string          `json:"id"`
+	MediaType            string          `json:"mediaType"`
+	MediaTypeDescription string          `json:"mediaTypeDescription"`
+	PageId               string          `json:"pageId"`
+	Status               string          `json:"status"`
+	Title                string          `json:"title"`
+	Version              json.RawMessage `json:"version"`
+	WebuiLink            string          `json:"webuiLink"`
+}
+
+type AttachmentCommentModel struct {
+	AttachmentId string          `json:"attachmentId"`
+	Body         json.RawMessage `json:"body"`
+	Id           string          `json:"id"`
+	Status       string          `json:"status"`
+	Title        string          `json:"title"`
+	Version      json.RawMessage `json:"version"`
+}
+
 type AttachmentCreateDTO struct {
 	AdditionalComment      string          `json:"additionalComment"`
 	Public                 bool            `json:"public"`
@@ -1132,6 +1180,11 @@ type AttachmentLinkDTO struct {
 	JiraRest  string `json:"jiraRest"`
 	Self      string `json:"self"`
 	Thumbnail string `json:"thumbnail"`
+}
+
+type AttachmentLinks struct {
+	Download string `json:"download"`
+	Webui    string `json:"webui"`
 }
 
 type AttachmentMetadata struct {
@@ -1163,6 +1216,28 @@ type AttachmentSettings struct {
 	UploadLimit int  `json:"uploadLimit"`
 }
 
+type AttachmentSingle struct {
+	BlogPostId           string          `json:"blogPostId"`
+	Comment              string          `json:"comment"`
+	CreatedAt            string          `json:"createdAt"`
+	CustomContentId      string          `json:"customContentId"`
+	DownloadLink         string          `json:"downloadLink"`
+	FileId               string          `json:"fileId"`
+	FileSize             int             `json:"fileSize"`
+	Id                   string          `json:"id"`
+	Labels               json.RawMessage `json:"labels"`
+	MediaType            string          `json:"mediaType"`
+	MediaTypeDescription string          `json:"mediaTypeDescription"`
+	Operations           json.RawMessage `json:"operations"`
+	PageId               string          `json:"pageId"`
+	Properties           json.RawMessage `json:"properties"`
+	Status               string          `json:"status"`
+	Title                string          `json:"title"`
+	Version              json.RawMessage `json:"version"`
+	Versions             json.RawMessage `json:"versions"`
+	WebuiLink            string          `json:"webuiLink"`
+}
+
 type AttachmentUpdate struct {
 	Container json.RawMessage `json:"container"`
 	Id        string          `json:"id"`
@@ -1170,6 +1245,37 @@ type AttachmentUpdate struct {
 	Title     string          `json:"title"`
 	Type      string          `json:"type"`
 	Version   json.RawMessage `json:"version"`
+}
+
+type AttachmentVersion struct {
+	Attachment json.RawMessage `json:"attachment"`
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Message    string          `json:"message"`
+	MinorEdit  bool            `json:"minorEdit"`
+	Number     int             `json:"number"`
+}
+
+type AttachmentsGetByIdResponse struct {
+	BlogPostId           string          `json:"blogPostId"`
+	Comment              string          `json:"comment"`
+	CreatedAt            string          `json:"createdAt"`
+	CustomContentId      string          `json:"customContentId"`
+	DownloadLink         string          `json:"downloadLink"`
+	FileId               string          `json:"fileId"`
+	FileSize             int             `json:"fileSize"`
+	Id                   string          `json:"id"`
+	Labels               json.RawMessage `json:"labels"`
+	MediaType            string          `json:"mediaType"`
+	MediaTypeDescription string          `json:"mediaTypeDescription"`
+	Operations           json.RawMessage `json:"operations"`
+	PageId               string          `json:"pageId"`
+	Properties           json.RawMessage `json:"properties"`
+	Status               string          `json:"status"`
+	Title                string          `json:"title"`
+	Version              json.RawMessage `json:"version"`
+	Versions             json.RawMessage `json:"versions"`
+	WebuiLink            string          `json:"webuiLink"`
 }
 
 type AttributionDetails struct {
@@ -1363,6 +1469,125 @@ type BenchmarkReportingLink struct {
 	Self  json.RawMessage `json:"self"`
 }
 
+type BlogPostBodyWrite struct {
+	Representation string `json:"representation"`
+	Value          string `json:"value"`
+}
+
+type BlogPostBulk struct {
+	AuthorId  string          `json:"authorId"`
+	Body      json.RawMessage `json:"body"`
+	CreatedAt string          `json:"createdAt"`
+	Id        string          `json:"id"`
+	SpaceId   string          `json:"spaceId"`
+	Status    string          `json:"status"`
+	Title     string          `json:"title"`
+	Version   json.RawMessage `json:"version"`
+}
+
+type BlogPostCommentModel struct {
+	BlogPostId string          `json:"blogPostId"`
+	Body       json.RawMessage `json:"body"`
+	Id         string          `json:"id"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type BlogPostInlineCommentModel struct {
+	BlogPostId       string          `json:"blogPostId"`
+	Body             json.RawMessage `json:"body"`
+	Id               string          `json:"id"`
+	Properties       json.RawMessage `json:"properties"`
+	ResolutionStatus string          `json:"resolutionStatus"`
+	Status           string          `json:"status"`
+	Title            string          `json:"title"`
+	Version          json.RawMessage `json:"version"`
+}
+
+type BlogPostNestedBodyWrite struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Storage        json.RawMessage `json:"storage"`
+	Wiki           json.RawMessage `json:"wiki"`
+}
+
+type BlogPostSingle struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type BlogPostVersion struct {
+	AuthorId  string          `json:"authorId"`
+	Blogpost  json.RawMessage `json:"blogpost"`
+	CreatedAt string          `json:"createdAt"`
+	Message   string          `json:"message"`
+	MinorEdit bool            `json:"minorEdit"`
+	Number    int             `json:"number"`
+}
+
+type BlogpostsCreateBlogPostResponse struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type BlogpostsGetBlogPostByIdResponse struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type BlogpostsUpdateBlogPostResponse struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
 type BlueprintTemplate struct {
 	Body                 json.RawMessage `json:"body"`
 	Description          string          `json:"description"`
@@ -1474,6 +1699,22 @@ type BoardsPayload struct {
 	Boards json.RawMessage `json:"boards"`
 }
 
+type BodyBulk struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Storage        json.RawMessage `json:"storage"`
+}
+
+type BodySingle struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Storage        json.RawMessage `json:"storage"`
+	View           json.RawMessage `json:"view"`
+}
+
+type BodyType struct {
+	Representation string `json:"representation"`
+	Value          string `json:"value"`
+}
+
 type BooleanState struct {
 	State bool `json:"state"`
 }
@@ -1549,6 +1790,11 @@ type BulkAgentSessionsResponse struct {
 	Results             json.RawMessage `json:"results"`
 	StartedCount        int             `json:"startedCount"`
 	Success             bool            `json:"success"`
+}
+
+type BulkAssignRolesRequest struct {
+	Assignments    json.RawMessage `json:"assignments"`
+	SpaceSelection json.RawMessage `json:"spaceSelection"`
 }
 
 type BulkChangeOwnerDetails struct {
@@ -1699,6 +1945,11 @@ type BulkRedactionResponse struct {
 	Results json.RawMessage `json:"results"`
 }
 
+type BulkRemoveAccessRequest struct {
+	PermissionCombinationIds json.RawMessage `json:"permissionCombinationIds"`
+	SpaceSelection           json.RawMessage `json:"spaceSelection"`
+}
+
 type BulkStartAgentSessionsBatchRequest struct {
 	ClientMutationId string          `json:"clientMutationId"`
 	Invocations      json.RawMessage `json:"invocations"`
@@ -1711,15 +1962,61 @@ type BulkStartUniformAgentSessionsRequest struct {
 	UserPrompt       string          `json:"userPrompt"`
 }
 
+type BulkTransitionCombinationEntry struct {
+	CombinationId  string          `json:"combinationId"`
+	Permissions    json.RawMessage `json:"permissions"`
+	PrincipalCount int             `json:"principalCount"`
+	PrincipalTypes json.RawMessage `json:"principalTypes"`
+	SpaceCount     int             `json:"spaceCount"`
+}
+
+type BulkTransitionDecodedPermission struct {
+	DisplayName string `json:"displayName"`
+	Id          string `json:"id"`
+}
+
 type BulkTransitionGetAvailableTransitions struct {
 	AvailableTransitions json.RawMessage `json:"availableTransitions"`
 	EndingBefore         string          `json:"endingBefore"`
 	StartingAfter        string          `json:"startingAfter"`
 }
 
+type BulkTransitionPrincipalTypeAssignment struct {
+	PrincipalType string `json:"principalType"`
+	RemoveAccess  bool   `json:"removeAccess"`
+	RoleId        string `json:"roleId"`
+}
+
+type BulkTransitionRoleAssignment struct {
+	PermissionCombinationId  string          `json:"permissionCombinationId"`
+	PrincipalTypeAssignments json.RawMessage `json:"principalTypeAssignments"`
+}
+
+type BulkTransitionSpaceSelection struct {
+	SelectedSpaces json.RawMessage `json:"selectedSpaces"`
+	SpaceType      string          `json:"spaceType"`
+}
+
+type BulkTransitionSpaceTarget struct {
+	Id  string `json:"id"`
+	Key string `json:"key"`
+}
+
 type BulkTransitionSubmitInput struct {
 	SelectedIssueIdsOrKeys json.RawMessage `json:"selectedIssueIdsOrKeys"`
 	TransitionId           string          `json:"transitionId"`
+}
+
+type BulkTransitionTaskResponse struct {
+	Status    string `json:"status"`
+	StatusUrl string `json:"statusUrl"`
+	TaskId    string `json:"taskId"`
+}
+
+type BulkTransitionTaskStatusResponse struct {
+	ErrorMessage string `json:"errorMessage"`
+	Status       string `json:"status"`
+	TaskId       string `json:"taskId"`
 }
 
 type BulkUserLookup struct {
@@ -1931,6 +2228,40 @@ type Changelog struct {
 	Items           json.RawMessage `json:"items"`
 }
 
+type ChildCustomContent struct {
+	Id      string `json:"id"`
+	SpaceId string `json:"spaceId"`
+	Status  string `json:"status"`
+	Title   string `json:"title"`
+	Type    string `json:"type"`
+}
+
+type ChildPage struct {
+	ChildPosition int    `json:"childPosition"`
+	Id            string `json:"id"`
+	SpaceId       string `json:"spaceId"`
+	Status        string `json:"status"`
+	Title         string `json:"title"`
+}
+
+type ChildrenCommentModel struct {
+	Body            json.RawMessage `json:"body"`
+	Id              string          `json:"id"`
+	ParentCommentId string          `json:"parentCommentId"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Version         json.RawMessage `json:"version"`
+}
+
+type ChildrenResponse struct {
+	ChildPosition int    `json:"childPosition"`
+	Id            string `json:"id"`
+	SpaceId       string `json:"spaceId"`
+	Status        string `json:"status"`
+	Title         string `json:"title"`
+	Type          string `json:"type"`
+}
+
 type ChurnBenchmark struct {
 	ChurnBenchmarkPerApp json.RawMessage `json:"churnBenchmarkPerApp"`
 }
@@ -1949,6 +2280,16 @@ type ChurnBenchmarkPerMonth struct {
 type ChurnBenchmarkReportingLink struct {
 	Query json.RawMessage `json:"query"`
 	Self  json.RawMessage `json:"self"`
+}
+
+type ClassificationLevel struct {
+	Color       string  `json:"color"`
+	Description string  `json:"description"`
+	Guideline   string  `json:"guideline"`
+	Id          string  `json:"id"`
+	Name        string  `json:"name"`
+	Order       float64 `json:"order"`
+	Status      string  `json:"status"`
 }
 
 type CloudChurnBenchmarkPerApp struct {
@@ -2057,6 +2398,11 @@ type Comment struct {
 	Visibility             string          `json:"visibility"`
 }
 
+type CommentBodyWrite struct {
+	Representation string `json:"representation"`
+	Value          string `json:"value"`
+}
+
 type CommentCreateDTO struct {
 	Body   string `json:"body"`
 	Public bool   `json:"public"`
@@ -2070,6 +2416,25 @@ type CommentDTO struct {
 	Id           string `json:"id"`
 	Public       bool   `json:"public"`
 	RenderedBody string `json:"renderedBody"`
+}
+
+type CommentLinks struct {
+	Webui string `json:"webui"`
+}
+
+type CommentNestedBodyWrite struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Storage        json.RawMessage `json:"storage"`
+	Wiki           json.RawMessage `json:"wiki"`
+}
+
+type CommentVersion struct {
+	AuthorId  string          `json:"authorId"`
+	Comment   json.RawMessage `json:"comment"`
+	CreatedAt string          `json:"createdAt"`
+	Message   string          `json:"message"`
+	MinorEdit bool            `json:"minorEdit"`
+	Number    int             `json:"number"`
 }
 
 type Compatibility struct {
@@ -2363,6 +2728,10 @@ type ContentHistory struct {
 	PreviousVersion json.RawMessage `json:"previousVersion"`
 }
 
+type ContentIdToContentTypeResponse struct {
+	Results json.RawMessage `json:"results"`
+}
+
 type ContentItem struct {
 	EntityId   string `json:"entityId"`
 	EntityType string `json:"entityType"`
@@ -2390,9 +2759,46 @@ type ContentPageResponse struct {
 	Start   int             `json:"start"`
 }
 
+type ContentPermissionError struct {
+	Code   string `json:"code"`
+	Detail string `json:"detail"`
+	Status int    `json:"status"`
+	Title  string `json:"title"`
+}
+
+type ContentPermissionErrorResponse struct {
+	Errors json.RawMessage `json:"errors"`
+}
+
+type ContentPermissionOutput struct {
+	CreatedAt     string          `json:"createdAt"`
+	CreatedBy     string          `json:"createdBy"`
+	CreatedByAaid string          `json:"createdByAaid"`
+	Operation     string          `json:"operation"`
+	Principal     json.RawMessage `json:"principal"`
+}
+
+type ContentPermissionPrincipal struct {
+	PrincipalId   string `json:"principalId"`
+	PrincipalType string `json:"principalType"`
+}
+
 type ContentPermissionRequest struct {
 	Operation string          `json:"operation"`
 	Subject   json.RawMessage `json:"subject"`
+}
+
+type ContentPermissionsRequest struct {
+	Permissions json.RawMessage `json:"permissions"`
+}
+
+type ContentPermissionsResponse struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type ContentPrincipalInput struct {
+	PrincipalId   string `json:"principalId"`
+	PrincipalType string `json:"principalType"`
 }
 
 type ContentProperty struct {
@@ -2418,7 +2824,18 @@ type ContentPropertyCreateNoKey struct {
 	Value string `json:"value"`
 }
 
+type ContentPropertyCreateRequest struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
 type ContentPropertyUpdate struct {
+	Value   string          `json:"value"`
+	Version json.RawMessage `json:"version"`
+}
+
+type ContentPropertyUpdateRequest struct {
+	Key     string          `json:"key"`
 	Value   string          `json:"value"`
 	Version json.RawMessage `json:"version"`
 }
@@ -2660,9 +3077,26 @@ type CreateFieldAssociationSchemeResponse struct {
 	Name        string          `json:"name"`
 }
 
+type CreateFooterCommentModel struct {
+	AttachmentId    string `json:"attachmentId"`
+	BlogPostId      string `json:"blogPostId"`
+	Body            string `json:"body"`
+	CustomContentId string `json:"customContentId"`
+	PageId          string `json:"pageId"`
+	ParentCommentId string `json:"parentCommentId"`
+}
+
 type CreateGroupInput struct {
 	Description string `json:"description"`
 	Name        string `json:"name"`
+}
+
+type CreateInlineCommentModel struct {
+	BlogPostId              string          `json:"blogPostId"`
+	Body                    string          `json:"body"`
+	InlineCommentProperties json.RawMessage `json:"inlineCommentProperties"`
+	PageId                  string          `json:"pageId"`
+	ParentCommentId         string          `json:"parentCommentId"`
 }
 
 type CreateIssueSecuritySchemeDetails struct {
@@ -2807,6 +3241,143 @@ type CreatedIssues struct {
 
 type CursorNextPageModel struct {
 	Next string `json:"next"`
+}
+
+type CustomContentBodyBulk struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Raw            json.RawMessage `json:"raw"`
+	Storage        json.RawMessage `json:"storage"`
+}
+
+type CustomContentBodySingle struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Raw            json.RawMessage `json:"raw"`
+	Storage        json.RawMessage `json:"storage"`
+	View           json.RawMessage `json:"view"`
+}
+
+type CustomContentBodyWrite struct {
+	Representation string `json:"representation"`
+	Value          string `json:"value"`
+}
+
+type CustomContentBulk struct {
+	AuthorId        string          `json:"authorId"`
+	BlogPostId      string          `json:"blogPostId"`
+	Body            json.RawMessage `json:"body"`
+	CreatedAt       string          `json:"createdAt"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	PageId          string          `json:"pageId"`
+	SpaceId         string          `json:"spaceId"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Type            string          `json:"type"`
+	Version         json.RawMessage `json:"version"`
+}
+
+type CustomContentCommentModel struct {
+	Body            json.RawMessage `json:"body"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Version         json.RawMessage `json:"version"`
+}
+
+type CustomContentCreateResponse struct {
+	AuthorId        string          `json:"authorId"`
+	BlogPostId      string          `json:"blogPostId"`
+	Body            json.RawMessage `json:"body"`
+	CreatedAt       string          `json:"createdAt"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	Labels          json.RawMessage `json:"labels"`
+	Operations      json.RawMessage `json:"operations"`
+	PageId          string          `json:"pageId"`
+	Properties      json.RawMessage `json:"properties"`
+	SpaceId         string          `json:"spaceId"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Type            string          `json:"type"`
+	Version         json.RawMessage `json:"version"`
+	Versions        json.RawMessage `json:"versions"`
+}
+
+type CustomContentGetByIdResponse struct {
+	AuthorId        string          `json:"authorId"`
+	BlogPostId      string          `json:"blogPostId"`
+	Body            json.RawMessage `json:"body"`
+	CreatedAt       string          `json:"createdAt"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	Labels          json.RawMessage `json:"labels"`
+	Operations      json.RawMessage `json:"operations"`
+	PageId          string          `json:"pageId"`
+	Properties      json.RawMessage `json:"properties"`
+	SpaceId         string          `json:"spaceId"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Type            string          `json:"type"`
+	Version         json.RawMessage `json:"version"`
+	Versions        json.RawMessage `json:"versions"`
+}
+
+type CustomContentLinks struct {
+	Webui string `json:"webui"`
+}
+
+type CustomContentNestedBodyWrite struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Raw            json.RawMessage `json:"raw"`
+	Storage        json.RawMessage `json:"storage"`
+}
+
+type CustomContentSingle struct {
+	AuthorId        string          `json:"authorId"`
+	BlogPostId      string          `json:"blogPostId"`
+	Body            json.RawMessage `json:"body"`
+	CreatedAt       string          `json:"createdAt"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	Labels          json.RawMessage `json:"labels"`
+	Operations      json.RawMessage `json:"operations"`
+	PageId          string          `json:"pageId"`
+	Properties      json.RawMessage `json:"properties"`
+	SpaceId         string          `json:"spaceId"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Type            string          `json:"type"`
+	Version         json.RawMessage `json:"version"`
+	Versions        json.RawMessage `json:"versions"`
+}
+
+type CustomContentUpdateResponse struct {
+	AuthorId        string          `json:"authorId"`
+	BlogPostId      string          `json:"blogPostId"`
+	Body            json.RawMessage `json:"body"`
+	CreatedAt       string          `json:"createdAt"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	Labels          json.RawMessage `json:"labels"`
+	Operations      json.RawMessage `json:"operations"`
+	PageId          string          `json:"pageId"`
+	Properties      json.RawMessage `json:"properties"`
+	SpaceId         string          `json:"spaceId"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Type            string          `json:"type"`
+	Version         json.RawMessage `json:"version"`
+	Versions        json.RawMessage `json:"versions"`
+}
+
+type CustomContentVersion struct {
+	AuthorId  string          `json:"authorId"`
+	CreatedAt string          `json:"createdAt"`
+	Custom    json.RawMessage `json:"custom"`
+	Message   string          `json:"message"`
+	MinorEdit bool            `json:"minorEdit"`
+	Number    int             `json:"number"`
 }
 
 type CustomContextVariable struct {
@@ -3278,6 +3849,19 @@ type DataController struct {
 	IsAppDataController string          `json:"isAppDataController"`
 }
 
+type DataPolicyMetadata struct {
+	AnyContentBlocked bool `json:"anyContentBlocked"`
+}
+
+type DataPolicySpace struct {
+	DataPolicy  json.RawMessage `json:"dataPolicy"`
+	Description json.RawMessage `json:"description"`
+	Icon        json.RawMessage `json:"icon"`
+	Id          string          `json:"id"`
+	Key         string          `json:"key"`
+	Name        string          `json:"name"`
+}
+
 type DataProcessingAgreement struct {
 	IsDPASupported string `json:"isDPASupported"`
 	Link           string `json:"link"`
@@ -3306,6 +3890,437 @@ type DataTransfer struct {
 	IsEndUserDataTransferredOutsideEEA    bool   `json:"isEndUserDataTransferredOutsideEEA"`
 	IsTransferComplianceMechanismsAdhered bool   `json:"isTransferComplianceMechanismsAdhered"`
 	TransferComplianceMechanismsAdhered   string `json:"transferComplianceMechanismsAdhered"`
+}
+
+type DatabaseAdfDocument struct {
+	Content json.RawMessage `json:"content"`
+	Type    string          `json:"type"`
+	Version int             `json:"version"`
+}
+
+type DatabaseAiSummaryField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseAiSummaryFieldSettings struct {
+	AiRunMetadata json.RawMessage `json:"aiRunMetadata"`
+}
+
+type DatabaseAiSummaryRunMetadata struct {
+	LastAiRunUserAccountId string `json:"lastAiRunUserAccountId"`
+}
+
+type DatabaseAiSummaryValue struct {
+	Metadata json.RawMessage `json:"metadata"`
+	Plain    string          `json:"plain"`
+	Rich     json.RawMessage `json:"rich"`
+	Type     string          `json:"type"`
+}
+
+type DatabaseAiSummaryValueMetadata struct {
+	LastUpdatedAt            string `json:"lastUpdatedAt"`
+	LastUpdatedBy            string `json:"lastUpdatedBy"`
+	LastUpdatedUserAccountId string `json:"lastUpdatedUserAccountId"`
+}
+
+type DatabaseAttachmentField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseAttachmentRef struct {
+	MediaId string `json:"mediaId"`
+}
+
+type DatabaseAttachmentValue struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type DatabaseBacklinkField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseBacklinkFieldSettings struct {
+	SourceDatabaseContentId string `json:"sourceDatabaseContentId"`
+}
+
+type DatabaseCheckboxField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseCheckboxValue struct {
+	Type  string `json:"type"`
+	Value bool   `json:"value"`
+}
+
+type DatabaseDateField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseDateFieldSettings struct {
+	IncludesTime bool `json:"includesTime"`
+}
+
+type DatabaseDateValue struct {
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+type DatabaseEmptyFieldSettings struct {
+}
+
+type DatabaseEntry struct {
+	DatabaseId string          `json:"databaseId"`
+	Id         string          `json:"id"`
+	Values     json.RawMessage `json:"values"`
+}
+
+type DatabaseEntryDetailsField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseEntryDetailsFieldSettings struct {
+	LookupFieldId string `json:"lookupFieldId"`
+	SourceFieldId string `json:"sourceFieldId"`
+}
+
+type DatabaseEntryLinkField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseEntryLinkValue struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type DatabaseEntryListResponse struct {
+	Meta    json.RawMessage `json:"meta"`
+	Results json.RawMessage `json:"results"`
+}
+
+type DatabaseEntryRef struct {
+	DatabaseContentId string `json:"databaseContentId"`
+	EntryId           string `json:"entryId"`
+}
+
+type DatabaseEntrySingleResponse struct {
+	DatabaseId string          `json:"databaseId"`
+	Id         string          `json:"id"`
+	Values     json.RawMessage `json:"values"`
+}
+
+type DatabaseError struct {
+	Code   string `json:"code"`
+	Detail string `json:"detail"`
+	Id     string `json:"id"`
+	Status int    `json:"status"`
+	Title  string `json:"title"`
+}
+
+type DatabaseErrorResponse struct {
+	Errors json.RawMessage `json:"errors"`
+}
+
+type DatabaseFieldBase struct {
+	Description string `json:"description"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+}
+
+type DatabaseFieldListResponse struct {
+	Meta    json.RawMessage `json:"meta"`
+	Results json.RawMessage `json:"results"`
+}
+
+type DatabaseHyperlinkField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseHyperlinkItem struct {
+	Label string `json:"label"`
+	Url   string `json:"url"`
+}
+
+type DatabaseHyperlinkValue struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type DatabaseJiraIssueDetailsField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseJiraIssueDetailsFieldSettings struct {
+	JiraFieldKey  string `json:"jiraFieldKey"`
+	SourceFieldId string `json:"sourceFieldId"`
+}
+
+type DatabaseJiraIssueField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseJiraIssueFieldSettings struct {
+	CloudId  string `json:"cloudId"`
+	ServerId string `json:"serverId"`
+}
+
+type DatabaseJiraIssueRef struct {
+	CloudId  string `json:"cloudId"`
+	Key      string `json:"key"`
+	ServerId string `json:"serverId"`
+}
+
+type DatabaseJiraIssueValue struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type DatabaseLinks struct {
+	Webui string `json:"webui"`
+}
+
+type DatabaseNullLookupValue struct {
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+type DatabaseNumberField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseNumberFieldSettings struct {
+	Format json.RawMessage `json:"format"`
+}
+
+type DatabaseNumberFormat struct {
+	DecimalPlaces int    `json:"decimalPlaces"`
+	Prefix        string `json:"prefix"`
+	Suffix        string `json:"suffix"`
+	Type          string `json:"type"`
+}
+
+type DatabaseNumberValue struct {
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+type DatabasePageDetailsField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabasePageDetailsFieldSettings struct {
+	PagePropertyKey string `json:"pagePropertyKey"`
+	SourceFieldId   string `json:"sourceFieldId"`
+}
+
+type DatabasePageLabelsField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabasePageLinkField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabasePageLinkValue struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type DatabasePageRef struct {
+	ContentId string `json:"contentId"`
+}
+
+type DatabasePageStatusField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabasePaginationMeta struct {
+	Cursor   string `json:"cursor"`
+	HasMore  bool   `json:"hasMore"`
+	PageSize int    `json:"pageSize"`
+}
+
+type DatabaseSelectField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseSelectFieldSettings struct {
+	Options json.RawMessage `json:"options"`
+}
+
+type DatabaseSelectOption struct {
+	Id    string `json:"id"`
+	Label string `json:"label"`
+}
+
+type DatabaseSelectValue struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type DatabaseSingle struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type DatabaseSourceFieldSettings struct {
+	SourceFieldId string `json:"sourceFieldId"`
+}
+
+type DatabaseTextField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseTextFieldSettings struct {
+	RichText bool `json:"richText"`
+}
+
+type DatabaseTextValue struct {
+	Plain string          `json:"plain"`
+	Rich  json.RawMessage `json:"rich"`
+	Type  string          `json:"type"`
+}
+
+type DatabaseUserField struct {
+	Description string          `json:"description"`
+	Id          string          `json:"id"`
+	Name        string          `json:"name"`
+	Settings    json.RawMessage `json:"settings"`
+	Type        string          `json:"type"`
+}
+
+type DatabaseUserRef struct {
+	AccountId string `json:"accountId"`
+}
+
+type DatabaseUserValue struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type DatabaseView struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type DatabaseViewListResponse struct {
+	Meta    json.RawMessage `json:"meta"`
+	Results json.RawMessage `json:"results"`
+}
+
+type DatabasesCreateResponse struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type DatabasesGetByIdResponse struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type DatabasesPublicApiLinks struct {
+	Base string `json:"base"`
+	Next string `json:"next"`
+	Self string `json:"self"`
 }
 
 type DateDTO struct {
@@ -3349,6 +4364,10 @@ type DeleteFieldAssociationSchemeResponse struct {
 	Id      string `json:"id"`
 }
 
+type DeleteSpaceRoleResponse struct {
+	TaskId string `json:"taskId"`
+}
+
 type DeploymentData struct {
 	Associations             json.RawMessage `json:"associations"`
 	Commands                 json.RawMessage `json:"commands"`
@@ -3367,10 +4386,32 @@ type DeploymentData struct {
 	Url                      string          `json:"url"`
 }
 
+type DescendantsResponse struct {
+	ChildPosition int    `json:"childPosition"`
+	Depth         int    `json:"depth"`
+	Id            string `json:"id"`
+	ParentId      string `json:"parentId"`
+	Status        string `json:"status"`
+	Title         string `json:"title"`
+	Type          string `json:"type"`
+}
+
 type DetailedErrorCollection struct {
 	Details       json.RawMessage `json:"details"`
 	ErrorMessages json.RawMessage `json:"errorMessages"`
 	Errors        json.RawMessage `json:"errors"`
+}
+
+type DetailedVersion struct {
+	AuthorId            string          `json:"authorId"`
+	Collaborators       json.RawMessage `json:"collaborators"`
+	ContentTypeModified bool            `json:"contentTypeModified"`
+	CreatedAt           string          `json:"createdAt"`
+	Message             string          `json:"message"`
+	MinorEdit           bool            `json:"minorEdit"`
+	NextVersion         int             `json:"nextVersion"`
+	Number              int             `json:"number"`
+	PrevVersion         int             `json:"prevVersion"`
 }
 
 type DevopscomponentsGetComponentByIdResponse struct {
@@ -3456,6 +4497,38 @@ type EmbeddedContent struct {
 	Entity     json.RawMessage `json:"entity"`
 	EntityId   int             `json:"entityId"`
 	EntityType string          `json:"entityType"`
+}
+
+type EmbedsCreateSmartLinkResponse struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	EmbedUrl   string          `json:"embedUrl"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type EmbedsGetSmartLinkByIdResponse struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	EmbedUrl   string          `json:"embedUrl"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
 }
 
 type EntitlementModelV2 struct {
@@ -4141,6 +5214,106 @@ type FilterSubscriptionsList struct {
 	StartIndex int             `json:"start-index"`
 }
 
+type FolderLinks struct {
+	Webui string `json:"webui"`
+}
+
+type FolderSingle struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type FoldersCreateResponse struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type FoldersGetByIdResponse struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type FooterCommentModel struct {
+	AttachmentId    string          `json:"attachmentId"`
+	BlogPostId      string          `json:"blogPostId"`
+	Body            json.RawMessage `json:"body"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	Likes           json.RawMessage `json:"likes"`
+	Operations      json.RawMessage `json:"operations"`
+	PageId          string          `json:"pageId"`
+	ParentCommentId string          `json:"parentCommentId"`
+	Properties      json.RawMessage `json:"properties"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Version         json.RawMessage `json:"version"`
+	Versions        json.RawMessage `json:"versions"`
+}
+
+type FooterCommentsCreateResponse struct {
+	AttachmentId    string          `json:"attachmentId"`
+	BlogPostId      string          `json:"blogPostId"`
+	Body            json.RawMessage `json:"body"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	Likes           json.RawMessage `json:"likes"`
+	Operations      json.RawMessage `json:"operations"`
+	PageId          string          `json:"pageId"`
+	ParentCommentId string          `json:"parentCommentId"`
+	Properties      json.RawMessage `json:"properties"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Version         json.RawMessage `json:"version"`
+	Versions        json.RawMessage `json:"versions"`
+}
+
+type FooterCommentsGetByIdResponse struct {
+	AttachmentId    string          `json:"attachmentId"`
+	BlogPostId      string          `json:"blogPostId"`
+	Body            json.RawMessage `json:"body"`
+	CustomContentId string          `json:"customContentId"`
+	Id              string          `json:"id"`
+	Likes           json.RawMessage `json:"likes"`
+	Operations      json.RawMessage `json:"operations"`
+	PageId          string          `json:"pageId"`
+	ParentCommentId string          `json:"parentCommentId"`
+	Properties      json.RawMessage `json:"properties"`
+	Status          string          `json:"status"`
+	Title           string          `json:"title"`
+	Version         json.RawMessage `json:"version"`
+	Versions        json.RawMessage `json:"versions"`
+}
+
 type ForgeGetAppPropertyKeysResponse struct {
 	Keys json.RawMessage `json:"keys"`
 }
@@ -4682,6 +5855,94 @@ type InitiateAsyncTransactionCollectionLinks struct {
 	Status   json.RawMessage `json:"status"`
 }
 
+type InlineCommentChildrenModel struct {
+	Body             json.RawMessage `json:"body"`
+	Id               string          `json:"id"`
+	ParentCommentId  string          `json:"parentCommentId"`
+	Properties       json.RawMessage `json:"properties"`
+	ResolutionStatus string          `json:"resolutionStatus"`
+	Status           string          `json:"status"`
+	Title            string          `json:"title"`
+	Version          json.RawMessage `json:"version"`
+}
+
+type InlineCommentModel struct {
+	BlogPostId               string          `json:"blogPostId"`
+	Body                     json.RawMessage `json:"body"`
+	Id                       string          `json:"id"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	PageId                   string          `json:"pageId"`
+	ParentCommentId          string          `json:"parentCommentId"`
+	Properties               json.RawMessage `json:"properties"`
+	ResolutionLastModifiedAt string          `json:"resolutionLastModifiedAt"`
+	ResolutionLastModifierId string          `json:"resolutionLastModifierId"`
+	ResolutionStatus         string          `json:"resolutionStatus"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type InlineCommentProperties struct {
+	InlineMarkerRef         string `json:"inlineMarkerRef"`
+	InlineOriginalSelection string `json:"inlineOriginalSelection"`
+}
+
+type InlineCommentsCreateResponse struct {
+	BlogPostId               string          `json:"blogPostId"`
+	Body                     json.RawMessage `json:"body"`
+	Id                       string          `json:"id"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	PageId                   string          `json:"pageId"`
+	ParentCommentId          string          `json:"parentCommentId"`
+	Properties               json.RawMessage `json:"properties"`
+	ResolutionLastModifiedAt string          `json:"resolutionLastModifiedAt"`
+	ResolutionLastModifierId string          `json:"resolutionLastModifierId"`
+	ResolutionStatus         string          `json:"resolutionStatus"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type InlineCommentsGetByIdResponse struct {
+	BlogPostId               string          `json:"blogPostId"`
+	Body                     json.RawMessage `json:"body"`
+	Id                       string          `json:"id"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	PageId                   string          `json:"pageId"`
+	ParentCommentId          string          `json:"parentCommentId"`
+	Properties               json.RawMessage `json:"properties"`
+	ResolutionLastModifiedAt string          `json:"resolutionLastModifiedAt"`
+	ResolutionLastModifierId string          `json:"resolutionLastModifierId"`
+	ResolutionStatus         string          `json:"resolutionStatus"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type InlineCommentsUpdateResponse struct {
+	BlogPostId               string          `json:"blogPostId"`
+	Body                     json.RawMessage `json:"body"`
+	Id                       string          `json:"id"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	PageId                   string          `json:"pageId"`
+	ParentCommentId          string          `json:"parentCommentId"`
+	Properties               json.RawMessage `json:"properties"`
+	ResolutionLastModifiedAt string          `json:"resolutionLastModifiedAt"`
+	ResolutionLastModifierId string          `json:"resolutionLastModifierId"`
+	ResolutionStatus         string          `json:"resolutionStatus"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
 type InputStreamSource struct {
 	InputStream json.RawMessage `json:"inputStream"`
 }
@@ -4697,6 +5958,10 @@ type InsightsReportingLink struct {
 
 type InsightsType struct {
 	Value json.RawMessage `json:"value"`
+}
+
+type Integer struct {
+	Count int `json:"count"`
 }
 
 type InviteApiRequest struct {
@@ -5920,6 +7185,10 @@ type LifetimeGmvMetricsRecord struct {
 	StandardForgeAppVersionsGmv   float64 `json:"standardForgeAppVersionsGmv"`
 }
 
+type Like struct {
+	AccountId string `json:"accountId"`
+}
+
 type LimitExceededResponseBean struct {
 	CurrentCount    int    `json:"current_count"`
 	EntityType      string `json:"entity_type"`
@@ -6017,6 +7286,12 @@ type Links struct {
 type ListOperand struct {
 	EncodedOperand string          `json:"encodedOperand"`
 	Values         json.RawMessage `json:"values"`
+}
+
+type ListSpacePermissionCombinationsResponse struct {
+	Cursor      string          `json:"cursor"`
+	GeneratedAt string          `json:"generatedAt"`
+	Results     json.RawMessage `json:"results"`
 }
 
 type ListWrapperCallbackApplicationRole struct {
@@ -6405,6 +7680,147 @@ type MultiDirectoryUserStats struct {
 	Roles         json.RawMessage `json:"roles"`
 }
 
+type MultiEntityLinks struct {
+	Base string `json:"base"`
+	Next string `json:"next"`
+}
+
+type MultiEntityResultAncestor struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultAppProperty struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultAttachment struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultAttachmentCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultBlogPost struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultBlogPostCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultBlogPostInlineCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultChildCustomContent struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultChildPage struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultChildrenCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultChildrenResponse struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultContentPermissionOutput struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultContentProperty struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultCustomContent struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultCustomContentCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultDataPolicySpace struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultDescendantsResponse struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultFooterCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultInlineCommentChildrenModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultInlineCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultLabel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultPage struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultPageCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultPageInlineCommentModel struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultSpace struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultSpacePermission struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultSpacePermissionAssignment struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultSpaceProperty struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultSpaceRole struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultSpaceRoleAssignment struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultString struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultTask struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultUser struct {
+	Results json.RawMessage `json:"results"`
+}
+
+type MultiEntityResultVersion struct {
+	Results json.RawMessage `json:"results"`
+}
+
 type MultiIssueEntityProperties struct {
 	Issues json.RawMessage `json:"issues"`
 }
@@ -6590,6 +8006,11 @@ type OldToNewSecurityLevelMappingsBean struct {
 	OldLevelId string `json:"oldLevelId"`
 }
 
+type Operation struct {
+	Operation  string `json:"operation"`
+	TargetType string `json:"targetType"`
+}
+
 type OperationCheckResult struct {
 	Operation  string `json:"operation"`
 	TargetType string `json:"targetType"`
@@ -6598,6 +8019,11 @@ type OperationCheckResult struct {
 type OperationMessage struct {
 	Message    string `json:"message"`
 	StatusCode int    `json:"statusCode"`
+}
+
+type OperationPermissionsInput struct {
+	Operation  string          `json:"operation"`
+	Principals json.RawMessage `json:"principals"`
 }
 
 type Operations struct {
@@ -6635,6 +8061,15 @@ type OperationsGetReviewByIdResponse struct {
 
 type OperationsWorkspaceIds struct {
 	WorkspaceIds json.RawMessage `json:"workspaceIds"`
+}
+
+type OptionalFieldLinks struct {
+	Self string `json:"self"`
+}
+
+type OptionalFieldMeta struct {
+	Cursor  string `json:"cursor"`
+	HasMore bool   `json:"hasMore"`
 }
 
 type OrderOfCustomFieldOptions struct {
@@ -7343,10 +8778,58 @@ type PageBeanWorkflowTransitionRules struct {
 	Values     json.RawMessage `json:"values"`
 }
 
+type PageBodyWrite struct {
+	Representation string `json:"representation"`
+	Value          string `json:"value"`
+}
+
+type PageBulk struct {
+	AuthorId    string          `json:"authorId"`
+	Body        json.RawMessage `json:"body"`
+	CreatedAt   string          `json:"createdAt"`
+	Id          string          `json:"id"`
+	LastOwnerId string          `json:"lastOwnerId"`
+	OwnerId     string          `json:"ownerId"`
+	ParentId    string          `json:"parentId"`
+	ParentType  string          `json:"parentType"`
+	Position    int             `json:"position"`
+	SpaceId     string          `json:"spaceId"`
+	Status      string          `json:"status"`
+	Subtype     string          `json:"subtype"`
+	Title       string          `json:"title"`
+	Version     json.RawMessage `json:"version"`
+}
+
+type PageCommentModel struct {
+	Body    json.RawMessage `json:"body"`
+	Id      string          `json:"id"`
+	PageId  string          `json:"pageId"`
+	Status  string          `json:"status"`
+	Title   string          `json:"title"`
+	Version json.RawMessage `json:"version"`
+}
+
 type PageDataResponseV2 struct {
 	Data  json.RawMessage `json:"data"`
 	Links json.RawMessage `json:"links"`
 	Meta  json.RawMessage `json:"meta"`
+}
+
+type PageInlineCommentModel struct {
+	Body             json.RawMessage `json:"body"`
+	Id               string          `json:"id"`
+	PageId           string          `json:"pageId"`
+	Properties       json.RawMessage `json:"properties"`
+	ResolutionStatus string          `json:"resolutionStatus"`
+	Status           string          `json:"status"`
+	Title            string          `json:"title"`
+	Version          json.RawMessage `json:"version"`
+}
+
+type PageNestedBodyWrite struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Storage        json.RawMessage `json:"storage"`
+	Wiki           json.RawMessage `json:"wiki"`
 }
 
 type PageOfChangelogs struct {
@@ -7403,6 +8886,37 @@ type PageOfWorklogs struct {
 	StartAt    int             `json:"startAt"`
 	Total      int             `json:"total"`
 	Worklogs   json.RawMessage `json:"worklogs"`
+}
+
+type PageSingle struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	LastOwnerId              string          `json:"lastOwnerId"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	OwnerId                  string          `json:"ownerId"`
+	ParentId                 string          `json:"parentId"`
+	ParentType               string          `json:"parentType"`
+	Position                 int             `json:"position"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type PageVersion struct {
+	AuthorId  string          `json:"authorId"`
+	CreatedAt string          `json:"createdAt"`
+	Message   string          `json:"message"`
+	MinorEdit bool            `json:"minorEdit"`
+	Number    int             `json:"number"`
+	Page      json.RawMessage `json:"page"`
 }
 
 type PageWithCursorGetPlanResponseForPage struct {
@@ -7575,6 +9089,72 @@ type PagedListUserDetailsApplicationUser struct {
 	StartIndex int             `json:"start-index"`
 }
 
+type PagesCreateResponse struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	LastOwnerId              string          `json:"lastOwnerId"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	OwnerId                  string          `json:"ownerId"`
+	ParentId                 string          `json:"parentId"`
+	ParentType               string          `json:"parentType"`
+	Position                 int             `json:"position"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type PagesGetByIdResponse struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	LastOwnerId              string          `json:"lastOwnerId"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	OwnerId                  string          `json:"ownerId"`
+	ParentId                 string          `json:"parentId"`
+	ParentType               string          `json:"parentType"`
+	Position                 int             `json:"position"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
+type PagesUpdateResponse struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	LastOwnerId              string          `json:"lastOwnerId"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	OwnerId                  string          `json:"ownerId"`
+	ParentId                 string          `json:"parentId"`
+	ParentType               string          `json:"parentType"`
+	Position                 int             `json:"position"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
+}
+
 type PaginatedResponseComment struct {
 	MaxResults int             `json:"maxResults"`
 	Results    json.RawMessage `json:"results"`
@@ -7702,6 +9282,10 @@ type Permissions struct {
 
 type PermissionsKeysBean struct {
 	Permissions json.RawMessage `json:"permissions"`
+}
+
+type PermittedOperationsResponse struct {
+	Operations json.RawMessage `json:"operations"`
 }
 
 type PermittedProjects struct {
@@ -7850,6 +9434,11 @@ type PricingLinkTemplate struct {
 	Name      string `json:"name"`
 	Templated bool   `json:"templated"`
 	Type      string `json:"type"`
+}
+
+type Principal struct {
+	PrincipalId   string `json:"principalId"`
+	PrincipalType string `json:"principalType"`
 }
 
 type Priority struct {
@@ -8554,9 +10143,28 @@ type RankingConfigBean struct {
 	RankCustomFieldId int `json:"rankCustomFieldId"`
 }
 
+type Redaction struct {
+	Redactions json.RawMessage `json:"redactions"`
+}
+
 type RedactionJobStatusResponse struct {
 	BulkRedactionResponse json.RawMessage `json:"bulkRedactionResponse"`
 	JobStatus             string          `json:"jobStatus"`
+}
+
+type RedactionPointer struct {
+	From    int    `json:"from"`
+	Pointer string `json:"pointer"`
+	Reason  string `json:"reason"`
+	To      int    `json:"to"`
+}
+
+type RedactionPointerResponse struct {
+	From        int    `json:"from"`
+	Pointer     string `json:"pointer"`
+	Reason      string `json:"reason"`
+	RedactionId string `json:"redactionId"`
+	To          int    `json:"to"`
 }
 
 type RedactionPosition struct {
@@ -8564,6 +10172,15 @@ type RedactionPosition struct {
 	ExpectedText string `json:"expectedText"`
 	From         int    `json:"from"`
 	To           int    `json:"to"`
+}
+
+type RedactionResponse struct {
+	Body  json.RawMessage `json:"body"`
+	Title json.RawMessage `json:"title"`
+}
+
+type RedactionSectionResponse struct {
+	Redactions json.RawMessage `json:"redactions"`
 }
 
 type RegionWiseUserDistributionInsights struct {
@@ -8899,6 +10516,13 @@ type ResourceUpdateInput struct {
 type RestrictedPermission struct {
 	Id  string `json:"id"`
 	Key string `json:"key"`
+}
+
+type RestrictionStateResponse struct {
+	CreatedAt     string `json:"createdAt"`
+	CreatedBy     string `json:"createdBy"`
+	CreatedByAaid string `json:"createdByAaid"`
+	State         string `json:"state"`
 }
 
 type RetentionDurationInDays struct {
@@ -9678,6 +11302,26 @@ type SlaInformationOngoingCycleDTO struct {
 	WithinCalendarHours bool   `json:"withinCalendarHours"`
 }
 
+type SmartLinkLinks struct {
+	Webui string `json:"webui"`
+}
+
+type SmartLinkSingle struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	EmbedUrl   string          `json:"embedUrl"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
 type SoftwareInfoDTO struct {
 	BuildChangeSet   string `json:"buildChangeSet"`
 	BuildDate        string `json:"buildDate"`
@@ -9738,6 +11382,21 @@ type SpaceArray struct {
 	Start   int             `json:"start"`
 }
 
+type SpaceBulk struct {
+	AuthorId           string          `json:"authorId"`
+	CreatedAt          string          `json:"createdAt"`
+	CurrentActiveAlias string          `json:"currentActiveAlias"`
+	Description        json.RawMessage `json:"description"`
+	HomepageId         string          `json:"homepageId"`
+	Icon               json.RawMessage `json:"icon"`
+	Id                 string          `json:"id"`
+	Key                string          `json:"key"`
+	Name               string          `json:"name"`
+	SpaceOwnerId       string          `json:"spaceOwnerId"`
+	Status             string          `json:"status"`
+	Type               string          `json:"type"`
+}
+
 type SpaceCreate struct {
 	Alias       string          `json:"alias"`
 	Description json.RawMessage `json:"description"`
@@ -9756,12 +11415,27 @@ type SpaceDescriptionCreate struct {
 	Plain json.RawMessage `json:"plain"`
 }
 
+type SpaceIcon struct {
+	ApiDownloadLink string `json:"apiDownloadLink"`
+	Path            string `json:"path"`
+}
+
+type SpaceLinks struct {
+	Webui string `json:"webui"`
+}
+
 type SpacePermission struct {
 	AnonymousAccess  bool            `json:"anonymousAccess"`
 	Id               int             `json:"id"`
 	Operation        json.RawMessage `json:"operation"`
 	Subjects         json.RawMessage `json:"subjects"`
 	UnlicensedAccess bool            `json:"unlicensedAccess"`
+}
+
+type SpacePermissionAssignment struct {
+	Id        string          `json:"id"`
+	Operation json.RawMessage `json:"operation"`
+	Principal json.RawMessage `json:"principal"`
 }
 
 type SpacePermissionCreate struct {
@@ -9812,11 +11486,47 @@ type SpacePropertyCreateNoKey struct {
 	Value string `json:"value"`
 }
 
+type SpacePropertyCreateRequest struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
 type SpacePropertyUpdate struct {
 	Key     string          `json:"key"`
 	Space   json.RawMessage `json:"space"`
 	Value   string          `json:"value"`
 	Version json.RawMessage `json:"version"`
+}
+
+type SpacePropertyUpdateRequest struct {
+	Key     string          `json:"key"`
+	Value   string          `json:"value"`
+	Version json.RawMessage `json:"version"`
+}
+
+type SpaceRole struct {
+	Description      string          `json:"description"`
+	Id               string          `json:"id"`
+	Name             string          `json:"name"`
+	SpacePermissions json.RawMessage `json:"spacePermissions"`
+	Type             string          `json:"type"`
+}
+
+type SpaceRoleAssignment struct {
+	Principal json.RawMessage `json:"principal"`
+	RoleId    string          `json:"roleId"`
+}
+
+type SpaceRoleModeGetResponse struct {
+	Mode string `json:"mode"`
+}
+
+type SpaceRolesGetByIdResponse struct {
+	Description      string          `json:"description"`
+	Id               string          `json:"id"`
+	Name             string          `json:"name"`
+	SpacePermissions json.RawMessage `json:"spacePermissions"`
+	Type             string          `json:"type"`
 }
 
 type SpaceSettings struct {
@@ -9829,6 +11539,24 @@ type SpaceSettings struct {
 type SpaceSettingsUpdate struct {
 	ContentMode          string `json:"contentMode"`
 	RouteOverrideEnabled bool   `json:"routeOverrideEnabled"`
+}
+
+type SpaceSingle struct {
+	AuthorId     string          `json:"authorId"`
+	CreatedAt    string          `json:"createdAt"`
+	Description  json.RawMessage `json:"description"`
+	HomepageId   string          `json:"homepageId"`
+	Icon         json.RawMessage `json:"icon"`
+	Id           string          `json:"id"`
+	Key          string          `json:"key"`
+	Labels       json.RawMessage `json:"labels"`
+	Name         string          `json:"name"`
+	Operations   json.RawMessage `json:"operations"`
+	Permissions  json.RawMessage `json:"permissions"`
+	Properties   json.RawMessage `json:"properties"`
+	SpaceOwnerId string          `json:"spaceOwnerId"`
+	Status       string          `json:"status"`
+	Type         string          `json:"type"`
 }
 
 type SpaceUpdate struct {
@@ -9852,6 +11580,39 @@ type SpaceWatchArray struct {
 	Results json.RawMessage `json:"results"`
 	Size    int             `json:"size"`
 	Start   int             `json:"start"`
+}
+
+type SpacesCreateResponse struct {
+	AuthorId           string          `json:"authorId"`
+	CreatedAt          string          `json:"createdAt"`
+	CurrentActiveAlias string          `json:"currentActiveAlias"`
+	Description        json.RawMessage `json:"description"`
+	HomepageId         string          `json:"homepageId"`
+	Icon               json.RawMessage `json:"icon"`
+	Id                 string          `json:"id"`
+	Key                string          `json:"key"`
+	Name               string          `json:"name"`
+	SpaceOwnerId       string          `json:"spaceOwnerId"`
+	Status             string          `json:"status"`
+	Type               string          `json:"type"`
+}
+
+type SpacesGetByIdResponse struct {
+	AuthorId     string          `json:"authorId"`
+	CreatedAt    string          `json:"createdAt"`
+	Description  json.RawMessage `json:"description"`
+	HomepageId   string          `json:"homepageId"`
+	Icon         json.RawMessage `json:"icon"`
+	Id           string          `json:"id"`
+	Key          string          `json:"key"`
+	Labels       json.RawMessage `json:"labels"`
+	Name         string          `json:"name"`
+	Operations   json.RawMessage `json:"operations"`
+	Permissions  json.RawMessage `json:"permissions"`
+	Properties   json.RawMessage `json:"properties"`
+	SpaceOwnerId string          `json:"spaceOwnerId"`
+	Status       string          `json:"status"`
+	Type         string          `json:"type"`
 }
 
 type SprintBean struct {
@@ -10268,6 +12029,11 @@ type Task struct {
 	UpdateDate   int    `json:"updateDate"`
 }
 
+type TaskBodySingle struct {
+	AtlasDocFormat json.RawMessage `json:"atlas_doc_format"`
+	Storage        json.RawMessage `json:"storage"`
+}
+
 type TaskPageResponse struct {
 	Limit   int             `json:"limit"`
 	Results json.RawMessage `json:"results"`
@@ -10415,6 +12181,28 @@ type TimeTrackingProvider struct {
 	Key  string `json:"key"`
 	Name string `json:"name"`
 	Url  string `json:"url"`
+}
+
+type TitleUpdatePageResponse struct {
+	AuthorId                 string          `json:"authorId"`
+	Body                     json.RawMessage `json:"body"`
+	CreatedAt                string          `json:"createdAt"`
+	Id                       string          `json:"id"`
+	IsFavoritedByCurrentUser bool            `json:"isFavoritedByCurrentUser"`
+	Labels                   json.RawMessage `json:"labels"`
+	LastOwnerId              string          `json:"lastOwnerId"`
+	Likes                    json.RawMessage `json:"likes"`
+	Operations               json.RawMessage `json:"operations"`
+	OwnerId                  string          `json:"ownerId"`
+	ParentId                 string          `json:"parentId"`
+	ParentType               string          `json:"parentType"`
+	Position                 int             `json:"position"`
+	Properties               json.RawMessage `json:"properties"`
+	SpaceId                  string          `json:"spaceId"`
+	Status                   string          `json:"status"`
+	Title                    string          `json:"title"`
+	Version                  json.RawMessage `json:"version"`
+	Versions                 json.RawMessage `json:"versions"`
 }
 
 type ToLayoutPayload struct {
@@ -10720,6 +12508,17 @@ type UpdateFieldSchemeParametersResponse struct {
 	Results json.RawMessage `json:"results"`
 }
 
+type UpdateFooterCommentModel struct {
+	Body    string          `json:"body"`
+	Version json.RawMessage `json:"version"`
+}
+
+type UpdateInlineCommentModel struct {
+	Body     string          `json:"body"`
+	Resolved bool            `json:"resolved"`
+	Version  json.RawMessage `json:"version"`
+}
+
 type UpdateIssueSecurityLevelDetails struct {
 	Description string `json:"description"`
 	Name        string `json:"name"`
@@ -10806,6 +12605,14 @@ type UpdateScreenTypes struct {
 	View    string `json:"view"`
 }
 
+type UpdateSpaceRoleResponse struct {
+	Description string `json:"description"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	TaskId      string `json:"taskId"`
+	Type        string `json:"type"`
+}
+
 type UpdateUiModificationDetails struct {
 	Contexts    json.RawMessage `json:"contexts"`
 	Data        string          `json:"data"`
@@ -10874,6 +12681,11 @@ type UserBeanAvatarUrls struct {
 	V24x24 string `json:"24x24"`
 	V32x32 string `json:"32x32"`
 	V48x48 string `json:"48x48"`
+}
+
+type UserCheckAccessByEmailResponse struct {
+	EmailsWithoutAccess json.RawMessage `json:"emailsWithoutAccess"`
+	InvalidEmails       json.RawMessage `json:"invalidEmails"`
 }
 
 type UserColumnRequestBody struct {
@@ -11390,6 +13202,12 @@ type VersionUsageInCustomField struct {
 	IssueCountWithVersionInCustomField int    `json:"issueCountWithVersionInCustomField"`
 }
 
+type VersionedEntity struct {
+	Body  json.RawMessage `json:"body"`
+	Id    string          `json:"id"`
+	Title string          `json:"title"`
+}
+
 type Visibility struct {
 	Identifier string `json:"identifier"`
 	Type       string `json:"type"`
@@ -11499,6 +13317,56 @@ type WebhookRegistrationDetails struct {
 
 type WebhooksExpirationDate struct {
 	ExpirationDate int `json:"expirationDate"`
+}
+
+type WhiteboardLinks struct {
+	Editui string `json:"editui"`
+	Webui  string `json:"webui"`
+}
+
+type WhiteboardSingle struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type WhiteboardsCreateResponse struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
+}
+
+type WhiteboardsGetByIdResponse struct {
+	AuthorId   string          `json:"authorId"`
+	CreatedAt  string          `json:"createdAt"`
+	Id         string          `json:"id"`
+	OwnerId    string          `json:"ownerId"`
+	ParentId   string          `json:"parentId"`
+	ParentType string          `json:"parentType"`
+	Position   int             `json:"position"`
+	SpaceId    string          `json:"spaceId"`
+	Status     string          `json:"status"`
+	Title      string          `json:"title"`
+	Type       string          `json:"type"`
+	Version    json.RawMessage `json:"version"`
 }
 
 type WikiGetRestrictionsByOperationResponse struct {
@@ -12308,6 +14176,13 @@ type confluence_cloud_ConnectModules struct {
 	Modules json.RawMessage `json:"modules"`
 }
 
+type confluence_cloud_ContentProperty struct {
+	Id      string          `json:"id"`
+	Key     string          `json:"key"`
+	Value   string          `json:"value"`
+	Version json.RawMessage `json:"version"`
+}
+
 type confluence_cloud_Group struct {
 	Id        string `json:"id"`
 	ManagedBy string `json:"managedBy"`
@@ -12321,29 +14196,65 @@ type confluence_cloud_GroupName struct {
 }
 
 type confluence_cloud_Icon struct {
-	Height    int    `json:"height"`
 	IsDefault bool   `json:"isDefault"`
 	Path      string `json:"path"`
-	Width     int    `json:"width"`
+}
+
+type confluence_cloud_Label struct {
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Prefix string `json:"prefix"`
+}
+
+type confluence_cloud_SpaceDescription struct {
+	Plain json.RawMessage `json:"plain"`
+	View  json.RawMessage `json:"view"`
+}
+
+type confluence_cloud_SpacePermission struct {
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	Id                    string          `json:"id"`
+	RequiredPermissionIds json.RawMessage `json:"requiredPermissionIds"`
+}
+
+type confluence_cloud_SpaceProperty struct {
+	CreatedAt string          `json:"createdAt"`
+	CreatedBy string          `json:"createdBy"`
+	Id        string          `json:"id"`
+	Key       string          `json:"key"`
+	Value     string          `json:"value"`
+	Version   json.RawMessage `json:"version"`
+}
+
+type confluence_cloud_Task struct {
+	AssignedTo  string          `json:"assignedTo"`
+	BlogPostId  string          `json:"blogPostId"`
+	Body        json.RawMessage `json:"body"`
+	CompletedAt string          `json:"completedAt"`
+	CompletedBy string          `json:"completedBy"`
+	CreatedAt   string          `json:"createdAt"`
+	CreatedBy   string          `json:"createdBy"`
+	DueAt       string          `json:"dueAt"`
+	Id          string          `json:"id"`
+	LocalId     string          `json:"localId"`
+	PageId      string          `json:"pageId"`
+	SpaceId     string          `json:"spaceId"`
+	Status      string          `json:"status"`
+	UpdatedAt   string          `json:"updatedAt"`
 }
 
 type confluence_cloud_User struct {
 	AccountId              string          `json:"accountId"`
+	AccountStatus          string          `json:"accountStatus"`
 	AccountType            string          `json:"accountType"`
-	Details                json.RawMessage `json:"details"`
 	DisplayName            string          `json:"displayName"`
 	Email                  string          `json:"email"`
-	ExternalCollaborator   bool            `json:"externalCollaborator"`
 	IsExternalCollaborator bool            `json:"isExternalCollaborator"`
-	IsGuest                bool            `json:"isGuest"`
-	Operations             json.RawMessage `json:"operations"`
-	PersonalSpace          json.RawMessage `json:"personalSpace"`
+	PersonalSpaceId        string          `json:"personalSpaceId"`
 	ProfilePicture         json.RawMessage `json:"profilePicture"`
 	PublicName             string          `json:"publicName"`
 	TimeZone               string          `json:"timeZone"`
-	Type                   string          `json:"type"`
-	UserKey                string          `json:"userKey"`
-	Username               string          `json:"username"`
 }
 
 type confluence_cloud_UserDetails struct {
@@ -12352,18 +14263,11 @@ type confluence_cloud_UserDetails struct {
 }
 
 type confluence_cloud_Version struct {
-	By                  json.RawMessage `json:"by"`
-	Collaborators       json.RawMessage `json:"collaborators"`
-	ConfRev             string          `json:"confRev"`
-	Content             json.RawMessage `json:"content"`
-	ContentTypeModified bool            `json:"contentTypeModified"`
-	FriendlyWhen        string          `json:"friendlyWhen"`
-	Message             string          `json:"message"`
-	MinorEdit           bool            `json:"minorEdit"`
-	Number              int             `json:"number"`
-	SyncRev             string          `json:"syncRev"`
-	SyncRevSource       string          `json:"syncRevSource"`
-	When                string          `json:"when"`
+	AuthorId  string `json:"authorId"`
+	CreatedAt string `json:"createdAt"`
+	Message   string `json:"message"`
+	MinorEdit bool   `json:"minorEdit"`
+	Number    int    `json:"number"`
 }
 
 type fields struct {

@@ -20,7 +20,7 @@ func newPoliciesSetProjectCmd(flags *rootFlags) *cobra.Command {
 		Use:         "set-project <projectIdOrKey>",
 		Aliases:     []string{"update"},
 		Short:       "Sets the complete set of policies on a project (full replacement). A project may have at most one policy assigned.",
-		Example:     "  keen policies set-project your-token-here",
+		Example:     "  keen policies set-project PROJ",
 		Annotations: map[string]string{"pp:endpoint": "policies.set-project", "pp:method": "PUT", "pp:path": "/rest/api/3/policies/project/{projectIdOrKey}/policies"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

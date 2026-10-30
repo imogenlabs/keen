@@ -21,7 +21,7 @@ func newWikiAddSpaceWatcherCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "add-space-watcher <spaceKey>",
 		Short:       "Adds a user as a watcher to a space.",
-		Example:     "  keen wiki add-space-watcher your-token-here",
+		Example:     "  keen wiki add-space-watcher TEAM",
 		Annotations: map[string]string{"pp:endpoint": "wiki.add-space-watcher", "pp:method": "POST", "pp:path": "/wiki/rest/api/user/watch/space/{spaceKey}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

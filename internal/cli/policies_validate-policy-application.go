@@ -20,7 +20,7 @@ func newPoliciesValidatePolicyApplicationCmd(flags *rootFlags) *cobra.Command {
 		Use:         "validate-policy-application <projectIdOrKey>",
 		Aliases:     []string{"create"},
 		Short:       "Validates whether a set of policies can be applied to a project without actually applying them.",
-		Example:     "  keen policies validate-policy-application your-token-here",
+		Example:     "  keen policies validate-policy-application PROJ",
 		Annotations: map[string]string{"pp:endpoint": "policies.validate-policy-application", "pp:method": "POST", "pp:path": "/rest/api/3/policies/project/{projectIdOrKey}/validate"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

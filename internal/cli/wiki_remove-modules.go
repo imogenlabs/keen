@@ -17,7 +17,7 @@ func newWikiRemoveModulesCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "remove-modules",
 		Short:       "Remove all or a list of modules registered by the calling app.",
-		Example:     "  keen wiki remove-modules --module-key your-token-here",
+		Example:     "  keen wiki remove-modules --module-key my-module",
 		Annotations: map[string]string{"pp:endpoint": "wiki.remove-modules", "pp:method": "DELETE", "pp:path": "/wiki/rest/atlassian-connect/1/app/module/dynamic"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("module-key") && !flags.dryRun {

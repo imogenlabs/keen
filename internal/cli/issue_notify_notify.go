@@ -32,7 +32,7 @@ func newIssueNotifyNotifyCmd(flags *rootFlags) *cobra.Command {
 		Use:         "notify <issueIdOrKey>",
 		Aliases:     []string{"create"},
 		Short:       "Creates an email notification for an issue and adds it to the mail queue.",
-		Example:     "  keen issue notify notify your-token-here",
+		Example:     "  keen issue notify notify PROJ-42",
 		Annotations: map[string]string{"pp:endpoint": "notify.notify", "pp:method": "POST", "pp:path": "/rest/api/3/issue/{issueIdOrKey}/notify"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

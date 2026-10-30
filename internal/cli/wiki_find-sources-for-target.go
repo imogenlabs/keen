@@ -26,7 +26,7 @@ func newWikiFindSourcesForTargetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "find-sources-for-target <relationName> <targetKey>",
 		Short:       "Returns all target entities that have a particular relationship to the source entity. Note, relationships are one way.",
-		Example:     "  keen wiki find-sources-for-target example-resource your-token-here --source-type user --target-type user",
+		Example:     "  keen wiki find-sources-for-target example-resource PROJ --source-type user --target-type user",
 		Annotations: map[string]string{"pp:endpoint": "wiki.find-sources-for-target", "pp:method": "GET", "pp:path": "/wiki/rest/api/relation/{relationName}/to/{targetType}/{targetKey}/from/{sourceType}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

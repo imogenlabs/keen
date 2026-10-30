@@ -16,7 +16,7 @@ func newAddonsTokensDeleteCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete <addonKey> <token>",
 		Short:       "Delete a specific access token. This resource requires authentication.",
-		Example:     "  keen addons tokens delete your-token-here your-token-here",
+		Example:     "  keen addons tokens delete com.example.my-app your-token-here",
 		Annotations: map[string]string{"pp:endpoint": "tokens.delete", "pp:method": "DELETE", "pp:path": "https://marketplace.atlassian.com/rest/2/addons/{addonKey}/tokens/{token}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

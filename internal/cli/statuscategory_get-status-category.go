@@ -17,7 +17,7 @@ func newStatuscategoryGetStatusCategoryCmd(flags *rootFlags) *cobra.Command {
 		Use:         "get-status-category <idOrKey>",
 		Aliases:     []string{"get"},
 		Short:       "Returns a status category.",
-		Example:     "  keen statuscategory get-status-category your-token-here",
+		Example:     "  keen statuscategory get-status-category PROJ-42",
 		Annotations: map[string]string{"pp:endpoint": "statuscategory.get-status-category", "pp:method": "GET", "pp:path": "/rest/api/3/statuscategory/{idOrKey}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
