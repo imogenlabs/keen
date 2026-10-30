@@ -127,7 +127,9 @@ What changed in each release: [CHANGELOG.md](CHANGELOG.md).
 
 ## MCP Server
 
-Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,939 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
+Keen includes an MCP server (`keen-mcp`) that gives AI agents every keen command (1,939 tools). Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
+
+It offers two tools: `keen_search` finds the tools for a task ("transition an issue", "list sprints on a board") and returns them with their parameters, and `keen_run` runs one by name. Listing all 1,939 tools one by one would take about half a million tokens, more than most models can hold, so an app connecting to keen would fill up before doing any work. To get the full list anyway, set `KEEN_MCP_TOOLS=all` in the server's environment.
 
 Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cache; writes hit the Atlassian API and update the cache before returning.
 
