@@ -23,6 +23,7 @@ SPECS=(
   "marketplace=https://developer.atlassian.com/platform/marketplace/swagger.v3.json"
   "jira-service-desk=https://developer.atlassian.com/cloud/jira/service-desk/swagger.v3.json"
   "admin-orgs=https://developer.atlassian.com/cloud/admin/organization/swagger.v3.json"
+  "confluence-v2=https://developer.atlassian.com/cloud/confluence/openapi-v2.v3.json"
 )
 
 # Files keen writes by hand: the merge always keeps keen's copy.
