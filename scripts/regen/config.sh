@@ -12,7 +12,10 @@ GENERATOR_FLAGS=(--name jira-pp-cli --owner smashingtags --lenient
 # (not a branch), fetched by regen.sh, moved forward after each regen lands on main.
 BASE_REF=${BASE_REF:-refs/regen/base}
 
-SPEC_ORDER=(jira-platform jira-agile confluence marketplace jira-service-desk admin-orgs)
+# Every Atlassian API keen is built from, one per line: name=spec URL.
+# To add an API, add its line at the END (the order is the generator's order, and
+# appending keeps every existing command where it is), then run regen.sh.
+# The weekly spec-check workflow watches every URL here.
 SPECS=(
   "jira-platform=https://developer.atlassian.com/cloud/jira/platform/swagger-v3.v3.json"
   "jira-agile=https://developer.atlassian.com/cloud/jira/software/swagger.v3.json"

@@ -308,7 +308,7 @@ Source: [`docs/diagrams/architecture.drawio`](docs/diagrams/architecture.drawio)
 
 ## Regeneration
 
-keen is generated from 6 official Atlassian OpenAPI specs (in `specs/`) by [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press), then carries its own changes on top. One script refreshes it from Atlassian's current specs without losing those changes:
+keen is generated from 6 official Atlassian OpenAPI specs (in `specs/`) by [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press), then carries its own changes on top. The list of specs lives in one place, `SPECS` in `scripts/regen/config.sh`. One script refreshes keen from Atlassian's current specs without losing those changes:
 
 ```bash
 git switch -c build/refresh-specs
@@ -319,6 +319,10 @@ scripts/regen/check.sh        # build, tests, lint, vulnerabilities, old-name an
 How it works: the generator's previous output (renamed to keen) is kept on GitHub as the hidden ref `refs/regen/base` (not a branch; `regen.sh` fetches it). `regen.sh` generates again from today's specs, renames that output the same way, and does a three-way git merge onto keen. Spec changes land, and keen's own edits stay. Files keen writes by hand (README, docs, changelog, the patch list) always keep keen's version. `scripts/regen/postfix.py` applies keen's standing rules to code the generator adds for the first time. `scripts/regen/placeholders.py` gives help examples a placeholder that fits each argument (the generator puts `your-token-here` in every `*Key` argument), and `check.sh` fails if one slips back.
 
 If the merge stops on a conflict, the script lists the files. Resolve them in the work folder it prints (`scripts/regen/resolve.py ours|theirs <file>` takes one side for a whole file), then run `scripts/regen/finish.sh`. When the branch is merged to `main`, move the base forward as `regen.sh` says.
+
+To see what Atlassian has changed since the last refresh, without changing anything, run `scripts/regen/specdiff.py`. It lists the operations added, removed or changed in each spec. A weekly GitHub workflow (`.github/workflows/spec-check.yml`) runs the same check and opens one issue when anything differs, so a change is never missed.
+
+To add an Atlassian API, add one `name=URL` line to the end of `SPECS` and run the two commands above. Nothing else needs editing.
 
 If Atlassian retires an API, the generator stops producing its command. Add it to `internal/compat/compat.go` so the old command and MCP tool keep their name and tell people what replaced it. Every local change is listed in `.printing-press-patches.json`.
 
