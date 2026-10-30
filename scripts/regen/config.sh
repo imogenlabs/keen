@@ -31,6 +31,11 @@ SPECS=(
   "admin-dlp=https://developer.atlassian.com/cloud/admin/dlp/swagger.v3.json"
 )
 
+# Specs whose operation ids specfix.py fixes (made from summaries where missing,
+# a shared "Xxx_" prefix dropped), so their commands get readable names. Only list
+# a spec when it is first added: on a shipped spec this renames its commands.
+FIX_IDS=(admin-users admin-control)
+
 # Files keen writes by hand: the merge always keeps keen's copy.
 KEEN_OWNED=(README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md
   NOTICE LICENSE .printing-press-patches.json ".github/**" "docs/**" "scripts/**" .gitignore go.sum)

@@ -13,10 +13,23 @@ Two spec shapes need it:
   jsm/assets/workspace/{workspaceId}/v1. Move that path onto every operation and
   declare each {id} as a path parameter, so the ids become command arguments.
 
-The downloaded copies in specs/ stay as Atlassian publishes them; this writes
-the fixed copies the generator reads.
+Command names come from operation ids, so two id shapes are fixed too:
 
-Usage: specfix.py <in.json> <out.json>
+  missing ids: the user management spec has none, and the generator falls back
+  to names like "create-users-2". Each missing id is made from the summary
+  ("Deactivate a user" -> deactivateUser).
+
+  a shared prefix: admin control names every operation "APIs_...", which put
+  "apis-" in front of every command. A prefix ending in "_" that every id in
+  the spec shares is dropped.
+
+The id rules run only for specs listed in FIX_IDS in config.sh (--ids): applied
+to a spec keen already ships, they would rename its commands. Specs that need
+none of this are left exactly as published. The downloaded
+copies in specs/ stay as Atlassian publishes them; this writes the fixed copies
+the generator reads.
+
+Usage: specfix.py [--ids] <in.json> <out.json>
 """
 import json
 import re
@@ -27,7 +40,29 @@ VAR = re.compile(r"\{([^}]+)\}")
 METHODS = ("get", "put", "post", "delete", "patch", "head", "options")
 
 
-def fix(spec):
+def operations_of(spec):
+    for item in spec.get("paths", {}).values():
+        for method, op in item.items():
+            if method in METHODS:
+                yield op
+
+
+def fix_operation_ids(spec):
+    ops = list(operations_of(spec))
+    for op in ops:
+        if not op.get("operationId") and op.get("summary"):
+            words = [w for w in re.findall(r"[A-Za-z0-9]+", op["summary"]) if w.lower() not in ("a", "an", "the")]
+            op["operationId"] = words[0].lower() + "".join(w[:1].upper() + w[1:].lower() for w in words[1:])
+    ids = [op.get("operationId", "") for op in ops]
+    prefix = re.match(r"[A-Za-z0-9]+_", ids[0]) if ids else None
+    if prefix and all(i.startswith(prefix.group()) for i in ids):
+        for op in ops:
+            op["operationId"] = op["operationId"][len(prefix.group()):]
+
+
+def fix(spec, ids=False):
+    if ids:
+        fix_operation_ids(spec)
     servers = spec.get("servers") or []
     if not servers:
         return spec
@@ -61,9 +96,12 @@ def fix(spec):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    args = sys.argv[1:]
+    ids = args[:1] == ["--ids"]
+    args = args[1:] if ids else args
+    if len(args) != 2:
         sys.exit(__doc__)
-    with open(sys.argv[1]) as f:
+    with open(args[0]) as f:
         spec = json.load(f)
-    with open(sys.argv[2], "w") as f:
-        json.dump(fix(spec), f)
+    with open(args[1], "w") as f:
+        json.dump(fix(spec, ids), f)
