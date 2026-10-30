@@ -39,7 +39,7 @@ func newObjecttypeattributeObjectTypeAttributeCreateCmd(flags *rootFlags) *cobra
 		Use:         "object-type-attribute-create <objectTypeId>",
 		Aliases:     []string{"create"},
 		Short:       "Create a new attribute on the given object type",
-		Example:     "  keen objecttypeattribute object-type-attribute-create 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
+		Example:     "  keen assets-objecttypeattribute object-type-attribute-create 550e8400-e29b-41d4-a716-446655440000 --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "objecttypeattribute.object-type-attribute-create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttypeattribute/{objectTypeId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

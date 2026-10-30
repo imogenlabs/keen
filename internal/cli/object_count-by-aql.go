@@ -19,7 +19,7 @@ func newObjectCountByAqlCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "count-by-aql",
 		Short:       "This API provides the total count of objects that match a specified AQL query.",
-		Example:     "  keen object count-by-aql --ql-query example-value",
+		Example:     "  keen assets-object count-by-aql --ql-query example-value",
 		Annotations: map[string]string{"pp:endpoint": "object.count-by-aql", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/object/aql/totalcount"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

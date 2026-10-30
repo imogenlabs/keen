@@ -19,7 +19,7 @@ func newAdminControlAdminUpdatePolicyV2Cmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-policy-v2 <orgId> <policyId>",
 		Short:       "Update a policy with a policyId.",
-		Example:     "  keen admin-control-admin update-policy-v2 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --data example-value",
+		Example:     "  keen admin-control update-policy-v2 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 --data example-value",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.update-policy-v2", "pp:method": "PUT", "pp:path": "https://api.atlassian.com/admin/control/v2/orgs/{orgId}/policies/{policyId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

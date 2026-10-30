@@ -17,7 +17,7 @@ func newImportsourceConfigstatusStatusOfImportConfigurationCmd(flags *rootFlags)
 		Use:         "status-of-import-configuration <importSourceId>",
 		Aliases:     []string{"get"},
 		Short:       "Get the current status of the import configuration",
-		Example:     "  keen importsource configstatus status-of-import-configuration 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source configstatus status-of-import-configuration 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "configstatus.status-of-import-configuration", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/configstatus", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

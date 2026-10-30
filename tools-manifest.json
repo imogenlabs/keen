@@ -2601,7 +2601,7 @@
       ]
     },
     {
-      "name": "admin_delete",
+      "name": "user-provisioning_delete",
       "description": "Delete a user in our SCIM DB with a Atlassian Account ID (AAID). This will apply to all directories in your organization matching that AAID and only works for managed users. You will have to completely reprovision the user to their respective groups after deletion. Explore more about [updating managed SCIM email addresses](../../email-change/). Required: orgId, AAID. Destructive.",
       "method": "DELETE",
       "path": "/admin/user-provisioning/v1/org/{orgId}/user/{AAID}/onlyDeleteUserInDB",
@@ -2623,7 +2623,7 @@
       ]
     },
     {
-      "name": "admin_get-scim-links",
+      "name": "user-provisioning_get-scim-links",
       "description": "Get SCIM Links for a Atlassian Account ID (AAID). Required: orgId, aaId. Returns the GetScimLinksForAaIdInAnOrgResponse.",
       "method": "GET",
       "path": "/admin/user-provisioning/v1/org/{orgId}/user/{aaId}/get-scim-links",
@@ -2645,7 +2645,7 @@
       ]
     },
     {
-      "name": "admin_get-scim-links-by-email",
+      "name": "user-provisioning_get-scim-links-by-email",
       "description": "Get SCIM Links for an email address in an organization. Required: orgId, email. Returns the new GetScimLinksForEmailResponse.",
       "method": "POST",
       "path": "/admin/user-provisioning/v1/org/{orgId}/get-scim-links-for-email",
@@ -2667,7 +2667,7 @@
       ]
     },
     {
-      "name": "admin_unlink-scim-user",
+      "name": "user-provisioning_unlink-scim-user",
       "description": "Unlinks a SCIM user from their Atlassian account without deleting the user. Required: orgId, scimDirectoryId, scimUserId. Partial update.",
       "method": "PATCH",
       "path": "/admin/user-provisioning/v1/org/{orgId}/scimDirectoryId/{scimDirectoryId}/scimUserId/{scimUserId}/unlink",
@@ -2696,7 +2696,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_add-users-to-policy",
+      "name": "admin-control_add-users-to-policy",
       "description": "Add users to an authentication policy to address the security of different user sets. [Understand how to add users to a policy and check the status](https://developer.atlassian.com/cloud/admin/auth-policy-cookbook/) #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "POST",
       "path": "/admin/control/v1/orgs/{orgId}/auth-policy/{policyId}/add-users",
@@ -2725,7 +2725,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_attach-detach-resources-v2",
+      "name": "admin-control_attach-detach-resources-v2",
       "description": "Add or remove resources to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "POST",
       "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources",
@@ -2747,7 +2747,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_bulk-fetch-auth-policy",
+      "name": "admin-control_bulk-fetch-auth-policy",
       "description": "Get authentication policy information for a given list of managed users. This is a bulk action. Required: orgId, accountIds. Returns array of ModelsUserPolicyInfo.",
       "method": "POST",
       "path": "/admin/control/v1/orgs/{orgId}/users/auth-policies/bulk-fetch",
@@ -2769,7 +2769,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_create-policy",
+      "name": "admin-control_create-policy",
       "description": "Create a policy aligned with your organization's standards. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "POST",
       "path": "/admin/control/v1/orgs/{orgId}/policies",
@@ -2791,7 +2791,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_create-policy-v2",
+      "name": "admin-control_create-policy-v2",
       "description": "Create a policy aligned with your organization's standards. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "POST",
       "path": "/admin/control/v2/orgs/{orgId}/policies",
@@ -2813,7 +2813,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_create-resource",
+      "name": "admin-control_create-resource",
       "description": "Add a new resource to a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "POST",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources",
@@ -2854,7 +2854,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_delete-policy",
+      "name": "admin-control_delete-policy",
       "description": "Delete a policy with a policyId #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `delete:policies:admin`. Destructive.",
       "method": "DELETE",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}",
@@ -2876,7 +2876,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_delete-resource",
+      "name": "admin-control_delete-resource",
       "description": "Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`. Destructive.",
       "method": "DELETE",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}",
@@ -2905,7 +2905,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_delete-resources",
+      "name": "admin-control_delete-resources",
       "description": "Remove all resources from a policy. Required: orgId, policyId. Destructive.",
       "method": "DELETE",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources",
@@ -2927,7 +2927,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_delete-resources-v2",
+      "name": "admin-control_delete-resources-v2",
       "description": "Remove all resources from a policy. Required: orgId, policyId. Destructive.",
       "method": "DELETE",
       "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources",
@@ -2949,7 +2949,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_get-policies",
+      "name": "admin-control_get-policies",
       "description": "Returns comprehensive details on organizational policies, including both rules and resources. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
       "method": "GET",
       "path": "/admin/control/v1/orgs/{orgId}/policies",
@@ -2976,7 +2976,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_get-policies-v2",
+      "name": "admin-control_get-policies-v2",
       "description": "Returns comprehensive details on organizational policies, including both rules and status. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
       "method": "GET",
       "path": "/admin/control/v2/orgs/{orgId}/policies",
@@ -3003,7 +3003,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_get-policy",
+      "name": "admin-control_get-policy",
       "description": "Returns information about a policy by policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
       "method": "GET",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}",
@@ -3025,7 +3025,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_get-policy-v2",
+      "name": "admin-control_get-policy-v2",
       "description": "Returns information about a policy by policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
       "method": "GET",
       "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}",
@@ -3047,7 +3047,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_get-resources",
+      "name": "admin-control_get-resources",
       "description": "**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
       "method": "GET",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources",
@@ -3069,7 +3069,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_get-resources-v2",
+      "name": "admin-control_get-resources-v2",
       "description": "**[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
       "method": "GET",
       "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}/resources",
@@ -3091,7 +3091,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_get-task-status",
+      "name": "admin-control_get-task-status",
       "description": "Verify that users are assigned to the intended policy and report errors, if any. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "GET",
       "path": "/admin/control/v1/orgs/{orgId}/auth-policy/task/{taskId}",
@@ -3113,7 +3113,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_publish-draft-policies",
+      "name": "admin-control_publish-draft-policies",
       "description": "Publishes policies by a bulk request for a specific ruleName. This is the only way to create or modify published policies. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "POST",
       "path": "/admin/control/v2/orgs/{orgId}/policies/publishDraftPolicies",
@@ -3149,7 +3149,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_update-policy",
+      "name": "admin-control_update-policy",
       "description": "Update a policy with a policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "PUT",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}",
@@ -3178,7 +3178,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_update-policy-v2",
+      "name": "admin-control_update-policy-v2",
       "description": "Update a policy with a policyId. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "PUT",
       "path": "/admin/control/v2/orgs/{orgId}/policies/{policyId}",
@@ -3207,7 +3207,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_update-resource",
+      "name": "admin-control_update-resource",
       "description": "Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies:admin`.",
       "method": "PUT",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}",
@@ -3248,7 +3248,7 @@
       ]
     },
     {
-      "name": "admin-control-admin_validate-policy",
+      "name": "admin-control_validate-policy",
       "description": "Validate a policy to view potential issues in your policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:policies:admin`.",
       "method": "GET",
       "path": "/admin/control/v1/orgs/{orgId}/policies/{policyId}/validate",
@@ -5028,7 +5028,7 @@
       ]
     },
     {
-      "name": "api-config_reference-type-create",
+      "name": "assets-config_reference-type-create",
       "description": "Update a reference type. Required: name. Optional: color, description, displayName (plus 1 more). Returns the new ReferenceType.",
       "method": "POST",
       "path": "/config/referencetype",
@@ -5067,7 +5067,7 @@
       ]
     },
     {
-      "name": "api-config_reference-type-list",
+      "name": "assets-config_reference-type-list",
       "description": "Get reference type. Optional: objectSchemaId, includeAll. Returns array of ReferenceType.",
       "method": "GET",
       "path": "/config/referencetype",
@@ -5087,7 +5087,7 @@
       ]
     },
     {
-      "name": "api-config_status-create",
+      "name": "assets-config_status-create",
       "description": "Create a new status. Required: category, name. Optional: description, displayName, objectSchemaId. Returns the new Status.",
       "method": "POST",
       "path": "/config/statustype",
@@ -5127,7 +5127,7 @@
       ]
     },
     {
-      "name": "api-config_status-delete",
+      "name": "assets-config_status-delete",
       "description": "Delete an existing status. Required: id. Destructive.",
       "method": "DELETE",
       "path": "/config/statustype/{id}",
@@ -5142,7 +5142,7 @@
       ]
     },
     {
-      "name": "api-config_status-find",
+      "name": "assets-config_status-find",
       "description": "Find a status by id. Required: id. Returns the Status.",
       "method": "GET",
       "path": "/config/statustype/{id}",
@@ -5157,7 +5157,7 @@
       ]
     },
     {
-      "name": "api-config_status-list",
+      "name": "assets-config_status-list",
       "description": "Find all status. Optional: objectSchemaId. Returns array of Status.",
       "method": "GET",
       "path": "/config/statustype",
@@ -5171,7 +5171,7 @@
       ]
     },
     {
-      "name": "api-config_status-update",
+      "name": "assets-config_status-update",
       "description": "Update an existing status. Required: id, category, name. Optional: description, displayName, objectSchemaId. Returns the updated Status.",
       "method": "PUT",
       "path": "/config/statustype/{id}",
@@ -5218,7 +5218,7 @@
       ]
     },
     {
-      "name": "api-import_start",
+      "name": "assets-import_start",
       "description": "Start configured imports. To see an ongoing import see the Progress resource. Required: id. Returns the new Progress.",
       "method": "POST",
       "path": "/import/start/{id}",
@@ -6161,7 +6161,7 @@
       ]
     },
     {
-      "name": "aql_find-objects",
+      "name": "assets-aql_find-objects",
       "description": "This endpoint is deprecated and will be removed on \u003cb\u003e18th of September 2024\u003c/b\u003e. Please use POST `/object/aql` instead. Find objects based on Assets Query Language (AQL). Optional: qlQuery, page (default: 1), resultPerPage (default: 25) (plus 4 more). Returns the ObjectListResult.",
       "method": "GET",
       "path": "/aql/objects",
@@ -18171,7 +18171,7 @@
       ]
     },
     {
-      "name": "global_general-configuration-update",
+      "name": "assets-global_general-configuration-update",
       "description": "Update general configuration for object schema. Required: id. Optional: allowOtherObjectSchema, quickCreateObjects, validateQuickCreate.",
       "method": "POST",
       "path": "/global/config/objectschema/{id}/property",
@@ -18545,7 +18545,7 @@
       ]
     },
     {
-      "name": "icon_find",
+      "name": "assets-icon_find",
       "description": "Load a single icon by id. Required: id. Returns the Icon.",
       "method": "GET",
       "path": "/icon/{id}",
@@ -18560,14 +18560,14 @@
       ]
     },
     {
-      "name": "icon_find-global",
+      "name": "assets-icon_find-global",
       "description": "Return all global icons i.e. icons not associated with a particular object schema. Returns array of Icon.",
       "method": "GET",
       "path": "/icon/global",
       "params": []
     },
     {
-      "name": "icon_icon-png_icon-load-image",
+      "name": "assets-icon_icon-png_icon-load-image",
       "description": "Load a single icon PNG by id. Required: id. Optional: size.",
       "method": "GET",
       "path": "/icon/{id}/icon.png",
@@ -18594,7 +18594,7 @@
       ]
     },
     {
-      "name": "importsource_get-import-source",
+      "name": "assets-import-source_get-import-source",
       "description": "Retrieves a specific import source configuration by its ID. If scheduled imports are enabled, the response includes scheduling information. Required: id. Returns the ImportSourceResponse.",
       "method": "GET",
       "path": "/importsource/{id}",
@@ -18609,7 +18609,7 @@
       ]
     },
     {
-      "name": "importsource_configstatus_status-of-import-configuration",
+      "name": "assets-import-source_configstatus_status-of-import-configuration",
       "description": "Get the current status of the import configuration. Required: importSourceId.",
       "method": "GET",
       "path": "/importsource/{importSourceId}/configstatus",
@@ -18624,7 +18624,7 @@
       ]
     },
     {
-      "name": "importsource_executions_cancel-import",
+      "name": "assets-import-source_executions_cancel-import",
       "description": "Cancel current on-going import. Required: importExecutionId, importSourceId. Destructive.",
       "method": "DELETE",
       "path": "/importsource/{importSourceId}/executions/{importExecutionId}",
@@ -18646,7 +18646,7 @@
       ]
     },
     {
-      "name": "importsource_executions_create-failed-import-history",
+      "name": "assets-import-source_executions_create-failed-import-history",
       "description": "Creates a failed import history record for the specified import source and execution with the given failure reason. Required: importSourceId, executionId.",
       "method": "POST",
       "path": "/importsource/{importSourceId}/executions/{executionId}/history/failed",
@@ -18668,7 +18668,7 @@
       ]
     },
     {
-      "name": "importsource_executions_start-data-ingestion",
+      "name": "assets-import-source_executions_start-data-ingestion",
       "description": "Move to the data ingestion steps of external imports. Required: importSourceId.",
       "method": "POST",
       "path": "/importsource/{importSourceId}/executions",
@@ -18683,7 +18683,7 @@
       ]
     },
     {
-      "name": "importsource_executions_status-of-import",
+      "name": "assets-import-source_executions_status-of-import",
       "description": "Get the status of the import. Required: importExecutionId, importSourceId.",
       "method": "GET",
       "path": "/importsource/{importSourceId}/executions/{importExecutionId}/status",
@@ -18705,7 +18705,7 @@
       ]
     },
     {
-      "name": "importsource_executions_status-of-most-recently-created-import",
+      "name": "assets-import-source_executions_status-of-most-recently-created-import",
       "description": "Get the status of the most recently created import execution. Required: importSourceId.",
       "method": "GET",
       "path": "/importsource/{importSourceId}/executions/status",
@@ -18720,7 +18720,7 @@
       ]
     },
     {
-      "name": "importsource_executions_submit-data-for-ingestion",
+      "name": "assets-import-source_executions_submit-data-for-ingestion",
       "description": "Providing data to be ingested. Required: importExecutionId, importSourceId.",
       "method": "POST",
       "path": "/importsource/{importSourceId}/executions/{importExecutionId}/data",
@@ -18742,7 +18742,7 @@
       ]
     },
     {
-      "name": "importsource_executions_submit-progress",
+      "name": "assets-import-source_executions_submit-progress",
       "description": "Submit progress of ingesting data. Required: importExecutionId, importSourceId.",
       "method": "PUT",
       "path": "/importsource/{importSourceId}/executions/{importExecutionId}/progress",
@@ -18764,7 +18764,7 @@
       ]
     },
     {
-      "name": "importsource_importschedule_create-import-schedule",
+      "name": "assets-import-source_importschedule_create-import-schedule",
       "description": "Creates a new scheduled import configuration for the specified import source. Scheduled imports allow you to automate data imports on a recurring basis (daily, weekly, monthly) or run them once at a specific time. Required: importSourceId, runInterval, startTime. Optional: callbackUrl. Returns the new ImportScheduleResponse.",
       "method": "POST",
       "path": "/importsource/{importSourceId}/importschedule",
@@ -18799,7 +18799,7 @@
       ]
     },
     {
-      "name": "importsource_importschedule_delete-import-schedule",
+      "name": "assets-import-source_importschedule_delete-import-schedule",
       "description": "Deletes a scheduled import configuration. The import source will remain, but will no longer execute on a schedule. Required: importSourceId, importScheduleId. Destructive.",
       "method": "DELETE",
       "path": "/importsource/{importSourceId}/importschedule/{importScheduleId}",
@@ -18821,7 +18821,7 @@
       ]
     },
     {
-      "name": "importsource_importschedule_get-import-schedule",
+      "name": "assets-import-source_importschedule_get-import-schedule",
       "description": "Retrieves a specific scheduled import configuration by ID. Required: importSourceId, importScheduleId. Returns the ImportScheduleResponse.",
       "method": "GET",
       "path": "/importsource/{importSourceId}/importschedule/{importScheduleId}",
@@ -18843,7 +18843,7 @@
       ]
     },
     {
-      "name": "importsource_importschedule_update-import-schedule",
+      "name": "assets-import-source_importschedule_update-import-schedule",
       "description": "Updates an existing scheduled import configuration. You can modify the start time, run interval, or callback URL. Required: importSourceId, importScheduleId, runInterval, startTime. Optional: callbackUrl. Returns the updated ImportScheduleResponse.",
       "method": "PUT",
       "path": "/importsource/{importSourceId}/importschedule/{importScheduleId}",
@@ -18885,7 +18885,7 @@
       ]
     },
     {
-      "name": "importsource_mapping_get-the-progress-of-an-asynchronous-schema-and-operation",
+      "name": "assets-import-source_mapping_get-the-progress-of-an-asynchronous-schema-and-operation",
       "description": "Get the progress of an asynchronous schema and mapping operation. Required: importSourceId, resourceId.",
       "method": "GET",
       "path": "/importsource/{importSourceId}/mapping/progress/{resourceId}",
@@ -18907,7 +18907,7 @@
       ]
     },
     {
-      "name": "importsource_mapping_submit-schema-and-configuration",
+      "name": "assets-import-source_mapping_submit-schema-and-configuration",
       "description": "Provide object schema and mapping configuration for the external import. Required: importSourceId. Optional: async, mapping, schema.",
       "method": "PUT",
       "path": "/importsource/{importSourceId}/mapping",
@@ -18940,7 +18940,7 @@
       ]
     },
     {
-      "name": "importsource_mapping_update-schema-and-configuration",
+      "name": "assets-import-source_mapping_update-schema-and-configuration",
       "description": "Update object schema and mapping configuration for the external import. Required: importSourceId. Optional: async, mapping, schema. Partial update.",
       "method": "PATCH",
       "path": "/importsource/{importSourceId}/mapping",
@@ -18973,7 +18973,7 @@
       ]
     },
     {
-      "name": "importsource_schedule_get-import-links",
+      "name": "assets-import-source_schedule_get-import-links",
       "description": "Retrieve links for import schedule operations (create, get, update, delete). Returns a createSchedule link to POST a new schedule, and if a schedule already exists, returns a schedule link that can be used with GET, PUT, or DELETE operations. Required: importSourceId.",
       "method": "GET",
       "path": "/importsource/{importSourceId}/schedule",
@@ -18988,7 +18988,7 @@
       ]
     },
     {
-      "name": "importsource_schema-and-mapping_get-of-import-configuration",
+      "name": "assets-import-source_schema-and-mapping_get-of-import-configuration",
       "description": "Get the current schema and mapping of the import configuration. Required: importSourceId. Returns the ImportSchemaAndMapping.",
       "method": "GET",
       "path": "/importsource/{importSourceId}/schema-and-mapping",
@@ -19003,7 +19003,7 @@
       ]
     },
     {
-      "name": "importsource_token_generate-bearer",
+      "name": "assets-import-source_token_generate-bearer",
       "description": "Generate a Bearer token which can be used to authenticate against Assets `/importsource/` APIs, to take actions against the specified import source. Required: importSourceId.",
       "method": "POST",
       "path": "/importsource/{importSourceId}/token",
@@ -19397,7 +19397,7 @@
       ]
     },
     {
-      "name": "iql_find-objects",
+      "name": "assets-iql_find-objects",
       "description": "This endpoint is deprecated and will be removed on \u003cb\u003e18th of September 2024\u003c/b\u003e. Please use POST `/object/aql` instead. Optional: iql, page (default: 1), resultPerPage (default: 25) (plus 4 more). Returns the ObjectListResult.",
       "method": "GET",
       "path": "/iql/objects",
@@ -24703,7 +24703,7 @@
       "params": []
     },
     {
-      "name": "manage_activate-user",
+      "name": "user-management_activate-user",
       "description": "Activates the specified user account. The permission to make use of this resource is exposed by the `lifecycle.enablement` privilege. User accounts that were deactivated due to US export controls cannot be reactivated using this API. If you believe the account was incorrectly blocked, please contact [Atlassian Support](https://support.atlassian.com/contact). User accounts that have been deleted need the deletion to be canceled before reactivating. Required: account_id.",
       "method": "POST",
       "path": "/users/{account_id}/manage/lifecycle/enable",
@@ -24718,7 +24718,7 @@
       ]
     },
     {
-      "name": "manage_cancel-delete-account",
+      "name": "user-management_cancel-delete-account",
       "description": "This API will: - Cancel the scheduled deletion of the specified managed account. - Restore and activate the user’s account. Specifications: - You can cancel the deletion within the 14-day grace period of deleting a managed account. After that the account is permanently deleted. The permission to make use of this resource is exposed by the `lifecycle.delete` privilege. Learn more about [Get user management permissions API](https://developer.atlassian.com/cloud/admin/user-management/rest/api-group-manage/#api-users-account-id-manage-get) to manage the specified user. Required: account_id. Returns the new ResultMessage.",
       "method": "POST",
       "path": "/users/{account_id}/manage/lifecycle/cancel-delete",
@@ -24733,7 +24733,7 @@
       ]
     },
     {
-      "name": "manage_deactivate-user",
+      "name": "user-management_deactivate-user",
       "description": "Deactivate (block) the specified user account from logging into Atlassian. The permission to make use of this resource is exposed by the `lifecycle.enablement` privilege. You can optionally set a message associated with the block. If none is supplied, a default message will be used. Required: account_id. Optional: message.",
       "method": "POST",
       "path": "/users/{account_id}/manage/lifecycle/disable",
@@ -24754,7 +24754,7 @@
       ]
     },
     {
-      "name": "manage_delete-account",
+      "name": "user-management_delete-account",
       "description": "This API will: - Delete a managed account from Atlassian Administration. - Withdraw complete access to all products and services listed in Atlassian Administration. - Remove reference to the account from all lists under Directory in Atlassian Administration. Specifications: - Deleting an account is permanent. If you think you’ll need the account again, we recommend you [deactivate](https://support.atlassian.com/user-management/docs/deactivate-a-managed-account/) it instead. - Before you permanently delete the account, you’ll have a 14-day grace period, during which the account will appear as temporarily deactivated. Learn more about [deleting a managed account](https://support.atlassian.com/user-management/docs/delete-a-managed-account/). Learn the fastest way to get the paramaters and delete account with a detailed [tutorial](https://developer.atlassian.com/cloud/admin/user-management/delete-managed-account/#delete-account). The permission to make use of this resource is exposed by the `lifecycle.delete` privilege. Learn more about [Get user management permissions API](https://developer.atlassian.com/cloud/admin/user-management/rest/api-group-manage/#api-users-account-id-manage-get) to manage the specified user. Required: account_id. Returns the new ResultMessage.",
       "method": "POST",
       "path": "/users/{account_id}/manage/lifecycle/delete",
@@ -24769,7 +24769,7 @@
       ]
     },
     {
-      "name": "manage_delete-api-token",
+      "name": "user-management_delete-api-token",
       "description": "Deletes a specifid API token by ID. Required: account_id, tokenId. Destructive.",
       "method": "DELETE",
       "path": "/users/{account_id}/manage/api-tokens/{tokenId}",
@@ -24791,7 +24791,7 @@
       ]
     },
     {
-      "name": "manage_get-api-tokens",
+      "name": "user-management_get-api-tokens",
       "description": "Gets the API tokens owned by the specified user. Required: account_id. Returns array of ApiTokenModel.",
       "method": "GET",
       "path": "/users/{account_id}/manage/api-tokens",
@@ -24806,7 +24806,7 @@
       ]
     },
     {
-      "name": "manage_get-profile",
+      "name": "user-management_get-profile",
       "description": "Returns information about a single Atlassian account by ID. Required: account_id.",
       "method": "GET",
       "path": "/users/{account_id}/manage/profile",
@@ -24821,7 +24821,7 @@
       ]
     },
     {
-      "name": "manage_get-user-management-permissions",
+      "name": "user-management_get-user-management-permissions",
       "description": "Returns the set of permissions you have for managing the specified Atlassian account. Required: account_id. Optional: privileges.",
       "method": "GET",
       "path": "/users/{account_id}/manage",
@@ -24842,7 +24842,7 @@
       ]
     },
     {
-      "name": "manage_set-email",
+      "name": "user-management_set-email",
       "description": "Sets the specified user's email address. Before using this endpoint, you must [verify the target domain](https://confluence.atlassian.com/x/gjcWN) as the new email address will be considered verified. The permission to make use of this resource is exposed by the `email.set` privilege. This call invalidates all active sessions. Required: account_id, email.",
       "method": "PUT",
       "path": "/users/{account_id}/manage/email",
@@ -24864,7 +24864,7 @@
       ]
     },
     {
-      "name": "manage_update-profile",
+      "name": "user-management_update-profile",
       "description": "Updates fields in a user account. The `profile.write` privilege details which fields you can change. Required: account_id, account-id-2, account_status, account_type, email, name, nickname, picture. Optional: characteristics, extended_profile, locale (plus 1 more). Returns the updated ManageUpdateProfileResponse.",
       "method": "PATCH",
       "path": "/users/{account_id}/manage/profile",
@@ -25481,7 +25481,7 @@
       ]
     },
     {
-      "name": "object_by-aql",
+      "name": "assets-object_by-aql",
       "description": "Fetch Objects by AQL. Required: qlQuery. Optional: startAt (default: 0), maxResults (default: 25), includeAttributes (default: true). Returns the new ObjectListInclTypeAttributesEntryResult.",
       "method": "POST",
       "path": "/object/aql",
@@ -25514,7 +25514,7 @@
       ]
     },
     {
-      "name": "object_count-by-aql",
+      "name": "assets-object_count-by-aql",
       "description": "This API provides the total count of objects that match a specified AQL query. Please note that this operation may incur performance latency. Required: qlQuery. Returns the new ObjectAqltotalCountResult.",
       "method": "POST",
       "path": "/object/aql/totalcount",
@@ -25529,7 +25529,7 @@
       ]
     },
     {
-      "name": "object_create",
+      "name": "assets-object_create",
       "description": "Create a new object in Assets. Required: attributes, objectTypeId. Optional: avatarUUID, hasAvatar. Returns the new Object.",
       "method": "POST",
       "path": "/object/create",
@@ -25563,7 +25563,7 @@
       ]
     },
     {
-      "name": "object_delete",
+      "name": "assets-object_delete",
       "description": "Delete the referenced object. Required: id. Returns the Object. Destructive.",
       "method": "DELETE",
       "path": "/object/{id}",
@@ -25578,7 +25578,7 @@
       ]
     },
     {
-      "name": "object_find",
+      "name": "assets-object_find",
       "description": "Load one object. Required: id. Returns the Object.",
       "method": "GET",
       "path": "/object/{id}",
@@ -25593,7 +25593,7 @@
       ]
     },
     {
-      "name": "object_navigator-list",
+      "name": "assets-object_navigator-list",
       "description": "Retrieve a list of objects based on an AQL. Deprecated from \u003cb\u003e30 September 2024\u003c/b\u003e. Please use POST /object/aql instead. For more information please see https://developer.atlassian.com/changelog/#CHANGE-1661. Required: objectSchemaId, objectTypeId, qlQuery, resultsPerPage. Optional: asc, attributesToDisplay, includeAttributes (plus 4 more). Returns the new ObjectListResult.",
       "method": "POST",
       "path": "/object/navlist/aql",
@@ -25671,7 +25671,7 @@
       ]
     },
     {
-      "name": "object_navigator-list-deprecated",
+      "name": "assets-object_navigator-list-deprecated",
       "description": "Deprecated. Use `/object/navlist/aql` instead. Required: objectSchemaId, objectTypeId, qlQuery, resultsPerPage. Optional: asc, attributesToDisplay, includeAttributes (plus 4 more). Returns the new ObjectListResult.",
       "method": "POST",
       "path": "/object/navlist/iql",
@@ -25749,7 +25749,7 @@
       ]
     },
     {
-      "name": "object_update",
+      "name": "assets-object_update",
       "description": "Update an existing object in Assets. Required: id, attributes, objectTypeId. Optional: avatarUUID, hasAvatar. Returns the updated Object.",
       "method": "PUT",
       "path": "/object/{id}",
@@ -25790,7 +25790,7 @@
       ]
     },
     {
-      "name": "object_attributes_object-find",
+      "name": "assets-object_attributes_object-find",
       "description": "List all attributes for the given object. Required: id. Returns array of ObjectAttribute.",
       "method": "GET",
       "path": "/object/{id}/attributes",
@@ -25805,7 +25805,7 @@
       ]
     },
     {
-      "name": "object_history_object-find-entries",
+      "name": "assets-object_history_object-find-entries",
       "description": "Retrieve the history entries for this object. Required: id. Optional: asc. Returns array of ObjectHistory.",
       "method": "GET",
       "path": "/object/{id}/history",
@@ -25826,7 +25826,7 @@
       ]
     },
     {
-      "name": "object_referenceinfo_object-find-references",
+      "name": "assets-object_referenceinfo_object-find-references",
       "description": "Find all references for an object. Required: id. Returns array of ObjectReferenceTypeInfo.",
       "method": "GET",
       "path": "/object/{id}/referenceinfo",
@@ -25841,7 +25841,7 @@
       ]
     },
     {
-      "name": "objectconnectedtickets_tickets_object-connected",
+      "name": "assets-object-tickets_tickets_object-connected",
       "description": "Relation between Jira issues and Assets objects. Required: objectId. Returns the Tickets.",
       "method": "GET",
       "path": "/objectconnectedtickets/{objectId}/tickets",
@@ -25856,7 +25856,7 @@
       ]
     },
     {
-      "name": "objectschema_schema-create",
+      "name": "assets-objectschema_schema-create",
       "description": "Create a new object schema. Required: name, objectSchemaKey. Optional: description, displayName. Returns the new ObjectSchema.",
       "method": "POST",
       "path": "/objectschema/create",
@@ -25890,7 +25890,7 @@
       ]
     },
     {
-      "name": "objectschema_schema-delete",
+      "name": "assets-objectschema_schema-delete",
       "description": "Delete a schema. Required: id. Returns the ObjectSchema. Destructive.",
       "method": "DELETE",
       "path": "/objectschema/{id}",
@@ -25905,7 +25905,7 @@
       ]
     },
     {
-      "name": "objectschema_schema-find",
+      "name": "assets-objectschema_schema-find",
       "description": "Find a schema by id. Required: id. Returns the ObjectSchema.",
       "method": "GET",
       "path": "/objectschema/{id}",
@@ -25920,7 +25920,7 @@
       ]
     },
     {
-      "name": "objectschema_schema-list",
+      "name": "assets-objectschema_schema-list",
       "description": "Resource to find object schemas in Assets. Optional: query, startAt (default: 0), maxResults (default: 25) (plus 1 more). Returns the ObjectSchemaList.",
       "method": "GET",
       "path": "/objectschema/list",
@@ -25952,7 +25952,7 @@
       ]
     },
     {
-      "name": "objectschema_schema-update",
+      "name": "assets-objectschema_schema-update",
       "description": "Update an object schema. Required: id. Optional: description, displayName, name (plus 1 more). Returns the updated ObjectSchema.",
       "method": "PUT",
       "path": "/objectschema/{id}",
@@ -25991,7 +25991,7 @@
       ]
     },
     {
-      "name": "objectschema_attributes_schema-find-all",
+      "name": "assets-objectschema_attributes_schema-find-all",
       "description": "Find all object type attributes for this object schema. Required: id. Optional: onlyValueEditable (default: false), extended (default: false), query. Returns array of ObjectTypeAttribute.",
       "method": "GET",
       "path": "/objectschema/{id}/attributes",
@@ -26024,7 +26024,7 @@
       ]
     },
     {
-      "name": "objectschema_objecttypes_schema-find-all-object-types",
+      "name": "assets-objectschema_objecttypes_schema-find-all-object-types",
       "description": "Find all object types for this object schema. Required: id. Optional: excludeAbstract (default: false). Returns array of ObjectType.",
       "method": "GET",
       "path": "/objectschema/{id}/objecttypes",
@@ -26045,7 +26045,7 @@
       ]
     },
     {
-      "name": "objectschema_objecttypes_schema-find-all-object-types-flat",
+      "name": "assets-objectschema_objecttypes_schema-find-all-object-types-flat",
       "description": "Find all object types for this object schema. Required: id. Optional: query, exclude, includeObjectCounts (default: false). Returns array of ObjectType.",
       "method": "GET",
       "path": "/objectschema/{id}/objecttypes/flat",
@@ -26078,7 +26078,7 @@
       ]
     },
     {
-      "name": "objecttype_object-type-create",
+      "name": "assets-objecttype_object-type-create",
       "description": "Create a new object type. Required: iconId, name, objectSchemaId. Optional: abstractObjectType, description, displayName (plus 2 more). Returns the new ObjectType.",
       "method": "POST",
       "path": "/objecttype/create",
@@ -26137,7 +26137,7 @@
       ]
     },
     {
-      "name": "objecttype_object-type-delete",
+      "name": "assets-objecttype_object-type-delete",
       "description": "Delete an object type. Required: id. Returns the ObjectType. Destructive.",
       "method": "DELETE",
       "path": "/objecttype/{id}",
@@ -26152,7 +26152,7 @@
       ]
     },
     {
-      "name": "objecttype_object-type-find",
+      "name": "assets-objecttype_object-type-find",
       "description": "Find an object type by id. Required: id. Returns the ObjectType.",
       "method": "GET",
       "path": "/objecttype/{id}",
@@ -26167,7 +26167,7 @@
       ]
     },
     {
-      "name": "objecttype_object-type-update",
+      "name": "assets-objecttype_object-type-update",
       "description": "Update an existing object type. Required: id. Optional: abstractObjectType, description, displayName (plus 3 more). Returns the updated ObjectType.",
       "method": "PUT",
       "path": "/objecttype/{id}",
@@ -26218,7 +26218,7 @@
       ]
     },
     {
-      "name": "objecttype_attributes_object-type-find-all",
+      "name": "assets-objecttype_attributes_object-type-find-all",
       "description": "Find all attributes for this object type. Required: id. Optional: onlyValueEditable (default: false), orderByName (default: false), query (plus 4 more). Returns array of ObjectTypeAttribute.",
       "method": "GET",
       "path": "/objecttype/{id}/attributes",
@@ -26275,7 +26275,7 @@
       ]
     },
     {
-      "name": "objecttype_position_object-type-change",
+      "name": "assets-objecttype_position_object-type-change",
       "description": "Change position of this object type. Required: id, position. Optional: toObjectTypeId. Returns the new ObjectType.",
       "method": "POST",
       "path": "/objecttype/{id}/position",
@@ -26303,7 +26303,7 @@
       ]
     },
     {
-      "name": "objecttypeattribute_object-type-attribute-create",
+      "name": "assets-objecttypeattribute_object-type-attribute-create",
       "description": "Create a new attribute on the given object type. Required: objectTypeId, name, type. Optional: additionalValue, defaultTypeId, description (plus 15 more). Returns the new ObjectTypeAttribute.",
       "method": "POST",
       "path": "/objecttypeattribute/{objectTypeId}",
@@ -26440,7 +26440,7 @@
       ]
     },
     {
-      "name": "objecttypeattribute_object-type-attribute-delete",
+      "name": "assets-objecttypeattribute_object-type-attribute-delete",
       "description": "Delete an existing object type attribute. Required: id. Destructive.",
       "method": "DELETE",
       "path": "/objecttypeattribute/{id}",
@@ -26455,7 +26455,7 @@
       ]
     },
     {
-      "name": "objecttypeattribute_object-type-attribute-update",
+      "name": "assets-objecttypeattribute_object-type-attribute-update",
       "description": "Update an existing object type attribute. Required: id, objectTypeId. Optional: additionalValue, defaultTypeId, description (plus 17 more). Returns the updated ObjectTypeAttribute.",
       "method": "PUT",
       "path": "/objecttypeattribute/{objectTypeId}/{id}",
@@ -29741,7 +29741,7 @@
       ]
     },
     {
-      "name": "progress_import",
+      "name": "assets-progress_import",
       "description": "Show ongoing import process. Required: id. Returns the Progress.",
       "method": "GET",
       "path": "/progress/category/imports/{id}",
@@ -38086,7 +38086,7 @@
       ]
     },
     {
-      "name": "usage_get-tenant-info",
+      "name": "assets-usage_get-tenant-info",
       "description": "Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema breakdown for billing and analytics. Returns the TenantUsageResponse.",
       "method": "GET",
       "path": "/usage",

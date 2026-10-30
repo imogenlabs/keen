@@ -27,7 +27,7 @@ func newObjecttypeObjectTypeCreateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "object-type-create",
 		Aliases:     []string{"create"},
 		Short:       "Create a new object type",
-		Example:     "  keen objecttype object-type-create --icon-id 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-objecttype object-type-create --icon-id 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "objecttype.object-type-create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/create"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

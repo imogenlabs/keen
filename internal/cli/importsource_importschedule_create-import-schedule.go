@@ -22,7 +22,7 @@ func newImportsourceImportscheduleCreateImportScheduleCmd(flags *rootFlags) *cob
 		Use:         "create-import-schedule <importSourceId>",
 		Aliases:     []string{"create"},
 		Short:       "Creates a new scheduled import configuration for the specified import source.",
-		Example:     "  keen importsource importschedule create-import-schedule 550e8400-e29b-41d4-a716-446655440000 --run-interval ONCE",
+		Example:     "  keen assets-import-source importschedule create-import-schedule 550e8400-e29b-41d4-a716-446655440000 --run-interval ONCE",
 		Annotations: map[string]string{"pp:endpoint": "importschedule.create-import-schedule", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/importschedule"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -19,7 +19,7 @@ func newAdminControlAdminCreatePolicyCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "create-policy <orgId>",
 		Short:       "Create a policy aligned with your organization's standards.",
-		Example:     "  keen admin-control-admin create-policy 550e8400-e29b-41d4-a716-446655440000 --data example-value",
+		Example:     "  keen admin-control create-policy 550e8400-e29b-41d4-a716-446655440000 --data example-value",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.create-policy", "pp:method": "POST", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

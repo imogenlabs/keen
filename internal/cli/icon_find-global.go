@@ -17,7 +17,7 @@ func newIconFindGlobalCmd(flags *rootFlags) *cobra.Command {
 		Use:         "find-global",
 		Aliases:     []string{"list"},
 		Short:       "Return all global icons i.e. icons not associated with a particular object schema",
-		Example:     "  keen icon find-global",
+		Example:     "  keen assets-icon find-global",
 		Annotations: map[string]string{"pp:endpoint": "icon.find-global", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/icon/global", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

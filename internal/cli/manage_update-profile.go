@@ -32,7 +32,7 @@ func newManageUpdateProfileCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "update-profile <account_id>",
 		Short:       "Updates fields in a user account. The `profile.write` privilege details which fields you can change.",
-		Example:     "  keen manage update-profile 550e8400-e29b-41d4-a716-446655440000 --account-id-2 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-management update-profile 550e8400-e29b-41d4-a716-446655440000 --account-id-2 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "manage.update-profile", "pp:method": "PATCH", "pp:path": "https://api.atlassian.com/users/{account_id}/manage/profile"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

@@ -14,10 +14,10 @@ import (
 func newUsagePromotedCmd(flags *rootFlags) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:         "usage",
+		Use:         "assets-usage",
 		Short:       "Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema",
 		Long:        "Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema",
-		Example:     "  keen usage",
+		Example:     "  keen assets-usage",
 		Annotations: map[string]string{"pp:endpoint": "usage.get-tenant-info", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/usage", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

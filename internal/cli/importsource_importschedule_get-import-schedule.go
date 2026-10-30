@@ -17,7 +17,7 @@ func newImportsourceImportscheduleGetImportScheduleCmd(flags *rootFlags) *cobra.
 		Use:         "get-import-schedule <importSourceId> <importScheduleId>",
 		Aliases:     []string{"get"},
 		Short:       "Retrieves a specific scheduled import configuration by ID",
-		Example:     "  keen importsource importschedule get-import-schedule 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source importschedule get-import-schedule 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "importschedule.get-import-schedule", "pp:method": "GET", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/importschedule/{importScheduleId}", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

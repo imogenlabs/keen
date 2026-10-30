@@ -23,7 +23,7 @@ func newObjectschemaSchemaUpdateCmd(flags *rootFlags) *cobra.Command {
 		Use:         "schema-update <id>",
 		Aliases:     []string{"update"},
 		Short:       "Update an object schema",
-		Example:     "  keen objectschema schema-update 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-objectschema schema-update 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "objectschema.schema-update", "pp:method": "PUT", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objectschema/{id}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

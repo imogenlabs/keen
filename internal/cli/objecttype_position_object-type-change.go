@@ -21,7 +21,7 @@ func newObjecttypePositionObjectTypeChangeCmd(flags *rootFlags) *cobra.Command {
 		Use:         "object-type-change <id>",
 		Aliases:     []string{"create"},
 		Short:       "Change position of this object type",
-		Example:     "  keen objecttype position object-type-change 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-objecttype position object-type-change 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "position.object-type-change", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/objecttype/{id}/position"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

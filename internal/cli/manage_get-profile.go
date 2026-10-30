@@ -16,7 +16,7 @@ func newManageGetProfileCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get-profile <account_id>",
 		Short:       "Returns information about a single Atlassian account by ID",
-		Example:     "  keen manage get-profile 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen user-management get-profile 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "manage.get-profile", "pp:method": "GET", "pp:path": "https://api.atlassian.com/users/{account_id}/manage/profile", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

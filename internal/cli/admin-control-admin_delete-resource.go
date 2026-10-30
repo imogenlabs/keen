@@ -16,7 +16,7 @@ func newAdminControlAdminDeleteResourceCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "delete-resource <orgId> <policyId> <resourceId>",
 		Short:       "Delete one resource from a policy #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `write:policies",
-		Example:     "  keen admin-control-admin delete-resource 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen admin-control delete-resource 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "admin-control-admin.delete-resource", "pp:method": "DELETE", "pp:path": "https://api.atlassian.com/admin/control/v1/orgs/{orgId}/policies/{policyId}/resources/{resourceId}"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {

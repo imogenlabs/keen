@@ -23,7 +23,7 @@ func newApiConfigStatusCreateCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "status-create",
 		Short:       "Create a new status",
-		Example:     "  keen api-config status-create --name example-resource",
+		Example:     "  keen assets-config status-create --name example-resource",
 		Annotations: map[string]string{"pp:endpoint": "api-config.status-create", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/config/statustype"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !stdinBody {

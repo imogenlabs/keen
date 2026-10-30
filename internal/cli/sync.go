@@ -720,7 +720,7 @@ type paginationDefaults struct {
 func determinePaginationDefaults() paginationDefaults {
 	return paginationDefaults{
 		cursorParam: "cursor",
-		cursorType:  "cursor",
+		cursorType:  "offset",
 		limitParam:  "limit",
 		limit:       100,
 	}

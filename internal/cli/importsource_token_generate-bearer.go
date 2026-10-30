@@ -19,7 +19,7 @@ func newImportsourceTokenGenerateBearerCmd(flags *rootFlags) *cobra.Command {
 		Use:         "generate-bearer <importSourceId>",
 		Aliases:     []string{"create"},
 		Short:       "Generate a Bearer token which can be used to authenticate against Assets `/importsource/` APIs",
-		Example:     "  keen importsource token generate-bearer 550e8400-e29b-41d4-a716-446655440000",
+		Example:     "  keen assets-import-source token generate-bearer 550e8400-e29b-41d4-a716-446655440000",
 		Annotations: map[string]string{"pp:endpoint": "token.generate-bearer", "pp:method": "POST", "pp:path": "https://api.atlassian.com/ex/jira/KEEN_CLOUD_ID/jsm/assets/workspace/KEEN_ASSETS_WORKSPACE_ID/v1/importsource/{importSourceId}/token"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
