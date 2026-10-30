@@ -53,6 +53,7 @@ large datasets as it has no memory pressure.`,
 				"space-roles":       true,
 				"spaces":            true,
 				"tasks":             true,
+				"usage":             true,
 			}
 			validResourceList := []string{
 				"addons",
@@ -72,6 +73,7 @@ large datasets as it has no memory pressure.`,
 				"space-roles",
 				"spaces",
 				"tasks",
+				"usage",
 			}
 			resource := args[0]
 			if !validResources[resource] {

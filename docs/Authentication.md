@@ -66,3 +66,14 @@ export KEEN_SCIM_API_KEY="your-directory-api-key"   # only for scim commands
 ```
 
 Or add `admin_api_key` and `scim_api_key` to `~/.config/keen/auth.json`. Without the key, an admin command stops before calling Atlassian and says which key to set. `keen doctor` shows whether each key is set.
+
+## Assets
+
+Assets commands (`objectschema`, `object`, `aql`, `importsource`, ...) use your normal login. Their address needs your site's cloud id and Assets workspace id; keen looks both up from your site the first time a command needs them. To skip the lookup, set them yourself:
+
+```bash
+export KEEN_CLOUD_ID="your-cloud-id"
+export KEEN_ASSETS_WORKSPACE_ID="your-workspace-id"
+```
+
+or `cloud_id` and `assets_workspace_id` in `~/.config/keen/auth.json`. A `--dry-run` shows the address with `KEEN_CLOUD_ID` and `KEEN_ASSETS_WORKSPACE_ID` in place of the ids.

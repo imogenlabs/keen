@@ -151,6 +151,20 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 - `keen announcement-banner get-banner` — Returns the current announcement banner configuration.
 - `keen announcement-banner set-banner` — Updates the announcement banner configuration.
 
+**api-config** — Manage api config
+
+- `keen api-config reference-type-create` — Update a reference type
+- `keen api-config reference-type-list` — Get reference type
+- `keen api-config status-create` — Create a new status
+- `keen api-config status-delete` — Delete an existing status
+- `keen api-config status-find` — Find a status by id
+- `keen api-config status-list` — Find all status
+- `keen api-config status-update` — Update an existing status
+
+**api-import** — Manage api import
+
+- `keen api-import <id>` — Start configured imports. To see an ongoing import see the Progress resource
+
 **api-keys** — API Key APIs
 
 - `keen api-keys get-all-by-org-id` — Gets all user API keys in an organization.
@@ -186,6 +200,10 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 
 - `keen applications get` — Get a specific application.
 - `keen applications list` — Get a list of applications.
+
+**aql** — Manage aql
+
+- `keen aql` — This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead.
 
 **assets** — For uploading app/image files
 
@@ -296,6 +314,20 @@ These APIs are available to Forge apps with the `devops:buildInfoProvider` modul
 
 **comments** — Manage comments
 
+
+**compass** — Manage compass
+
+- `keen compass create-event` — Sends an event into an event source. This API is rate limited. Only 100 requests per user per minute are allowed.
+- `keen compass delete-apispec` — Delete the API spec file for a component.
+- `keen compass delete-attachment` — Delete file attached to a component.
+- `keen compass delete-lock-file` — Delete all the package dependencies associated with a particular source.
+- `keen compass evaluate-entitlements` — Get entitlement results for a given user and site
+- `keen compass get-attachment` — Get a file attached to a component.
+- `keen compass handle-webhook-invocation` — Third parties can call these inbound webhooks to dothings within compass
+- `keen compass insert-metric-value` — Sends a metric value into a metric source for a [component](/cloud/compass/components/what-is-a-component/).
+- `keen compass upload-apispec` — Upload api specs for a component. The request body should be a file with the api-spec content.
+- `keen compass upload-attachment` — Attach a file to a component.
+- `keen compass upload-lock-file` — Upload package dependencies for a component. The file with package dependency information.
 
 **component** — Manage component
 
@@ -537,6 +569,10 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 - `keen forge get-bulk-pin-status` — Get the pin status of an issue panel (added by a Forge app) for multiple projects.
 - `keen forge put-app-property` — Sets the value of a Forge app's property.
 
+**global** — Manage global
+
+- `keen global <id>` — Update general configuration for object schema
+
 **group** — This resource represents groups of users. Use it to get, create, find, and delete groups as well as add and remove users from groups. (\[WARNING\] The standard Atlassian group names are default names only and can be edited or deleted. For example, an admin or Atlassian support could delete the default group jira-software-users or rename it to jsw-users at any point. See https://support.atlassian.com/user-management/docs/create-and-update-groups/ for details.)
 
 - `keen group add-user-to` — Adds a user to a group.
@@ -554,6 +590,15 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 **groupuserpicker** — Manage groupuserpicker
 
 - `keen groupuserpicker` — Returns a list of users and groups matching a string.
+
+**icon** — Manage icon
+
+- `keen icon find` — Load a single icon by id
+- `keen icon find-global` — Return all global icons i.e. icons not associated with a particular object schema
+
+**importsource** — Manage importsource
+
+- `keen importsource <id>` — Retrieves a specific import source configuration by its ID.
 
 **inline-comments** — Manage inline comments
 
@@ -574,6 +619,10 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 **invalid-jqls-access-log** — Manage invalid jqls access log
 
 - `keen invalid-jqls-access-log` — Returns JQL searches that need updating because Jira can no longer support them.
+
+**iql** — Manage iql
+
+- `keen iql` — This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead.
 
 **issue** — This resource represents Jira issues. Use it to:
 
@@ -793,6 +842,41 @@ To use it, the site must have [issue linking](https://confluence.atlassian.com/x
 - `keen oauth-clients list` — Retrieves all OAuth clients for the specified organization. #### Scopes **[OAuth 2.
 - `keen oauth-clients update` — Updates the name, token endpoint authentication method, or public keys of an OAuth client in the specified organization.
 
+**object** — Manage object
+
+- `keen object by-aql` — Fetch Objects by AQL
+- `keen object count-by-aql` — This API provides the total count of objects that match a specified AQL query.
+- `keen object create` — Create a new object in Assets
+- `keen object delete` — Delete the referenced object
+- `keen object find` — Load one object
+- `keen object navigator-list` — Retrieve a list of objects based on an AQL. Deprecated from <b>30 September 2024</b>.
+- `keen object navigator-list-deprecated` — Deprecated. Use `/object/navlist/aql` instead.
+- `keen object update` — Update an existing object in Assets
+
+**objectconnectedtickets** — Manage objectconnectedtickets
+
+
+**objectschema** — Manage objectschema
+
+- `keen objectschema schema-create` — Create a new object schema
+- `keen objectschema schema-delete` — Delete a schema
+- `keen objectschema schema-find` — Find a schema by id
+- `keen objectschema schema-list` — Resource to find object schemas in Assets
+- `keen objectschema schema-update` — Update an object schema
+
+**objecttype** — Manage objecttype
+
+- `keen objecttype object-type-create` — Create a new object type
+- `keen objecttype object-type-delete` — Delete an object type
+- `keen objecttype object-type-find` — Find an object type by id
+- `keen objecttype object-type-update` — Update an existing object type
+
+**objecttypeattribute** — Manage objecttypeattribute
+
+- `keen objecttypeattribute object-type-attribute-create` — Create a new attribute on the given object type
+- `keen objecttypeattribute object-type-attribute-delete` — Delete an existing object type attribute
+- `keen objecttypeattribute object-type-attribute-update` — Update an existing object type attribute
+
 **operations** — APIs related to integrating Incident and Post-Incident Review (PIR) data with Jira Software.
 
 These APIs are available to Atlassian Connect apps. To use these APIs you must have the `jiraOperationsInfoProvider` module in your Connect app's descriptor. See https://developer.atlassian.com/cloud/jira/software/modules/operations-information/.
@@ -889,6 +973,10 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen products get-key-3` — Get details about a specific version, matching the specified build number, of the specified product.
 - `keen products get-key-4` — Get details about a specific version, matching the specified name, of the specified product.
 - `keen products list` — Get a list of products matching the specified parameters.
+
+**progress** — Manage progress
+
+- `keen progress <id>` — Show ongoing import process
 
 **project** — This resource represents projects. Use it to get, create, update, and delete projects. Also get statuses available to a project, a project's notification schemes, and update a project's type.
 
@@ -1204,6 +1292,10 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen universal-avatar get-avatar-image-by-type` — Returns the default project, issue type or priority avatar image. This operation can be accessed anonymously.
 - `keen universal-avatar get-avatars` — Returns the system and custom avatars for a project, issue type or priority. This operation can be accessed anonymously.
 - `keen universal-avatar store-avatar` — Loads a custom avatar for a project, issue type or priority.
+
+**usage** — Manage usage
+
+- `keen usage` — Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema
 
 **user** — This resource represent users. Use it to:
 

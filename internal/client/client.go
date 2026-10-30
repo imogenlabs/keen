@@ -38,6 +38,8 @@ type Client struct {
 	NoCache    bool
 	cacheDir   string
 	limiter    *cliutil.AdaptiveLimiter
+
+	siteVarCache siteVarCache
 }
 
 // APIError carries HTTP status information for structured exit codes.
@@ -529,6 +531,12 @@ func (c *Client) doInternal(ctx context.Context, method, path string, params map
 		targetURL = path
 	} else {
 		targetURL = c.BaseURL + path
+	}
+	if !c.DryRun {
+		var err error
+		if targetURL, err = c.fillSiteVars(ctx, targetURL); err != nil {
+			return nil, 0, err
+		}
 	}
 
 	var bodyBytes []byte

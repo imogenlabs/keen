@@ -10,8 +10,12 @@ Two spec shapes need it:
   spaces, ...); postfix.py then makes those URLs relative to the configured site.
 
   ids in the server path: Assets gives https://api.atlassian.com/ex/jira/{cloudId}/
-  jsm/assets/workspace/{workspaceId}/v1. Move that path onto every operation and
-  declare each {id} as a path parameter, so the ids become command arguments.
+  jsm/assets/workspace/{workspaceId}/v1. An id named in TEMPLATE_VARS (config.sh)
+  is replaced by a plain marker (KEEN_CLOUD_ID), which keen swaps for the real
+  value at run time (internal/client/sitevars.go). The generator's own server
+  variables are dropped when it merges several specs, so a marker it leaves
+  alone is used instead. Any other id moves onto every operation as a path
+  parameter.
 
 Command names come from operation ids, so two id shapes are fixed too:
 
@@ -32,6 +36,7 @@ the generator reads.
 Usage: specfix.py [--ids] <in.json> <out.json>
 """
 import json
+import os
 import re
 import sys
 from urllib.parse import urlsplit
@@ -60,6 +65,12 @@ def fix_operation_ids(spec):
             op["operationId"] = op["operationId"][len(prefix.group()):]
 
 
+def template_vars():
+    """TEMPLATE_VARS from the environment: "cloudId=KEEN_CLOUD_ID workspaceId=..."."""
+    pairs = (p.split("=", 1) for p in os.environ.get("TEMPLATE_VARS", "").split() if "=" in p)
+    return dict(pairs)
+
+
 def fix(spec, ids=False):
     if ids:
         fix_operation_ids(spec)
@@ -75,7 +86,12 @@ def fix(spec, ids=False):
     if VAR.search(host_part):
         host_part = "your-domain.atlassian.net"
 
-    # Ids in the server path move onto every operation as path parameters.
+    # Ids keen fills at run time become markers in the server URL; the rest
+    # move onto every operation as path parameters.
+    known = template_vars()
+    for v in VAR.findall(path_part):
+        if v in known:
+            path_part = path_part.replace("{" + v + "}", known[v])
     ids = VAR.findall(path_part)
     if ids:
         spec["paths"] = {path_part + p: item for p, item in spec["paths"].items()}

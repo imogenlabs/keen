@@ -29,12 +29,19 @@ SPECS=(
   "admin-api-access=https://developer.atlassian.com/cloud/admin/api-access/swagger.v3.json"
   "admin-control=https://developer.atlassian.com/cloud/admin/control/swagger.v3.json"
   "admin-dlp=https://developer.atlassian.com/cloud/admin/dlp/swagger.v3.json"
+  "assets=https://developer.atlassian.com/cloud/assets/swagger.v3.json"
+  "compass=https://developer.atlassian.com/cloud/compass/swagger.v3.json"
 )
 
 # Specs whose operation ids specfix.py fixes (made from summaries where missing,
 # a shared "Xxx_" prefix dropped), so their commands get readable names. Only list
 # a spec when it is first added: on a shipped spec this renames its commands.
 FIX_IDS=(admin-users admin-control)
+
+# Server URL placeholders keen fills at run time: placeholder=marker. specfix.py
+# writes the marker into the URL; internal/client/sitevars.go swaps it for the
+# env var of the same name, the auth.json value, or a lookup on the site.
+TEMPLATE_VARS="cloudId=KEEN_CLOUD_ID workspaceId=KEEN_ASSETS_WORKSPACE_ID"
 
 # Files keen writes by hand: the merge always keeps keen's copy.
 KEEN_OWNED=(README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md
