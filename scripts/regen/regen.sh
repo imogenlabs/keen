@@ -49,7 +49,7 @@ fi
 
 # 2. Generate today's output (named as the base was), then rename it to keen.
 args=()
-for name in "${SPEC_ORDER[@]}"; do args+=(--spec "$WORK/specs/$name.json"); done
+for entry in "${SPECS[@]}"; do args+=(--spec "$WORK/specs/${entry%%=*}.json"); done
 (cd "$WORK" && "$GENERATOR" generate "${args[@]}" "${GENERATOR_FLAGS[@]}" --output "$WORK/theirs" > "$WORK/generate.log" 2>&1) \
   || { echo "regen: generator failed, see $WORK/generate.log" >&2; exit 1; }
 python3 "$HERE/normalize.py" "$WORK/theirs"

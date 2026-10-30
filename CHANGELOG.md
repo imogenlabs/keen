@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `scripts/regen/specdiff.py` lists what Atlassian added, removed or changed in each API spec since keen was last refreshed
+- A weekly workflow runs that check and opens one issue when Atlassian's specs change
+
+### Changed
+- The Atlassian specs keen is built from are listed in one place (`SPECS` in `scripts/regen/config.sh`); adding an API is one line
+- `scripts/regen/resolve.py` is back: the README pointed to it after it was removed
+
 ## [1.4.1] - 2026-10-28
 
 ### Fixed
