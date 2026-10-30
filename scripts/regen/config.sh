@@ -61,6 +61,9 @@ KEEN_OWNED=(README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF
 # the rest of the generator's changes to the file still land.
 KEEN_HUNKS=(internal/cli/search.go internal/store/upsert_batch_test.go)
 
+# Generator metadata (run id, timestamps): today's run always wins a conflict.
+GENERATOR_HUNKS=(.printing-press.json)
+
 # Generator byproducts that are not part of keen.
 GENERATOR_ONLY=(manifest.json spec.json .printing-press-patches.json)
 
