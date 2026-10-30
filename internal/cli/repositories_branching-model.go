@@ -14,8 +14,8 @@ func newRepositoriesBranchingModelCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesBranchingModelGetCmd(flags))
-	cmd.AddCommand(newRepositoriesBranchingModelGetRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesBranchingModelUpdateCmd(flags))
+	cmd.AddCommand(newRepositoriesBranchingModelGetConfigForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesBranchingModelGetForRepositoryCmd(flags))
+	cmd.AddCommand(newRepositoriesBranchingModelUpdateConfigForRepositoryCmd(flags))
 	return cmd
 }

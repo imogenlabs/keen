@@ -10,14 +10,14 @@ import (
 func newSnippetsCommentsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "comments",
-		Short: "Get, create, update, and delete comments for snippets",
+		Short: "List, get, create, update, and delete comments for snippets",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newSnippetsCommentsCreateCmd(flags))
-	cmd.AddCommand(newSnippetsCommentsDeleteCmd(flags))
-	cmd.AddCommand(newSnippetsCommentsGetCmd(flags))
-	cmd.AddCommand(newSnippetsCommentsGetSnippetsCmd(flags))
-	cmd.AddCommand(newSnippetsCommentsUpdateCmd(flags))
+	cmd.AddCommand(newSnippetsCommentsCreateOnSnippetCmd(flags))
+	cmd.AddCommand(newSnippetsCommentsDeleteOnSnippetCmd(flags))
+	cmd.AddCommand(newSnippetsCommentsGetOnSnippetCmd(flags))
+	cmd.AddCommand(newSnippetsCommentsListOnSnippetCmd(flags))
+	cmd.AddCommand(newSnippetsCommentsUpdateOnSnippetCmd(flags))
 	return cmd
 }

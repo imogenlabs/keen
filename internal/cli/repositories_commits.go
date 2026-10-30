@@ -14,9 +14,9 @@ func newRepositoriesCommitsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesCommitsCreateCmd(flags))
-	cmd.AddCommand(newRepositoriesCommitsCreateRepositoriesCmd(flags))
-	cmd.AddCommand(newRepositoriesCommitsGetCmd(flags))
-	cmd.AddCommand(newRepositoriesCommitsGetRepositoriesCmd(flags))
+	cmd.AddCommand(newRepositoriesCommitsListCmd(flags))
+	cmd.AddCommand(newRepositoriesCommitsListForRevisionCmd(flags))
+	cmd.AddCommand(newRepositoriesCommitsListForRevisionUsingIncludeExcludeCmd(flags))
+	cmd.AddCommand(newRepositoriesCommitsListWithIncludeExcludeCmd(flags))
 	return cmd
 }

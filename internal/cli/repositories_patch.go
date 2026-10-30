@@ -14,6 +14,6 @@ func newRepositoriesPatchCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesPatchGetCmd(flags))
+	cmd.AddCommand(newRepositoriesPatchGetForTwoCommitsCmd(flags))
 	return cmd
 }

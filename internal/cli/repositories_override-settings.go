@@ -14,7 +14,7 @@ func newRepositoriesOverrideSettingsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesOverrideSettingsGetCmd(flags))
-	cmd.AddCommand(newRepositoriesOverrideSettingsUpdateCmd(flags))
+	cmd.AddCommand(newRepositoriesOverrideSettingsRetrieveInheritanceStateForRepositorySettingsCmd(flags))
+	cmd.AddCommand(newRepositoriesOverrideSettingsSetInheritanceStateForRepositorySettingsCmd(flags))
 	return cmd
 }

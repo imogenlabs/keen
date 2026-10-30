@@ -10,10 +10,10 @@ import (
 func newRepositoriesFilehistoryCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "filehistory",
-		Short: "Get filehistory for repositories",
+		Short: "List filehistory for repositories",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesFilehistoryGetCmd(flags))
+	cmd.AddCommand(newRepositoriesFilehistoryListCommitsThatModifiedFileCmd(flags))
 	return cmd
 }

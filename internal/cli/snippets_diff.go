@@ -14,6 +14,6 @@ func newSnippetsDiffCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newSnippetsDiffGetCmd(flags))
+	cmd.AddCommand(newSnippetsDiffGetSnippetChangesBetweenVersionsCmd(flags))
 	return cmd
 }

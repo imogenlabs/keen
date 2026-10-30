@@ -10,10 +10,10 @@ import (
 func newBitbucketWorkspacesCodesearchCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "codesearch",
-		Short: "Create codesearch for bitbucket workspaces",
+		Short: "Search codesearch for bitbucket workspaces",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newBitbucketWorkspacesCodesearchCreateCmd(flags))
+	cmd.AddCommand(newBitbucketWorkspacesCodesearchSearchCodeInWorkspaceCmd(flags))
 	return cmd
 }

@@ -14,8 +14,8 @@ func newSnippetsWatchCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newSnippetsWatchDeleteCmd(flags))
-	cmd.AddCommand(newSnippetsWatchGetCmd(flags))
-	cmd.AddCommand(newSnippetsWatchUpdateCmd(flags))
+	cmd.AddCommand(newSnippetsWatchCheckIfCurrentUserIsWatchingSnippetCmd(flags))
+	cmd.AddCommand(newSnippetsWatchSnippetCmd(flags))
+	cmd.AddCommand(newSnippetsWatchStopWatchingSnippetCmd(flags))
 	return cmd
 }

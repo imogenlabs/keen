@@ -14,6 +14,6 @@ func newSnippetsPatchCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newSnippetsPatchGetCmd(flags))
+	cmd.AddCommand(newSnippetsPatchGetSnippetBetweenVersionsCmd(flags))
 	return cmd
 }

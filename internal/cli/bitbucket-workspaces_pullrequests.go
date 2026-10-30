@@ -14,6 +14,6 @@ func newBitbucketWorkspacesPullrequestsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newBitbucketWorkspacesPullrequestsGetCmd(flags))
+	cmd.AddCommand(newBitbucketWorkspacesPullrequestsListWorkspacePullRequestsForUserCmd(flags))
 	return cmd
 }

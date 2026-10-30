@@ -10,12 +10,12 @@ import (
 func newBitbucketWorkspacesPermissionsCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "permissions",
-		Short: "Get permissions for bitbucket workspaces",
+		Short: "List permissions for bitbucket workspaces",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newBitbucketWorkspacesPermissionsGetCmd(flags))
-	cmd.AddCommand(newBitbucketWorkspacesPermissionsGetWorkspacesCmd(flags))
-	cmd.AddCommand(newBitbucketWorkspacesPermissionsGetWorkspaces2Cmd(flags))
+	cmd.AddCommand(newBitbucketWorkspacesPermissionsListAllRepositoryForWorkspaceCmd(flags))
+	cmd.AddCommand(newBitbucketWorkspacesPermissionsListRepositoryForWorkspaceCmd(flags))
+	cmd.AddCommand(newBitbucketWorkspacesPermissionsListUserInWorkspaceCmd(flags))
 	return cmd
 }

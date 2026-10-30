@@ -10,14 +10,14 @@ import (
 func newBitbucketUsersSshKeysCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "ssh-keys",
-		Short: "Get, create, update, and delete ssh keys for bitbucket users",
+		Short: "List, get, add, update, and delete ssh keys for bitbucket users",
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newBitbucketUsersSshKeysCreateCmd(flags))
+	cmd.AddCommand(newBitbucketUsersSshKeysAddNewCmd(flags))
 	cmd.AddCommand(newBitbucketUsersSshKeysDeleteCmd(flags))
 	cmd.AddCommand(newBitbucketUsersSshKeysGetCmd(flags))
-	cmd.AddCommand(newBitbucketUsersSshKeysGetUsersCmd(flags))
+	cmd.AddCommand(newBitbucketUsersSshKeysListCmd(flags))
 	cmd.AddCommand(newBitbucketUsersSshKeysUpdateCmd(flags))
 	return cmd
 }

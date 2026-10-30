@@ -140,7 +140,7 @@ Run `keen --help` for the full command reference and flag list.
 The addon resource is intended to use used by Bitbucket Cloud Connect
 Apps, and only supports JWT authentication.
 
-- **`keen addon delete`** - Deletes the application for the user.
+- **`keen addon delete-app`** - Deletes the application for the user.
 
 This endpoint is intended to be used by Bitbucket Connect apps
 and only supports JWT authentication -- that is how Bitbucket
@@ -154,7 +154,7 @@ UI of that section.
 $ curl -X DELETE https://api.bitbucket.org/2.0/addon \
   -H "Authorization: JWT <JWT Token>"
 ```
-- **`keen addon update`** - Updates the application installation for the user.
+- **`keen addon update-installed-app`** - Updates the application installation for the user.
 
 This endpoint is intended to be used by Bitbucket Connect apps
 and only supports JWT authentication -- that is how Bitbucket
@@ -975,12 +975,13 @@ The users resource allows you to access public information
 associated with a user account. Most resources in the users
 endpoint have been deprecated in favor of workspaces.
 
-- **`keen bitbucket-user get`** - Returns details about a specific one of the authenticated user's
+- **`keen bitbucket-user get-current`** - Returns the currently logged in user.
+- **`keen bitbucket-user get-email-address-for-current`** - Returns details about a specific one of the authenticated user's
 email addresses.
 
 Details describe whether the address has been confirmed by the user and
 whether it is the user's primary address or not.
-- **`keen bitbucket-user get-workspaces`** - Returns the caller's effective role; as in, the highest level of privilege
+- **`keen bitbucket-user get-permission-on-workspace`** - Returns the caller's effective role; as in, the highest level of privilege
 the caller has for the workspace.
 If the calling user is a member of multiple groups with distinct roles, only the
 highest level is returned.
@@ -992,7 +993,9 @@ Permissions can be:
 * `collaborator` (deprecated; see this
 [deprecation announcement](/cloud/bitbucket/deprecation-notice-collaborator-role/) for more details)
 * `member`
-- **`keen bitbucket-user get-workspaces-2`** - Returns an object for each repository the caller has explicit access to in the
+- **`keen bitbucket-user list-email-addresses-for-current`** - Returns all the authenticated user's email addresses. Both
+confirmed and unconfirmed.
+- **`keen bitbucket-user list-repository-permissions-in-workspace-for`** - Returns an object for each repository the caller has explicit access to in the
 specified workspace and their effective permission — the highest level of
 permission the caller has. This does not return public repositories that the
 user was not granted any specific permission in, and does not distinguish between
@@ -1013,10 +1016,7 @@ parameters:
 
 Note that the query parameter values need to be URL escaped so that `=`
 would become `%3D`.
-- **`keen bitbucket-user list`** - Returns the currently logged in user.
-- **`keen bitbucket-user list-emails`** - Returns all the authenticated user's email addresses. Both
-confirmed and unconfirmed.
-- **`keen bitbucket-user list-workspaces`** - Returns an object for each workspace accessible to the caller. This object
+- **`keen bitbucket-user list-workspaces-for-current`** - Returns an object for each workspace accessible to the caller. This object
 also contains details on whether the caller has admin permissions on the workspace
 (`"administrator" = true`) or not (`"administrator" = false`).
 
@@ -4227,7 +4227,7 @@ allows you to save versions of your code, which you can access
 when needed. The repo resource allows you to access public repos,
 or repos that belong to a specific workspace.
 
-- **`keen repositories create`** - Creates a new repository.
+- **`keen repositories create-repository`** - Creates a new repository.
 
 Note: In order to set the project for the newly created repository,
 pass in either the project key or the project UUID as part of the
@@ -4258,10 +4258,11 @@ the repository is automatically assigned to the oldest project in the workspace.
 
 Note: In the examples above, the workspace ID `teamsinspace`,
 and/or the repository name `hablanding` can be replaced by UUIDs.
-- **`keen repositories delete`** - Deletes the repository. This is an irreversible operation.
+- **`keen repositories delete-repository`** - Deletes the repository. This is an irreversible operation.
 
 This does not affect its forks.
-- **`keen repositories get`** - Returns a paginated list of all repositories owned by the specified
+- **`keen repositories get-repository`** - Returns the object describing this repository.
+- **`keen repositories list-in-workspace`** - Returns a paginated list of all repositories owned by the specified
 workspace.
 
 The result can be narrowed down based on the authenticated user's role.
@@ -4272,8 +4273,7 @@ repo the user is an admin on, as that implies write access).
 
 This endpoint also supports filtering and sorting of the results. See
 [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details.
-- **`keen repositories get-workspace`** - Returns the object describing this repository.
-- **`keen repositories update`** - Since this endpoint can be used to both update and to create a
+- **`keen repositories update-repository`** - Since this endpoint can be used to both update and to create a
 repository, the request body depends on the intent.
 
 #### Creation
@@ -5209,11 +5209,11 @@ This is controlled through the snippet's `is_private` element:
 
 To create the snippet under a workspace, just append the workspace ID
 to the URL. See [`/2.0/snippets/{workspace}`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-post).
-- **`keen snippets create-workspace`** - Identical to [`/snippets`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-post), except that the new snippet will be
+- **`keen snippets create-for-workspace`** - Identical to [`/snippets`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-post), except that the new snippet will be
 created under the workspace specified in the path parameter
 `{workspace}`.
 - **`keen snippets delete`** - Deletes a snippet and returns an empty response.
-- **`keen snippets delete-workspace`** - Deletes the snippet.
+- **`keen snippets delete-previous-revision-of`** - Deletes the snippet.
 
 Note that this only works for versioned URLs that point to the latest
 commit of the snippet. Pointing to an older commit results in a 405
@@ -5221,29 +5221,7 @@ status code.
 
 To delete a snippet, regardless of whether or not concurrent changes
 are being made to it, use `DELETE /snippets/{encoded_id}` instead.
-- **`keen snippets get`** - Returns a paginated list of snippets owned by `{workspace}`.
-
-To limit the set of returned snippets, apply the
-`?role=[owner|contributor|member]` query parameter where the roles are
-defined as follows:
-
-* `owner`: snippets owned by `{workspace}` that also belong to the current user
-    (only returns results when `{workspace}` is the current user's personal workspace)
-* `contributor`: snippets owned by `{workspace}` that the current user is watching,
-    plus any owned by `{workspace}` and the current user
-* `member`: all snippets owned by `{workspace}` if the current user is a member,
-    otherwise only those the current user is watching
-
-When no role is specified, all snippets owned by `{workspace}` are returned.
-
-If the current user is not a member of `{workspace}`, only public snippets are
-returned regardless of role.
-
-The returned response is a normal paginated JSON list. This endpoint
-only supports `application/json` responses and no
-`multipart/form-data` or `multipart/related`. As a result, it is not
-possible to include the file contents.
-- **`keen snippets get-workspace`** - Retrieves a single snippet.
+- **`keen snippets get`** - Retrieves a single snippet.
 
 Snippets support multiple content types:
 
@@ -5429,7 +5407,7 @@ Response:
     73Oc4FHzBaZ8llq4q1mr5B2mOUCt815qYR8eB1hG2VJ7j35q4RofaH7IG+Xrf/PfJhfmwtfFYoIN
     AqxFUD6OMxcvkO+UfKfkOyXfKdsv/AYCHMLVkHAFWgAAAABJRU5ErkJggg==
     ------------------------------5957323a6b76--
-- **`keen snippets get-workspace-2`** - Identical to `GET /snippets/encoded_id`, except that this endpoint
+- **`keen snippets get-previous-revision-of`** - Identical to `GET /snippets/encoded_id`, except that this endpoint
 can be used to retrieve the contents of the snippet as it was at an
 older revision, while `/snippets/encoded_id` always returns the
 snippet's current revision.
@@ -5438,6 +5416,28 @@ Note that only the snippet's file contents are versioned, not its
 meta data properties like the title.
 
 Other than that, the two endpoints are identical in behavior.
+- **`keen snippets list-in-workspace`** - Returns a paginated list of snippets owned by `{workspace}`.
+
+To limit the set of returned snippets, apply the
+`?role=[owner|contributor|member]` query parameter where the roles are
+defined as follows:
+
+* `owner`: snippets owned by `{workspace}` that also belong to the current user
+    (only returns results when `{workspace}` is the current user's personal workspace)
+* `contributor`: snippets owned by `{workspace}` that the current user is watching,
+    plus any owned by `{workspace}` and the current user
+* `member`: all snippets owned by `{workspace}` if the current user is a member,
+    otherwise only those the current user is watching
+
+When no role is specified, all snippets owned by `{workspace}` are returned.
+
+If the current user is not a member of `{workspace}`, only public snippets are
+returned regardless of role.
+
+The returned response is a normal paginated JSON list. This endpoint
+only supports `application/json` responses and no
+`multipart/form-data` or `multipart/related`. As a result, it is not
+possible to include the file contents.
 - **`keen snippets update`** - Used to update a snippet. Use this to add and delete files and to
 change a snippet's title.
 
@@ -5636,7 +5636,7 @@ The explicit use of the `files` element in `multipart/related` and
 The default mode of operation is for file parts to be processed,
 regardless of whether or not they are listed in `files`, as a
 convenience to the client.
-- **`keen snippets update-workspace`** - Identical to `UPDATE /snippets/encoded_id`, except that this endpoint
+- **`keen snippets update-previous-revision-of`** - Identical to `UPDATE /snippets/encoded_id`, except that this endpoint
 takes an explicit commit revision. Only the snippet's "HEAD"/"tip"
 (most recent) version can be updated and requests on all other,
 older revisions fail by returning a 405 status.

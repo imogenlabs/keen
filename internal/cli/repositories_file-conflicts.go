@@ -14,6 +14,6 @@ func newRepositoriesFileConflictsCmd(flags *rootFlags) *cobra.Command {
 		RunE:  parentNoSubcommandRunE(flags),
 	}
 
-	cmd.AddCommand(newRepositoriesFileConflictsGetCmd(flags))
+	cmd.AddCommand(newRepositoriesFileConflictsGetForCommitSpecCmd(flags))
 	return cmd
 }

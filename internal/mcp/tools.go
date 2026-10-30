@@ -26,7 +26,7 @@ import (
 // RegisterTools registers all API operations as MCP tools.
 func RegisterTools(s *server.MCPServer) {
 	s.AddTool(
-		mcplib.NewTool("bitbucket-addon_delete",
+		mcplib.NewTool("bitbucket-addon_delete-app",
 			mcplib.WithDescription("Deletes the application for the user. This endpoint is intended to be used by Bitbucket Connect apps and only supports JWT authentication -- that is how Bitbucket identifies the particular installation of the app. Developers with applications registered in the 'Develop Apps' section of Bitbucket Marketplace need not use this endpoint as updates for those applications can be sent out via the UI of that section. ``` $ curl -X DELETE https://api.bitbucket.org/2.0/addon -H 'Authorization: JWT <JWT Token>' ```. Destructive. (public)"),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
@@ -34,14 +34,14 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/addon", false, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-addon_update",
+		mcplib.NewTool("bitbucket-addon_update-installed-app",
 			mcplib.WithDescription("Updates the application installation for the user. This endpoint is intended to be used by Bitbucket Connect apps and only supports JWT authentication -- that is how Bitbucket identifies the particular installation of the app. Developers with applications registered in the 'Develop Apps' section of Bitbucket need not use this endpoint as updates for those applications can be sent out via the UI of that section. Passing an empty body will update the installation using the existing descriptor URL. ``` $ curl -X PUT https://api.bitbucket.org/2.0/addon -H 'Authorization: JWT <JWT Token>' --header 'Content-Type: application/json' --data '{}' ``` The new `descriptor` for the installation can be also provided in the body directly. ``` $ curl -X PUT https://api.bitbucket.org/2.0/addon -H 'Authorization: JWT <JWT Token>' --header 'Content-Type: application/json' --data '{'descriptor': $NEW_DESCRIPTOR}' ``` In both these modes the URL of the descriptor cannot be changed. To change the descriptor location and upgrade an installation the request must be made exclusively with a `descriptor_url`. ``` $ curl -X PUT https://api.bitbucket.org/2.0/addon -H 'Authorization: JWT <JWT Token>' --header 'Content-Type: application/json' --data '{'descriptor_url': $NEW_URL}' ``` The `descriptor_url` must exactly match the marketplace registration that Atlassian has for the application. Contact your Atlassian developer advocate to update this registration. Once the registration has been updated you may call this resource for each installation. Note that the scopes of the application cannot be increased in the new descriptor nor reduced to none. (public)"),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/addon", false, false, nil, []mcpParamBinding{}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-addon_client-key_get",
+		mcplib.NewTool("bitbucket-addon_client-key_get-of-connect-addon",
 			mcplib.WithDescription("Get the client key of the Connect addon associated with a Forge app install via forgeAppId linkage. This endpoint is part of the Connect -> Forge migration tooling. It is intended to be used by a Forge app using `asApp().requestBitbucket()` only. Prerequisite: app developer needs to register the linkage between their Connect and Forge app by setting `forgeAppId` in the Connect addon descriptor to `app.id` from Forge app manifest, then update the installations. If the request came from an installation of a registered Forge app, the client key of the linked Connect addon installed in the same workspace will be returned. ``` api.asApp().requestBitbucket(route`/2.0/addon/{addon-key}/client-key`) ```. Required: addon_key. (public)"),
 			mcplib.WithString("addon_key", mcplib.Required(), mcplib.Description("The Connect addon key as defined in an application descriptor.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -2976,7 +2976,16 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "/rest/api/3/avatar/{type}/system", true, false, nil, []mcpParamBinding{{PublicName: "type", WireName: "type", Location: "path"}}, []string{"type"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-user_get",
+		mcplib.NewTool("bitbucket-user_get-current",
+			mcplib.WithDescription("Returns the currently logged in user. (public)"),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/user", true, false, nil, []mcpParamBinding{}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-user_get-email-address-for-current",
 			mcplib.WithDescription("Returns details about a specific one of the authenticated user's email addresses. Details describe whether the address has been confirmed by the user and whether it is the user's primary address or not. Required: email. (public)"),
 			mcplib.WithString("email", mcplib.Required(), mcplib.Description("Email address of the user.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -2986,7 +2995,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/user/emails/{email}", true, false, nil, []mcpParamBinding{{PublicName: "email", WireName: "email", Location: "path"}}, []string{"email"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-user_get-workspaces",
+		mcplib.NewTool("bitbucket-user_get-permission-on-workspace",
 			mcplib.WithDescription("Returns the caller's effective role; as in, the highest level of privilege the caller has for the workspace. If the calling user is a member of multiple groups with distinct roles, only the highest level is returned. Permissions can be: * `owner` * `create-project` * `collaborator` (deprecated; see this [deprecation announcement](/cloud/bitbucket/deprecation-notice-collaborator-role/) for more details) * `member`. Required: workspace. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -2996,7 +3005,16 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/user/workspaces/{workspace}/permission", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-user_get-workspaces-2",
+		mcplib.NewTool("bitbucket-user_list-email-addresses-for-current",
+			mcplib.WithDescription("Returns all the authenticated user's email addresses. Both confirmed and unconfirmed. (public)"),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/user/emails", true, false, nil, []mcpParamBinding{}, []string{}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-user_list-repository-permissions-in-workspace-for",
 			mcplib.WithDescription("Returns an object for each repository the caller has explicit access to in the specified workspace and their effective permission — the highest level of permission the caller has. This does not return public repositories that the user was not granted any specific permission in, and does not distinguish between explicit and implicit privileges. Permissions can be: * `admin` * `write` * `read` Results may be further [filtered or sorted](/cloud/bitbucket/rest/intro/#filtering) by repository or permission by adding the following query string parameters: * `q=repository.name='bits'` or `q=permission>'read'` * `sort=repository.name` Note that the query parameter values need to be URL escaped so that `=` would become `%3D`. Required: workspace. Optional: q, sort. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithString("q", mcplib.Description("Query string to narrow down the response as per [filtering and...")),
@@ -3008,25 +3026,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/user/workspaces/{workspace}/permissions/repositories", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-user_list",
-			mcplib.WithDescription("Returns the currently logged in user. (public)"),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/user", true, false, nil, []mcpParamBinding{}, []string{}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-user_list-emails",
-			mcplib.WithDescription("Returns all the authenticated user's email addresses. Both confirmed and unconfirmed. (public)"),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/user/emails", true, false, nil, []mcpParamBinding{}, []string{}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-user_list-workspaces",
+		mcplib.NewTool("bitbucket-user_list-workspaces-for-current",
 			mcplib.WithDescription("Returns an object for each workspace accessible to the caller. This object also contains details on whether the caller has admin permissions on the workspace (`'administrator' = true`) or not (`'administrator' = false`). Queries support filtering based on administrator permissions, [sorting](/cloud/bitbucket/rest/intro/#sorting-query-results) or [filtering](/cloud/bitbucket/rest/intro/#filtering) by `slug`. Results can be [paginated](/cloud/bitbucket/rest/intro/#pagination). Optional: sort, administrator. (public)"),
 			mcplib.WithString("sort", mcplib.Description("Name of a response property to sort results (only slug is supported).")),
 			mcplib.WithBoolean("administrator", mcplib.Description("Filter workspaces based on which ones the caller has admin permissions or not.")),
@@ -3047,7 +3047,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/users/{selected_user}", true, false, nil, []mcpParamBinding{{PublicName: "selected_user", WireName: "selected_user", Location: "path"}}, []string{"selected_user"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-users_gpg-keys_create",
+		mcplib.NewTool("bitbucket-users_gpg-keys_add-new",
 			mcplib.WithDescription("Adds a new GPG public key to the specified user account and returns the resulting key. Example: ``` $ curl -X POST -H 'Content-Type: application/json' -d '{'key': '<insert GPG Key>'}' https://api.bitbucket.org/2.0/users/{d7dd0e2d-3994-4a50-a9ee-d260b6cefdab}/gpg-keys ```. Required: selected_user, type. Optional: added_on, created_on, expires_on (plus 9 more). (public)"),
 			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be an Atlassian Account ID OR the UUID of the account, surrounded by...")),
 			mcplib.WithString("added_on", mcplib.Description("Added on")),
@@ -3080,16 +3080,6 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-users_gpg-keys_get",
-			mcplib.WithDescription("Returns a paginated list of the user's GPG public keys. The `key` and `subkeys` fields can also be requested from the endpoint. See [Partial Responses](/cloud/bitbucket/rest/intro/#partial-response) for more details. Required: selected_user. (public)"),
-			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be an Atlassian Account ID OR the UUID of the account, surrounded by...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/users/{selected_user}/gpg-keys", true, false, nil, []mcpParamBinding{{PublicName: "selected_user", WireName: "selected_user", Location: "path"}}, []string{"selected_user"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-users_gpg-keys_get-users",
 			mcplib.WithDescription("Returns a specific GPG public key belonging to a user. The `key` and `subkeys` fields can also be requested from the endpoint. See [Partial Responses](/cloud/bitbucket/rest/intro/#partial-response) for more details. Required: fingerprint, selected_user. (public)"),
 			mcplib.WithString("fingerprint", mcplib.Required(), mcplib.Description("A GPG key fingerprint.")),
 			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be an Atlassian Account ID OR the UUID of the account, surrounded by...")),
@@ -3098,6 +3088,16 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/users/{selected_user}/gpg-keys/{fingerprint}", true, false, nil, []mcpParamBinding{{PublicName: "fingerprint", WireName: "fingerprint", Location: "path"}, {PublicName: "selected_user", WireName: "selected_user", Location: "path"}}, []string{"fingerprint", "selected_user"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-users_gpg-keys_list",
+			mcplib.WithDescription("Returns a paginated list of the user's GPG public keys. The `key` and `subkeys` fields can also be requested from the endpoint. See [Partial Responses](/cloud/bitbucket/rest/intro/#partial-response) for more details. Required: selected_user. (public)"),
+			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be an Atlassian Account ID OR the UUID of the account, surrounded by...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/users/{selected_user}/gpg-keys", true, false, nil, []mcpParamBinding{{PublicName: "selected_user", WireName: "selected_user", Location: "path"}}, []string{"selected_user"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-users_pipelines-config_create-pipeline-variable-for-user",
@@ -3206,7 +3206,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/users/{selected_user}/search/code", true, false, nil, []mcpParamBinding{{PublicName: "selected_user", WireName: "selected_user", Location: "path"}, {PublicName: "search_query", WireName: "search_query", Location: "query"}, {PublicName: "page", WireName: "page", Location: "query"}, {PublicName: "pagelen", WireName: "pagelen", Location: "query"}}, []string{"selected_user"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-users_ssh-keys_create",
+		mcplib.NewTool("bitbucket-users_ssh-keys_add-new",
 			mcplib.WithDescription("Adds a new SSH public key to the specified user account and returns the resulting key. Example: ``` $ curl -X POST -H 'Content-Type: application/json' -d '{'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKqP3Cr632C2dNhhgKVcon4ldUSAeKiku2yP9O9/bDtY user@myhost'}' https://api.bitbucket.org/2.0/users/{ed08f5e1-605b-4f4a-aee4-6c97628a673e}/ssh-keys ```. Required: selected_user, type. Optional: expires_on, comment, created_on (plus 8 more). (public)"),
 			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be an Atlassian Account ID OR the UUID of the account, surrounded by...")),
 			mcplib.WithString("expires_on", mcplib.Description("The date or date-time of when the key will expire, in [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format.")),
@@ -3238,16 +3238,6 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-users_ssh-keys_get",
-			mcplib.WithDescription("Returns a paginated list of the user's SSH public keys. Required: selected_user. (public)"),
-			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be an Atlassian Account ID OR the UUID of the account, surrounded by...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/users/{selected_user}/ssh-keys", true, false, nil, []mcpParamBinding{{PublicName: "selected_user", WireName: "selected_user", Location: "path"}}, []string{"selected_user"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-users_ssh-keys_get-users",
 			mcplib.WithDescription("Returns a specific SSH public key belonging to a user. Required: key_id, selected_user. (public)"),
 			mcplib.WithString("key_id", mcplib.Required(), mcplib.Description("The SSH key's UUID value.")),
 			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be an Atlassian Account ID OR the UUID of the account, surrounded by...")),
@@ -3256,6 +3246,16 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/users/{selected_user}/ssh-keys/{key_id}", true, false, nil, []mcpParamBinding{{PublicName: "key_id", WireName: "key_id", Location: "path"}, {PublicName: "selected_user", WireName: "selected_user", Location: "path"}}, []string{"key_id", "selected_user"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-users_ssh-keys_list",
+			mcplib.WithDescription("Returns a paginated list of the user's SSH public keys. Required: selected_user. (public)"),
+			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be an Atlassian Account ID OR the UUID of the account, surrounded by...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/users/{selected_user}/ssh-keys", true, false, nil, []mcpParamBinding{{PublicName: "selected_user", WireName: "selected_user", Location: "path"}}, []string{"selected_user"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-users_ssh-keys_update",
@@ -3288,7 +3288,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_codesearch_create",
+		mcplib.NewTool("bitbucket-workspaces_codesearch_search-code-in-workspace",
 			mcplib.WithDescription("Search code across repositories in a workspace. Results are limited to the repositories that the calling user can access. #### Supported authentication The endpoint requires a credential that identifies the calling user. The following authentication modes are accepted: - Browser session cookie (Bitbucket web UI) - Atlassian API token (Basic auth using your email and a scoped API token that includes both `repository:read` and `workspace:read`) - OAuth 2.0 via Forge or an Atlassian app (3LO or 2LO, with both `repository:read` and `workspace:read` granted to the app) - Bitbucket repository, project, or workspace access tokens Authentication modes that **do not** identify the user, including Atlassian Connect JWT, legacy Bitbucket OAuth not migrated to identity, app passwords, and API keys, are rejected with a `403`. #### Request body Requires `Content-Type: application/json`. Anything else returns `415`. `query.search_term` is required. These fields are accepted: - `query.search_term`: non-blank, at most 1024 characters - `query.filters` - `config.max_results`: a JSON integer (a string or float is rejected), 1 to 100, default 50 - `config.search_mode`: `LEXICAL` or omitted - `request_id` and `pagination.next_cursor`: see 'Pagination' Any other field is ignored. ```json { 'query': { 'search_term': 'logr', 'filters': { 'attribute': 'language', 'eq': 'go' } }, 'config': { 'max_results': 10 } } ``` #### Search mode This endpoint performs lexical code search only. `config.search_mode` is fixed to `LEXICAL` server-side, so callers may omit the field or set it explicitly to `LEXICAL`. Any other value returns a `400`. #### Filters Use `query.filters` to narrow a search. For example, to search for `logr` only in Go files whose path matches `cmd/*/main.go`: ```json { 'query': { 'search_term': 'logr', 'filters': { 'and': [ { 'attribute': 'language', 'eq': 'go' }, { 'attribute': 'path', 'wildcard': 'cmd/*/main.go' } ] } } } ``` A filter names an `attribute` and exactly one operator: * `eq` matches a value, and works with every attribute. Values are not case-sensitive. * `wildcard` matches a pattern, and works only with `path` and `repository`. In a pattern, `*` matches any run of characters and `?` matches one character. A pattern must match the whole value. On `repository` it ignores case, and on `path` it is case-sensitive. Setting both `eq` and `wildcard` on one filter returns `400`. These attributes are supported: * `repository`: a repository slug, such as `my-repo`. Use a wildcard such as `my-*` to match every slug that starts with `my-`. * `path`: with `eq`, a value such as `src/main` matches any path that contains those folder or file names in that order, such as `app/src/main/App.java`. Each name must match in full. With `wildcard`, the pattern must match the whole file path, such as `*/main.go`. * `language`: a language name, such as `go`, `python`, or `javascript`. To filter by file extension, use `extension`. * `extension`: a file extension without the dot, such as `go` or `py`. * `project`: a project key or name. * `scm`: the source control host of the repository. * `branches`: searches run on the default branch only. Set `branches` to `'true'` to search all indexed branches. * `forks`: by default, results include repositories that are forks. Set `forks` to `'true'` to get results from forks only, or to `'false'` to get results from repositories that are not forks. `branches` only accepts the value `'true'`. `branches` and `forks` only work when they are the whole of `query.filters`. You cannot combine them with other filters. Combine filters with `and`, `or`, and `not`. Filters can nest up to 5 levels deep, and the workspace filter this endpoint adds uses one of them. That leaves 3 levels of `and`, `or`, or `not` around a filter. Deeper filters return `400`. This filter uses all 3 levels: ```json { 'and': [ { 'or': [ { 'not': { 'attribute': 'language', 'eq': 'python' } } ] }, { 'attribute': 'extension', 'eq': 'go' } ] } ``` #### Workspace scoping The endpoint always applies a `namespace = <workspace_slug>` filter and passes the workspace's wrapped UUID as `scope.workspace_ids`. Callers must **not** include a `namespace` filter in `query.filters` (anywhere in the tree, including nested AND/OR/NOT). Doing so returns `400`. A `scope.workspace_ids` value in the request body is ignored. The workspace in the URL always sets the scope. #### Pagination Pagination uses a cursor. To page beyond the first result set, include the `id` from the previous response as `request_id`, and the previous response's `pagination.next_cursor` as `pagination.next_cursor`. `request_id` is required whenever `pagination` is sent. Repeat until `pagination.has_more` is `false`. On every page, `query.search_term` and `query.filters` must be the same as on the first page, including the order of items inside `and`/`or`. A different value returns `400`. `config.max_results` may change between pages. ```json { 'query': { 'search_term': 'logr' }, 'config': { 'max_results': 10 }, 'request_id': '550e8400-e29b-41d4-a716-446655440000', 'pagination': { 'next_cursor': 'eyJlbnRyaWVzIjpbeyJsZXhpY2FsS2V5Ijoi...' } } ``` #### Response You can rely on these fields: - `id`, `pagination.next_cursor`, `pagination.has_more` - `repositories[]`: `url`, `host`, `ns`, `name` - `matched_files[]`: `path`, `name`, `language`, `url`, `repositoryId`, `version` (the commit hash), `branch_or_tag_name`, `is_default_branch` - `matched_files[].matched_chunks[]`: `source_code`, `line_range`, `matched_line_numbers`, `matched_ranges` - `metadata.total_count`: an approximate size, meaningful on page 1 only `branch_or_tag_name` and `is_default_branch` are left out when not known, and `language` can be `null`. Line numbers start at 1, and `line_range.end` is the last line of the chunk. Each `matched_ranges` entry is `[line, start_column, end_column]`, where `line` is the line number in the file, the columns start at 0, and `end_column` is exclusive. `matched_line_numbers` and `matched_ranges` mark where a search term appears as a whole word in the chunk. They can be empty even when the chunk matched. Other fields can change or be removed without notice, so ignore any field not listed here. Treat ids and `pagination.next_cursor` as opaque. Errors from this endpoint, including errors from the search backend, use the standard Bitbucket error envelope: `{'type': 'error', 'error': {'message': ..., 'code': ...}}`. A backend error keeps its status code, except that a backend 5xx is returned as `502 Bad Gateway`. The backend's own error code, when there is one, is in `error.detail.upstream_code`. Required: workspace. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithDestructiveHintAnnotation(false),
@@ -3346,17 +3346,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/hooks/{uid}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "uid", WireName: "uid", Location: "path"}}, []string{"workspace", "uid"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_members_get",
-			mcplib.WithDescription("Returns all members of the requested workspace. This endpoint additionally supports [filtering](/cloud/bitbucket/rest/intro/#filtering) by email address, if called by a workspace administrator, integration or workspace access token. This is done by adding the following query string parameter: * `q=user.email IN ('user1@org.com','user2@org.com')` When filtering by email, you can query up to 90 addresses at a time. Note that the query parameter values need to be URL escaped, so the final query string should be: * `q=user.email%20IN%20(%22user1@org.com%22,%22user2@org.com%22)` Email addresses that you filter by (and only these email addresses) can be included in the response using the `fields` query parameter: * `&fields=+values.user.email` - add the `email` field to the default `user` response object * `&fields=values.user.email,values.user.account_id` - only return user email addresses and account IDs Once again, all query parameter values must be URL escaped. Required: workspace. (public)"),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/members", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_members_get-workspaces",
+		mcplib.NewTool("bitbucket-workspaces_members_get-user-membership-for-workspace",
 			mcplib.WithDescription("Returns the workspace membership, which includes a `User` object for the member and a `Workspace` object for the requested workspace. Required: member, workspace. (public)"),
 			mcplib.WithString("member", mcplib.Required(), mcplib.Description("Member's UUID or Atlassian ID.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -3367,18 +3357,17 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/members/{member}", true, false, nil, []mcpParamBinding{{PublicName: "member", WireName: "member", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"member", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_permissions_get",
-			mcplib.WithDescription("Returns the list of members in a workspace and their permission levels. Permission can be: * `owner` * `collaborator` * `member` **The `collaborator` role is being removed from the Bitbucket Cloud API. For more information, see the [deprecation announcement](/cloud/bitbucket/deprecation-notice-collaborator-role/).** **When you move your administration from Bitbucket Cloud to admin.atlassian.com, the following fields on `workspace_membership` will no longer be present: `last_accessed` and `added_on`. See the [deprecation announcement](/cloud/bitbucket/announcement-breaking-change-workspace-membership/).** Results may be further [filtered](/cloud/bitbucket/rest/intro/#filtering) by permission by adding the following query string parameters: * `q=permission='owner'`. Required: workspace. Optional: q. (public)"),
+		mcplib.NewTool("bitbucket-workspaces_members_list-users-in-workspace",
+			mcplib.WithDescription("Returns all members of the requested workspace. This endpoint additionally supports [filtering](/cloud/bitbucket/rest/intro/#filtering) by email address, if called by a workspace administrator, integration or workspace access token. This is done by adding the following query string parameter: * `q=user.email IN ('user1@org.com','user2@org.com')` When filtering by email, you can query up to 90 addresses at a time. Note that the query parameter values need to be URL escaped, so the final query string should be: * `q=user.email%20IN%20(%22user1@org.com%22,%22user2@org.com%22)` Email addresses that you filter by (and only these email addresses) can be included in the response using the `fields` query parameter: * `&fields=+values.user.email` - add the `email` field to the default `user` response object * `&fields=values.user.email,values.user.account_id` - only return user email addresses and account IDs Once again, all query parameter values must be URL escaped. Required: workspace. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("q", mcplib.Description("Query string to narrow down the response as per [filtering and...")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/permissions", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}}, []string{"workspace"}),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/members", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_permissions_get-workspaces",
+		mcplib.NewTool("bitbucket-workspaces_permissions_list-all-repository-for-workspace",
 			mcplib.WithDescription("Returns an object for each repository permission for all of a workspace's repositories. Permissions returned are effective permissions: the highest level of permission the user has. This does not distinguish between direct and indirect (group) privileges. Only users with admin permission for the team may access this resource. Permissions can be: * `admin` * `write` * `read` Results may be further [filtered or sorted](/cloud/bitbucket/rest/intro/#filtering) by repository, user, or permission by adding the following query string parameters: * `q=repository.name='geordi'` or `q=permission>'read'` * `sort=user.display_name` Note that the query parameter values need to be URL escaped so that `=` would become `%3D`. Required: workspace. Optional: q, sort. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithString("q", mcplib.Description("Query string to narrow down the response as per [filtering and...")),
@@ -3390,7 +3379,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/permissions/repositories", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_permissions_get-workspaces-2",
+		mcplib.NewTool("bitbucket-workspaces_permissions_list-repository-for-workspace",
 			mcplib.WithDescription("Returns an object for the repository permission of each user in the requested repository. Permissions returned are effective permissions: the highest level of permission the user has. This does not distinguish between direct and indirect (group) privileges. Only users with admin permission for the repository may access this resource. Permissions can be: * `admin` * `write` * `read` Results may be further [filtered or sorted](/cloud/bitbucket/rest/intro/#filtering) by user, or permission by adding the following query string parameters: * `q=permission>'read'` * `sort=user.display_name` Note that the query parameter values need to be URL escaped so that `=` would become `%3D`. Required: repo_slug, workspace. Optional: q, sort. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -3401,6 +3390,17 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/permissions/repositories/{repo_slug}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_permissions_list-user-in-workspace",
+			mcplib.WithDescription("Returns the list of members in a workspace and their permission levels. Permission can be: * `owner` * `collaborator` * `member` **The `collaborator` role is being removed from the Bitbucket Cloud API. For more information, see the [deprecation announcement](/cloud/bitbucket/deprecation-notice-collaborator-role/).** **When you move your administration from Bitbucket Cloud to admin.atlassian.com, the following fields on `workspace_membership` will no longer be present: `last_accessed` and `added_on`. See the [deprecation announcement](/cloud/bitbucket/announcement-breaking-change-workspace-membership/).** Results may be further [filtered](/cloud/bitbucket/rest/intro/#filtering) by permission by adding the following query string parameters: * `q=permission='owner'`. Required: workspace. Optional: q. (public)"),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("q", mcplib.Description("Query string to narrow down the response as per [filtering and...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/permissions", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}}, []string{"workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-workspaces_pipelines-config_create-pipeline-variable-for-workspace",
@@ -3531,7 +3531,27 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/pipelines-config/runners/{runner_uuid}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "runner_uuid", WireName: "runner_uuid", Location: "path"}}, []string{"workspace", "runner_uuid"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_create",
+		mcplib.NewTool("bitbucket-workspaces_projects_add-specific-user-as-default-reviewer-for",
+			mcplib.WithDescription("Adds the specified user to the project's list of default reviewers. The method is idempotent. Accepts an optional body containing the `uuid` of the user to be added. Required: project_key, selected_user, workspace. Returns the updated User. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question.")),
+			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers/{selected_user}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user", WireName: "selected_user", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "selected_user", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_create-deploy-key",
+			mcplib.WithDescription("Create a new deploy key in a project. Example: ``` $ curl -X POST -H 'Authorization <auth header>' -H 'Content-type: application/json' https://api.bitbucket.org/2.0/workspaces/standard/projects/TEST_PROJECT/deploy-keys/ -d '{ 'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAK/b1cHHDr/TEV1JGQl+WjCwStKG6Bhrv0rFpEsYlyTBm1fzN0VOJJYn4ZOPCPJwqse6fGbXntEs+BbXiptR+++HycVgl65TMR0b5ul5AgwrVdZdT7qjCOCgaSV74/9xlHDK8oqgGnfA7ZoBBU+qpVyaloSjBdJfLtPY/xqj4yHnXKYzrtn/uFc4Kp9Tb7PUg9Io3qohSTGJGVHnsVblq/rToJG7L5xIo0OxK0SJSQ5vuId93ZuFZrCNMXj8JDHZeSEtjJzpRCBEXHxpOPhAcbm4MzULgkFHhAVgp4JbkrT99/wpvZ7r9AdkTg7HGqL3rlaDrEcWfL7Lu6TnhBdq5 mleu@C02W454JHTD8', 'label': 'mydeploykey' }' ```. Required: project_key, workspace. Returns the new ProjectDeployKey. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_create-in-workspace",
 			mcplib.WithDescription("Creates a new project. Note that the avatar has to be embedded as either a data-url or a URL to an external image as shown in the examples below: ``` $ body=$(cat << EOF { 'name': 'Mars Project', 'key': 'MARS', 'description': 'Software for colonizing mars.', 'links': { 'avatar': { 'href': 'data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/...' } }, 'is_private': false } EOF ) $ curl -H 'Content-Type: application/json' -X POST -d '$body' https://api.bitbucket.org/2.0/workspaces/teams-in-space/projects/ | jq . { // Serialized project document } ``` or even: ``` $ body=$(cat << EOF { 'name': 'Mars Project', 'key': 'MARS', 'description': 'Software for colonizing mars.', 'links': { 'avatar': { 'href': 'http://i.imgur.com/72tRx4w.gif' } }, 'is_private': false } EOF ) $ curl -H 'Content-Type: application/json' -X POST -d '$body' https://api.bitbucket.org/2.0/workspaces/teams-in-space/projects/ | jq . { // Serialized project document } ```. Required: workspace, type. Optional: created_on, description, has_publicly_visible_repos (plus 7 more). Returns the new Project. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithString("created_on", mcplib.Description("Created on")),
@@ -3551,38 +3571,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "has_publicly_visible_repos", WireName: "has_publicly_visible_repos", Location: "body"}, {PublicName: "is_private", WireName: "is_private", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "uuid", WireName: "uuid", Location: "body"}}, []string{"workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_create-workspaces",
-			mcplib.WithDescription("Create a new deploy key in a project. Example: ``` $ curl -X POST -H 'Authorization <auth header>' -H 'Content-type: application/json' https://api.bitbucket.org/2.0/workspaces/standard/projects/TEST_PROJECT/deploy-keys/ -d '{ 'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAK/b1cHHDr/TEV1JGQl+WjCwStKG6Bhrv0rFpEsYlyTBm1fzN0VOJJYn4ZOPCPJwqse6fGbXntEs+BbXiptR+++HycVgl65TMR0b5ul5AgwrVdZdT7qjCOCgaSV74/9xlHDK8oqgGnfA7ZoBBU+qpVyaloSjBdJfLtPY/xqj4yHnXKYzrtn/uFc4Kp9Tb7PUg9Io3qohSTGJGVHnsVblq/rToJG7L5xIo0OxK0SJSQ5vuId93ZuFZrCNMXj8JDHZeSEtjJzpRCBEXHxpOPhAcbm4MzULgkFHhAVgp4JbkrT99/wpvZ7r9AdkTg7HGqL3rlaDrEcWfL7Lu6TnhBdq5 mleu@C02W454JHTD8', 'label': 'mydeploykey' }' ```. Required: project_key, workspace. Returns the new ProjectDeployKey. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_delete",
-			mcplib.WithDescription("Deletes this project. This is an irreversible operation. You cannot delete a project that still contains repositories. To delete the project, [delete](/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-delete) or transfer the repositories first. Example: ``` $ curl -X DELETE https://api.bitbucket.org/2.0/workspaces/bbworkspace1/projects/PROJ ```. Required: project_key, workspace. Destructive. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_delete-workspaces",
-			mcplib.WithDescription("Removes a default reviewer from the project. Example: ``` $ curl https://api.bitbucket.org/2.0/.../default-reviewers/%7Bf0e0e8e9-66c1-4b85-a784-44a9eb9ef1a6%7D HTTP/1.1 204 ```. Required: project_key, selected_user, workspace. Destructive. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question.")),
-			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers/{selected_user}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user", WireName: "selected_user", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "selected_user", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_delete-workspaces-2",
+		mcplib.NewTool("bitbucket-workspaces_projects_delete-deploy-key-from",
 			mcplib.WithDescription("This deletes a deploy key from a project. Required: key_id, project_key, workspace. Destructive. (public)"),
 			mcplib.WithString("key_id", mcplib.Required(), mcplib.Description("The key ID matching the project deploy key.")),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
@@ -3593,7 +3582,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys/{key_id}", false, false, nil, []mcpParamBinding{{PublicName: "key_id", WireName: "key_id", Location: "path"}, {PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"key_id", "project_key", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_delete-workspaces-3",
+		mcplib.NewTool("bitbucket-workspaces_projects_delete-explicit-group-permission-for",
 			mcplib.WithDescription("Deletes the project group permission between the requested project and group, if one exists. Only users with admin permission for the project may access this resource. Required: group_slug, project_key, workspace. Destructive. (public)"),
 			mcplib.WithString("group_slug", mcplib.Required(), mcplib.Description("Slug of the requested group.")),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
@@ -3604,7 +3593,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups/{group_slug}", false, false, nil, []mcpParamBinding{{PublicName: "group_slug", WireName: "group_slug", Location: "path"}, {PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"group_slug", "project_key", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_delete-workspaces-4",
+		mcplib.NewTool("bitbucket-workspaces_projects_delete-explicit-user-permission-for",
 			mcplib.WithDescription("Deletes the project user permission between the requested project and user, if one exists. Only users with admin permission for the project may access this resource. Due to security concerns, the JWT and OAuth authentication methods are unsupported. This is to ensure integrations and add-ons are not allowed to change permissions. Required: project_key, selected_user_id, workspace. Destructive. (public)"),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
 			mcplib.WithString("selected_user_id", mcplib.Required(), mcplib.Description("This can either be the username, the user's UUID surrounded by curly-braces, for example:...")),
@@ -3615,85 +3604,17 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{selected_user_id}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user_id", WireName: "selected_user_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "selected_user_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get",
-			mcplib.WithDescription("Returns the list of projects in this workspace. Required: workspace. (public)"),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces",
-			mcplib.WithDescription("Returns the requested project. Required: project_key, workspace. (public)"),
+		mcplib.NewTool("bitbucket-workspaces_projects_delete-for-workspace",
+			mcplib.WithDescription("Deletes this project. This is an irreversible operation. You cannot delete a project that still contains repositories. To delete the project, [delete](/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-delete) or transfer the repositories first. Example: ``` $ curl -X DELETE https://api.bitbucket.org/2.0/workspaces/bbworkspace1/projects/PROJ ```. Required: project_key, workspace. Destructive. (public)"),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-10",
-			mcplib.WithDescription("Returns the group permission for a given group and project. Only users with admin permission for the project may access this resource. Permissions can be: * `admin` * `create-repo` * `write` * `read` * `none`. Required: group_slug, project_key, workspace. (public)"),
-			mcplib.WithString("group_slug", mcplib.Required(), mcplib.Description("Slug of the requested group.")),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups/{group_slug}", true, false, nil, []mcpParamBinding{{PublicName: "group_slug", WireName: "group_slug", Location: "path"}, {PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"group_slug", "project_key", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-11",
-			mcplib.WithDescription("Returns the explicit user permission for a given user and project. Only users with admin permission for the project may access this resource. Permissions can be: * `admin` * `create-repo` * `write` * `read` * `none`. Required: project_key, selected_user_id, workspace. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
-			mcplib.WithString("selected_user_id", mcplib.Required(), mcplib.Description("This can either be the username, the user's UUID surrounded by curly-braces, for example:...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{selected_user_id}", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user_id", WireName: "selected_user_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "selected_user_id", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-2",
-			mcplib.WithDescription("Return the branching model set at the project level. This view is read-only. The branching model settings can be changed using the [settings](#api-workspaces-workspace-projects-project-key-branching-model-settings-get) API. The returned object: 1. Always has a `development` property. `development.name` is the user-specified branch that can be inherited by an individual repository's branching model. 2. Might have a `production` property. `production` will not be present when `production` is disabled. `production.name` is the user-specified branch that can be inherited by an individual repository's branching model. 3. Always has a `branch_types` array which contains all enabled branch types. Required: project_key, workspace. Returns the ProjectBranchingModel. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/branching-model", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-3",
-			mcplib.WithDescription("Return a list of all default reviewers for a project. This is a list of users that will be added as default reviewers to pull requests for any repository within the project. Required: project_key, workspace. Returns the PaginatedDefaultReviewerAndType. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-4",
-			mcplib.WithDescription("Returns all deploy keys belonging to a project. Required: project_key, workspace. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-5",
+		mcplib.NewTool("bitbucket-workspaces_projects_get-branching-model-config-for",
 			mcplib.WithDescription("Return the branching model configuration for a project. The returned object: 1. Always has a `development` property for the development branch. 2. Always a `production` property for the production branch. The production branch can be disabled. 3. The `branch_types` contains all the branch types. 4. `default_branch_deletion` indicates whether branches will be deleted by default on merge. This is the raw configuration for the branching model. A client wishing to see the branching model with its actual current branches may find the [active model API](#api-workspaces-workspace-projects-project-key-branching-model-get) more useful. Required: project_key, workspace. Returns the BranchingModelSettings. (public)"),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -3704,7 +3625,18 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/branching-model/settings", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-6",
+		mcplib.NewTool("bitbucket-workspaces_projects_get-branching-model-for",
+			mcplib.WithDescription("Return the branching model set at the project level. This view is read-only. The branching model settings can be changed using the [settings](#api-workspaces-workspace-projects-project-key-branching-model-settings-get) API. The returned object: 1. Always has a `development` property. `development.name` is the user-specified branch that can be inherited by an individual repository's branching model. 2. Might have a `production` property. `production` will not be present when `production` is disabled. `production.name` is the user-specified branch that can be inherited by an individual repository's branching model. 3. Always has a `branch_types` array which contains all enabled branch types. Required: project_key, workspace. Returns the ProjectBranchingModel. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/branching-model", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_get-default-reviewer-in-workspace",
 			mcplib.WithDescription("Returns the specified default reviewer. Required: project_key, selected_user, workspace. (public)"),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question.")),
 			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
@@ -3716,7 +3648,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers/{selected_user}", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user", WireName: "selected_user", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "selected_user", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-7",
+		mcplib.NewTool("bitbucket-workspaces_projects_get-deploy-key",
 			mcplib.WithDescription("Returns the deploy key belonging to a specific key ID. Required: key_id, project_key, workspace. (public)"),
 			mcplib.WithString("key_id", mcplib.Required(), mcplib.Description("The key ID matching the project deploy key.")),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
@@ -3728,7 +3660,64 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys/{key_id}", true, false, nil, []mcpParamBinding{{PublicName: "key_id", WireName: "key_id", Location: "path"}, {PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"key_id", "project_key", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-8",
+		mcplib.NewTool("bitbucket-workspaces_projects_get-explicit-group-permission-for",
+			mcplib.WithDescription("Returns the group permission for a given group and project. Only users with admin permission for the project may access this resource. Permissions can be: * `admin` * `create-repo` * `write` * `read` * `none`. Required: group_slug, project_key, workspace. (public)"),
+			mcplib.WithString("group_slug", mcplib.Required(), mcplib.Description("Slug of the requested group.")),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups/{group_slug}", true, false, nil, []mcpParamBinding{{PublicName: "group_slug", WireName: "group_slug", Location: "path"}, {PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"group_slug", "project_key", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_get-explicit-user-permission-for",
+			mcplib.WithDescription("Returns the explicit user permission for a given user and project. Only users with admin permission for the project may access this resource. Permissions can be: * `admin` * `create-repo` * `write` * `read` * `none`. Required: project_key, selected_user_id, workspace. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
+			mcplib.WithString("selected_user_id", mcplib.Required(), mcplib.Description("This can either be the username, the user's UUID surrounded by curly-braces, for example:...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{selected_user_id}", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user_id", WireName: "selected_user_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "selected_user_id", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_get-for-workspace",
+			mcplib.WithDescription("Returns the requested project. Required: project_key, workspace. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_list-default-reviewers-in",
+			mcplib.WithDescription("Return a list of all default reviewers for a project. This is a list of users that will be added as default reviewers to pull requests for any repository within the project. Required: project_key, workspace. Returns the PaginatedDefaultReviewerAndType. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_list-deploy-keys",
+			mcplib.WithDescription("Returns all deploy keys belonging to a project. Required: project_key, workspace. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_list-explicit-group-permissions-for",
 			mcplib.WithDescription("Returns a paginated list of explicit group permissions for the given project. This endpoint does not support BBQL features. Required: project_key, workspace. (public)"),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -3739,7 +3728,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_get-workspaces-9",
+		mcplib.NewTool("bitbucket-workspaces_projects_list-explicit-user-permissions-for",
 			mcplib.WithDescription("Returns a paginated list of explicit user permissions for the given project. This endpoint does not support BBQL features. Required: project_key, workspace. (public)"),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -3750,7 +3739,59 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users", true, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_update",
+		mcplib.NewTool("bitbucket-workspaces_projects_list-in-workspace",
+			mcplib.WithDescription("Returns the list of projects in this workspace. Required: workspace. (public)"),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_remove-specific-user-from-default-reviewers",
+			mcplib.WithDescription("Removes a default reviewer from the project. Example: ``` $ curl https://api.bitbucket.org/2.0/.../default-reviewers/%7Bf0e0e8e9-66c1-4b85-a784-44a9eb9ef1a6%7D HTTP/1.1 204 ```. Required: project_key, selected_user, workspace. Destructive. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question.")),
+			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers/{selected_user}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user", WireName: "selected_user", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "selected_user", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_update-branching-model-config-for",
+			mcplib.WithDescription("Update the branching model configuration for a project. The `development` branch can be configured to a specific branch or to track the main branch. Any branch name can be supplied, but will only successfully be applied to a repository via inheritance if that branch exists for that repository. Only the passed properties will be updated. The properties not passed will be left unchanged. A request without a `development` property will leave the development branch unchanged. The `production` branch can be a specific branch, the main branch or disabled. Any branch name can be supplied, but will only successfully be applied to a repository via inheritance if that branch exists for that repository. The `enabled` property can be used to enable (`true`) or disable (`false`) it. Only the passed properties will be updated. The properties not passed will be left unchanged. A request without a `production` property will leave the production branch unchanged. The `branch_types` property contains the branch types to be updated. Only the branch types passed will be updated. All updates will be rejected if it would leave the branching model in an invalid state. For branch types this means that: 1. The prefixes for all enabled branch types are valid. For example, it is not possible to use '*' inside a Git prefix. 2. A prefix of an enabled branch type must not be a prefix of another enabled branch type. This is to ensure that a branch can be easily classified by its prefix unambiguously. It is possible to store an invalid prefix if that branch type would be left disabled. Only the passed properties will be updated. The properties not passed will be left unchanged. Each branch type must have a `kind` property to identify it. The `default_branch_deletion` property is a string. The value of `true` indicates to delete branches by default. The value of `false` indicates that branches will not be deleted by default. A request without a `default_branch_deletion` property will leave it unchanged. Other values would be ignored. Required: project_key, workspace. Returns the updated BranchingModelSettings. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/branching-model/settings", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_update-explicit-group-permission-for",
+			mcplib.WithDescription("Updates the group permission, or grants a new permission if one does not already exist. Only users with admin permission for the project may access this resource. Due to security concerns, the JWT and OAuth authentication methods are unsupported. This is to ensure integrations and add-ons are not allowed to change permissions. Permissions can be: * `admin` * `create-repo` * `write` * `read`. Required: group_slug, project_key, workspace, permission. Returns the updated ProjectGroupPermission. (public)"),
+			mcplib.WithString("group_slug", mcplib.Required(), mcplib.Description("Slug of the requested group.")),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("permission", mcplib.Required(), mcplib.Description("Permission")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups/{group_slug}", false, false, nil, []mcpParamBinding{{PublicName: "group_slug", WireName: "group_slug", Location: "path"}, {PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "permission", WireName: "permission", Location: "body"}}, []string{"group_slug", "project_key", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_update-explicit-user-permission-for",
+			mcplib.WithDescription("Updates the explicit user permission for a given user and project. The selected user must be a member of the workspace, and cannot be the workspace owner. Only users with admin permission for the project may access this resource. Due to security concerns, the JWT and OAuth authentication methods are unsupported. This is to ensure integrations and add-ons are not allowed to change permissions. Permissions can be: * `admin` * `create-repo` * `write` * `read`. Required: project_key, selected_user_id, workspace, permission. Returns the updated ProjectUserPermission. (public)"),
+			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
+			mcplib.WithString("selected_user_id", mcplib.Required(), mcplib.Description("This can either be the username, the user's UUID surrounded by curly-braces, for example:...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("permission", mcplib.Required(), mcplib.Description("Permission")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{selected_user_id}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user_id", WireName: "selected_user_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "permission", WireName: "permission", Location: "body"}}, []string{"project_key", "selected_user_id", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-workspaces_projects_update-for-workspace",
 			mcplib.WithDescription("Since this endpoint can be used to both update and to create a project, the request body depends on the intent. #### Creation See the POST documentation for the project collection for an example of the request body. Note: The `key` should not be specified in the body of request (since it is already present in the URL). The `name` is required, everything else is optional. #### Update See the POST documentation for the project collection for an example of the request body. Note: The key is not required in the body (since it is already in the URL). The key may be specified in the body, if the intent is to change the key itself. In such a scenario, the location of the project is changed and is returned in the `Location` header of the response. Required: project_key, workspace, type. Optional: created_on, description, has_publicly_visible_repos (plus 7 more). Returns the updated Project. (public)"),
 			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -3770,48 +3811,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "has_publicly_visible_repos", WireName: "has_publicly_visible_repos", Location: "body"}, {PublicName: "is_private", WireName: "is_private", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "uuid", WireName: "uuid", Location: "body"}}, []string{"project_key", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_update-workspaces",
-			mcplib.WithDescription("Update the branching model configuration for a project. The `development` branch can be configured to a specific branch or to track the main branch. Any branch name can be supplied, but will only successfully be applied to a repository via inheritance if that branch exists for that repository. Only the passed properties will be updated. The properties not passed will be left unchanged. A request without a `development` property will leave the development branch unchanged. The `production` branch can be a specific branch, the main branch or disabled. Any branch name can be supplied, but will only successfully be applied to a repository via inheritance if that branch exists for that repository. The `enabled` property can be used to enable (`true`) or disable (`false`) it. Only the passed properties will be updated. The properties not passed will be left unchanged. A request without a `production` property will leave the production branch unchanged. The `branch_types` property contains the branch types to be updated. Only the branch types passed will be updated. All updates will be rejected if it would leave the branching model in an invalid state. For branch types this means that: 1. The prefixes for all enabled branch types are valid. For example, it is not possible to use '*' inside a Git prefix. 2. A prefix of an enabled branch type must not be a prefix of another enabled branch type. This is to ensure that a branch can be easily classified by its prefix unambiguously. It is possible to store an invalid prefix if that branch type would be left disabled. Only the passed properties will be updated. The properties not passed will be left unchanged. Each branch type must have a `kind` property to identify it. The `default_branch_deletion` property is a string. The value of `true` indicates to delete branches by default. The value of `false` indicates that branches will not be deleted by default. A request without a `default_branch_deletion` property will leave it unchanged. Other values would be ignored. Required: project_key, workspace. Returns the updated BranchingModelSettings. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual `key` assigned to the project.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/branching-model/settings", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_update-workspaces-2",
-			mcplib.WithDescription("Adds the specified user to the project's list of default reviewers. The method is idempotent. Accepts an optional body containing the `uuid` of the user to be added. Required: project_key, selected_user, workspace. Returns the updated User. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question.")),
-			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers/{selected_user}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user", WireName: "selected_user", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"project_key", "selected_user", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_update-workspaces-3",
-			mcplib.WithDescription("Updates the group permission, or grants a new permission if one does not already exist. Only users with admin permission for the project may access this resource. Due to security concerns, the JWT and OAuth authentication methods are unsupported. This is to ensure integrations and add-ons are not allowed to change permissions. Permissions can be: * `admin` * `create-repo` * `write` * `read`. Required: group_slug, project_key, workspace, permission. Returns the updated ProjectGroupPermission. (public)"),
-			mcplib.WithString("group_slug", mcplib.Required(), mcplib.Description("Slug of the requested group.")),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("permission", mcplib.Required(), mcplib.Description("Permission")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups/{group_slug}", false, false, nil, []mcpParamBinding{{PublicName: "group_slug", WireName: "group_slug", Location: "path"}, {PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "permission", WireName: "permission", Location: "body"}}, []string{"group_slug", "project_key", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_projects_update-workspaces-4",
-			mcplib.WithDescription("Updates the explicit user permission for a given user and project. The selected user must be a member of the workspace, and cannot be the workspace owner. Only users with admin permission for the project may access this resource. Due to security concerns, the JWT and OAuth authentication methods are unsupported. This is to ensure integrations and add-ons are not allowed to change permissions. Permissions can be: * `admin` * `create-repo` * `write` * `read`. Required: project_key, selected_user_id, workspace, permission. Returns the updated ProjectUserPermission. (public)"),
-			mcplib.WithString("project_key", mcplib.Required(), mcplib.Description("The project in question. This is the actual key assigned to the project.")),
-			mcplib.WithString("selected_user_id", mcplib.Required(), mcplib.Description("This can either be the username, the user's UUID surrounded by curly-braces, for example:...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("permission", mcplib.Required(), mcplib.Description("Permission")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{selected_user_id}", false, false, nil, []mcpParamBinding{{PublicName: "project_key", WireName: "project_key", Location: "path"}, {PublicName: "selected_user_id", WireName: "selected_user_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "permission", WireName: "permission", Location: "body"}}, []string{"project_key", "selected_user_id", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_pullrequests_get",
+		mcplib.NewTool("bitbucket-workspaces_pullrequests_list-workspace-pull-requests-for-user",
 			mcplib.WithDescription("Returns all workspace pull requests authored by the specified user. By default only open pull requests are returned. This can be controlled using the `state` query parameter. To retrieve pull requests that are in one of multiple states, repeat the `state` parameter for each individual state. This endpoint also supports filtering and sorting of the results. See [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details. Required: selected_user, workspace. Optional: state. (public)"),
 			mcplib.WithString("selected_user", mcplib.Required(), mcplib.Description("This can either be the username of the pull request author, the author's UUID surrounded by curly-braces, for example")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -3836,7 +3836,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/workspaces/{workspace}/search/code", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "search_query", WireName: "search_query", Location: "query"}, {PublicName: "page", WireName: "page", Location: "query"}, {PublicName: "pagelen", WireName: "pagelen", Location: "query"}}, []string{"workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-workspaces_settings_get",
+		mcplib.NewTool("bitbucket-workspaces_settings_get-workspace-system-gpg-public-key-s",
 			mcplib.WithDescription("Returns the system public GPG key(s). In most cases a single key is returned. During a key rotation period, two keys may be returned. Required: workspace. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithReadOnlyHintAnnotation(true),
@@ -13139,7 +13139,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "/rest/remotelinks/1.0/bulk", false, false, nil, []mcpParamBinding{{PublicName: "properties", WireName: "properties", Location: "body"}, {PublicName: "providerMetadata", WireName: "providerMetadata", Location: "body"}, {PublicName: "remoteLinks", WireName: "remoteLinks", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_create",
+		mcplib.NewTool("bitbucket-repositories_create-repository",
 			mcplib.WithDescription("Creates a new repository. Note: In order to set the project for the newly created repository, pass in either the project key or the project UUID as part of the request body as shown in the examples below: ``` $ curl -X POST -H 'Content-Type: application/json' -d '{ 'scm': 'git', 'project': { 'key': 'MARS' } }' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding ``` or ``` $ curl -X POST -H 'Content-Type: application/json' -d '{ 'scm': 'git', 'project': { 'key': '{ba516952-992a-4c2d-acbd-17d502922f96}' } }' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding ``` The project must be assigned for all repositories. If the project is not provided, the repository is automatically assigned to the oldest project in the workspace. Note: In the examples above, the workspace ID `teamsinspace`, and/or the repository name `hablanding` can be replaced by UUIDs. Required: repo_slug, workspace, type. Optional: created_on, description, fork_policy (plus 15 more). Returns the new Repository. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13168,7 +13168,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "fork_policy", WireName: "fork_policy", Location: "body"}, {PublicName: "full_name", WireName: "full_name", Location: "body"}, {PublicName: "has_issues", WireName: "has_issues", Location: "body"}, {PublicName: "has_wiki", WireName: "has_wiki", Location: "body"}, {PublicName: "is_private", WireName: "is_private", Location: "body"}, {PublicName: "language", WireName: "language", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "mainbranch", WireName: "mainbranch", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "scm", WireName: "scm", Location: "body"}, {PublicName: "size", WireName: "size", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "uuid", WireName: "uuid", Location: "body"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_delete",
+		mcplib.NewTool("bitbucket-repositories_delete-repository",
 			mcplib.WithDescription("Deletes the repository. This is an irreversible operation. This does not affect its forks. Required: repo_slug, workspace. Optional: redirect_to. Destructive. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13179,7 +13179,18 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "redirect_to", WireName: "redirect_to", Location: "query"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_get",
+		mcplib.NewTool("bitbucket-repositories_get-repository",
+			mcplib.WithDescription("Returns the object describing this repository. Required: repo_slug, workspace. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_list-in-workspace",
 			mcplib.WithDescription("Returns a paginated list of all repositories owned by the specified workspace. The result can be narrowed down based on the authenticated user's role. E.g. with `?role=contributor`, only those repositories that the authenticated user has write access to are returned (this includes any repo the user is an admin on, as that implies write access). This endpoint also supports filtering and sorting of the results. See [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details. Required: workspace. Optional: role, q, sort. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithString("role", mcplib.Description("Filters the result based on the authenticated user's role on each repository.")),
@@ -13192,18 +13203,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "role", WireName: "role", Location: "query"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_get-workspace",
-			mcplib.WithDescription("Returns the object describing this repository. Required: repo_slug, workspace. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_update",
+		mcplib.NewTool("bitbucket-repositories_update-repository",
 			mcplib.WithDescription("Since this endpoint can be used to both update and to create a repository, the request body depends on the intent. #### Creation See the POST documentation for the repository endpoint for an example of the request body. #### Update Note: Changing the `name` of the repository will cause the location to be changed. This is because the URL of the repo is derived from the name (a process called slugification). In such a scenario, it is possible for the request to fail if the newly created slug conflicts with an existing repository's slug. But if there is no conflict, the new location will be returned in the `Location` header of the response. Required: repo_slug, workspace, type. Optional: created_on, description, fork_policy (plus 15 more). Returns the updated Repository. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13231,7 +13231,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "fork_policy", WireName: "fork_policy", Location: "body"}, {PublicName: "full_name", WireName: "full_name", Location: "body"}, {PublicName: "has_issues", WireName: "has_issues", Location: "body"}, {PublicName: "has_wiki", WireName: "has_wiki", Location: "body"}, {PublicName: "is_private", WireName: "is_private", Location: "body"}, {PublicName: "language", WireName: "language", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "mainbranch", WireName: "mainbranch", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "scm", WireName: "scm", Location: "body"}, {PublicName: "size", WireName: "size", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "uuid", WireName: "uuid", Location: "body"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_branch-restrictions_create",
+		mcplib.NewTool("bitbucket-repositories_branch-restrictions_create-rule",
 			mcplib.WithDescription("Creates a new branch restriction rule for a repository. `kind` describes what will be restricted. Allowed values include: `push`, `force`, `delete`, `restrict_merges`, `require_tasks_to_be_completed`, `require_approvals_to_merge`, `require_default_reviewer_approvals_to_merge`, `require_no_changes_requested`, `require_passing_builds_to_merge`, `require_commits_behind`, `reset_pullrequest_approvals_on_change`, `smart_reset_pullrequest_approvals`, `reset_pullrequest_changes_requested_on_change`, `require_all_dependencies_merged`, `enforce_merge_checks`, and `allow_auto_merge_when_builds_pass`. Different kinds of branch restrictions have different requirements: * `push` and `restrict_merges` require `users` and `groups` to be specified. Empty lists are allowed, in which case permission is denied for everybody. The restriction applies to all branches that match. There are two ways to match a branch. It is configured in `branch_match_kind`: 1. `glob`: Matches a branch against the `pattern`. A `'*'` in `pattern` will expand to match zero or more characters, and every other character matches itself. For example, `'foo*'` will match `'foo'` and `'foobar'`, but not `'barfoo'`. `'*'` will match all branches. 2. `branching_model`: Matches a branch against the repository's branching model. The `branch_type` controls the type of branch to match. Allowed values include: `production`, `development`, `bugfix`, `release`, `feature` and `hotfix`. The combination of `kind` and match must be unique. This means that two `glob` restrictions in a repository cannot have the same `kind` and `pattern`. Additionally, two `branching_model` restrictions in a repository cannot have the same `kind` and `branch_type`. `users` and `groups` are lists of users and groups that are except from the restriction. They can only be configured in `push` and `restrict_merges` restrictions. The `push` restriction stops a user pushing to matching branches unless that user is in `users` or is a member of a group in `groups`. The `restrict_merges` stops a user merging pull requests to matching branches unless that user is in `users` or is a member of a group in `groups`. Adding new users or groups to an existing restriction should be done via `PUT`. Note that branch restrictions with overlapping matchers is allowed, but the resulting behavior may be surprising. Required: repo_slug, workspace, branch_match_kind, kind, pattern, type. Optional: branch_type, groups, id (plus 4 more). Returns the new Branchrestriction. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13252,7 +13252,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "branch_match_kind", WireName: "branch_match_kind", Location: "body"}, {PublicName: "branch_type", WireName: "branch_type", Location: "body"}, {PublicName: "groups", WireName: "groups", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "kind", WireName: "kind", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "pattern", WireName: "pattern", Location: "body"}, {PublicName: "pipelines_source_branches", WireName: "pipelines_source_branches", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "users", WireName: "users", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_branch-restrictions_delete",
+		mcplib.NewTool("bitbucket-repositories_branch-restrictions_delete-rule",
 			mcplib.WithDescription("Deletes an existing branch restriction rule. Required: id, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The restriction rule's id")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -13263,7 +13263,19 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_branch-restrictions_get",
+		mcplib.NewTool("bitbucket-repositories_branch-restrictions_get-rule",
+			mcplib.WithDescription("Returns a specific branch restriction rule. Required: id, repo_slug, workspace. (public)"),
+			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The restriction rule's id")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_branch-restrictions_list",
 			mcplib.WithDescription("Returns a paginated list of all branch restrictions on the repository. Required: repo_slug, workspace. Optional: kind, pattern. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13276,19 +13288,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "kind", WireName: "kind", Location: "query"}, {PublicName: "pattern", WireName: "pattern", Location: "query"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_branch-restrictions_get-repositories",
-			mcplib.WithDescription("Returns a specific branch restriction rule. Required: id, repo_slug, workspace. (public)"),
-			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The restriction rule's id")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/{id}", true, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_branch-restrictions_update",
+		mcplib.NewTool("bitbucket-repositories_branch-restrictions_update-rule",
 			mcplib.WithDescription("Updates an existing branch restriction rule. Fields not present in the request body are ignored. See [`POST`](/cloud/bitbucket/rest/api-group-branch-restrictions/#api-repositories-workspace-repo-slug-branch-restrictions-post) for details. Required: id, repo_slug, workspace, branch_match_kind, kind, pattern, type. Optional: branch_type, groups, id-2 (plus 4 more). Returns the updated Branchrestriction. (public)"),
 			mcplib.WithString("id", mcplib.Required(), mcplib.Description("The restriction rule's id")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -13309,18 +13309,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/{id}", false, false, nil, []mcpParamBinding{{PublicName: "id", WireName: "id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "branch_match_kind", WireName: "branch_match_kind", Location: "body"}, {PublicName: "branch_type", WireName: "branch_type", Location: "body"}, {PublicName: "groups", WireName: "groups", Location: "body"}, {PublicName: "id-2", WireName: "id", Location: "body"}, {PublicName: "kind", WireName: "kind", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "pattern", WireName: "pattern", Location: "body"}, {PublicName: "pipelines_source_branches", WireName: "pipelines_source_branches", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "users", WireName: "users", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_branching-model_get",
-			mcplib.WithDescription("Return the branching model as applied to the repository. This view is read-only. The branching model settings can be changed using the [settings](#api-repositories-workspace-repo-slug-branching-model-settings-get) API. The returned object: 1. Always has a `development` property. `development.branch` contains the actual repository branch object that is considered to be the `development` branch. `development.branch` will not be present if it does not exist. 2. Might have a `production` property. `production` will not be present when `production` is disabled. `production.branch` contains the actual branch object that is considered to be the `production` branch. `production.branch` will not be present if it does not exist. 3. Always has a `branch_types` array which contains all enabled branch types. Required: repo_slug, workspace. Returns the BranchingModel. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branching-model", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_branching-model_get-repositories",
+		mcplib.NewTool("bitbucket-repositories_branching-model_get-config-for-repository",
 			mcplib.WithDescription("Return the branching model configuration for a repository. The returned object: 1. Always has a `development` property for the development branch. 2. Always a `production` property for the production branch. The production branch can be disabled. 3. The `branch_types` contains all the branch types. 4. `default_branch_deletion` indicates whether branches will be deleted by default on merge. This is the raw configuration for the branching model. A client wishing to see the branching model with its actual current branches may find the [active model API](/cloud/bitbucket/rest/api-group-branching-model/#api-repositories-workspace-repo-slug-branching-model-get) more useful. Required: repo_slug, workspace. Returns the BranchingModelSettings. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13331,13 +13320,35 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branching-model/settings", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_branching-model_update",
+		mcplib.NewTool("bitbucket-repositories_branching-model_get-for-repository",
+			mcplib.WithDescription("Return the branching model as applied to the repository. This view is read-only. The branching model settings can be changed using the [settings](#api-repositories-workspace-repo-slug-branching-model-settings-get) API. The returned object: 1. Always has a `development` property. `development.branch` contains the actual repository branch object that is considered to be the `development` branch. `development.branch` will not be present if it does not exist. 2. Might have a `production` property. `production` will not be present when `production` is disabled. `production.branch` contains the actual branch object that is considered to be the `production` branch. `production.branch` will not be present if it does not exist. 3. Always has a `branch_types` array which contains all enabled branch types. Required: repo_slug, workspace. Returns the BranchingModel. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branching-model", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_branching-model_update-config-for-repository",
 			mcplib.WithDescription("Update the branching model configuration for a repository. The `development` branch can be configured to a specific branch or to track the main branch. When set to a specific branch it must currently exist. Only the passed properties will be updated. The properties not passed will be left unchanged. A request without a `development` property will leave the development branch unchanged. It is possible for the `development` branch to be invalid. This happens when it points at a specific branch that has been deleted. This is indicated in the `is_valid` field for the branch. It is not possible to update the settings for `development` if that would leave the branch in an invalid state. Such a request will be rejected. The `production` branch can be a specific branch, the main branch or disabled. When set to a specific branch it must currently exist. The `enabled` property can be used to enable (`true`) or disable (`false`) it. Only the passed properties will be updated. The properties not passed will be left unchanged. A request without a `production` property will leave the production branch unchanged. It is possible for the `production` branch to be invalid. This happens when it points at a specific branch that has been deleted. This is indicated in the `is_valid` field for the branch. A request that would leave `production` enabled and invalid will be rejected. It is possible to update `production` and make it invalid if it would also be left disabled. The `branch_types` property contains the branch types to be updated. Only the branch types passed will be updated. All updates will be rejected if it would leave the branching model in an invalid state. For branch types this means that: 1. The prefixes for all enabled branch types are valid. For example, it is not possible to use '*' inside a Git prefix. 2. A prefix of an enabled branch type must not be a prefix of another enabled branch type. This is to ensure that a branch can be easily classified by its prefix unambiguously. It is possible to store an invalid prefix if that branch type would be left disabled. Only the passed properties will be updated. The properties not passed will be left unchanged. Each branch type must have a `kind` property to identify it. The `default_branch_deletion` property is a string. The value of `true` indicates to delete branches by default. The value of `false` indicates that branches will not be deleted by default. A request without a `default_branch_deletion` property will leave it unchanged. Other values would be ignored. There is currently a side effect when using this API endpoint. If the repository is inheriting branching model settings from its project, updating the branching model for this repository will disable the project setting inheritance. We have deprecated this side effect and will remove it on 1 August 2022. Required: repo_slug, workspace. Returns the updated BranchingModelSettings. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branching-model/settings", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_commit_approve",
+			mcplib.WithDescription("Approve the specified commit as the authenticated user. This operation is only available to users that have explicit access to the repository. In contrast, just the fact that a repository is publicly accessible to users does not give them the ability to approve commits. Required: commit, repo_slug, workspace. Returns the new Participant. (public)"),
+			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/approve", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"commit", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_commit_bulk-create-or-update-annotations",
@@ -13353,15 +13364,47 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "reportId", WireName: "reportId", Location: "path"}, {PublicName: "body_json", WireName: "body_json", Location: "body_json"}}, []string{"workspace", "repo_slug", "commit", "reportId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_create",
-			mcplib.WithDescription("Approve the specified commit as the authenticated user. This operation is only available to users that have explicit access to the repository. In contrast, just the fact that a repository is publicly accessible to users does not give them the ability to approve commits. Required: commit, repo_slug, workspace. Returns the new Participant. (public)"),
+		mcplib.NewTool("bitbucket-repositories_commit_create-build-status-for",
+			mcplib.WithDescription("Creates a new build status against the specified commit. If the specified key already exists, the existing status object will be overwritten. Example: ``` curl https://api.bitbucket.org/2.0/repositories/my-workspace/my-repo/commit/e10dae226959c2194f2b07b077c07762d93821cf/statuses/build/ -X POST -u jdoe -H 'Content-Type: application/json' -d '{ 'key': 'MY-BUILD', 'state': 'SUCCESSFUL', 'description': '42 tests passed', 'url': 'https://www.example.org/my-build-result' }' ``` When creating a new commit status, you can use a URI template for the URL. Templates are URLs that contain variable names that Bitbucket will evaluate at runtime whenever the URL is displayed anywhere similar to parameter substitution in [Bitbucket Connect](https://developer.atlassian.com/bitbucket/concepts/context-parameters.html). For example, one could use `https://foo.com/builds/{repository.full_name}` which Bitbucket will turn into `https://foo.com/builds/foo/bar` at render time. The context variables available are `repository` and `commit`. To associate a commit status to a pull request, the refname field must be set to the source branch of the pull request. Example: ``` curl https://api.bitbucket.org/2.0/repositories/my-workspace/my-repo/commit/e10dae226959c2194f2b07b077c07762d93821cf/statuses/build/ -X POST -u jdoe -H 'Content-Type: application/json' -d '{ 'key': 'MY-BUILD', 'state': 'SUCCESSFUL', 'description': '42 tests passed', 'url': 'https://www.example.org/my-build-result', 'refname': 'my-pr-branch' }' ```. Required: commit, repo_slug, workspace, key, state, type. Optional: created_on, description, links (plus 4 more). Returns the new Commitstatus. (public)"),
 			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("created_on", mcplib.Description("Created on")),
+			mcplib.WithString("description", mcplib.Description("A description of the build (e.g. 'Unit tests in Bamboo')")),
+			mcplib.WithString("key", mcplib.Required(), mcplib.Description("An identifier for the status that's unique to its type (current 'build' is the only supported type) and the vendor, e.g.")),
+			mcplib.WithString("links", mcplib.Description("Links")),
+			mcplib.WithString("name", mcplib.Description("An identifier for the build itself, e.g. BB-DEPLOY-1")),
+			mcplib.WithString("refname", mcplib.Description("The name of the ref that pointed to this commit at the time the status object was created.")),
+			mcplib.WithString("state", mcplib.Required(), mcplib.Description("Provides some indication of the status of this commit")),
+			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
+			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
+			mcplib.WithString("url", mcplib.Description("A URL linking back to the vendor or build system")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/approve", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"commit", "repo_slug", "workspace"}),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "refname", WireName: "refname", Location: "body"}, {PublicName: "state", WireName: "state", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"commit", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_commit_create-comment-for",
+			mcplib.WithDescription("Creates new comment on the specified commit. To post a reply to an existing comment, include the `parent.id` field: ``` $ curl https://api.bitbucket.org/2.0/repositories/atlassian/prlinks/commit/db9ba1e031d07a02603eae0e559a7adc010257fc/comments/ -X POST -u evzijst -H 'Content-Type: application/json' -d '{'content': {'raw': 'One more thing!'}, 'parent': {'id': 5728901}}' ```. Required: commit, repo_slug, workspace, type. Optional: commit-2, content, created_on (plus 7 more). (public)"),
+			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("commit-2", mcplib.Description("Commit")),
+			mcplib.WithString("content", mcplib.Description("Content")),
+			mcplib.WithString("created_on", mcplib.Description("Created on")),
+			mcplib.WithBoolean("deleted", mcplib.Description("Deleted")),
+			mcplib.WithNumber("id", mcplib.Description("Id")),
+			mcplib.WithString("inline", mcplib.Description("Inline")),
+			mcplib.WithString("links", mcplib.Description("Links")),
+			mcplib.WithString("parent", mcplib.Description("Parent")),
+			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
+			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
+			mcplib.WithString("user", mcplib.Description("User")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "commit-2", WireName: "commit", Location: "body"}, {PublicName: "content", WireName: "content", Location: "body"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "deleted", WireName: "deleted", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inline", WireName: "inline", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"commit", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_commit_create-or-update-annotation",
@@ -13414,60 +13457,6 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "reportId", WireName: "reportId", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "data", WireName: "data", Location: "body"}, {PublicName: "details", WireName: "details", Location: "body"}, {PublicName: "external_id", WireName: "external_id", Location: "body"}, {PublicName: "link", WireName: "link", Location: "body"}, {PublicName: "logo_url", WireName: "logo_url", Location: "body"}, {PublicName: "remote_link_enabled", WireName: "remote_link_enabled", Location: "body"}, {PublicName: "report_type", WireName: "report_type", Location: "body"}, {PublicName: "reporter", WireName: "reporter", Location: "body"}, {PublicName: "result", WireName: "result", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "uuid", WireName: "uuid", Location: "body"}}, []string{"workspace", "repo_slug", "commit", "reportId"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_create-repositories",
-			mcplib.WithDescription("Creates new comment on the specified commit. To post a reply to an existing comment, include the `parent.id` field: ``` $ curl https://api.bitbucket.org/2.0/repositories/atlassian/prlinks/commit/db9ba1e031d07a02603eae0e559a7adc010257fc/comments/ -X POST -u evzijst -H 'Content-Type: application/json' -d '{'content': {'raw': 'One more thing!'}, 'parent': {'id': 5728901}}' ```. Required: commit, repo_slug, workspace, type. Optional: commit-2, content, created_on (plus 7 more). (public)"),
-			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("commit-2", mcplib.Description("Commit")),
-			mcplib.WithString("content", mcplib.Description("Content")),
-			mcplib.WithString("created_on", mcplib.Description("Created on")),
-			mcplib.WithBoolean("deleted", mcplib.Description("Deleted")),
-			mcplib.WithNumber("id", mcplib.Description("Id")),
-			mcplib.WithString("inline", mcplib.Description("Inline")),
-			mcplib.WithString("links", mcplib.Description("Links")),
-			mcplib.WithString("parent", mcplib.Description("Parent")),
-			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
-			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
-			mcplib.WithString("user", mcplib.Description("User")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "commit-2", WireName: "commit", Location: "body"}, {PublicName: "content", WireName: "content", Location: "body"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "deleted", WireName: "deleted", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inline", WireName: "inline", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"commit", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_create-repositories-2",
-			mcplib.WithDescription("Creates a new build status against the specified commit. If the specified key already exists, the existing status object will be overwritten. Example: ``` curl https://api.bitbucket.org/2.0/repositories/my-workspace/my-repo/commit/e10dae226959c2194f2b07b077c07762d93821cf/statuses/build/ -X POST -u jdoe -H 'Content-Type: application/json' -d '{ 'key': 'MY-BUILD', 'state': 'SUCCESSFUL', 'description': '42 tests passed', 'url': 'https://www.example.org/my-build-result' }' ``` When creating a new commit status, you can use a URI template for the URL. Templates are URLs that contain variable names that Bitbucket will evaluate at runtime whenever the URL is displayed anywhere similar to parameter substitution in [Bitbucket Connect](https://developer.atlassian.com/bitbucket/concepts/context-parameters.html). For example, one could use `https://foo.com/builds/{repository.full_name}` which Bitbucket will turn into `https://foo.com/builds/foo/bar` at render time. The context variables available are `repository` and `commit`. To associate a commit status to a pull request, the refname field must be set to the source branch of the pull request. Example: ``` curl https://api.bitbucket.org/2.0/repositories/my-workspace/my-repo/commit/e10dae226959c2194f2b07b077c07762d93821cf/statuses/build/ -X POST -u jdoe -H 'Content-Type: application/json' -d '{ 'key': 'MY-BUILD', 'state': 'SUCCESSFUL', 'description': '42 tests passed', 'url': 'https://www.example.org/my-build-result', 'refname': 'my-pr-branch' }' ```. Required: commit, repo_slug, workspace, key, state, type. Optional: created_on, description, links (plus 4 more). Returns the new Commitstatus. (public)"),
-			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("created_on", mcplib.Description("Created on")),
-			mcplib.WithString("description", mcplib.Description("A description of the build (e.g. 'Unit tests in Bamboo')")),
-			mcplib.WithString("key", mcplib.Required(), mcplib.Description("An identifier for the status that's unique to its type (current 'build' is the only supported type) and the vendor, e.g.")),
-			mcplib.WithString("links", mcplib.Description("Links")),
-			mcplib.WithString("name", mcplib.Description("An identifier for the build itself, e.g. BB-DEPLOY-1")),
-			mcplib.WithString("refname", mcplib.Description("The name of the ref that pointed to this commit at the time the status object was created.")),
-			mcplib.WithString("state", mcplib.Required(), mcplib.Description("Provides some indication of the status of this commit")),
-			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
-			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
-			mcplib.WithString("url", mcplib.Description("A URL linking back to the vendor or build system")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "refname", WireName: "refname", Location: "body"}, {PublicName: "state", WireName: "state", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"commit", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_delete",
-			mcplib.WithDescription("Redact the authenticated user's approval of the specified commit. This operation is only available to users that have explicit access to the repository. In contrast, just the fact that a repository is publicly accessible to users does not give them the ability to approve commits. Required: commit, repo_slug, workspace. Destructive. (public)"),
-			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/approve", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"commit", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_commit_delete-annotation",
 			mcplib.WithDescription("Deletes a single Annotation matching the provided ID. Required: workspace, repo_slug, commit, reportId, annotationId. Destructive. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13479,6 +13468,18 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations/{annotationId}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "reportId", WireName: "reportId", Location: "path"}, {PublicName: "annotationId", WireName: "annotationId", Location: "path"}}, []string{"workspace", "repo_slug", "commit", "reportId", "annotationId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_commit_delete-comment",
+			mcplib.WithDescription("Deletes the specified commit comment. Note that deleting comments that have visible replies that point to them will not really delete the resource. This is to retain the integrity of the original comment tree. Instead, the `deleted` element is set to `true` and the content is blanked out. The comment will continue to be returned by the collections and self endpoints. Required: comment_id, commit, repo_slug, workspace. Destructive. (public)"),
+			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
+			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments/{comment_id}", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "commit", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_commit_delete-hosted-property-value",
@@ -13504,18 +13505,6 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "reportId", WireName: "reportId", Location: "path"}}, []string{"workspace", "repo_slug", "commit", "reportId"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_delete-repositories",
-			mcplib.WithDescription("Deletes the specified commit comment. Note that deleting comments that have visible replies that point to them will not really delete the resource. This is to retain the integrity of the original comment tree. Instead, the `deleted` element is set to `true` and the content is blanked out. The comment will continue to be returned by the collections and self endpoints. Required: comment_id, commit, repo_slug, workspace. Destructive. (public)"),
-			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
-			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments/{comment_id}", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "commit", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_commit_get",
@@ -13555,6 +13544,32 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "reportId", WireName: "reportId", Location: "path"}}, []string{"workspace", "repo_slug", "commit", "reportId"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_commit_get-build-status-for",
+			mcplib.WithDescription("Returns the specified build status for a commit. Required: commit, key, repo_slug, workspace. (public)"),
+			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
+			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The build status' unique key")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build/{key}", true, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "key", WireName: "key", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"commit", "key", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_commit_get-comment",
+			mcplib.WithDescription("Returns the specified commit comment. Required: comment_id, commit, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
+			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments/{comment_id}", true, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "commit", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_commit_get-hosted-property-value",
@@ -13610,7 +13625,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}}, []string{"workspace", "repo_slug", "commit"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_get-repositories",
+		mcplib.NewTool("bitbucket-repositories_commit_list-comments",
 			mcplib.WithDescription("Returns the commit's comments. This includes both global and inline comments. The default sorting is oldest to newest and can be overridden with the `sort` query parameter. Required: commit, repo_slug, workspace. Optional: q, sort. (public)"),
 			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -13624,7 +13639,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments", true, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"commit", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_get-repositories-2",
+		mcplib.NewTool("bitbucket-repositories_commit_list-statuses-for",
 			mcplib.WithDescription("Returns all statuses (e.g. build results) for a specific commit. Required: commit, repo_slug, workspace. Optional: refname, q, sort. (public)"),
 			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -13639,33 +13654,39 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses", true, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "refname", WireName: "refname", Location: "query"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"commit", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_get-repositories-3",
-			mcplib.WithDescription("Returns the specified commit comment. Required: comment_id, commit, repo_slug, workspace. (public)"),
-			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
+		mcplib.NewTool("bitbucket-repositories_commit_unapprove",
+			mcplib.WithDescription("Redact the authenticated user's approval of the specified commit. This operation is only available to users that have explicit access to the repository. In contrast, just the fact that a repository is publicly accessible to users does not give them the ability to approve commits. Required: commit, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments/{comment_id}", true, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "commit", "repo_slug", "workspace"}),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/approve", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"commit", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_get-repositories-4",
-			mcplib.WithDescription("Returns the specified build status for a commit. Required: commit, key, repo_slug, workspace. (public)"),
+		mcplib.NewTool("bitbucket-repositories_commit_update-build-status-for",
+			mcplib.WithDescription("Used to update the current status of a build status object on the specific commit. This operation can also be used to change other properties of the build status: * `state` * `name` * `description` * `url` * `refname` The `key` cannot be changed. Required: commit, key, repo_slug, workspace, key-2, state, type. Optional: created_on, description, links (plus 4 more). Returns the updated Commitstatus. (public)"),
 			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
 			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The build status' unique key")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithString("created_on", mcplib.Description("Created on")),
+			mcplib.WithString("description", mcplib.Description("A description of the build (e.g. 'Unit tests in Bamboo')")),
+			mcplib.WithString("key-2", mcplib.Required(), mcplib.Description("An identifier for the status that's unique to its type (current 'build' is the only supported type) and the vendor, e.g.")),
+			mcplib.WithString("links", mcplib.Description("Links")),
+			mcplib.WithString("name", mcplib.Description("An identifier for the build itself, e.g. BB-DEPLOY-1")),
+			mcplib.WithString("refname", mcplib.Description("The name of the ref that pointed to this commit at the time the status object was created.")),
+			mcplib.WithString("state", mcplib.Required(), mcplib.Description("Provides some indication of the status of this commit")),
+			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
+			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
+			mcplib.WithString("url", mcplib.Description("A URL linking back to the vendor or build system")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build/{key}", true, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "key", WireName: "key", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"commit", "key", "repo_slug", "workspace"}),
+		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build/{key}", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "key", WireName: "key", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "key-2", WireName: "key", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "refname", WireName: "refname", Location: "body"}, {PublicName: "state", WireName: "state", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"commit", "key", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_update",
+		mcplib.NewTool("bitbucket-repositories_commit_update-comment",
 			mcplib.WithDescription("Used to update the contents of a comment. Only the content of the comment can be updated. ``` $ curl https://api.bitbucket.org/2.0/repositories/atlassian/prlinks/commit/7f71b5/comments/5728901 -X PUT -u evzijst -H 'Content-Type: application/json' -d '{'content': {'raw': 'One more thing!'}' ```. Required: comment_id, commit, repo_slug, workspace, type. Optional: commit-2, content, created_on (plus 7 more). (public)"),
 			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
@@ -13700,49 +13721,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/properties/{app_key}/{property_name}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "app_key", WireName: "app_key", Location: "path"}, {PublicName: "property_name", WireName: "property_name", Location: "path"}, {PublicName: "_attributes", WireName: "_attributes", Location: "body"}}, []string{"workspace", "repo_slug", "commit", "app_key", "property_name"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commit_update-repositories",
-			mcplib.WithDescription("Used to update the current status of a build status object on the specific commit. This operation can also be used to change other properties of the build status: * `state` * `name` * `description` * `url` * `refname` The `key` cannot be changed. Required: commit, key, repo_slug, workspace, key-2, state, type. Optional: created_on, description, links (plus 4 more). Returns the updated Commitstatus. (public)"),
-			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
-			mcplib.WithString("key", mcplib.Required(), mcplib.Description("The build status' unique key")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("created_on", mcplib.Description("Created on")),
-			mcplib.WithString("description", mcplib.Description("A description of the build (e.g. 'Unit tests in Bamboo')")),
-			mcplib.WithString("key-2", mcplib.Required(), mcplib.Description("An identifier for the status that's unique to its type (current 'build' is the only supported type) and the vendor, e.g.")),
-			mcplib.WithString("links", mcplib.Description("Links")),
-			mcplib.WithString("name", mcplib.Description("An identifier for the build itself, e.g. BB-DEPLOY-1")),
-			mcplib.WithString("refname", mcplib.Description("The name of the ref that pointed to this commit at the time the status object was created.")),
-			mcplib.WithString("state", mcplib.Required(), mcplib.Description("Provides some indication of the status of this commit")),
-			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
-			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
-			mcplib.WithString("url", mcplib.Description("A URL linking back to the vendor or build system")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build/{key}", false, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "key", WireName: "key", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "key-2", WireName: "key", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "refname", WireName: "refname", Location: "body"}, {PublicName: "state", WireName: "state", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "url", WireName: "url", Location: "body"}}, []string{"commit", "key", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commits_create",
-			mcplib.WithDescription("Identical to `GET /repositories/{workspace}/{repo_slug}/commits`, except that POST allows clients to place the include and exclude parameters in the request body to avoid URL length issues. **Note that this resource does NOT support new commit creation.**. Required: repo_slug, workspace. Returns the new PaginatedChangeset. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commits", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commits_create-repositories",
-			mcplib.WithDescription("Identical to `GET /repositories/{workspace}/{repo_slug}/commits/{revision}`, except that POST allows clients to place the include and exclude parameters in the request body to avoid URL length issues. **Note that this resource does NOT support new commit creation.**. Required: repo_slug, revision, workspace. Returns the new PaginatedChangeset. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("revision", mcplib.Required(), mcplib.Description("A commit SHA1 or ref name.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commits/{revision}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "revision", WireName: "revision", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "revision", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commits_get",
+		mcplib.NewTool("bitbucket-repositories_commits_list",
 			mcplib.WithDescription("These are the repository's commits. They are paginated and returned in reverse chronological order, similar to the output of `git log`. Like these tools, the DAG can be filtered. #### GET /repositories/{workspace}/{repo_slug}/commits/ Returns all commits in the repo in topological order (newest commit first). All branches and tags are included (similar to `git log --all`). #### GET /repositories/{workspace}/{repo_slug}/commits/?exclude=master Returns all commits in the repo that are not on master (similar to `git log --all ^master`). #### GET /repositories/{workspace}/{repo_slug}/commits/?include=foo&include=bar&exclude=fu&exclude=fubar Returns all commits that are on refs `foo` or `bar`, but not on `fu` or `fubar` (similar to `git log foo bar ^fu ^fubar`). An optional `path` parameter can be specified that will limit the results to commits that affect that path. `path` can either be a file or a directory. If a directory is specified, commits are returned that have modified any file in the directory tree rooted by `path`. It is important to note that if the `path` parameter is specified, the commits returned by this endpoint may no longer be a DAG, parent commits that do not modify the path will be omitted from the response. #### GET /repositories/{workspace}/{repo_slug}/commits/?path=README.md&include=foo&include=bar&exclude=master Returns all commits that are on refs `foo` or `bar`, but not on `master` that changed the file README.md. #### GET /repositories/{workspace}/{repo_slug}/commits/?path=src/&include=foo&include=bar&exclude=master Returns all commits that are on refs `foo` or `bar`, but not on `master` that changed to a file in any file in the directory src or its children. Because the response could include a very large number of commits, it is paginated. Follow the 'next' link in the response to navigate to the next page of commits. As with other paginated resources, do not construct your own links. When the include and exclude parameters are more than can fit in a query string, clients can use a `x-www-form-urlencoded` POST instead. Required: repo_slug, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13753,7 +13732,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commits", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_commits_get-repositories",
+		mcplib.NewTool("bitbucket-repositories_commits_list-for-revision",
 			mcplib.WithDescription("These are the repository's commits. They are paginated and returned in reverse chronological order, similar to the output of `git log`. Like these tools, the DAG can be filtered. #### GET /repositories/{workspace}/{repo_slug}/commits/master Returns all commits on ref `master` (similar to `git log master`). #### GET /repositories/{workspace}/{repo_slug}/commits/dev?include=foo&exclude=master Returns all commits on ref `dev` or `foo`, except those that are reachable on `master` (similar to `git log dev foo ^master`). An optional `path` parameter can be specified that will limit the results to commits that affect that path. `path` can either be a file or a directory. If a directory is specified, commits are returned that have modified any file in the directory tree rooted by `path`. It is important to note that if the `path` parameter is specified, the commits returned by this endpoint may no longer be a DAG, parent commits that do not modify the path will be omitted from the response. #### GET /repositories/{workspace}/{repo_slug}/commits/dev?path=README.md&include=foo&include=bar&exclude=master Returns all commits that are on refs `dev` or `foo` or `bar`, but not on `master` that changed the file README.md. #### GET /repositories/{workspace}/{repo_slug}/commits/dev?path=src/&include=foo&exclude=master Returns all commits that are on refs `dev` or `foo`, but not on `master` that changed to a file in any file in the directory src or its children. Because the response could include a very large number of commits, it is paginated. Follow the 'next' link in the response to navigate to the next page of commits. As with other paginated resources, do not construct your own links. When the include and exclude parameters are more than can fit in a query string, clients can use a `x-www-form-urlencoded` POST instead. Required: repo_slug, revision, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("revision", mcplib.Required(), mcplib.Description("A commit SHA1 or ref name.")),
@@ -13765,29 +13744,38 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commits/{revision}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "revision", WireName: "revision", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "revision", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_default-reviewers_delete",
-			mcplib.WithDescription("Removes a default reviewer from the repository. Required: repo_slug, target_username, workspace. Destructive. (public)"),
+		mcplib.NewTool("bitbucket-repositories_commits_list-for-revision-using-include-exclude",
+			mcplib.WithDescription("Identical to `GET /repositories/{workspace}/{repo_slug}/commits/{revision}`, except that POST allows clients to place the include and exclude parameters in the request body to avoid URL length issues. **Note that this resource does NOT support new commit creation.**. Required: repo_slug, revision, workspace. Returns the new PaginatedChangeset. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("target_username", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
+			mcplib.WithString("revision", mcplib.Required(), mcplib.Description("A commit SHA1 or ref name.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/default-reviewers/{target_username}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "target_username", WireName: "target_username", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "target_username", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_default-reviewers_get",
-			mcplib.WithDescription("Returns the repository's default reviewers. These are the users that are automatically added as reviewers on every new pull request that is created. To obtain the repository's default reviewers as well as the default reviewers inherited from the project, use the [effective-default-reveiwers](#api-repositories-workspace-repo-slug-effective-default-reviewers-get) endpoint. Required: repo_slug, workspace. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/default-reviewers", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commits/{revision}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "revision", WireName: "revision", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "revision", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_default-reviewers_get-repositories",
+		mcplib.NewTool("bitbucket-repositories_commits_list-with-include-exclude",
+			mcplib.WithDescription("Identical to `GET /repositories/{workspace}/{repo_slug}/commits`, except that POST allows clients to place the include and exclude parameters in the request body to avoid URL length issues. **Note that this resource does NOT support new commit creation.**. Required: repo_slug, workspace. Returns the new PaginatedChangeset. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commits", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_default-reviewers_add-user-to",
+			mcplib.WithDescription("Adds the specified user to the repository's list of default reviewers. This method is idempotent. Adding a user a second time has no effect. Required: repo_slug, target_username, workspace. Returns the updated Account. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("target_username", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/default-reviewers/{target_username}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "target_username", WireName: "target_username", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "target_username", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_default-reviewers_get-in-repository",
 			mcplib.WithDescription("Returns the specified reviewer. This can be used to test whether a user is among the repository's default reviewers list. A 404 indicates that that specified user is not a default reviewer. Required: repo_slug, target_username, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("target_username", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
@@ -13799,17 +13787,29 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/default-reviewers/{target_username}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "target_username", WireName: "target_username", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "target_username", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_default-reviewers_update",
-			mcplib.WithDescription("Adds the specified user to the repository's list of default reviewers. This method is idempotent. Adding a user a second time has no effect. Required: repo_slug, target_username, workspace. Returns the updated Account. (public)"),
+		mcplib.NewTool("bitbucket-repositories_default-reviewers_list",
+			mcplib.WithDescription("Returns the repository's default reviewers. These are the users that are automatically added as reviewers on every new pull request that is created. To obtain the repository's default reviewers as well as the default reviewers inherited from the project, use the [effective-default-reveiwers](#api-repositories-workspace-repo-slug-effective-default-reviewers-get) endpoint. Required: repo_slug, workspace. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/default-reviewers", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_default-reviewers_remove-user-from",
+			mcplib.WithDescription("Removes a default reviewer from the repository. Required: repo_slug, target_username, workspace. Destructive. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("target_username", mcplib.Required(), mcplib.Description("This can either be the username or the UUID of the default reviewer, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/default-reviewers/{target_username}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "target_username", WireName: "target_username", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "target_username", "workspace"}),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/default-reviewers/{target_username}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "target_username", WireName: "target_username", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "target_username", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_deploy-keys_create",
+		mcplib.NewTool("bitbucket-repositories_deploy-keys_add-repository",
 			mcplib.WithDescription("Create a new deploy key in a repository. Note: If authenticating a deploy key with an OAuth consumer, any changes to the OAuth consumer will subsequently invalidate the deploy key. Example: ``` $ curl -X POST -H 'Authorization <auth header>' -H 'Content-type: application/json' https://api.bitbucket.org/2.0/repositories/mleu/test/deploy-keys -d '{ 'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAK/b1cHHDr/TEV1JGQl+WjCwStKG6Bhrv0rFpEsYlyTBm1fzN0VOJJYn4ZOPCPJwqse6fGbXntEs+BbXiptR+++HycVgl65TMR0b5ul5AgwrVdZdT7qjCOCgaSV74/9xlHDK8oqgGnfA7ZoBBU+qpVyaloSjBdJfLtPY/xqj4yHnXKYzrtn/uFc4Kp9Tb7PUg9Io3qohSTGJGVHnsVblq/rToJG7L5xIo0OxK0SJSQ5vuId93ZuFZrCNMXj8JDHZeSEtjJzpRCBEXHxpOPhAcbm4MzULgkFHhAVgp4JbkrT99/wpvZ7r9AdkTg7HGqL3rlaDrEcWfL7Lu6TnhBdq5 mleu@C02W454JHTD8', 'label': 'mydeploykey' }' ```. Required: repo_slug, workspace. Returns the new DeployKey. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -13819,7 +13819,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/deploy-keys", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_deploy-keys_delete",
+		mcplib.NewTool("bitbucket-repositories_deploy-keys_delete-repository",
 			mcplib.WithDescription("This deletes a deploy key from a repository. Required: key_id, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithString("key_id", mcplib.Required(), mcplib.Description("The key ID matching the deploy key.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -13830,18 +13830,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/deploy-keys/{key_id}", false, false, nil, []mcpParamBinding{{PublicName: "key_id", WireName: "key_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"key_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_deploy-keys_get",
-			mcplib.WithDescription("Returns all deploy-keys belonging to a repository. Required: repo_slug, workspace. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/deploy-keys", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_deploy-keys_get-repositories",
+		mcplib.NewTool("bitbucket-repositories_deploy-keys_get-repository",
 			mcplib.WithDescription("Returns the deploy key belonging to a specific key. Required: key_id, repo_slug, workspace. (public)"),
 			mcplib.WithString("key_id", mcplib.Required(), mcplib.Description("The key ID matching the deploy key.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -13853,7 +13842,18 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/deploy-keys/{key_id}", true, false, nil, []mcpParamBinding{{PublicName: "key_id", WireName: "key_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"key_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_deploy-keys_update",
+		mcplib.NewTool("bitbucket-repositories_deploy-keys_list-repository",
+			mcplib.WithDescription("Returns all deploy-keys belonging to a repository. Required: repo_slug, workspace. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/deploy-keys", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_deploy-keys_update-repository",
 			mcplib.WithDescription("Update an existing deploy key in a repository. The same key needs to be passed in but the comment and label can change. Example: ``` $ curl -X PUT -H 'Authorization <auth header>' -H 'Content-type: application/json' https://api.bitbucket.org/2.0/repositories/mleu/test/deploy-keys/1234 -d '{ 'label': 'newlabel', 'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAK/b1cHHDr/TEV1JGQl+WjCwStKG6Bhrv0rFpEsYlyTBm1fzN0VOJJYn4ZOPCPJwqse6fGbXntEs+BbXiptR+++HycVgl65TMR0b5ul5AgwrVdZdT7qjCOCgaSV74/9xlHDK8oqgGnfA7ZoBBU+qpVyaloSjBdJfLtPY/xqj4yHnXKYzrtn/uFc4Kp9Tb7PUg9Io3qohSTGJGVHnsVblq/rToJG7L5xIo0OxK0SJSQ5vuId93ZuFZrCNMXj8JDHZeSEtjJzpRCBEXHxpOPhAcbm4MzULgkFHhAVgp4JbkrT99/wpvZ7r9AdkTg7HGqL3rlaDrEcWfL7Lu6TnhBdq5 newcomment', }' ```. Required: key_id, repo_slug, workspace. Returns the updated DeployKey. (public)"),
 			mcplib.WithString("key_id", mcplib.Required(), mcplib.Description("The key ID matching the deploy key.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -13942,7 +13942,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/deployments_config/environments/{environment_uuid}/variables/{variable_uuid}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "environment_uuid", WireName: "environment_uuid", Location: "path"}, {PublicName: "variable_uuid", WireName: "variable_uuid", Location: "path"}, {PublicName: "key", WireName: "key", Location: "body"}, {PublicName: "secured", WireName: "secured", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "uuid", WireName: "uuid", Location: "body"}, {PublicName: "value", WireName: "value", Location: "body"}}, []string{"workspace", "repo_slug", "environment_uuid", "variable_uuid"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_diff_get",
+		mcplib.NewTool("bitbucket-repositories_diff_compare-two-commits",
 			mcplib.WithDescription("Produces a raw git-style diff. #### Single commit spec If the `spec` argument to this API is a single commit, the diff is produced against the first parent of the specified commit. #### Two commit spec Two commits separated by `..` may be provided as the `spec`, e.g., `3a8b42..9ff173`. When two commits are provided and the `topic` query parameter is true, this API produces a 2-way three dot diff. This is the diff between source commit and the merge base of the source commit and the destination commit. When the `topic` query param is false, a simple git-style diff is produced. The two commits are interpreted as follows: * First commit: the commit containing the changes we wish to preview * Second commit: the commit representing the state to which we want to compare the first commit * **Note**: This is the opposite of the order used in `git diff`. #### Comparison to patches While similar to patches, diffs: * Don't have a commit header (username, commit message, etc) * Support the optional `path=foo/bar.py` query param to filter the diff to just that one file diff #### Response The raw diff is returned as-is, in whatever encoding the files in the repository use. It is not decoded into unicode. As such, the content-type is `text/plain`. Required: repo_slug, spec, workspace. Optional: context, path, ignore_whitespace (plus 4 more). (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("spec", mcplib.Required(), mcplib.Description("A commit SHA (e.g. `3a8b42`) or a commit range using double dot notation (e.g. `3a8b42..9ff173`).")),
@@ -13961,7 +13961,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/diff/{spec}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "spec", WireName: "spec", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "context", WireName: "context", Location: "query"}, {PublicName: "path", WireName: "path", Location: "query"}, {PublicName: "ignore_whitespace", WireName: "ignore_whitespace", Location: "query"}, {PublicName: "binary", WireName: "binary", Location: "query"}, {PublicName: "renames", WireName: "renames", Location: "query"}, {PublicName: "merge", WireName: "merge", Location: "query"}, {PublicName: "topic", WireName: "topic", Location: "query"}}, []string{"repo_slug", "spec", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_diffstat_get",
+		mcplib.NewTool("bitbucket-repositories_diffstat_compare-two-commit-diff-stats",
 			mcplib.WithDescription("Produces a response in JSON format with a record for every path modified, including information on the type of the change and the number of lines added and removed. #### Single commit spec If the `spec` argument to this API is a single commit, the diff is produced against the first parent of the specified commit. #### Two commit spec Two commits separated by `..` may be provided as the `spec`, e.g., `3a8b42..9ff173`. When two commits are provided and the `topic` query parameter is true, this API produces a 2-way three dot diff. This is the diff between source commit and the merge base of the source commit and the destination commit. When the `topic` query param is false, a simple git-style diff is produced. The two commits are interpreted as follows: * First commit: the commit containing the changes we wish to preview * Second commit: the commit representing the state to which we want to compare the first commit * **Note**: This is the opposite of the order used in `git diff`. Required: repo_slug, spec, workspace. Optional: ignore_whitespace, merge, path (plus 2 more). Returns the PaginatedDiffstats. (public)"),
 			mcplib.WithBoolean("ignore_whitespace", mcplib.Description("Generate diffs that ignore whitespace")),
 			mcplib.WithBoolean("merge", mcplib.Description("This parameter is deprecated. The 'topic' parameter should be used instead.")),
@@ -13978,17 +13978,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/diffstat/{spec}", true, false, nil, []mcpParamBinding{{PublicName: "ignore_whitespace", WireName: "ignore_whitespace", Location: "query"}, {PublicName: "merge", WireName: "merge", Location: "query"}, {PublicName: "path", WireName: "path", Location: "query"}, {PublicName: "renames", WireName: "renames", Location: "query"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "spec", WireName: "spec", Location: "path"}, {PublicName: "topic", WireName: "topic", Location: "query"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "spec", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_downloads_create",
-			mcplib.WithDescription("Upload new download artifacts. To upload files, perform a `multipart/form-data` POST containing one or more `files` fields: $ echo Hello World > hello.txt $ curl -s -u evzijst -X POST https://api.bitbucket.org/2.0/repositories/evzijst/git-tests/downloads -F files=@hello.txt When a file is uploaded with the same name as an existing artifact, then the existing file will be replaced. Required: repo_slug, workspace. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/downloads", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_downloads_delete",
+		mcplib.NewTool("bitbucket-repositories_downloads_delete-artifact",
 			mcplib.WithDescription("Deletes the specified download artifact from the repository. Required: filename, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithString("filename", mcplib.Required(), mcplib.Description("Name of the file.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -13999,18 +13989,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/downloads/{filename}", false, false, nil, []mcpParamBinding{{PublicName: "filename", WireName: "filename", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"filename", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_downloads_get",
-			mcplib.WithDescription("Returns a list of download links associated with the repository. Required: repo_slug, workspace. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/downloads", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_downloads_get-repositories",
+		mcplib.NewTool("bitbucket-repositories_downloads_get-artifact-link",
 			mcplib.WithDescription("Return a redirect to the contents of a download artifact. This endpoint returns the actual file contents and not the artifact's metadata. $ curl -s -L https://api.bitbucket.org/2.0/repositories/evzijst/git-tests/downloads/hello.txt Hello World. Required: filename, repo_slug, workspace. (public)"),
 			mcplib.WithString("filename", mcplib.Required(), mcplib.Description("Name of the file.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -14022,7 +14001,28 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/downloads/{filename}", true, false, nil, []mcpParamBinding{{PublicName: "filename", WireName: "filename", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"filename", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_effective-branching-model_get",
+		mcplib.NewTool("bitbucket-repositories_downloads_list-artifacts",
+			mcplib.WithDescription("Returns a list of download links associated with the repository. Required: repo_slug, workspace. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/downloads", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_downloads_upload-artifact",
+			mcplib.WithDescription("Upload new download artifacts. To upload files, perform a `multipart/form-data` POST containing one or more `files` fields: $ echo Hello World > hello.txt $ curl -s -u evzijst -X POST https://api.bitbucket.org/2.0/repositories/evzijst/git-tests/downloads -F files=@hello.txt When a file is uploaded with the same name as an existing artifact, then the existing file will be replaced. Required: repo_slug, workspace. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/downloads", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_effective-branching-model_get-effective-or-currently-applied-branching-model-for-repository",
 			mcplib.WithDescription("Get the effective, or currently applied, branching model for a repository. Required: repo_slug, workspace. Returns the EffectiveRepoBranchingModel. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -14033,7 +14033,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/effective-branching-model", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_effective-default-reviewers_get",
+		mcplib.NewTool("bitbucket-repositories_effective-default-reviewers_list",
 			mcplib.WithDescription("Returns the repository's effective default reviewers. This includes both default reviewers defined at the repository level as well as those inherited from its project. These are the users that are automatically added as reviewers on every new pull request that is created. Required: repo_slug, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -14102,7 +14102,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/environments/{environment_uuid}/changes", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "environment_uuid", WireName: "environment_uuid", Location: "path"}}, []string{"workspace", "repo_slug", "environment_uuid"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_file-conflicts_get",
+		mcplib.NewTool("bitbucket-repositories_file-conflicts_get-for-commit-spec",
 			mcplib.WithDescription("Get file conflicts for a commit spec. Required: repo_slug, spec, workspace. Returns the PaginatedFileConflicts. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("spec", mcplib.Required(), mcplib.Description("A commit SHA (e.g. `3a8b42`) or a commit range using double dot notation (e.g. `3a8b42..9ff173`).")),
@@ -14114,7 +14114,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/file-conflicts/{spec}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "spec", WireName: "spec", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "spec", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_filehistory_get",
+		mcplib.NewTool("bitbucket-repositories_filehistory_list-commits-that-modified-file",
 			mcplib.WithDescription("Returns a paginated list of commits that modified the specified file. Commits are returned in reverse chronological order. This is roughly equivalent to the following commands: $ git log --follow --date-order <sha> <path> By default, Bitbucket will follow renames and the path name in the returned entries reflects that. This can be turned off using the `?renames=false` query parameter. Results are returned in descending chronological order by default, and like most endpoints you can [filter and sort](/cloud/bitbucket/rest/intro/#filtering) the response to only provide exactly the data you want. The example response returns commits made before 2011-05-18 against a file named `README.rst`. The results are filtered to only return the path and date. This request can be made using: ``` $ curl 'https://api.bitbucket.org/2.0/repositories/evzijst/dogslow/filehistory/master/README.rst' '?fields=values.next,values.path,values.commit.date&q=commit.date<=2011-05-18' ``` In the response you can see that the file was renamed to `README.rst` by the commit made on 2011-05-16, and was previously named `README.txt`. Required: commit, path, repo_slug, workspace. Optional: renames, q, sort. (public)"),
 			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
 			mcplib.WithString("path", mcplib.Required(), mcplib.Description("Path to the file.")),
@@ -14130,7 +14130,21 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/filehistory/{commit}/{path}", true, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "path", WireName: "path", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "renames", WireName: "renames", Location: "query"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"commit", "path", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_forks_create",
+		mcplib.NewTool("bitbucket-repositories_forks_list-repository",
+			mcplib.WithDescription("Returns a paginated list of all the forks of the specified repository. Required: repo_slug, workspace. Optional: role, q, sort. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("role", mcplib.Description("Filters the result based on the authenticated user's role on each repository.")),
+			mcplib.WithString("q", mcplib.Description("Query string to narrow down the response as per [filtering and...")),
+			mcplib.WithString("sort", mcplib.Description("Field by which the results should be sorted as per [filtering and...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/forks", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "role", WireName: "role", Location: "query"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_forks_repository",
 			mcplib.WithDescription("Creates a new fork of the specified repository. #### Forking a repository To create a fork, specify the workspace explicitly as part of the request body: ``` $ curl -X POST -u jdoe https://api.bitbucket.org/2.0/repositories/atlassian/bbql/forks -H 'Content-Type: application/json' -d '{ 'name': 'bbql_fork', 'workspace': { 'slug': 'atlassian' } }' ``` To fork a repository into the same workspace, also specify a new `name`. When you specify a value for `name`, it will also affect the `slug`. The `slug` is reflected in the repository URL of the new fork. It is derived from `name` by substituting non-ASCII characters, removes whitespace, and changes characters to lower case. For example, `My repo` would turn into `my_repo`. You need contributor access to create new forks within a workspace. #### Change the properties of a new fork By default the fork inherits most of its properties from the parent. However, since the optional POST body document follows the normal `repository` JSON schema and you can override the new fork's properties. Properties that can be overridden include: * description * fork_policy * language * mainbranch * is_private (note that a private repo's fork_policy might prohibit the creation of public forks, in which `is_private=False` would fail) * has_issues (to initialize or disable the new repo's issue tracker -- note that the actual contents of the parent repository's issue tracker are not copied during forking) * has_wiki (to initialize or disable the new repo's wiki -- note that the actual contents of the parent repository's wiki are not copied during forking) * project (when forking into a private project, the fork's `is_private` must be `true`) Properties that cannot be modified include: * scm * parent * full_name. Required: repo_slug, workspace, type. Optional: created_on, description, fork_policy (plus 15 more). Returns the new Repository. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -14157,20 +14171,6 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/forks", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "description", WireName: "description", Location: "body"}, {PublicName: "fork_policy", WireName: "fork_policy", Location: "body"}, {PublicName: "full_name", WireName: "full_name", Location: "body"}, {PublicName: "has_issues", WireName: "has_issues", Location: "body"}, {PublicName: "has_wiki", WireName: "has_wiki", Location: "body"}, {PublicName: "is_private", WireName: "is_private", Location: "body"}, {PublicName: "language", WireName: "language", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "mainbranch", WireName: "mainbranch", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "project", WireName: "project", Location: "body"}, {PublicName: "scm", WireName: "scm", Location: "body"}, {PublicName: "size", WireName: "size", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "uuid", WireName: "uuid", Location: "body"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_forks_get",
-			mcplib.WithDescription("Returns a paginated list of all the forks of the specified repository. Required: repo_slug, workspace. Optional: role, q, sort. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("role", mcplib.Description("Filters the result based on the authenticated user's role on each repository.")),
-			mcplib.WithString("q", mcplib.Description("Query string to narrow down the response as per [filtering and...")),
-			mcplib.WithString("sort", mcplib.Description("Field by which the results should be sorted as per [filtering and...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/forks", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "role", WireName: "role", Location: "query"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_hooks_create-repository",
@@ -14227,7 +14227,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/hooks/{uid}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "uid", WireName: "uid", Location: "path"}}, []string{"workspace", "repo_slug", "uid"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_merge-base_get",
+		mcplib.NewTool("bitbucket-repositories_merge-base_get-common-ancestor-between-two-commits",
 			mcplib.WithDescription("Returns the best common ancestor between two commits, specified in a revspec of 2 commits (e.g. 3a8b42..9ff173). If more than one best common ancestor exists, only one will be returned. It is unspecified which will be returned. Required: repo_slug, revspec, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("revspec", mcplib.Required(), mcplib.Description("A commit range using double dot notation (e.g. `3a8b42..9ff173`).")),
@@ -14304,7 +14304,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/merge-queues/{merge_queue_uuid}/queue/{pullrequest_id}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "merge_queue_uuid", WireName: "merge_queue_uuid", Location: "path"}, {PublicName: "pullrequest_id", WireName: "pullrequest_id", Location: "path"}}, []string{"workspace", "repo_slug", "merge_queue_uuid", "pullrequest_id"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_override-settings_get",
+		mcplib.NewTool("bitbucket-repositories_override-settings_retrieve-inheritance-state-for-repository-settings",
 			mcplib.WithDescription("Retrieve the inheritance state for repository settings. Required: repo_slug, workspace. Returns the RepositoryInheritanceState. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -14315,7 +14315,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/override-settings", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_override-settings_update",
+		mcplib.NewTool("bitbucket-repositories_override-settings_set-inheritance-state-for-repository-settings",
 			mcplib.WithDescription("Set the inheritance state for repository settings. Required: repo_slug, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -14324,7 +14324,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/override-settings", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_patch_get",
+		mcplib.NewTool("bitbucket-repositories_patch_get-for-two-commits",
 			mcplib.WithDescription("Produces a raw patch for a single commit (diffed against its first parent), or a patch-series for a revspec of 2 commits (e.g. `3a8b42..9ff173` where the first commit represents the source and the second commit the destination). In case of the latter (diffing a revspec), a patch series is returned for the commits on the source branch (`3a8b42` and its ancestors in our example). While similar to diffs, patches: * Have a commit header (username, commit message, etc) * Do not support the `path=foo/bar.py` query parameter The raw patch is returned as-is, in whatever encoding the files in the repository use. It is not decoded into unicode. As such, the content-type is `text/plain`. Required: repo_slug, spec, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("spec", mcplib.Required(), mcplib.Description("A commit SHA (e.g. `3a8b42`) or a commit range using double dot notation (e.g. `3a8b42..9ff173`).")),
@@ -14336,7 +14336,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/patch/{spec}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "spec", WireName: "spec", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "spec", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_permissions-config_delete",
+		mcplib.NewTool("bitbucket-repositories_permissions-config_delete-explicit-group-permission-for-repository",
 			mcplib.WithDescription("Deletes the repository group permission between the requested repository and group, if one exists. Only users with admin permission for the repository may access this resource. The only authentication method supported for this endpoint is via app passwords. Required: group_slug, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithString("group_slug", mcplib.Required(), mcplib.Description("Slug of the requested group.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -14347,7 +14347,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups/{group_slug}", false, false, nil, []mcpParamBinding{{PublicName: "group_slug", WireName: "group_slug", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"group_slug", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_permissions-config_delete-repositories",
+		mcplib.NewTool("bitbucket-repositories_permissions-config_delete-explicit-user-permission-for-repository",
 			mcplib.WithDescription("Deletes the repository user permission between the requested repository and user, if one exists. Only users with admin permission for the repository may access this resource. The only authentication method for this endpoint is via app passwords. Required: repo_slug, selected_user_id, workspace. Destructive. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("selected_user_id", mcplib.Required(), mcplib.Description("This can either be the UUID of the account, surrounded by curly-braces, for example:...")),
@@ -14358,29 +14358,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/users/{selected_user_id}", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "selected_user_id", WireName: "selected_user_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "selected_user_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_permissions-config_get",
-			mcplib.WithDescription("Returns a paginated list of explicit group permissions for the given repository. This endpoint does not support BBQL features. Required: repo_slug, workspace. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_permissions-config_get-repositories",
-			mcplib.WithDescription("Returns a paginated list of explicit user permissions for the given repository. This endpoint does not support BBQL features. Required: repo_slug, workspace. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/users", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_permissions-config_get-repositories-2",
+		mcplib.NewTool("bitbucket-repositories_permissions-config_get-explicit-group-permission-for-repository",
 			mcplib.WithDescription("Returns the group permission for a given group slug and repository Only users with admin permission for the repository may access this resource. Permissions can be: * `admin` * `write` * `read` * `none`. Required: group_slug, repo_slug, workspace. (public)"),
 			mcplib.WithString("group_slug", mcplib.Required(), mcplib.Description("Slug of the requested group.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -14392,7 +14370,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups/{group_slug}", true, false, nil, []mcpParamBinding{{PublicName: "group_slug", WireName: "group_slug", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"group_slug", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_permissions-config_get-repositories-3",
+		mcplib.NewTool("bitbucket-repositories_permissions-config_get-explicit-user-permission-for-repository",
 			mcplib.WithDescription("Returns the explicit user permission for a given user and repository. Only users with admin permission for the repository may access this resource. Permissions can be: * `admin` * `write` * `read` * `none`. Required: repo_slug, selected_user_id, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("selected_user_id", mcplib.Required(), mcplib.Description("This can either be the UUID of the account, surrounded by curly-braces, for example:...")),
@@ -14404,7 +14382,29 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/users/{selected_user_id}", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "selected_user_id", WireName: "selected_user_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "selected_user_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_permissions-config_update",
+		mcplib.NewTool("bitbucket-repositories_permissions-config_list-explicit-group-permissions-for-repository",
+			mcplib.WithDescription("Returns a paginated list of explicit group permissions for the given repository. This endpoint does not support BBQL features. Required: repo_slug, workspace. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_permissions-config_list-explicit-user-permissions-for-repository",
+			mcplib.WithDescription("Returns a paginated list of explicit user permissions for the given repository. This endpoint does not support BBQL features. Required: repo_slug, workspace. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/users", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_permissions-config_update-explicit-group-permission-for-repository",
 			mcplib.WithDescription("Updates the group permission, or grants a new permission if one does not already exist. Only users with admin permission for the repository may access this resource. The only authentication method supported for this endpoint is via app passwords. Permissions can be: * `admin` * `write` * `read`. Required: group_slug, repo_slug, workspace, permission. Returns the updated RepositoryGroupPermission. (public)"),
 			mcplib.WithString("group_slug", mcplib.Required(), mcplib.Description("Slug of the requested group.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -14415,7 +14415,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups/{group_slug}", false, false, nil, []mcpParamBinding{{PublicName: "group_slug", WireName: "group_slug", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "permission", WireName: "permission", Location: "body"}}, []string{"group_slug", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_permissions-config_update-repositories",
+		mcplib.NewTool("bitbucket-repositories_permissions-config_update-explicit-user-permission-for-repository",
 			mcplib.WithDescription("Updates the explicit user permission for a given user and repository. The selected user must be a member of the workspace, and cannot be the workspace owner. Only users with admin permission for the repository may access this resource. The only authentication method for this endpoint is via app passwords. Permissions can be: * `admin` * `write` * `read`. Required: repo_slug, selected_user_id, workspace, permission. Returns the updated RepositoryUserPermission. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("selected_user_id", mcplib.Required(), mcplib.Description("This can either be the UUID of the account, surrounded by curly-braces, for example:...")),
@@ -14992,7 +14992,42 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/properties/{app_key}/{property_name}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "app_key", WireName: "app_key", Location: "path"}, {PublicName: "property_name", WireName: "property_name", Location: "path"}, {PublicName: "_attributes", WireName: "_attributes", Location: "body"}}, []string{"workspace", "repo_slug", "app_key", "property_name"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_create",
+		mcplib.NewTool("bitbucket-repositories_pullrequests_approve-pull-request",
+			mcplib.WithDescription("Approve the specified pull request as the authenticated user. Required: pull_request_id, repo_slug, workspace. Returns the new Participant. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/approve", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_create-comment-on-pull-request",
+			mcplib.WithDescription("Creates a new pull request comment. Returns the newly created pull request comment. Required: pull_request_id, repo_slug, workspace, type. Optional: content, created_on, deleted (plus 9 more). (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("content", mcplib.Description("Content")),
+			mcplib.WithString("created_on", mcplib.Description("Created on")),
+			mcplib.WithBoolean("deleted", mcplib.Description("Deleted")),
+			mcplib.WithNumber("id", mcplib.Description("Id")),
+			mcplib.WithString("inline", mcplib.Description("Inline")),
+			mcplib.WithString("links", mcplib.Description("Links")),
+			mcplib.WithString("parent", mcplib.Description("Parent")),
+			mcplib.WithBoolean("pending", mcplib.Description("Pending")),
+			mcplib.WithString("pullrequest", mcplib.Description("Pullrequest")),
+			mcplib.WithString("resolution", mcplib.Description("The resolution object for a Comment.")),
+			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
+			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
+			mcplib.WithString("user", mcplib.Description("User")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "content", WireName: "content", Location: "body"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "deleted", WireName: "deleted", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inline", WireName: "inline", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "pending", WireName: "pending", Location: "body"}, {PublicName: "pullrequest", WireName: "pullrequest", Location: "body"}, {PublicName: "resolution", WireName: "resolution", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_create-pull-request",
 			mcplib.WithDescription("Creates a new pull request where the destination repository is this repository and the author is the authenticated user. The minimum required fields to create a pull request are `title` and `source`, specified by a branch name. ``` curl https://api.bitbucket.org/2.0/repositories/my-workspace/my-repository/pullrequests -u my-username:my-password --request POST --header 'Content-Type: application/json' --data '{ 'title': 'My Title', 'source': { 'branch': { 'name': 'staging' } } }' ``` If the pull request's `destination` is not specified, it will default to the `repository.mainbranch`. To open a pull request to a different branch, say from a feature branch to a staging branch, specify a `destination` (same format as the `source`): ``` { 'title': 'My Title', 'source': { 'branch': { 'name': 'my-feature-branch' } }, 'destination': { 'branch': { 'name': 'staging' } } } ``` Reviewers can be specified by adding an array of user objects as the `reviewers` property. ``` { 'title': 'My Title', 'source': { 'branch': { 'name': 'my-feature-branch' } }, 'reviewers': [ { 'uuid': '{504c3b62-8120-4f0c-a7bc-87800b9d6f70}' } ] } ``` Other fields: * `description` - a string * `close_source_branch` - boolean that specifies if the source branch should be closed upon merging * `draft` - boolean that specifies whether the pull request is a draft. Required: repo_slug, workspace, type. Optional: author, close_source_branch, closed_by (plus 18 more). Returns the new Pullrequest. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -15024,80 +15059,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "author", WireName: "author", Location: "body"}, {PublicName: "close_source_branch", WireName: "close_source_branch", Location: "body"}, {PublicName: "closed_by", WireName: "closed_by", Location: "body"}, {PublicName: "comment_count", WireName: "comment_count", Location: "body"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "destination", WireName: "destination", Location: "body"}, {PublicName: "draft", WireName: "draft", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "merge_commit", WireName: "merge_commit", Location: "body"}, {PublicName: "participants", WireName: "participants", Location: "body"}, {PublicName: "queued", WireName: "queued", Location: "body"}, {PublicName: "reason", WireName: "reason", Location: "body"}, {PublicName: "rendered", WireName: "rendered", Location: "body"}, {PublicName: "reviewers", WireName: "reviewers", Location: "body"}, {PublicName: "source", WireName: "source", Location: "body"}, {PublicName: "state", WireName: "state", Location: "body"}, {PublicName: "summary", WireName: "summary", Location: "body"}, {PublicName: "task_count", WireName: "task_count", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_create-repositories",
-			mcplib.WithDescription("Approve the specified pull request as the authenticated user. Required: pull_request_id, repo_slug, workspace. Returns the new Participant. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/approve", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_create-repositories-2",
-			mcplib.WithDescription("Creates a new pull request comment. Returns the newly created pull request comment. Required: pull_request_id, repo_slug, workspace, type. Optional: content, created_on, deleted (plus 9 more). (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("content", mcplib.Description("Content")),
-			mcplib.WithString("created_on", mcplib.Description("Created on")),
-			mcplib.WithBoolean("deleted", mcplib.Description("Deleted")),
-			mcplib.WithNumber("id", mcplib.Description("Id")),
-			mcplib.WithString("inline", mcplib.Description("Inline")),
-			mcplib.WithString("links", mcplib.Description("Links")),
-			mcplib.WithString("parent", mcplib.Description("Parent")),
-			mcplib.WithBoolean("pending", mcplib.Description("Pending")),
-			mcplib.WithString("pullrequest", mcplib.Description("Pullrequest")),
-			mcplib.WithString("resolution", mcplib.Description("The resolution object for a Comment.")),
-			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
-			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
-			mcplib.WithString("user", mcplib.Description("User")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "content", WireName: "content", Location: "body"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "deleted", WireName: "deleted", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inline", WireName: "inline", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "pending", WireName: "pending", Location: "body"}, {PublicName: "pullrequest", WireName: "pullrequest", Location: "body"}, {PublicName: "resolution", WireName: "resolution", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_create-repositories-3",
-			mcplib.WithDescription("Declines the pull request. Required: pull_request_id, repo_slug, workspace. Returns the new Pullrequest. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/decline", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_create-repositories-4",
-			mcplib.WithDescription("Merges the pull request. If the destination branch has an active merge queue, the pull request is added to the queue instead. The API returns a 202 with a polling link to the task-status API in the Location header, even when `async` is false. Calling it again on a queued pull request returns the same link. Merge queues support the `merge_commit`, `squash` and `rebase_merge` strategies. If no strategy is given, the queue's default is used. Required: pull_request_id, repo_slug, workspace, type. Optional: async, close_source_branch, merge_strategy (default: merge_commit) (plus 1 more). (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithBoolean("async", mcplib.Description("Default value is false.")),
-			mcplib.WithBoolean("close_source_branch", mcplib.Description("Whether the source branch should be deleted.")),
-			mcplib.WithString("merge_strategy", mcplib.Description("The merge strategy that will be used to merge the pull request.")),
-			mcplib.WithString("message", mcplib.Description("The commit message that will be used on the resulting commit. Note that the size of the message is limited to 128 KiB.")),
-			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/merge", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "async", WireName: "async", Location: "query"}, {PublicName: "close_source_branch", WireName: "close_source_branch", Location: "body"}, {PublicName: "merge_strategy", WireName: "merge_strategy", Location: "body"}, {PublicName: "message", WireName: "message", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_create-repositories-5",
-			mcplib.WithDescription("Request changes for a pull request. Required: pull_request_id, repo_slug, workspace. Returns the new Participant. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/request-changes", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_create-repositories-6",
+		mcplib.NewTool("bitbucket-repositories_pullrequests_create-task-on-pull-request",
 			mcplib.WithDescription("Creates a new pull request task. Returns the newly created pull request task. Tasks can optionally be created in relation to a comment specified by the comment's ID which will cause the task to appear below the comment on a pull request when viewed in Bitbucket. Required: pull_request_id, repo_slug, workspace, content. Optional: comment, pending. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -15111,27 +15073,27 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "comment", WireName: "comment", Location: "body"}, {PublicName: "content", WireName: "content", Location: "body"}, {PublicName: "pending", WireName: "pending", Location: "body"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_create-repositories-7",
-			mcplib.WithDescription("Resolve a comment thread. Required: comment_id, pull_request_id, repo_slug, workspace. Returns the new CommentResolution. (public)"),
-			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_decline-pull-request",
+			mcplib.WithDescription("Declines the pull request. Required: pull_request_id, repo_slug, workspace. Returns the new Pullrequest. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}/resolve", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/decline", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_delete",
-			mcplib.WithDescription("Redact the authenticated user's approval of the specified pull request. Required: pull_request_id, repo_slug, workspace. Destructive. (public)"),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_delete-comment-on-pull-request",
+			mcplib.WithDescription("Deletes a specific pull request comment. Required: comment_id, pull_request_id, repo_slug, workspace. Destructive. (public)"),
+			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/approve", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_pullrequests_delete-pull-request-hosted-property-value",
@@ -15147,30 +15109,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pullrequest_id}/properties/{app_key}/{property_name}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "pullrequest_id", WireName: "pullrequest_id", Location: "path"}, {PublicName: "app_key", WireName: "app_key", Location: "path"}, {PublicName: "property_name", WireName: "property_name", Location: "path"}}, []string{"workspace", "repo_slug", "pullrequest_id", "app_key", "property_name"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_delete-repositories",
-			mcplib.WithDescription("Remove change request for a pull request. Required: pull_request_id, repo_slug, workspace. Destructive. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/request-changes", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_delete-repositories-2",
-			mcplib.WithDescription("Deletes a specific pull request comment. Required: comment_id, pull_request_id, repo_slug, workspace. Destructive. (public)"),
-			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_delete-repositories-3",
+		mcplib.NewTool("bitbucket-repositories_pullrequests_delete-task-on-pull-request",
 			mcplib.WithDescription("Deletes a specific pull request task. Required: pull_request_id, repo_slug, task_id, workspace. Destructive. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -15182,28 +15121,78 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks/{task_id}", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "task_id", WireName: "task_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "task_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_delete-repositories-4",
-			mcplib.WithDescription("Reopen a comment thread. Required: comment_id, pull_request_id, repo_slug, workspace. Destructive. (public)"),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_get-comment-on-pull-request",
+			mcplib.WithDescription("Returns a specific pull request comment. Required: comment_id, pull_request_id, repo_slug, workspace. (public)"),
 			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}/resolve", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get",
-			mcplib.WithDescription("Returns all pull requests on the specified repository. By default only open pull requests are returned. This can be controlled using the `state` query parameter. To retrieve pull requests that are in one of multiple states, repeat the `state` parameter for each individual state. This endpoint also supports filtering and sorting of the results. See [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details. Required: repo_slug, workspace. Optional: state. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("state", mcplib.Description("Only return pull requests that are in this state. This parameter can be repeated.")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "state", WireName: "state", Location: "query"}}, []string{"repo_slug", "workspace"}),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}", true, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_get-diff-stat-for-pull-request",
+			mcplib.WithDescription("Redirects to the [repository diffstat](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-diffstat-spec-get) with the revspec that corresponds to the pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/diffstat", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_get-file-conflicts-for-pull-request",
+			mcplib.WithDescription("Redirects to the [repository file conflicts](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-file-conflicts-spec-get) with the revspec that corresponds to the pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/conflicts", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_get-merge-task-status-for-pull-request",
+			mcplib.WithDescription("When merging a pull request takes too long, the client receives a task ID along with a 202 status code. The task ID can be used in a call to this endpoint to check the status of a merge task. ``` curl -X GET https://api.bitbucket.org/2.0/repositories/atlassian/bitbucket/pullrequests/2286/merge/task-status/<task_id> ``` If the merge task is not yet finished, a PENDING status will be returned. ``` HTTP/2 200 { 'task_status': 'PENDING', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bitbucket/pullrequests/2286/merge/task-status/<task_id>' } } } ``` If the merge was successful, a SUCCESS status will be returned. ``` HTTP/2 200 { 'task_status': 'SUCCESS', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bitbucket/pullrequests/2286/merge/task-status/<task_id>' } }, 'merge_result': <the merged pull request object> } ``` If the merge task failed, an error will be returned. ``` { 'type': 'error', 'error': { 'message': '<error message>' } } ``` If the pull request was added to a merge queue, the task reports its landing through the queue. A PENDING status is returned while it is in the queue, with a `queued_pullrequest` object once the queue has it. A SUCCESS status is returned once it merges, and an error if it leaves the queue without merging. The error message can contain Markdown. Unknown or expired task IDs return a PENDING status. Required: pull_request_id, repo_slug, task_id, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("task_id", mcplib.Required(), mcplib.Description("ID of the merge task")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/merge/task-status/{task_id}", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "task_id", WireName: "task_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "task_id", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_get-patch-for-pull-request",
+			mcplib.WithDescription("Redirects to the [repository patch](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-patch-spec-get) with the revspec that corresponds to pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/patch", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_get-pull-request",
+			mcplib.WithDescription("Returns the specified pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-repositories_pullrequests_get-pull-request-hosted-property-value",
@@ -15220,18 +15209,44 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pullrequest_id}/properties/{app_key}/{property_name}", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "pullrequest_id", WireName: "pullrequest_id", Location: "path"}, {PublicName: "app_key", WireName: "app_key", Location: "path"}, {PublicName: "property_name", WireName: "property_name", Location: "path"}}, []string{"workspace", "repo_slug", "pullrequest_id", "app_key", "property_name"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories",
-			mcplib.WithDescription("Returns a paginated list of the pull request's activity log. This handler serves both a v20 and internal endpoint. The v20 endpoint returns reviewer comments, updates, approvals and request changes. The internal endpoint includes those plus tasks and attachments. Comments created on a file or a line of code have an inline property. Comment example: ``` { 'pagelen': 20, 'values': [ { 'comment': { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695/comments/118571088' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695/_/diff#comment-118571088' } }, 'deleted': false, 'pullrequest': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' }, 'content': { 'raw': 'inline with to a dn from lines', 'markup': 'markdown', 'html': ' inline with to a dn from lines ', 'type': 'rendered' }, 'created_on': '2019-09-27T00:33:46.039178+00:00', 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'created_on': '2019-09-27T00:33:46.039178+00:00', 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'updated_on': '2019-09-27T00:33:46.055384+00:00', 'inline': { 'context_lines': '', 'to': null, 'path': '', 'outdated': false, 'from': 211 }, 'type': 'pullrequest_comment', 'id': 118571088 }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ``` Updates include a state property of OPEN, MERGED, or DECLINED. Update example: ``` { 'pagelen': 20, 'values': [ { 'update': { 'description': '', 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it', 'destination': { 'commit': { 'type': 'commit', 'hash': '6a2c16e4a152', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/6a2c16e4a152' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a2c16e4a152' } } }, 'branch': { 'name': 'master' }, 'repository': { 'name': 'Atlaskit-MK-2', 'type': 'repository', 'full_name': 'atlassian/atlaskit-mk-2', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2' }, 'avatar': { 'href': 'https://bytebucket.org/ravatar/%7B%7D?ts=js' } }, 'uuid': '{}' } }, 'reason': '', 'source': { 'commit': { 'type': 'commit', 'hash': '728c8bad1813', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/728c8bad1813' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/commits/728c8bad1813' } } }, 'branch': { 'name': 'username/NONE-add-onClick-prop-for-accessibility' }, 'repository': { 'name': 'Atlaskit-MK-2', 'type': 'repository', 'full_name': 'atlassian/atlaskit-mk-2', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2' }, 'avatar': { 'href': 'https://bytebucket.org/ravatar/%7B%7D?ts=js' } }, 'uuid': '{}' } }, 'state': 'OPEN', 'author': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'date': '2019-05-10T06:48:25.305565+00:00' }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ``` Approval example: ``` { 'pagelen': 20, 'values': [ { 'approval': { 'date': '2019-09-27T00:37:19.849534+00:00', 'pullrequest': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' }, 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' } }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ```. Required: repo_slug, workspace. (public)"),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_get-task-on-pull-request",
+			mcplib.WithDescription("Returns a specific pull request task. Required: pull_request_id, repo_slug, task_id, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithNumber("task_id", mcplib.Required(), mcplib.Description("The ID of the task.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks/{task_id}", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "task_id", WireName: "task_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "task_id", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-changes-in-pull-request",
+			mcplib.WithDescription("Redirects to the [repository diff](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-diff-spec-get) with the revspec that corresponds to the pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/activity", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/diff", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-10",
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-comments-on-pull-request",
+			mcplib.WithDescription("Returns a paginated list of the pull request's comments. This includes both global, inline comments and replies. The default sorting is oldest to newest and can be overridden with the `sort` query parameter. This endpoint also supports filtering and sorting of the results. See [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details. Required: pull_request_id, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-commit-statuses-for-pull-request",
 			mcplib.WithDescription("Returns all statuses (e.g. build results) for the given pull request. Required: pull_request_id, repo_slug, workspace. Optional: q, sort. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -15245,7 +15260,67 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/statuses", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-11",
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-commits-on-pull-request",
+			mcplib.WithDescription("Returns a paginated list of the pull request's commits. These are the commits that are being merged into the destination branch when the pull requests gets accepted. Required: pull_request_id, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/commits", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-pull-request-activity-log",
+			mcplib.WithDescription("Returns a paginated list of the pull request's activity log. This handler serves both a v20 and internal endpoint. The v20 endpoint returns reviewer comments, updates, approvals and request changes. The internal endpoint includes those plus tasks and attachments. Comments created on a file or a line of code have an inline property. Comment example: ``` { 'pagelen': 20, 'values': [ { 'comment': { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695/comments/118571088' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695/_/diff#comment-118571088' } }, 'deleted': false, 'pullrequest': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' }, 'content': { 'raw': 'inline with to a dn from lines', 'markup': 'markdown', 'html': ' inline with to a dn from lines ', 'type': 'rendered' }, 'created_on': '2019-09-27T00:33:46.039178+00:00', 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'created_on': '2019-09-27T00:33:46.039178+00:00', 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'updated_on': '2019-09-27T00:33:46.055384+00:00', 'inline': { 'context_lines': '', 'to': null, 'path': '', 'outdated': false, 'from': 211 }, 'type': 'pullrequest_comment', 'id': 118571088 }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ``` Updates include a state property of OPEN, MERGED, or DECLINED. Update example: ``` { 'pagelen': 20, 'values': [ { 'update': { 'description': '', 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it', 'destination': { 'commit': { 'type': 'commit', 'hash': '6a2c16e4a152', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/6a2c16e4a152' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a2c16e4a152' } } }, 'branch': { 'name': 'master' }, 'repository': { 'name': 'Atlaskit-MK-2', 'type': 'repository', 'full_name': 'atlassian/atlaskit-mk-2', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2' }, 'avatar': { 'href': 'https://bytebucket.org/ravatar/%7B%7D?ts=js' } }, 'uuid': '{}' } }, 'reason': '', 'source': { 'commit': { 'type': 'commit', 'hash': '728c8bad1813', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/728c8bad1813' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/commits/728c8bad1813' } } }, 'branch': { 'name': 'username/NONE-add-onClick-prop-for-accessibility' }, 'repository': { 'name': 'Atlaskit-MK-2', 'type': 'repository', 'full_name': 'atlassian/atlaskit-mk-2', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2' }, 'avatar': { 'href': 'https://bytebucket.org/ravatar/%7B%7D?ts=js' } }, 'uuid': '{}' } }, 'state': 'OPEN', 'author': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'date': '2019-05-10T06:48:25.305565+00:00' }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ``` Approval example: ``` { 'pagelen': 20, 'values': [ { 'approval': { 'date': '2019-09-27T00:37:19.849534+00:00', 'pullrequest': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' }, 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' } }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ```. Required: repo_slug, workspace. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/activity", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-pull-request-activity-log-by-pull-request-id",
+			mcplib.WithDescription("Returns a paginated list of the pull request's activity log. This handler serves both a v20 and internal endpoint. The v20 endpoint returns reviewer comments, updates, approvals and request changes. The internal endpoint includes those plus tasks and attachments. Comments created on a file or a line of code have an inline property. Comment example: ``` { 'pagelen': 20, 'values': [ { 'comment': { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695/comments/118571088' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695/_/diff#comment-118571088' } }, 'deleted': false, 'pullrequest': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' }, 'content': { 'raw': 'inline with to a dn from lines', 'markup': 'markdown', 'html': ' inline with to a dn from lines ', 'type': 'rendered' }, 'created_on': '2019-09-27T00:33:46.039178+00:00', 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'created_on': '2019-09-27T00:33:46.039178+00:00', 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'updated_on': '2019-09-27T00:33:46.055384+00:00', 'inline': { 'context_lines': '', 'to': null, 'path': '', 'outdated': false, 'from': 211 }, 'type': 'pullrequest_comment', 'id': 118571088 }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ``` Updates include a state property of OPEN, MERGED, or DECLINED. Update example: ``` { 'pagelen': 20, 'values': [ { 'update': { 'description': '', 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it', 'destination': { 'commit': { 'type': 'commit', 'hash': '6a2c16e4a152', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/6a2c16e4a152' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a2c16e4a152' } } }, 'branch': { 'name': 'master' }, 'repository': { 'name': 'Atlaskit-MK-2', 'type': 'repository', 'full_name': 'atlassian/atlaskit-mk-2', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2' }, 'avatar': { 'href': 'https://bytebucket.org/ravatar/%7B%7D?ts=js' } }, 'uuid': '{}' } }, 'reason': '', 'source': { 'commit': { 'type': 'commit', 'hash': '728c8bad1813', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/728c8bad1813' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/commits/728c8bad1813' } } }, 'branch': { 'name': 'username/NONE-add-onClick-prop-for-accessibility' }, 'repository': { 'name': 'Atlaskit-MK-2', 'type': 'repository', 'full_name': 'atlassian/atlaskit-mk-2', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2' }, 'avatar': { 'href': 'https://bytebucket.org/ravatar/%7B%7D?ts=js' } }, 'uuid': '{}' } }, 'state': 'OPEN', 'author': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'date': '2019-05-10T06:48:25.305565+00:00' }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ``` Approval example: ``` { 'pagelen': 20, 'values': [ { 'approval': { 'date': '2019-09-27T00:37:19.849534+00:00', 'pullrequest': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' }, 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' } }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ```. Required: pull_request_id, repo_slug, workspace. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/activity", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-pull-request-mergeability-checks",
+			mcplib.WithDescription("Returns the mergeability checks Bitbucket performs for this pull request, and whether each one currently allows the pull request to be merged - simulating what the merge endpoint checks before actually merging. Checks cover pull request state, the current user's merge permissions, Git conflicts, configured standard and custom merge checks, and merge queue status when available. Each check's `blocking` attribute indicates whether it currently prevents merging. A failed check does not necessarily block a merge. `pullrequest_state_check`, `current_user_permission_check`, and `git_mergeability_check` cover state, permission, and Git eligibility. One `standard_merge_check` is included per configured branch/merge restriction, and one `custom_pre_merge_check`/`custom_on_merge_check` per activated custom check - both omitted entirely, not reported as passing, when not configured. Not exhaustive: conditions Bitbucket can't evaluate without attempting the merge (e.g. dependency-merge requirements) aren't included. See `PullRequestMergeabilityCheckSchema` for per-check fields, and `q` below to exclude the checks that are expensive to evaluate. For repositories with merge queues enabled, a `merge_queue_check` reports queue availability and whether the pull request is already queued. It is included for open, non-draft pull requests when the destination branch requires queueing, and for already-queued pull requests with a configured queue. The check is omitted when no merge queue is configured for the destination branch. When the check is present, `merge_queue` contains that configured queue's UUID, name and state. Already-queued pull requests return their blocking state check and any applicable queue check, without evaluating Git or other merge checks. A failed queue configuration read fails the whole request with `500`, as for custom merge check results. Returns `500` if custom merge checks are configured but their results aren't currently retrievable, since the real merge action requires them too and would fail the same way. Required: pull_request_id, repo_slug, workspace. Optional: q. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("q", mcplib.Description("Only a limited subset of BBQL is supported here. Checks that are expensive to calculate can be excluded: `type!")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/mergeability/checks", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-pull-requests",
+			mcplib.WithDescription("Returns all pull requests on the specified repository. By default only open pull requests are returned. This can be controlled using the `state` query parameter. To retrieve pull requests that are in one of multiple states, repeat the `state` parameter for each individual state. This endpoint also supports filtering and sorting of the results. See [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details. Required: repo_slug, workspace. Optional: state. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("state", mcplib.Description("Only return pull requests that are in this state. This parameter can be repeated.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "state", WireName: "state", Location: "query"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_list-tasks-on-pull-request",
 			mcplib.WithDescription("Returns a paginated list of the pull request's tasks. This endpoint supports filtering and sorting of the results by the 'task' field. See [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details. Required: pull_request_id, repo_slug, workspace. Optional: q, sort, pagelen. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -15260,155 +15335,104 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}, {PublicName: "pagelen", WireName: "pagelen", Location: "query"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-12",
-			mcplib.WithDescription("Returns a specific pull request comment. Required: comment_id, pull_request_id, repo_slug, workspace. (public)"),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_merge-pull-request",
+			mcplib.WithDescription("Merges the pull request. If the destination branch has an active merge queue, the pull request is added to the queue instead. The API returns a 202 with a polling link to the task-status API in the Location header, even when `async` is false. Calling it again on a queued pull request returns the same link. Merge queues support the `merge_commit`, `squash` and `rebase_merge` strategies. If no strategy is given, the queue's default is used. Required: pull_request_id, repo_slug, workspace, type. Optional: async, close_source_branch, merge_strategy (default: merge_commit) (plus 1 more). (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithBoolean("async", mcplib.Description("Default value is false.")),
+			mcplib.WithBoolean("close_source_branch", mcplib.Description("Whether the source branch should be deleted.")),
+			mcplib.WithString("merge_strategy", mcplib.Description("The merge strategy that will be used to merge the pull request.")),
+			mcplib.WithString("message", mcplib.Description("The commit message that will be used on the resulting commit. Note that the size of the message is limited to 128 KiB.")),
+			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/merge", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "async", WireName: "async", Location: "query"}, {PublicName: "close_source_branch", WireName: "close_source_branch", Location: "body"}, {PublicName: "merge_strategy", WireName: "merge_strategy", Location: "body"}, {PublicName: "message", WireName: "message", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_remove-change-request-for-pull-request",
+			mcplib.WithDescription("Remove change request for a pull request. Required: pull_request_id, repo_slug, workspace. Destructive. (public)"),
+			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/request-changes", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_pullrequests_reopen-comment-thread",
+			mcplib.WithDescription("Reopen a comment thread. Required: comment_id, pull_request_id, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}", true, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}/resolve", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-13",
-			mcplib.WithDescription("Returns the mergeability checks Bitbucket performs for this pull request, and whether each one currently allows the pull request to be merged - simulating what the merge endpoint checks before actually merging. Checks cover pull request state, the current user's merge permissions, Git conflicts, configured standard and custom merge checks, and merge queue status when available. Each check's `blocking` attribute indicates whether it currently prevents merging. A failed check does not necessarily block a merge. `pullrequest_state_check`, `current_user_permission_check`, and `git_mergeability_check` cover state, permission, and Git eligibility. One `standard_merge_check` is included per configured branch/merge restriction, and one `custom_pre_merge_check`/`custom_on_merge_check` per activated custom check - both omitted entirely, not reported as passing, when not configured. Not exhaustive: conditions Bitbucket can't evaluate without attempting the merge (e.g. dependency-merge requirements) aren't included. See `PullRequestMergeabilityCheckSchema` for per-check fields, and `q` below to exclude the checks that are expensive to evaluate. For repositories with merge queues enabled, a `merge_queue_check` reports queue availability and whether the pull request is already queued. It is included for open, non-draft pull requests when the destination branch requires queueing, and for already-queued pull requests with a configured queue. The check is omitted when no merge queue is configured for the destination branch. When the check is present, `merge_queue` contains that configured queue's UUID, name and state. Already-queued pull requests return their blocking state check and any applicable queue check, without evaluating Git or other merge checks. A failed queue configuration read fails the whole request with `500`, as for custom merge check results. Returns `500` if custom merge checks are configured but their results aren't currently retrievable, since the real merge action requires them too and would fail the same way. Required: pull_request_id, repo_slug, workspace. Optional: q. (public)"),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_request-changes-for-pull-request",
+			mcplib.WithDescription("Request changes for a pull request. Required: pull_request_id, repo_slug, workspace. Returns the new Participant. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("q", mcplib.Description("Only a limited subset of BBQL is supported here. Checks that are expensive to calculate can be excluded: `type!")),
-			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/mergeability/checks", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/request-changes", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-14",
-			mcplib.WithDescription("Returns a specific pull request task. Required: pull_request_id, repo_slug, task_id, workspace. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithNumber("task_id", mcplib.Required(), mcplib.Description("The ID of the task.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks/{task_id}", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "task_id", WireName: "task_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "task_id", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-15",
-			mcplib.WithDescription("When merging a pull request takes too long, the client receives a task ID along with a 202 status code. The task ID can be used in a call to this endpoint to check the status of a merge task. ``` curl -X GET https://api.bitbucket.org/2.0/repositories/atlassian/bitbucket/pullrequests/2286/merge/task-status/<task_id> ``` If the merge task is not yet finished, a PENDING status will be returned. ``` HTTP/2 200 { 'task_status': 'PENDING', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bitbucket/pullrequests/2286/merge/task-status/<task_id>' } } } ``` If the merge was successful, a SUCCESS status will be returned. ``` HTTP/2 200 { 'task_status': 'SUCCESS', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bitbucket/pullrequests/2286/merge/task-status/<task_id>' } }, 'merge_result': <the merged pull request object> } ``` If the merge task failed, an error will be returned. ``` { 'type': 'error', 'error': { 'message': '<error message>' } } ``` If the pull request was added to a merge queue, the task reports its landing through the queue. A PENDING status is returned while it is in the queue, with a `queued_pullrequest` object once the queue has it. A SUCCESS status is returned once it merges, and an error if it leaves the queue without merging. The error message can contain Markdown. Unknown or expired task IDs return a PENDING status. Required: pull_request_id, repo_slug, task_id, workspace. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("task_id", mcplib.Required(), mcplib.Description("ID of the merge task")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/merge/task-status/{task_id}", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "task_id", WireName: "task_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "task_id", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-2",
-			mcplib.WithDescription("Returns the specified pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_resolve-comment-thread",
+			mcplib.WithDescription("Resolve a comment thread. Required: comment_id, pull_request_id, repo_slug, workspace. Returns the new CommentResolution. (public)"),
+			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}/resolve", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-3",
-			mcplib.WithDescription("Returns a paginated list of the pull request's activity log. This handler serves both a v20 and internal endpoint. The v20 endpoint returns reviewer comments, updates, approvals and request changes. The internal endpoint includes those plus tasks and attachments. Comments created on a file or a line of code have an inline property. Comment example: ``` { 'pagelen': 20, 'values': [ { 'comment': { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695/comments/118571088' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695/_/diff#comment-118571088' } }, 'deleted': false, 'pullrequest': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' }, 'content': { 'raw': 'inline with to a dn from lines', 'markup': 'markdown', 'html': ' inline with to a dn from lines ', 'type': 'rendered' }, 'created_on': '2019-09-27T00:33:46.039178+00:00', 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'created_on': '2019-09-27T00:33:46.039178+00:00', 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'updated_on': '2019-09-27T00:33:46.055384+00:00', 'inline': { 'context_lines': '', 'to': null, 'path': '', 'outdated': false, 'from': 211 }, 'type': 'pullrequest_comment', 'id': 118571088 }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ``` Updates include a state property of OPEN, MERGED, or DECLINED. Update example: ``` { 'pagelen': 20, 'values': [ { 'update': { 'description': '', 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it', 'destination': { 'commit': { 'type': 'commit', 'hash': '6a2c16e4a152', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/6a2c16e4a152' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a2c16e4a152' } } }, 'branch': { 'name': 'master' }, 'repository': { 'name': 'Atlaskit-MK-2', 'type': 'repository', 'full_name': 'atlassian/atlaskit-mk-2', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2' }, 'avatar': { 'href': 'https://bytebucket.org/ravatar/%7B%7D?ts=js' } }, 'uuid': '{}' } }, 'reason': '', 'source': { 'commit': { 'type': 'commit', 'hash': '728c8bad1813', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/commit/728c8bad1813' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/commits/728c8bad1813' } } }, 'branch': { 'name': 'username/NONE-add-onClick-prop-for-accessibility' }, 'repository': { 'name': 'Atlaskit-MK-2', 'type': 'repository', 'full_name': 'atlassian/atlaskit-mk-2', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2' }, 'avatar': { 'href': 'https://bytebucket.org/ravatar/%7B%7D?ts=js' } }, 'uuid': '{}' } }, 'state': 'OPEN', 'author': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' }, 'date': '2019-05-10T06:48:25.305565+00:00' }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ``` Approval example: ``` { 'pagelen': 20, 'values': [ { 'approval': { 'date': '2019-09-27T00:37:19.849534+00:00', 'pullrequest': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' }, 'user': { 'display_name': 'Name Lastname', 'uuid': '{}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/%7B%7D' }, 'html': { 'href': 'https://bitbucket.org/%7B%7D/' }, 'avatar': { 'href': 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/:/128' } }, 'type': 'user', 'nickname': 'Name', 'account_id': '' } }, 'pull_request': { 'type': 'pullrequest', 'id': 5695, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests/5695' }, 'html': { 'href': 'https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5695' } }, 'title': 'username/NONE: small change from onFocus to onClick to handle tabbing through the page and not expand the editor unless a click event triggers it' } } ] } ```. Required: pull_request_id, repo_slug, workspace. (public)"),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_unapprove-pull-request",
+			mcplib.WithDescription("Redact the authenticated user's approval of the specified pull request. Required: pull_request_id, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithDestructiveHintAnnotation(true),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/activity", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/approve", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-4",
-			mcplib.WithDescription("Returns a paginated list of the pull request's comments. This includes both global, inline comments and replies. The default sorting is oldest to newest and can be overridden with the `sort` query parameter. This endpoint also supports filtering and sorting of the results. See [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details. Required: pull_request_id, repo_slug, workspace. (public)"),
+		mcplib.NewTool("bitbucket-repositories_pullrequests_update-comment-on-pull-request",
+			mcplib.WithDescription("Updates a specific pull request comment. Required: comment_id, pull_request_id, repo_slug, workspace, type. Optional: content, created_on, deleted (plus 9 more). Returns the updated PullrequestComment. (public)"),
+			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithString("content", mcplib.Description("Content")),
+			mcplib.WithString("created_on", mcplib.Description("Created on")),
+			mcplib.WithBoolean("deleted", mcplib.Description("Deleted")),
+			mcplib.WithNumber("id", mcplib.Description("Id")),
+			mcplib.WithString("inline", mcplib.Description("Inline")),
+			mcplib.WithString("links", mcplib.Description("Links")),
+			mcplib.WithString("parent", mcplib.Description("Parent")),
+			mcplib.WithBoolean("pending", mcplib.Description("Pending")),
+			mcplib.WithString("pullrequest", mcplib.Description("Pullrequest")),
+			mcplib.WithString("resolution", mcplib.Description("The resolution object for a Comment.")),
+			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
+			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
+			mcplib.WithString("user", mcplib.Description("User")),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
+		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "content", WireName: "content", Location: "body"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "deleted", WireName: "deleted", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inline", WireName: "inline", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "pending", WireName: "pending", Location: "body"}, {PublicName: "pullrequest", WireName: "pullrequest", Location: "body"}, {PublicName: "resolution", WireName: "resolution", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-5",
-			mcplib.WithDescription("Returns a paginated list of the pull request's commits. These are the commits that are being merged into the destination branch when the pull requests gets accepted. Required: pull_request_id, repo_slug, workspace. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/commits", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-6",
-			mcplib.WithDescription("Redirects to the [repository file conflicts](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-file-conflicts-spec-get) with the revspec that corresponds to the pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/conflicts", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-7",
-			mcplib.WithDescription("Redirects to the [repository diff](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-diff-spec-get) with the revspec that corresponds to the pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/diff", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-8",
-			mcplib.WithDescription("Redirects to the [repository diffstat](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-diffstat-spec-get) with the revspec that corresponds to the pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/diffstat", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_get-repositories-9",
-			mcplib.WithDescription("Redirects to the [repository patch](/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-patch-spec-get) with the revspec that corresponds to pull request. Required: pull_request_id, repo_slug, workspace. (public)"),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/patch", true, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_update",
+		mcplib.NewTool("bitbucket-repositories_pullrequests_update-pull-request",
 			mcplib.WithDescription("Mutates the specified pull request. This can be used to change the pull request's branches or description. Only open pull requests can be mutated. Required: pull_request_id, repo_slug, workspace, type. Optional: author, close_source_branch, closed_by (plus 18 more). Returns the updated Pullrequest. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -15453,31 +15477,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pullrequest_id}/properties/{app_key}/{property_name}", false, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "pullrequest_id", WireName: "pullrequest_id", Location: "path"}, {PublicName: "app_key", WireName: "app_key", Location: "path"}, {PublicName: "property_name", WireName: "property_name", Location: "path"}, {PublicName: "_attributes", WireName: "_attributes", Location: "body"}}, []string{"workspace", "repo_slug", "pullrequest_id", "app_key", "property_name"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_update-repositories",
-			mcplib.WithDescription("Updates a specific pull request comment. Required: comment_id, pull_request_id, repo_slug, workspace, type. Optional: content, created_on, deleted (plus 9 more). Returns the updated PullrequestComment. (public)"),
-			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
-			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("content", mcplib.Description("Content")),
-			mcplib.WithString("created_on", mcplib.Description("Created on")),
-			mcplib.WithBoolean("deleted", mcplib.Description("Deleted")),
-			mcplib.WithNumber("id", mcplib.Description("Id")),
-			mcplib.WithString("inline", mcplib.Description("Inline")),
-			mcplib.WithString("links", mcplib.Description("Links")),
-			mcplib.WithString("parent", mcplib.Description("Parent")),
-			mcplib.WithBoolean("pending", mcplib.Description("Pending")),
-			mcplib.WithString("pullrequest", mcplib.Description("Pullrequest")),
-			mcplib.WithString("resolution", mcplib.Description("The resolution object for a Comment.")),
-			mcplib.WithString("type", mcplib.Required(), mcplib.Description("Type")),
-			mcplib.WithString("updated_on", mcplib.Description("Updated on")),
-			mcplib.WithString("user", mcplib.Description("User")),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "content", WireName: "content", Location: "body"}, {PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "deleted", WireName: "deleted", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "inline", WireName: "inline", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "parent", WireName: "parent", Location: "body"}, {PublicName: "pending", WireName: "pending", Location: "body"}, {PublicName: "pullrequest", WireName: "pullrequest", Location: "body"}, {PublicName: "resolution", WireName: "resolution", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}, {PublicName: "user", WireName: "user", Location: "body"}}, []string{"comment_id", "pull_request_id", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_pullrequests_update-repositories-2",
+		mcplib.NewTool("bitbucket-repositories_pullrequests_update-task-on-pull-request",
 			mcplib.WithDescription("Updates a specific pull request task. Required: pull_request_id, repo_slug, task_id, workspace. Optional: content, state. Returns the updated PullrequestCommentTask. (public)"),
 			mcplib.WithNumber("pull_request_id", mcplib.Required(), mcplib.Description("The id of the pull request.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -15490,7 +15490,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks/{task_id}", false, false, nil, []mcpParamBinding{{PublicName: "pull_request_id", WireName: "pull_request_id", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "task_id", WireName: "task_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "content", WireName: "content", Location: "body"}, {PublicName: "state", WireName: "state", Location: "body"}}, []string{"pull_request_id", "repo_slug", "task_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_create",
+		mcplib.NewTool("bitbucket-repositories_refs_create-branch",
 			mcplib.WithDescription("Creates a new branch in the specified repository. The payload of the POST should consist of a JSON document that contains the name of the tag and the target hash. ``` curl https://api.bitbucket.org/2.0/repositories/seanfarley/hg/refs/branches -s -u seanfarley -X POST -H 'Content-Type: application/json' -d '{ 'name' : 'smf/create-feature', 'target' : { 'hash' : 'default', } }' ``` This call requires authentication. Private repositories require the caller to authenticate with an account that has appropriate authorization. The branch name should not include any prefixes (e.g. refs/heads). This endpoint does support using short hash prefixes for the commit hash, but it may return a 400 response if the provided prefix is ambiguous. Using a full commit hash is the preferred approach. Required: repo_slug, workspace. Returns the new Branch. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -15500,7 +15500,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/branches", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_create-repositories",
+		mcplib.NewTool("bitbucket-repositories_refs_create-tag",
 			mcplib.WithDescription("Creates a new annotated tag in the specified repository. The payload of the POST should consist of a JSON document that contains the name of the tag and the target hash. ``` curl https://api.bitbucket.org/2.0/repositories/jdoe/myrepo/refs/tags -s -u jdoe -X POST -H 'Content-Type: application/json' -d '{ 'name' : 'new-tag-name', 'target' : { 'hash' : 'a1b2c3d4e5f6', } }' ``` This endpoint does support using short hash prefixes for the commit hash, but it may return a 400 response if the provided prefix is ambiguous. Using a full commit hash is the preferred approach. A message for the tag object may optionally be provided. If it is omitted or the provided message is empty, a default message of 'Added tag <tagname> for changeset <shorthash>' will be used. Required: repo_slug, workspace, type. Optional: date, links, message (plus 3 more). Returns the new Tag. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -15517,7 +15517,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/tags", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "date", WireName: "date", Location: "body"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "message", WireName: "message", Location: "body"}, {PublicName: "name", WireName: "name", Location: "body"}, {PublicName: "tagger", WireName: "tagger", Location: "body"}, {PublicName: "target", WireName: "target", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_delete",
+		mcplib.NewTool("bitbucket-repositories_refs_delete-branch",
 			mcplib.WithDescription("Delete a branch in the specified repository. The main branch is not allowed to be deleted and will return a 400 response. The branch name should not include any prefixes (e.g. refs/heads). Required: name, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the branch.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -15528,7 +15528,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/branches/{name}", false, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"name", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_delete-repositories",
+		mcplib.NewTool("bitbucket-repositories_refs_delete-tag",
 			mcplib.WithDescription("Delete a tag in the specified repository. The tag name should not include any prefixes (e.g. refs/tags). Required: name, repo_slug, workspace. Destructive. (public)"),
 			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the tag.")),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
@@ -15539,7 +15539,31 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/tags/{name}", false, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"name", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_get",
+		mcplib.NewTool("bitbucket-repositories_refs_get-branch",
+			mcplib.WithDescription("Returns a branch object within the specified repository. This call requires authentication. Private repositories require the caller to authenticate with an account that has appropriate authorization. For Git, the branch name should not include any prefixes (e.g. refs/heads). Required: name, repo_slug, workspace. (public)"),
+			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the branch.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/branches/{name}", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"name", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_refs_get-tag",
+			mcplib.WithDescription("Returns the specified tag. ``` $ curl -s https://api.bitbucket.org/2.0/repositories/seanfarley/hg/refs/tags/3.8 -G | jq . { 'name': '3.8', 'links': { 'commits': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commits/3.8' }, 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/refs/tags/3.8' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/hg/commits/tag/3.8' } }, 'tagger': { 'raw': 'Matt Mackall <mpm@selenic.com>', 'type': 'author', 'user': { 'username': 'mpmselenic', 'nickname': 'mpmselenic', 'display_name': 'Matt Mackall', 'type': 'user', 'uuid': '{a4934530-db4c-419c-a478-9ab4964c2ee7}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/mpmselenic' }, 'html': { 'href': 'https://bitbucket.org/mpmselenic/' }, 'avatar': { 'href': 'https://bitbucket.org/account/mpmselenic/avatar/32/' } } } }, 'date': '2016-05-01T18:52:25+00:00', 'message': 'Added tag 3.8 for changeset f85de28eae32', 'type': 'tag', 'target': { 'hash': 'f85de28eae32e7d3064b1a1321309071bbaaa069', 'repository': { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/hg' }, 'avatar': { 'href': 'https://bitbucket.org/seanfarley/hg/avatar/32/' } }, 'type': 'repository', 'name': 'hg', 'full_name': 'seanfarley/hg', 'uuid': '{c75687fb-e99d-4579-9087-190dbd406d30}' }, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/f85de28eae32e7d3064b1a1321309071bbaaa069' }, 'comments': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/f85de28eae32e7d3064b1a1321309071bbaaa069/comments' }, 'patch': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/patch/f85de28eae32e7d3064b1a1321309071bbaaa069' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/hg/commits/f85de28eae32e7d3064b1a1321309071bbaaa069' }, 'diff': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/diff/f85de28eae32e7d3064b1a1321309071bbaaa069' }, 'approve': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/f85de28eae32e7d3064b1a1321309071bbaaa069/approve' }, 'statuses': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/f85de28eae32e7d3064b1a1321309071bbaaa069/statuses' } }, 'author': { 'raw': 'Sean Farley <sean@farley.io>', 'type': 'author', 'user': { 'username': 'seanfarley', 'nickname': 'seanfarley', 'display_name': 'Sean Farley', 'type': 'user', 'uuid': '{a295f8a8-5876-4d43-89b5-3ad8c6c3c51d}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/seanfarley' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/' }, 'avatar': { 'href': 'https://bitbucket.org/account/seanfarley/avatar/32/' } } } }, 'parents': [ { 'hash': '9a98d0e5b07fc60887f9d3d34d9ac7d536f470d2', 'type': 'commit', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/9a98d0e5b07fc60887f9d3d34d9ac7d536f470d2' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/hg/commits/9a98d0e5b07fc60887f9d3d34d9ac7d536f470d2' } } } ], 'date': '2016-05-01T04:21:17+00:00', 'message': 'debian: alphabetize build deps', 'type': 'commit' } } ```. Required: name, repo_slug, workspace. (public)"),
+			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the tag.")),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/tags/{name}", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"name", "repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_refs_list-branches-and-tags",
 			mcplib.WithDescription("Returns the branches and tags in the repository. By default, results will be in the order the underlying source control system returns them and identical to the ordering one sees when running '$ git show-ref'. Note that this follows simple lexical ordering of the ref names. This can be undesirable as it does apply any natural sorting semantics, meaning for instance that refs are sorted ['branch1', 'branch10', 'branch2', 'v10', 'v11', 'v9'] instead of ['branch1', 'branch2', 'branch10', 'v9', 'v10', 'v11']. Sorting can be changed using the ?sort= query parameter. When using ?sort=name to explicitly sort on ref name, Bitbucket will apply natural sorting and interpret numerical values as numbers instead of strings. Required: repo_slug, workspace. Optional: q, sort. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -15552,7 +15576,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_get-repositories",
+		mcplib.NewTool("bitbucket-repositories_refs_list-open-branches",
 			mcplib.WithDescription("Returns a list of all open branches within the specified repository. Results will be in the order the source control manager returns them. Branches support [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) that can be used to search for specific branches. For instance, to find all branches that have 'stab' in their name: ``` curl -s https://api.bitbucket.org/2.0/repositories/atlassian/aui/refs/branches -G --data-urlencode 'q=name ~ 'stab'' ``` By default, results will be in the order the underlying source control system returns them and identical to the ordering one sees when running '$ git branch --list'. Note that this follows simple lexical ordering of the ref names. This can be undesirable as it does apply any natural sorting semantics, meaning for instance that tags are sorted ['v10', 'v11', 'v9'] instead of ['v9', 'v10', 'v11']. Sorting can be changed using the ?q= query parameter. When using ?q=name to explicitly sort on ref name, Bitbucket will apply natural sorting and interpret numerical values as numbers instead of strings. Required: repo_slug, workspace. Optional: q, sort. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -15565,7 +15589,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/branches", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_get-repositories-2",
+		mcplib.NewTool("bitbucket-repositories_refs_list-tags",
 			mcplib.WithDescription("Returns the tags in the repository. By default, results will be in the order the underlying source control system returns them and identical to the ordering one sees when running '$ git tag --list'. Note that this follows simple lexical ordering of the ref names. This can be undesirable as it does apply any natural sorting semantics, meaning for instance that tags are sorted ['v10', 'v11', 'v9'] instead of ['v9', 'v10', 'v11']. Sorting can be changed using the ?sort= query parameter. When using ?sort=name to explicitly sort on ref name, Bitbucket will apply natural sorting and interpret numerical values as numbers instead of strings. Required: repo_slug, workspace. Optional: q, sort. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -15578,31 +15602,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/tags", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_get-repositories-3",
-			mcplib.WithDescription("Returns a branch object within the specified repository. This call requires authentication. Private repositories require the caller to authenticate with an account that has appropriate authorization. For Git, the branch name should not include any prefixes (e.g. refs/heads). Required: name, repo_slug, workspace. (public)"),
-			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the branch.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/branches/{name}", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"name", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_refs_get-repositories-4",
-			mcplib.WithDescription("Returns the specified tag. ``` $ curl -s https://api.bitbucket.org/2.0/repositories/seanfarley/hg/refs/tags/3.8 -G | jq . { 'name': '3.8', 'links': { 'commits': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commits/3.8' }, 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/refs/tags/3.8' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/hg/commits/tag/3.8' } }, 'tagger': { 'raw': 'Matt Mackall <mpm@selenic.com>', 'type': 'author', 'user': { 'username': 'mpmselenic', 'nickname': 'mpmselenic', 'display_name': 'Matt Mackall', 'type': 'user', 'uuid': '{a4934530-db4c-419c-a478-9ab4964c2ee7}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/mpmselenic' }, 'html': { 'href': 'https://bitbucket.org/mpmselenic/' }, 'avatar': { 'href': 'https://bitbucket.org/account/mpmselenic/avatar/32/' } } } }, 'date': '2016-05-01T18:52:25+00:00', 'message': 'Added tag 3.8 for changeset f85de28eae32', 'type': 'tag', 'target': { 'hash': 'f85de28eae32e7d3064b1a1321309071bbaaa069', 'repository': { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/hg' }, 'avatar': { 'href': 'https://bitbucket.org/seanfarley/hg/avatar/32/' } }, 'type': 'repository', 'name': 'hg', 'full_name': 'seanfarley/hg', 'uuid': '{c75687fb-e99d-4579-9087-190dbd406d30}' }, 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/f85de28eae32e7d3064b1a1321309071bbaaa069' }, 'comments': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/f85de28eae32e7d3064b1a1321309071bbaaa069/comments' }, 'patch': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/patch/f85de28eae32e7d3064b1a1321309071bbaaa069' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/hg/commits/f85de28eae32e7d3064b1a1321309071bbaaa069' }, 'diff': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/diff/f85de28eae32e7d3064b1a1321309071bbaaa069' }, 'approve': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/f85de28eae32e7d3064b1a1321309071bbaaa069/approve' }, 'statuses': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/f85de28eae32e7d3064b1a1321309071bbaaa069/statuses' } }, 'author': { 'raw': 'Sean Farley <sean@farley.io>', 'type': 'author', 'user': { 'username': 'seanfarley', 'nickname': 'seanfarley', 'display_name': 'Sean Farley', 'type': 'user', 'uuid': '{a295f8a8-5876-4d43-89b5-3ad8c6c3c51d}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/seanfarley' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/' }, 'avatar': { 'href': 'https://bitbucket.org/account/seanfarley/avatar/32/' } } } }, 'parents': [ { 'hash': '9a98d0e5b07fc60887f9d3d34d9ac7d536f470d2', 'type': 'commit', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/seanfarley/hg/commit/9a98d0e5b07fc60887f9d3d34d9ac7d536f470d2' }, 'html': { 'href': 'https://bitbucket.org/seanfarley/hg/commits/9a98d0e5b07fc60887f9d3d34d9ac7d536f470d2' } } } ], 'date': '2016-05-01T04:21:17+00:00', 'message': 'debian: alphabetize build deps', 'type': 'commit' } } ```. Required: name, repo_slug, workspace. (public)"),
-			mcplib.WithString("name", mcplib.Required(), mcplib.Description("The name of the tag.")),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/tags/{name}", true, false, nil, []mcpParamBinding{{PublicName: "name", WireName: "name", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"name", "repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_src_create",
+		mcplib.NewTool("bitbucket-repositories_src_create-commit-by-uploading-file",
 			mcplib.WithDescription("This endpoint is used to create new commits in the repository by uploading files. To add a new file to a repository: ``` $ curl https://api.bitbucket.org/2.0/repositories/username/slug/src -F /repo/path/to/image.png=@image.png ``` This will create a new commit on top of the main branch, inheriting the contents of the main branch, but adding (or overwriting) the `image.png` file to the repository in the `/repo/path/to` directory. To create a commit that deletes files, use the `files` parameter: ``` $ curl https://api.bitbucket.org/2.0/repositories/username/slug/src -F files=/file/to/delete/1.txt -F files=/file/to/delete/2.txt ``` You can add/modify/delete multiple files in a request. Rename/move a file by deleting the old path and adding the content at the new path. This endpoint accepts `multipart/form-data` (as in the examples above), as well as `application/x-www-form-urlencoded`. Note: `multipart/form-data` is currently not supported by Forge apps for this API. #### multipart/form-data A `multipart/form-data` post contains a series of 'form fields' that identify both the individual files that are being uploaded, as well as additional, optional meta data. Files are uploaded in file form fields (those that have a `Content-Disposition` parameter) whose field names point to the remote path in the repository where the file should be stored. Path field names are always interpreted to be absolute from the root of the repository, regardless whether the client uses a leading slash (as the above `curl` example did). File contents are treated as bytes and are not decoded as text. The commit message, as well as other non-file meta data for the request, is sent along as normal form field elements. Meta data fields share the same namespace as the file objects. For `multipart/form-data` bodies that should not lead to any ambiguity, as the `Content-Disposition` header will contain the `filename` parameter to distinguish between a file named 'message' and the commit message field. #### application/x-www-form-urlencoded It is also possible to upload new files using a simple `application/x-www-form-urlencoded` POST. This can be convenient when uploading pure text files: ``` $ curl https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src --data-urlencode '/path/to/me.txt=Lorem ipsum.' --data-urlencode 'message=Initial commit' --data-urlencode 'author=Erik van Zijst <erik.van.zijst@gmail.com>' ``` There could be a field name clash if a client were to upload a file named 'message', as this filename clashes with the meta data property for the commit message. To avoid this and to upload files whose names clash with the meta data properties, use a leading slash for the files, e.g. `curl --data-urlencode '/message=file contents'`. When an explicit slash is omitted for a file whose path matches that of a meta data parameter, then it is interpreted as meta data, not as a file. #### Executables and links While this API aims to facilitate the most common use cases, it is possible to perform some more advanced operations like creating a new symlink in the repository, or creating an executable file. Files can be supplied with a `x-attributes` value in the `Content-Disposition` header. For example, to upload an executable file, as well as create a symlink from `README.txt` to `README`: ``` --===============1438169132528273974== Content-Type: text/plain; charset='us-ascii' MIME-Version: 1.0 Content-Transfer-Encoding: 7bit Content-ID: 'bin/shutdown.sh' Content-Disposition: attachment; filename='shutdown.sh'; x-attributes:'executable' #!/bin/sh halt --===============1438169132528273974== Content-Type: text/plain; charset='us-ascii' MIME-Version: 1.0 Content-Transfer-Encoding: 7bit Content-ID: '/README.txt' Content-Disposition: attachment; filename='README.txt'; x-attributes:'link' README --===============1438169132528273974==-- ``` Links are files that contain the target path and have `x-attributes:'link'` set. When overwriting links with files, or vice versa, the newly uploaded file determines both the new contents, as well as the attributes. That means uploading a file without specifying `x-attributes='link'` will create a regular file, even if the parent commit hosted a symlink at the same path. The same applies to executables. When modifying an existing executable file, the form-data file element must include `x-attributes='executable'` in order to preserve the executable status of the file. Note that this API does not support the creation or manipulation of subrepos / submodules. Required: repo_slug, workspace. Optional: message, author, parents (plus 2 more). (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -15617,19 +15617,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/src", false, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "message", WireName: "message", Location: "query"}, {PublicName: "author", WireName: "author", Location: "query"}, {PublicName: "parents", WireName: "parents", Location: "query"}, {PublicName: "files", WireName: "files", Location: "query"}, {PublicName: "branch", WireName: "branch", Location: "query"}}, []string{"repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_src_get",
-			mcplib.WithDescription("This endpoint redirects the client to the directory listing of the root directory on the main branch. This is equivalent to directly hitting [/2.0/repositories/{username}/{repo_slug}/src/{commit}/{path}](src/%7Bcommit%7D/%7Bpath%7D) without having to know the name or SHA1 of the repo's main branch. To create new commits, [POST to this endpoint](#post). Required: repo_slug, workspace. Optional: format. Returns the PaginatedTreeentries. (public)"),
-			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("format", mcplib.Description("Instead of returning the file's contents, return the (json) meta data for it.")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/src", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{"repo_slug", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_src_get-repositories",
+		mcplib.NewTool("bitbucket-repositories_src_get-file-or-directory-contents",
 			mcplib.WithDescription("This endpoints is used to retrieve the contents of a single file, or the contents of a directory at a specified revision. #### Raw file contents When `path` points to a file, this endpoint returns the raw contents. The response's Content-Type is derived from the filename extension (not from the contents). The file contents are not processed and no character encoding/recoding is performed and as a result no character encoding is included as part of the Content-Type. The `Content-Disposition` header will be 'attachment' to prevent browsers from running executable files. If the file is managed by LFS, then a 301 redirect pointing to Atlassian's media services platform is returned. The response includes an ETag that is based on the contents of the file and its attributes. This means that an empty `__init__.py` always returns the same ETag, regardless on the directory it lives in, or the commit it is on. #### File meta data When the request for a file path includes the query parameter `?format=meta`, instead of returning the file's raw contents, Bitbucket instead returns the JSON object describing the file's properties: ```javascript $ curl https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef/tests/__init__.py?format=meta { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef5d3df01aed629f650959d6706d54cd335/tests/__init__.py' }, 'meta': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef5d3df01aed629f650959d6706d54cd335/tests/__init__.py?format=meta' } }, 'path': 'tests/__init__.py', 'commit': { 'type': 'commit', 'hash': 'eefd5ef5d3df01aed629f650959d6706d54cd335', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/commit/eefd5ef5d3df01aed629f650959d6706d54cd335' }, 'html': { 'href': 'https://bitbucket.org/atlassian/bbql/commits/eefd5ef5d3df01aed629f650959d6706d54cd335' } } }, 'attributes': [], 'type': 'commit_file', 'size': 0 } ``` File objects contain an `attributes` element that contains a list of possible modifiers. Currently defined values are: * `link` -- indicates that the entry is a symbolic link. The contents of the file represent the path the link points to. * `executable` -- indicates that the file has the executable bit set. * `subrepository` -- indicates that the entry points to a submodule or subrepo. The contents of the file is the SHA1 of the repository pointed to. * `binary` -- indicates whether Bitbucket thinks the file is binary. This endpoint can provide an alternative to how a HEAD request can be used to check for the existence of a file, or a file's size without incurring the overhead of receiving its full contents. #### Directory listings When `path` points to a directory instead of a file, the response is a paginated list of directory and file objects in the same order as the underlying SCM system would return them. For example: ```javascript $ curl https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef/tests { 'pagelen': 10, 'values': [ { 'path': 'tests/test_project', 'type': 'commit_directory', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef5d3df01aed629f650959d6706d54cd335/tests/test_project/' }, 'meta': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef5d3df01aed629f650959d6706d54cd335/tests/test_project/?format=meta' } }, 'commit': { 'type': 'commit', 'hash': 'eefd5ef5d3df01aed629f650959d6706d54cd335', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/commit/eefd5ef5d3df01aed629f650959d6706d54cd335' }, 'html': { 'href': 'https://bitbucket.org/atlassian/bbql/commits/eefd5ef5d3df01aed629f650959d6706d54cd335' } } } }, { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef5d3df01aed629f650959d6706d54cd335/tests/__init__.py' }, 'meta': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef5d3df01aed629f650959d6706d54cd335/tests/__init__.py?format=meta' } }, 'path': 'tests/__init__.py', 'commit': { 'type': 'commit', 'hash': 'eefd5ef5d3df01aed629f650959d6706d54cd335', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/commit/eefd5ef5d3df01aed629f650959d6706d54cd335' }, 'html': { 'href': 'https://bitbucket.org/atlassian/bbql/commits/eefd5ef5d3df01aed629f650959d6706d54cd335' } } }, 'attributes': [], 'type': 'commit_file', 'size': 0 } ], 'page': 1, 'size': 2 } ``` When listing the contents of the repo's root directory, the use of a trailing slash at the end of the URL is required. The response by default is not recursive, meaning that only the direct contents of a path are returned. The response does not recurse down into subdirectories. In order to 'walk' the entire directory tree, the client can either parse each response and follow the `self` links of each `commit_directory` object, or can specify a `max_depth` to recurse to. The max_depth parameter will do a breadth-first search to return the contents of the subdirectories up to the depth specified. Breadth-first search was chosen as it leads to the least amount of file system operations for git. If the `max_depth` parameter is specified to be too large, the call will time out and return a 555. Each returned object is either a `commit_file`, or a `commit_directory`, both of which contain a `path` element. This path is the absolute path from the root of the repository. Each object also contains a `commit` object which embeds the commit the file is on. Note that this is merely the commit that was used in the URL. It is *not* the commit that last modified the file. Directory objects have 2 representations. Their `self` link returns the paginated contents of the directory. The `meta` link on the other hand returns the actual `directory` object itself, e.g.: ```javascript { 'path': 'tests/test_project', 'type': 'commit_directory', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef5d3df01aed629f650959d6706d54cd335/tests/test_project/' }, 'meta': { 'href': 'https://api.bitbucket.org/2.0/repositories/atlassian/bbql/src/eefd5ef5d3df01aed629f650959d6706d54cd335/tests/test_project/?format=meta' } }, 'commit': { ... } } ``` #### Querying, filtering and sorting Like most API endpoints, this API supports the Bitbucket querying/filtering syntax and so you could filter a directory listing to only include entries that match certain criteria. For instance, to list all binary files over 1kb use the expression: `size > 1024 and attributes = 'binary'` which after urlencoding yields the query string: `?q=size%3E1024+and+attributes%3D%22binary%22` To change the ordering of the response, use the `?sort` parameter: `.../src/eefd5ef/?sort=-size` See [filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details. Required: commit, path, repo_slug, workspace. Optional: format, q, sort (plus 1 more). (public)"),
 			mcplib.WithString("commit", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
 			mcplib.WithString("path", mcplib.Required(), mcplib.Description("Path to the file.")),
@@ -15646,7 +15634,19 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/src/{commit}/{path}", true, false, nil, []mcpParamBinding{{PublicName: "commit", WireName: "commit", Location: "path"}, {PublicName: "path", WireName: "path", Location: "path"}, {PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "format", WireName: "format", Location: "query"}, {PublicName: "q", WireName: "q", Location: "query"}, {PublicName: "sort", WireName: "sort", Location: "query"}, {PublicName: "max_depth", WireName: "max_depth", Location: "query"}}, []string{"commit", "path", "repo_slug", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-repositories_watchers_get",
+		mcplib.NewTool("bitbucket-repositories_src_get-root-directory-of-main-branch",
+			mcplib.WithDescription("This endpoint redirects the client to the directory listing of the root directory on the main branch. This is equivalent to directly hitting [/2.0/repositories/{username}/{repo_slug}/src/{commit}/{path}](src/%7Bcommit%7D/%7Bpath%7D) without having to know the name or SHA1 of the repo's main branch. To create new commits, [POST to this endpoint](#post). Required: repo_slug, workspace. Optional: format. Returns the PaginatedTreeentries. (public)"),
+			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("format", mcplib.Description("Instead of returning the file's contents, return the (json) meta data for it.")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/src", true, false, nil, []mcpParamBinding{{PublicName: "repo_slug", WireName: "repo_slug", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "format", WireName: "format", Location: "query"}}, []string{"repo_slug", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-repositories_watchers_list-repositories",
 			mcplib.WithDescription("Returns a paginated list of all the watchers on the specified repository. Required: repo_slug, workspace. (public)"),
 			mcplib.WithString("repo_slug", mcplib.Required(), mcplib.Description("This can either be the repository slug or the UUID of the repository, surrounded by...")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -17431,7 +17431,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/snippets", false, false, nil, []mcpParamBinding{{PublicName: "created_on", WireName: "created_on", Location: "body"}, {PublicName: "creator", WireName: "creator", Location: "body"}, {PublicName: "id", WireName: "id", Location: "body"}, {PublicName: "is_private", WireName: "is_private", Location: "body"}, {PublicName: "owner", WireName: "owner", Location: "body"}, {PublicName: "scm", WireName: "scm", Location: "body"}, {PublicName: "title", WireName: "title", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}, {PublicName: "updated_on", WireName: "updated_on", Location: "body"}}, []string{}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_create-workspace",
+		mcplib.NewTool("bitbucket-snippets_create-for-workspace",
 			mcplib.WithDescription("Identical to [`/snippets`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-post), except that the new snippet will be created under the workspace specified in the path parameter `{workspace}`. Required: workspace, type. Optional: created_on, creator, id (plus 5 more). Returns the new Snippet. (public)"),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
 			mcplib.WithString("created_on", mcplib.Description("Created on")),
@@ -17459,7 +17459,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}", false, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_delete-workspace",
+		mcplib.NewTool("bitbucket-snippets_delete-previous-revision-of",
 			mcplib.WithDescription("Deletes the snippet. Note that this only works for versioned URLs that point to the latest commit of the snippet. Pointing to an older commit results in a 405 status code. To delete a snippet, regardless of whether or not concurrent changes are being made to it, use `DELETE /snippets/{encoded_id}` instead. Required: encoded_id, node_id, workspace. Destructive. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("node_id", mcplib.Required(), mcplib.Description("A commit revision (SHA1).")),
@@ -17471,17 +17471,6 @@ func RegisterTools(s *server.MCPServer) {
 	)
 	s.AddTool(
 		mcplib.NewTool("bitbucket-snippets_get",
-			mcplib.WithDescription("Returns a paginated list of snippets owned by `{workspace}`. To limit the set of returned snippets, apply the `?role=[owner|contributor|member]` query parameter where the roles are defined as follows: * `owner`: snippets owned by `{workspace}` that also belong to the current user (only returns results when `{workspace}` is the current user's personal workspace) * `contributor`: snippets owned by `{workspace}` that the current user is watching, plus any owned by `{workspace}` and the current user * `member`: all snippets owned by `{workspace}` if the current user is a member, otherwise only those the current user is watching When no role is specified, all snippets owned by `{workspace}` are returned. If the current user is not a member of `{workspace}`, only public snippets are returned regardless of role. The returned response is a normal paginated JSON list. This endpoint only supports `application/json` responses and no `multipart/form-data` or `multipart/related`. As a result, it is not possible to include the file contents. Required: workspace. Optional: role. (public)"),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithString("role", mcplib.Description("Filter down the result based on the authenticated user's role (`owner`, `contributor`, or `member`).")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "role", WireName: "role", Location: "query"}}, []string{"workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_get-workspace",
 			mcplib.WithDescription("Retrieves a single snippet. Snippets support multiple content types: * application/json * multipart/related * multipart/form-data application/json ---------------- The default content type of the response is `application/json`. Since JSON is always `utf-8`, it cannot reliably contain file contents for files that are not text. Therefore, JSON snippet documents only contain the filename and links to the file contents. This means that in order to retrieve all parts of a snippet, N+1 requests need to be made (where N is the number of files in the snippet). multipart/related ----------------- To retrieve an entire snippet in a single response, use the `Accept: multipart/related` HTTP request header. $ curl -H 'Accept: multipart/related' https://api.bitbucket.org/2.0/snippets/evzijst/1 Response: HTTP/1.1 200 OK Content-Length: 2214 Content-Type: multipart/related; start='snippet'; boundary='===============1438169132528273974==' MIME-Version: 1.0 --===============1438169132528273974== Content-Type: application/json; charset='utf-8' MIME-Version: 1.0 Content-ID: snippet { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/snippets/evzijst/kypj' }, 'html': { 'href': 'https://bitbucket.org/snippets/evzijst/kypj' }, 'comments': { 'href': 'https://api.bitbucket.org/2.0/snippets/evzijst/kypj/comments' }, 'watchers': { 'href': 'https://api.bitbucket.org/2.0/snippets/evzijst/kypj/watchers' }, 'commits': { 'href': 'https://api.bitbucket.org/2.0/snippets/evzijst/kypj/commits' } }, 'id': kypj, 'title': 'My snippet', 'created_on': '2014-12-29T22:22:04.790331+00:00', 'updated_on': '2014-12-29T22:22:04.790331+00:00', 'is_private': false, 'files': { 'foo.txt': { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/snippets/evzijst/kypj/files/367ab19/foo.txt' }, 'html': { 'href': 'https://bitbucket.org/snippets/evzijst/kypj#file-foo.txt' } } }, 'image.png': { 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/snippets/evzijst/kypj/files/367ab19/image.png' }, 'html': { 'href': 'https://bitbucket.org/snippets/evzijst/kypj#file-image.png' } } } ], 'owner': { 'username': 'evzijst', 'nickname': 'evzijst', 'display_name': 'Erik van Zijst', 'uuid': '{d301aafa-d676-4ee0-88be-962be7417567}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/evzijst' }, 'html': { 'href': 'https://bitbucket.org/evzijst' }, 'avatar': { 'href': 'https://bitbucket-staging-assetroot.s3.amazonaws.com/c/photos/2013/Jul/31/erik-avatar-725122544-0_avatar.png' } } }, 'creator': { 'username': 'evzijst', 'nickname': 'evzijst', 'display_name': 'Erik van Zijst', 'uuid': '{d301aafa-d676-4ee0-88be-962be7417567}', 'links': { 'self': { 'href': 'https://api.bitbucket.org/2.0/users/evzijst' }, 'html': { 'href': 'https://bitbucket.org/evzijst' }, 'avatar': { 'href': 'https://bitbucket-staging-assetroot.s3.amazonaws.com/c/photos/2013/Jul/31/erik-avatar-725122544-0_avatar.png' } } } } --===============1438169132528273974== Content-Type: text/plain; charset='us-ascii' MIME-Version: 1.0 Content-Transfer-Encoding: 7bit Content-ID: 'foo.txt' Content-Disposition: attachment; filename='foo.txt' foo --===============1438169132528273974== Content-Type: image/png MIME-Version: 1.0 Content-Transfer-Encoding: base64 Content-ID: 'image.png' Content-Disposition: attachment; filename='image.png' iVBORw0KGgoAAAANSUhEUgAAABQAAAAoCAYAAAD+MdrbAAABD0lEQVR4Ae3VMUoDQRTG8ccUaW2m TKONFxArJYJamCvkCnZTaa+VnQdJSBFl2SMsLFrEWNjZBZs0JgiL/+KrhhVmJRbCLPx4O+/DT2TB cbblJxf+UWFVVRNsEGAtgvJxnLm2H+A5RQ93uIl+3632PZyl/skjfOn9Gvdwmlcw5aPUwimG+NT5 EnNN036IaZePUuIcK533NVfal7/5yjWeot2z9ta1cAczHEf7I+3J0ws9Cgx0fsOFpmlfwKcWPuBQ 73Oc4FHzBaZ8llq4q1mr5B2mOUCt815qYR8eB1hG2VJ7j35q4RofaH7IG+Xrf/PfJhfmwtfFYoIN AqxFUD6OMxcvkO+UfKfkOyXfKdsv/AYCHMLVkHAFWgAAAABJRU5ErkJggg== --===============1438169132528273974==-- multipart/form-data ------------------- As with creating new snippets, `multipart/form-data` can be used as an alternative to `multipart/related`. However, the inherently flat structure of form-data means that only basic, root-level properties can be returned, while nested elements like `links` are omitted: $ curl -H 'Accept: multipart/form-data' https://api.bitbucket.org/2.0/snippets/evzijst/kypj Response: HTTP/1.1 200 OK Content-Length: 951 Content-Type: multipart/form-data; boundary=----------------------------63a4b224c59f ------------------------------63a4b224c59f Content-Disposition: form-data; name='title' Content-Type: text/plain; charset='utf-8' My snippet ------------------------------63a4b224c59f-- Content-Disposition: attachment; name='file'; filename='foo.txt' Content-Type: text/plain foo ------------------------------63a4b224c59f Content-Disposition: attachment; name='file'; filename='image.png' Content-Transfer-Encoding: base64 Content-Type: application/octet-stream iVBORw0KGgoAAAANSUhEUgAAABQAAAAoCAYAAAD+MdrbAAABD0lEQVR4Ae3VMUoDQRTG8ccUaW2m TKONFxArJYJamCvkCnZTaa+VnQdJSBFl2SMsLFrEWNjZBZs0JgiL/+KrhhVmJRbCLPx4O+/DT2TB cbblJxf+UWFVVRNsEGAtgvJxnLm2H+A5RQ93uIl+3632PZyl/skjfOn9Gvdwmlcw5aPUwimG+NT5 EnNN036IaZePUuIcK533NVfal7/5yjWeot2z9ta1cAczHEf7I+3J0ws9Cgx0fsOFpmlfwKcWPuBQ 73Oc4FHzBaZ8llq4q1mr5B2mOUCt815qYR8eB1hG2VJ7j35q4RofaH7IG+Xrf/PfJhfmwtfFYoIN AqxFUD6OMxcvkO+UfKfkOyXfKdsv/AYCHMLVkHAFWgAAAABJRU5ErkJggg== ------------------------------5957323a6b76--. Required: encoded_id, workspace. Returns the Snippet. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -17492,7 +17481,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_get-workspace-2",
+		mcplib.NewTool("bitbucket-snippets_get-previous-revision-of",
 			mcplib.WithDescription("Identical to `GET /snippets/encoded_id`, except that this endpoint can be used to retrieve the contents of the snippet as it was at an older revision, while `/snippets/encoded_id` always returns the snippet's current revision. Note that only the snippet's file contents are versioned, not its meta data properties like the title. Other than that, the two endpoints are identical in behavior. Required: encoded_id, node_id, workspace. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("node_id", mcplib.Required(), mcplib.Description("A commit revision (SHA1).")),
@@ -17504,6 +17493,17 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/{node_id}", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "node_id", WireName: "node_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "node_id", "workspace"}),
 	)
 	s.AddTool(
+		mcplib.NewTool("bitbucket-snippets_list-in-workspace",
+			mcplib.WithDescription("Returns a paginated list of snippets owned by `{workspace}`. To limit the set of returned snippets, apply the `?role=[owner|contributor|member]` query parameter where the roles are defined as follows: * `owner`: snippets owned by `{workspace}` that also belong to the current user (only returns results when `{workspace}` is the current user's personal workspace) * `contributor`: snippets owned by `{workspace}` that the current user is watching, plus any owned by `{workspace}` and the current user * `member`: all snippets owned by `{workspace}` if the current user is a member, otherwise only those the current user is watching When no role is specified, all snippets owned by `{workspace}` are returned. If the current user is not a member of `{workspace}`, only public snippets are returned regardless of role. The returned response is a normal paginated JSON list. This endpoint only supports `application/json` responses and no `multipart/form-data` or `multipart/related`. As a result, it is not possible to include the file contents. Required: workspace. Optional: role. (public)"),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithString("role", mcplib.Description("Filter down the result based on the authenticated user's role (`owner`, `contributor`, or `member`).")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}", true, false, nil, []mcpParamBinding{{PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "role", WireName: "role", Location: "query"}}, []string{"workspace"}),
+	)
+	s.AddTool(
 		mcplib.NewTool("bitbucket-snippets_update",
 			mcplib.WithDescription("Used to update a snippet. Use this to add and delete files and to change a snippet's title. To update a snippet, one can either PUT a full snapshot, or only the parts that need to be changed. The contract for PUT on this API is that properties missing from the request remain untouched so that snippets can be efficiently manipulated with differential payloads. To delete a property (e.g. the title, or a file), include its name in the request, but omit its value (use `null`). As in Git, explicit renaming of files is not supported. Instead, to rename a file, delete it and add it again under another name. This can be done atomically in a single request. Rename detection is left to the SCM. PUT supports three different content types for both request and response bodies: * `application/json` * `multipart/related` * `multipart/form-data` The content type used for the request body can be different than that used for the response. Content types are specified using standard HTTP headers. Use the `Content-Type` and `Accept` headers to select the desired request and response format. application/json ---------------- As with creation and retrieval, the content type determines what properties can be manipulated. `application/json` does not support file contents and is therefore limited to a snippet's meta data. To update the title, without changing any of its files: $ curl -X POST -H 'Content-Type: application/json' https://api.bitbucket.org/2.0/snippets/evzijst/kypj -d '{'title': 'Updated title'}' To delete the title: $ curl -X POST -H 'Content-Type: application/json' https://api.bitbucket.org/2.0/snippets/evzijst/kypj -d '{'title': null}' Not all parts of a snippet can be manipulated. The owner and creator for instance are immutable. multipart/related ----------------- `multipart/related` can be used to manipulate all of a snippet's properties. The body is identical to a POST. properties omitted from the request are left unchanged. Since the `start` part contains JSON, the mechanism for manipulating the snippet's meta data is identical to `application/json` requests. To update one of a snippet's file contents, while also changing its title: PUT /2.0/snippets/evzijst/kypj HTTP/1.1 Content-Length: 288 Content-Type: multipart/related; start='snippet'; boundary='===============1438169132528273974==' MIME-Version: 1.0 --===============1438169132528273974== Content-Type: application/json; charset='utf-8' MIME-Version: 1.0 Content-ID: snippet { 'title': 'My updated snippet', 'files': { 'foo.txt': {} } } --===============1438169132528273974== Content-Type: text/plain; charset='us-ascii' MIME-Version: 1.0 Content-Transfer-Encoding: 7bit Content-ID: 'foo.txt' Content-Disposition: attachment; filename='foo.txt' Updated file contents. --===============1438169132528273974==-- Here only the parts that are changed are included in the body. The other files remain untouched. Note the use of the `files` list in the JSON part. This list contains the files that are being manipulated. This list should have corresponding multiparts in the request that contain the new contents of these files. If a filename in the `files` list does not have a corresponding part, it will be deleted from the snippet, as shown below: PUT /2.0/snippets/evzijst/kypj HTTP/1.1 Content-Length: 188 Content-Type: multipart/related; start='snippet'; boundary='===============1438169132528273974==' MIME-Version: 1.0 --===============1438169132528273974== Content-Type: application/json; charset='utf-8' MIME-Version: 1.0 Content-ID: snippet { 'files': { 'image.png': {} } } --===============1438169132528273974==-- To simulate a rename, delete a file and add the same file under another name: PUT /2.0/snippets/evzijst/kypj HTTP/1.1 Content-Length: 212 Content-Type: multipart/related; start='snippet'; boundary='===============1438169132528273974==' MIME-Version: 1.0 --===============1438169132528273974== Content-Type: application/json; charset='utf-8' MIME-Version: 1.0 Content-ID: snippet { 'files': { 'foo.txt': {}, 'bar.txt': {} } } --===============1438169132528273974== Content-Type: text/plain; charset='us-ascii' MIME-Version: 1.0 Content-Transfer-Encoding: 7bit Content-ID: 'bar.txt' Content-Disposition: attachment; filename='bar.txt' foo --===============1438169132528273974==-- multipart/form-data ----------------- Again, one can also use `multipart/form-data` to manipulate file contents and meta data atomically. $ curl -X PUT http://localhost:12345/2.0/snippets/evzijst/kypj -F title='My updated snippet' -F file=@foo.txt PUT /2.0/snippets/evzijst/kypj HTTP/1.1 Content-Length: 351 Content-Type: multipart/form-data; boundary=----------------------------63a4b224c59f ------------------------------63a4b224c59f Content-Disposition: form-data; name='file'; filename='foo.txt' Content-Type: text/plain foo ------------------------------63a4b224c59f Content-Disposition: form-data; name='title' My updated snippet ------------------------------63a4b224c59f To delete a file, omit its contents while including its name in the `files` field: $ curl -X PUT https://api.bitbucket.org/2.0/snippets/evzijst/kypj -F files=image.png PUT /2.0/snippets/evzijst/kypj HTTP/1.1 Content-Length: 149 Content-Type: multipart/form-data; boundary=----------------------------ef8871065a86 ------------------------------ef8871065a86 Content-Disposition: form-data; name='files' image.png ------------------------------ef8871065a86-- The explicit use of the `files` element in `multipart/related` and `multipart/form-data` is only required when deleting files. The default mode of operation is for file parts to be processed, regardless of whether or not they are listed in `files`, as a convenience to the client. Required: encoded_id, workspace. Returns the updated Snippet. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
@@ -17513,7 +17513,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}", false, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_update-workspace",
+		mcplib.NewTool("bitbucket-snippets_update-previous-revision-of",
 			mcplib.WithDescription("Identical to `UPDATE /snippets/encoded_id`, except that this endpoint takes an explicit commit revision. Only the snippet's 'HEAD'/'tip' (most recent) version can be updated and requests on all other, older revisions fail by returning a 405 status. Usage of this endpoint over the unrestricted `/snippets/encoded_id` could be desired if the caller wants to be sure no concurrent modifications have taken place between the moment of the UPDATE request and the original GET. This can be considered a so-called 'Compare And Swap', or CAS operation. Other than that, the two endpoints are identical in behavior. Required: encoded_id, node_id, workspace. Returns the updated Snippet. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("node_id", mcplib.Required(), mcplib.Description("A commit revision (SHA1).")),
@@ -17523,7 +17523,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/{node_id}", false, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "node_id", WireName: "node_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "node_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_comments_create",
+		mcplib.NewTool("bitbucket-snippets_comments_create-on-snippet",
 			mcplib.WithDescription("Creates a new comment. The only required field in the body is `content.raw`. To create a threaded reply to an existing comment, include `parent.id`. Required: encoded_id, workspace, type. Optional: links, snippet. Returns the new SnippetComment. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -17536,7 +17536,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("POST", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/comments", false, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "snippet", WireName: "snippet", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{"encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_comments_delete",
+		mcplib.NewTool("bitbucket-snippets_comments_delete-on-snippet",
 			mcplib.WithDescription("Deletes a snippet comment. Comments can only be removed by the comment author, snippet creator, or workspace admin. Required: comment_id, encoded_id, workspace. Destructive. (public)"),
 			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
@@ -17547,18 +17547,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/comments/{comment_id}", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_comments_get",
-			mcplib.WithDescription("Used to retrieve a paginated list of all comments for a specific snippet. This resource works identical to commit and pull request comments. The default sorting is oldest to newest and can be overridden with the `sort` query parameter. Required: encoded_id, workspace. Returns the PaginatedSnippetComments. (public)"),
-			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/comments", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_comments_get-snippets",
+		mcplib.NewTool("bitbucket-snippets_comments_get-on-snippet",
 			mcplib.WithDescription("Returns the specific snippet comment. Required: comment_id, encoded_id, workspace. (public)"),
 			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
@@ -17570,7 +17559,18 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/comments/{comment_id}", true, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"comment_id", "encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_comments_update",
+		mcplib.NewTool("bitbucket-snippets_comments_list-on-snippet",
+			mcplib.WithDescription("Used to retrieve a paginated list of all comments for a specific snippet. This resource works identical to commit and pull request comments. The default sorting is oldest to newest and can be overridden with the `sort` query parameter. Required: encoded_id, workspace. Returns the PaginatedSnippetComments. (public)"),
+			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/comments", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-snippets_comments_update-on-snippet",
 			mcplib.WithDescription("Updates a comment. The only required field in the body is `content.raw`. Comments can only be updated by their author. Required: comment_id, encoded_id, workspace, type. Optional: links, snippet. Returns the updated SnippetComment. (public)"),
 			mcplib.WithNumber("comment_id", mcplib.Required(), mcplib.Description("The id of the comment.")),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
@@ -17583,18 +17583,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/comments/{comment_id}", false, false, nil, []mcpParamBinding{{PublicName: "comment_id", WireName: "comment_id", Location: "path"}, {PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "links", WireName: "links", Location: "body"}, {PublicName: "snippet", WireName: "snippet", Location: "body"}, {PublicName: "type", WireName: "type", Location: "body"}}, []string{"comment_id", "encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_commits_get",
-			mcplib.WithDescription("Returns the changes (commits) made on this snippet. Required: encoded_id, workspace. (public)"),
-			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/commits", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_commits_get-snippets",
+		mcplib.NewTool("bitbucket-snippets_commits_get-previous-snippet-change",
 			mcplib.WithDescription("Returns the changes made on this snippet in this commit. Required: encoded_id, revision, workspace. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("revision", mcplib.Required(), mcplib.Description("The commit's SHA1.")),
@@ -17606,7 +17595,18 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/commits/{revision}", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "revision", WireName: "revision", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "revision", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_diff_get",
+		mcplib.NewTool("bitbucket-snippets_commits_list-snippet-changes",
+			mcplib.WithDescription("Returns the changes (commits) made on this snippet. Required: encoded_id, workspace. (public)"),
+			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/commits", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-snippets_diff_get-snippet-changes-between-versions",
 			mcplib.WithDescription("Returns the diff of the specified commit against its first parent. Note that this resource is different in functionality from the `patch` resource. The differences between a diff and a patch are: * patches have a commit header with the username, message, etc * diffs support the optional `path=foo/bar.py` query param to filter the diff to just that one file diff (not supported for patches) * for a merge, the diff will show the diff between the merge commit and its first parent (identical to how PRs work), while patch returns a response containing separate patches for each commit on the second parent's ancestry, up to the oldest common ancestor (identical to its reachability). Note that the character encoding of the contents of the diff is unspecified as Git does not track this, making it hard for Bitbucket to reliably determine this. Required: encoded_id, revision, workspace. Optional: path. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("revision", mcplib.Required(), mcplib.Description("A revspec expression. This can simply be a commit SHA1, a ref name, or a compare expression like `staging..production`.")),
@@ -17619,19 +17619,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/{revision}/diff", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "revision", WireName: "revision", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}, {PublicName: "path", WireName: "path", Location: "query"}}, []string{"encoded_id", "revision", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_files_get",
-			mcplib.WithDescription("Convenience resource for getting to a snippet's raw files without the need for first having to retrieve the snippet itself and having to pull out the versioned file links. Required: encoded_id, path, workspace. (public)"),
-			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
-			mcplib.WithString("path", mcplib.Required(), mcplib.Description("Path to the file.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithReadOnlyHintAnnotation(true),
-			mcplib.WithDestructiveHintAnnotation(false),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/files/{path}", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "path", WireName: "path", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "path", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_files_get-snippets",
+		mcplib.NewTool("bitbucket-snippets_files_get-snippet-raw",
 			mcplib.WithDescription("Retrieves the raw contents of a specific file in the snippet. The `Content-Disposition` header will be 'attachment' to avoid issues with malevolent executable files. The file's mime type is derived from its filename and returned in the `Content-Type` header. Note that for text files, no character encoding is included as part of the content type. Required: encoded_id, node_id, path, workspace. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("node_id", mcplib.Required(), mcplib.Description("A commit revision (SHA1).")),
@@ -17644,7 +17632,19 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/{node_id}/files/{path}", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "node_id", WireName: "node_id", Location: "path"}, {PublicName: "path", WireName: "path", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "node_id", "path", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_patch_get",
+		mcplib.NewTool("bitbucket-snippets_files_get-snippet-raw-at-head",
+			mcplib.WithDescription("Convenience resource for getting to a snippet's raw files without the need for first having to retrieve the snippet itself and having to pull out the versioned file links. Required: encoded_id, path, workspace. (public)"),
+			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
+			mcplib.WithString("path", mcplib.Required(), mcplib.Description("Path to the file.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithReadOnlyHintAnnotation(true),
+			mcplib.WithDestructiveHintAnnotation(false),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/files/{path}", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "path", WireName: "path", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "path", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-snippets_patch_get-snippet-between-versions",
 			mcplib.WithDescription("Returns the patch of the specified commit against its first parent. Note that this resource is different in functionality from the `diff` resource. The differences between a diff and a patch are: * patches have a commit header with the username, message, etc * diffs support the optional `path=foo/bar.py` query param to filter the diff to just that one file diff (not supported for patches) * for a merge, the diff will show the diff between the merge commit and its first parent (identical to how PRs work), while patch returns a response containing separate patches for each commit on the second parent's ancestry, up to the oldest common ancestor (identical to its reachability). Note that the character encoding of the contents of the patch is unspecified as Git does not track this, making it hard for Bitbucket to reliably determine this. Required: encoded_id, revision, workspace. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("revision", mcplib.Required(), mcplib.Description("A revspec expression. This can simply be a commit SHA1, a ref name, or a compare expression like `staging..production`.")),
@@ -17656,17 +17656,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/{revision}/patch", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "revision", WireName: "revision", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "revision", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_watch_delete",
-			mcplib.WithDescription("Used to stop watching a specific snippet. Returns 204 (No Content) to indicate success. Required: encoded_id, workspace. Destructive. (public)"),
-			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
-			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
-			mcplib.WithDestructiveHintAnnotation(true),
-			mcplib.WithOpenWorldHintAnnotation(true),
-		),
-		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/watch", false, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
-	)
-	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_watch_get",
+		mcplib.NewTool("bitbucket-snippets_watch_check-if-current-user-is-watching-snippet",
 			mcplib.WithDescription("Used to check if the current user is watching a specific snippet. Returns 204 (No Content) if the user is watching the snippet and 404 if not. Hitting this endpoint anonymously always returns a 404. Required: encoded_id, workspace. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -17677,7 +17667,7 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("GET", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/watch", true, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_watch_update",
+		mcplib.NewTool("bitbucket-snippets_watch_snippet",
 			mcplib.WithDescription("Used to start watching a specific snippet. Returns 204 (No Content). Required: encoded_id, workspace. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -17686,7 +17676,17 @@ func RegisterTools(s *server.MCPServer) {
 		makeAPIHandler("PUT", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/watch", false, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
 	)
 	s.AddTool(
-		mcplib.NewTool("bitbucket-snippets_watchers_get",
+		mcplib.NewTool("bitbucket-snippets_watch_stop-watching-snippet",
+			mcplib.WithDescription("Used to stop watching a specific snippet. Returns 204 (No Content) to indicate success. Required: encoded_id, workspace. Destructive. (public)"),
+			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
+			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
+			mcplib.WithDestructiveHintAnnotation(true),
+			mcplib.WithOpenWorldHintAnnotation(true),
+		),
+		makeAPIHandler("DELETE", "https://api.bitbucket.org/2.0/snippets/{workspace}/{encoded_id}/watch", false, false, nil, []mcpParamBinding{{PublicName: "encoded_id", WireName: "encoded_id", Location: "path"}, {PublicName: "workspace", WireName: "workspace", Location: "path"}}, []string{"encoded_id", "workspace"}),
+	)
+	s.AddTool(
+		mcplib.NewTool("bitbucket-snippets_watchers_list-users-watching-snippet",
 			mcplib.WithDescription("Returns a paginated list of all users watching a specific snippet. Required: encoded_id, workspace. (public)"),
 			mcplib.WithString("encoded_id", mcplib.Required(), mcplib.Description("The snippet id.")),
 			mcplib.WithString("workspace", mcplib.Required(), mcplib.Description("This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces,...")),
@@ -22772,7 +22772,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "addon",
 				"description": "The addon resource is intended to use used by Bitbucket Cloud Connect Apps, and only supports JWT authentication.",
-				"endpoints":   []string{"delete", "update"},
+				"endpoints":   []string{"delete-app", "update-installed-app"},
 			},
 			{
 				"name":        "addon-categories",
@@ -22942,7 +22942,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "bitbucket-user",
 				"description": "The users resource allows you to access public information associated with a user account.",
-				"endpoints":   []string{"get", "get-workspaces", "get-workspaces-2", "list", "list-emails", "list-workspaces"},
+				"endpoints":   []string{"get-current", "get-email-address-for-current", "get-permission-on-workspace", "list-email-addresses-for-current", "list-repository-permissions-in-workspace-for", "list-workspaces-for-current"},
 				"syncable":    true,
 				"searchable":  true,
 			},
@@ -23589,7 +23589,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "repositories",
 				"description": "A Git repository is a virtual storage of your project.",
-				"endpoints":   []string{"create", "delete", "get", "get-workspace", "update"},
+				"endpoints":   []string{"create-repository", "delete-repository", "get-repository", "list-in-workspace", "update-repository"},
 				"searchable":  true,
 			},
 			{
@@ -23666,7 +23666,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			{
 				"name":        "snippets",
 				"description": "Snippets allow you share code segments or files with yourself, members of your workspace, or the world.",
-				"endpoints":   []string{"create", "create-workspace", "delete", "delete-workspace", "get", "get-workspace", "get-workspace-2", "update", "update-workspace"},
+				"endpoints":   []string{"create", "create-for-workspace", "delete", "delete-previous-revision-of", "get", "get-previous-revision-of", "list-in-workspace", "update", "update-previous-revision-of"},
 				"searchable":  true,
 			},
 			{
