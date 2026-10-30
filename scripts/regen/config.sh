@@ -35,6 +35,11 @@ SPECS=(
 KEEN_OWNED=(README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md
   NOTICE LICENSE .printing-press-patches.json ".github/**" "docs/**" "scripts/**" .gitignore go.sum)
 
+# Generated files keen has hand fixes in. When the generator changes the same
+# lines, regen.sh keeps keen's side of each conflicting hunk (resolve.py ours);
+# the rest of the generator's changes to the file still land.
+KEEN_HUNKS=(internal/cli/search.go internal/store/upsert_batch_test.go)
+
 # Generator byproducts that are not part of keen.
 GENERATOR_ONLY=(manifest.json spec.json .printing-press-patches.json)
 

@@ -112,6 +112,13 @@ if [[ $merge_status -ne 0 ]]; then
         break
       fi
     done
+    for k in "${KEEN_HUNKS[@]}"; do
+      if [[ "$f" == "$k" ]]; then
+        python3 "$HERE/resolve.py" ours "$WORK/ours/$f" >/dev/null
+        git --git-dir="$M/.git" --work-tree="$WORK/ours" add -f -- "$f"
+        echo "regen: kept keen's hunks in $f"
+      fi
+    done
   done < "$WORK/conflicts.txt"
   if [[ -z "$(git --git-dir="$M/.git" --work-tree="$WORK/ours" diff --name-only --diff-filter=U)" ]]; then
     git --git-dir="$M/.git" --work-tree="$WORK/ours" -c user.name=regen -c user.email=regen@localhost \
