@@ -111,14 +111,22 @@ In local mode: searches locally synced data only.`,
 				return cmd.Help()
 			}
 			query := args[0]
-			// This API has a search endpoint: GET /rest/api/3/search
+			// This API has a search endpoint: POST /rest/api/3/search
 			if flags.dataSource != "local" {
 				c, err := flags.newClient()
 				if err != nil {
 					return err
 				}
-				data, getErr := c.Get(cmd.Context(), "/rest/api/3/search", map[string]string{
-					"q": query,
+				data, _, getErr := c.Post(cmd.Context(), "/rest/api/3/search", map[string]any{
+					"q":             query,
+					"expand":        []any{},
+					"fields":        []any{},
+					"fieldsByKeys":  nil,
+					"jql":           "",
+					"maxResults":    50,
+					"properties":    []any{},
+					"startAt":       nil,
+					"validateQuery": "strict",
 				})
 				if getErr == nil {
 					// Live search succeeded
@@ -207,6 +215,8 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchProjectCategory(query, limit)
 			case "project-template":
 				results, err = db.SearchProjectTemplate(query, limit)
+			case "repositories":
+				results, err = db.SearchRepositories(query, limit)
 			case "resolution":
 				results, err = db.SearchResolution(query, limit)
 			case "role":
@@ -608,6 +618,19 @@ In local mode: searches locally synced data only.`,
 					partial, searchErr := db.SearchProjectTemplate(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search project_template failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchRepositories(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search repositories failed: %w", searchErr)
 					}
 					for _, r := range partial {
 						key := string(r)

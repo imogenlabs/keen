@@ -135,6 +135,73 @@ Run `keen --help` for the full command reference and flag list.
 
 ## Commands
 
+### addon
+
+The addon resource is intended to use used by Bitbucket Cloud Connect
+Apps, and only supports JWT authentication.
+
+- **`keen addon delete`** - Deletes the application for the user.
+
+This endpoint is intended to be used by Bitbucket Connect apps
+and only supports JWT authentication -- that is how Bitbucket
+identifies the particular installation of the app. Developers
+with applications registered in the "Develop Apps" section
+of Bitbucket Marketplace need not use this endpoint as
+updates for those applications can be sent out via the
+UI of that section.
+
+```
+$ curl -X DELETE https://api.bitbucket.org/2.0/addon \
+  -H "Authorization: JWT <JWT Token>"
+```
+- **`keen addon update`** - Updates the application installation for the user.
+
+This endpoint is intended to be used by Bitbucket Connect apps
+and only supports JWT authentication -- that is how Bitbucket
+identifies the particular installation of the app. Developers
+with applications registered in the "Develop Apps" section
+of Bitbucket need not use this endpoint as updates for those
+applications can be sent out via the UI of that section.
+
+Passing an empty body will update the installation using the
+existing descriptor URL.
+
+```
+$ curl -X PUT https://api.bitbucket.org/2.0/addon \
+  -H "Authorization: JWT <JWT Token>" \
+  --header "Content-Type: application/json" \
+  --data '{}'
+```
+
+The new `descriptor` for the installation can be also provided
+in the body directly.
+
+```
+$ curl -X PUT https://api.bitbucket.org/2.0/addon \
+  -H "Authorization: JWT <JWT Token>" \
+  --header "Content-Type: application/json" \
+  --data '{"descriptor": $NEW_DESCRIPTOR}'
+```
+
+In both these modes the URL of the descriptor cannot be changed. To
+change the descriptor location and upgrade an installation
+the request must be made exclusively with a `descriptor_url`.
+
+ ```
+$ curl -X PUT https://api.bitbucket.org/2.0/addon \
+  -H "Authorization: JWT <JWT Token>" \
+  --header "Content-Type: application/json" \
+  --data '{"descriptor_url": $NEW_URL}'
+```
+
+The `descriptor_url` must exactly match the marketplace registration
+that Atlassian has for the application. Contact your Atlassian
+developer advocate to update this registration. Once the registration
+has been updated you may call this resource for each installation.
+
+Note that the scopes of the application cannot be increased
+in the new descriptor nor reduced to none.
+
 ### addon-categories
 
 Manage addon categories
@@ -901,6 +968,85 @@ Manage auditing
 
 This resource represents system and custom avatars. Use it to obtain the details of system or custom avatars, add and remove avatars from a project, issue type or priority and obtain avatar images.
 
+
+### bitbucket-user
+
+The users resource allows you to access public information
+associated with a user account. Most resources in the users
+endpoint have been deprecated in favor of workspaces.
+
+- **`keen bitbucket-user get`** - Returns details about a specific one of the authenticated user's
+email addresses.
+
+Details describe whether the address has been confirmed by the user and
+whether it is the user's primary address or not.
+- **`keen bitbucket-user get-workspaces`** - Returns the caller's effective role; as in, the highest level of privilege
+the caller has for the workspace.
+If the calling user is a member of multiple groups with distinct roles, only the
+highest level is returned.
+
+Permissions can be:
+
+* `owner`
+* `create-project`
+* `collaborator` (deprecated; see this
+[deprecation announcement](/cloud/bitbucket/deprecation-notice-collaborator-role/) for more details)
+* `member`
+- **`keen bitbucket-user get-workspaces-2`** - Returns an object for each repository the caller has explicit access to in the
+specified workspace and their effective permission — the highest level of
+permission the caller has. This does not return public repositories that the
+user was not granted any specific permission in, and does not distinguish between
+explicit and implicit privileges.
+
+Permissions can be:
+
+* `admin`
+* `write`
+* `read`
+
+Results may be further [filtered or sorted](/cloud/bitbucket/rest/intro/#filtering) by
+repository or permission by adding the following query string
+parameters:
+
+* `q=repository.name="bits"` or `q=permission>"read"`
+* `sort=repository.name`
+
+Note that the query parameter values need to be URL escaped so that `=`
+would become `%3D`.
+- **`keen bitbucket-user list`** - Returns the currently logged in user.
+- **`keen bitbucket-user list-emails`** - Returns all the authenticated user's email addresses. Both
+confirmed and unconfirmed.
+- **`keen bitbucket-user list-workspaces`** - Returns an object for each workspace accessible to the caller. This object
+also contains details on whether the caller has admin permissions on the workspace
+(`"administrator" = true`) or not (`"administrator" = false`).
+
+Queries support filtering based on administrator permissions,
+[sorting](/cloud/bitbucket/rest/intro/#sorting-query-results) or
+[filtering](/cloud/bitbucket/rest/intro/#filtering) by `slug`. Results can
+be [paginated](/cloud/bitbucket/rest/intro/#pagination).
+
+### bitbucket-users
+
+The users resource allows you to access public information
+associated with a user account. Most resources in the users
+endpoint have been deprecated in favor of workspaces.
+
+- **`keen bitbucket-users <selected_user>`** - Gets the public information associated with a user account.
+
+If the user's profile is private, `location`, `website` and
+`created_on` elements are omitted.
+
+Note that the user object returned by this operation is changing significantly, due to privacy changes.
+See the [announcement](https://developer.atlassian.com/cloud/bitbucket/bitbucket-api-changes-gdpr/#changes-to-bitbucket-user-objects) for details.
+
+### bitbucket-workspaces
+
+A workspace is where you create repositories, collaborate on
+your code, and organize different streams of work in your Bitbucket
+Cloud account. Workspaces replace the use of teams and users in API
+calls.
+
+- **`keen bitbucket-workspaces <workspace>`** - Returns the requested workspace.
 
 ### blogposts
 
@@ -2217,6 +2363,18 @@ The primary use case for this resource is to populate a picker field suggestion 
 This operation can be accessed anonymously.
 
 **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/yodKLg).
+
+### hook-events
+
+Manage hook events
+
+- **`keen hook-events list`** - Returns the webhook resource or subject types on which webhooks can be registered.
+Each resource/subject type contains an `events` link that returns the paginated list of specific events each individual subject type can emit.
+This endpoint is publicly accessible and does not require authentication or scopes.
+- **`keen hook-events list-for-resource`** - Returns a paginated list of all valid webhook events for the specified entity.
+**The team and user webhooks are deprecated, and you should use workspace instead. For more information, see [the announcement](https://developer.atlassian.com/cloud/bitbucket/bitbucket-api-teams-deprecation/).**
+This is public data that does not require any scopes or authentication.
+NOTE: The example response is a truncated response object for the `workspace` `subject_type`. We return the same structure for the other `subject_type` objects.
 
 ### icon
 
@@ -4062,6 +4220,77 @@ The `getRemoteLinkById` operation can be used to confirm that data has been stor
 In the case of multiple Remote Links being submitted in one request, each is validated individually prior to
 submission. Details of which Remote LInk failed submission (if any) are available in the response object.
 
+### repositories
+
+A Git repository is a virtual storage of your project. It
+allows you to save versions of your code, which you can access
+when needed. The repo resource allows you to access public repos,
+or repos that belong to a specific workspace.
+
+- **`keen repositories create`** - Creates a new repository.
+
+Note: In order to set the project for the newly created repository,
+pass in either the project key or the project UUID as part of the
+request body as shown in the examples below:
+
+```
+$ curl -X POST -H "Content-Type: application/json" -d '{
+    "scm": "git",
+    "project": {
+        "key": "MARS"
+    }
+}' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding
+```
+
+or
+
+```
+$ curl -X POST -H "Content-Type: application/json" -d '{
+    "scm": "git",
+    "project": {
+        "key": "{ba516952-992a-4c2d-acbd-17d502922f96}"
+    }
+}' https://api.bitbucket.org/2.0/repositories/teamsinspace/hablanding
+```
+
+The project must be assigned for all repositories. If the project is not provided,
+the repository is automatically assigned to the oldest project in the workspace.
+
+Note: In the examples above, the workspace ID `teamsinspace`,
+and/or the repository name `hablanding` can be replaced by UUIDs.
+- **`keen repositories delete`** - Deletes the repository. This is an irreversible operation.
+
+This does not affect its forks.
+- **`keen repositories get`** - Returns a paginated list of all repositories owned by the specified
+workspace.
+
+The result can be narrowed down based on the authenticated user's role.
+
+E.g. with `?role=contributor`, only those repositories that the
+authenticated user has write access to are returned (this includes any
+repo the user is an admin on, as that implies write access).
+
+This endpoint also supports filtering and sorting of the results. See
+[filtering and sorting](/cloud/bitbucket/rest/intro/#filtering) for more details.
+- **`keen repositories get-workspace`** - Returns the object describing this repository.
+- **`keen repositories update`** - Since this endpoint can be used to both update and to create a
+repository, the request body depends on the intent.
+
+#### Creation
+
+See the POST documentation for the repository endpoint for an example
+of the request body.
+
+#### Update
+
+Note: Changing the `name` of the repository will cause the location to
+be changed. This is because the URL of the repo is derived from the
+name (a process called slugification). In such a scenario, it is
+possible for the request to fail if the newly created slug conflicts
+with an existing repository's slug. But if there is no conflict,
+the new location will be returned in the `Location` header of the
+response.
+
 ### resolution
 
 Manage resolution
@@ -4821,6 +5050,607 @@ A navigable field is one that can be used as a column on the issue navigator. Fi
 
 **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
 
+### snippets
+
+Snippets allow you share code segments or files with yourself, members of
+your workspace, or the world.
+
+Like pull requests, repositories and workspaces, the full set of snippets
+is defined by what the current user has access to. This includes all
+snippets owned by any of the workspaces the user is a member of, or
+snippets by other users that the current user is either watching or has
+ collaborated on (for instance by commenting on it).
+
+- **`keen snippets create`** - Creates a new snippet under the authenticated user's account.
+
+Snippets can contain multiple files. Both text and binary files are
+supported.
+
+The simplest way to create a new snippet from a local file:
+
+    $ curl -u username:password -X POST https://api.bitbucket.org/2.0/snippets               -F file=@image.png
+
+Creating snippets through curl has a few limitations and so let's look
+at a more complicated scenario.
+
+Snippets are created with a multipart POST. Both `multipart/form-data`
+and `multipart/related` are supported. Both allow the creation of
+snippets with both meta data (title, etc), as well as multiple text
+and binary files.
+
+The main difference is that `multipart/related` can use rich encoding
+for the meta data (currently JSON).
+
+
+multipart/related (RFC-2387)
+----------------------------
+
+This is the most advanced and efficient way to create a paste.
+
+    POST /2.0/snippets/evzijst HTTP/1.1
+    Content-Length: 1188
+    Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+    MIME-Version: 1.0
+
+    --===============1438169132528273974==
+    Content-Type: application/json; charset="utf-8"
+    MIME-Version: 1.0
+    Content-ID: snippet
+
+    {
+      "title": "My snippet",
+      "is_private": true,
+      "scm": "git",
+      "files": {
+          "foo.txt": {},
+          "image.png": {}
+        }
+    }
+
+    --===============1438169132528273974==
+    Content-Type: text/plain; charset="us-ascii"
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: 7bit
+    Content-ID: "foo.txt"
+    Content-Disposition: attachment; filename="foo.txt"
+
+    foo
+
+    --===============1438169132528273974==
+    Content-Type: image/png
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: base64
+    Content-ID: "image.png"
+    Content-Disposition: attachment; filename="image.png"
+
+    iVBORw0KGgoAAAANSUhEUgAAABQAAAAoCAYAAAD+MdrbAAABD0lEQVR4Ae3VMUoDQRTG8ccUaW2m
+    TKONFxArJYJamCvkCnZTaa+VnQdJSBFl2SMsLFrEWNjZBZs0JgiL/+KrhhVmJRbCLPx4O+/DT2TB
+    cbblJxf+UWFVVRNsEGAtgvJxnLm2H+A5RQ93uIl+3632PZyl/skjfOn9Gvdwmlcw5aPUwimG+NT5
+    EnNN036IaZePUuIcK533NVfal7/5yjWeot2z9ta1cAczHEf7I+3J0ws9Cgx0fsOFpmlfwKcWPuBQ
+    73Oc4FHzBaZ8llq4q1mr5B2mOUCt815qYR8eB1hG2VJ7j35q4RofaH7IG+Xrf/PfJhfmwtfFYoIN
+    AqxFUD6OMxcvkO+UfKfkOyXfKdsv/AYCHMLVkHAFWgAAAABJRU5ErkJggg==
+    --===============1438169132528273974==--
+
+The request contains multiple parts and is structured as follows.
+
+The first part is the JSON document that describes the snippet's
+properties or meta data. It either has to be the first part, or the
+request's `Content-Type` header must contain the `start` parameter to
+point to it.
+
+The remaining parts are the files of which there can be zero or more.
+Each file part should contain the `Content-ID` MIME header through
+which the JSON meta data's `files` element addresses it. The value
+should be the name of the file.
+
+`Content-Disposition` is an optional MIME header. The header's
+optional `filename` parameter can be used to specify the file name
+that Bitbucket should use when writing the file to disk. When present,
+`filename` takes precedence over the value of `Content-ID`.
+
+When the JSON body omits the `files` element, the remaining parts are
+not ignored. Instead, each file is added to the new snippet as if its
+name was explicitly linked (the use of the `files` elements is
+mandatory for some operations like deleting or renaming files).
+
+
+multipart/form-data
+-------------------
+
+The use of JSON for the snippet's meta data is optional. Meta data can
+also be supplied as regular form fields in a more conventional
+`multipart/form-data` request:
+
+    $ curl -X POST -u credentials https://api.bitbucket.org/2.0/snippets               -F title="My snippet"               -F file=@foo.txt -F file=@image.png
+
+    POST /2.0/snippets HTTP/1.1
+    Content-Length: 951
+    Content-Type: multipart/form-data; boundary=----------------------------63a4b224c59f
+
+    ------------------------------63a4b224c59f
+    Content-Disposition: form-data; name="file"; filename="foo.txt"
+    Content-Type: text/plain
+
+    foo
+
+    ------------------------------63a4b224c59f
+    Content-Disposition: form-data; name="file"; filename="image.png"
+    Content-Type: application/octet-stream
+
+    ?PNG
+
+    IHDR?1??I.....
+    ------------------------------63a4b224c59f
+    Content-Disposition: form-data; name="title"
+
+    My snippet
+    ------------------------------63a4b224c59f--
+
+Here the meta data properties are included as flat, top-level form
+fields. The file attachments use the `file` field name. To attach
+multiple files, simply repeat the field.
+
+The advantage of `multipart/form-data` over `multipart/related` is
+that it can be easier to build clients.
+
+Essentially all properties are optional, `title` and `files` included.
+
+
+Sharing and Visibility
+----------------------
+
+Snippets can be either public (visible to anyone on Bitbucket, as well
+as anonymous users), or private (visible only to members of the workspace).
+This is controlled through the snippet's `is_private` element:
+
+* **is_private=false** -- everyone, including anonymous users can view
+  the snippet
+* **is_private=true** -- only workspace members can view the snippet
+
+To create the snippet under a workspace, just append the workspace ID
+to the URL. See [`/2.0/snippets/{workspace}`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-post).
+- **`keen snippets create-workspace`** - Identical to [`/snippets`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-post), except that the new snippet will be
+created under the workspace specified in the path parameter
+`{workspace}`.
+- **`keen snippets delete`** - Deletes a snippet and returns an empty response.
+- **`keen snippets delete-workspace`** - Deletes the snippet.
+
+Note that this only works for versioned URLs that point to the latest
+commit of the snippet. Pointing to an older commit results in a 405
+status code.
+
+To delete a snippet, regardless of whether or not concurrent changes
+are being made to it, use `DELETE /snippets/{encoded_id}` instead.
+- **`keen snippets get`** - Returns a paginated list of snippets owned by `{workspace}`.
+
+To limit the set of returned snippets, apply the
+`?role=[owner|contributor|member]` query parameter where the roles are
+defined as follows:
+
+* `owner`: snippets owned by `{workspace}` that also belong to the current user
+    (only returns results when `{workspace}` is the current user's personal workspace)
+* `contributor`: snippets owned by `{workspace}` that the current user is watching,
+    plus any owned by `{workspace}` and the current user
+* `member`: all snippets owned by `{workspace}` if the current user is a member,
+    otherwise only those the current user is watching
+
+When no role is specified, all snippets owned by `{workspace}` are returned.
+
+If the current user is not a member of `{workspace}`, only public snippets are
+returned regardless of role.
+
+The returned response is a normal paginated JSON list. This endpoint
+only supports `application/json` responses and no
+`multipart/form-data` or `multipart/related`. As a result, it is not
+possible to include the file contents.
+- **`keen snippets get-workspace`** - Retrieves a single snippet.
+
+Snippets support multiple content types:
+
+* application/json
+* multipart/related
+* multipart/form-data
+
+
+application/json
+----------------
+
+The default content type of the response is `application/json`.
+Since JSON is always `utf-8`, it cannot reliably contain file contents
+for files that are not text. Therefore, JSON snippet documents only
+contain the filename and links to the file contents.
+
+This means that in order to retrieve all parts of a snippet, N+1
+requests need to be made (where N is the number of files in the
+snippet).
+
+
+multipart/related
+-----------------
+
+To retrieve an entire snippet in a single response, use the
+`Accept: multipart/related` HTTP request header.
+
+    $ curl -H "Accept: multipart/related" https://api.bitbucket.org/2.0/snippets/evzijst/1
+
+Response:
+
+    HTTP/1.1 200 OK
+    Content-Length: 2214
+    Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+    MIME-Version: 1.0
+
+    --===============1438169132528273974==
+    Content-Type: application/json; charset="utf-8"
+    MIME-Version: 1.0
+    Content-ID: snippet
+
+    {
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/snippets/evzijst/kypj"
+        },
+        "html": {
+          "href": "https://bitbucket.org/snippets/evzijst/kypj"
+        },
+        "comments": {
+          "href": "https://api.bitbucket.org/2.0/snippets/evzijst/kypj/comments"
+        },
+        "watchers": {
+          "href": "https://api.bitbucket.org/2.0/snippets/evzijst/kypj/watchers"
+        },
+        "commits": {
+          "href": "https://api.bitbucket.org/2.0/snippets/evzijst/kypj/commits"
+        }
+      },
+      "id": kypj,
+      "title": "My snippet",
+      "created_on": "2014-12-29T22:22:04.790331+00:00",
+      "updated_on": "2014-12-29T22:22:04.790331+00:00",
+      "is_private": false,
+      "files": {
+        "foo.txt": {
+          "links": {
+            "self": {
+              "href": "https://api.bitbucket.org/2.0/snippets/evzijst/kypj/files/367ab19/foo.txt"
+            },
+            "html": {
+              "href": "https://bitbucket.org/snippets/evzijst/kypj#file-foo.txt"
+            }
+          }
+        },
+        "image.png": {
+          "links": {
+            "self": {
+              "href": "https://api.bitbucket.org/2.0/snippets/evzijst/kypj/files/367ab19/image.png"
+            },
+            "html": {
+              "href": "https://bitbucket.org/snippets/evzijst/kypj#file-image.png"
+            }
+          }
+        }
+      ],
+      "owner": {
+        "username": "evzijst",
+        "nickname": "evzijst",
+        "display_name": "Erik van Zijst",
+        "uuid": "{d301aafa-d676-4ee0-88be-962be7417567}",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/users/evzijst"
+          },
+          "html": {
+            "href": "https://bitbucket.org/evzijst"
+          },
+          "avatar": {
+            "href": "https://bitbucket-staging-assetroot.s3.amazonaws.com/c/photos/2013/Jul/31/erik-avatar-725122544-0_avatar.png"
+          }
+        }
+      },
+      "creator": {
+        "username": "evzijst",
+        "nickname": "evzijst",
+        "display_name": "Erik van Zijst",
+        "uuid": "{d301aafa-d676-4ee0-88be-962be7417567}",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/users/evzijst"
+          },
+          "html": {
+            "href": "https://bitbucket.org/evzijst"
+          },
+          "avatar": {
+            "href": "https://bitbucket-staging-assetroot.s3.amazonaws.com/c/photos/2013/Jul/31/erik-avatar-725122544-0_avatar.png"
+          }
+        }
+      }
+    }
+
+    --===============1438169132528273974==
+    Content-Type: text/plain; charset="us-ascii"
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: 7bit
+    Content-ID: "foo.txt"
+    Content-Disposition: attachment; filename="foo.txt"
+
+    foo
+
+    --===============1438169132528273974==
+    Content-Type: image/png
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: base64
+    Content-ID: "image.png"
+    Content-Disposition: attachment; filename="image.png"
+
+    iVBORw0KGgoAAAANSUhEUgAAABQAAAAoCAYAAAD+MdrbAAABD0lEQVR4Ae3VMUoDQRTG8ccUaW2m
+    TKONFxArJYJamCvkCnZTaa+VnQdJSBFl2SMsLFrEWNjZBZs0JgiL/+KrhhVmJRbCLPx4O+/DT2TB
+    cbblJxf+UWFVVRNsEGAtgvJxnLm2H+A5RQ93uIl+3632PZyl/skjfOn9Gvdwmlcw5aPUwimG+NT5
+    EnNN036IaZePUuIcK533NVfal7/5yjWeot2z9ta1cAczHEf7I+3J0ws9Cgx0fsOFpmlfwKcWPuBQ
+    73Oc4FHzBaZ8llq4q1mr5B2mOUCt815qYR8eB1hG2VJ7j35q4RofaH7IG+Xrf/PfJhfmwtfFYoIN
+    AqxFUD6OMxcvkO+UfKfkOyXfKdsv/AYCHMLVkHAFWgAAAABJRU5ErkJggg==
+    --===============1438169132528273974==--
+
+multipart/form-data
+-------------------
+
+As with creating new snippets, `multipart/form-data` can be used as an
+alternative to `multipart/related`. However, the inherently flat
+structure of form-data means that only basic, root-level properties
+can be returned, while nested elements like `links` are omitted:
+
+    $ curl -H "Accept: multipart/form-data" https://api.bitbucket.org/2.0/snippets/evzijst/kypj
+
+Response:
+
+    HTTP/1.1 200 OK
+    Content-Length: 951
+    Content-Type: multipart/form-data; boundary=----------------------------63a4b224c59f
+
+    ------------------------------63a4b224c59f
+    Content-Disposition: form-data; name="title"
+    Content-Type: text/plain; charset="utf-8"
+
+    My snippet
+    ------------------------------63a4b224c59f--
+    Content-Disposition: attachment; name="file"; filename="foo.txt"
+    Content-Type: text/plain
+
+    foo
+
+    ------------------------------63a4b224c59f
+    Content-Disposition: attachment; name="file"; filename="image.png"
+    Content-Transfer-Encoding: base64
+    Content-Type: application/octet-stream
+
+    iVBORw0KGgoAAAANSUhEUgAAABQAAAAoCAYAAAD+MdrbAAABD0lEQVR4Ae3VMUoDQRTG8ccUaW2m
+    TKONFxArJYJamCvkCnZTaa+VnQdJSBFl2SMsLFrEWNjZBZs0JgiL/+KrhhVmJRbCLPx4O+/DT2TB
+    cbblJxf+UWFVVRNsEGAtgvJxnLm2H+A5RQ93uIl+3632PZyl/skjfOn9Gvdwmlcw5aPUwimG+NT5
+    EnNN036IaZePUuIcK533NVfal7/5yjWeot2z9ta1cAczHEf7I+3J0ws9Cgx0fsOFpmlfwKcWPuBQ
+    73Oc4FHzBaZ8llq4q1mr5B2mOUCt815qYR8eB1hG2VJ7j35q4RofaH7IG+Xrf/PfJhfmwtfFYoIN
+    AqxFUD6OMxcvkO+UfKfkOyXfKdsv/AYCHMLVkHAFWgAAAABJRU5ErkJggg==
+    ------------------------------5957323a6b76--
+- **`keen snippets get-workspace-2`** - Identical to `GET /snippets/encoded_id`, except that this endpoint
+can be used to retrieve the contents of the snippet as it was at an
+older revision, while `/snippets/encoded_id` always returns the
+snippet's current revision.
+
+Note that only the snippet's file contents are versioned, not its
+meta data properties like the title.
+
+Other than that, the two endpoints are identical in behavior.
+- **`keen snippets update`** - Used to update a snippet. Use this to add and delete files and to
+change a snippet's title.
+
+To update a snippet, one can either PUT a full snapshot, or only the
+parts that need to be changed.
+
+The contract for PUT on this API is that properties missing from the
+request remain untouched so that snippets can be efficiently
+manipulated with differential payloads.
+
+To delete a property (e.g. the title, or a file), include its name in
+the request, but omit its value (use `null`).
+
+As in Git, explicit renaming of files is not supported. Instead, to
+rename a file, delete it and add it again under another name. This can
+be done atomically in a single request. Rename detection is left to
+the SCM.
+
+PUT supports three different content types for both request and
+response bodies:
+
+* `application/json`
+* `multipart/related`
+* `multipart/form-data`
+
+The content type used for the request body can be different than that
+used for the response. Content types are specified using standard HTTP
+headers.
+
+Use the `Content-Type` and `Accept` headers to select the desired
+request and response format.
+
+
+application/json
+----------------
+
+As with creation and retrieval, the content type determines what
+properties can be manipulated. `application/json` does not support
+file contents and is therefore limited to a snippet's meta data.
+
+To update the title, without changing any of its files:
+
+    $ curl -X POST -H "Content-Type: application/json" https://api.bitbucket.org/2.0/snippets/evzijst/kypj             -d '{"title": "Updated title"}'
+
+
+To delete the title:
+
+    $ curl -X POST -H "Content-Type: application/json" https://api.bitbucket.org/2.0/snippets/evzijst/kypj             -d '{"title": null}'
+
+Not all parts of a snippet can be manipulated. The owner and creator
+for instance are immutable.
+
+
+multipart/related
+-----------------
+
+`multipart/related` can be used to manipulate all of a snippet's
+properties. The body is identical to a POST. properties omitted from
+the request are left unchanged. Since the `start` part contains JSON,
+the mechanism for manipulating the snippet's meta data is identical
+to `application/json` requests.
+
+To update one of a snippet's file contents, while also changing its
+title:
+
+    PUT /2.0/snippets/evzijst/kypj HTTP/1.1
+    Content-Length: 288
+    Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+    MIME-Version: 1.0
+
+    --===============1438169132528273974==
+    Content-Type: application/json; charset="utf-8"
+    MIME-Version: 1.0
+    Content-ID: snippet
+
+    {
+      "title": "My updated snippet",
+      "files": {
+          "foo.txt": {}
+        }
+    }
+
+    --===============1438169132528273974==
+    Content-Type: text/plain; charset="us-ascii"
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: 7bit
+    Content-ID: "foo.txt"
+    Content-Disposition: attachment; filename="foo.txt"
+
+    Updated file contents.
+
+    --===============1438169132528273974==--
+
+Here only the parts that are changed are included in the body. The
+other files remain untouched.
+
+Note the use of the `files` list in the JSON part. This list contains
+the files that are being manipulated. This list should have
+corresponding multiparts in the request that contain the new contents
+of these files.
+
+If a filename in the `files` list does not have a corresponding part,
+it will be deleted from the snippet, as shown below:
+
+    PUT /2.0/snippets/evzijst/kypj HTTP/1.1
+    Content-Length: 188
+    Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+    MIME-Version: 1.0
+
+    --===============1438169132528273974==
+    Content-Type: application/json; charset="utf-8"
+    MIME-Version: 1.0
+    Content-ID: snippet
+
+    {
+      "files": {
+        "image.png": {}
+      }
+    }
+
+    --===============1438169132528273974==--
+
+To simulate a rename, delete a file and add the same file under
+another name:
+
+    PUT /2.0/snippets/evzijst/kypj HTTP/1.1
+    Content-Length: 212
+    Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+    MIME-Version: 1.0
+
+    --===============1438169132528273974==
+    Content-Type: application/json; charset="utf-8"
+    MIME-Version: 1.0
+    Content-ID: snippet
+
+    {
+        "files": {
+          "foo.txt": {},
+          "bar.txt": {}
+        }
+    }
+
+    --===============1438169132528273974==
+    Content-Type: text/plain; charset="us-ascii"
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: 7bit
+    Content-ID: "bar.txt"
+    Content-Disposition: attachment; filename="bar.txt"
+
+    foo
+
+    --===============1438169132528273974==--
+
+
+multipart/form-data
+-----------------
+
+Again, one can also use `multipart/form-data` to manipulate file
+contents and meta data atomically.
+
+    $ curl -X PUT http://localhost:12345/2.0/snippets/evzijst/kypj             -F title="My updated snippet" -F file=@foo.txt
+
+    PUT /2.0/snippets/evzijst/kypj HTTP/1.1
+    Content-Length: 351
+    Content-Type: multipart/form-data; boundary=----------------------------63a4b224c59f
+
+    ------------------------------63a4b224c59f
+    Content-Disposition: form-data; name="file"; filename="foo.txt"
+    Content-Type: text/plain
+
+    foo
+
+    ------------------------------63a4b224c59f
+    Content-Disposition: form-data; name="title"
+
+    My updated snippet
+    ------------------------------63a4b224c59f
+
+To delete a file, omit its contents while including its name in the
+`files` field:
+
+    $ curl -X PUT https://api.bitbucket.org/2.0/snippets/evzijst/kypj -F files=image.png
+
+    PUT /2.0/snippets/evzijst/kypj HTTP/1.1
+    Content-Length: 149
+    Content-Type: multipart/form-data; boundary=----------------------------ef8871065a86
+
+    ------------------------------ef8871065a86
+    Content-Disposition: form-data; name="files"
+
+    image.png
+    ------------------------------ef8871065a86--
+
+The explicit use of the `files` element in `multipart/related` and
+`multipart/form-data` is only required when deleting files.
+The default mode of operation is for file parts to be processed,
+regardless of whether or not they are listed in `files`, as a
+convenience to the client.
+- **`keen snippets update-workspace`** - Identical to `UPDATE /snippets/encoded_id`, except that this endpoint
+takes an explicit commit revision. Only the snippet's "HEAD"/"tip"
+(most recent) version can be updated and requests on all other,
+older revisions fail by returning a 405 status.
+
+Usage of this endpoint over the unrestricted `/snippets/encoded_id`
+could be desired if the caller wants to be sure no concurrent
+modifications have taken place between the moment of the UPDATE
+request and the original GET.
+
+This can be considered a so-called "Compare And Swap", or CAS
+operation.
+
+Other than that, the two endpoints are identical in behavior.
+
 ### software
 
 Manage software
@@ -5056,6 +5886,15 @@ Permission to view the containing page or blog post and its corresponding space.
 
 **[Permissions](https://confluence.atlassian.com/x/_AozKw) required**:
 Permission to edit the containing page or blog post and view its corresponding space.
+
+### teams
+
+The teams resource has been deprecated, and the workspaces
+endpoint should be used instead.
+
+The teams resource returns all the teams that the authenticated
+user is associated with.
+
 
 ### ui-modifications
 

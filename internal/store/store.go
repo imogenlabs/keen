@@ -214,6 +214,7 @@ func (s *Store) ensureColumn(ctx context.Context, conn *sql.Conn, table, column,
 // word.
 func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 	for _, c := range []struct{ table, column, decl string }{
+		{table: "client_key", column: "addon_id", decl: "TEXT"},
 		{table: "addon_categories", column: "functional", decl: "INTEGER"},
 		{table: "addon_categories", column: "name", decl: "TEXT"},
 		{table: "addons", column: "codegeist", decl: "INTEGER"},
@@ -244,7 +245,7 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "tokens", column: "addons_id", decl: "TEXT"},
 		{table: "addons_versions", column: "addons_id", decl: "TEXT"},
 		{table: "addons_versions", column: "parent_id", decl: "TEXT"},
-		{table: "watch", column: "addons_id", decl: "TEXT"},
+		{table: "addons_watch", column: "addons_id", decl: "TEXT"},
 		{table: "admin_control_admin", column: "parent_id", decl: "TEXT"},
 		{table: "admin_key", column: "account_id", decl: "TEXT"},
 		{table: "admin_key", column: "expiration_time", decl: "DATETIME"},
@@ -439,6 +440,20 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "attachments_versions", column: "attachments_id", decl: "TEXT"},
 		{table: "attachments_versions", column: "parent_id", decl: "TEXT"},
 		{table: "system", column: "avatar_id", decl: "TEXT"},
+		{table: "gpg_keys", column: "bitbucket_users_id", decl: "TEXT"},
+		{table: "bitbucket_users_pipelines_config", column: "bitbucket_users_id", decl: "TEXT"},
+		{table: "bitbucket_users_properties", column: "bitbucket_users_id", decl: "TEXT"},
+		{table: "bitbucket_users_search", column: "bitbucket_users_id", decl: "TEXT"},
+		{table: "ssh_keys", column: "bitbucket_users_id", decl: "TEXT"},
+		{table: "codesearch", column: "bitbucket_workspaces_id", decl: "TEXT"},
+		{table: "bitbucket_workspaces_hooks", column: "bitbucket_workspaces_id", decl: "TEXT"},
+		{table: "bitbucket_workspaces_members", column: "bitbucket_workspaces_id", decl: "TEXT"},
+		{table: "bitbucket_workspaces_permissions", column: "bitbucket_workspaces_id", decl: "TEXT"},
+		{table: "bitbucket_workspaces_pipelines_config", column: "bitbucket_workspaces_id", decl: "TEXT"},
+		{table: "bitbucket_workspaces_projects", column: "bitbucket_workspaces_id", decl: "TEXT"},
+		{table: "bitbucket_workspaces_pullrequests", column: "bitbucket_workspaces_id", decl: "TEXT"},
+		{table: "bitbucket_workspaces_search", column: "bitbucket_workspaces_id", decl: "TEXT"},
+		{table: "bitbucket_workspaces_settings", column: "bitbucket_workspaces_id", decl: "TEXT"},
 		{table: "blogposts", column: "author_id", decl: "TEXT"},
 		{table: "blogposts", column: "created_at", decl: "DATETIME"},
 		{table: "blogposts", column: "is_favorited_by_current_user", decl: "INTEGER"},
@@ -883,7 +898,7 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "remotelink", column: "issue_id", decl: "TEXT"},
 		{table: "transitions", column: "issue_id", decl: "TEXT"},
 		{table: "votes", column: "issue_id", decl: "TEXT"},
-		{table: "watchers", column: "issue_id", decl: "TEXT"},
+		{table: "issue_watchers", column: "issue_id", decl: "TEXT"},
 		{table: "issue_worklog", column: "issue_id", decl: "TEXT"},
 		{table: "issue_link", column: "inward_issue", decl: "TEXT"},
 		{table: "issue_link", column: "outward_issue", decl: "TEXT"},
@@ -909,8 +924,8 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "issuesecurityschemes", column: "start_at", decl: "INTEGER"},
 		{table: "issuesecurityschemes", column: "total", decl: "INTEGER"},
 		{table: "level", column: "issuesecurityschemes_id", decl: "TEXT"},
-		{table: "members", column: "issuesecurityschemes_id", decl: "TEXT"},
-		{table: "members", column: "parent_id", decl: "TEXT"},
+		{table: "issuesecurityschemes_members", column: "issuesecurityschemes_id", decl: "TEXT"},
+		{table: "issuesecurityschemes_members", column: "parent_id", decl: "TEXT"},
 		{table: "issuetype", column: "avatar_id", decl: "INTEGER"},
 		{table: "issuetype", column: "description", decl: "TEXT"},
 		{table: "issuetype", column: "entity_id", decl: "TEXT"},
@@ -1332,6 +1347,43 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "remotelinks", column: "type", decl: "TEXT"},
 		{table: "remotelinks", column: "update_sequence_number", decl: "INTEGER"},
 		{table: "remotelinks", column: "url", decl: "TEXT"},
+		{table: "repositories", column: "avatar", decl: "TEXT"},
+		{table: "repositories", column: "avatar_description", decl: "TEXT"},
+		{table: "repositories", column: "description", decl: "TEXT"},
+		{table: "repositories", column: "fork_of", decl: "TEXT"},
+		{table: "repositories", column: "name", decl: "TEXT"},
+		{table: "repositories", column: "update_sequence_id", decl: "INTEGER"},
+		{table: "repositories", column: "url", decl: "TEXT"},
+		{table: "branch_restrictions", column: "repositories_id", decl: "TEXT"},
+		{table: "branching_model", column: "repositories_id", decl: "TEXT"},
+		{table: "commit", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_commits", column: "repositories_id", decl: "TEXT"},
+		{table: "default_reviewers", column: "repositories_id", decl: "TEXT"},
+		{table: "deploy_keys", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_deployments", column: "repositories_id", decl: "TEXT"},
+		{table: "deployments_config", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_diff", column: "repositories_id", decl: "TEXT"},
+		{table: "diffstat", column: "repositories_id", decl: "TEXT"},
+		{table: "downloads", column: "repositories_id", decl: "TEXT"},
+		{table: "effective_branching_model", column: "repositories_id", decl: "TEXT"},
+		{table: "effective_default_reviewers", column: "repositories_id", decl: "TEXT"},
+		{table: "environments", column: "repositories_id", decl: "TEXT"},
+		{table: "file_conflicts", column: "repositories_id", decl: "TEXT"},
+		{table: "filehistory", column: "repositories_id", decl: "TEXT"},
+		{table: "forks", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_hooks", column: "repositories_id", decl: "TEXT"},
+		{table: "merge_base", column: "repositories_id", decl: "TEXT"},
+		{table: "merge_queues", column: "repositories_id", decl: "TEXT"},
+		{table: "override_settings", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_patch", column: "repositories_id", decl: "TEXT"},
+		{table: "permissions_config", column: "repositories_id", decl: "TEXT"},
+		{table: "pipelines", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_pipelines_config", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_properties", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_pullrequests", column: "repositories_id", decl: "TEXT"},
+		{table: "refs", column: "repositories_id", decl: "TEXT"},
+		{table: "src", column: "repositories_id", decl: "TEXT"},
+		{table: "repositories_watchers", column: "repositories_id", decl: "TEXT"},
 		{table: "resolution", column: "description", decl: "TEXT"},
 		{table: "resolution", column: "name", decl: "TEXT"},
 		{table: "resolution", column: "self", decl: "TEXT"},
@@ -1425,6 +1477,13 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "servicedeskapi", column: "value", decl: "TEXT"},
 		{table: "settings", column: "label", decl: "TEXT"},
 		{table: "settings", column: "value", decl: "TEXT"},
+		{table: "snippets_comments", column: "snippets_id", decl: "TEXT"},
+		{table: "snippets_commits", column: "snippets_id", decl: "TEXT"},
+		{table: "snippets_diff", column: "snippets_id", decl: "TEXT"},
+		{table: "files", column: "snippets_id", decl: "TEXT"},
+		{table: "snippets_patch", column: "snippets_id", decl: "TEXT"},
+		{table: "snippets_watch", column: "snippets_id", decl: "TEXT"},
+		{table: "snippets_watchers", column: "snippets_id", decl: "TEXT"},
 		{table: "software", column: "count", decl: "INTEGER"},
 		{table: "software", column: "expand", decl: "TEXT"},
 		{table: "software", column: "is_last", decl: "INTEGER"},
@@ -1513,6 +1572,8 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "tasks", column: "status", decl: "TEXT"},
 		{table: "tasks", column: "title", decl: "TEXT"},
 		{table: "tasks", column: "update_date", decl: "INTEGER"},
+		{table: "teams_pipelines_config", column: "teams_id", decl: "TEXT"},
+		{table: "teams_search", column: "teams_id", decl: "TEXT"},
 		{table: "ui_modifications", column: "is_last", decl: "INTEGER"},
 		{table: "ui_modifications", column: "max_results", decl: "INTEGER"},
 		{table: "ui_modifications", column: "next_page", decl: "TEXT"},
@@ -1761,6 +1822,13 @@ func (s *Store) migrate(ctx context.Context) error {
 			total_count INTEGER DEFAULT 0
 		)`,
 		resourcesFTSCreateSQL,
+		`CREATE TABLE IF NOT EXISTS "client_key" (
+			"id" TEXT PRIMARY KEY,
+			"addon_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_client_key_addon_id" ON "client_key"("addon_id")`,
 		`CREATE TABLE IF NOT EXISTS "addon_categories" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -1890,13 +1958,13 @@ func (s *Store) migrate(ctx context.Context) error {
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_addons_versions_addons_id" ON "addons_versions"("addons_id")`,
 		`CREATE INDEX IF NOT EXISTS "idx_addons_versions_parent_id" ON "addons_versions"("parent_id")`,
-		`CREATE TABLE IF NOT EXISTS "watch" (
+		`CREATE TABLE IF NOT EXISTS "addons_watch" (
 			"id" TEXT PRIMARY KEY,
 			"addons_id" TEXT NOT NULL,
 			"data" JSON NOT NULL,
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
-		`CREATE INDEX IF NOT EXISTS "idx_watch_addons_id" ON "watch"("addons_id")`,
+		`CREATE INDEX IF NOT EXISTS "idx_addons_watch_addons_id" ON "addons_watch"("addons_id")`,
 		`CREATE TABLE IF NOT EXISTS "admin_control_admin" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -2364,6 +2432,104 @@ func (s *Store) migrate(ctx context.Context) error {
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_system_avatar_id" ON "system"("avatar_id")`,
+		`CREATE TABLE IF NOT EXISTS "gpg_keys" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_users_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_gpg_keys_bitbucket_users_id" ON "gpg_keys"("bitbucket_users_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_users_pipelines_config" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_users_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_users_pipelines_config_bitbucket_users_id" ON "bitbucket_users_pipelines_config"("bitbucket_users_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_users_properties" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_users_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_users_properties_bitbucket_users_id" ON "bitbucket_users_properties"("bitbucket_users_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_users_search" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_users_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_users_search_bitbucket_users_id" ON "bitbucket_users_search"("bitbucket_users_id")`,
+		`CREATE TABLE IF NOT EXISTS "ssh_keys" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_users_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_ssh_keys_bitbucket_users_id" ON "ssh_keys"("bitbucket_users_id")`,
+		`CREATE TABLE IF NOT EXISTS "codesearch" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_codesearch_bitbucket_workspaces_id" ON "codesearch"("bitbucket_workspaces_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_workspaces_hooks" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_workspaces_hooks_bitbucket_workspaces_id" ON "bitbucket_workspaces_hooks"("bitbucket_workspaces_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_workspaces_members" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_workspaces_members_bitbucket_workspaces_id" ON "bitbucket_workspaces_members"("bitbucket_workspaces_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_workspaces_permissions" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_workspaces_permissions_bitbucket_workspaces_id" ON "bitbucket_workspaces_permissions"("bitbucket_workspaces_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_workspaces_pipelines_config" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_workspaces_pipelines_config_bitbucket_workspaces_id" ON "bitbucket_workspaces_pipelines_config"("bitbucket_workspaces_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_workspaces_projects" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_workspaces_projects_bitbucket_workspaces_id" ON "bitbucket_workspaces_projects"("bitbucket_workspaces_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_workspaces_pullrequests" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_workspaces_pullrequests_bitbucket_workspaces_id" ON "bitbucket_workspaces_pullrequests"("bitbucket_workspaces_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_workspaces_search" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_workspaces_search_bitbucket_workspaces_id" ON "bitbucket_workspaces_search"("bitbucket_workspaces_id")`,
+		`CREATE TABLE IF NOT EXISTS "bitbucket_workspaces_settings" (
+			"id" TEXT PRIMARY KEY,
+			"bitbucket_workspaces_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_bitbucket_workspaces_settings_bitbucket_workspaces_id" ON "bitbucket_workspaces_settings"("bitbucket_workspaces_id")`,
 		`CREATE TABLE IF NOT EXISTS "blogposts" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -3774,13 +3940,13 @@ func (s *Store) migrate(ctx context.Context) error {
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_votes_issue_id" ON "votes"("issue_id")`,
-		`CREATE TABLE IF NOT EXISTS "watchers" (
+		`CREATE TABLE IF NOT EXISTS "issue_watchers" (
 			"id" TEXT PRIMARY KEY,
 			"issue_id" TEXT NOT NULL,
 			"data" JSON NOT NULL,
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
-		`CREATE INDEX IF NOT EXISTS "idx_watchers_issue_id" ON "watchers"("issue_id")`,
+		`CREATE INDEX IF NOT EXISTS "idx_issue_watchers_issue_id" ON "issue_watchers"("issue_id")`,
 		`CREATE TABLE IF NOT EXISTS "issue_worklog" (
 			"id" TEXT PRIMARY KEY,
 			"issue_id" TEXT NOT NULL,
@@ -3858,15 +4024,15 @@ func (s *Store) migrate(ctx context.Context) error {
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_level_issuesecurityschemes_id" ON "level"("issuesecurityschemes_id")`,
-		`CREATE TABLE IF NOT EXISTS "members" (
+		`CREATE TABLE IF NOT EXISTS "issuesecurityschemes_members" (
 			"id" TEXT PRIMARY KEY,
 			"issuesecurityschemes_id" TEXT NOT NULL,
 			"data" JSON NOT NULL,
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
 			"parent_id" TEXT
 		)`,
-		`CREATE INDEX IF NOT EXISTS "idx_members_issuesecurityschemes_id" ON "members"("issuesecurityschemes_id")`,
-		`CREATE INDEX IF NOT EXISTS "idx_members_parent_id" ON "members"("parent_id")`,
+		`CREATE INDEX IF NOT EXISTS "idx_issuesecurityschemes_members_issuesecurityschemes_id" ON "issuesecurityschemes_members"("issuesecurityschemes_id")`,
+		`CREATE INDEX IF NOT EXISTS "idx_issuesecurityschemes_members_parent_id" ON "issuesecurityschemes_members"("parent_id")`,
 		`CREATE TABLE IF NOT EXISTS "issuetype" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -5193,6 +5359,248 @@ func (s *Store) migrate(ctx context.Context) error {
 			"update_sequence_number" INTEGER,
 			"url" TEXT
 		)`,
+		`CREATE TABLE IF NOT EXISTS "repositories" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"avatar" TEXT,
+			"avatar_description" TEXT,
+			"description" TEXT,
+			"fork_of" TEXT,
+			"name" TEXT,
+			"update_sequence_id" INTEGER,
+			"url" TEXT
+		)`,
+		`CREATE VIRTUAL TABLE IF NOT EXISTS "repositories_fts" USING fts5(
+			"description",
+			"name",
+			content='repositories',
+			content_rowid='rowid'
+		)`,
+		`CREATE TRIGGER IF NOT EXISTS "repositories_ai" AFTER INSERT ON "repositories" BEGIN
+			INSERT INTO "repositories_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "repositories_ad" AFTER DELETE ON "repositories" BEGIN
+			INSERT INTO "repositories_fts"("repositories_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "repositories_au" AFTER UPDATE ON "repositories" BEGIN
+			INSERT INTO "repositories_fts"("repositories_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+			INSERT INTO "repositories_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TABLE IF NOT EXISTS "branch_restrictions" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_branch_restrictions_repositories_id" ON "branch_restrictions"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "branching_model" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_branching_model_repositories_id" ON "branching_model"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "commit" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_commit_repositories_id" ON "commit"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_commits" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_commits_repositories_id" ON "repositories_commits"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "default_reviewers" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_default_reviewers_repositories_id" ON "default_reviewers"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "deploy_keys" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_deploy_keys_repositories_id" ON "deploy_keys"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_deployments" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_deployments_repositories_id" ON "repositories_deployments"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "deployments_config" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_deployments_config_repositories_id" ON "deployments_config"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_diff" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_diff_repositories_id" ON "repositories_diff"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "diffstat" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_diffstat_repositories_id" ON "diffstat"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "downloads" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_downloads_repositories_id" ON "downloads"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "effective_branching_model" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_effective_branching_model_repositories_id" ON "effective_branching_model"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "effective_default_reviewers" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_effective_default_reviewers_repositories_id" ON "effective_default_reviewers"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "environments" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_environments_repositories_id" ON "environments"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "file_conflicts" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_file_conflicts_repositories_id" ON "file_conflicts"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "filehistory" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_filehistory_repositories_id" ON "filehistory"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "forks" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_forks_repositories_id" ON "forks"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_hooks" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_hooks_repositories_id" ON "repositories_hooks"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "merge_base" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_merge_base_repositories_id" ON "merge_base"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "merge_queues" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_merge_queues_repositories_id" ON "merge_queues"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "override_settings" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_override_settings_repositories_id" ON "override_settings"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_patch" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_patch_repositories_id" ON "repositories_patch"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "permissions_config" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_permissions_config_repositories_id" ON "permissions_config"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "pipelines" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_pipelines_repositories_id" ON "pipelines"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_pipelines_config" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_pipelines_config_repositories_id" ON "repositories_pipelines_config"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_properties" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_properties_repositories_id" ON "repositories_properties"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_pullrequests" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_pullrequests_repositories_id" ON "repositories_pullrequests"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "refs" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_refs_repositories_id" ON "refs"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "src" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_src_repositories_id" ON "src"("repositories_id")`,
+		`CREATE TABLE IF NOT EXISTS "repositories_watchers" (
+			"id" TEXT PRIMARY KEY,
+			"repositories_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_repositories_watchers_repositories_id" ON "repositories_watchers"("repositories_id")`,
 		`CREATE TABLE IF NOT EXISTS "resolution" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -5453,6 +5861,55 @@ func (s *Store) migrate(ctx context.Context) error {
 			"label" TEXT,
 			"value" TEXT
 		)`,
+		`CREATE TABLE IF NOT EXISTS "snippets_comments" (
+			"id" TEXT PRIMARY KEY,
+			"snippets_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_snippets_comments_snippets_id" ON "snippets_comments"("snippets_id")`,
+		`CREATE TABLE IF NOT EXISTS "snippets_commits" (
+			"id" TEXT PRIMARY KEY,
+			"snippets_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_snippets_commits_snippets_id" ON "snippets_commits"("snippets_id")`,
+		`CREATE TABLE IF NOT EXISTS "snippets_diff" (
+			"id" TEXT PRIMARY KEY,
+			"snippets_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_snippets_diff_snippets_id" ON "snippets_diff"("snippets_id")`,
+		`CREATE TABLE IF NOT EXISTS "files" (
+			"id" TEXT PRIMARY KEY,
+			"snippets_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_files_snippets_id" ON "files"("snippets_id")`,
+		`CREATE TABLE IF NOT EXISTS "snippets_patch" (
+			"id" TEXT PRIMARY KEY,
+			"snippets_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_snippets_patch_snippets_id" ON "snippets_patch"("snippets_id")`,
+		`CREATE TABLE IF NOT EXISTS "snippets_watch" (
+			"id" TEXT PRIMARY KEY,
+			"snippets_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_snippets_watch_snippets_id" ON "snippets_watch"("snippets_id")`,
+		`CREATE TABLE IF NOT EXISTS "snippets_watchers" (
+			"id" TEXT PRIMARY KEY,
+			"snippets_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_snippets_watchers_snippets_id" ON "snippets_watchers"("snippets_id")`,
 		`CREATE TABLE IF NOT EXISTS "software" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -5782,6 +6239,20 @@ func (s *Store) migrate(ctx context.Context) error {
 			INSERT INTO "tasks_fts"(rowid, "body", "description", "title")
 			VALUES (new.rowid,new."body", new."description", new."title");
 		END`,
+		`CREATE TABLE IF NOT EXISTS "teams_pipelines_config" (
+			"id" TEXT PRIMARY KEY,
+			"teams_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_teams_pipelines_config_teams_id" ON "teams_pipelines_config"("teams_id")`,
+		`CREATE TABLE IF NOT EXISTS "teams_search" (
+			"id" TEXT PRIMARY KEY,
+			"teams_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_teams_search_teams_id" ON "teams_search"("teams_id")`,
 		`CREATE TABLE IF NOT EXISTS "ui_modifications" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -6667,6 +7138,57 @@ func lookupFieldValue(obj map[string]any, snakeKey string) any {
 	return LookupFieldValue(obj, snakeKey)
 }
 
+// upsertClientKeyTx writes the per-resource domain-table portion of a
+// client_key upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertClientKeyTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "client_key" ("id", "addon_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "addon_id" = excluded."addon_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "addon_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into client_key: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertClientKey inserts or updates a client_key record with domain-specific columns.
+func (s *Store) UpsertClientKey(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling client_key: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for client_key")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "client_key", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertClientKeyTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 // upsertAddonCategoriesTx writes the per-resource domain-table portion of a
 // addon_categories upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
@@ -7347,14 +7869,14 @@ func (s *Store) UpsertAddonsVersions(data json.RawMessage) error {
 	return tx.Commit()
 }
 
-// upsertWatchTx writes the per-resource domain-table portion of a
-// watch upsert inside an existing transaction. The caller is
+// upsertAddonsWatchTx writes the per-resource domain-table portion of a
+// addons_watch upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
 // and for committing the tx. Splitting this out lets UpsertBatch dispatch
 // domain inserts per item without opening a per-item transaction.
-func (s *Store) upsertWatchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+func (s *Store) upsertAddonsWatchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "watch" ("id", "addons_id", "data", "synced_at")
+		`INSERT INTO "addons_watch" ("id", "addons_id", "data", "synced_at")
 		 VALUES (?, ?, ?, ?)
 		 ON CONFLICT("id") DO UPDATE SET "addons_id" = excluded."addons_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
 		id,
@@ -7362,22 +7884,22 @@ func (s *Store) upsertWatchTx(tx *sql.Tx, id string, obj map[string]any, data js
 		string(data),
 		time.Now(),
 	); err != nil {
-		return fmt.Errorf("insert into watch: %w", err)
+		return fmt.Errorf("insert into addons_watch: %w", err)
 	}
 
 	return nil
 }
 
-// UpsertWatch inserts or updates a watch record with domain-specific columns.
-func (s *Store) UpsertWatch(data json.RawMessage) error {
+// UpsertAddonsWatch inserts or updates a addons_watch record with domain-specific columns.
+func (s *Store) UpsertAddonsWatch(data json.RawMessage) error {
 	var obj map[string]any
 	if err := json.Unmarshal(data, &obj); err != nil {
-		return fmt.Errorf("unmarshaling watch: %w", err)
+		return fmt.Errorf("unmarshaling addons_watch: %w", err)
 	}
 
 	id := extractObjectID(obj)
 	if id == "" {
-		return fmt.Errorf("missing id for watch")
+		return fmt.Errorf("missing id for addons_watch")
 	}
 
 	s.writeMu.Lock()
@@ -7388,10 +7910,10 @@ func (s *Store) UpsertWatch(data json.RawMessage) error {
 	}
 	defer tx.Rollback()
 
-	if err := s.upsertGenericResourceTx(tx, "watch", id, data); err != nil {
+	if err := s.upsertGenericResourceTx(tx, "addons_watch", id, data); err != nil {
 		return err
 	}
-	if err := s.upsertWatchTx(tx, id, obj, data); err != nil {
+	if err := s.upsertAddonsWatchTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -9236,6 +9758,720 @@ func (s *Store) UpsertSystem(data json.RawMessage) error {
 		return err
 	}
 	if err := s.upsertSystemTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertGpgKeysTx writes the per-resource domain-table portion of a
+// gpg_keys upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertGpgKeysTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "gpg_keys" ("id", "bitbucket_users_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_users_id" = excluded."bitbucket_users_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_users_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into gpg_keys: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertGpgKeys inserts or updates a gpg_keys record with domain-specific columns.
+func (s *Store) UpsertGpgKeys(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling gpg_keys: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for gpg_keys")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "gpg_keys", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertGpgKeysTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketUsersPipelinesConfigTx writes the per-resource domain-table portion of a
+// bitbucket_users_pipelines_config upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketUsersPipelinesConfigTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_users_pipelines_config" ("id", "bitbucket_users_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_users_id" = excluded."bitbucket_users_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_users_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_users_pipelines_config: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketUsersPipelinesConfig inserts or updates a bitbucket_users_pipelines_config record with domain-specific columns.
+func (s *Store) UpsertBitbucketUsersPipelinesConfig(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_users_pipelines_config: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_users_pipelines_config")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_users_pipelines_config", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketUsersPipelinesConfigTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketUsersPropertiesTx writes the per-resource domain-table portion of a
+// bitbucket_users_properties upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketUsersPropertiesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_users_properties" ("id", "bitbucket_users_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_users_id" = excluded."bitbucket_users_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_users_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_users_properties: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketUsersProperties inserts or updates a bitbucket_users_properties record with domain-specific columns.
+func (s *Store) UpsertBitbucketUsersProperties(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_users_properties: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_users_properties")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_users_properties", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketUsersPropertiesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketUsersSearchTx writes the per-resource domain-table portion of a
+// bitbucket_users_search upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketUsersSearchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_users_search" ("id", "bitbucket_users_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_users_id" = excluded."bitbucket_users_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_users_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_users_search: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketUsersSearch inserts or updates a bitbucket_users_search record with domain-specific columns.
+func (s *Store) UpsertBitbucketUsersSearch(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_users_search: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_users_search")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_users_search", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketUsersSearchTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSshKeysTx writes the per-resource domain-table portion of a
+// ssh_keys upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSshKeysTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "ssh_keys" ("id", "bitbucket_users_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_users_id" = excluded."bitbucket_users_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_users_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into ssh_keys: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSshKeys inserts or updates a ssh_keys record with domain-specific columns.
+func (s *Store) UpsertSshKeys(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling ssh_keys: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for ssh_keys")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "ssh_keys", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSshKeysTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertCodesearchTx writes the per-resource domain-table portion of a
+// codesearch upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertCodesearchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "codesearch" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into codesearch: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertCodesearch inserts or updates a codesearch record with domain-specific columns.
+func (s *Store) UpsertCodesearch(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling codesearch: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for codesearch")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "codesearch", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertCodesearchTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketWorkspacesHooksTx writes the per-resource domain-table portion of a
+// bitbucket_workspaces_hooks upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketWorkspacesHooksTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_workspaces_hooks" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_workspaces_hooks: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketWorkspacesHooks inserts or updates a bitbucket_workspaces_hooks record with domain-specific columns.
+func (s *Store) UpsertBitbucketWorkspacesHooks(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_workspaces_hooks: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_workspaces_hooks")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_workspaces_hooks", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketWorkspacesHooksTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketWorkspacesMembersTx writes the per-resource domain-table portion of a
+// bitbucket_workspaces_members upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketWorkspacesMembersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_workspaces_members" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_workspaces_members: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketWorkspacesMembers inserts or updates a bitbucket_workspaces_members record with domain-specific columns.
+func (s *Store) UpsertBitbucketWorkspacesMembers(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_workspaces_members: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_workspaces_members")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_workspaces_members", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketWorkspacesMembersTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketWorkspacesPermissionsTx writes the per-resource domain-table portion of a
+// bitbucket_workspaces_permissions upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketWorkspacesPermissionsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_workspaces_permissions" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_workspaces_permissions: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketWorkspacesPermissions inserts or updates a bitbucket_workspaces_permissions record with domain-specific columns.
+func (s *Store) UpsertBitbucketWorkspacesPermissions(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_workspaces_permissions: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_workspaces_permissions")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_workspaces_permissions", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketWorkspacesPermissionsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketWorkspacesPipelinesConfigTx writes the per-resource domain-table portion of a
+// bitbucket_workspaces_pipelines_config upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketWorkspacesPipelinesConfigTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_workspaces_pipelines_config" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_workspaces_pipelines_config: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketWorkspacesPipelinesConfig inserts or updates a bitbucket_workspaces_pipelines_config record with domain-specific columns.
+func (s *Store) UpsertBitbucketWorkspacesPipelinesConfig(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_workspaces_pipelines_config: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_workspaces_pipelines_config")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_workspaces_pipelines_config", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketWorkspacesPipelinesConfigTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketWorkspacesProjectsTx writes the per-resource domain-table portion of a
+// bitbucket_workspaces_projects upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketWorkspacesProjectsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_workspaces_projects" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_workspaces_projects: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketWorkspacesProjects inserts or updates a bitbucket_workspaces_projects record with domain-specific columns.
+func (s *Store) UpsertBitbucketWorkspacesProjects(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_workspaces_projects: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_workspaces_projects")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_workspaces_projects", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketWorkspacesProjectsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketWorkspacesPullrequestsTx writes the per-resource domain-table portion of a
+// bitbucket_workspaces_pullrequests upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketWorkspacesPullrequestsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_workspaces_pullrequests" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_workspaces_pullrequests: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketWorkspacesPullrequests inserts or updates a bitbucket_workspaces_pullrequests record with domain-specific columns.
+func (s *Store) UpsertBitbucketWorkspacesPullrequests(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_workspaces_pullrequests: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_workspaces_pullrequests")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_workspaces_pullrequests", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketWorkspacesPullrequestsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketWorkspacesSearchTx writes the per-resource domain-table portion of a
+// bitbucket_workspaces_search upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketWorkspacesSearchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_workspaces_search" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_workspaces_search: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketWorkspacesSearch inserts or updates a bitbucket_workspaces_search record with domain-specific columns.
+func (s *Store) UpsertBitbucketWorkspacesSearch(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_workspaces_search: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_workspaces_search")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_workspaces_search", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketWorkspacesSearchTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBitbucketWorkspacesSettingsTx writes the per-resource domain-table portion of a
+// bitbucket_workspaces_settings upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBitbucketWorkspacesSettingsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "bitbucket_workspaces_settings" ("id", "bitbucket_workspaces_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "bitbucket_workspaces_id" = excluded."bitbucket_workspaces_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "bitbucket_workspaces_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into bitbucket_workspaces_settings: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBitbucketWorkspacesSettings inserts or updates a bitbucket_workspaces_settings record with domain-specific columns.
+func (s *Store) UpsertBitbucketWorkspacesSettings(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling bitbucket_workspaces_settings: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for bitbucket_workspaces_settings")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "bitbucket_workspaces_settings", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBitbucketWorkspacesSettingsTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -16136,14 +17372,14 @@ func (s *Store) UpsertVotes(data json.RawMessage) error {
 	return tx.Commit()
 }
 
-// upsertWatchersTx writes the per-resource domain-table portion of a
-// watchers upsert inside an existing transaction. The caller is
+// upsertIssueWatchersTx writes the per-resource domain-table portion of a
+// issue_watchers upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
 // and for committing the tx. Splitting this out lets UpsertBatch dispatch
 // domain inserts per item without opening a per-item transaction.
-func (s *Store) upsertWatchersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+func (s *Store) upsertIssueWatchersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "watchers" ("id", "issue_id", "data", "synced_at")
+		`INSERT INTO "issue_watchers" ("id", "issue_id", "data", "synced_at")
 		 VALUES (?, ?, ?, ?)
 		 ON CONFLICT("id") DO UPDATE SET "issue_id" = excluded."issue_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
 		id,
@@ -16151,22 +17387,22 @@ func (s *Store) upsertWatchersTx(tx *sql.Tx, id string, obj map[string]any, data
 		string(data),
 		time.Now(),
 	); err != nil {
-		return fmt.Errorf("insert into watchers: %w", err)
+		return fmt.Errorf("insert into issue_watchers: %w", err)
 	}
 
 	return nil
 }
 
-// UpsertWatchers inserts or updates a watchers record with domain-specific columns.
-func (s *Store) UpsertWatchers(data json.RawMessage) error {
+// UpsertIssueWatchers inserts or updates a issue_watchers record with domain-specific columns.
+func (s *Store) UpsertIssueWatchers(data json.RawMessage) error {
 	var obj map[string]any
 	if err := json.Unmarshal(data, &obj); err != nil {
-		return fmt.Errorf("unmarshaling watchers: %w", err)
+		return fmt.Errorf("unmarshaling issue_watchers: %w", err)
 	}
 
 	id := extractObjectID(obj)
 	if id == "" {
-		return fmt.Errorf("missing id for watchers")
+		return fmt.Errorf("missing id for issue_watchers")
 	}
 
 	s.writeMu.Lock()
@@ -16177,10 +17413,10 @@ func (s *Store) UpsertWatchers(data json.RawMessage) error {
 	}
 	defer tx.Rollback()
 
-	if err := s.upsertGenericResourceTx(tx, "watchers", id, data); err != nil {
+	if err := s.upsertGenericResourceTx(tx, "issue_watchers", id, data); err != nil {
 		return err
 	}
-	if err := s.upsertWatchersTx(tx, id, obj, data); err != nil {
+	if err := s.upsertIssueWatchersTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -16512,14 +17748,14 @@ func (s *Store) UpsertLevel(data json.RawMessage) error {
 	return tx.Commit()
 }
 
-// upsertMembersTx writes the per-resource domain-table portion of a
-// members upsert inside an existing transaction. The caller is
+// upsertIssuesecurityschemesMembersTx writes the per-resource domain-table portion of a
+// issuesecurityschemes_members upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
 // and for committing the tx. Splitting this out lets UpsertBatch dispatch
 // domain inserts per item without opening a per-item transaction.
-func (s *Store) upsertMembersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+func (s *Store) upsertIssuesecurityschemesMembersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
 	if _, err := tx.Exec(
-		`INSERT INTO "members" ("id", "issuesecurityschemes_id", "data", "synced_at", "parent_id")
+		`INSERT INTO "issuesecurityschemes_members" ("id", "issuesecurityschemes_id", "data", "synced_at", "parent_id")
 		 VALUES (?, ?, ?, ?, ?)
 		 ON CONFLICT("id") DO UPDATE SET "issuesecurityschemes_id" = excluded."issuesecurityschemes_id", "data" = excluded."data", "synced_at" = excluded."synced_at", "parent_id" = excluded."parent_id"`,
 		id,
@@ -16528,22 +17764,22 @@ func (s *Store) upsertMembersTx(tx *sql.Tx, id string, obj map[string]any, data 
 		time.Now(),
 		lookupFieldValue(obj, "parent_id"),
 	); err != nil {
-		return fmt.Errorf("insert into members: %w", err)
+		return fmt.Errorf("insert into issuesecurityschemes_members: %w", err)
 	}
 
 	return nil
 }
 
-// UpsertMembers inserts or updates a members record with domain-specific columns.
-func (s *Store) UpsertMembers(data json.RawMessage) error {
+// UpsertIssuesecurityschemesMembers inserts or updates a issuesecurityschemes_members record with domain-specific columns.
+func (s *Store) UpsertIssuesecurityschemesMembers(data json.RawMessage) error {
 	var obj map[string]any
 	if err := json.Unmarshal(data, &obj); err != nil {
-		return fmt.Errorf("unmarshaling members: %w", err)
+		return fmt.Errorf("unmarshaling issuesecurityschemes_members: %w", err)
 	}
 
 	id := extractObjectID(obj)
 	if id == "" {
-		return fmt.Errorf("missing id for members")
+		return fmt.Errorf("missing id for issuesecurityschemes_members")
 	}
 
 	s.writeMu.Lock()
@@ -16554,10 +17790,10 @@ func (s *Store) UpsertMembers(data json.RawMessage) error {
 	}
 	defer tx.Rollback()
 
-	if err := s.upsertGenericResourceTx(tx, "members", id, data); err != nil {
+	if err := s.upsertGenericResourceTx(tx, "issuesecurityschemes_members", id, data); err != nil {
 		return err
 	}
-	if err := s.upsertMembersTx(tx, id, obj, data); err != nil {
+	if err := s.upsertIssuesecurityschemesMembersTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -22435,6 +23671,1593 @@ func (s *Store) UpsertRemotelinks(data json.RawMessage) error {
 	return tx.Commit()
 }
 
+// upsertRepositoriesTx writes the per-resource domain-table portion of a
+// repositories upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories" ("id", "data", "synced_at", "avatar", "avatar_description", "description", "fork_of", "name", "update_sequence_id", "url")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "avatar" = excluded."avatar", "avatar_description" = excluded."avatar_description", "description" = excluded."description", "fork_of" = excluded."fork_of", "name" = excluded."name", "update_sequence_id" = excluded."update_sequence_id", "url" = excluded."url"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "avatar"),
+		lookupFieldValue(obj, "avatar_description"),
+		lookupFieldValue(obj, "description"),
+		lookupFieldValue(obj, "fork_of"),
+		lookupFieldValue(obj, "name"),
+		lookupFieldValue(obj, "update_sequence_id"),
+		lookupFieldValue(obj, "url"),
+	); err != nil {
+		return fmt.Errorf("insert into repositories: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositories inserts or updates a repositories record with domain-specific columns.
+func (s *Store) UpsertRepositories(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBranchRestrictionsTx writes the per-resource domain-table portion of a
+// branch_restrictions upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBranchRestrictionsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "branch_restrictions" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into branch_restrictions: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBranchRestrictions inserts or updates a branch_restrictions record with domain-specific columns.
+func (s *Store) UpsertBranchRestrictions(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling branch_restrictions: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for branch_restrictions")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "branch_restrictions", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBranchRestrictionsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertBranchingModelTx writes the per-resource domain-table portion of a
+// branching_model upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertBranchingModelTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "branching_model" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into branching_model: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertBranchingModel inserts or updates a branching_model record with domain-specific columns.
+func (s *Store) UpsertBranchingModel(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling branching_model: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for branching_model")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "branching_model", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertBranchingModelTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertCommitTx writes the per-resource domain-table portion of a
+// commit upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertCommitTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "commit" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into commit: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertCommit inserts or updates a commit record with domain-specific columns.
+func (s *Store) UpsertCommit(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling commit: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for commit")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "commit", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertCommitTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesCommitsTx writes the per-resource domain-table portion of a
+// repositories_commits upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesCommitsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_commits" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_commits: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesCommits inserts or updates a repositories_commits record with domain-specific columns.
+func (s *Store) UpsertRepositoriesCommits(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_commits: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_commits")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_commits", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesCommitsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertDefaultReviewersTx writes the per-resource domain-table portion of a
+// default_reviewers upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertDefaultReviewersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "default_reviewers" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into default_reviewers: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertDefaultReviewers inserts or updates a default_reviewers record with domain-specific columns.
+func (s *Store) UpsertDefaultReviewers(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling default_reviewers: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for default_reviewers")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "default_reviewers", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertDefaultReviewersTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertDeployKeysTx writes the per-resource domain-table portion of a
+// deploy_keys upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertDeployKeysTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "deploy_keys" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into deploy_keys: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertDeployKeys inserts or updates a deploy_keys record with domain-specific columns.
+func (s *Store) UpsertDeployKeys(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling deploy_keys: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for deploy_keys")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "deploy_keys", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertDeployKeysTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesDeploymentsTx writes the per-resource domain-table portion of a
+// repositories_deployments upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesDeploymentsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_deployments" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_deployments: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesDeployments inserts or updates a repositories_deployments record with domain-specific columns.
+func (s *Store) UpsertRepositoriesDeployments(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_deployments: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_deployments")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_deployments", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesDeploymentsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertDeploymentsConfigTx writes the per-resource domain-table portion of a
+// deployments_config upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertDeploymentsConfigTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "deployments_config" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into deployments_config: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertDeploymentsConfig inserts or updates a deployments_config record with domain-specific columns.
+func (s *Store) UpsertDeploymentsConfig(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling deployments_config: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for deployments_config")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "deployments_config", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertDeploymentsConfigTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesDiffTx writes the per-resource domain-table portion of a
+// repositories_diff upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesDiffTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_diff" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_diff: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesDiff inserts or updates a repositories_diff record with domain-specific columns.
+func (s *Store) UpsertRepositoriesDiff(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_diff: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_diff")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_diff", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesDiffTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertDiffstatTx writes the per-resource domain-table portion of a
+// diffstat upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertDiffstatTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "diffstat" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into diffstat: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertDiffstat inserts or updates a diffstat record with domain-specific columns.
+func (s *Store) UpsertDiffstat(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling diffstat: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for diffstat")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "diffstat", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertDiffstatTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertDownloadsTx writes the per-resource domain-table portion of a
+// downloads upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertDownloadsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "downloads" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into downloads: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertDownloads inserts or updates a downloads record with domain-specific columns.
+func (s *Store) UpsertDownloads(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling downloads: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for downloads")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "downloads", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertDownloadsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertEffectiveBranchingModelTx writes the per-resource domain-table portion of a
+// effective_branching_model upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertEffectiveBranchingModelTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "effective_branching_model" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into effective_branching_model: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertEffectiveBranchingModel inserts or updates a effective_branching_model record with domain-specific columns.
+func (s *Store) UpsertEffectiveBranchingModel(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling effective_branching_model: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for effective_branching_model")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "effective_branching_model", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertEffectiveBranchingModelTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertEffectiveDefaultReviewersTx writes the per-resource domain-table portion of a
+// effective_default_reviewers upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertEffectiveDefaultReviewersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "effective_default_reviewers" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into effective_default_reviewers: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertEffectiveDefaultReviewers inserts or updates a effective_default_reviewers record with domain-specific columns.
+func (s *Store) UpsertEffectiveDefaultReviewers(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling effective_default_reviewers: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for effective_default_reviewers")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "effective_default_reviewers", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertEffectiveDefaultReviewersTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertEnvironmentsTx writes the per-resource domain-table portion of a
+// environments upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertEnvironmentsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "environments" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into environments: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertEnvironments inserts or updates a environments record with domain-specific columns.
+func (s *Store) UpsertEnvironments(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling environments: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for environments")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "environments", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertEnvironmentsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertFileConflictsTx writes the per-resource domain-table portion of a
+// file_conflicts upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertFileConflictsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "file_conflicts" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into file_conflicts: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertFileConflicts inserts or updates a file_conflicts record with domain-specific columns.
+func (s *Store) UpsertFileConflicts(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling file_conflicts: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for file_conflicts")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "file_conflicts", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertFileConflictsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertFilehistoryTx writes the per-resource domain-table portion of a
+// filehistory upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertFilehistoryTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "filehistory" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into filehistory: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertFilehistory inserts or updates a filehistory record with domain-specific columns.
+func (s *Store) UpsertFilehistory(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling filehistory: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for filehistory")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "filehistory", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertFilehistoryTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertForksTx writes the per-resource domain-table portion of a
+// forks upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertForksTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "forks" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into forks: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertForks inserts or updates a forks record with domain-specific columns.
+func (s *Store) UpsertForks(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling forks: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for forks")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "forks", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertForksTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesHooksTx writes the per-resource domain-table portion of a
+// repositories_hooks upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesHooksTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_hooks" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_hooks: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesHooks inserts or updates a repositories_hooks record with domain-specific columns.
+func (s *Store) UpsertRepositoriesHooks(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_hooks: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_hooks")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_hooks", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesHooksTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertMergeBaseTx writes the per-resource domain-table portion of a
+// merge_base upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertMergeBaseTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "merge_base" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into merge_base: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertMergeBase inserts or updates a merge_base record with domain-specific columns.
+func (s *Store) UpsertMergeBase(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling merge_base: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for merge_base")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "merge_base", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertMergeBaseTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertMergeQueuesTx writes the per-resource domain-table portion of a
+// merge_queues upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertMergeQueuesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "merge_queues" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into merge_queues: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertMergeQueues inserts or updates a merge_queues record with domain-specific columns.
+func (s *Store) UpsertMergeQueues(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling merge_queues: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for merge_queues")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "merge_queues", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertMergeQueuesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertOverrideSettingsTx writes the per-resource domain-table portion of a
+// override_settings upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertOverrideSettingsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "override_settings" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into override_settings: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertOverrideSettings inserts or updates a override_settings record with domain-specific columns.
+func (s *Store) UpsertOverrideSettings(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling override_settings: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for override_settings")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "override_settings", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertOverrideSettingsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesPatchTx writes the per-resource domain-table portion of a
+// repositories_patch upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesPatchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_patch" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_patch: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesPatch inserts or updates a repositories_patch record with domain-specific columns.
+func (s *Store) UpsertRepositoriesPatch(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_patch: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_patch")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_patch", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesPatchTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertPermissionsConfigTx writes the per-resource domain-table portion of a
+// permissions_config upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertPermissionsConfigTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "permissions_config" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into permissions_config: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertPermissionsConfig inserts or updates a permissions_config record with domain-specific columns.
+func (s *Store) UpsertPermissionsConfig(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling permissions_config: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for permissions_config")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "permissions_config", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertPermissionsConfigTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertPipelinesTx writes the per-resource domain-table portion of a
+// pipelines upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertPipelinesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "pipelines" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into pipelines: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertPipelines inserts or updates a pipelines record with domain-specific columns.
+func (s *Store) UpsertPipelines(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling pipelines: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for pipelines")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "pipelines", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertPipelinesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesPipelinesConfigTx writes the per-resource domain-table portion of a
+// repositories_pipelines_config upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesPipelinesConfigTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_pipelines_config" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_pipelines_config: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesPipelinesConfig inserts or updates a repositories_pipelines_config record with domain-specific columns.
+func (s *Store) UpsertRepositoriesPipelinesConfig(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_pipelines_config: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_pipelines_config")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_pipelines_config", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesPipelinesConfigTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesPropertiesTx writes the per-resource domain-table portion of a
+// repositories_properties upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesPropertiesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_properties" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_properties: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesProperties inserts or updates a repositories_properties record with domain-specific columns.
+func (s *Store) UpsertRepositoriesProperties(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_properties: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_properties")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_properties", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesPropertiesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesPullrequestsTx writes the per-resource domain-table portion of a
+// repositories_pullrequests upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesPullrequestsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_pullrequests" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_pullrequests: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesPullrequests inserts or updates a repositories_pullrequests record with domain-specific columns.
+func (s *Store) UpsertRepositoriesPullrequests(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_pullrequests: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_pullrequests")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_pullrequests", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesPullrequestsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRefsTx writes the per-resource domain-table portion of a
+// refs upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRefsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "refs" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into refs: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRefs inserts or updates a refs record with domain-specific columns.
+func (s *Store) UpsertRefs(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling refs: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for refs")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "refs", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRefsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSrcTx writes the per-resource domain-table portion of a
+// src upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSrcTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "src" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into src: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSrc inserts or updates a src record with domain-specific columns.
+func (s *Store) UpsertSrc(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling src: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for src")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "src", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSrcTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertRepositoriesWatchersTx writes the per-resource domain-table portion of a
+// repositories_watchers upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertRepositoriesWatchersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "repositories_watchers" ("id", "repositories_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "repositories_id" = excluded."repositories_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "repositories_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into repositories_watchers: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertRepositoriesWatchers inserts or updates a repositories_watchers record with domain-specific columns.
+func (s *Store) UpsertRepositoriesWatchers(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling repositories_watchers: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for repositories_watchers")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "repositories_watchers", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertRepositoriesWatchersTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 // upsertResolutionTx writes the per-resource domain-table portion of a
 // resolution upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
@@ -23322,6 +26145,363 @@ func (s *Store) UpsertSettings(data json.RawMessage) error {
 		return err
 	}
 	if err := s.upsertSettingsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSnippetsCommentsTx writes the per-resource domain-table portion of a
+// snippets_comments upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSnippetsCommentsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "snippets_comments" ("id", "snippets_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "snippets_id" = excluded."snippets_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "snippets_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into snippets_comments: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSnippetsComments inserts or updates a snippets_comments record with domain-specific columns.
+func (s *Store) UpsertSnippetsComments(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling snippets_comments: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for snippets_comments")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "snippets_comments", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSnippetsCommentsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSnippetsCommitsTx writes the per-resource domain-table portion of a
+// snippets_commits upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSnippetsCommitsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "snippets_commits" ("id", "snippets_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "snippets_id" = excluded."snippets_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "snippets_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into snippets_commits: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSnippetsCommits inserts or updates a snippets_commits record with domain-specific columns.
+func (s *Store) UpsertSnippetsCommits(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling snippets_commits: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for snippets_commits")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "snippets_commits", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSnippetsCommitsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSnippetsDiffTx writes the per-resource domain-table portion of a
+// snippets_diff upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSnippetsDiffTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "snippets_diff" ("id", "snippets_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "snippets_id" = excluded."snippets_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "snippets_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into snippets_diff: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSnippetsDiff inserts or updates a snippets_diff record with domain-specific columns.
+func (s *Store) UpsertSnippetsDiff(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling snippets_diff: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for snippets_diff")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "snippets_diff", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSnippetsDiffTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertFilesTx writes the per-resource domain-table portion of a
+// files upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertFilesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "files" ("id", "snippets_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "snippets_id" = excluded."snippets_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "snippets_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into files: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertFiles inserts or updates a files record with domain-specific columns.
+func (s *Store) UpsertFiles(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling files: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for files")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "files", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertFilesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSnippetsPatchTx writes the per-resource domain-table portion of a
+// snippets_patch upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSnippetsPatchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "snippets_patch" ("id", "snippets_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "snippets_id" = excluded."snippets_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "snippets_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into snippets_patch: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSnippetsPatch inserts or updates a snippets_patch record with domain-specific columns.
+func (s *Store) UpsertSnippetsPatch(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling snippets_patch: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for snippets_patch")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "snippets_patch", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSnippetsPatchTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSnippetsWatchTx writes the per-resource domain-table portion of a
+// snippets_watch upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSnippetsWatchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "snippets_watch" ("id", "snippets_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "snippets_id" = excluded."snippets_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "snippets_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into snippets_watch: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSnippetsWatch inserts or updates a snippets_watch record with domain-specific columns.
+func (s *Store) UpsertSnippetsWatch(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling snippets_watch: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for snippets_watch")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "snippets_watch", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSnippetsWatchTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSnippetsWatchersTx writes the per-resource domain-table portion of a
+// snippets_watchers upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSnippetsWatchersTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "snippets_watchers" ("id", "snippets_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "snippets_id" = excluded."snippets_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "snippets_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into snippets_watchers: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSnippetsWatchers inserts or updates a snippets_watchers record with domain-specific columns.
+func (s *Store) UpsertSnippetsWatchers(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling snippets_watchers: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for snippets_watchers")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "snippets_watchers", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSnippetsWatchersTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -24560,6 +27740,108 @@ func (s *Store) UpsertTasks(data json.RawMessage) error {
 		return err
 	}
 	if err := s.upsertTasksTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertTeamsPipelinesConfigTx writes the per-resource domain-table portion of a
+// teams_pipelines_config upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertTeamsPipelinesConfigTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "teams_pipelines_config" ("id", "teams_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "teams_id" = excluded."teams_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "teams_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into teams_pipelines_config: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertTeamsPipelinesConfig inserts or updates a teams_pipelines_config record with domain-specific columns.
+func (s *Store) UpsertTeamsPipelinesConfig(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling teams_pipelines_config: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for teams_pipelines_config")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "teams_pipelines_config", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertTeamsPipelinesConfigTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertTeamsSearchTx writes the per-resource domain-table portion of a
+// teams_search upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertTeamsSearchTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "teams_search" ("id", "teams_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "teams_id" = excluded."teams_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "teams_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into teams_search: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertTeamsSearch inserts or updates a teams_search record with domain-specific columns.
+func (s *Store) UpsertTeamsSearch(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling teams_search: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for teams_search")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "teams_search", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertTeamsSearchTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -26242,6 +29524,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"issuesecurityschemes":                     "id",
 	"issuesecurityschemes-level":               "id",
 	"issuesecurityschemes-level-member":        "id",
+	"issuesecurityschemes_members":             "id",
 	"issuetype":                                "id",
 	"issuetypescheme":                          "id",
 	"issuetypescheme-mapping":                  "issueTypeId",
@@ -26254,7 +29537,6 @@ var resourceIDFieldOverrides = map[string]string{
 	"labels_attachments":                       "id",
 	"labels_blogposts":                         "id",
 	"labels_pages":                             "id",
-	"members":                                  "id",
 	"notificationscheme":                       "id",
 	"objectschema":                             "id",
 	"option":                                   "id",
@@ -26417,6 +29699,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 
 		var typedErr error
 		switch resourceType {
+		case "client_key":
+			typedErr = s.upsertClientKeyTx(tx, id, obj, item)
 		case "addon-categories":
 			typedErr = s.upsertAddonCategoriesTx(tx, id, obj, item)
 		case "addons":
@@ -26443,8 +29727,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertTokensTx(tx, id, obj, item)
 		case "addons_versions":
 			typedErr = s.upsertAddonsVersionsTx(tx, id, obj, item)
-		case "watch":
-			typedErr = s.upsertWatchTx(tx, id, obj, item)
+		case "addons_watch":
+			typedErr = s.upsertAddonsWatchTx(tx, id, obj, item)
 		case "admin-control-admin":
 			typedErr = s.upsertAdminControlAdminTx(tx, id, obj, item)
 		case "admin-key":
@@ -26511,6 +29795,34 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertAttachmentsVersionsTx(tx, id, obj, item)
 		case "system":
 			typedErr = s.upsertSystemTx(tx, id, obj, item)
+		case "gpg_keys":
+			typedErr = s.upsertGpgKeysTx(tx, id, obj, item)
+		case "bitbucket_users_pipelines_config":
+			typedErr = s.upsertBitbucketUsersPipelinesConfigTx(tx, id, obj, item)
+		case "bitbucket_users_properties":
+			typedErr = s.upsertBitbucketUsersPropertiesTx(tx, id, obj, item)
+		case "bitbucket_users_search":
+			typedErr = s.upsertBitbucketUsersSearchTx(tx, id, obj, item)
+		case "ssh_keys":
+			typedErr = s.upsertSshKeysTx(tx, id, obj, item)
+		case "codesearch":
+			typedErr = s.upsertCodesearchTx(tx, id, obj, item)
+		case "bitbucket_workspaces_hooks":
+			typedErr = s.upsertBitbucketWorkspacesHooksTx(tx, id, obj, item)
+		case "bitbucket_workspaces_members":
+			typedErr = s.upsertBitbucketWorkspacesMembersTx(tx, id, obj, item)
+		case "bitbucket_workspaces_permissions":
+			typedErr = s.upsertBitbucketWorkspacesPermissionsTx(tx, id, obj, item)
+		case "bitbucket_workspaces_pipelines_config":
+			typedErr = s.upsertBitbucketWorkspacesPipelinesConfigTx(tx, id, obj, item)
+		case "bitbucket_workspaces_projects":
+			typedErr = s.upsertBitbucketWorkspacesProjectsTx(tx, id, obj, item)
+		case "bitbucket_workspaces_pullrequests":
+			typedErr = s.upsertBitbucketWorkspacesPullrequestsTx(tx, id, obj, item)
+		case "bitbucket_workspaces_search":
+			typedErr = s.upsertBitbucketWorkspacesSearchTx(tx, id, obj, item)
+		case "bitbucket_workspaces_settings":
+			typedErr = s.upsertBitbucketWorkspacesSettingsTx(tx, id, obj, item)
 		case "blogposts":
 			typedErr = s.upsertBlogpostsTx(tx, id, obj, item)
 		case "blogposts_attachments":
@@ -26769,8 +30081,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertTransitionsTx(tx, id, obj, item)
 		case "votes":
 			typedErr = s.upsertVotesTx(tx, id, obj, item)
-		case "watchers":
-			typedErr = s.upsertWatchersTx(tx, id, obj, item)
+		case "issue_watchers":
+			typedErr = s.upsertIssueWatchersTx(tx, id, obj, item)
 		case "issue_worklog":
 			typedErr = s.upsertIssueWorklogTx(tx, id, obj, item)
 		case "issue-link":
@@ -26783,8 +30095,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertIssuesecurityschemesTx(tx, id, obj, item)
 		case "level":
 			typedErr = s.upsertLevelTx(tx, id, obj, item)
-		case "members":
-			typedErr = s.upsertMembersTx(tx, id, obj, item)
+		case "issuesecurityschemes_members":
+			typedErr = s.upsertIssuesecurityschemesMembersTx(tx, id, obj, item)
 		case "issuetype":
 			typedErr = s.upsertIssuetypeTx(tx, id, obj, item)
 		case "alternatives":
@@ -27003,6 +30315,68 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertRedactTx(tx, id, obj, item)
 		case "remotelinks":
 			typedErr = s.upsertRemotelinksTx(tx, id, obj, item)
+		case "repositories":
+			typedErr = s.upsertRepositoriesTx(tx, id, obj, item)
+		case "branch_restrictions":
+			typedErr = s.upsertBranchRestrictionsTx(tx, id, obj, item)
+		case "branching_model":
+			typedErr = s.upsertBranchingModelTx(tx, id, obj, item)
+		case "commit":
+			typedErr = s.upsertCommitTx(tx, id, obj, item)
+		case "repositories_commits":
+			typedErr = s.upsertRepositoriesCommitsTx(tx, id, obj, item)
+		case "default_reviewers":
+			typedErr = s.upsertDefaultReviewersTx(tx, id, obj, item)
+		case "deploy_keys":
+			typedErr = s.upsertDeployKeysTx(tx, id, obj, item)
+		case "repositories_deployments":
+			typedErr = s.upsertRepositoriesDeploymentsTx(tx, id, obj, item)
+		case "deployments_config":
+			typedErr = s.upsertDeploymentsConfigTx(tx, id, obj, item)
+		case "repositories_diff":
+			typedErr = s.upsertRepositoriesDiffTx(tx, id, obj, item)
+		case "diffstat":
+			typedErr = s.upsertDiffstatTx(tx, id, obj, item)
+		case "downloads":
+			typedErr = s.upsertDownloadsTx(tx, id, obj, item)
+		case "effective_branching_model":
+			typedErr = s.upsertEffectiveBranchingModelTx(tx, id, obj, item)
+		case "effective_default_reviewers":
+			typedErr = s.upsertEffectiveDefaultReviewersTx(tx, id, obj, item)
+		case "environments":
+			typedErr = s.upsertEnvironmentsTx(tx, id, obj, item)
+		case "file_conflicts":
+			typedErr = s.upsertFileConflictsTx(tx, id, obj, item)
+		case "filehistory":
+			typedErr = s.upsertFilehistoryTx(tx, id, obj, item)
+		case "forks":
+			typedErr = s.upsertForksTx(tx, id, obj, item)
+		case "repositories_hooks":
+			typedErr = s.upsertRepositoriesHooksTx(tx, id, obj, item)
+		case "merge_base":
+			typedErr = s.upsertMergeBaseTx(tx, id, obj, item)
+		case "merge_queues":
+			typedErr = s.upsertMergeQueuesTx(tx, id, obj, item)
+		case "override_settings":
+			typedErr = s.upsertOverrideSettingsTx(tx, id, obj, item)
+		case "repositories_patch":
+			typedErr = s.upsertRepositoriesPatchTx(tx, id, obj, item)
+		case "permissions_config":
+			typedErr = s.upsertPermissionsConfigTx(tx, id, obj, item)
+		case "pipelines":
+			typedErr = s.upsertPipelinesTx(tx, id, obj, item)
+		case "repositories_pipelines_config":
+			typedErr = s.upsertRepositoriesPipelinesConfigTx(tx, id, obj, item)
+		case "repositories_properties":
+			typedErr = s.upsertRepositoriesPropertiesTx(tx, id, obj, item)
+		case "repositories_pullrequests":
+			typedErr = s.upsertRepositoriesPullrequestsTx(tx, id, obj, item)
+		case "refs":
+			typedErr = s.upsertRefsTx(tx, id, obj, item)
+		case "src":
+			typedErr = s.upsertSrcTx(tx, id, obj, item)
+		case "repositories_watchers":
+			typedErr = s.upsertRepositoriesWatchersTx(tx, id, obj, item)
 		case "resolution":
 			typedErr = s.upsertResolutionTx(tx, id, obj, item)
 		case "role":
@@ -27035,6 +30409,20 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertServicedeskapiTx(tx, id, obj, item)
 		case "settings":
 			typedErr = s.upsertSettingsTx(tx, id, obj, item)
+		case "snippets_comments":
+			typedErr = s.upsertSnippetsCommentsTx(tx, id, obj, item)
+		case "snippets_commits":
+			typedErr = s.upsertSnippetsCommitsTx(tx, id, obj, item)
+		case "snippets_diff":
+			typedErr = s.upsertSnippetsDiffTx(tx, id, obj, item)
+		case "files":
+			typedErr = s.upsertFilesTx(tx, id, obj, item)
+		case "snippets_patch":
+			typedErr = s.upsertSnippetsPatchTx(tx, id, obj, item)
+		case "snippets_watch":
+			typedErr = s.upsertSnippetsWatchTx(tx, id, obj, item)
+		case "snippets_watchers":
+			typedErr = s.upsertSnippetsWatchersTx(tx, id, obj, item)
 		case "software":
 			typedErr = s.upsertSoftwareTx(tx, id, obj, item)
 		case "space-permissions":
@@ -27081,6 +30469,10 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertCancelTx(tx, id, obj, item)
 		case "tasks":
 			typedErr = s.upsertTasksTx(tx, id, obj, item)
+		case "teams_pipelines_config":
+			typedErr = s.upsertTeamsPipelinesConfigTx(tx, id, obj, item)
+		case "teams_search":
+			typedErr = s.upsertTeamsSearchTx(tx, id, obj, item)
 		case "ui-modifications":
 			typedErr = s.upsertUiModificationsTx(tx, id, obj, item)
 		case "user":
@@ -27964,6 +31356,34 @@ func (s *Store) SearchProjectTemplate(query string, limit int) ([]json.RawMessag
 		`SELECT t.data FROM "project_template" t
 		 JOIN "project_template_fts" ON "project_template_fts".rowid = t.rowid
 		 WHERE "project_template_fts" MATCH ?
+		 ORDER BY rank LIMIT ?`,
+		query, limit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []json.RawMessage
+	for rows.Next() {
+		var data string
+		if err := rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		results = append(results, json.RawMessage(data))
+	}
+	return results, rows.Err()
+}
+
+// SearchRepositories searches the repositories_fts index with optional filters.
+func (s *Store) SearchRepositories(query string, limit int) ([]json.RawMessage, error) {
+	if limit <= 0 {
+		limit = 50
+	}
+	rows, err := s.db.Query(
+		`SELECT t.data FROM "repositories" t
+		 JOIN "repositories_fts" ON "repositories_fts".rowid = t.rowid
+		 WHERE "repositories_fts" MATCH ?
 		 ORDER BY rank LIMIT ?`,
 		query, limit,
 	)
