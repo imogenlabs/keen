@@ -4,6 +4,7 @@ package client
 
 import (
 	"context"
+	"encoding/base64"
 	"errors"
 	"strings"
 	"testing"
@@ -73,5 +74,29 @@ func TestCredentialHint(t *testing.T) {
 		if got := CredentialHint(msg); !strings.Contains(got, want) {
 			t.Errorf("CredentialHint(%q) = %q, want it to mention %q", msg, got, want)
 		}
+	}
+}
+
+func TestBitbucketCredential(t *testing.T) {
+	cfg := &config.Config{JiraCloudPlatformUsername: "me@example.com", JiraCloudPlatformPassword: "site-tok"}
+	c := &Client{Config: cfg}
+	ctx := context.Background()
+	u := "https://api.bitbucket.org/2.0/repositories/ws/repo"
+
+	if h, err := c.authHeaderFor(ctx, u); err != nil || h != "" {
+		t.Fatalf("no Bitbucket token: header = %q, %v; want none (public repositories work without one)", h, err)
+	}
+	cfg.BitbucketToken = "bb-tok"
+	h, _ := c.authHeaderFor(ctx, u)
+	if want := "Basic " + base64.StdEncoding.EncodeToString([]byte("me@example.com:bb-tok")); h != want {
+		t.Errorf("header = %q, want the site email with the Bitbucket token", h)
+	}
+	cfg.BitbucketEmail = "dev@example.com"
+	h, _ = c.authHeaderFor(ctx, u)
+	if want := "Basic " + base64.StdEncoding.EncodeToString([]byte("dev@example.com:bb-tok")); h != want {
+		t.Errorf("header = %q, want KEEN_BITBUCKET_EMAIL with the token", h)
+	}
+	if got := CredentialHint("GET " + u + " returned HTTP 401"); !strings.Contains(got, "KEEN_BITBUCKET_TOKEN") {
+		t.Errorf("hint = %q, want KEEN_BITBUCKET_TOKEN", got)
 	}
 }

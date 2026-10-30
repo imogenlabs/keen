@@ -182,6 +182,20 @@
       "reason": "Name clashes produced admin-control-admin, manage and admin; Assets came out as 13 generic groups (object, usage, icon...). The name also appears in ordinary help text, so a blanket replace is unsafe.",
       "files": ["scripts/regen/normalize.py", "internal/cli/*.go, internal/mcp/tools.go, SKILL.md, tools-manifest.json (renamed groups)"],
       "validated_outcome": "Command list before and after differs exactly by the renames (1,543 both); check.sh all passed (help of every command, TestEveryWhichSuggestionParses); no MCP tool keeps an old group name; keen admin-control get-policies and keen assets-usage live."
+    },
+    {
+      "id": "bitbucket-auth",
+      "summary": "Requests to api.bitbucket.org send Basic email:KEEN_BITBUCKET_TOKEN (bitbucket_token, bitbucket_email in auth.json), or no credential when no token is set; hints and doctor name the token. The Bitbucket spec's auth schemes are stripped before generating (STRIP_AUTH).",
+      "reason": "The site token has no Bitbucket scopes (401 'API Token provided has no Bitbucket scopes'). With its OAuth2 scheme in the spec, the generator rebuilt keen's config, hints and doctor around BITBUCKET_OAUTH2.",
+      "files": ["internal/client/hostauth.go", "internal/config/config.go", "internal/cli/doctor.go", "scripts/regen/specfix.py (--no-auth)", "scripts/regen/config.sh (STRIP_AUTH)", "scripts/regen/regen.sh"],
+      "validated_outcome": "hostauth_test.go TestBitbucketCredential. Live: keen bitbucket-repositories get atlassian lists public repos with no token; keen bitbucket-user list without a token gives 401 and the KEEN_BITBUCKET_TOKEN hint; auth files unchanged by the regen."
+    },
+    {
+      "id": "doctor-health-path",
+      "summary": "normalize.py pins doctor's healthPath and verifyPath to /rest/api/3/user.",
+      "reason": "The generator picks the health endpoint from the specs; with Bitbucket in the list it chose /user, which the site does not have.",
+      "files": ["scripts/regen/normalize.py", "internal/cli/doctor.go"],
+      "validated_outcome": "keen doctor output identical to the v1.5.0 release (credentials: ok from /rest/api/3/user)."
     }
   ]
 }

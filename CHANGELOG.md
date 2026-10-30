@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- The Bitbucket Cloud API: 300 commands and MCP tools under `keen bitbucket-...` (repositories, pull requests, pipelines, branches, commits, snippets, workspaces). Public data works with no setup; private data needs an Atlassian API token with Bitbucket scopes (`KEEN_BITBUCKET_TOKEN`). keen now covers 1,843 endpoints with 1,920 MCP tools
+- `keen doctor` shows whether the Bitbucket token is set
+
+### Changed
+- The refresh removes auth schemes from specs keen authenticates itself (`STRIP_AUTH`), so adding one never changes keen's login, and pins doctor's health check to Jira
+
 ## [1.5.0] - 2026-10-30
 
 keen now covers 1,543 Atlassian API endpoints with 1,606 MCP tools, up from 1,130 and 1,183, built from 14 Atlassian specs.

@@ -32,6 +32,8 @@ type Config struct {
 	ScimAPIKey                string            `toml:"scim_api_key" json:"scim_api_key,omitempty"`
 	CloudID                   string            `toml:"cloud_id" json:"cloud_id,omitempty"`
 	AssetsWorkspaceID         string            `toml:"assets_workspace_id" json:"assets_workspace_id,omitempty"`
+	BitbucketToken            string            `toml:"bitbucket_token" json:"bitbucket_token,omitempty"`
+	BitbucketEmail            string            `toml:"bitbucket_email" json:"bitbucket_email,omitempty"`
 }
 
 func Load(configPath string) (*Config, error) {
@@ -91,6 +93,12 @@ func Load(configPath string) (*Config, error) {
 	}
 	if v := os.Getenv("KEEN_SCIM_API_KEY"); v != "" {
 		cfg.ScimAPIKey = v
+	}
+	if v := os.Getenv("KEEN_BITBUCKET_TOKEN"); v != "" {
+		cfg.BitbucketToken = v
+	}
+	if v := os.Getenv("KEEN_BITBUCKET_EMAIL"); v != "" {
+		cfg.BitbucketEmail = v
 	}
 
 	// Label config-file-derived credentials so doctor can distinguish

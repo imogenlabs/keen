@@ -4,6 +4,7 @@ package client
 
 import (
 	"context"
+	"encoding/base64"
 	"errors"
 	"net/url"
 	"strings"
@@ -12,7 +13,10 @@ import (
 // Atlassian's admin APIs on api.atlassian.com do not take the site's email and
 // API token. The organization APIs (/admin/..., /users/...) take an admin API
 // key as a bearer token, and SCIM user provisioning (/scim/...) takes the key
-// of one identity-provider directory. Everything else uses the site login.
+// of one identity-provider directory. Bitbucket (api.bitbucket.org) takes an
+// Atlassian API token with Bitbucket scopes, which the site token usually is
+// not; without one keen sends no credential, so public repositories still
+// work. Everything else uses the site login.
 
 // ErrMissingKey is returned before a request is sent when the API it calls
 // needs a key that is not configured.
@@ -24,10 +28,14 @@ const (
 	siteCredential hostCredential = iota
 	adminCredential
 	scimCredential
+	bitbucketCredential
 )
 
 func credentialFor(rawURL string) hostCredential {
 	u, err := url.Parse(rawURL)
+	if err == nil && strings.EqualFold(u.Host, "api.bitbucket.org") {
+		return bitbucketCredential
+	}
 	if err != nil || !strings.EqualFold(u.Host, "api.atlassian.com") {
 		return siteCredential
 	}
@@ -56,6 +64,15 @@ func (c *Client) authHeaderFor(ctx context.Context, rawURL string) (string, erro
 			return "", errors.Join(ErrMissingKey, errors.New(scimKeyHint))
 		}
 		return "Bearer " + c.Config.ScimAPIKey, nil
+	case bitbucketCredential:
+		if c.Config.BitbucketToken == "" {
+			return "", nil
+		}
+		email := c.Config.BitbucketEmail
+		if email == "" {
+			email = c.Config.JiraCloudPlatformUsername
+		}
+		return "Basic " + base64.StdEncoding.EncodeToString([]byte(email+":"+c.Config.BitbucketToken)), nil
 	}
 	return c.authHeader(ctx)
 }
@@ -80,6 +97,8 @@ func CredentialHint(msg string) string {
 				return "Set it with: export KEEN_ADMIN_API_KEY=<organization admin API key>"
 			case scimCredential:
 				return "Set it with: export KEEN_SCIM_API_KEY=<directory API key>"
+			case bitbucketCredential:
+				return "Set it with: export KEEN_BITBUCKET_TOKEN=<Atlassian API token with Bitbucket scopes>"
 			}
 			return siteKeyHint
 		}
