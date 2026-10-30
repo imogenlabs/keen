@@ -67,6 +67,8 @@ export KEEN_SCIM_API_KEY="your-directory-api-key"   # only for scim commands
 
 Or add `admin_api_key` and `scim_api_key` to `~/.config/keen/auth.json`. Without the key, an admin command stops before calling Atlassian and says which key to set. `keen doctor` shows whether each key is set.
 
+User management (`user-management ...`) also needs a verified domain: Atlassian only lets an org admin manage accounts on a domain the organization has verified. Without that, the key is accepted and the call answers 403 "Caller must be a verified org admin of targeted account". Verify the domain at admin.atlassian.com > Settings > Domains.
+
 ## Assets
 
 Assets commands (all named `assets-...`: `assets-objectschema`, `assets-object`, `assets-aql`, `assets-import-source`, ...) use your normal login. Their address needs your site's cloud id and Assets workspace id; keen looks both up from your site the first time a command needs them. To skip the lookup, set them yourself:

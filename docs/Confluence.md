@@ -48,12 +48,12 @@ Atlassian is moving Confluence to its v2 API. keen has every v2 operation as a c
 ```bash
 # List spaces, then the pages in one
 keen spaces get --agent --select results.id,results.key,results.name
-keen pages get --space-id 65986 --limit 10 --agent
+keen pages get --space-id SPACE_ID --limit 10 --agent
 
 # One page with its body
-keen pages get-by-id 66038 --body-format storage --agent
+keen pages get-by-id PAGE_ID --body-format storage --agent
 
 # Blog posts and folders
-keen blogposts get --space-id 65986 --agent
-keen folders get-by-id 123456 --agent
+keen blogposts get --space-id SPACE_ID --agent
+keen folders get-by-id FOLDER_ID --agent
 ```
