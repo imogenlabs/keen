@@ -161,6 +161,8 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchAddons(query, limit)
 			case "agile":
 				results, err = db.SearchAgile(query, limit)
+			case "api-config":
+				results, err = db.SearchApiConfig(query, limit)
 			case "atlassian-connect":
 				results, err = db.SearchAtlassianConnect(query, limit)
 			case "attachments":
@@ -183,6 +185,8 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchDevopscomponents(query, limit)
 			case "filter":
 				results, err = db.SearchFilter(query, limit)
+			case "importsource":
+				results, err = db.SearchImportsource(query, limit)
 			case "issuesecurityschemes":
 				results, err = db.SearchIssuesecurityschemes(query, limit)
 			case "issuetype":
@@ -191,6 +195,12 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchJiraCloudPlatformVersion(query, limit)
 			case "notificationscheme":
 				results, err = db.SearchNotificationscheme(query, limit)
+			case "objectschema":
+				results, err = db.SearchObjectschema(query, limit)
+			case "objecttype":
+				results, err = db.SearchObjecttype(query, limit)
+			case "objecttypeattribute":
+				results, err = db.SearchObjecttypeattribute(query, limit)
 			case "operations":
 				results, err = db.SearchOperations(query, limit)
 			case "permissionscheme":
@@ -255,6 +265,19 @@ In local mode: searches locally synced data only.`,
 					partial, searchErr := db.SearchAgile(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search agile failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchApiConfig(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search api_config failed: %w", searchErr)
 					}
 					for _, r := range partial {
 						key := string(r)
@@ -408,6 +431,19 @@ In local mode: searches locally synced data only.`,
 					}
 				}
 				{
+					partial, searchErr := db.SearchImportsource(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search importsource failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
 					partial, searchErr := db.SearchIssuesecurityschemes(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search issuesecurityschemes failed: %w", searchErr)
@@ -450,6 +486,45 @@ In local mode: searches locally synced data only.`,
 					partial, searchErr := db.SearchNotificationscheme(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search notificationscheme failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchObjectschema(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search objectschema failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchObjecttype(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search objecttype failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchObjecttypeattribute(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search objecttypeattribute failed: %w", searchErr)
 					}
 					for _, r := range partial {
 						key := string(r)

@@ -2525,6 +2525,221 @@ type CommentVersion struct {
 	Number    int             `json:"number"`
 }
 
+type CompassAlertEventPropertiesInputDto struct {
+	AcknowledgedAt string `json:"acknowledgedAt"`
+	ClosedAt       string `json:"closedAt"`
+	CreatedAt      string `json:"createdAt"`
+	Id             string `json:"id"`
+	Priority       string `json:"priority"`
+	SnoozedAt      string `json:"snoozedAt"`
+	Status         string `json:"status"`
+}
+
+type CompassBuildEventPipelineInputDto struct {
+	DisplayName string `json:"displayName"`
+	PipelineId  string `json:"pipelineId"`
+	Url         string `json:"url"`
+}
+
+type CompassBuildEventPropertiesInputDto struct {
+	CompletedAt string          `json:"completedAt"`
+	Pipeline    json.RawMessage `json:"pipeline"`
+	StartedAt   string          `json:"startedAt"`
+	State       string          `json:"state"`
+}
+
+type CompassCreateAlertEventInputDto struct {
+	AlertProperties       json.RawMessage `json:"alertProperties"`
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	ExternalEventSourceId string          `json:"externalEventSourceId"`
+	LastUpdated           string          `json:"lastUpdated"`
+	UpdateSequenceNumber  int             `json:"updateSequenceNumber"`
+	Url                   string          `json:"url"`
+}
+
+type CompassCreateBuildEventInputDto struct {
+	BuildProperties       json.RawMessage `json:"buildProperties"`
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	ExternalEventSourceId string          `json:"externalEventSourceId"`
+	LastUpdated           string          `json:"lastUpdated"`
+	UpdateSequenceNumber  int             `json:"updateSequenceNumber"`
+	Url                   string          `json:"url"`
+}
+
+type CompassCreateCustomEventInputDto struct {
+	CustomEventProperties json.RawMessage `json:"customEventProperties"`
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	ExternalEventSourceId string          `json:"externalEventSourceId"`
+	LastUpdated           string          `json:"lastUpdated"`
+	UpdateSequenceNumber  int             `json:"updateSequenceNumber"`
+	Url                   string          `json:"url"`
+}
+
+type CompassCreateDeploymentEventInputDto struct {
+	DeploymentProperties  json.RawMessage `json:"deploymentProperties"`
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	ExternalEventSourceId string          `json:"externalEventSourceId"`
+	LastUpdated           string          `json:"lastUpdated"`
+	UpdateSequenceNumber  int             `json:"updateSequenceNumber"`
+	Url                   string          `json:"url"`
+}
+
+type CompassCreateDeploymentEventPropertiesInputDto struct {
+	CompletedAt    string          `json:"completedAt"`
+	Environment    json.RawMessage `json:"environment"`
+	Pipeline       json.RawMessage `json:"pipeline"`
+	SequenceNumber int             `json:"sequenceNumber"`
+	StartedAt      string          `json:"startedAt"`
+	State          string          `json:"state"`
+}
+
+type CompassCreateFlagEventInputDto struct {
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	ExternalEventSourceId string          `json:"externalEventSourceId"`
+	FlagProperties        json.RawMessage `json:"flagProperties"`
+	LastUpdated           string          `json:"lastUpdated"`
+	UpdateSequenceNumber  int             `json:"updateSequenceNumber"`
+	Url                   string          `json:"url"`
+}
+
+type CompassCreateFlagEventPropertiesInputDto struct {
+	Id     string `json:"id"`
+	Status string `json:"status"`
+}
+
+type CompassCreateIncidentEventInputDto struct {
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	ExternalEventSourceId string          `json:"externalEventSourceId"`
+	IncidentProperties    json.RawMessage `json:"incidentProperties"`
+	LastUpdated           string          `json:"lastUpdated"`
+	UpdateSequenceNumber  int             `json:"updateSequenceNumber"`
+	Url                   string          `json:"url"`
+}
+
+type CompassCreateIncidentEventPropertiesInputDto struct {
+	EndTime   string `json:"endTime"`
+	Id        string `json:"id"`
+	Severity  string `json:"severity"`
+	StartTime string `json:"startTime"`
+	State     string `json:"state"`
+}
+
+type CompassCreateLifecycleEventInputDto struct {
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	ExternalEventSourceId string          `json:"externalEventSourceId"`
+	LastUpdated           string          `json:"lastUpdated"`
+	LifecycleProperties   json.RawMessage `json:"lifecycleProperties"`
+	UpdateSequenceNumber  int             `json:"updateSequenceNumber"`
+	Url                   string          `json:"url"`
+}
+
+type CompassCreatePullRequestEventInputDto struct {
+	CloudId               string          `json:"cloudId"`
+	LastUpdated           string          `json:"lastUpdated"`
+	PullRequestProperties json.RawMessage `json:"pullRequestProperties"`
+}
+
+type CompassCreatePushEventInputDto struct {
+	Description           string          `json:"description"`
+	DisplayName           string          `json:"displayName"`
+	ExternalEventSourceId string          `json:"externalEventSourceId"`
+	LastUpdated           string          `json:"lastUpdated"`
+	PushEventProperties   json.RawMessage `json:"pushEventProperties"`
+	UpdateSequenceNumber  int             `json:"updateSequenceNumber"`
+	Url                   string          `json:"url"`
+}
+
+type CompassCreateVulnerabilityEventInputDto struct {
+	Description             string          `json:"description"`
+	DisplayName             string          `json:"displayName"`
+	ExternalEventSourceId   string          `json:"externalEventSourceId"`
+	LastUpdated             string          `json:"lastUpdated"`
+	UpdateSequenceNumber    int             `json:"updateSequenceNumber"`
+	Url                     string          `json:"url"`
+	VulnerabilityProperties json.RawMessage `json:"vulnerabilityProperties"`
+}
+
+type CompassCreateVulnerabilityEventPropertiesInputDto struct {
+	DiscoverySource        string          `json:"discoverySource"`
+	Id                     string          `json:"id"`
+	RemediationTime        string          `json:"remediationTime"`
+	Score                  float64         `json:"score"`
+	Severity               json.RawMessage `json:"severity"`
+	State                  string          `json:"state"`
+	VulnerabilityStartTime string          `json:"vulnerabilityStartTime"`
+	VulnerableTarget       string          `json:"vulnerableTarget"`
+}
+
+type CompassCustomEventPropertiesInputDto struct {
+	Icon string `json:"icon"`
+	Id   string `json:"id"`
+}
+
+type CompassDeploymentEventEnvironmentInputDto struct {
+	Category      string `json:"category"`
+	DisplayName   string `json:"displayName"`
+	EnvironmentId string `json:"environmentId"`
+}
+
+type CompassDeploymentEventPipelineInputDto struct {
+	DisplayName string `json:"displayName"`
+	PipelineId  string `json:"pipelineId"`
+	Url         string `json:"url"`
+}
+
+type CompassEventInputDto struct {
+	Alert         string `json:"alert"`
+	Build         string `json:"build"`
+	Custom        string `json:"custom"`
+	Deployment    string `json:"deployment"`
+	Flag          string `json:"flag"`
+	Incident      string `json:"incident"`
+	Lifecycle     string `json:"lifecycle"`
+	PullRequest   string `json:"pullRequest"`
+	Push          string `json:"push"`
+	Vulnerability string `json:"vulnerability"`
+}
+
+type CompassIncidentEventSeverityInputDto struct {
+	Label string `json:"label"`
+	Level string `json:"level"`
+}
+
+type CompassLifecycleEventInputPropertiesDto struct {
+	Id    string `json:"id"`
+	Stage string `json:"stage"`
+}
+
+type CompassPullRequestInputPropertiesDto struct {
+	Id             string `json:"id"`
+	PullRequestUrl string `json:"pullRequestUrl"`
+	RepoUrl        string `json:"repoUrl"`
+	Status         string `json:"status"`
+}
+
+type CompassPushEventAuthorInputDto struct {
+	Email string `json:"email"`
+	Name  string `json:"name"`
+}
+
+type CompassPushEventInputPropertiesDto struct {
+	Author     string `json:"author"`
+	BranchName string `json:"branchName"`
+	Id         string `json:"id"`
+}
+
+type CompassVulnerabilityEventSeverityInputDto struct {
+	Label string `json:"label"`
+	Level string `json:"level"`
+}
+
 type Compatibility struct {
 	Application string          `json:"application"`
 	Hosting     json.RawMessage `json:"hosting"`
@@ -3332,6 +3547,12 @@ type CreateServiceAccountResponse struct {
 	Id          string `json:"id"`
 	Status      string `json:"status"`
 	UpdatedAt   int    `json:"updatedAt"`
+}
+
+type CreateStreamlinedEventRequest struct {
+	CloudId     string          `json:"cloudId"`
+	ComponentId string          `json:"componentId"`
+	Event       json.RawMessage `json:"event"`
 }
 
 type CreateUiModificationDetails struct {
@@ -4480,6 +4701,11 @@ type DefaultShareScope struct {
 	Scope string `json:"scope"`
 }
 
+type DefaultType struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}
+
 type DefaultWorkflow struct {
 	UpdateDraftIfNeeded bool   `json:"updateDraftIfNeeded"`
 	Workflow            string `json:"workflow"`
@@ -4679,6 +4905,18 @@ type EntitlementModelV2 struct {
 	PlanKey string `json:"planKey"`
 }
 
+type EntitlementRequestDto struct {
+	Entitlements json.RawMessage `json:"entitlements"`
+}
+
+type EntitlementResponseDto struct {
+	Entitlements json.RawMessage `json:"entitlements"`
+}
+
+type EntitlementResultDto struct {
+	Class string `json:"@class"`
+}
+
 type EntityAssociation struct {
 	AssociationType string          `json:"associationType"`
 	Values          json.RawMessage `json:"values"`
@@ -4730,6 +4968,11 @@ type ErrorCollection struct {
 type ErrorCollections struct {
 }
 
+type ErrorDto struct {
+	Message string `json:"message"`
+	Type    string `json:"type"`
+}
+
 type ErrorMessage struct {
 	Message string `json:"message"`
 }
@@ -4737,6 +4980,10 @@ type ErrorMessage struct {
 type ErrorResponse struct {
 	ErrorMessages json.RawMessage `json:"errorMessages"`
 	Errors        json.RawMessage `json:"errors"`
+}
+
+type ErrorResponseDto struct {
+	Errors json.RawMessage `json:"errors"`
 }
 
 type Error_CdenPolicyValidationFailed_Model struct {
@@ -5730,6 +5977,12 @@ type GetTeamResponseForPage struct {
 	Type string `json:"type"`
 }
 
+type GlobalConfigurationIn struct {
+	AllowOtherObjectSchema bool `json:"allowOtherObjectSchema"`
+	QuickCreateObjects     bool `json:"quickCreateObjects"`
+	ValidateQuickCreate    bool `json:"validateQuickCreate"`
+}
+
 type GlobalScopeBean struct {
 	Attributes json.RawMessage `json:"attributes"`
 }
@@ -5958,6 +6211,56 @@ type ImageAssetLinks struct {
 type ImageAssetSummary struct {
 }
 
+type ImportScheduleRequest struct {
+	CallbackUrl string `json:"callbackUrl"`
+	RunInterval string `json:"runInterval"`
+	StartTime   string `json:"startTime"`
+}
+
+type ImportScheduleResponse struct {
+	CollectionId   string `json:"collectionId"`
+	Created        string `json:"created"`
+	Id             string `json:"id"`
+	ImportSourceId string `json:"importSourceId"`
+	RunInterval    string `json:"runInterval"`
+	StartTime      string `json:"startTime"`
+	Updated        string `json:"updated"`
+}
+
+type ImportSchemaAndMapping struct {
+	Mapping json.RawMessage `json:"mapping"`
+	Schema  json.RawMessage `json:"schema"`
+}
+
+type ImportSourceResponse struct {
+	CollectionId                    string          `json:"collectionId"`
+	Created                         string          `json:"created"`
+	DateFormat                      string          `json:"dateFormat"`
+	DateTimeFormat                  string          `json:"dateTimeFormat"`
+	DefaultConcatenator             string          `json:"defaultConcatenator"`
+	DefaultHandleComputeIssueValues string          `json:"defaultHandleComputeIssueValues"`
+	DefaultHandleEmptyValues        string          `json:"defaultHandleEmptyValues"`
+	DefaultHandleNotMappedValues    string          `json:"defaultHandleNotMappedValues"`
+	DefaultHandleNullValues         string          `json:"defaultHandleNullValues"`
+	DefaultHandleUnknownValues      string          `json:"defaultHandleUnknownValues"`
+	Description                     string          `json:"description"`
+	Id                              string          `json:"id"`
+	ImportExecutionType             string          `json:"importExecutionType"`
+	ImportSourceModuleKey           string          `json:"importSourceModuleKey"`
+	ImportSourceOTEntries           json.RawMessage `json:"importSourceOTEntries"`
+	ImportSpecificConfiguration     string          `json:"importSpecificConfiguration"`
+	ImportStatus                    json.RawMessage `json:"importStatus"`
+	IntegratedImportTypeExtensionId string          `json:"integratedImportTypeExtensionId"`
+	IntegratedImportTypeId          int             `json:"integratedImportTypeId"`
+	IsImportSourceSchedulingEnabled bool            `json:"isImportSourceSchedulingEnabled"`
+	Name                            string          `json:"name"`
+	ObjectSchemaId                  string          `json:"objectSchemaId"`
+	ScheduledImportDetails          string          `json:"scheduledImportDetails"`
+	TokenGenerated                  bool            `json:"tokenGenerated"`
+	Updated                         string          `json:"updated"`
+	Url                             string          `json:"url"`
+}
+
 type IncludedFields struct {
 	ActuallyIncluded json.RawMessage `json:"actuallyIncluded"`
 	Excluded         json.RawMessage `json:"excluded"`
@@ -6114,6 +6417,40 @@ type InlineCommentsUpdateResponse struct {
 
 type InputStreamSource struct {
 	InputStream json.RawMessage `json:"inputStream"`
+}
+
+type InsertMetricByMetricDefinitionRequestDto struct {
+	Annotation         string  `json:"annotation"`
+	ComponentId        string  `json:"componentId"`
+	MetricDefinitionId string  `json:"metricDefinitionId"`
+	Timestamp          string  `json:"timestamp"`
+	Title              string  `json:"title"`
+	Url                string  `json:"url"`
+	Value              float64 `json:"value"`
+}
+
+type InsertMetricByMetricSourceRequestDto struct {
+	Annotation     string  `json:"annotation"`
+	MetricSourceId string  `json:"metricSourceId"`
+	Timestamp      string  `json:"timestamp"`
+	Title          string  `json:"title"`
+	Url            string  `json:"url"`
+	Value          float64 `json:"value"`
+}
+
+type InsertMetricRequestDto struct {
+	Annotation string  `json:"annotation"`
+	Timestamp  string  `json:"timestamp"`
+	Title      string  `json:"title"`
+	Url        string  `json:"url"`
+	Value      float64 `json:"value"`
+}
+
+type InsertMetricResponseDto struct {
+	Annotation     string  `json:"annotation"`
+	MetricSourceId string  `json:"metricSourceId"`
+	Timestamp      string  `json:"timestamp"`
+	Value          float64 `json:"value"`
 }
 
 type InsightWorkspaceDTO struct {
@@ -8525,6 +8862,305 @@ type OauthClientsCountResponse struct {
 	Total int `json:"total"`
 }
 
+type Object struct {
+	Attributes  json.RawMessage `json:"attributes"`
+	Avatar      json.RawMessage `json:"avatar"`
+	Created     string          `json:"created"`
+	GlobalId    string          `json:"globalId"`
+	HasAvatar   bool            `json:"hasAvatar"`
+	Id          string          `json:"id"`
+	Label       string          `json:"label"`
+	ObjectKey   string          `json:"objectKey"`
+	ObjectType  json.RawMessage `json:"objectType"`
+	Timestamp   float64         `json:"timestamp"`
+	Updated     string          `json:"updated"`
+	WorkspaceId string          `json:"workspaceId"`
+}
+
+type ObjectAQLParams struct {
+	QlQuery string `json:"qlQuery"`
+}
+
+type ObjectAQLTotalCountParams struct {
+	QlQuery string `json:"qlQuery"`
+}
+
+type ObjectAQLTotalCountResult struct {
+	TotalCount int `json:"totalCount"`
+}
+
+type ObjectAttribute struct {
+	GlobalId              string          `json:"globalId"`
+	Id                    string          `json:"id"`
+	ObjectAttributeValues json.RawMessage `json:"objectAttributeValues"`
+	ObjectTypeAttribute   json.RawMessage `json:"objectTypeAttribute"`
+	ObjectTypeAttributeId string          `json:"objectTypeAttributeId"`
+	WorkspaceId           string          `json:"workspaceId"`
+}
+
+type ObjectAttributeIn struct {
+	ObjectAttributeValues json.RawMessage `json:"objectAttributeValues"`
+	ObjectTypeAttributeId string          `json:"objectTypeAttributeId"`
+}
+
+type ObjectAttributeValue struct {
+	AdditionalValue  string          `json:"additionalValue"`
+	DisplayValue     string          `json:"displayValue"`
+	Group            json.RawMessage `json:"group"`
+	ReferencedObject json.RawMessage `json:"referencedObject"`
+	SearchValue      string          `json:"searchValue"`
+	Status           json.RawMessage `json:"status"`
+	User             json.RawMessage `json:"user"`
+	Value            string          `json:"value"`
+}
+
+type ObjectAttributeValueIn struct {
+	Value string `json:"value"`
+}
+
+type ObjectFilterParams struct {
+	Asc                 int             `json:"asc"`
+	AttributesToDisplay json.RawMessage `json:"attributesToDisplay"`
+	IncludeAttributes   bool            `json:"includeAttributes"`
+	Iql                 string          `json:"iql"`
+	ObjectId            string          `json:"objectId"`
+	ObjectSchemaId      string          `json:"objectSchemaId"`
+	ObjectTypeId        string          `json:"objectTypeId"`
+	OrderByTypeAttrId   int             `json:"orderByTypeAttrId"`
+	Page                int             `json:"page"`
+	QlQuery             string          `json:"qlQuery"`
+	ResultsPerPage      int             `json:"resultsPerPage"`
+}
+
+type ObjectHistory struct {
+	Actor             json.RawMessage `json:"actor"`
+	AffectedAttribute string          `json:"affectedAttribute"`
+	Created           string          `json:"created"`
+	Id                string          `json:"id"`
+	NewValue          string          `json:"newValue"`
+	ObjectId          string          `json:"objectId"`
+	OldValue          string          `json:"oldValue"`
+	Type              int             `json:"type"`
+}
+
+type ObjectIn struct {
+	Attributes   json.RawMessage `json:"attributes"`
+	AvatarUUID   string          `json:"avatarUUID"`
+	HasAvatar    bool            `json:"hasAvatar"`
+	ObjectTypeId string          `json:"objectTypeId"`
+}
+
+type ObjectListInclTypeAttributesEntryResult struct {
+	IsLast               bool            `json:"isLast"`
+	Last                 bool            `json:"last"`
+	MaxResults           int             `json:"maxResults"`
+	ObjectTypeAttributes json.RawMessage `json:"objectTypeAttributes"`
+	StartAt              int             `json:"startAt"`
+	Total                int             `json:"total"`
+	Values               json.RawMessage `json:"values"`
+}
+
+type ObjectListResult struct {
+	AbstractObjectType    bool            `json:"abstractObjectType"`
+	ConversionPossible    bool            `json:"conversionPossible"`
+	Filters               json.RawMessage `json:"filters"`
+	InheritanceTree       json.RawMessage `json:"inheritanceTree"`
+	Iql                   string          `json:"iql"`
+	IqlSearchResult       bool            `json:"iqlSearchResult"`
+	MatchedFilterValues   json.RawMessage `json:"matchedFilterValues"`
+	ObjectEntries         json.RawMessage `json:"objectEntries"`
+	ObjectTypeAttributes  json.RawMessage `json:"objectTypeAttributes"`
+	ObjectTypeId          string          `json:"objectTypeId"`
+	ObjectTypeIsInherited bool            `json:"objectTypeIsInherited"`
+	OrderByTypeAttrId     int             `json:"orderByTypeAttrId"`
+	OrderWay              string          `json:"orderWay"`
+	PageNumber            int             `json:"pageNumber"`
+	PageObjectSize        int             `json:"pageObjectSize"`
+	QlQuery               string          `json:"qlQuery"`
+	QlQuerySearchResult   bool            `json:"qlQuerySearchResult"`
+	StartIndex            int             `json:"startIndex"`
+	ToIndex               int             `json:"toIndex"`
+	TotalFilterCount      int             `json:"totalFilterCount"`
+}
+
+type ObjectReferenceTypeInfo struct {
+	NumberOfReferencedObjects int             `json:"numberOfReferencedObjects"`
+	ObjectType                json.RawMessage `json:"objectType"`
+	OpenIssuesExists          bool            `json:"openIssuesExists"`
+	ReferenceTypes            json.RawMessage `json:"referenceTypes"`
+}
+
+type ObjectSchema struct {
+	CanManage       bool   `json:"canManage"`
+	Created         string `json:"created"`
+	Description     string `json:"description"`
+	DisplayName     string `json:"displayName"`
+	GlobalId        string `json:"globalId"`
+	Id              string `json:"id"`
+	Name            string `json:"name"`
+	ObjectCount     int    `json:"objectCount"`
+	ObjectSchemaKey string `json:"objectSchemaKey"`
+	ObjectTypeCount int    `json:"objectTypeCount"`
+	Status          string `json:"status"`
+	Updated         string `json:"updated"`
+	WorkspaceId     string `json:"workspaceId"`
+}
+
+type ObjectSchemaIn struct {
+	Description     string `json:"description"`
+	DisplayName     string `json:"displayName"`
+	Name            string `json:"name"`
+	ObjectSchemaKey string `json:"objectSchemaKey"`
+}
+
+type ObjectSchemaList struct {
+	IsLast     bool            `json:"isLast"`
+	Last       bool            `json:"last"`
+	MaxResults int             `json:"maxResults"`
+	StartAt    int             `json:"startAt"`
+	Total      int             `json:"total"`
+	Values     json.RawMessage `json:"values"`
+}
+
+type ObjectSchemaUpdate struct {
+	Description     string `json:"description"`
+	DisplayName     string `json:"displayName"`
+	Name            string `json:"name"`
+	ObjectSchemaKey string `json:"objectSchemaKey"`
+}
+
+type ObjectType struct {
+	AbstractObjectType        bool            `json:"abstractObjectType"`
+	Created                   string          `json:"created"`
+	Description               string          `json:"description"`
+	DisplayName               string          `json:"displayName"`
+	GlobalId                  string          `json:"globalId"`
+	Icon                      json.RawMessage `json:"icon"`
+	Id                        string          `json:"id"`
+	Inherited                 bool            `json:"inherited"`
+	Name                      string          `json:"name"`
+	ObjectCount               int             `json:"objectCount"`
+	ObjectSchemaId            string          `json:"objectSchemaId"`
+	ParentObjectTypeId        int             `json:"parentObjectTypeId"`
+	ParentObjectTypeInherited bool            `json:"parentObjectTypeInherited"`
+	Position                  int             `json:"position"`
+	Type                      int             `json:"type"`
+	Updated                   string          `json:"updated"`
+	WorkspaceId               string          `json:"workspaceId"`
+}
+
+type ObjectTypeAttribute struct {
+	AdditionalValue         string          `json:"additionalValue"`
+	DefaultType             json.RawMessage `json:"defaultType"`
+	Description             string          `json:"description"`
+	DisplayName             string          `json:"displayName"`
+	Editable                bool            `json:"editable"`
+	GlobalId                string          `json:"globalId"`
+	Hidden                  bool            `json:"hidden"`
+	Id                      string          `json:"id"`
+	IncludeChildObjectTypes bool            `json:"includeChildObjectTypes"`
+	Indexed                 bool            `json:"indexed"`
+	Iql                     string          `json:"iql"`
+	Label                   bool            `json:"label"`
+	MaximumCardinality      int             `json:"maximumCardinality"`
+	MinimumCardinality      int             `json:"minimumCardinality"`
+	Name                    string          `json:"name"`
+	ObjectAttributeExists   bool            `json:"objectAttributeExists"`
+	ObjectType              json.RawMessage `json:"objectType"`
+	Options                 string          `json:"options"`
+	Position                int             `json:"position"`
+	QlQuery                 string          `json:"qlQuery"`
+	ReferenceObjectType     json.RawMessage `json:"referenceObjectType"`
+	ReferenceObjectTypeId   string          `json:"referenceObjectTypeId"`
+	ReferenceType           json.RawMessage `json:"referenceType"`
+	RegexValidation         string          `json:"regexValidation"`
+	Removable               bool            `json:"removable"`
+	Sortable                bool            `json:"sortable"`
+	Suffix                  string          `json:"suffix"`
+	Summable                bool            `json:"summable"`
+	System                  bool            `json:"system"`
+	Type                    int             `json:"type"`
+	TypeValue               string          `json:"typeValue"`
+	TypeValueMulti          json.RawMessage `json:"typeValueMulti"`
+	UniqueAttribute         bool            `json:"uniqueAttribute"`
+	WorkspaceId             string          `json:"workspaceId"`
+}
+
+type ObjectTypeAttributeCreate struct {
+	AdditionalValue         string          `json:"additionalValue"`
+	DefaultTypeId           int             `json:"defaultTypeId"`
+	Description             string          `json:"description"`
+	DisplayName             string          `json:"displayName"`
+	Hidden                  bool            `json:"hidden"`
+	IncludeChildObjectTypes bool            `json:"includeChildObjectTypes"`
+	Iql                     string          `json:"iql"`
+	Label                   bool            `json:"label"`
+	MaximumCardinality      int             `json:"maximumCardinality"`
+	MinimumCardinality      int             `json:"minimumCardinality"`
+	Name                    string          `json:"name"`
+	Options                 string          `json:"options"`
+	QlQuery                 string          `json:"qlQuery"`
+	RegexValidation         string          `json:"regexValidation"`
+	Suffix                  string          `json:"suffix"`
+	Summable                bool            `json:"summable"`
+	Type                    int             `json:"type"`
+	TypeValue               string          `json:"typeValue"`
+	TypeValueMulti          json.RawMessage `json:"typeValueMulti"`
+	UniqueAttribute         bool            `json:"uniqueAttribute"`
+}
+
+type ObjectTypeAttributeUpdate struct {
+	AdditionalValue         string          `json:"additionalValue"`
+	DefaultTypeId           int             `json:"defaultTypeId"`
+	Description             string          `json:"description"`
+	DisplayName             string          `json:"displayName"`
+	Hidden                  bool            `json:"hidden"`
+	IncludeChildObjectTypes bool            `json:"includeChildObjectTypes"`
+	Iql                     string          `json:"iql"`
+	Label                   bool            `json:"label"`
+	MaximumCardinality      int             `json:"maximumCardinality"`
+	MinimumCardinality      int             `json:"minimumCardinality"`
+	Name                    string          `json:"name"`
+	Options                 string          `json:"options"`
+	QlQuery                 string          `json:"qlQuery"`
+	RegexValidation         string          `json:"regexValidation"`
+	Suffix                  string          `json:"suffix"`
+	Summable                bool            `json:"summable"`
+	Type                    int             `json:"type"`
+	TypeValue               string          `json:"typeValue"`
+	TypeValueMulti          json.RawMessage `json:"typeValueMulti"`
+	UniqueAttribute         bool            `json:"uniqueAttribute"`
+}
+
+type ObjectTypeAttributesToDisplay struct {
+	AttributesToDisplayIds json.RawMessage `json:"attributesToDisplayIds"`
+}
+
+type ObjectTypeIn struct {
+	AbstractObjectType bool   `json:"abstractObjectType"`
+	Description        string `json:"description"`
+	DisplayName        string `json:"displayName"`
+	IconId             string `json:"iconId"`
+	Inherited          bool   `json:"inherited"`
+	Name               string `json:"name"`
+	ObjectSchemaId     string `json:"objectSchemaId"`
+	ParentObjectTypeId string `json:"parentObjectTypeId"`
+}
+
+type ObjectTypePosition struct {
+	Position       int    `json:"position"`
+	ToObjectTypeId string `json:"toObjectTypeId"`
+}
+
+type ObjectTypeUpdate struct {
+	AbstractObjectType bool   `json:"abstractObjectType"`
+	Description        string `json:"description"`
+	DisplayName        string `json:"displayName"`
+	IconId             string `json:"iconId"`
+	Inherited          bool   `json:"inherited"`
+	Name               string `json:"name"`
+}
+
 type OldToNewSecurityLevelMappingsBean struct {
 	NewLevelId string `json:"newLevelId"`
 	OldLevelId string `json:"oldLevelId"`
@@ -10125,6 +10761,28 @@ type ProductVersionLinks struct {
 	View         json.RawMessage `json:"view"`
 }
 
+type Progress struct {
+	Actor                     string          `json:"actor"`
+	Category                  string          `json:"category"`
+	CurrentStep               int             `json:"currentStep"`
+	CurrentStepTotalWorkUnits int             `json:"currentStepTotalWorkUnits"`
+	CurrentWorkDescription    string          `json:"currentWorkDescription"`
+	CurrentWorkUnits          int             `json:"currentWorkUnits"`
+	EstimatedFinishDate       string          `json:"estimatedFinishDate"`
+	ExecutionUUID             string          `json:"executionUUID"`
+	FinishedDate              string          `json:"finishedDate"`
+	NumberOfSteps             int             `json:"numberOfSteps"`
+	ProgressInPercent         int             `json:"progressInPercent"`
+	ResourceId                string          `json:"resourceId"`
+	Result                    string          `json:"result"`
+	ResultData                json.RawMessage `json:"resultData"`
+	ResultMessage             string          `json:"resultMessage"`
+	StartDate                 string          `json:"startDate"`
+	Status                    string          `json:"status"`
+	StepDescription           string          `json:"stepDescription"`
+	TotalWorkUnits            int             `json:"totalWorkUnits"`
+}
+
 type Project struct {
 	Archived           bool            `json:"archived"`
 	ArchivedBy         string          `json:"archivedBy"`
@@ -10718,6 +11376,38 @@ type RedactionSectionResponse struct {
 	Redactions json.RawMessage `json:"redactions"`
 }
 
+type ReferenceType struct {
+	CdmData        json.RawMessage `json:"cdmData"`
+	Color          string          `json:"color"`
+	Description    string          `json:"description"`
+	DisplayName    string          `json:"displayName"`
+	GlobalId       string          `json:"globalId"`
+	Id             string          `json:"id"`
+	Name           string          `json:"name"`
+	ObjectSchemaId string          `json:"objectSchemaId"`
+	Removable      bool            `json:"removable"`
+	Url16          string          `json:"url16"`
+	WorkspaceId    string          `json:"workspaceId"`
+}
+
+type ReferenceTypeCdmData struct {
+	Types json.RawMessage `json:"types"`
+}
+
+type ReferenceTypeCdmType struct {
+	Key         string `json:"key"`
+	Opinionated bool   `json:"opinionated"`
+	Version     int    `json:"version"`
+}
+
+type ReferenceTypeIn struct {
+	Color          string `json:"color"`
+	Description    string `json:"description"`
+	DisplayName    string `json:"displayName"`
+	Name           string `json:"name"`
+	ObjectSchemaId string `json:"objectSchemaId"`
+}
+
 type RegionWiseUserDistributionInsights struct {
 	RegionWiseUserInsightsPerMonth json.RawMessage `json:"regionWiseUserInsightsPerMonth"`
 }
@@ -11263,6 +11953,27 @@ type SaveTemplateRequest struct {
 
 type SaveTemplateResponse struct {
 	ProjectTemplateKey json.RawMessage `json:"projectTemplateKey"`
+}
+
+type ScheduleGetImportLinksResponse struct {
+	Links  json.RawMessage `json:"links"`
+	Result string          `json:"result"`
+}
+
+type ScheduledImportDetails struct {
+	CreatedAt         string `json:"createdAt"`
+	ImportScheduleId  string `json:"importScheduleId"`
+	NextScheduledTime string `json:"nextScheduledTime"`
+	RunFrequency      string `json:"runFrequency"`
+	StartTime         string `json:"startTime"`
+}
+
+type SchemaUsageInfo struct {
+	DisplayName     string `json:"displayName"`
+	ObjectCount     int    `json:"objectCount"`
+	SchemaCreatedAt string `json:"schemaCreatedAt"`
+	SchemaId        int    `json:"schemaId"`
+	SchemaName      string `json:"schemaName"`
 }
 
 type ScimError struct {
@@ -12491,6 +13202,14 @@ type StatusDetails struct {
 	StatusCategory string `json:"statusCategory"`
 }
 
+type StatusIn struct {
+	Category       int    `json:"category"`
+	Description    string `json:"description"`
+	DisplayName    string `json:"displayName"`
+	Name           string `json:"name"`
+	ObjectSchemaId string `json:"objectSchemaId"`
+}
+
 type StatusLayoutUpdate struct {
 	ApprovalConfiguration json.RawMessage `json:"approvalConfiguration"`
 	Layout                json.RawMessage `json:"layout"`
@@ -12849,6 +13568,11 @@ type TaskStatusUpdate struct {
 	Status string `json:"status"`
 }
 
+type TenantUsageResponse struct {
+	PerSchemaUsageInfo json.RawMessage `json:"perSchemaUsageInfo"`
+	TotalObjectsCount  int             `json:"totalObjectsCount"`
+}
+
 type Theme struct {
 	Description string          `json:"description"`
 	Icon        json.RawMessage `json:"icon"`
@@ -12893,6 +13617,42 @@ type Throwable struct {
 	Message          string          `json:"message"`
 	StackTrace       json.RawMessage `json:"stackTrace"`
 	Suppressed       json.RawMessage `json:"suppressed"`
+}
+
+type Ticket struct {
+	Created     string          `json:"created"`
+	GlobalId    string          `json:"globalId"`
+	Id          string          `json:"id"`
+	Key         string          `json:"key"`
+	Priority    json.RawMessage `json:"priority"`
+	Reporter    string          `json:"reporter"`
+	Status      json.RawMessage `json:"status"`
+	Title       string          `json:"title"`
+	Type        json.RawMessage `json:"type"`
+	Updated     string          `json:"updated"`
+	WorkspaceId string          `json:"workspaceId"`
+}
+
+type TicketPriority struct {
+	IconUrl string `json:"iconUrl"`
+	Name    string `json:"name"`
+}
+
+type TicketStatus struct {
+	ColorName   string `json:"colorName"`
+	Description string `json:"description"`
+	Name        string `json:"name"`
+}
+
+type TicketType struct {
+	Description string `json:"description"`
+	IconUrl     string `json:"iconUrl"`
+	Name        string `json:"name"`
+}
+
+type Tickets struct {
+	AllTicketsQuery string          `json:"allTicketsQuery"`
+	Tickets         json.RawMessage `json:"tickets"`
 }
 
 type TierInsightsReportingLink struct {
@@ -14838,6 +15598,58 @@ type access_Links struct {
 	Self string `json:"self"`
 }
 
+type api_Avatar struct {
+	AvatarUUID  string `json:"avatarUUID"`
+	GlobalId    string `json:"globalId"`
+	Id          string `json:"id"`
+	ObjectId    string `json:"objectId"`
+	Url144      string `json:"url144"`
+	Url16       string `json:"url16"`
+	Url288      string `json:"url288"`
+	Url48       string `json:"url48"`
+	Url72       string `json:"url72"`
+	WorkspaceId string `json:"workspaceId"`
+}
+
+type api_Errors struct {
+	ErrorMessages json.RawMessage `json:"errorMessages"`
+	Errors        json.RawMessage `json:"errors"`
+}
+
+type api_Group struct {
+	AvatarUrl string `json:"avatarUrl"`
+	Name      string `json:"name"`
+}
+
+type api_Icon struct {
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+	Url16 string `json:"url16"`
+	Url48 string `json:"url48"`
+}
+
+type api_Status struct {
+	Category       int    `json:"category"`
+	Description    string `json:"description"`
+	DisplayName    string `json:"displayName"`
+	Id             string `json:"id"`
+	Name           string `json:"name"`
+	ObjectSchemaId string `json:"objectSchemaId"`
+}
+
+type api_User struct {
+	AvatarUrl       string `json:"avatarUrl"`
+	DisplayName     string `json:"displayName"`
+	EmailAddress    string `json:"emailAddress"`
+	Html            string `json:"html"`
+	IsDeleted       bool   `json:"isDeleted"`
+	Key             string `json:"key"`
+	LastSeenVersion string `json:"lastSeenVersion"`
+	Name            string `json:"name"`
+	RenderedLink    string `json:"renderedLink"`
+	Self            string `json:"self"`
+}
+
 type appTrustInformation struct {
 	DataAccessAndStorage  json.RawMessage `json:"dataAccessAndStorage"`
 	DataResidency         json.RawMessage `json:"dataResidency"`
@@ -14961,6 +15773,12 @@ type atlassian_marketplace_License struct {
 type cloudMigrationAssistantCompatibilityRange struct {
 	End   string `json:"end"`
 	Start string `json:"start"`
+}
+
+type compass_Attachment struct {
+	LastModifiedAt string `json:"lastModifiedAt"`
+	Name           string `json:"name"`
+	Url            string `json:"url"`
 }
 
 type confluence_cloud_ConnectModule struct {

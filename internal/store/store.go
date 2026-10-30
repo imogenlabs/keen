@@ -275,6 +275,35 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "announcement_banner", column: "is_enabled", decl: "INTEGER"},
 		{table: "announcement_banner", column: "message", decl: "TEXT"},
 		{table: "announcement_banner", column: "visibility", decl: "TEXT"},
+		{table: "api_config", column: "color", decl: "TEXT"},
+		{table: "api_config", column: "description", decl: "TEXT"},
+		{table: "api_config", column: "display_name", decl: "TEXT"},
+		{table: "api_config", column: "global_id", decl: "TEXT"},
+		{table: "api_config", column: "name", decl: "TEXT"},
+		{table: "api_config", column: "object_schema_id", decl: "TEXT"},
+		{table: "api_config", column: "removable", decl: "INTEGER"},
+		{table: "api_config", column: "url16", decl: "TEXT"},
+		{table: "api_config", column: "workspace_id", decl: "TEXT"},
+		{table: "api_config", column: "icon", decl: "TEXT"},
+		{table: "api_config", column: "resolved", decl: "INTEGER"},
+		{table: "api_import", column: "actor", decl: "TEXT"},
+		{table: "api_import", column: "category", decl: "TEXT"},
+		{table: "api_import", column: "current_step", decl: "INTEGER"},
+		{table: "api_import", column: "current_step_total_work_units", decl: "INTEGER"},
+		{table: "api_import", column: "current_work_description", decl: "TEXT"},
+		{table: "api_import", column: "current_work_units", decl: "INTEGER"},
+		{table: "api_import", column: "estimated_finish_date", decl: "DATETIME"},
+		{table: "api_import", column: "execution_uuid", decl: "TEXT"},
+		{table: "api_import", column: "finished_date", decl: "DATETIME"},
+		{table: "api_import", column: "number_of_steps", decl: "INTEGER"},
+		{table: "api_import", column: "progress_in_percent", decl: "INTEGER"},
+		{table: "api_import", column: "resource_id", decl: "TEXT"},
+		{table: "api_import", column: "result", decl: "TEXT"},
+		{table: "api_import", column: "result_message", decl: "TEXT"},
+		{table: "api_import", column: "start_date", decl: "DATETIME"},
+		{table: "api_import", column: "status", decl: "TEXT"},
+		{table: "api_import", column: "step_description", decl: "TEXT"},
+		{table: "api_import", column: "total_work_units", decl: "INTEGER"},
 		{table: "api_keys", column: "created_at", decl: "TEXT"},
 		{table: "api_keys", column: "expires_at", decl: "TEXT"},
 		{table: "api_keys", column: "label", decl: "TEXT"},
@@ -315,6 +344,21 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "applications", column: "type", decl: "TEXT"},
 		{table: "applications_versions", column: "applications_id", decl: "TEXT"},
 		{table: "applications_versions", column: "parent_id", decl: "TEXT"},
+		{table: "aql", column: "abstract_object_type", decl: "INTEGER"},
+		{table: "aql", column: "conversion_possible", decl: "INTEGER"},
+		{table: "aql", column: "iql", decl: "TEXT"},
+		{table: "aql", column: "iql_search_result", decl: "INTEGER"},
+		{table: "aql", column: "object_type_id", decl: "TEXT"},
+		{table: "aql", column: "object_type_is_inherited", decl: "INTEGER"},
+		{table: "aql", column: "order_by_type_attr_id", decl: "INTEGER"},
+		{table: "aql", column: "order_way", decl: "TEXT"},
+		{table: "aql", column: "page_number", decl: "INTEGER"},
+		{table: "aql", column: "page_object_size", decl: "INTEGER"},
+		{table: "aql", column: "ql_query", decl: "TEXT"},
+		{table: "aql", column: "ql_query_search_result", decl: "INTEGER"},
+		{table: "aql", column: "start_index", decl: "INTEGER"},
+		{table: "aql", column: "to_index", decl: "INTEGER"},
+		{table: "aql", column: "total_filter_count", decl: "INTEGER"},
 		{table: "atlassian_access_events", column: "action", decl: "TEXT"},
 		{table: "atlassian_access_events", column: "time", decl: "DATETIME"},
 		{table: "atlassian_access_events", column: "parent_id", decl: "TEXT"},
@@ -451,6 +495,14 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "comment", column: "total", decl: "INTEGER"},
 		{table: "comment_properties", column: "comment_id", decl: "TEXT"},
 		{table: "comments_properties", column: "comments_id", decl: "TEXT"},
+		{table: "compass", column: "author", decl: "TEXT"},
+		{table: "compass", column: "content", decl: "TEXT"},
+		{table: "compass", column: "created", decl: "DATETIME"},
+		{table: "compass", column: "filename", decl: "TEXT"},
+		{table: "compass", column: "mime_type", decl: "TEXT"},
+		{table: "compass", column: "self", decl: "TEXT"},
+		{table: "compass", column: "size", decl: "INTEGER"},
+		{table: "compass", column: "thumbnail", decl: "TEXT"},
 		{table: "component", column: "is_last", decl: "INTEGER"},
 		{table: "component", column: "max_results", decl: "INTEGER"},
 		{table: "component", column: "next_page", decl: "TEXT"},
@@ -748,6 +800,40 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "group", column: "group_id", decl: "TEXT"},
 		{table: "group", column: "name", decl: "TEXT"},
 		{table: "group", column: "users", decl: "TEXT"},
+		{table: "icon", column: "link", decl: "TEXT"},
+		{table: "icon", column: "title", decl: "TEXT"},
+		{table: "icon", column: "url16x16", decl: "TEXT"},
+		{table: "icon_png", column: "icon_id", decl: "TEXT"},
+		{table: "importsource", column: "collection_id", decl: "TEXT"},
+		{table: "importsource", column: "created", decl: "DATETIME"},
+		{table: "importsource", column: "date_format", decl: "TEXT"},
+		{table: "importsource", column: "date_time_format", decl: "TEXT"},
+		{table: "importsource", column: "default_concatenator", decl: "TEXT"},
+		{table: "importsource", column: "default_handle_compute_issue_values", decl: "TEXT"},
+		{table: "importsource", column: "default_handle_empty_values", decl: "TEXT"},
+		{table: "importsource", column: "default_handle_not_mapped_values", decl: "TEXT"},
+		{table: "importsource", column: "default_handle_null_values", decl: "TEXT"},
+		{table: "importsource", column: "default_handle_unknown_values", decl: "TEXT"},
+		{table: "importsource", column: "description", decl: "TEXT"},
+		{table: "importsource", column: "import_execution_type", decl: "TEXT"},
+		{table: "importsource", column: "import_source_module_key", decl: "TEXT"},
+		{table: "importsource", column: "import_specific_configuration", decl: "TEXT"},
+		{table: "importsource", column: "integrated_import_type_extension_id", decl: "TEXT"},
+		{table: "importsource", column: "integrated_import_type_id", decl: "INTEGER"},
+		{table: "importsource", column: "is_import_source_scheduling_enabled", decl: "INTEGER"},
+		{table: "importsource", column: "name", decl: "TEXT"},
+		{table: "importsource", column: "object_schema_id", decl: "TEXT"},
+		{table: "importsource", column: "scheduled_import_details", decl: "TEXT"},
+		{table: "importsource", column: "token_generated", decl: "INTEGER"},
+		{table: "importsource", column: "updated", decl: "DATETIME"},
+		{table: "importsource", column: "url", decl: "TEXT"},
+		{table: "configstatus", column: "importsource_id", decl: "TEXT"},
+		{table: "executions", column: "importsource_id", decl: "TEXT"},
+		{table: "importschedule", column: "importsource_id", decl: "TEXT"},
+		{table: "importsource_mapping", column: "importsource_id", decl: "TEXT"},
+		{table: "schedule", column: "importsource_id", decl: "TEXT"},
+		{table: "schema_and_mapping", column: "importsource_id", decl: "TEXT"},
+		{table: "token", column: "importsource_id", decl: "TEXT"},
 		{table: "inline_comments", column: "blog_post_id", decl: "TEXT"},
 		{table: "inline_comments", column: "page_id", decl: "TEXT"},
 		{table: "inline_comments", column: "parent_comment_id", decl: "TEXT"},
@@ -763,6 +849,21 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "inline_comments_operations", column: "inline_comments_id", decl: "TEXT"},
 		{table: "inline_comments_versions", column: "inline_comments_id", decl: "TEXT"},
 		{table: "inline_comments_versions", column: "parent_id", decl: "TEXT"},
+		{table: "iql", column: "abstract_object_type", decl: "INTEGER"},
+		{table: "iql", column: "conversion_possible", decl: "INTEGER"},
+		{table: "iql", column: "iql", decl: "TEXT"},
+		{table: "iql", column: "iql_search_result", decl: "INTEGER"},
+		{table: "iql", column: "object_type_id", decl: "TEXT"},
+		{table: "iql", column: "object_type_is_inherited", decl: "INTEGER"},
+		{table: "iql", column: "order_by_type_attr_id", decl: "INTEGER"},
+		{table: "iql", column: "order_way", decl: "TEXT"},
+		{table: "iql", column: "page_number", decl: "INTEGER"},
+		{table: "iql", column: "page_object_size", decl: "INTEGER"},
+		{table: "iql", column: "ql_query", decl: "TEXT"},
+		{table: "iql", column: "ql_query_search_result", decl: "INTEGER"},
+		{table: "iql", column: "start_index", decl: "INTEGER"},
+		{table: "iql", column: "to_index", decl: "INTEGER"},
+		{table: "iql", column: "total_filter_count", decl: "INTEGER"},
 		{table: "issue", column: "changelog", decl: "TEXT"},
 		{table: "issue", column: "editmeta", decl: "TEXT"},
 		{table: "issue", column: "expand", decl: "TEXT"},
@@ -933,6 +1034,82 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "notificationscheme", column: "total", decl: "INTEGER"},
 		{table: "notification", column: "notificationscheme_id", decl: "TEXT"},
 		{table: "oauth_clients", column: "total", decl: "INTEGER"},
+		{table: "object", column: "created", decl: "DATETIME"},
+		{table: "object", column: "global_id", decl: "TEXT"},
+		{table: "object", column: "has_avatar", decl: "INTEGER"},
+		{table: "object", column: "label", decl: "TEXT"},
+		{table: "object", column: "object_key", decl: "TEXT"},
+		{table: "object", column: "timestamp", decl: "REAL"},
+		{table: "object", column: "updated", decl: "DATETIME"},
+		{table: "object", column: "workspace_id", decl: "TEXT"},
+		{table: "object_attributes", column: "object_id", decl: "TEXT"},
+		{table: "history", column: "object_id", decl: "TEXT"},
+		{table: "referenceinfo", column: "object_id", decl: "TEXT"},
+		{table: "tickets", column: "objectconnectedtickets_id", decl: "TEXT"},
+		{table: "objectschema", column: "can_manage", decl: "INTEGER"},
+		{table: "objectschema", column: "created", decl: "DATETIME"},
+		{table: "objectschema", column: "description", decl: "TEXT"},
+		{table: "objectschema", column: "display_name", decl: "TEXT"},
+		{table: "objectschema", column: "global_id", decl: "TEXT"},
+		{table: "objectschema", column: "name", decl: "TEXT"},
+		{table: "objectschema", column: "object_count", decl: "INTEGER"},
+		{table: "objectschema", column: "object_schema_key", decl: "TEXT"},
+		{table: "objectschema", column: "object_type_count", decl: "INTEGER"},
+		{table: "objectschema", column: "status", decl: "TEXT"},
+		{table: "objectschema", column: "updated", decl: "DATETIME"},
+		{table: "objectschema", column: "workspace_id", decl: "TEXT"},
+		{table: "objectschema", column: "is_last", decl: "INTEGER"},
+		{table: "objectschema", column: "last", decl: "INTEGER"},
+		{table: "objectschema", column: "max_results", decl: "INTEGER"},
+		{table: "objectschema", column: "start_at", decl: "INTEGER"},
+		{table: "objectschema", column: "total", decl: "INTEGER"},
+		{table: "objectschema_attributes", column: "objectschema_id", decl: "TEXT"},
+		{table: "objecttypes", column: "objectschema_id", decl: "TEXT"},
+		{table: "objecttype", column: "abstract_object_type", decl: "INTEGER"},
+		{table: "objecttype", column: "created", decl: "DATETIME"},
+		{table: "objecttype", column: "description", decl: "TEXT"},
+		{table: "objecttype", column: "display_name", decl: "TEXT"},
+		{table: "objecttype", column: "global_id", decl: "TEXT"},
+		{table: "objecttype", column: "inherited", decl: "INTEGER"},
+		{table: "objecttype", column: "name", decl: "TEXT"},
+		{table: "objecttype", column: "object_count", decl: "INTEGER"},
+		{table: "objecttype", column: "object_schema_id", decl: "TEXT"},
+		{table: "objecttype", column: "parent_object_type_id", decl: "INTEGER"},
+		{table: "objecttype", column: "parent_object_type_inherited", decl: "INTEGER"},
+		{table: "objecttype", column: "position", decl: "INTEGER"},
+		{table: "objecttype", column: "type", decl: "INTEGER"},
+		{table: "objecttype", column: "updated", decl: "DATETIME"},
+		{table: "objecttype", column: "workspace_id", decl: "TEXT"},
+		{table: "objecttype_attributes", column: "objecttype_id", decl: "TEXT"},
+		{table: "position", column: "objecttype_id", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "additional_value", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "description", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "display_name", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "editable", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "global_id", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "hidden", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "include_child_object_types", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "indexed", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "iql", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "label", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "maximum_cardinality", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "minimum_cardinality", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "name", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "object_attribute_exists", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "options", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "position", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "ql_query", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "reference_object_type_id", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "regex_validation", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "removable", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "sortable", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "suffix", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "summable", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "system", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "type", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "type_value", decl: "TEXT"},
+		{table: "objecttypeattribute", column: "unique_attribute", decl: "INTEGER"},
+		{table: "objecttypeattribute", column: "workspace_id", decl: "TEXT"},
 		{table: "operations", column: "created_date", decl: "DATETIME"},
 		{table: "operations", column: "description", decl: "TEXT"},
 		{table: "operations", column: "last_updated", decl: "DATETIME"},
@@ -1052,6 +1229,24 @@ func (s *Store) backfillColumns(ctx context.Context, conn *sql.Conn) error {
 		{table: "products", column: "build_number", decl: "INTEGER"},
 		{table: "products", column: "payment_model", decl: "TEXT"},
 		{table: "products", column: "release_date", decl: "DATETIME"},
+		{table: "progress", column: "actor", decl: "TEXT"},
+		{table: "progress", column: "category", decl: "TEXT"},
+		{table: "progress", column: "current_step", decl: "INTEGER"},
+		{table: "progress", column: "current_step_total_work_units", decl: "INTEGER"},
+		{table: "progress", column: "current_work_description", decl: "TEXT"},
+		{table: "progress", column: "current_work_units", decl: "INTEGER"},
+		{table: "progress", column: "estimated_finish_date", decl: "DATETIME"},
+		{table: "progress", column: "execution_uuid", decl: "TEXT"},
+		{table: "progress", column: "finished_date", decl: "DATETIME"},
+		{table: "progress", column: "number_of_steps", decl: "INTEGER"},
+		{table: "progress", column: "progress_in_percent", decl: "INTEGER"},
+		{table: "progress", column: "resource_id", decl: "TEXT"},
+		{table: "progress", column: "result", decl: "TEXT"},
+		{table: "progress", column: "result_message", decl: "TEXT"},
+		{table: "progress", column: "start_date", decl: "DATETIME"},
+		{table: "progress", column: "status", decl: "TEXT"},
+		{table: "progress", column: "step_description", decl: "TEXT"},
+		{table: "progress", column: "total_work_units", decl: "INTEGER"},
 		{table: "project", column: "archived", decl: "INTEGER"},
 		{table: "project", column: "archived_by", decl: "TEXT"},
 		{table: "project", column: "archived_date", decl: "DATETIME"},
@@ -1779,6 +1974,65 @@ func (s *Store) migrate(ctx context.Context) error {
 			"message" TEXT,
 			"visibility" TEXT
 		)`,
+		`CREATE TABLE IF NOT EXISTS "api_config" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"color" TEXT,
+			"description" TEXT,
+			"display_name" TEXT,
+			"global_id" TEXT,
+			"name" TEXT,
+			"object_schema_id" TEXT,
+			"removable" INTEGER,
+			"url16" TEXT,
+			"workspace_id" TEXT,
+			"icon" TEXT,
+			"resolved" INTEGER
+		)`,
+		`CREATE VIRTUAL TABLE IF NOT EXISTS "api_config_fts" USING fts5(
+			"description",
+			"name",
+			content='api_config',
+			content_rowid='rowid'
+		)`,
+		`CREATE TRIGGER IF NOT EXISTS "api_config_ai" AFTER INSERT ON "api_config" BEGIN
+			INSERT INTO "api_config_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "api_config_ad" AFTER DELETE ON "api_config" BEGIN
+			INSERT INTO "api_config_fts"("api_config_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "api_config_au" AFTER UPDATE ON "api_config" BEGIN
+			INSERT INTO "api_config_fts"("api_config_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+			INSERT INTO "api_config_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TABLE IF NOT EXISTS "api_import" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"actor" TEXT,
+			"category" TEXT,
+			"current_step" INTEGER,
+			"current_step_total_work_units" INTEGER,
+			"current_work_description" TEXT,
+			"current_work_units" INTEGER,
+			"estimated_finish_date" DATETIME,
+			"execution_uuid" TEXT,
+			"finished_date" DATETIME,
+			"number_of_steps" INTEGER,
+			"progress_in_percent" INTEGER,
+			"resource_id" TEXT,
+			"result" TEXT,
+			"result_message" TEXT,
+			"start_date" DATETIME,
+			"status" TEXT,
+			"step_description" TEXT,
+			"total_work_units" INTEGER
+		)`,
 		`CREATE TABLE IF NOT EXISTS "api_keys" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -1859,6 +2113,26 @@ func (s *Store) migrate(ctx context.Context) error {
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_applications_versions_applications_id" ON "applications_versions"("applications_id")`,
 		`CREATE INDEX IF NOT EXISTS "idx_applications_versions_parent_id" ON "applications_versions"("parent_id")`,
+		`CREATE TABLE IF NOT EXISTS "aql" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"abstract_object_type" INTEGER,
+			"conversion_possible" INTEGER,
+			"iql" TEXT,
+			"iql_search_result" INTEGER,
+			"object_type_id" TEXT,
+			"object_type_is_inherited" INTEGER,
+			"order_by_type_attr_id" INTEGER,
+			"order_way" TEXT,
+			"page_number" INTEGER,
+			"page_object_size" INTEGER,
+			"ql_query" TEXT,
+			"ql_query_search_result" INTEGER,
+			"start_index" INTEGER,
+			"to_index" INTEGER,
+			"total_filter_count" INTEGER
+		)`,
 		`CREATE TABLE IF NOT EXISTS "atlassian_access_events" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -2286,6 +2560,19 @@ func (s *Store) migrate(ctx context.Context) error {
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_comments_properties_comments_id" ON "comments_properties"("comments_id")`,
+		`CREATE TABLE IF NOT EXISTS "compass" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"author" TEXT,
+			"content" TEXT,
+			"created" DATETIME,
+			"filename" TEXT,
+			"mime_type" TEXT,
+			"self" TEXT,
+			"size" INTEGER,
+			"thumbnail" TEXT
+		)`,
 		`CREATE TABLE IF NOT EXISTS "component" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -3224,6 +3511,118 @@ func (s *Store) migrate(ctx context.Context) error {
 			"name" TEXT,
 			"users" TEXT
 		)`,
+		`CREATE TABLE IF NOT EXISTS "icon" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"link" TEXT,
+			"title" TEXT,
+			"url16x16" TEXT
+		)`,
+		`CREATE TABLE IF NOT EXISTS "icon_png" (
+			"id" TEXT PRIMARY KEY,
+			"icon_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_icon_png_icon_id" ON "icon_png"("icon_id")`,
+		`CREATE TABLE IF NOT EXISTS "importsource" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"collection_id" TEXT,
+			"created" DATETIME,
+			"date_format" TEXT,
+			"date_time_format" TEXT,
+			"default_concatenator" TEXT,
+			"default_handle_compute_issue_values" TEXT,
+			"default_handle_empty_values" TEXT,
+			"default_handle_not_mapped_values" TEXT,
+			"default_handle_null_values" TEXT,
+			"default_handle_unknown_values" TEXT,
+			"description" TEXT,
+			"import_execution_type" TEXT,
+			"import_source_module_key" TEXT,
+			"import_specific_configuration" TEXT,
+			"integrated_import_type_extension_id" TEXT,
+			"integrated_import_type_id" INTEGER,
+			"is_import_source_scheduling_enabled" INTEGER,
+			"name" TEXT,
+			"object_schema_id" TEXT,
+			"scheduled_import_details" TEXT,
+			"token_generated" INTEGER,
+			"updated" DATETIME,
+			"url" TEXT
+		)`,
+		`CREATE VIRTUAL TABLE IF NOT EXISTS "importsource_fts" USING fts5(
+			"description",
+			"name",
+			content='importsource',
+			content_rowid='rowid'
+		)`,
+		`CREATE TRIGGER IF NOT EXISTS "importsource_ai" AFTER INSERT ON "importsource" BEGIN
+			INSERT INTO "importsource_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "importsource_ad" AFTER DELETE ON "importsource" BEGIN
+			INSERT INTO "importsource_fts"("importsource_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "importsource_au" AFTER UPDATE ON "importsource" BEGIN
+			INSERT INTO "importsource_fts"("importsource_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+			INSERT INTO "importsource_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TABLE IF NOT EXISTS "configstatus" (
+			"id" TEXT PRIMARY KEY,
+			"importsource_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_configstatus_importsource_id" ON "configstatus"("importsource_id")`,
+		`CREATE TABLE IF NOT EXISTS "executions" (
+			"id" TEXT PRIMARY KEY,
+			"importsource_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_executions_importsource_id" ON "executions"("importsource_id")`,
+		`CREATE TABLE IF NOT EXISTS "importschedule" (
+			"id" TEXT PRIMARY KEY,
+			"importsource_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_importschedule_importsource_id" ON "importschedule"("importsource_id")`,
+		`CREATE TABLE IF NOT EXISTS "importsource_mapping" (
+			"id" TEXT PRIMARY KEY,
+			"importsource_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_importsource_mapping_importsource_id" ON "importsource_mapping"("importsource_id")`,
+		`CREATE TABLE IF NOT EXISTS "schedule" (
+			"id" TEXT PRIMARY KEY,
+			"importsource_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_schedule_importsource_id" ON "schedule"("importsource_id")`,
+		`CREATE TABLE IF NOT EXISTS "schema_and_mapping" (
+			"id" TEXT PRIMARY KEY,
+			"importsource_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_schema_and_mapping_importsource_id" ON "schema_and_mapping"("importsource_id")`,
+		`CREATE TABLE IF NOT EXISTS "token" (
+			"id" TEXT PRIMARY KEY,
+			"importsource_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_token_importsource_id" ON "token"("importsource_id")`,
 		`CREATE TABLE IF NOT EXISTS "inline_comments" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -3271,6 +3670,26 @@ func (s *Store) migrate(ctx context.Context) error {
 		)`,
 		`CREATE INDEX IF NOT EXISTS "idx_inline_comments_versions_inline_comments_id" ON "inline_comments_versions"("inline_comments_id")`,
 		`CREATE INDEX IF NOT EXISTS "idx_inline_comments_versions_parent_id" ON "inline_comments_versions"("parent_id")`,
+		`CREATE TABLE IF NOT EXISTS "iql" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"abstract_object_type" INTEGER,
+			"conversion_possible" INTEGER,
+			"iql" TEXT,
+			"iql_search_result" INTEGER,
+			"object_type_id" TEXT,
+			"object_type_is_inherited" INTEGER,
+			"order_by_type_attr_id" INTEGER,
+			"order_way" TEXT,
+			"page_number" INTEGER,
+			"page_object_size" INTEGER,
+			"ql_query" TEXT,
+			"ql_query_search_result" INTEGER,
+			"start_index" INTEGER,
+			"to_index" INTEGER,
+			"total_filter_count" INTEGER
+		)`,
 		`CREATE TABLE IF NOT EXISTS "issue" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -3827,6 +4246,211 @@ func (s *Store) migrate(ctx context.Context) error {
 			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
 			"total" INTEGER
 		)`,
+		`CREATE TABLE IF NOT EXISTS "object" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"created" DATETIME,
+			"global_id" TEXT,
+			"has_avatar" INTEGER,
+			"label" TEXT,
+			"object_key" TEXT,
+			"timestamp" REAL,
+			"updated" DATETIME,
+			"workspace_id" TEXT
+		)`,
+		`CREATE TABLE IF NOT EXISTS "object_attributes" (
+			"id" TEXT PRIMARY KEY,
+			"object_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_object_attributes_object_id" ON "object_attributes"("object_id")`,
+		`CREATE TABLE IF NOT EXISTS "history" (
+			"id" TEXT PRIMARY KEY,
+			"object_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_history_object_id" ON "history"("object_id")`,
+		`CREATE TABLE IF NOT EXISTS "referenceinfo" (
+			"id" TEXT PRIMARY KEY,
+			"object_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_referenceinfo_object_id" ON "referenceinfo"("object_id")`,
+		`CREATE TABLE IF NOT EXISTS "tickets" (
+			"id" TEXT PRIMARY KEY,
+			"objectconnectedtickets_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_tickets_objectconnectedtickets_id" ON "tickets"("objectconnectedtickets_id")`,
+		`CREATE TABLE IF NOT EXISTS "objectschema" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"can_manage" INTEGER,
+			"created" DATETIME,
+			"description" TEXT,
+			"display_name" TEXT,
+			"global_id" TEXT,
+			"name" TEXT,
+			"object_count" INTEGER,
+			"object_schema_key" TEXT,
+			"object_type_count" INTEGER,
+			"status" TEXT,
+			"updated" DATETIME,
+			"workspace_id" TEXT,
+			"is_last" INTEGER,
+			"last" INTEGER,
+			"max_results" INTEGER,
+			"start_at" INTEGER,
+			"total" INTEGER
+		)`,
+		`CREATE VIRTUAL TABLE IF NOT EXISTS "objectschema_fts" USING fts5(
+			"description",
+			"name",
+			content='objectschema',
+			content_rowid='rowid'
+		)`,
+		`CREATE TRIGGER IF NOT EXISTS "objectschema_ai" AFTER INSERT ON "objectschema" BEGIN
+			INSERT INTO "objectschema_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "objectschema_ad" AFTER DELETE ON "objectschema" BEGIN
+			INSERT INTO "objectschema_fts"("objectschema_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "objectschema_au" AFTER UPDATE ON "objectschema" BEGIN
+			INSERT INTO "objectschema_fts"("objectschema_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+			INSERT INTO "objectschema_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TABLE IF NOT EXISTS "objectschema_attributes" (
+			"id" TEXT PRIMARY KEY,
+			"objectschema_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_objectschema_attributes_objectschema_id" ON "objectschema_attributes"("objectschema_id")`,
+		`CREATE TABLE IF NOT EXISTS "objecttypes" (
+			"id" TEXT PRIMARY KEY,
+			"objectschema_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_objecttypes_objectschema_id" ON "objecttypes"("objectschema_id")`,
+		`CREATE TABLE IF NOT EXISTS "objecttype" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"abstract_object_type" INTEGER,
+			"created" DATETIME,
+			"description" TEXT,
+			"display_name" TEXT,
+			"global_id" TEXT,
+			"inherited" INTEGER,
+			"name" TEXT,
+			"object_count" INTEGER,
+			"object_schema_id" TEXT,
+			"parent_object_type_id" INTEGER,
+			"parent_object_type_inherited" INTEGER,
+			"position" INTEGER,
+			"type" INTEGER,
+			"updated" DATETIME,
+			"workspace_id" TEXT
+		)`,
+		`CREATE VIRTUAL TABLE IF NOT EXISTS "objecttype_fts" USING fts5(
+			"description",
+			"name",
+			content='objecttype',
+			content_rowid='rowid'
+		)`,
+		`CREATE TRIGGER IF NOT EXISTS "objecttype_ai" AFTER INSERT ON "objecttype" BEGIN
+			INSERT INTO "objecttype_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "objecttype_ad" AFTER DELETE ON "objecttype" BEGIN
+			INSERT INTO "objecttype_fts"("objecttype_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "objecttype_au" AFTER UPDATE ON "objecttype" BEGIN
+			INSERT INTO "objecttype_fts"("objecttype_fts", rowid, "description", "name")
+			VALUES ('delete', old.rowid,old."description", old."name");
+			INSERT INTO "objecttype_fts"(rowid, "description", "name")
+			VALUES (new.rowid,new."description", new."name");
+		END`,
+		`CREATE TABLE IF NOT EXISTS "objecttype_attributes" (
+			"id" TEXT PRIMARY KEY,
+			"objecttype_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_objecttype_attributes_objecttype_id" ON "objecttype_attributes"("objecttype_id")`,
+		`CREATE TABLE IF NOT EXISTS "position" (
+			"id" TEXT PRIMARY KEY,
+			"objecttype_id" TEXT NOT NULL,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS "idx_position_objecttype_id" ON "position"("objecttype_id")`,
+		`CREATE TABLE IF NOT EXISTS "objecttypeattribute" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"additional_value" TEXT,
+			"description" TEXT,
+			"display_name" TEXT,
+			"editable" INTEGER,
+			"global_id" TEXT,
+			"hidden" INTEGER,
+			"include_child_object_types" INTEGER,
+			"indexed" INTEGER,
+			"iql" TEXT,
+			"label" INTEGER,
+			"maximum_cardinality" INTEGER,
+			"minimum_cardinality" INTEGER,
+			"name" TEXT,
+			"object_attribute_exists" INTEGER,
+			"options" TEXT,
+			"position" INTEGER,
+			"ql_query" TEXT,
+			"reference_object_type_id" TEXT,
+			"regex_validation" TEXT,
+			"removable" INTEGER,
+			"sortable" INTEGER,
+			"suffix" TEXT,
+			"summable" INTEGER,
+			"system" INTEGER,
+			"type" INTEGER,
+			"type_value" TEXT,
+			"unique_attribute" INTEGER,
+			"workspace_id" TEXT
+		)`,
+		`CREATE VIRTUAL TABLE IF NOT EXISTS "objecttypeattribute_fts" USING fts5(
+			"description",
+			"label",
+			"name",
+			content='objecttypeattribute',
+			content_rowid='rowid'
+		)`,
+		`CREATE TRIGGER IF NOT EXISTS "objecttypeattribute_ai" AFTER INSERT ON "objecttypeattribute" BEGIN
+			INSERT INTO "objecttypeattribute_fts"(rowid, "description", "label", "name")
+			VALUES (new.rowid,new."description", new."label", new."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "objecttypeattribute_ad" AFTER DELETE ON "objecttypeattribute" BEGIN
+			INSERT INTO "objecttypeattribute_fts"("objecttypeattribute_fts", rowid, "description", "label", "name")
+			VALUES ('delete', old.rowid,old."description", old."label", old."name");
+		END`,
+		`CREATE TRIGGER IF NOT EXISTS "objecttypeattribute_au" AFTER UPDATE ON "objecttypeattribute" BEGIN
+			INSERT INTO "objecttypeattribute_fts"("objecttypeattribute_fts", rowid, "description", "label", "name")
+			VALUES ('delete', old.rowid,old."description", old."label", old."name");
+			INSERT INTO "objecttypeattribute_fts"(rowid, "description", "label", "name")
+			VALUES (new.rowid,new."description", new."label", new."name");
+		END`,
 		`CREATE TABLE IF NOT EXISTS "operations" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -4226,6 +4850,29 @@ func (s *Store) migrate(ctx context.Context) error {
 			INSERT INTO "products_fts"(rowid, "name", "summary")
 			VALUES (new.rowid,new."name", new."summary");
 		END`,
+		`CREATE TABLE IF NOT EXISTS "progress" (
+			"id" TEXT PRIMARY KEY,
+			"data" JSON NOT NULL,
+			"synced_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+			"actor" TEXT,
+			"category" TEXT,
+			"current_step" INTEGER,
+			"current_step_total_work_units" INTEGER,
+			"current_work_description" TEXT,
+			"current_work_units" INTEGER,
+			"estimated_finish_date" DATETIME,
+			"execution_uuid" TEXT,
+			"finished_date" DATETIME,
+			"number_of_steps" INTEGER,
+			"progress_in_percent" INTEGER,
+			"resource_id" TEXT,
+			"result" TEXT,
+			"result_message" TEXT,
+			"start_date" DATETIME,
+			"status" TEXT,
+			"step_description" TEXT,
+			"total_work_units" INTEGER
+		)`,
 		`CREATE TABLE IF NOT EXISTS "project" (
 			"id" TEXT PRIMARY KEY,
 			"data" JSON NOT NULL,
@@ -7031,6 +7678,135 @@ func (s *Store) UpsertAnnouncementBanner(data json.RawMessage) error {
 	return tx.Commit()
 }
 
+// upsertApiConfigTx writes the per-resource domain-table portion of a
+// api_config upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertApiConfigTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "api_config" ("id", "data", "synced_at", "color", "description", "display_name", "global_id", "name", "object_schema_id", "removable", "url16", "workspace_id", "icon", "resolved")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "color" = excluded."color", "description" = excluded."description", "display_name" = excluded."display_name", "global_id" = excluded."global_id", "name" = excluded."name", "object_schema_id" = excluded."object_schema_id", "removable" = excluded."removable", "url16" = excluded."url16", "workspace_id" = excluded."workspace_id", "icon" = excluded."icon", "resolved" = excluded."resolved"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "color"),
+		lookupFieldValue(obj, "description"),
+		lookupFieldValue(obj, "display_name"),
+		lookupFieldValue(obj, "global_id"),
+		lookupFieldValue(obj, "name"),
+		lookupFieldValue(obj, "object_schema_id"),
+		lookupFieldValue(obj, "removable"),
+		lookupFieldValue(obj, "url16"),
+		lookupFieldValue(obj, "workspace_id"),
+		lookupFieldValue(obj, "icon"),
+		lookupFieldValue(obj, "resolved"),
+	); err != nil {
+		return fmt.Errorf("insert into api_config: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertApiConfig inserts or updates a api_config record with domain-specific columns.
+func (s *Store) UpsertApiConfig(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling api_config: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for api_config")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "api-config", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertApiConfigTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertApiImportTx writes the per-resource domain-table portion of a
+// api_import upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertApiImportTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "api_import" ("id", "data", "synced_at", "actor", "category", "current_step", "current_step_total_work_units", "current_work_description", "current_work_units", "estimated_finish_date", "execution_uuid", "finished_date", "number_of_steps", "progress_in_percent", "resource_id", "result", "result_message", "start_date", "status", "step_description", "total_work_units")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "actor" = excluded."actor", "category" = excluded."category", "current_step" = excluded."current_step", "current_step_total_work_units" = excluded."current_step_total_work_units", "current_work_description" = excluded."current_work_description", "current_work_units" = excluded."current_work_units", "estimated_finish_date" = excluded."estimated_finish_date", "execution_uuid" = excluded."execution_uuid", "finished_date" = excluded."finished_date", "number_of_steps" = excluded."number_of_steps", "progress_in_percent" = excluded."progress_in_percent", "resource_id" = excluded."resource_id", "result" = excluded."result", "result_message" = excluded."result_message", "start_date" = excluded."start_date", "status" = excluded."status", "step_description" = excluded."step_description", "total_work_units" = excluded."total_work_units"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "actor"),
+		lookupFieldValue(obj, "category"),
+		lookupFieldValue(obj, "current_step"),
+		lookupFieldValue(obj, "current_step_total_work_units"),
+		lookupFieldValue(obj, "current_work_description"),
+		lookupFieldValue(obj, "current_work_units"),
+		lookupFieldValue(obj, "estimated_finish_date"),
+		lookupFieldValue(obj, "execution_uuid"),
+		lookupFieldValue(obj, "finished_date"),
+		lookupFieldValue(obj, "number_of_steps"),
+		lookupFieldValue(obj, "progress_in_percent"),
+		lookupFieldValue(obj, "resource_id"),
+		lookupFieldValue(obj, "result"),
+		lookupFieldValue(obj, "result_message"),
+		lookupFieldValue(obj, "start_date"),
+		lookupFieldValue(obj, "status"),
+		lookupFieldValue(obj, "step_description"),
+		lookupFieldValue(obj, "total_work_units"),
+	); err != nil {
+		return fmt.Errorf("insert into api_import: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertApiImport inserts or updates a api_import record with domain-specific columns.
+func (s *Store) UpsertApiImport(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling api_import: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for api_import")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "api-import", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertApiImportTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 // upsertApiKeysTx writes the per-resource domain-table portion of a
 // api_keys upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
@@ -7415,6 +8191,71 @@ func (s *Store) UpsertApplicationsVersions(data json.RawMessage) error {
 		return err
 	}
 	if err := s.upsertApplicationsVersionsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertAqlTx writes the per-resource domain-table portion of a
+// aql upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertAqlTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "aql" ("id", "data", "synced_at", "abstract_object_type", "conversion_possible", "iql", "iql_search_result", "object_type_id", "object_type_is_inherited", "order_by_type_attr_id", "order_way", "page_number", "page_object_size", "ql_query", "ql_query_search_result", "start_index", "to_index", "total_filter_count")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "abstract_object_type" = excluded."abstract_object_type", "conversion_possible" = excluded."conversion_possible", "iql" = excluded."iql", "iql_search_result" = excluded."iql_search_result", "object_type_id" = excluded."object_type_id", "object_type_is_inherited" = excluded."object_type_is_inherited", "order_by_type_attr_id" = excluded."order_by_type_attr_id", "order_way" = excluded."order_way", "page_number" = excluded."page_number", "page_object_size" = excluded."page_object_size", "ql_query" = excluded."ql_query", "ql_query_search_result" = excluded."ql_query_search_result", "start_index" = excluded."start_index", "to_index" = excluded."to_index", "total_filter_count" = excluded."total_filter_count"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "abstract_object_type"),
+		lookupFieldValue(obj, "conversion_possible"),
+		lookupFieldValue(obj, "iql"),
+		lookupFieldValue(obj, "iql_search_result"),
+		lookupFieldValue(obj, "object_type_id"),
+		lookupFieldValue(obj, "object_type_is_inherited"),
+		lookupFieldValue(obj, "order_by_type_attr_id"),
+		lookupFieldValue(obj, "order_way"),
+		lookupFieldValue(obj, "page_number"),
+		lookupFieldValue(obj, "page_object_size"),
+		lookupFieldValue(obj, "ql_query"),
+		lookupFieldValue(obj, "ql_query_search_result"),
+		lookupFieldValue(obj, "start_index"),
+		lookupFieldValue(obj, "to_index"),
+		lookupFieldValue(obj, "total_filter_count"),
+	); err != nil {
+		return fmt.Errorf("insert into aql: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertAql inserts or updates a aql record with domain-specific columns.
+func (s *Store) UpsertAql(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling aql: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for aql")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "aql", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertAqlTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -9401,6 +10242,64 @@ func (s *Store) UpsertCommentsProperties(data json.RawMessage) error {
 		return err
 	}
 	if err := s.upsertCommentsPropertiesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertCompassTx writes the per-resource domain-table portion of a
+// compass upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertCompassTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "compass" ("id", "data", "synced_at", "author", "content", "created", "filename", "mime_type", "self", "size", "thumbnail")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "author" = excluded."author", "content" = excluded."content", "created" = excluded."created", "filename" = excluded."filename", "mime_type" = excluded."mime_type", "self" = excluded."self", "size" = excluded."size", "thumbnail" = excluded."thumbnail"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "author"),
+		lookupFieldValue(obj, "content"),
+		lookupFieldValue(obj, "created"),
+		lookupFieldValue(obj, "filename"),
+		lookupFieldValue(obj, "mime_type"),
+		lookupFieldValue(obj, "self"),
+		lookupFieldValue(obj, "size"),
+		lookupFieldValue(obj, "thumbnail"),
+	); err != nil {
+		return fmt.Errorf("insert into compass: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertCompass inserts or updates a compass record with domain-specific columns.
+func (s *Store) UpsertCompass(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling compass: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for compass")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "compass", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertCompassTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -13804,6 +14703,540 @@ func (s *Store) UpsertGroup(data json.RawMessage) error {
 	return tx.Commit()
 }
 
+// upsertIconTx writes the per-resource domain-table portion of a
+// icon upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertIconTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "icon" ("id", "data", "synced_at", "link", "title", "url16x16")
+		 VALUES (?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "link" = excluded."link", "title" = excluded."title", "url16x16" = excluded."url16x16"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "link"),
+		lookupFieldValue(obj, "title"),
+		lookupFieldValue(obj, "url16x16"),
+	); err != nil {
+		return fmt.Errorf("insert into icon: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertIcon inserts or updates a icon record with domain-specific columns.
+func (s *Store) UpsertIcon(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling icon: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for icon")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "icon", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertIconTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertIconPngTx writes the per-resource domain-table portion of a
+// icon_png upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertIconPngTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "icon_png" ("id", "icon_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "icon_id" = excluded."icon_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "icon_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into icon_png: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertIconPng inserts or updates a icon_png record with domain-specific columns.
+func (s *Store) UpsertIconPng(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling icon_png: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for icon_png")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "icon_png", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertIconPngTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertImportsourceTx writes the per-resource domain-table portion of a
+// importsource upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertImportsourceTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "importsource" ("id", "data", "synced_at", "collection_id", "created", "date_format", "date_time_format", "default_concatenator", "default_handle_compute_issue_values", "default_handle_empty_values", "default_handle_not_mapped_values", "default_handle_null_values", "default_handle_unknown_values", "description", "import_execution_type", "import_source_module_key", "import_specific_configuration", "integrated_import_type_extension_id", "integrated_import_type_id", "is_import_source_scheduling_enabled", "name", "object_schema_id", "scheduled_import_details", "token_generated", "updated", "url")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "collection_id" = excluded."collection_id", "created" = excluded."created", "date_format" = excluded."date_format", "date_time_format" = excluded."date_time_format", "default_concatenator" = excluded."default_concatenator", "default_handle_compute_issue_values" = excluded."default_handle_compute_issue_values", "default_handle_empty_values" = excluded."default_handle_empty_values", "default_handle_not_mapped_values" = excluded."default_handle_not_mapped_values", "default_handle_null_values" = excluded."default_handle_null_values", "default_handle_unknown_values" = excluded."default_handle_unknown_values", "description" = excluded."description", "import_execution_type" = excluded."import_execution_type", "import_source_module_key" = excluded."import_source_module_key", "import_specific_configuration" = excluded."import_specific_configuration", "integrated_import_type_extension_id" = excluded."integrated_import_type_extension_id", "integrated_import_type_id" = excluded."integrated_import_type_id", "is_import_source_scheduling_enabled" = excluded."is_import_source_scheduling_enabled", "name" = excluded."name", "object_schema_id" = excluded."object_schema_id", "scheduled_import_details" = excluded."scheduled_import_details", "token_generated" = excluded."token_generated", "updated" = excluded."updated", "url" = excluded."url"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "collection_id"),
+		lookupFieldValue(obj, "created"),
+		lookupFieldValue(obj, "date_format"),
+		lookupFieldValue(obj, "date_time_format"),
+		lookupFieldValue(obj, "default_concatenator"),
+		lookupFieldValue(obj, "default_handle_compute_issue_values"),
+		lookupFieldValue(obj, "default_handle_empty_values"),
+		lookupFieldValue(obj, "default_handle_not_mapped_values"),
+		lookupFieldValue(obj, "default_handle_null_values"),
+		lookupFieldValue(obj, "default_handle_unknown_values"),
+		lookupFieldValue(obj, "description"),
+		lookupFieldValue(obj, "import_execution_type"),
+		lookupFieldValue(obj, "import_source_module_key"),
+		lookupFieldValue(obj, "import_specific_configuration"),
+		lookupFieldValue(obj, "integrated_import_type_extension_id"),
+		lookupFieldValue(obj, "integrated_import_type_id"),
+		lookupFieldValue(obj, "is_import_source_scheduling_enabled"),
+		lookupFieldValue(obj, "name"),
+		lookupFieldValue(obj, "object_schema_id"),
+		lookupFieldValue(obj, "scheduled_import_details"),
+		lookupFieldValue(obj, "token_generated"),
+		lookupFieldValue(obj, "updated"),
+		lookupFieldValue(obj, "url"),
+	); err != nil {
+		return fmt.Errorf("insert into importsource: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertImportsource inserts or updates a importsource record with domain-specific columns.
+func (s *Store) UpsertImportsource(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling importsource: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for importsource")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "importsource", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertImportsourceTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertConfigstatusTx writes the per-resource domain-table portion of a
+// configstatus upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertConfigstatusTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "configstatus" ("id", "importsource_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "importsource_id" = excluded."importsource_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "importsource_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into configstatus: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertConfigstatus inserts or updates a configstatus record with domain-specific columns.
+func (s *Store) UpsertConfigstatus(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling configstatus: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for configstatus")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "configstatus", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertConfigstatusTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertExecutionsTx writes the per-resource domain-table portion of a
+// executions upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertExecutionsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "executions" ("id", "importsource_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "importsource_id" = excluded."importsource_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "importsource_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into executions: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertExecutions inserts or updates a executions record with domain-specific columns.
+func (s *Store) UpsertExecutions(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling executions: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for executions")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "executions", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertExecutionsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertImportscheduleTx writes the per-resource domain-table portion of a
+// importschedule upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertImportscheduleTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "importschedule" ("id", "importsource_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "importsource_id" = excluded."importsource_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "importsource_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into importschedule: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertImportschedule inserts or updates a importschedule record with domain-specific columns.
+func (s *Store) UpsertImportschedule(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling importschedule: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for importschedule")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "importschedule", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertImportscheduleTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertImportsourceMappingTx writes the per-resource domain-table portion of a
+// importsource_mapping upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertImportsourceMappingTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "importsource_mapping" ("id", "importsource_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "importsource_id" = excluded."importsource_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "importsource_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into importsource_mapping: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertImportsourceMapping inserts or updates a importsource_mapping record with domain-specific columns.
+func (s *Store) UpsertImportsourceMapping(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling importsource_mapping: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for importsource_mapping")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "importsource_mapping", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertImportsourceMappingTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertScheduleTx writes the per-resource domain-table portion of a
+// schedule upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertScheduleTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "schedule" ("id", "importsource_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "importsource_id" = excluded."importsource_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "importsource_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into schedule: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSchedule inserts or updates a schedule record with domain-specific columns.
+func (s *Store) UpsertSchedule(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling schedule: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for schedule")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "schedule", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertScheduleTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertSchemaAndMappingTx writes the per-resource domain-table portion of a
+// schema_and_mapping upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertSchemaAndMappingTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "schema_and_mapping" ("id", "importsource_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "importsource_id" = excluded."importsource_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "importsource_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into schema_and_mapping: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertSchemaAndMapping inserts or updates a schema_and_mapping record with domain-specific columns.
+func (s *Store) UpsertSchemaAndMapping(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling schema_and_mapping: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for schema_and_mapping")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "schema_and_mapping", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertSchemaAndMappingTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertTokenTx writes the per-resource domain-table portion of a
+// token upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertTokenTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "token" ("id", "importsource_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "importsource_id" = excluded."importsource_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "importsource_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into token: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertToken inserts or updates a token record with domain-specific columns.
+func (s *Store) UpsertToken(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling token: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for token")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "token", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertTokenTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 // upsertInlineCommentsTx writes the per-resource domain-table portion of a
 // inline_comments upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
@@ -14063,6 +15496,71 @@ func (s *Store) UpsertInlineCommentsVersions(data json.RawMessage) error {
 		return err
 	}
 	if err := s.upsertInlineCommentsVersionsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertIqlTx writes the per-resource domain-table portion of a
+// iql upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertIqlTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "iql" ("id", "data", "synced_at", "abstract_object_type", "conversion_possible", "iql", "iql_search_result", "object_type_id", "object_type_is_inherited", "order_by_type_attr_id", "order_way", "page_number", "page_object_size", "ql_query", "ql_query_search_result", "start_index", "to_index", "total_filter_count")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "abstract_object_type" = excluded."abstract_object_type", "conversion_possible" = excluded."conversion_possible", "iql" = excluded."iql", "iql_search_result" = excluded."iql_search_result", "object_type_id" = excluded."object_type_id", "object_type_is_inherited" = excluded."object_type_is_inherited", "order_by_type_attr_id" = excluded."order_by_type_attr_id", "order_way" = excluded."order_way", "page_number" = excluded."page_number", "page_object_size" = excluded."page_object_size", "ql_query" = excluded."ql_query", "ql_query_search_result" = excluded."ql_query_search_result", "start_index" = excluded."start_index", "to_index" = excluded."to_index", "total_filter_count" = excluded."total_filter_count"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "abstract_object_type"),
+		lookupFieldValue(obj, "conversion_possible"),
+		lookupFieldValue(obj, "iql"),
+		lookupFieldValue(obj, "iql_search_result"),
+		lookupFieldValue(obj, "object_type_id"),
+		lookupFieldValue(obj, "object_type_is_inherited"),
+		lookupFieldValue(obj, "order_by_type_attr_id"),
+		lookupFieldValue(obj, "order_way"),
+		lookupFieldValue(obj, "page_number"),
+		lookupFieldValue(obj, "page_object_size"),
+		lookupFieldValue(obj, "ql_query"),
+		lookupFieldValue(obj, "ql_query_search_result"),
+		lookupFieldValue(obj, "start_index"),
+		lookupFieldValue(obj, "to_index"),
+		lookupFieldValue(obj, "total_filter_count"),
+	); err != nil {
+		return fmt.Errorf("insert into iql: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertIql inserts or updates a iql record with domain-specific columns.
+func (s *Store) UpsertIql(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling iql: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for iql")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "iql", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertIqlTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -16889,6 +18387,682 @@ func (s *Store) UpsertOauthClients(data json.RawMessage) error {
 	return tx.Commit()
 }
 
+// upsertObjectTx writes the per-resource domain-table portion of a
+// object upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertObjectTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "object" ("id", "data", "synced_at", "created", "global_id", "has_avatar", "label", "object_key", "timestamp", "updated", "workspace_id")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "created" = excluded."created", "global_id" = excluded."global_id", "has_avatar" = excluded."has_avatar", "label" = excluded."label", "object_key" = excluded."object_key", "timestamp" = excluded."timestamp", "updated" = excluded."updated", "workspace_id" = excluded."workspace_id"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "created"),
+		lookupFieldValue(obj, "global_id"),
+		lookupFieldValue(obj, "has_avatar"),
+		lookupFieldValue(obj, "label"),
+		lookupFieldValue(obj, "object_key"),
+		lookupFieldValue(obj, "timestamp"),
+		lookupFieldValue(obj, "updated"),
+		lookupFieldValue(obj, "workspace_id"),
+	); err != nil {
+		return fmt.Errorf("insert into object: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertObject inserts or updates a object record with domain-specific columns.
+func (s *Store) UpsertObject(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling object: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for object")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "object", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertObjectTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertObjectAttributesTx writes the per-resource domain-table portion of a
+// object_attributes upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertObjectAttributesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "object_attributes" ("id", "object_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "object_id" = excluded."object_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "object_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into object_attributes: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertObjectAttributes inserts or updates a object_attributes record with domain-specific columns.
+func (s *Store) UpsertObjectAttributes(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling object_attributes: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for object_attributes")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "object_attributes", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertObjectAttributesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertHistoryTx writes the per-resource domain-table portion of a
+// history upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertHistoryTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "history" ("id", "object_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "object_id" = excluded."object_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "object_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into history: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertHistory inserts or updates a history record with domain-specific columns.
+func (s *Store) UpsertHistory(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling history: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for history")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "history", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertHistoryTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertReferenceinfoTx writes the per-resource domain-table portion of a
+// referenceinfo upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertReferenceinfoTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "referenceinfo" ("id", "object_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "object_id" = excluded."object_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "object_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into referenceinfo: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertReferenceinfo inserts or updates a referenceinfo record with domain-specific columns.
+func (s *Store) UpsertReferenceinfo(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling referenceinfo: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for referenceinfo")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "referenceinfo", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertReferenceinfoTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertTicketsTx writes the per-resource domain-table portion of a
+// tickets upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertTicketsTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "tickets" ("id", "objectconnectedtickets_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "objectconnectedtickets_id" = excluded."objectconnectedtickets_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "objectconnectedtickets_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into tickets: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertTickets inserts or updates a tickets record with domain-specific columns.
+func (s *Store) UpsertTickets(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling tickets: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for tickets")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "tickets", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertTicketsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertObjectschemaTx writes the per-resource domain-table portion of a
+// objectschema upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertObjectschemaTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "objectschema" ("id", "data", "synced_at", "can_manage", "created", "description", "display_name", "global_id", "name", "object_count", "object_schema_key", "object_type_count", "status", "updated", "workspace_id", "is_last", "last", "max_results", "start_at", "total")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "can_manage" = excluded."can_manage", "created" = excluded."created", "description" = excluded."description", "display_name" = excluded."display_name", "global_id" = excluded."global_id", "name" = excluded."name", "object_count" = excluded."object_count", "object_schema_key" = excluded."object_schema_key", "object_type_count" = excluded."object_type_count", "status" = excluded."status", "updated" = excluded."updated", "workspace_id" = excluded."workspace_id", "is_last" = excluded."is_last", "last" = excluded."last", "max_results" = excluded."max_results", "start_at" = excluded."start_at", "total" = excluded."total"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "can_manage"),
+		lookupFieldValue(obj, "created"),
+		lookupFieldValue(obj, "description"),
+		lookupFieldValue(obj, "display_name"),
+		lookupFieldValue(obj, "global_id"),
+		lookupFieldValue(obj, "name"),
+		lookupFieldValue(obj, "object_count"),
+		lookupFieldValue(obj, "object_schema_key"),
+		lookupFieldValue(obj, "object_type_count"),
+		lookupFieldValue(obj, "status"),
+		lookupFieldValue(obj, "updated"),
+		lookupFieldValue(obj, "workspace_id"),
+		lookupFieldValue(obj, "is_last"),
+		lookupFieldValue(obj, "last"),
+		lookupFieldValue(obj, "max_results"),
+		lookupFieldValue(obj, "start_at"),
+		lookupFieldValue(obj, "total"),
+	); err != nil {
+		return fmt.Errorf("insert into objectschema: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertObjectschema inserts or updates a objectschema record with domain-specific columns.
+func (s *Store) UpsertObjectschema(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling objectschema: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for objectschema")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "objectschema", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertObjectschemaTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertObjectschemaAttributesTx writes the per-resource domain-table portion of a
+// objectschema_attributes upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertObjectschemaAttributesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "objectschema_attributes" ("id", "objectschema_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "objectschema_id" = excluded."objectschema_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "objectschema_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into objectschema_attributes: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertObjectschemaAttributes inserts or updates a objectschema_attributes record with domain-specific columns.
+func (s *Store) UpsertObjectschemaAttributes(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling objectschema_attributes: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for objectschema_attributes")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "objectschema_attributes", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertObjectschemaAttributesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertObjecttypesTx writes the per-resource domain-table portion of a
+// objecttypes upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertObjecttypesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "objecttypes" ("id", "objectschema_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "objectschema_id" = excluded."objectschema_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "objectschema_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into objecttypes: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertObjecttypes inserts or updates a objecttypes record with domain-specific columns.
+func (s *Store) UpsertObjecttypes(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling objecttypes: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for objecttypes")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "objecttypes", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertObjecttypesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertObjecttypeTx writes the per-resource domain-table portion of a
+// objecttype upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertObjecttypeTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "objecttype" ("id", "data", "synced_at", "abstract_object_type", "created", "description", "display_name", "global_id", "inherited", "name", "object_count", "object_schema_id", "parent_object_type_id", "parent_object_type_inherited", "position", "type", "updated", "workspace_id")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "abstract_object_type" = excluded."abstract_object_type", "created" = excluded."created", "description" = excluded."description", "display_name" = excluded."display_name", "global_id" = excluded."global_id", "inherited" = excluded."inherited", "name" = excluded."name", "object_count" = excluded."object_count", "object_schema_id" = excluded."object_schema_id", "parent_object_type_id" = excluded."parent_object_type_id", "parent_object_type_inherited" = excluded."parent_object_type_inherited", "position" = excluded."position", "type" = excluded."type", "updated" = excluded."updated", "workspace_id" = excluded."workspace_id"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "abstract_object_type"),
+		lookupFieldValue(obj, "created"),
+		lookupFieldValue(obj, "description"),
+		lookupFieldValue(obj, "display_name"),
+		lookupFieldValue(obj, "global_id"),
+		lookupFieldValue(obj, "inherited"),
+		lookupFieldValue(obj, "name"),
+		lookupFieldValue(obj, "object_count"),
+		lookupFieldValue(obj, "object_schema_id"),
+		lookupFieldValue(obj, "parent_object_type_id"),
+		lookupFieldValue(obj, "parent_object_type_inherited"),
+		lookupFieldValue(obj, "position"),
+		lookupFieldValue(obj, "type"),
+		lookupFieldValue(obj, "updated"),
+		lookupFieldValue(obj, "workspace_id"),
+	); err != nil {
+		return fmt.Errorf("insert into objecttype: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertObjecttype inserts or updates a objecttype record with domain-specific columns.
+func (s *Store) UpsertObjecttype(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling objecttype: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for objecttype")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "objecttype", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertObjecttypeTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertObjecttypeAttributesTx writes the per-resource domain-table portion of a
+// objecttype_attributes upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertObjecttypeAttributesTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "objecttype_attributes" ("id", "objecttype_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "objecttype_id" = excluded."objecttype_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "objecttype_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into objecttype_attributes: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertObjecttypeAttributes inserts or updates a objecttype_attributes record with domain-specific columns.
+func (s *Store) UpsertObjecttypeAttributes(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling objecttype_attributes: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for objecttype_attributes")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "objecttype_attributes", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertObjecttypeAttributesTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertPositionTx writes the per-resource domain-table portion of a
+// position upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertPositionTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "position" ("id", "objecttype_id", "data", "synced_at")
+		 VALUES (?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "objecttype_id" = excluded."objecttype_id", "data" = excluded."data", "synced_at" = excluded."synced_at"`,
+		id,
+		lookupFieldValue(obj, "objecttype_id"),
+		string(data),
+		time.Now(),
+	); err != nil {
+		return fmt.Errorf("insert into position: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertPosition inserts or updates a position record with domain-specific columns.
+func (s *Store) UpsertPosition(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling position: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for position")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "position", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertPositionTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertObjecttypeattributeTx writes the per-resource domain-table portion of a
+// objecttypeattribute upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertObjecttypeattributeTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "objecttypeattribute" ("id", "data", "synced_at", "additional_value", "description", "display_name", "editable", "global_id", "hidden", "include_child_object_types", "indexed", "iql", "label", "maximum_cardinality", "minimum_cardinality", "name", "object_attribute_exists", "options", "position", "ql_query", "reference_object_type_id", "regex_validation", "removable", "sortable", "suffix", "summable", "system", "type", "type_value", "unique_attribute", "workspace_id")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "additional_value" = excluded."additional_value", "description" = excluded."description", "display_name" = excluded."display_name", "editable" = excluded."editable", "global_id" = excluded."global_id", "hidden" = excluded."hidden", "include_child_object_types" = excluded."include_child_object_types", "indexed" = excluded."indexed", "iql" = excluded."iql", "label" = excluded."label", "maximum_cardinality" = excluded."maximum_cardinality", "minimum_cardinality" = excluded."minimum_cardinality", "name" = excluded."name", "object_attribute_exists" = excluded."object_attribute_exists", "options" = excluded."options", "position" = excluded."position", "ql_query" = excluded."ql_query", "reference_object_type_id" = excluded."reference_object_type_id", "regex_validation" = excluded."regex_validation", "removable" = excluded."removable", "sortable" = excluded."sortable", "suffix" = excluded."suffix", "summable" = excluded."summable", "system" = excluded."system", "type" = excluded."type", "type_value" = excluded."type_value", "unique_attribute" = excluded."unique_attribute", "workspace_id" = excluded."workspace_id"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "additional_value"),
+		lookupFieldValue(obj, "description"),
+		lookupFieldValue(obj, "display_name"),
+		lookupFieldValue(obj, "editable"),
+		lookupFieldValue(obj, "global_id"),
+		lookupFieldValue(obj, "hidden"),
+		lookupFieldValue(obj, "include_child_object_types"),
+		lookupFieldValue(obj, "indexed"),
+		lookupFieldValue(obj, "iql"),
+		lookupFieldValue(obj, "label"),
+		lookupFieldValue(obj, "maximum_cardinality"),
+		lookupFieldValue(obj, "minimum_cardinality"),
+		lookupFieldValue(obj, "name"),
+		lookupFieldValue(obj, "object_attribute_exists"),
+		lookupFieldValue(obj, "options"),
+		lookupFieldValue(obj, "position"),
+		lookupFieldValue(obj, "ql_query"),
+		lookupFieldValue(obj, "reference_object_type_id"),
+		lookupFieldValue(obj, "regex_validation"),
+		lookupFieldValue(obj, "removable"),
+		lookupFieldValue(obj, "sortable"),
+		lookupFieldValue(obj, "suffix"),
+		lookupFieldValue(obj, "summable"),
+		lookupFieldValue(obj, "system"),
+		lookupFieldValue(obj, "type"),
+		lookupFieldValue(obj, "type_value"),
+		lookupFieldValue(obj, "unique_attribute"),
+		lookupFieldValue(obj, "workspace_id"),
+	); err != nil {
+		return fmt.Errorf("insert into objecttypeattribute: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertObjecttypeattribute inserts or updates a objecttypeattribute record with domain-specific columns.
+func (s *Store) UpsertObjecttypeattribute(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling objecttypeattribute: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for objecttypeattribute")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "objecttypeattribute", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertObjecttypeattributeTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 // upsertOperationsTx writes the per-resource domain-table portion of a
 // operations upsert inside an existing transaction. The caller is
 // responsible for the generic resources insert (via upsertGenericResourceTx)
@@ -18602,6 +20776,74 @@ func (s *Store) UpsertProducts(data json.RawMessage) error {
 		return err
 	}
 	if err := s.upsertProductsTx(tx, id, obj, data); err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// upsertProgressTx writes the per-resource domain-table portion of a
+// progress upsert inside an existing transaction. The caller is
+// responsible for the generic resources insert (via upsertGenericResourceTx)
+// and for committing the tx. Splitting this out lets UpsertBatch dispatch
+// domain inserts per item without opening a per-item transaction.
+func (s *Store) upsertProgressTx(tx *sql.Tx, id string, obj map[string]any, data json.RawMessage) error {
+	if _, err := tx.Exec(
+		`INSERT INTO "progress" ("id", "data", "synced_at", "actor", "category", "current_step", "current_step_total_work_units", "current_work_description", "current_work_units", "estimated_finish_date", "execution_uuid", "finished_date", "number_of_steps", "progress_in_percent", "resource_id", "result", "result_message", "start_date", "status", "step_description", "total_work_units")
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		 ON CONFLICT("id") DO UPDATE SET "data" = excluded."data", "synced_at" = excluded."synced_at", "actor" = excluded."actor", "category" = excluded."category", "current_step" = excluded."current_step", "current_step_total_work_units" = excluded."current_step_total_work_units", "current_work_description" = excluded."current_work_description", "current_work_units" = excluded."current_work_units", "estimated_finish_date" = excluded."estimated_finish_date", "execution_uuid" = excluded."execution_uuid", "finished_date" = excluded."finished_date", "number_of_steps" = excluded."number_of_steps", "progress_in_percent" = excluded."progress_in_percent", "resource_id" = excluded."resource_id", "result" = excluded."result", "result_message" = excluded."result_message", "start_date" = excluded."start_date", "status" = excluded."status", "step_description" = excluded."step_description", "total_work_units" = excluded."total_work_units"`,
+		id,
+		string(data),
+		time.Now(),
+		lookupFieldValue(obj, "actor"),
+		lookupFieldValue(obj, "category"),
+		lookupFieldValue(obj, "current_step"),
+		lookupFieldValue(obj, "current_step_total_work_units"),
+		lookupFieldValue(obj, "current_work_description"),
+		lookupFieldValue(obj, "current_work_units"),
+		lookupFieldValue(obj, "estimated_finish_date"),
+		lookupFieldValue(obj, "execution_uuid"),
+		lookupFieldValue(obj, "finished_date"),
+		lookupFieldValue(obj, "number_of_steps"),
+		lookupFieldValue(obj, "progress_in_percent"),
+		lookupFieldValue(obj, "resource_id"),
+		lookupFieldValue(obj, "result"),
+		lookupFieldValue(obj, "result_message"),
+		lookupFieldValue(obj, "start_date"),
+		lookupFieldValue(obj, "status"),
+		lookupFieldValue(obj, "step_description"),
+		lookupFieldValue(obj, "total_work_units"),
+	); err != nil {
+		return fmt.Errorf("insert into progress: %w", err)
+	}
+
+	return nil
+}
+
+// UpsertProgress inserts or updates a progress record with domain-specific columns.
+func (s *Store) UpsertProgress(data json.RawMessage) error {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return fmt.Errorf("unmarshaling progress: %w", err)
+	}
+
+	id := extractObjectID(obj)
+	if id == "" {
+		return fmt.Errorf("missing id for progress")
+	}
+
+	s.writeMu.Lock()
+	defer s.writeMu.Unlock()
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	if err := s.upsertGenericResourceTx(tx, "progress", id, data); err != nil {
+		return err
+	}
+	if err := s.upsertProgressTx(tx, id, obj, data); err != nil {
 		return err
 	}
 
@@ -23931,17 +26173,20 @@ func (s *Store) UpsertWorkspaces(data json.RawMessage) error {
 // child path-item annotated with x-resource-id resolves the same as a flat
 // path-item.
 var resourceIDFieldOverrides = map[string]string{
-	"addons":                  "count",
-	"addons-archived":         "count",
-	"addons-listings-banners": "count",
-	"addons-search-brief":     "name",
-	"addons_versions":         "count",
-	"agile":                   "id",
-	"api_keys":                "id",
-	"application-properties":  "id",
+	"addons":                   "count",
+	"addons-archived":          "count",
+	"addons-listings-banners":  "count",
+	"addons-search-brief":      "name",
+	"addons_versions":          "count",
+	"agile":                    "id",
+	"api-config":               "id",
+	"api-config-referencetype": "id",
+	"api_keys":                 "id",
+	"application-properties":   "id",
 	"application-properties-advanced-settings": "id",
 	"applicationrole":                          "key",
 	"applications_versions":                    "count",
+	"aql":                                      "startIndex",
 	"atlassian_access_events":                  "id",
 	"atlassian_access_policies":                "id",
 	"atlassian_access_users":                   "name",
@@ -23990,8 +26235,10 @@ var resourceIDFieldOverrides = map[string]string{
 	"group":                                    "groupId",
 	"group-member":                             "name",
 	"groups":                                   "groupId",
+	"icon":                                     "id",
 	"inline-comments":                          "id",
 	"inline_comments_children":                 "id",
+	"iql":                                      "startIndex",
 	"issuesecurityschemes":                     "id",
 	"issuesecurityschemes-level":               "id",
 	"issuesecurityschemes-level-member":        "id",
@@ -24009,6 +26256,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"labels_pages":                             "id",
 	"members":                                  "id",
 	"notificationscheme":                       "id",
+	"objectschema":                             "id",
 	"option":                                   "id",
 	"orgs":                                     "id",
 	"orgs_api_tokens":                          "id",
@@ -24058,6 +26306,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"statuses":                         "id",
 	"tasks":                            "id",
 	"ui-modifications":                 "id",
+	"usage":                            "schemaId",
 	"user":                             "name",
 	"users":                            "name",
 	"version":                          "id",
@@ -24206,6 +26455,10 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertAgileTx(tx, id, obj, item)
 		case "announcement-banner":
 			typedErr = s.upsertAnnouncementBannerTx(tx, id, obj, item)
+		case "api-config":
+			typedErr = s.upsertApiConfigTx(tx, id, obj, item)
+		case "api-import":
+			typedErr = s.upsertApiImportTx(tx, id, obj, item)
 		case "api-keys":
 			typedErr = s.upsertApiKeysTx(tx, id, obj, item)
 		case "api-tokens":
@@ -24220,6 +26473,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertApplicationsTx(tx, id, obj, item)
 		case "applications_versions":
 			typedErr = s.upsertApplicationsVersionsTx(tx, id, obj, item)
+		case "aql":
+			typedErr = s.upsertAqlTx(tx, id, obj, item)
 		case "atlassian-access-events":
 			typedErr = s.upsertAtlassianAccessEventsTx(tx, id, obj, item)
 		case "atlassian-access-policies":
@@ -24294,6 +26549,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertCommentPropertiesTx(tx, id, obj, item)
 		case "comments_properties":
 			typedErr = s.upsertCommentsPropertiesTx(tx, id, obj, item)
+		case "compass":
+			typedErr = s.upsertCompassTx(tx, id, obj, item)
 		case "component":
 			typedErr = s.upsertComponentTx(tx, id, obj, item)
 		case "component_related_issue_counts":
@@ -24458,6 +26715,26 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertForgeTx(tx, id, obj, item)
 		case "group":
 			typedErr = s.upsertGroupTx(tx, id, obj, item)
+		case "icon":
+			typedErr = s.upsertIconTx(tx, id, obj, item)
+		case "icon_png":
+			typedErr = s.upsertIconPngTx(tx, id, obj, item)
+		case "importsource":
+			typedErr = s.upsertImportsourceTx(tx, id, obj, item)
+		case "configstatus":
+			typedErr = s.upsertConfigstatusTx(tx, id, obj, item)
+		case "executions":
+			typedErr = s.upsertExecutionsTx(tx, id, obj, item)
+		case "importschedule":
+			typedErr = s.upsertImportscheduleTx(tx, id, obj, item)
+		case "importsource_mapping":
+			typedErr = s.upsertImportsourceMappingTx(tx, id, obj, item)
+		case "schedule":
+			typedErr = s.upsertScheduleTx(tx, id, obj, item)
+		case "schema_and_mapping":
+			typedErr = s.upsertSchemaAndMappingTx(tx, id, obj, item)
+		case "token":
+			typedErr = s.upsertTokenTx(tx, id, obj, item)
 		case "inline-comments":
 			typedErr = s.upsertInlineCommentsTx(tx, id, obj, item)
 		case "inline_comments_children":
@@ -24468,6 +26745,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertInlineCommentsOperationsTx(tx, id, obj, item)
 		case "inline_comments_versions":
 			typedErr = s.upsertInlineCommentsVersionsTx(tx, id, obj, item)
+		case "iql":
+			typedErr = s.upsertIqlTx(tx, id, obj, item)
 		case "issue":
 			typedErr = s.upsertIssueTx(tx, id, obj, item)
 		case "assignee":
@@ -24574,6 +26853,30 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertNotificationTx(tx, id, obj, item)
 		case "oauth-clients":
 			typedErr = s.upsertOauthClientsTx(tx, id, obj, item)
+		case "object":
+			typedErr = s.upsertObjectTx(tx, id, obj, item)
+		case "object_attributes":
+			typedErr = s.upsertObjectAttributesTx(tx, id, obj, item)
+		case "history":
+			typedErr = s.upsertHistoryTx(tx, id, obj, item)
+		case "referenceinfo":
+			typedErr = s.upsertReferenceinfoTx(tx, id, obj, item)
+		case "tickets":
+			typedErr = s.upsertTicketsTx(tx, id, obj, item)
+		case "objectschema":
+			typedErr = s.upsertObjectschemaTx(tx, id, obj, item)
+		case "objectschema_attributes":
+			typedErr = s.upsertObjectschemaAttributesTx(tx, id, obj, item)
+		case "objecttypes":
+			typedErr = s.upsertObjecttypesTx(tx, id, obj, item)
+		case "objecttype":
+			typedErr = s.upsertObjecttypeTx(tx, id, obj, item)
+		case "objecttype_attributes":
+			typedErr = s.upsertObjecttypeAttributesTx(tx, id, obj, item)
+		case "position":
+			typedErr = s.upsertPositionTx(tx, id, obj, item)
+		case "objecttypeattribute":
+			typedErr = s.upsertObjecttypeattributeTx(tx, id, obj, item)
 		case "operations":
 			typedErr = s.upsertOperationsTx(tx, id, obj, item)
 		case "orgs":
@@ -24638,6 +26941,8 @@ func (s *Store) UpsertBatch(resourceType string, items []json.RawMessage) (int, 
 			typedErr = s.upsertPriorityschemeProjectsTx(tx, id, obj, item)
 		case "products":
 			typedErr = s.upsertProductsTx(tx, id, obj, item)
+		case "progress":
+			typedErr = s.upsertProgressTx(tx, id, obj, item)
 		case "project":
 			typedErr = s.upsertProjectTx(tx, id, obj, item)
 		case "archive":
@@ -24903,6 +27208,34 @@ func (s *Store) SearchAgile(query string, limit int) ([]json.RawMessage, error) 
 		`SELECT t.data FROM "agile" t
 		 JOIN "agile_fts" ON "agile_fts".rowid = t.rowid
 		 WHERE "agile_fts" MATCH ?
+		 ORDER BY rank LIMIT ?`,
+		query, limit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []json.RawMessage
+	for rows.Next() {
+		var data string
+		if err := rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		results = append(results, json.RawMessage(data))
+	}
+	return results, rows.Err()
+}
+
+// SearchApiConfig searches the api_config_fts index with optional filters.
+func (s *Store) SearchApiConfig(query string, limit int) ([]json.RawMessage, error) {
+	if limit <= 0 {
+		limit = 50
+	}
+	rows, err := s.db.Query(
+		`SELECT t.data FROM "api_config" t
+		 JOIN "api_config_fts" ON "api_config_fts".rowid = t.rowid
+		 WHERE "api_config_fts" MATCH ?
 		 ORDER BY rank LIMIT ?`,
 		query, limit,
 	)
@@ -25230,6 +27563,34 @@ func (s *Store) SearchFilter(query string, limit int) ([]json.RawMessage, error)
 	return results, rows.Err()
 }
 
+// SearchImportsource searches the importsource_fts index with optional filters.
+func (s *Store) SearchImportsource(query string, limit int) ([]json.RawMessage, error) {
+	if limit <= 0 {
+		limit = 50
+	}
+	rows, err := s.db.Query(
+		`SELECT t.data FROM "importsource" t
+		 JOIN "importsource_fts" ON "importsource_fts".rowid = t.rowid
+		 WHERE "importsource_fts" MATCH ?
+		 ORDER BY rank LIMIT ?`,
+		query, limit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []json.RawMessage
+	for rows.Next() {
+		var data string
+		if err := rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		results = append(results, json.RawMessage(data))
+	}
+	return results, rows.Err()
+}
+
 // SearchIssuesecurityschemes searches the issuesecurityschemes_fts index with optional filters.
 func (s *Store) SearchIssuesecurityschemes(query string, limit int) ([]json.RawMessage, error) {
 	if limit <= 0 {
@@ -25323,6 +27684,90 @@ func (s *Store) SearchNotificationscheme(query string, limit int) ([]json.RawMes
 		`SELECT t.data FROM "notificationscheme" t
 		 JOIN "notificationscheme_fts" ON "notificationscheme_fts".rowid = t.rowid
 		 WHERE "notificationscheme_fts" MATCH ?
+		 ORDER BY rank LIMIT ?`,
+		query, limit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []json.RawMessage
+	for rows.Next() {
+		var data string
+		if err := rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		results = append(results, json.RawMessage(data))
+	}
+	return results, rows.Err()
+}
+
+// SearchObjectschema searches the objectschema_fts index with optional filters.
+func (s *Store) SearchObjectschema(query string, limit int) ([]json.RawMessage, error) {
+	if limit <= 0 {
+		limit = 50
+	}
+	rows, err := s.db.Query(
+		`SELECT t.data FROM "objectschema" t
+		 JOIN "objectschema_fts" ON "objectschema_fts".rowid = t.rowid
+		 WHERE "objectschema_fts" MATCH ?
+		 ORDER BY rank LIMIT ?`,
+		query, limit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []json.RawMessage
+	for rows.Next() {
+		var data string
+		if err := rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		results = append(results, json.RawMessage(data))
+	}
+	return results, rows.Err()
+}
+
+// SearchObjecttype searches the objecttype_fts index with optional filters.
+func (s *Store) SearchObjecttype(query string, limit int) ([]json.RawMessage, error) {
+	if limit <= 0 {
+		limit = 50
+	}
+	rows, err := s.db.Query(
+		`SELECT t.data FROM "objecttype" t
+		 JOIN "objecttype_fts" ON "objecttype_fts".rowid = t.rowid
+		 WHERE "objecttype_fts" MATCH ?
+		 ORDER BY rank LIMIT ?`,
+		query, limit,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []json.RawMessage
+	for rows.Next() {
+		var data string
+		if err := rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		results = append(results, json.RawMessage(data))
+	}
+	return results, rows.Err()
+}
+
+// SearchObjecttypeattribute searches the objecttypeattribute_fts index with optional filters.
+func (s *Store) SearchObjecttypeattribute(query string, limit int) ([]json.RawMessage, error) {
+	if limit <= 0 {
+		limit = 50
+	}
+	rows, err := s.db.Query(
+		`SELECT t.data FROM "objecttypeattribute" t
+		 JOIN "objecttypeattribute_fts" ON "objecttypeattribute_fts".rowid = t.rowid
+		 WHERE "objecttypeattribute_fts" MATCH ?
 		 ORDER BY rank LIMIT ?`,
 		query, limit,
 	)

@@ -96,15 +96,15 @@ func newSpaceRolesUpdateCmd(flags *rootFlags) *cobra.Command {
 					Resource:       "space-roles",
 					Endpoint:       "update",
 					Status:         "submitted",
-					StatusResource: "task",
-					StatusEndpoint: "get",
+					StatusResource: "statuses",
+					StatusEndpoint: "get-by-id",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/api/3/task/{taskId}", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/rest/api/3/statuses", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})

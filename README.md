@@ -447,6 +447,24 @@ This resource represents an announcement banner. Use it to retrieve and update b
 
 **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
 
+### api-config
+
+Manage api config
+
+- **`keen api-config reference-type-create`** - Update a reference type
+- **`keen api-config reference-type-list`** - Get reference type
+- **`keen api-config status-create`** - Create a new status
+- **`keen api-config status-delete`** - Delete an existing status
+- **`keen api-config status-find`** - Find a status by id
+- **`keen api-config status-list`** - Find all status
+- **`keen api-config status-update`** - Update an existing status
+
+### api-import
+
+Manage api import
+
+- **`keen api-import <id>`** - Start configured imports. To see an ongoing import see the Progress resource
+
 ### api-keys
 
 API Key APIs
@@ -608,6 +626,12 @@ Information about applications
 
 - **`keen applications get`** - Get a specific application.
 - **`keen applications list`** - Get a list of applications.
+
+### aql
+
+Manage aql
+
+- **`keen aql`** - This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead. Find objects based on Assets Query Language (AQL)
 
 ### assets
 
@@ -1108,6 +1132,62 @@ This operation can be accessed anonymously.
 
 Manage comments
 
+
+### compass
+
+Manage compass
+
+- **`keen compass create-event`** - Sends an event into an event source. This API is rate limited. Only 100 requests per user per minute are allowed.
+- **`keen compass delete-apispec`** - Delete the API spec file for a component.
+- **`keen compass delete-attachment`** - Delete file attached to a component. If you need to have attachment upload enabled for your Compass Forge app, contact Atlassian support.
+- **`keen compass delete-lock-file`** - Delete all the package dependencies associated with a particular source.The `sourceId` parameter needs to be Base64 encoded.
+- **`keen compass evaluate-entitlements`** - Get entitlement results for a given user and site
+- **`keen compass get-attachment`** - Get a file attached to a component. If you need to have attachment upload enabled for your Compass Forge app, contact Atlassian support.
+- **`keen compass handle-webhook-invocation`** - Third parties can call these inbound webhooks to dothings within compass, like create deployment events for webhooks coming from github
+- **`keen compass insert-metric-value`** - Sends a metric value into a metric source for a [component](/cloud/compass/components/what-is-a-component/). This API is rate limited. Only 100 requests per user per minute are allowed.
+- **`keen compass upload-apispec`** - Upload api specs for a component.
+
+The request body should be a file with the api-spec content.
+
+Example: This curl command uploads a spec file (swagger.yaml) for the component.
+```bash
+curl --request PUT \
+--url 'https://your-domain.atlassian.net/gateway/api/compass/v1/component/{componentId}/api_specs' \
+--user 'email@example.com:<api_token>' \
+--header 'Content-Type: multipart/form-data' \
+--form file=@/path/to/file/swagger.yaml
+```
+- **`keen compass upload-attachment`** - Attach a file to a component. If you need to have attachment upload enabled for your Compass Forge app, contact Atlassian support.
+
+The request body should be a file.
+
+Example: This curl command attaches a file to a component.
+```bash
+curl --request PUT \
+--url 'https://your-domain.atlassian.net/gateway/api/compass/v1/component/{componentId}/app/{forgeAppId}/attachment/{key}' \
+--user 'email@example.com:<api_token>' \
+--header 'Content-Type: multipart/form-data' \
+--form file=@/path/to/attachment.txt
+```
+- **`keen compass upload-lock-file`** - Upload package dependencies for a component.
+
+The file with package dependency information. Currently, we only accept package-lock.json files that are below 2MB. \
+\
+The baseSourceUrl should be a url link to your lock file, ideally with "#lines-" appended at the end, if from Bitbucket, or "#L" appended if a GitHub link. This will let link to specific lines in your lock file where dependencies were found. \
+\
+The sourceId should be a string that uniquely identifies the given lock file. We recommend using the filepath to the lock file, with the "/" characters replaced with "_" characters.
+
+Example: This curl command uploads a lock file to populate package dependencies for the component.
+```bash
+curl --request PUT \
+--url 'https://your-domain.atlassian.net/gateway/api/compass/v1/package_dependencies/lock_file' \
+--user 'email@example.com:<api_token>' \
+--header 'Content-Type: multipart/form-data' \
+--form file=@/path/to/file/package-lock.json;type=application/json
+--form componentId=<componentId>
+--form baseSourceUrl=<url to your lock file>
+--form sourceId=<a unique identifier for your file>
+```
 
 ### component
 
@@ -2052,6 +2132,12 @@ The value of the request body must be a [valid](http://tools.ietf.org/html/rfc46
 
 The new `write:app-data:jira` OAuth scope is 100% optional now, and not using it won't break your app. However, we recommend adding it to your app's scope list because we will eventually make it mandatory.
 
+### global
+
+Manage global
+
+- **`keen global <id>`** - Update general configuration for object schema
+
 ### group
 
 This resource represents groups of users. Use it to get, create, find, and delete groups as well as add and remove users from groups. (\[WARNING\] The standard Atlassian group names are default names only and can be edited or deleted. For example, an admin or Atlassian support could delete the default group jira-software-users or rename it to jsw-users at any point. See https://support.atlassian.com/user-management/docs/create-and-update-groups/ for details.)
@@ -2132,6 +2218,19 @@ This operation can be accessed anonymously.
 
 **[Permissions](#permissions) required:** *Browse users and groups* [global permission](https://confluence.atlassian.com/x/yodKLg).
 
+### icon
+
+Manage icon
+
+- **`keen icon find`** - Load a single icon by id
+- **`keen icon find-global`** - Return all global icons i.e. icons not associated with a particular object schema
+
+### importsource
+
+Manage importsource
+
+- **`keen importsource <id>`** - Retrieves a specific import source configuration by its ID. If scheduled imports are enabled, the response includes scheduling information.
+
 ### inline-comments
 
 Manage inline comments
@@ -2190,6 +2289,12 @@ Manage invalid jqls access log
 Entries are ordered by creation time, newest first, and retained for three days. Pass the `nextPageToken` returned in a previous response to retrieve the next page. Results may be restricted to a user by external account ID.
 
 **[Permissions](#permissions) required:** *Administer Jira* global permission.
+
+### iql
+
+Manage iql
+
+- **`keen iql`** - This endpoint is deprecated and will be removed on <b>18th of September 2024</b>. Please use POST `/object/aql` instead.
 
 ### issue
 
@@ -3197,6 +3302,51 @@ GET responses do not return it. Other updates return a null `clientSecret`.
 #### Scopes
 **[OAuth 2.0 scopes](/cloud/admin/scopes/) required:** `write:service-accounts-tokens:admin`
 
+### object
+
+Manage object
+
+- **`keen object by-aql`** - Fetch Objects by AQL
+- **`keen object count-by-aql`** - This API provides the total count of objects that match a specified AQL query. Please note that this operation may incur performance latency.
+- **`keen object create`** - Create a new object in Assets
+- **`keen object delete`** - Delete the referenced object
+- **`keen object find`** - Load one object
+- **`keen object navigator-list`** - Retrieve a list of objects based on an AQL. Deprecated from <b>30 September 2024</b>. Please use POST /object/aql instead. For more information please see https://developer.atlassian.com/changelog/#CHANGE-1661.
+- **`keen object navigator-list-deprecated`** - Deprecated. Use `/object/navlist/aql` instead.
+- **`keen object update`** - Update an existing object in Assets
+
+### objectconnectedtickets
+
+Manage objectconnectedtickets
+
+
+### objectschema
+
+Manage objectschema
+
+- **`keen objectschema schema-create`** - Create a new object schema
+- **`keen objectschema schema-delete`** - Delete a schema
+- **`keen objectschema schema-find`** - Find a schema by id
+- **`keen objectschema schema-list`** - Resource to find object schemas in Assets
+- **`keen objectschema schema-update`** - Update an object schema
+
+### objecttype
+
+Manage objecttype
+
+- **`keen objecttype object-type-create`** - Create a new object type
+- **`keen objecttype object-type-delete`** - Delete an object type
+- **`keen objecttype object-type-find`** - Find an object type by id
+- **`keen objecttype object-type-update`** - Update an existing object type
+
+### objecttypeattribute
+
+Manage objecttypeattribute
+
+- **`keen objecttypeattribute object-type-attribute-create`** - Create a new attribute on the given object type
+- **`keen objecttypeattribute object-type-attribute-delete`** - Delete an existing object type attribute
+- **`keen objecttypeattribute object-type-attribute-update`** - Update an existing object type attribute
+
 ### operations
 
 APIs related to integrating Incident and Post-Incident Review (PIR) data with Jira Software.
@@ -3695,6 +3845,12 @@ Information about products
 - **`keen products get-key-3`** - Get details about a specific version, matching the specified build number, of the specified product.
 - **`keen products get-key-4`** - Get details about a specific version, matching the specified name, of the specified product.
 - **`keen products list`** - Get a list of products matching the specified parameters.
+
+### progress
+
+Manage progress
+
+- **`keen progress <id>`** - Show ongoing import process
 
 ### project
 
@@ -5041,6 +5197,12 @@ After creating the avatar use:
  *  [Update priority](#api-rest-api-3-priority-id-put) to set it as the priority's displayed avatar.
 
 **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+
+### usage
+
+Manage usage
+
+- **`keen usage`** - Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema breakdown for billing and analytics.
 
 ### user
 

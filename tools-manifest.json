@@ -5028,6 +5028,211 @@
       ]
     },
     {
+      "name": "api-config_reference-type-create",
+      "description": "Update a reference type. Required: name. Optional: color, description, displayName (plus 1 more). Returns the new ReferenceType.",
+      "method": "POST",
+      "path": "/config/referencetype",
+      "params": [
+        {
+          "name": "color",
+          "type": "string",
+          "location": "body",
+          "description": "Color"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "objectSchemaId",
+          "type": "string",
+          "location": "body",
+          "description": "Object schema id"
+        }
+      ]
+    },
+    {
+      "name": "api-config_reference-type-list",
+      "description": "Get reference type. Optional: objectSchemaId, includeAll. Returns array of ReferenceType.",
+      "method": "GET",
+      "path": "/config/referencetype",
+      "params": [
+        {
+          "name": "objectSchemaId",
+          "type": "string",
+          "location": "query",
+          "description": "Include reference types for the object schema id. If supplied reference types for the object schema will be returned otherwise all global will be returned"
+        },
+        {
+          "name": "includeAll",
+          "type": "bool",
+          "location": "query",
+          "description": "Include all reference types. Defaults to false"
+        }
+      ]
+    },
+    {
+      "name": "api-config_status-create",
+      "description": "Create a new status. Required: category, name. Optional: description, displayName, objectSchemaId. Returns the new Status.",
+      "method": "POST",
+      "path": "/config/statustype",
+      "params": [
+        {
+          "name": "category",
+          "type": "int",
+          "location": "body",
+          "description": "| Name | Value | Color | | ---- | ----- | ----- | | ACTIVE | 1 | Green | | INACTIVE | 0 | Red | | PENDING | 2 | Yellow |",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "objectSchemaId",
+          "type": "string",
+          "location": "body",
+          "description": "Object schema id"
+        }
+      ]
+    },
+    {
+      "name": "api-config_status-delete",
+      "description": "Delete an existing status. Required: id. Destructive.",
+      "method": "DELETE",
+      "path": "/config/statustype/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Status type id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "api-config_status-find",
+      "description": "Find a status by id. Required: id. Returns the Status.",
+      "method": "GET",
+      "path": "/config/statustype/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Status type id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "api-config_status-list",
+      "description": "Find all status. Optional: objectSchemaId. Returns array of Status.",
+      "method": "GET",
+      "path": "/config/statustype",
+      "params": [
+        {
+          "name": "objectSchemaId",
+          "type": "string",
+          "location": "query",
+          "description": "Include statuses for the object schema id. If supplied statuses for the object schema will be returned otherwise all global will be returned"
+        }
+      ]
+    },
+    {
+      "name": "api-config_status-update",
+      "description": "Update an existing status. Required: id, category, name. Optional: description, displayName, objectSchemaId. Returns the updated Status.",
+      "method": "PUT",
+      "path": "/config/statustype/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Status type id",
+          "required": true
+        },
+        {
+          "name": "category",
+          "type": "int",
+          "location": "body",
+          "description": "| Name | Value | Color | | ---- | ----- | ----- | | ACTIVE | 1 | Green | | INACTIVE | 0 | Red | | PENDING | 2 | Yellow |",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "objectSchemaId",
+          "type": "string",
+          "location": "body",
+          "description": "Object schema id"
+        }
+      ]
+    },
+    {
+      "name": "api-import_start",
+      "description": "Start configured imports. To see an ongoing import see the Progress resource. Required: id. Returns the new Progress.",
+      "method": "POST",
+      "path": "/import/start/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The id of the import configuration that should be started",
+          "required": true
+        }
+      ]
+    },
+    {
       "name": "api-keys_get-all-by-org-id",
       "description": "Gets all user API keys in an organization. #### Scopes **[Authorization scopes](/cloud/admin/scopes/) required:** `read:keys:admin`. (public)",
       "method": "GET",
@@ -5952,6 +6157,56 @@
           "location": "path",
           "description": "The display name of the version, for example '1.0.0'",
           "required": true
+        }
+      ]
+    },
+    {
+      "name": "aql_find-objects",
+      "description": "This endpoint is deprecated and will be removed on \u003cb\u003e18th of September 2024\u003c/b\u003e. Please use POST `/object/aql` instead. Find objects based on Assets Query Language (AQL). Optional: qlQuery, page (default: 1), resultPerPage (default: 25) (plus 4 more). Returns the ObjectListResult.",
+      "method": "GET",
+      "path": "/aql/objects",
+      "params": [
+        {
+          "name": "qlQuery",
+          "type": "string",
+          "location": "query",
+          "description": "The query to determine which objects that should be fetched. E.g. objectType = 'Computer'. The empty AQL means all objects"
+        },
+        {
+          "name": "page",
+          "type": "int",
+          "location": "query",
+          "description": "Which page to fetch when paginating through the response"
+        },
+        {
+          "name": "resultPerPage",
+          "type": "int",
+          "location": "query",
+          "description": "The amount of objects returned per page"
+        },
+        {
+          "name": "includeAttributes",
+          "type": "bool",
+          "location": "query",
+          "description": "Should the objects attributes be included in the response."
+        },
+        {
+          "name": "includeAttributesDeep",
+          "type": "int",
+          "location": "query",
+          "description": "How many levels of attributes should be included. E.g. consider an object A that has a reference to object B that has a reference to object C. If object A is included in the response and includeAttributesDeep=1 object A's reference to object B will be included in the attributes of object A but object B's reference to object C will not be included. However if the includeAttributesDeep=2 then object B's reference to object C will be included in object B's attributes"
+        },
+        {
+          "name": "includeTypeAttributes",
+          "type": "bool",
+          "location": "query",
+          "description": "Should the response include the object type attribute definition for each attribute that is returned with the objects"
+        },
+        {
+          "name": "includeExtendedInfo",
+          "type": "bool",
+          "location": "query",
+          "description": "Include information about open Jira issues. Should each object have information if open tickets are connected to the object?"
         }
       ]
     },
@@ -9161,6 +9416,260 @@
           "type": "object",
           "location": "body",
           "description": "New version number and associated message"
+        }
+      ]
+    },
+    {
+      "name": "compass_create-event",
+      "description": "Sends an event into an event source. This API is rate limited. Only 100 requests per user per minute are allowed. Required: cloudId, event. Optional: componentId.",
+      "method": "POST",
+      "path": "/compass/v1/events",
+      "params": [
+        {
+          "name": "cloudId",
+          "type": "string",
+          "location": "body",
+          "description": "Cloud id",
+          "required": true
+        },
+        {
+          "name": "componentId",
+          "type": "string",
+          "location": "body",
+          "description": "Component id"
+        },
+        {
+          "name": "event",
+          "type": "object",
+          "location": "body",
+          "description": "The type of event. One and only one of the fields in this input type must be provided.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_delete-apispec",
+      "description": "Delete the API spec file for a component. Required: componentId. Destructive.",
+      "method": "DELETE",
+      "path": "/compass/v1/component/{componentId}/api_specs",
+      "params": [
+        {
+          "name": "componentId",
+          "type": "string",
+          "location": "path",
+          "description": "Component id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_delete-attachment",
+      "description": "Delete file attached to a component. If you need to have attachment upload enabled for your Compass Forge app, contact Atlassian support. Required: componentId, forgeAppId, key. Destructive.",
+      "method": "DELETE",
+      "path": "/compass/v1/component/{componentId}/app/{forgeAppId}/attachment/{key}",
+      "params": [
+        {
+          "name": "componentId",
+          "type": "string",
+          "location": "path",
+          "description": "Component id",
+          "required": true
+        },
+        {
+          "name": "forgeAppId",
+          "type": "string",
+          "location": "path",
+          "description": "Forge app id",
+          "required": true
+        },
+        {
+          "name": "key",
+          "type": "string",
+          "location": "path",
+          "description": "Key",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_delete-lock-file",
+      "description": "Delete all the package dependencies associated with a particular source.The `sourceId` parameter needs to be Base64 encoded. Required: componentId, sourceId. Destructive.",
+      "method": "DELETE",
+      "path": "/compass/v1/package_dependencies/lock_file/{componentId}/{sourceId}",
+      "params": [
+        {
+          "name": "componentId",
+          "type": "string",
+          "location": "path",
+          "description": "Component id",
+          "required": true
+        },
+        {
+          "name": "sourceId",
+          "type": "string",
+          "location": "path",
+          "description": "Source id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_evaluate-entitlements",
+      "description": "Get entitlement results for a given user and site. Required: entitlements. Returns the new EntitlementResponseDto.",
+      "method": "POST",
+      "path": "/compass/v1/entitlements",
+      "params": [
+        {
+          "name": "entitlements",
+          "type": "array",
+          "location": "body",
+          "description": "The entitlements to evaluate for the given user and site",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_get-attachment",
+      "description": "Get a file attached to a component. If you need to have attachment upload enabled for your Compass Forge app, contact Atlassian support. Required: componentId, forgeAppId, key. Returns the Attachment.",
+      "method": "GET",
+      "path": "/compass/v1/component/{componentId}/app/{forgeAppId}/attachment/{key}",
+      "params": [
+        {
+          "name": "componentId",
+          "type": "string",
+          "location": "path",
+          "description": "Component id",
+          "required": true
+        },
+        {
+          "name": "forgeAppId",
+          "type": "string",
+          "location": "path",
+          "description": "Forge app id",
+          "required": true
+        },
+        {
+          "name": "key",
+          "type": "string",
+          "location": "path",
+          "description": "Key",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_handle-webhook-invocation",
+      "description": "Third parties can call these inbound webhooks to dothings within compass, like create deployment events for webhooks coming from github. Required: webhookId.",
+      "method": "POST",
+      "path": "/compass/v1/webhooks/{webhookId}",
+      "params": [
+        {
+          "name": "webhookId",
+          "type": "string",
+          "location": "path",
+          "description": "Webhook id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_insert-metric-value",
+      "description": "Sends a metric value into a metric source for a [component](/cloud/compass/components/what-is-a-component/). This API is rate limited. Only 100 requests per user per minute are allowed. Returns the new InsertMetricResponseDto.",
+      "method": "POST",
+      "path": "/compass/v1/metrics",
+      "params": []
+    },
+    {
+      "name": "compass_upload-apispec",
+      "description": "Upload api specs for a component. The request body should be a file with the api-spec content. Example: This curl command uploads a spec file (swagger.yaml) for the component. ```bash curl --request PUT --url 'https://your-domain.atlassian.net/gateway/api/compass/v1/component/{componentId}/api_specs' --user 'email@example.com:\u003capi_token\u003e' --header 'Content-Type: multipart/form-data' --form file=@/path/to/file/swagger.yaml ```. Required: componentId, file.",
+      "method": "PUT",
+      "path": "/compass/v1/component/{componentId}/api_specs",
+      "params": [
+        {
+          "name": "componentId",
+          "type": "string",
+          "location": "path",
+          "description": "Component id",
+          "required": true
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "location": "body",
+          "description": "File",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_upload-attachment",
+      "description": "Attach a file to a component. If you need to have attachment upload enabled for your Compass Forge app, contact Atlassian support. The request body should be a file. Example: This curl command attaches a file to a component. ```bash curl --request PUT --url 'https://your-domain.atlassian.net/gateway/api/compass/v1/component/{componentId}/app/{forgeAppId}/attachment/{key}' --user 'email@example.com:\u003capi_token\u003e' --header 'Content-Type: multipart/form-data' --form file=@/path/to/attachment.txt ```. Required: componentId, forgeAppId, key, file. Returns the updated Attachment.",
+      "method": "PUT",
+      "path": "/compass/v1/component/{componentId}/app/{forgeAppId}/attachment/{key}",
+      "params": [
+        {
+          "name": "componentId",
+          "type": "string",
+          "location": "path",
+          "description": "Component id",
+          "required": true
+        },
+        {
+          "name": "forgeAppId",
+          "type": "string",
+          "location": "path",
+          "description": "Forge app id",
+          "required": true
+        },
+        {
+          "name": "key",
+          "type": "string",
+          "location": "path",
+          "description": "Key",
+          "required": true
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "location": "body",
+          "description": "File",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "compass_upload-lock-file",
+      "description": "Upload package dependencies for a component. The file with package dependency information. Currently, we only accept package-lock.json files that are below 2MB. The baseSourceUrl should be a url link to your lock file, ideally with '#lines-' appended at the end, if from Bitbucket, or '#L' appended if a GitHub link. This will let link to specific lines in your lock file where dependencies were found. The sourceId should be a string that uniquely identifies the given lock file. We recommend using the filepath to the lock file, with the '/' characters replaced with '_' characters. Example: This curl command uploads a lock file to populate package dependencies for the component. ```bash curl --request PUT --url 'https://your-domain.atlassian.net/gateway/api/compass/v1/package_dependencies/lock_file' --user 'email@example.com:\u003capi_token\u003e' --header 'Content-Type: multipart/form-data' --form file=@/path/to/file/package-lock.json;type=application/json --form componentId=\u003ccomponentId\u003e --form baseSourceUrl=\u003curl to your lock file\u003e --form sourceId= ```. Required: sourceId, baseSourceUrl, componentId, file.",
+      "method": "PUT",
+      "path": "/compass/v1/package_dependencies/lock_file",
+      "params": [
+        {
+          "name": "sourceId",
+          "type": "string",
+          "location": "query",
+          "description": "Source id",
+          "required": true
+        },
+        {
+          "name": "baseSourceUrl",
+          "type": "string",
+          "location": "query",
+          "description": "Base source url",
+          "required": true
+        },
+        {
+          "name": "componentId",
+          "type": "string",
+          "location": "query",
+          "description": "Component id",
+          "required": true
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "location": "body",
+          "description": "File",
+          "required": true
         }
       ]
     },
@@ -17662,6 +18171,39 @@
       ]
     },
     {
+      "name": "global_general-configuration-update",
+      "description": "Update general configuration for object schema. Required: id. Optional: allowOtherObjectSchema, quickCreateObjects, validateQuickCreate.",
+      "method": "POST",
+      "path": "/global/config/objectschema/{id}/property",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Object schema id",
+          "required": true
+        },
+        {
+          "name": "allowOtherObjectSchema",
+          "type": "bool",
+          "location": "body",
+          "description": "Allow other object schema"
+        },
+        {
+          "name": "quickCreateObjects",
+          "type": "bool",
+          "location": "body",
+          "description": "Quick create objects"
+        },
+        {
+          "name": "validateQuickCreate",
+          "type": "bool",
+          "location": "body",
+          "description": "Validate quick create"
+        }
+      ]
+    },
+    {
       "name": "group_add-user-to",
       "description": "Adds a user to a group. **[Permissions](#permissions) required:** Site administration (that is, member of the *site-admin* [group](https://confluence.atlassian.com/x/24xjL)).",
       "method": "POST",
@@ -17999,6 +18541,479 @@
           "type": "bool",
           "location": "query",
           "description": "Whether AI Agents should be included in the search results. If an invalid value is provided, the default value is used."
+        }
+      ]
+    },
+    {
+      "name": "icon_find",
+      "description": "Load a single icon by id. Required: id. Returns the Icon.",
+      "method": "GET",
+      "path": "/icon/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "icon_find-global",
+      "description": "Return all global icons i.e. icons not associated with a particular object schema. Returns array of Icon.",
+      "method": "GET",
+      "path": "/icon/global",
+      "params": []
+    },
+    {
+      "name": "icon_icon-png_icon-load-image",
+      "description": "Load a single icon PNG by id. Required: id. Optional: size.",
+      "method": "GET",
+      "path": "/icon/{id}/icon.png",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "location": "query",
+          "description": "Size"
+        }
+      ],
+      "header_overrides": [
+        {
+          "name": "Accept",
+          "value": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "importsource_get-import-source",
+      "description": "Retrieves a specific import source configuration by its ID. If scheduled imports are enabled, the response includes scheduling information. Required: id. Returns the ImportSourceResponse.",
+      "method": "GET",
+      "path": "/importsource/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The unique identifier of the import source",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_configstatus_status-of-import-configuration",
+      "description": "Get the current status of the import configuration. Required: importSourceId.",
+      "method": "GET",
+      "path": "/importsource/{importSourceId}/configstatus",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_executions_cancel-import",
+      "description": "Cancel current on-going import. Required: importExecutionId, importSourceId. Destructive.",
+      "method": "DELETE",
+      "path": "/importsource/{importSourceId}/executions/{importExecutionId}",
+      "params": [
+        {
+          "name": "importExecutionId",
+          "type": "string",
+          "location": "path",
+          "description": "The importExecutionId of the import",
+          "required": true
+        },
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_executions_create-failed-import-history",
+      "description": "Creates a failed import history record for the specified import source and execution with the given failure reason. Required: importSourceId, executionId.",
+      "method": "POST",
+      "path": "/importsource/{importSourceId}/executions/{executionId}/history/failed",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        },
+        {
+          "name": "executionId",
+          "type": "string",
+          "location": "path",
+          "description": "The executionId of the import execution",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_executions_start-data-ingestion",
+      "description": "Move to the data ingestion steps of external imports. Required: importSourceId.",
+      "method": "POST",
+      "path": "/importsource/{importSourceId}/executions",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_executions_status-of-import",
+      "description": "Get the status of the import. Required: importExecutionId, importSourceId.",
+      "method": "GET",
+      "path": "/importsource/{importSourceId}/executions/{importExecutionId}/status",
+      "params": [
+        {
+          "name": "importExecutionId",
+          "type": "string",
+          "location": "path",
+          "description": "The importExecutionId of the import",
+          "required": true
+        },
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_executions_status-of-most-recently-created-import",
+      "description": "Get the status of the most recently created import execution. Required: importSourceId.",
+      "method": "GET",
+      "path": "/importsource/{importSourceId}/executions/status",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_executions_submit-data-for-ingestion",
+      "description": "Providing data to be ingested. Required: importExecutionId, importSourceId.",
+      "method": "POST",
+      "path": "/importsource/{importSourceId}/executions/{importExecutionId}/data",
+      "params": [
+        {
+          "name": "importExecutionId",
+          "type": "string",
+          "location": "path",
+          "description": "The importExecutionId of the import",
+          "required": true
+        },
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_executions_submit-progress",
+      "description": "Submit progress of ingesting data. Required: importExecutionId, importSourceId.",
+      "method": "PUT",
+      "path": "/importsource/{importSourceId}/executions/{importExecutionId}/progress",
+      "params": [
+        {
+          "name": "importExecutionId",
+          "type": "string",
+          "location": "path",
+          "description": "The importExecutionId of the import",
+          "required": true
+        },
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_importschedule_create-import-schedule",
+      "description": "Creates a new scheduled import configuration for the specified import source. Scheduled imports allow you to automate data imports on a recurring basis (daily, weekly, monthly) or run them once at a specific time. Required: importSourceId, runInterval, startTime. Optional: callbackUrl. Returns the new ImportScheduleResponse.",
+      "method": "POST",
+      "path": "/importsource/{importSourceId}/importschedule",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the import source to schedule",
+          "required": true
+        },
+        {
+          "name": "callbackUrl",
+          "type": "string",
+          "location": "body",
+          "description": "Optional webhook URL to call after each scheduled import execution. The URL will receive a POST request with execution status."
+        },
+        {
+          "name": "runInterval",
+          "type": "string",
+          "location": "body",
+          "description": "The frequency of the scheduled import. ONCE: runs only at startTime. DAILY: runs every day at the specified time. WEEKLY: runs every 7 days. MONTHLY: runs on the same day of each month.",
+          "required": true
+        },
+        {
+          "name": "startTime",
+          "type": "string",
+          "location": "body",
+          "description": "The date and time when the first import should execute, in ISO 8601 format (e.g., '2024-01-15T02:00:00Z'). Must be in the future.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_importschedule_delete-import-schedule",
+      "description": "Deletes a scheduled import configuration. The import source will remain, but will no longer execute on a schedule. Required: importSourceId, importScheduleId. Destructive.",
+      "method": "DELETE",
+      "path": "/importsource/{importSourceId}/importschedule/{importScheduleId}",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the import source",
+          "required": true
+        },
+        {
+          "name": "importScheduleId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the import schedule to delete",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_importschedule_get-import-schedule",
+      "description": "Retrieves a specific scheduled import configuration by ID. Required: importSourceId, importScheduleId. Returns the ImportScheduleResponse.",
+      "method": "GET",
+      "path": "/importsource/{importSourceId}/importschedule/{importScheduleId}",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the import source",
+          "required": true
+        },
+        {
+          "name": "importScheduleId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the import schedule",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_importschedule_update-import-schedule",
+      "description": "Updates an existing scheduled import configuration. You can modify the start time, run interval, or callback URL. Required: importSourceId, importScheduleId, runInterval, startTime. Optional: callbackUrl. Returns the updated ImportScheduleResponse.",
+      "method": "PUT",
+      "path": "/importsource/{importSourceId}/importschedule/{importScheduleId}",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the import source",
+          "required": true
+        },
+        {
+          "name": "importScheduleId",
+          "type": "string",
+          "location": "path",
+          "description": "The ID of the import schedule to update",
+          "required": true
+        },
+        {
+          "name": "callbackUrl",
+          "type": "string",
+          "location": "body",
+          "description": "Optional webhook URL to call after each scheduled import execution. The URL will receive a POST request with execution status."
+        },
+        {
+          "name": "runInterval",
+          "type": "string",
+          "location": "body",
+          "description": "The frequency of the scheduled import. ONCE: runs only at startTime. DAILY: runs every day at the specified time. WEEKLY: runs every 7 days. MONTHLY: runs on the same day of each month.",
+          "required": true
+        },
+        {
+          "name": "startTime",
+          "type": "string",
+          "location": "body",
+          "description": "The date and time when the first import should execute, in ISO 8601 format (e.g., '2024-01-15T02:00:00Z'). Must be in the future.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_mapping_get-the-progress-of-an-asynchronous-schema-and-operation",
+      "description": "Get the progress of an asynchronous schema and mapping operation. Required: importSourceId, resourceId.",
+      "method": "GET",
+      "path": "/importsource/{importSourceId}/mapping/progress/{resourceId}",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        },
+        {
+          "name": "resourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The resourceId references the running schema and mapping operation",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_mapping_submit-schema-and-configuration",
+      "description": "Provide object schema and mapping configuration for the external import. Required: importSourceId. Optional: async, mapping, schema.",
+      "method": "PUT",
+      "path": "/importsource/{importSourceId}/mapping",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The uuid of the import source configuration for the external import",
+          "required": true
+        },
+        {
+          "name": "async",
+          "type": "bool",
+          "location": "query",
+          "description": "Execute the operation asynchronously"
+        },
+        {
+          "name": "mapping",
+          "type": "object",
+          "location": "body",
+          "description": "Object type and attribute mapping configuration for the import."
+        },
+        {
+          "name": "schema",
+          "type": "object",
+          "location": "body",
+          "description": "Object schema and status schema configuration for the import. Object types, child object types, attributes, and statuses support an optional `displayName`; reference attributes support an optional `referenceTypeDisplayName`."
+        }
+      ]
+    },
+    {
+      "name": "importsource_mapping_update-schema-and-configuration",
+      "description": "Update object schema and mapping configuration for the external import. Required: importSourceId. Optional: async, mapping, schema. Partial update.",
+      "method": "PATCH",
+      "path": "/importsource/{importSourceId}/mapping",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The uuid of the import source configuration for the external import",
+          "required": true
+        },
+        {
+          "name": "async",
+          "type": "bool",
+          "location": "query",
+          "description": "Execute the operation asynchronously"
+        },
+        {
+          "name": "mapping",
+          "type": "object",
+          "location": "body",
+          "description": "Object type and attribute mapping configuration for the import."
+        },
+        {
+          "name": "schema",
+          "type": "object",
+          "location": "body",
+          "description": "Object schema and status schema configuration for the import. Object types, child object types, attributes, and statuses support an optional `displayName`; reference attributes support an optional `referenceTypeDisplayName`."
+        }
+      ]
+    },
+    {
+      "name": "importsource_schedule_get-import-links",
+      "description": "Retrieve links for import schedule operations (create, get, update, delete). Returns a createSchedule link to POST a new schedule, and if a schedule already exists, returns a schedule link that can be used with GET, PUT, or DELETE operations. Required: importSourceId.",
+      "method": "GET",
+      "path": "/importsource/{importSourceId}/schedule",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration for the external import",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_schema-and-mapping_get-of-import-configuration",
+      "description": "Get the current schema and mapping of the import configuration. Required: importSourceId. Returns the ImportSchemaAndMapping.",
+      "method": "GET",
+      "path": "/importsource/{importSourceId}/schema-and-mapping",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "The importSourceId of the import source configuration. For use with external imports only",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "importsource_token_generate-bearer",
+      "description": "Generate a Bearer token which can be used to authenticate against Assets `/importsource/` APIs, to take actions against the specified import source. Required: importSourceId.",
+      "method": "POST",
+      "path": "/importsource/{importSourceId}/token",
+      "params": [
+        {
+          "name": "importSourceId",
+          "type": "string",
+          "location": "path",
+          "description": "importSourceId",
+          "required": true
         }
       ]
     },
@@ -18378,6 +19393,56 @@
           "type": "int",
           "location": "query",
           "description": "The maximum number of entries to return, from 1 to 100 and defaulting to 50."
+        }
+      ]
+    },
+    {
+      "name": "iql_find-objects",
+      "description": "This endpoint is deprecated and will be removed on \u003cb\u003e18th of September 2024\u003c/b\u003e. Please use POST `/object/aql` instead. Optional: iql, page (default: 1), resultPerPage (default: 25) (plus 4 more). Returns the ObjectListResult.",
+      "method": "GET",
+      "path": "/iql/objects",
+      "params": [
+        {
+          "name": "iql",
+          "type": "string",
+          "location": "query",
+          "description": "The query to determine which objects that should be fetched. E.g. objectType = 'Computer'. The empty AQL means all objects"
+        },
+        {
+          "name": "page",
+          "type": "int",
+          "location": "query",
+          "description": "Which page to fetch when paginating through the response"
+        },
+        {
+          "name": "resultPerPage",
+          "type": "int",
+          "location": "query",
+          "description": "The amount of objects returned per page"
+        },
+        {
+          "name": "includeAttributes",
+          "type": "bool",
+          "location": "query",
+          "description": "Should the objects attributes be included in the response."
+        },
+        {
+          "name": "includeAttributesDeep",
+          "type": "int",
+          "location": "query",
+          "description": "How many levels of attributes should be included. E.g. consider an object A that has a reference to object B that has a reference to object C. If object A is included in the response and includeAttributesDeep=1 object A's reference to object B will be included in the attributes of object A but object B's reference to object C will not be included. However if the includeAttributesDeep=2 then object B's reference to object C will be included in object B's attributes"
+        },
+        {
+          "name": "includeTypeAttributes",
+          "type": "bool",
+          "location": "query",
+          "description": "Should the response include the object type attribute definition for each attribute that is returned with the objects"
+        },
+        {
+          "name": "includeExtendedInfo",
+          "type": "bool",
+          "location": "query",
+          "description": "Include information about open Jira issues. Should each object have information if open tickets are connected to the object?"
         }
       ]
     },
@@ -24416,6 +25481,1122 @@
       ]
     },
     {
+      "name": "object_by-aql",
+      "description": "Fetch Objects by AQL. Required: qlQuery. Optional: startAt (default: 0), maxResults (default: 25), includeAttributes (default: true). Returns the new ObjectListInclTypeAttributesEntryResult.",
+      "method": "POST",
+      "path": "/object/aql",
+      "params": [
+        {
+          "name": "startAt",
+          "type": "int",
+          "location": "query",
+          "description": "The starting index for the next page of results"
+        },
+        {
+          "name": "maxResults",
+          "type": "int",
+          "location": "query",
+          "description": "The maximum number of objects to return in this page of results. Actual number of results may be less, for example, if the last page of results is returned."
+        },
+        {
+          "name": "includeAttributes",
+          "type": "bool",
+          "location": "query",
+          "description": "Should the objects attributes be included in the response."
+        },
+        {
+          "name": "qlQuery",
+          "type": "string",
+          "location": "body",
+          "description": "The AQL that will fetch the objects.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_count-by-aql",
+      "description": "This API provides the total count of objects that match a specified AQL query. Please note that this operation may incur performance latency. Required: qlQuery. Returns the new ObjectAqltotalCountResult.",
+      "method": "POST",
+      "path": "/object/aql/totalcount",
+      "params": [
+        {
+          "name": "qlQuery",
+          "type": "string",
+          "location": "body",
+          "description": "The AQL that will filter the objects.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_create",
+      "description": "Create a new object in Assets. Required: attributes, objectTypeId. Optional: avatarUUID, hasAvatar. Returns the new Object.",
+      "method": "POST",
+      "path": "/object/create",
+      "params": [
+        {
+          "name": "attributes",
+          "type": "array",
+          "location": "body",
+          "description": "Attributes",
+          "required": true
+        },
+        {
+          "name": "avatarUUID",
+          "type": "string",
+          "location": "body",
+          "description": "The UUID as retrieved by uploading an avatar."
+        },
+        {
+          "name": "hasAvatar",
+          "type": "bool",
+          "location": "body",
+          "description": "Has avatar"
+        },
+        {
+          "name": "objectTypeId",
+          "type": "string",
+          "location": "body",
+          "description": "The object type determines where the object should be stored and which attributes are available",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_delete",
+      "description": "Delete the referenced object. Required: id. Returns the Object. Destructive.",
+      "method": "DELETE",
+      "path": "/object/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object id to operate on",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_find",
+      "description": "Load one object. Required: id. Returns the Object.",
+      "method": "GET",
+      "path": "/object/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object id to operate on",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_navigator-list",
+      "description": "Retrieve a list of objects based on an AQL. Deprecated from \u003cb\u003e30 September 2024\u003c/b\u003e. Please use POST /object/aql instead. For more information please see https://developer.atlassian.com/changelog/#CHANGE-1661. Required: objectSchemaId, objectTypeId, qlQuery, resultsPerPage. Optional: asc, attributesToDisplay, includeAttributes (plus 4 more). Returns the new ObjectListResult.",
+      "method": "POST",
+      "path": "/object/navlist/aql",
+      "params": [
+        {
+          "name": "asc",
+          "type": "int",
+          "location": "body",
+          "description": "Sort objects in ascending order or descending order based on the attribute identified by orderByTypeAttrId. 1 means ascending all other values mean descending. The preferred way is to not supply the asc parameter and use an order by in `qlQuery` instead."
+        },
+        {
+          "name": "attributesToDisplay",
+          "type": "object",
+          "location": "body",
+          "description": "Identifies attributes to be displayed"
+        },
+        {
+          "name": "includeAttributes",
+          "type": "bool",
+          "location": "body",
+          "description": "Should attribute values be included in the response."
+        },
+        {
+          "name": "iql",
+          "type": "string",
+          "location": "body",
+          "description": "**Required if `qlQuery` is not set.** Deprecated. Use `qlQuery` instead."
+        },
+        {
+          "name": "objectId",
+          "type": "string",
+          "location": "body",
+          "description": "Identifies an object that should be included in the result. The page will be calculated accordingly to include the object specified in the result set"
+        },
+        {
+          "name": "objectSchemaId",
+          "type": "string",
+          "location": "body",
+          "description": "Object schema id",
+          "required": true
+        },
+        {
+          "name": "objectTypeId",
+          "type": "string",
+          "location": "body",
+          "description": "Object type id",
+          "required": true
+        },
+        {
+          "name": "orderByTypeAttrId",
+          "type": "int",
+          "location": "body",
+          "description": "Which attribute should be used to order by. The preferred way is to use an order by in `qlQuery` and not pass this argument."
+        },
+        {
+          "name": "page",
+          "type": "int",
+          "location": "body",
+          "description": "The requested page to be loaded for a paginated result. The default value is page = 1"
+        },
+        {
+          "name": "qlQuery",
+          "type": "string",
+          "location": "body",
+          "description": "The AQL that will fetch the objects. The object type parameter will be appended implicitly to this AQL",
+          "required": true
+        },
+        {
+          "name": "resultsPerPage",
+          "type": "int",
+          "location": "body",
+          "description": "How many objects should be returned in the request. It is used with page attribute for pagination.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_navigator-list-deprecated",
+      "description": "Deprecated. Use `/object/navlist/aql` instead. Required: objectSchemaId, objectTypeId, qlQuery, resultsPerPage. Optional: asc, attributesToDisplay, includeAttributes (plus 4 more). Returns the new ObjectListResult.",
+      "method": "POST",
+      "path": "/object/navlist/iql",
+      "params": [
+        {
+          "name": "asc",
+          "type": "int",
+          "location": "body",
+          "description": "Sort objects in ascending order or descending order based on the attribute identified by orderByTypeAttrId. 1 means ascending all other values mean descending. The preferred way is to not supply the asc parameter and use an order by in `qlQuery` instead."
+        },
+        {
+          "name": "attributesToDisplay",
+          "type": "object",
+          "location": "body",
+          "description": "Identifies attributes to be displayed"
+        },
+        {
+          "name": "includeAttributes",
+          "type": "bool",
+          "location": "body",
+          "description": "Should attribute values be included in the response."
+        },
+        {
+          "name": "iql",
+          "type": "string",
+          "location": "body",
+          "description": "**Required if `qlQuery` is not set.** Deprecated. Use `qlQuery` instead."
+        },
+        {
+          "name": "objectId",
+          "type": "string",
+          "location": "body",
+          "description": "Identifies an object that should be included in the result. The page will be calculated accordingly to include the object specified in the result set"
+        },
+        {
+          "name": "objectSchemaId",
+          "type": "string",
+          "location": "body",
+          "description": "Object schema id",
+          "required": true
+        },
+        {
+          "name": "objectTypeId",
+          "type": "string",
+          "location": "body",
+          "description": "Object type id",
+          "required": true
+        },
+        {
+          "name": "orderByTypeAttrId",
+          "type": "int",
+          "location": "body",
+          "description": "Which attribute should be used to order by. The preferred way is to use an order by in `qlQuery` and not pass this argument."
+        },
+        {
+          "name": "page",
+          "type": "int",
+          "location": "body",
+          "description": "The requested page to be loaded for a paginated result. The default value is page = 1"
+        },
+        {
+          "name": "qlQuery",
+          "type": "string",
+          "location": "body",
+          "description": "The AQL that will fetch the objects. The object type parameter will be appended implicitly to this AQL",
+          "required": true
+        },
+        {
+          "name": "resultsPerPage",
+          "type": "int",
+          "location": "body",
+          "description": "How many objects should be returned in the request. It is used with page attribute for pagination.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_update",
+      "description": "Update an existing object in Assets. Required: id, attributes, objectTypeId. Optional: avatarUUID, hasAvatar. Returns the updated Object.",
+      "method": "PUT",
+      "path": "/object/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object id to operate on",
+          "required": true
+        },
+        {
+          "name": "attributes",
+          "type": "array",
+          "location": "body",
+          "description": "Attributes",
+          "required": true
+        },
+        {
+          "name": "avatarUUID",
+          "type": "string",
+          "location": "body",
+          "description": "The UUID as retrieved by uploading an avatar."
+        },
+        {
+          "name": "hasAvatar",
+          "type": "bool",
+          "location": "body",
+          "description": "Has avatar"
+        },
+        {
+          "name": "objectTypeId",
+          "type": "string",
+          "location": "body",
+          "description": "The object type determines where the object should be stored and which attributes are available",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_attributes_object-find",
+      "description": "List all attributes for the given object. Required: id. Returns array of ObjectAttribute.",
+      "method": "GET",
+      "path": "/object/{id}/attributes",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object id to operate on",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "object_history_object-find-entries",
+      "description": "Retrieve the history entries for this object. Required: id. Optional: asc. Returns array of ObjectHistory.",
+      "method": "GET",
+      "path": "/object/{id}/history",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object id to operate on",
+          "required": true
+        },
+        {
+          "name": "asc",
+          "type": "bool",
+          "location": "query",
+          "description": "Should the history be retrieved in ascending order"
+        }
+      ]
+    },
+    {
+      "name": "object_referenceinfo_object-find-references",
+      "description": "Find all references for an object. Required: id. Returns array of ObjectReferenceTypeInfo.",
+      "method": "GET",
+      "path": "/object/{id}/referenceinfo",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object id to operate on",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "objectconnectedtickets_tickets_object-connected",
+      "description": "Relation between Jira issues and Assets objects. Required: objectId. Returns the Tickets.",
+      "method": "GET",
+      "path": "/objectconnectedtickets/{objectId}/tickets",
+      "params": [
+        {
+          "name": "objectId",
+          "type": "string",
+          "location": "path",
+          "description": "The id of the object to get connected tickets for",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "objectschema_schema-create",
+      "description": "Create a new object schema. Required: name, objectSchemaKey. Optional: description, displayName. Returns the new ObjectSchema.",
+      "method": "POST",
+      "path": "/objectschema/create",
+      "params": [
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "objectSchemaKey",
+          "type": "string",
+          "location": "body",
+          "description": "Object schema key",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "objectschema_schema-delete",
+      "description": "Delete a schema. Required: id. Returns the ObjectSchema. Destructive.",
+      "method": "DELETE",
+      "path": "/objectschema/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object schema id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "objectschema_schema-find",
+      "description": "Find a schema by id. Required: id. Returns the ObjectSchema.",
+      "method": "GET",
+      "path": "/objectschema/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object schema id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "objectschema_schema-list",
+      "description": "Resource to find object schemas in Assets. Optional: query, startAt (default: 0), maxResults (default: 25) (plus 1 more). Returns the ObjectSchemaList.",
+      "method": "GET",
+      "path": "/objectschema/list",
+      "params": [
+        {
+          "name": "query",
+          "type": "string",
+          "location": "query",
+          "description": "A case-insensitive query used to filter object schemas whose name or display name contains the value"
+        },
+        {
+          "name": "startAt",
+          "type": "int",
+          "location": "query",
+          "description": "The starting index for the next page of results"
+        },
+        {
+          "name": "maxResults",
+          "type": "int",
+          "location": "query",
+          "description": "The maximum number of objects to return in this page of results. Actual number of results may be less, for example, if the last page of results is returned."
+        },
+        {
+          "name": "includeCounts",
+          "type": "bool",
+          "location": "query",
+          "description": "Should the object and object type count for schema be included in the response. If this parameter is false, object and object type count will return 0."
+        }
+      ]
+    },
+    {
+      "name": "objectschema_schema-update",
+      "description": "Update an object schema. Required: id. Optional: description, displayName, name (plus 1 more). Returns the updated ObjectSchema.",
+      "method": "PUT",
+      "path": "/objectschema/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object schema id",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name"
+        },
+        {
+          "name": "objectSchemaKey",
+          "type": "string",
+          "location": "body",
+          "description": "Object schema key"
+        }
+      ]
+    },
+    {
+      "name": "objectschema_attributes_schema-find-all",
+      "description": "Find all object type attributes for this object schema. Required: id. Optional: onlyValueEditable (default: false), extended (default: false), query. Returns array of ObjectTypeAttribute.",
+      "method": "GET",
+      "path": "/objectschema/{id}/attributes",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object schema id",
+          "required": true
+        },
+        {
+          "name": "onlyValueEditable",
+          "type": "bool",
+          "location": "query",
+          "description": "Return only values that are associated with values that can be edited"
+        },
+        {
+          "name": "extended",
+          "type": "bool",
+          "location": "query",
+          "description": "Include the object type with each object type attribute"
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "location": "query",
+          "description": "A case-insensitive query used to filter object type attributes whose name or display name contains the value"
+        }
+      ]
+    },
+    {
+      "name": "objectschema_objecttypes_schema-find-all-object-types",
+      "description": "Find all object types for this object schema. Required: id. Optional: excludeAbstract (default: false). Returns array of ObjectType.",
+      "method": "GET",
+      "path": "/objectschema/{id}/objecttypes",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object schema id",
+          "required": true
+        },
+        {
+          "name": "excludeAbstract",
+          "type": "bool",
+          "location": "query",
+          "description": "If true, filters out Abstract Object Types from the results"
+        }
+      ]
+    },
+    {
+      "name": "objectschema_objecttypes_schema-find-all-object-types-flat",
+      "description": "Find all object types for this object schema. Required: id. Optional: query, exclude, includeObjectCounts (default: false). Returns array of ObjectType.",
+      "method": "GET",
+      "path": "/objectschema/{id}/objecttypes/flat",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object schema id",
+          "required": true
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "location": "query",
+          "description": "A case-insensitive query used to filter object types whose name or display name starts with the value"
+        },
+        {
+          "name": "exclude",
+          "type": "string",
+          "location": "query",
+          "description": "Exclude object types whose name or display name exactly matches this value, ignoring case"
+        },
+        {
+          "name": "includeObjectCounts",
+          "type": "bool",
+          "location": "query",
+          "description": "If true, the objectCount attribute is populated for each object type"
+        }
+      ]
+    },
+    {
+      "name": "objecttype_object-type-create",
+      "description": "Create a new object type. Required: iconId, name, objectSchemaId. Optional: abstractObjectType, description, displayName (plus 2 more). Returns the new ObjectType.",
+      "method": "POST",
+      "path": "/objecttype/create",
+      "params": [
+        {
+          "name": "abstractObjectType",
+          "type": "bool",
+          "location": "body",
+          "description": "Abstract object type"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "iconId",
+          "type": "string",
+          "location": "body",
+          "description": "Icon id",
+          "required": true
+        },
+        {
+          "name": "inherited",
+          "type": "bool",
+          "location": "body",
+          "description": "Describes if this object type is configured for inheritance i.e. it's children inherits the attributes of this object type"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "objectSchemaId",
+          "type": "string",
+          "location": "body",
+          "description": "Object schema id",
+          "required": true
+        },
+        {
+          "name": "parentObjectTypeId",
+          "type": "string",
+          "location": "body",
+          "description": "The id of the parent object type"
+        }
+      ]
+    },
+    {
+      "name": "objecttype_object-type-delete",
+      "description": "Delete an object type. Required: id. Returns the ObjectType. Destructive.",
+      "method": "DELETE",
+      "path": "/objecttype/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "objecttype_object-type-find",
+      "description": "Find an object type by id. Required: id. Returns the ObjectType.",
+      "method": "GET",
+      "path": "/objecttype/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "objecttype_object-type-update",
+      "description": "Update an existing object type. Required: id. Optional: abstractObjectType, description, displayName (plus 3 more). Returns the updated ObjectType.",
+      "method": "PUT",
+      "path": "/objecttype/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        },
+        {
+          "name": "abstractObjectType",
+          "type": "bool",
+          "location": "body",
+          "description": "Abstract object type"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "iconId",
+          "type": "string",
+          "location": "body",
+          "description": "Icon id"
+        },
+        {
+          "name": "inherited",
+          "type": "bool",
+          "location": "body",
+          "description": "Describes if this object type is configured for inheritance i.e. it's children inherits the attributes of this object type"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name"
+        }
+      ]
+    },
+    {
+      "name": "objecttype_attributes_object-type-find-all",
+      "description": "Find all attributes for this object type. Required: id. Optional: onlyValueEditable (default: false), orderByName (default: false), query (plus 4 more). Returns array of ObjectTypeAttribute.",
+      "method": "GET",
+      "path": "/objecttype/{id}/attributes",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        },
+        {
+          "name": "onlyValueEditable",
+          "type": "bool",
+          "location": "query",
+          "description": "Only value editable"
+        },
+        {
+          "name": "orderByName",
+          "type": "bool",
+          "location": "query",
+          "description": "Order by name"
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "location": "query",
+          "description": "A comma-separated list of case-insensitive prefixes; an attribute is included when its name or display name starts with any value"
+        },
+        {
+          "name": "includeValuesExist",
+          "type": "bool",
+          "location": "query",
+          "description": "Include values exist"
+        },
+        {
+          "name": "excludeParentAttributes",
+          "type": "bool",
+          "location": "query",
+          "description": "Exclude parent attributes"
+        },
+        {
+          "name": "includeChildren",
+          "type": "bool",
+          "location": "query",
+          "description": "Include children"
+        },
+        {
+          "name": "orderByRequired",
+          "type": "bool",
+          "location": "query",
+          "description": "Order by required"
+        }
+      ]
+    },
+    {
+      "name": "objecttype_position_object-type-change",
+      "description": "Change position of this object type. Required: id, position. Optional: toObjectTypeId. Returns the new ObjectType.",
+      "method": "POST",
+      "path": "/objecttype/{id}/position",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "Id",
+          "required": true
+        },
+        {
+          "name": "position",
+          "type": "int",
+          "location": "body",
+          "description": "The preffered position",
+          "required": true
+        },
+        {
+          "name": "toObjectTypeId",
+          "type": "string",
+          "location": "body",
+          "description": "The desired new parent of the object type"
+        }
+      ]
+    },
+    {
+      "name": "objecttypeattribute_object-type-attribute-create",
+      "description": "Create a new attribute on the given object type. Required: objectTypeId, name, type. Optional: additionalValue, defaultTypeId, description (plus 15 more). Returns the new ObjectTypeAttribute.",
+      "method": "POST",
+      "path": "/objecttypeattribute/{objectTypeId}",
+      "params": [
+        {
+          "name": "objectTypeId",
+          "type": "string",
+          "location": "path",
+          "description": "The object type id that has this object type attribute associated with it",
+          "required": true
+        },
+        {
+          "name": "additionalValue",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Type Url, User, Object and Confluence. For Url (DISABLED, ENABLED), for Object (ReferenceTypeId), for User (SHOW_PROFILE, HIDE_PROFILE), for Confluence (Confluence Space Id). It is mandatory for Type = Object reference"
+        },
+        {
+          "name": "defaultTypeId",
+          "type": "int",
+          "location": "body",
+          "description": "| Id | Description (mandatory if type = Default) | | -- | ----------- | | -1 | None | | 0 | Text | | 1 | Integer | | 2 | Boolean | | 3 | Double | | 4 | Date | | 5 | Time | | 6 | DateTime | | 7 | Url | | 8 | Email | | 9 | Textarea | | 10 | Select | | 11 | IP Address |"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "hidden",
+          "type": "bool",
+          "location": "body",
+          "description": "Hide the object type attributes for Assets Users"
+        },
+        {
+          "name": "includeChildObjectTypes",
+          "type": "bool",
+          "location": "body",
+          "description": "Valid for Type = Object reference and describes if children object types should be included in the selectable objects as well"
+        },
+        {
+          "name": "iql",
+          "type": "string",
+          "location": "body",
+          "description": "Deprecated. Use `qlQuery` instead. Valid for Type object reference."
+        },
+        {
+          "name": "label",
+          "type": "bool",
+          "location": "body",
+          "description": "Label"
+        },
+        {
+          "name": "maximumCardinality",
+          "type": "int",
+          "location": "body",
+          "description": "Valid for Type Email, Select, Object, User, Group, Version and Project"
+        },
+        {
+          "name": "minimumCardinality",
+          "type": "int",
+          "location": "body",
+          "description": "Valid for Type Email, Select, Object, User, Group, Version and Project"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Type Select. A comma separated list of all chosable options"
+        },
+        {
+          "name": "qlQuery",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Type object reference. Allows specifying an AQL query to restrict which objects are selectable."
+        },
+        {
+          "name": "regexValidation",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Type Text and Email"
+        },
+        {
+          "name": "suffix",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Integer and Double object type attributes"
+        },
+        {
+          "name": "summable",
+          "type": "bool",
+          "location": "body",
+          "description": "Valid for Type Integer and Double. Should a sum be included in the view"
+        },
+        {
+          "name": "type",
+          "type": "int",
+          "location": "body",
+          "description": "| Value | Description| | ----- | ----------- | | 0 | Default| | 1 | Object reference| | 2 | User| | 4 | Group | | 7 | Status |",
+          "required": true
+        },
+        {
+          "name": "typeValue",
+          "type": "string",
+          "location": "body",
+          "description": "It is mandatory for Type = Object reference and should point to the referenced object type id"
+        },
+        {
+          "name": "typeValueMulti",
+          "type": "array",
+          "location": "body",
+          "description": "Valid for Type User. The Jira groups to restrict selection to"
+        },
+        {
+          "name": "uniqueAttribute",
+          "type": "bool",
+          "location": "body",
+          "description": "Should the values be unique for object attributes associated with this object type attribute"
+        }
+      ]
+    },
+    {
+      "name": "objecttypeattribute_object-type-attribute-delete",
+      "description": "Delete an existing object type attribute. Required: id. Destructive.",
+      "method": "DELETE",
+      "path": "/objecttypeattribute/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object type attribute id to be manipulated",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "objecttypeattribute_object-type-attribute-update",
+      "description": "Update an existing object type attribute. Required: id, objectTypeId. Optional: additionalValue, defaultTypeId, description (plus 17 more). Returns the updated ObjectTypeAttribute.",
+      "method": "PUT",
+      "path": "/objecttypeattribute/{objectTypeId}/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The object type attribute to manipulate",
+          "required": true
+        },
+        {
+          "name": "objectTypeId",
+          "type": "string",
+          "location": "path",
+          "description": "The object type id that has this object type attribute associated with it",
+          "required": true
+        },
+        {
+          "name": "additionalValue",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Type Url, User, Object and Confluence. For Url (DISABLED, ENABLED), for Object (ReferenceTypeId), for User (SHOW_PROFILE, HIDE_PROFILE), for Confluence (Confluence Space Id). It is mandatory for Type = Object reference"
+        },
+        {
+          "name": "defaultTypeId",
+          "type": "int",
+          "location": "body",
+          "description": "| Id | Description (mandatory if type = Default) | | -- | ----------- | | -1 | None | | 0 | Text | | 1 | Integer | | 2 | Boolean | | 3 | Double | | 4 | Date | | 5 | Time | | 6 | DateTime | | 7 | Url | | 8 | Email | | 9 | Textarea | | 10 | Select | | 11 | IP Address |"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "location": "body",
+          "description": "Display name"
+        },
+        {
+          "name": "hidden",
+          "type": "bool",
+          "location": "body",
+          "description": "Hide the object type attributes for Assets Users"
+        },
+        {
+          "name": "includeChildObjectTypes",
+          "type": "bool",
+          "location": "body",
+          "description": "Valid for Type = Object reference and describes if children object types should be included in the selectable objects as well"
+        },
+        {
+          "name": "iql",
+          "type": "string",
+          "location": "body",
+          "description": "Deprecated. Use `qlQuery` instead. Valid for Type object reference."
+        },
+        {
+          "name": "label",
+          "type": "bool",
+          "location": "body",
+          "description": "Label"
+        },
+        {
+          "name": "maximumCardinality",
+          "type": "int",
+          "location": "body",
+          "description": "Valid for Type Email, Select, Object, User, Group, Version and Project"
+        },
+        {
+          "name": "minimumCardinality",
+          "type": "int",
+          "location": "body",
+          "description": "Valid for Type Email, Select, Object, User, Group, Version and Project"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name"
+        },
+        {
+          "name": "options",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Type Select. A comma separated list of all chosable options"
+        },
+        {
+          "name": "qlQuery",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Type object reference. Allows specifying an AQL query to restrict which objects are selectable."
+        },
+        {
+          "name": "regexValidation",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Type Text and Email"
+        },
+        {
+          "name": "suffix",
+          "type": "string",
+          "location": "body",
+          "description": "Valid for Integer and Double object type attributes"
+        },
+        {
+          "name": "summable",
+          "type": "bool",
+          "location": "body",
+          "description": "Valid for Type Integer and Double. Should a sum be included in the view"
+        },
+        {
+          "name": "type",
+          "type": "int",
+          "location": "body",
+          "description": "| Value | Description| | ----- | ----------- | | 0 | Default| | 1 | Object reference| | 2 | User| | 4 | Group | | 7 | Status |"
+        },
+        {
+          "name": "typeValue",
+          "type": "string",
+          "location": "body",
+          "description": "It is mandatory for Type = Object reference and should point to the referenced object type id"
+        },
+        {
+          "name": "typeValueMulti",
+          "type": "array",
+          "location": "body",
+          "description": "Valid for Type User. The Jira groups to restrict selection to"
+        },
+        {
+          "name": "uniqueAttribute",
+          "type": "bool",
+          "location": "body",
+          "description": "Should the values be unique for object attributes associated with this object type attribute"
+        }
+      ]
+    },
+    {
       "name": "operations_delete-entity-by-property",
       "description": "Bulk delete all Entties that match the given request. One or more query params must be supplied to specify Properties to delete by. If more than one Property is provided, data will be deleted that matches ALL of the Properties (e.g. treated as an AND). See the documentation for the submitEntity operation for more details. e.g. DELETE /bulkByProperties?accountId=account-123\u0026createdBy=user-456 Deletion is performed asynchronously. The getIncidentById operation can be used to confirm that data has been deleted successfully (if needed). Only Connect apps that define the `jiraOperationsInfoProvider` module can access this resource. This resource requires the 'DELETE' scope for Connect apps. Destructive.",
       "method": "DELETE",
@@ -27556,6 +29737,21 @@
           "type": "int",
           "location": "query",
           "description": "If specified, limits the result set to this number of items"
+        }
+      ]
+    },
+    {
+      "name": "progress_import",
+      "description": "Show ongoing import process. Required: id. Returns the Progress.",
+      "method": "GET",
+      "path": "/progress/category/imports/{id}",
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "location": "path",
+          "description": "The id of the import source configuration that the progress should be fetched for",
+          "required": true
         }
       ]
     },
@@ -35888,6 +38084,13 @@
           "required": true
         }
       ]
+    },
+    {
+      "name": "usage_get-tenant-info",
+      "description": "Retrieves comprehensive usage statistics for the current tenant including total object counts and a per-schema breakdown for billing and analytics. Returns the TenantUsageResponse.",
+      "method": "GET",
+      "path": "/usage",
+      "params": []
     },
     {
       "name": "user_bulk-get",
