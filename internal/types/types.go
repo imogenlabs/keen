@@ -5839,6 +5839,22 @@ type GDPR struct {
 	DataTransfer   json.RawMessage `json:"dataTransfer"`
 }
 
+type GPG_account_key struct {
+	AddedOn           string          `json:"added_on"`
+	CreatedOn         string          `json:"created_on"`
+	ExpiresOn         string          `json:"expires_on"`
+	Fingerprint       string          `json:"fingerprint"`
+	Key               string          `json:"key"`
+	KeyId             string          `json:"key_id"`
+	LastUsed          string          `json:"last_used"`
+	Links             json.RawMessage `json:"links"`
+	Name              string          `json:"name"`
+	Owner             string          `json:"owner"`
+	ParentFingerprint string          `json:"parent_fingerprint"`
+	Subkeys           json.RawMessage `json:"subkeys"`
+	Type              string          `json:"type"`
+}
+
 type GenericLinks struct {
 }
 
@@ -15598,6 +15614,18 @@ type access_Links struct {
 	Self string `json:"self"`
 }
 
+type account struct {
+	CreatedOn   string          `json:"created_on"`
+	DisplayName string          `json:"display_name"`
+	Links       json.RawMessage `json:"links"`
+	Type        string          `json:"type"`
+	Uuid        string          `json:"uuid"`
+}
+
+type account_links struct {
+	Avatar json.RawMessage `json:"avatar"`
+}
+
 type api_Avatar struct {
 	AvatarUUID  string `json:"avatarUUID"`
 	GlobalId    string `json:"globalId"`
@@ -15658,6 +15686,20 @@ type appTrustInformation struct {
 	Privacy               json.RawMessage `json:"privacy"`
 	Security              json.RawMessage `json:"security"`
 	ThirdPartyInformation json.RawMessage `json:"thirdPartyInformation"`
+}
+
+type app_user struct {
+	AccountId     string          `json:"account_id"`
+	AccountStatus string          `json:"account_status"`
+	CreatedOn     string          `json:"created_on"`
+	DisplayName   string          `json:"display_name"`
+	Kind          string          `json:"kind"`
+	Links         json.RawMessage `json:"links"`
+	Type          string          `json:"type"`
+	Uuid          string          `json:"uuid"`
+}
+
+type application_property struct {
 }
 
 type atlassian_access_Error struct {
@@ -15770,9 +15812,145 @@ type atlassian_marketplace_License struct {
 	UpgradeEvaluationStartDate     string          `json:"upgradeEvaluationStartDate"`
 }
 
+type author struct {
+	Raw  string `json:"raw"`
+	Type string `json:"type"`
+	User string `json:"user"`
+}
+
+type base_commit struct {
+	Author    string          `json:"author"`
+	Committer string          `json:"committer"`
+	Date      string          `json:"date"`
+	Hash      string          `json:"hash"`
+	Message   string          `json:"message"`
+	Parents   json.RawMessage `json:"parents"`
+	Summary   json.RawMessage `json:"summary"`
+	Type      string          `json:"type"`
+}
+
+type bitbucket_apps_permissions_serializers_ProjectPermissionUpdateSchema struct {
+	Permission string `json:"permission"`
+}
+
+type bitbucket_apps_permissions_serializers_RepoPermissionUpdateSchema struct {
+	Permission string `json:"permission"`
+}
+
+type branch struct {
+	DefaultMergeStrategy string          `json:"default_merge_strategy"`
+	Links                json.RawMessage `json:"links"`
+	MergeStrategies      json.RawMessage `json:"merge_strategies"`
+	Name                 string          `json:"name"`
+	Target               string          `json:"target"`
+	Type                 string          `json:"type"`
+}
+
+type branching_model struct {
+	BranchTypes json.RawMessage `json:"branch_types"`
+	Development json.RawMessage `json:"development"`
+	Production  json.RawMessage `json:"production"`
+	Type        string          `json:"type"`
+}
+
+type branching_model_settings struct {
+	BranchTypes json.RawMessage `json:"branch_types"`
+	Development json.RawMessage `json:"development"`
+	Links       json.RawMessage `json:"links"`
+	Production  json.RawMessage `json:"production"`
+	Type        string          `json:"type"`
+}
+
+type branchrestriction struct {
+	BranchMatchKind         string          `json:"branch_match_kind"`
+	BranchType              string          `json:"branch_type"`
+	Groups                  json.RawMessage `json:"groups"`
+	Id                      int             `json:"id"`
+	Kind                    string          `json:"kind"`
+	Links                   json.RawMessage `json:"links"`
+	Pattern                 string          `json:"pattern"`
+	PipelinesSourceBranches json.RawMessage `json:"pipelines_source_branches"`
+	Type                    string          `json:"type"`
+	Users                   json.RawMessage `json:"users"`
+	Value                   int             `json:"value"`
+}
+
 type cloudMigrationAssistantCompatibilityRange struct {
 	End   string `json:"end"`
 	Start string `json:"start"`
+}
+
+type comment struct {
+	Content   json.RawMessage `json:"content"`
+	CreatedOn string          `json:"created_on"`
+	Deleted   bool            `json:"deleted"`
+	Id        int             `json:"id"`
+	Inline    json.RawMessage `json:"inline"`
+	Links     json.RawMessage `json:"links"`
+	Parent    string          `json:"parent"`
+	Type      string          `json:"type"`
+	UpdatedOn string          `json:"updated_on"`
+	User      string          `json:"user"`
+}
+
+type comment_resolution struct {
+	CreatedOn string `json:"created_on"`
+	Type      string `json:"type"`
+	User      string `json:"user"`
+}
+
+type commit struct {
+	Author       string          `json:"author"`
+	Committer    string          `json:"committer"`
+	Date         string          `json:"date"`
+	Hash         string          `json:"hash"`
+	Message      string          `json:"message"`
+	Parents      json.RawMessage `json:"parents"`
+	Participants json.RawMessage `json:"participants"`
+	Repository   string          `json:"repository"`
+	Summary      json.RawMessage `json:"summary"`
+	Type         string          `json:"type"`
+}
+
+type commit_comment struct {
+	Commit    string          `json:"commit"`
+	Content   json.RawMessage `json:"content"`
+	CreatedOn string          `json:"created_on"`
+	Deleted   bool            `json:"deleted"`
+	Id        int             `json:"id"`
+	Inline    json.RawMessage `json:"inline"`
+	Links     json.RawMessage `json:"links"`
+	Parent    string          `json:"parent"`
+	Type      string          `json:"type"`
+	UpdatedOn string          `json:"updated_on"`
+	User      string          `json:"user"`
+}
+
+type commit_file struct {
+	Attributes  string `json:"attributes"`
+	Commit      string `json:"commit"`
+	EscapedPath string `json:"escaped_path"`
+	Path        string `json:"path"`
+	Type        string `json:"type"`
+}
+
+type commitstatus struct {
+	CreatedOn   string          `json:"created_on"`
+	Description string          `json:"description"`
+	Key         string          `json:"key"`
+	Links       json.RawMessage `json:"links"`
+	Name        string          `json:"name"`
+	Refname     string          `json:"refname"`
+	State       string          `json:"state"`
+	Type        string          `json:"type"`
+	UpdatedOn   string          `json:"updated_on"`
+	Url         string          `json:"url"`
+}
+
+type committer struct {
+	Raw  string `json:"raw"`
+	Type string `json:"type"`
+	User string `json:"user"`
 }
 
 type compass_Attachment struct {
@@ -15882,6 +16060,43 @@ type confluence_cloud_Version struct {
 	Number    int    `json:"number"`
 }
 
+type current_user_permission_check struct {
+	Blocking bool   `json:"blocking"`
+	Required bool   `json:"required"`
+	Status   string `json:"status"`
+	Type     string `json:"type"`
+}
+
+type custom_merge_check struct {
+	Blocking bool            `json:"blocking"`
+	Check    json.RawMessage `json:"check"`
+	Message  string          `json:"message"`
+	Required bool            `json:"required"`
+	Status   string          `json:"status"`
+	Type     string          `json:"type"`
+	Uuid     string          `json:"uuid"`
+}
+
+type custom_on_merge_check struct {
+	Blocking bool            `json:"blocking"`
+	Check    json.RawMessage `json:"check"`
+	Message  string          `json:"message"`
+	Required bool            `json:"required"`
+	Status   string          `json:"status"`
+	Type     string          `json:"type"`
+	Uuid     string          `json:"uuid"`
+}
+
+type custom_pre_merge_check struct {
+	Blocking bool            `json:"blocking"`
+	Check    json.RawMessage `json:"check"`
+	Message  string          `json:"message"`
+	Required bool            `json:"required"`
+	Status   string          `json:"status"`
+	Type     string          `json:"type"`
+	Uuid     string          `json:"uuid"`
+}
+
 type data_loss_prevention_Error struct {
 	Code   string `json:"code"`
 	Detail string `json:"detail"`
@@ -15905,10 +16120,160 @@ type data_loss_prevention_User struct {
 	Name      string `json:"name"`
 }
 
+type default_reviewer_and_type struct {
+	ReviewerType string `json:"reviewer_type"`
+	Type         string `json:"type"`
+	User         string `json:"user"`
+}
+
+type deploy_key struct {
+	AddedOn    string          `json:"added_on"`
+	Comment    string          `json:"comment"`
+	Key        string          `json:"key"`
+	Label      string          `json:"label"`
+	LastUsed   string          `json:"last_used"`
+	Links      json.RawMessage `json:"links"`
+	Owner      string          `json:"owner"`
+	Repository string          `json:"repository"`
+	Type       string          `json:"type"`
+}
+
+type deployment struct {
+	Environment string `json:"environment"`
+	Release     string `json:"release"`
+	State       string `json:"state"`
+	Type        string `json:"type"`
+	Uuid        string `json:"uuid"`
+}
+
+type deployment_environment struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+	Uuid string `json:"uuid"`
+}
+
+type deployment_release struct {
+	Commit    string `json:"commit"`
+	CreatedOn string `json:"created_on"`
+	Name      string `json:"name"`
+	Type      string `json:"type"`
+	Url       string `json:"url"`
+	Uuid      string `json:"uuid"`
+}
+
+type deployment_state struct {
+	Type string `json:"type"`
+}
+
+type deployment_state_completed struct {
+	CompletionDate string `json:"completion_date"`
+	Deployer       string `json:"deployer"`
+	Name           string `json:"name"`
+	StartDate      string `json:"start_date"`
+	Status         string `json:"status"`
+	Type           string `json:"type"`
+	Url            string `json:"url"`
+}
+
+type deployment_state_completed_status struct {
+	Type string `json:"type"`
+}
+
+type deployment_state_completed_status_failed struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type deployment_state_completed_status_stopped struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type deployment_state_completed_status_successful struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type deployment_state_in_progress struct {
+	Deployer  string `json:"deployer"`
+	Name      string `json:"name"`
+	StartDate string `json:"start_date"`
+	Type      string `json:"type"`
+	Url       string `json:"url"`
+}
+
+type deployment_state_undeployed struct {
+	Name       string `json:"name"`
+	TriggerUrl string `json:"trigger_url"`
+	Type       string `json:"type"`
+}
+
+type deployment_variable struct {
+	Key     string `json:"key"`
+	Secured bool   `json:"secured"`
+	Type    string `json:"type"`
+	Uuid    string `json:"uuid"`
+	Value   string `json:"value"`
+}
+
+type diffstat struct {
+	LinesAdded   int             `json:"lines_added"`
+	LinesRemoved int             `json:"lines_removed"`
+	New          json.RawMessage `json:"new"`
+	Old          json.RawMessage `json:"old"`
+	Status       string          `json:"status"`
+	Type         string          `json:"type"`
+}
+
+type effective_repo_branching_model struct {
+	BranchTypes json.RawMessage `json:"branch_types"`
+	Development json.RawMessage `json:"development"`
+	Production  json.RawMessage `json:"production"`
+	Type        string          `json:"type"`
+}
+
+type error struct {
+	Error json.RawMessage `json:"error"`
+	Type  string          `json:"type"`
+}
+
 type fields struct {
 	Retain bool            `json:"retain"`
 	Type   string          `json:"type"`
 	Value  json.RawMessage `json:"value"`
+}
+
+type file_conflict struct {
+	Message  string `json:"message"`
+	Path     string `json:"path"`
+	Scenario string `json:"scenario"`
+	Type     string `json:"type"`
+}
+
+type git_mergeability_check struct {
+	Blocking bool            `json:"blocking"`
+	Links    json.RawMessage `json:"links"`
+	Reason   string          `json:"reason"`
+	Required bool            `json:"required"`
+	Status   string          `json:"status"`
+	Type     string          `json:"type"`
+}
+
+type group struct {
+	FullSlug  string          `json:"full_slug"`
+	Links     json.RawMessage `json:"links"`
+	Name      string          `json:"name"`
+	Owner     string          `json:"owner"`
+	Slug      string          `json:"slug"`
+	Type      string          `json:"type"`
+	Workspace string          `json:"workspace"`
+}
+
+type hook_event struct {
+	Category    string `json:"category"`
+	Description string `json:"description"`
+	Event       string `json:"event"`
+	Label       string `json:"label"`
 }
 
 type idv2_user_management_User struct {
@@ -16148,6 +16513,1100 @@ type jira_software_cloud_UserDetails struct {
 	TimeZone     string `json:"timeZone"`
 }
 
+type link struct {
+	Href string `json:"href"`
+	Name string `json:"name"`
+}
+
+type merge_queue struct {
+	Name  string `json:"name"`
+	State string `json:"state"`
+	Type  string `json:"type"`
+	Uuid  string `json:"uuid"`
+}
+
+type merge_queue_check struct {
+	Blocking   bool   `json:"blocking"`
+	MergeQueue string `json:"merge_queue"`
+	Queued     bool   `json:"queued"`
+	Required   bool   `json:"required"`
+	Status     string `json:"status"`
+	Type       string `json:"type"`
+}
+
+type merge_queue_pullrequest struct {
+	LastActivityOn string          `json:"last_activity_on"`
+	MergeQueue     json.RawMessage `json:"merge_queue"`
+	Pipeline       string          `json:"pipeline"`
+	Pullrequest    string          `json:"pullrequest"`
+	QueuedOn       string          `json:"queued_on"`
+	Rank           int             `json:"rank"`
+	Status         string          `json:"status"`
+	Type           string          `json:"type"`
+}
+
+type merge_queue_reference struct {
+	Type string `json:"type"`
+	Uuid string `json:"uuid"`
+}
+
+type object struct {
+	Type string `json:"type"`
+}
+
+type paginated_accounts struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_annotations struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_branches struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_branchrestrictions struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_changeset struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_commit_comments struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_commitstatuses struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_default_reviewer_and_type struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_deploy_keys struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_deployment_variable struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_deployments struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_diffstats struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_environments struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_file_conflicts struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_files struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_gpg_user_keys struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_hook_events struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_merge_queue_pullrequests struct {
+	Page    int             `json:"page"`
+	Pagelen int             `json:"pagelen"`
+	Size    int             `json:"size"`
+	Values  json.RawMessage `json:"values"`
+}
+
+type paginated_merge_queues struct {
+	Page    int             `json:"page"`
+	Pagelen int             `json:"pagelen"`
+	Size    int             `json:"size"`
+	Values  json.RawMessage `json:"values"`
+}
+
+type paginated_pipeline_caches struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pipeline_known_hosts struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pipeline_runners struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pipeline_schedule_executions struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pipeline_schedules struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pipeline_steps struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pipeline_variables struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pipelines struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_project_deploy_keys struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_project_group_permissions struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_project_user_permissions struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_projects struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pullrequest_comments struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_pullrequests struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_refs struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_reports struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_repositories struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_repository_group_permissions struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_repository_permissions struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_repository_user_permissions struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_snippet_comments struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_snippet_commit struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_snippets struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_ssh_user_keys struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_tags struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_tasks struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_treeentries struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_webhook_subscriptions struct {
+	Next    string          `json:"next"`
+	Pagelen int             `json:"pagelen"`
+	Values  json.RawMessage `json:"values"`
+}
+
+type paginated_workspace_access struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type paginated_workspace_memberships struct {
+	Next     string          `json:"next"`
+	Page     int             `json:"page"`
+	Pagelen  int             `json:"pagelen"`
+	Previous string          `json:"previous"`
+	Size     int             `json:"size"`
+	Values   json.RawMessage `json:"values"`
+}
+
+type participant struct {
+	Approved       bool   `json:"approved"`
+	ParticipatedOn string `json:"participated_on"`
+	Role           string `json:"role"`
+	State          string `json:"state"`
+	Type           string `json:"type"`
+	User           string `json:"user"`
+}
+
+type pipeline struct {
+	BuildNumber          int             `json:"build_number"`
+	BuildSecondsUsed     int             `json:"build_seconds_used"`
+	CompletedOn          string          `json:"completed_on"`
+	ConfigurationSources json.RawMessage `json:"configuration_sources"`
+	CreatedOn            string          `json:"created_on"`
+	Creator              string          `json:"creator"`
+	Links                string          `json:"links"`
+	Repository           string          `json:"repository"`
+	State                string          `json:"state"`
+	Target               string          `json:"target"`
+	Trigger              string          `json:"trigger"`
+	Type                 string          `json:"type"`
+	Uuid                 string          `json:"uuid"`
+	Variables            json.RawMessage `json:"variables"`
+}
+
+type pipeline_build_number struct {
+	Next int    `json:"next"`
+	Type string `json:"type"`
+}
+
+type pipeline_cache struct {
+	CreatedOn     string `json:"created_on"`
+	FileSizeBytes int    `json:"file_size_bytes"`
+	KeyHash       string `json:"key_hash"`
+	Name          string `json:"name"`
+	Path          string `json:"path"`
+	PipelineUuid  string `json:"pipeline_uuid"`
+	StepUuid      string `json:"step_uuid"`
+	Type          string `json:"type"`
+	Uuid          string `json:"uuid"`
+}
+
+type pipeline_cache_content_uri struct {
+	Uri string `json:"uri"`
+}
+
+type pipeline_command struct {
+	Command string `json:"command"`
+	Name    string `json:"name"`
+}
+
+type pipeline_commit_target struct {
+	Commit   string `json:"commit"`
+	Selector string `json:"selector"`
+	Type     string `json:"type"`
+}
+
+type pipeline_configuration_source struct {
+	Source string `json:"source"`
+	Uri    string `json:"uri"`
+}
+
+type pipeline_error struct {
+	Key     string `json:"key"`
+	Message string `json:"message"`
+	Type    string `json:"type"`
+}
+
+type pipeline_image struct {
+	Email    string `json:"email"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
+	Username string `json:"username"`
+}
+
+type pipeline_known_host struct {
+	Hostname  string `json:"hostname"`
+	PublicKey string `json:"public_key"`
+	Type      string `json:"type"`
+	Uuid      string `json:"uuid"`
+}
+
+type pipeline_ref_target struct {
+	Commit   string `json:"commit"`
+	RefName  string `json:"ref_name"`
+	RefType  string `json:"ref_type"`
+	Selector string `json:"selector"`
+	Type     string `json:"type"`
+}
+
+type pipeline_runner struct {
+	CreatedOn   string          `json:"created_on"`
+	Labels      json.RawMessage `json:"labels"`
+	Name        string          `json:"name"`
+	OauthClient string          `json:"oauth_client"`
+	State       string          `json:"state"`
+	Type        string          `json:"type"`
+	UpdatedOn   string          `json:"updated_on"`
+	Uuid        string          `json:"uuid"`
+}
+
+type pipeline_runner_oauth_client struct {
+	Audience      string `json:"audience"`
+	Id            string `json:"id"`
+	Secret        string `json:"secret"`
+	TokenEndpoint string `json:"token_endpoint"`
+	Type          string `json:"type"`
+}
+
+type pipeline_runner_state struct {
+	Cordoned  bool   `json:"cordoned"`
+	Status    string `json:"status"`
+	Type      string `json:"type"`
+	UpdatedOn string `json:"updated_on"`
+	Version   string `json:"version"`
+}
+
+type pipeline_runner_version struct {
+	Current string `json:"current"`
+	Type    string `json:"type"`
+	Version string `json:"version"`
+}
+
+type pipeline_schedule struct {
+	CreatedOn   string `json:"created_on"`
+	CronPattern string `json:"cron_pattern"`
+	Enabled     bool   `json:"enabled"`
+	Target      string `json:"target"`
+	Type        string `json:"type"`
+	UpdatedOn   string `json:"updated_on"`
+	Uuid        string `json:"uuid"`
+}
+
+type pipeline_schedule_execution struct {
+	Type string `json:"type"`
+}
+
+type pipeline_schedule_execution_errored struct {
+	Error string `json:"error"`
+	Type  string `json:"type"`
+}
+
+type pipeline_schedule_execution_executed struct {
+	Pipeline string `json:"pipeline"`
+	Type     string `json:"type"`
+}
+
+type pipeline_schedule_post_request_body struct {
+	CronPattern string          `json:"cron_pattern"`
+	Enabled     bool            `json:"enabled"`
+	Target      json.RawMessage `json:"target"`
+	Type        string          `json:"type"`
+}
+
+type pipeline_schedule_put_request_body struct {
+	Enabled bool   `json:"enabled"`
+	Type    string `json:"type"`
+}
+
+type pipeline_selector struct {
+	Pattern string `json:"pattern"`
+	Type    string `json:"type"`
+}
+
+type pipeline_ssh_key_pair struct {
+	PrivateKey string `json:"private_key"`
+	PublicKey  string `json:"public_key"`
+	Type       string `json:"type"`
+}
+
+type pipeline_ssh_public_key struct {
+	Key               string `json:"key"`
+	KeyType           string `json:"key_type"`
+	Md5Fingerprint    string `json:"md5_fingerprint"`
+	Sha256Fingerprint string `json:"sha256_fingerprint"`
+	Type              string `json:"type"`
+}
+
+type pipeline_state struct {
+	Type string `json:"type"`
+}
+
+type pipeline_state_completed struct {
+	Name   string `json:"name"`
+	Result string `json:"result"`
+	Type   string `json:"type"`
+}
+
+type pipeline_state_completed_error struct {
+	Error string `json:"error"`
+	Name  string `json:"name"`
+	Type  string `json:"type"`
+}
+
+type pipeline_state_completed_expired struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_state_completed_failed struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_state_completed_result struct {
+	Type string `json:"type"`
+}
+
+type pipeline_state_completed_stopped struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_state_completed_successful struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_state_in_progress struct {
+	Name  string `json:"name"`
+	Stage string `json:"stage"`
+	Type  string `json:"type"`
+}
+
+type pipeline_state_in_progress_paused struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_state_in_progress_running struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_state_in_progress_stage struct {
+	Type string `json:"type"`
+}
+
+type pipeline_state_pending struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_step struct {
+	CompletedOn    string          `json:"completed_on"`
+	Image          json.RawMessage `json:"image"`
+	ScriptCommands json.RawMessage `json:"script_commands"`
+	SetupCommands  json.RawMessage `json:"setup_commands"`
+	StartedOn      string          `json:"started_on"`
+	State          string          `json:"state"`
+	Type           string          `json:"type"`
+	Uuid           string          `json:"uuid"`
+}
+
+type pipeline_step_error struct {
+	Key     string `json:"key"`
+	Message string `json:"message"`
+	Type    string `json:"type"`
+}
+
+type pipeline_step_state struct {
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_completed struct {
+	Name   string `json:"name"`
+	Result string `json:"result"`
+	Type   string `json:"type"`
+}
+
+type pipeline_step_state_completed_error struct {
+	Error string `json:"error"`
+	Name  string `json:"name"`
+	Type  string `json:"type"`
+}
+
+type pipeline_step_state_completed_expired struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_completed_failed struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_completed_not_run struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_completed_result struct {
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_completed_stopped struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_completed_successful struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_in_progress struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_pending struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_step_state_ready struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type pipeline_target struct {
+	Type string `json:"type"`
+}
+
+type pipeline_trigger struct {
+	Type string `json:"type"`
+}
+
+type pipeline_trigger_manual struct {
+	Type string `json:"type"`
+}
+
+type pipeline_trigger_push struct {
+	Type string `json:"type"`
+}
+
+type pipeline_variable struct {
+	Key     string `json:"key"`
+	Secured bool   `json:"secured"`
+	Type    string `json:"type"`
+	Uuid    string `json:"uuid"`
+	Value   string `json:"value"`
+}
+
+type pipelines_config struct {
+	Enabled    bool   `json:"enabled"`
+	Repository string `json:"repository"`
+	Type       string `json:"type"`
+}
+
+type pipelines_links_section_href struct {
+	Href string `json:"href"`
+	Type string `json:"type"`
+}
+
+type pipelines_pipeline_links struct {
+	Self  string `json:"self"`
+	Steps string `json:"steps"`
+	Type  string `json:"type"`
+}
+
+type project struct {
+	CreatedOn               string          `json:"created_on"`
+	Description             string          `json:"description"`
+	HasPubliclyVisibleRepos bool            `json:"has_publicly_visible_repos"`
+	IsPrivate               bool            `json:"is_private"`
+	Key                     string          `json:"key"`
+	Links                   json.RawMessage `json:"links"`
+	Name                    string          `json:"name"`
+	Owner                   string          `json:"owner"`
+	Type                    string          `json:"type"`
+	UpdatedOn               string          `json:"updated_on"`
+	Uuid                    string          `json:"uuid"`
+}
+
+type project_branching_model struct {
+	BranchTypes json.RawMessage `json:"branch_types"`
+	Development json.RawMessage `json:"development"`
+	Production  json.RawMessage `json:"production"`
+	Type        string          `json:"type"`
+}
+
+type project_deploy_key struct {
+	AddedOn   string          `json:"added_on"`
+	Comment   string          `json:"comment"`
+	CreatedBy string          `json:"created_by"`
+	Key       string          `json:"key"`
+	Label     string          `json:"label"`
+	LastUsed  string          `json:"last_used"`
+	Links     json.RawMessage `json:"links"`
+	Project   string          `json:"project"`
+	Type      string          `json:"type"`
+}
+
+type project_group_permission struct {
+	Group      string          `json:"group"`
+	Links      json.RawMessage `json:"links"`
+	Permission string          `json:"permission"`
+	Project    string          `json:"project"`
+	Type       string          `json:"type"`
+}
+
+type project_user_permission struct {
+	Links      json.RawMessage `json:"links"`
+	Permission string          `json:"permission"`
+	Project    string          `json:"project"`
+	Type       string          `json:"type"`
+	User       string          `json:"user"`
+}
+
+type pullrequest struct {
+	Author            string          `json:"author"`
+	CloseSourceBranch bool            `json:"close_source_branch"`
+	ClosedBy          string          `json:"closed_by"`
+	CommentCount      int             `json:"comment_count"`
+	CreatedOn         string          `json:"created_on"`
+	Destination       json.RawMessage `json:"destination"`
+	Draft             bool            `json:"draft"`
+	Id                int             `json:"id"`
+	Links             json.RawMessage `json:"links"`
+	MergeCommit       json.RawMessage `json:"merge_commit"`
+	Participants      json.RawMessage `json:"participants"`
+	Queued            bool            `json:"queued"`
+	Reason            string          `json:"reason"`
+	Rendered          json.RawMessage `json:"rendered"`
+	Reviewers         json.RawMessage `json:"reviewers"`
+	Source            json.RawMessage `json:"source"`
+	State             string          `json:"state"`
+	Summary           json.RawMessage `json:"summary"`
+	TaskCount         int             `json:"task_count"`
+	Title             string          `json:"title"`
+	Type              string          `json:"type"`
+	UpdatedOn         string          `json:"updated_on"`
+}
+
+type pullrequest_comment struct {
+	Content     json.RawMessage `json:"content"`
+	CreatedOn   string          `json:"created_on"`
+	Deleted     bool            `json:"deleted"`
+	Id          int             `json:"id"`
+	Inline      json.RawMessage `json:"inline"`
+	Links       json.RawMessage `json:"links"`
+	Parent      string          `json:"parent"`
+	Pending     bool            `json:"pending"`
+	Pullrequest string          `json:"pullrequest"`
+	Resolution  json.RawMessage `json:"resolution"`
+	Type        string          `json:"type"`
+	UpdatedOn   string          `json:"updated_on"`
+	User        string          `json:"user"`
+}
+
+type pullrequest_comment_task struct {
+	Comment    string          `json:"comment"`
+	Content    json.RawMessage `json:"content"`
+	CreatedOn  string          `json:"created_on"`
+	Creator    string          `json:"creator"`
+	Id         int             `json:"id"`
+	Links      json.RawMessage `json:"links"`
+	Pending    bool            `json:"pending"`
+	ResolvedBy string          `json:"resolved_by"`
+	ResolvedOn string          `json:"resolved_on"`
+	State      string          `json:"state"`
+	UpdatedOn  string          `json:"updated_on"`
+}
+
+type pullrequest_endpoint struct {
+	Branch     json.RawMessage `json:"branch"`
+	Commit     json.RawMessage `json:"commit"`
+	Repository string          `json:"repository"`
+}
+
+type pullrequest_merge_parameters struct {
+	CloseSourceBranch bool   `json:"close_source_branch"`
+	MergeStrategy     string `json:"merge_strategy"`
+	Message           string `json:"message"`
+	Type              string `json:"type"`
+}
+
+type pullrequest_mergeability_check struct {
+	Blocking bool   `json:"blocking"`
+	Required bool   `json:"required"`
+	Status   string `json:"status"`
+	Type     string `json:"type"`
+}
+
+type pullrequest_mergeability_checks struct {
+	Size   int             `json:"size"`
+	Values json.RawMessage `json:"values"`
+}
+
+type pullrequest_state_check struct {
+	Blocking bool   `json:"blocking"`
+	Required bool   `json:"required"`
+	State    string `json:"state"`
+	Status   string `json:"status"`
+	Type     string `json:"type"`
+}
+
+type pullrequest_task struct {
+	Content    json.RawMessage `json:"content"`
+	CreatedOn  string          `json:"created_on"`
+	Creator    string          `json:"creator"`
+	Id         int             `json:"id"`
+	Links      json.RawMessage `json:"links"`
+	Pending    bool            `json:"pending"`
+	ResolvedBy string          `json:"resolved_by"`
+	ResolvedOn string          `json:"resolved_on"`
+	State      string          `json:"state"`
+	UpdatedOn  string          `json:"updated_on"`
+}
+
+type pullrequest_task_create struct {
+	Comment string          `json:"comment"`
+	Content json.RawMessage `json:"content"`
+	Pending bool            `json:"pending"`
+}
+
+type pullrequest_task_update struct {
+	Content json.RawMessage `json:"content"`
+	State   string          `json:"state"`
+}
+
+type ref struct {
+	Links  json.RawMessage `json:"links"`
+	Name   string          `json:"name"`
+	Target string          `json:"target"`
+	Type   string          `json:"type"`
+}
+
+type report struct {
+	CreatedOn         string          `json:"created_on"`
+	Data              json.RawMessage `json:"data"`
+	Details           string          `json:"details"`
+	ExternalId        string          `json:"external_id"`
+	Link              string          `json:"link"`
+	LogoUrl           string          `json:"logo_url"`
+	RemoteLinkEnabled bool            `json:"remote_link_enabled"`
+	ReportType        string          `json:"report_type"`
+	Reporter          string          `json:"reporter"`
+	Result            string          `json:"result"`
+	Title             string          `json:"title"`
+	Type              string          `json:"type"`
+	UpdatedOn         string          `json:"updated_on"`
+	Uuid              string          `json:"uuid"`
+}
+
+type report_annotation struct {
+	AnnotationType string `json:"annotation_type"`
+	CreatedOn      string `json:"created_on"`
+	Details        string `json:"details"`
+	ExternalId     string `json:"external_id"`
+	Line           int    `json:"line"`
+	Link           string `json:"link"`
+	Path           string `json:"path"`
+	Result         string `json:"result"`
+	Severity       string `json:"severity"`
+	Summary        string `json:"summary"`
+	Type           string `json:"type"`
+	UpdatedOn      string `json:"updated_on"`
+	Uuid           string `json:"uuid"`
+}
+
+type report_data struct {
+	Title string          `json:"title"`
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type repository struct {
+	CreatedOn   string          `json:"created_on"`
+	Description string          `json:"description"`
+	ForkPolicy  string          `json:"fork_policy"`
+	FullName    string          `json:"full_name"`
+	HasIssues   bool            `json:"has_issues"`
+	HasWiki     bool            `json:"has_wiki"`
+	IsPrivate   bool            `json:"is_private"`
+	Language    string          `json:"language"`
+	Links       json.RawMessage `json:"links"`
+	Mainbranch  string          `json:"mainbranch"`
+	Name        string          `json:"name"`
+	Owner       string          `json:"owner"`
+	Parent      string          `json:"parent"`
+	Project     string          `json:"project"`
+	Scm         string          `json:"scm"`
+	Size        int             `json:"size"`
+	Type        string          `json:"type"`
+	UpdatedOn   string          `json:"updated_on"`
+	Uuid        string          `json:"uuid"`
+}
+
+type repository_group_permission struct {
+	Group      string          `json:"group"`
+	Links      json.RawMessage `json:"links"`
+	Permission string          `json:"permission"`
+	Repository string          `json:"repository"`
+	Type       string          `json:"type"`
+}
+
+type repository_inheritance_state struct {
+	OverrideSettings json.RawMessage `json:"override_settings"`
+	Type             string          `json:"type"`
+}
+
+type repository_permission struct {
+	Permission string `json:"permission"`
+	Repository string `json:"repository"`
+	Type       string `json:"type"`
+	User       string `json:"user"`
+}
+
+type repository_user_permission struct {
+	Links      json.RawMessage `json:"links"`
+	Permission string          `json:"permission"`
+	Repository string          `json:"repository"`
+	Type       string          `json:"type"`
+	User       string          `json:"user"`
+}
+
 type salesBenchmarkAllAppsPerMonth struct {
 	Date                                  string  `json:"date"`
 	PreviousMonthSale                     float64 `json:"previousMonthSale"`
@@ -16176,6 +17635,38 @@ type salesBenchmarkPerAppPerMonth struct {
 	SalesYTDYoYGrowth                              float64 `json:"salesYTDYoYGrowth"`
 	SalesYTDYoYGrowthBenchmarkAllAppsOnBaseProduct float64 `json:"salesYTDYoYGrowthBenchmarkAllAppsOnBaseProduct"`
 	SalesYTDYoYGrowthBenchmarkBaseProduct          float64 `json:"salesYTDYoYGrowthBenchmarkBaseProduct"`
+}
+
+type search_code_search_result struct {
+	ContentMatchCount int             `json:"content_match_count"`
+	ContentMatches    json.RawMessage `json:"content_matches"`
+	File              json.RawMessage `json:"file"`
+	PathMatches       json.RawMessage `json:"path_matches"`
+	Type              string          `json:"type"`
+}
+
+type search_content_match struct {
+	Lines json.RawMessage `json:"lines"`
+}
+
+type search_line struct {
+	Line     int             `json:"line"`
+	Segments json.RawMessage `json:"segments"`
+}
+
+type search_result_page struct {
+	Next             string          `json:"next"`
+	Page             int             `json:"page"`
+	Pagelen          int             `json:"pagelen"`
+	Previous         string          `json:"previous"`
+	QuerySubstituted bool            `json:"query_substituted"`
+	Size             int             `json:"size"`
+	Values           json.RawMessage `json:"values"`
+}
+
+type search_segment struct {
+	Match bool   `json:"match"`
+	Text  string `json:"text"`
 }
 
 type service_management_public_AvatarUrlsBean struct {
@@ -16459,6 +17950,87 @@ type service_management_public_UserDetails struct {
 	TimeZone     string `json:"timeZone"`
 }
 
+type snippet struct {
+	CreatedOn string `json:"created_on"`
+	Creator   string `json:"creator"`
+	Id        int    `json:"id"`
+	IsPrivate bool   `json:"is_private"`
+	Owner     string `json:"owner"`
+	Scm       string `json:"scm"`
+	Title     string `json:"title"`
+	Type      string `json:"type"`
+	UpdatedOn string `json:"updated_on"`
+}
+
+type snippet_comment struct {
+	Links   json.RawMessage `json:"links"`
+	Snippet string          `json:"snippet"`
+	Type    string          `json:"type"`
+}
+
+type snippet_commit struct {
+	Author    string          `json:"author"`
+	Committer string          `json:"committer"`
+	Date      string          `json:"date"`
+	Hash      string          `json:"hash"`
+	Links     json.RawMessage `json:"links"`
+	Message   string          `json:"message"`
+	Parents   json.RawMessage `json:"parents"`
+	Snippet   string          `json:"snippet"`
+	Summary   json.RawMessage `json:"summary"`
+	Type      string          `json:"type"`
+}
+
+type ssh_account_key struct {
+	Comment     string          `json:"comment"`
+	CreatedOn   string          `json:"created_on"`
+	ExpiresOn   string          `json:"expires_on"`
+	Fingerprint string          `json:"fingerprint"`
+	Key         string          `json:"key"`
+	Label       string          `json:"label"`
+	LastUsed    string          `json:"last_used"`
+	Links       json.RawMessage `json:"links"`
+	Owner       string          `json:"owner"`
+	Type        string          `json:"type"`
+	Uuid        string          `json:"uuid"`
+}
+
+type ssh_key struct {
+	Comment   string          `json:"comment"`
+	CreatedOn string          `json:"created_on"`
+	Key       string          `json:"key"`
+	Label     string          `json:"label"`
+	LastUsed  string          `json:"last_used"`
+	Links     json.RawMessage `json:"links"`
+	Type      string          `json:"type"`
+	Uuid      string          `json:"uuid"`
+}
+
+type standard_merge_check struct {
+	Blocking    bool            `json:"blocking"`
+	Check       json.RawMessage `json:"check"`
+	Observed    json.RawMessage `json:"observed"`
+	Required    bool            `json:"required"`
+	Requirement json.RawMessage `json:"requirement"`
+	Status      string          `json:"status"`
+	Type        string          `json:"type"`
+}
+
+type subject_types struct {
+	Repository json.RawMessage `json:"repository"`
+	Workspace  json.RawMessage `json:"workspace"`
+}
+
+type tag struct {
+	Date    string          `json:"date"`
+	Links   json.RawMessage `json:"links"`
+	Message string          `json:"message"`
+	Name    string          `json:"name"`
+	Tagger  string          `json:"tagger"`
+	Target  string          `json:"target"`
+	Type    string          `json:"type"`
+}
+
 type targetClassification struct {
 	Classifications json.RawMessage `json:"classifications"`
 	IssueType       string          `json:"issueType"`
@@ -16484,6 +18056,54 @@ type targetToSourcesMapping struct {
 	TargetStatus                json.RawMessage `json:"targetStatus"`
 }
 
+type task struct {
+	Content    json.RawMessage `json:"content"`
+	CreatedOn  string          `json:"created_on"`
+	Creator    string          `json:"creator"`
+	Id         int             `json:"id"`
+	Pending    bool            `json:"pending"`
+	ResolvedBy string          `json:"resolved_by"`
+	ResolvedOn string          `json:"resolved_on"`
+	State      string          `json:"state"`
+	UpdatedOn  string          `json:"updated_on"`
+}
+
+type team struct {
+	CreatedOn   string `json:"created_on"`
+	DisplayName string `json:"display_name"`
+	Links       string `json:"links"`
+	Type        string `json:"type"`
+	Uuid        string `json:"uuid"`
+}
+
+type team_links struct {
+	Avatar       json.RawMessage `json:"avatar"`
+	Html         json.RawMessage `json:"html"`
+	Members      json.RawMessage `json:"members"`
+	Projects     json.RawMessage `json:"projects"`
+	Repositories json.RawMessage `json:"repositories"`
+	Self         json.RawMessage `json:"self"`
+}
+
+type treeentry struct {
+	Commit string `json:"commit"`
+	Path   string `json:"path"`
+	Type   string `json:"type"`
+}
+
+type user struct {
+	AccountId     string `json:"account_id"`
+	AccountStatus string `json:"account_status"`
+	CreatedOn     string `json:"created_on"`
+	DisplayName   string `json:"display_name"`
+	Has2faEnabled bool   `json:"has_2fa_enabled"`
+	IsStaff       bool   `json:"is_staff"`
+	Links         string `json:"links"`
+	Nickname      string `json:"nickname"`
+	Type          string `json:"type"`
+	Uuid          string `json:"uuid"`
+}
+
 type user_provisioning_JsonNode struct {
 	Array               bool   `json:"array"`
 	BigDecimal          bool   `json:"bigDecimal"`
@@ -16506,4 +18126,68 @@ type user_provisioning_JsonNode struct {
 	Short               bool   `json:"short"`
 	Textual             bool   `json:"textual"`
 	ValueNode           bool   `json:"valueNode"`
+}
+
+type user_links struct {
+	Avatar       json.RawMessage `json:"avatar"`
+	Html         json.RawMessage `json:"html"`
+	Repositories json.RawMessage `json:"repositories"`
+	Self         json.RawMessage `json:"self"`
+}
+
+type webhook_subscription struct {
+	Active      bool            `json:"active"`
+	CreatedAt   string          `json:"created_at"`
+	Description string          `json:"description"`
+	Events      json.RawMessage `json:"events"`
+	Links       json.RawMessage `json:"links"`
+	Secret      string          `json:"secret"`
+	SecretSet   bool            `json:"secret_set"`
+	Subject     json.RawMessage `json:"subject"`
+	SubjectType string          `json:"subject_type"`
+	Type        string          `json:"type"`
+	Url         string          `json:"url"`
+	Uuid        string          `json:"uuid"`
+}
+
+type webhooks_subscription_link struct {
+	Href string `json:"href"`
+}
+
+type webhooks_subscription_links struct {
+	Self json.RawMessage `json:"self"`
+}
+
+type workspace struct {
+	CreatedOn         string          `json:"created_on"`
+	ForkingMode       string          `json:"forking_mode"`
+	IsPersonal        bool            `json:"is_personal"`
+	IsPrivacyEnforced bool            `json:"is_privacy_enforced"`
+	IsPrivate         bool            `json:"is_private"`
+	Links             json.RawMessage `json:"links"`
+	Name              string          `json:"name"`
+	Slug              string          `json:"slug"`
+	Type              string          `json:"type"`
+	UpdatedOn         string          `json:"updated_on"`
+	Uuid              string          `json:"uuid"`
+}
+
+type workspace_access struct {
+	Administrator bool   `json:"administrator"`
+	Type          string `json:"type"`
+	Workspace     string `json:"workspace"`
+}
+
+type workspace_base struct {
+	Links json.RawMessage `json:"links"`
+	Slug  string          `json:"slug"`
+	Type  string          `json:"type"`
+	Uuid  string          `json:"uuid"`
+}
+
+type workspace_membership struct {
+	Links     json.RawMessage `json:"links"`
+	Type      string          `json:"type"`
+	User      string          `json:"user"`
+	Workspace string          `json:"workspace"`
 }

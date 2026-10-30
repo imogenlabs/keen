@@ -31,12 +31,17 @@ SPECS=(
   "admin-dlp=https://developer.atlassian.com/cloud/admin/dlp/swagger.v3.json"
   "assets=https://developer.atlassian.com/cloud/assets/swagger.v3.json"
   "compass=https://developer.atlassian.com/cloud/compass/swagger.v3.json"
+  "bitbucket=https://developer.atlassian.com/cloud/bitbucket/swagger.v3.json"
 )
 
 # Specs whose operation ids specfix.py fixes (made from summaries where missing,
 # a shared "Xxx_" prefix dropped), so their commands get readable names. Only list
 # a spec when it is first added: on a shipped spec this renames its commands.
 FIX_IDS=(admin-users admin-control)
+
+# Specs whose auth schemes specfix.py removes (--no-auth), so the generator keeps
+# keen's own login; keen picks their credential by host (internal/client/hostauth.go).
+STRIP_AUTH=(bitbucket)
 
 # Server URL placeholders keen fills at run time: placeholder=marker. specfix.py
 # writes the marker into the URL; internal/client/sitevars.go swaps it for the

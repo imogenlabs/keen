@@ -99,6 +99,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 				}
 				report["admin_api_key"] = keyStatus(cfg.AdminAPIKey, "KEEN_ADMIN_API_KEY", "organization admin APIs")
 				report["scim_api_key"] = keyStatus(cfg.ScimAPIKey, "KEEN_SCIM_API_KEY", "user provisioning (SCIM)")
+				report["bitbucket_token"] = keyStatus(cfg.BitbucketToken, "KEEN_BITBUCKET_TOKEN", "private Bitbucket data")
 			}
 
 			// Check auth environment variables

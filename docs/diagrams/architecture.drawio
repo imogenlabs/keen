@@ -17,7 +17,7 @@
           <mxGeometry x="560" y="170" width="220" height="70" as="geometry" />
         </mxCell>
 
-        <mxCell id="router" value="&lt;b&gt;CLI Router&lt;/b&gt;&#xa;Cobra commands &#183; 1,543 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a3c6e;fontSize=13;" vertex="1" parent="1">
+        <mxCell id="router" value="&lt;b&gt;CLI Router&lt;/b&gt;&#xa;Cobra commands &#183; 1,843 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a3c6e;fontSize=13;" vertex="1" parent="1">
           <mxGeometry x="380" y="310" width="260" height="70" as="geometry" />
         </mxCell>
 
@@ -50,10 +50,13 @@
           <mxGeometry x="500" y="130" width="210" height="60" as="geometry" />
         </mxCell>
         <mxCell id="c7" value="Assets&#xa;64 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
-          <mxGeometry x="148" y="210" width="210" height="60" as="geometry" />
+          <mxGeometry x="30" y="210" width="210" height="60" as="geometry" />
         </mxCell>
         <mxCell id="c8" value="Compass&#xa;11 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
-          <mxGeometry x="382" y="210" width="210" height="60" as="geometry" />
+          <mxGeometry x="265" y="210" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" value="Bitbucket&#xa;300 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
+          <mxGeometry x="500" y="210" width="210" height="60" as="geometry" />
         </mxCell>
 
         <mxCell id="e_actor_cli" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8b5cf6;exitX=0.4;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor" target="cli">

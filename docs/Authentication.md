@@ -77,3 +77,14 @@ export KEEN_ASSETS_WORKSPACE_ID="your-workspace-id"
 ```
 
 or `cloud_id` and `assets_workspace_id` in `~/.config/keen/auth.json`. A `--dry-run` shows the address with `KEEN_CLOUD_ID` and `KEEN_ASSETS_WORKSPACE_ID` in place of the ids.
+
+## Bitbucket
+
+Bitbucket commands (`keen bitbucket-...`) call `api.bitbucket.org`. Public repositories and workspaces work with no setup. For private data, create an Atlassian API token with Bitbucket scopes (id.atlassian.com > Security > API tokens > Create API token with scopes > Bitbucket). Your normal Jira token has no Bitbucket scopes, so Bitbucket refuses it.
+
+```bash
+export KEEN_BITBUCKET_TOKEN="your-bitbucket-scoped-token"
+export KEEN_BITBUCKET_EMAIL="you@example.com"   # only if it differs from your Jira username
+```
+
+Or `bitbucket_token` and `bitbucket_email` in `~/.config/keen/auth.json`. `keen doctor` shows whether the token is set.

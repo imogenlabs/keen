@@ -864,6 +864,8 @@ func resourceSupportsPagination(resource string) bool {
 		return true
 	case "issuesecurityschemes-project":
 		return true
+	case "issuesecurityschemes_members":
+		return true
 	case "issuetypescheme":
 		return true
 	case "issuetypescheme-mapping":
@@ -893,8 +895,6 @@ func resourceSupportsPagination(resource string) bool {
 	case "labels_blogposts":
 		return true
 	case "labels_pages":
-		return true
-	case "members":
 		return true
 	case "notificationscheme":
 		return true
@@ -1150,12 +1150,12 @@ func syncResourceFieldSelector(resource string) (string, string) {
 		return "body-format", "id,parentCommentId,resolutionStatus,status,title"
 	case "inline_comments_versions":
 		return "body-format", "authorId,comment.id,createdAt,message,minorEdit,number"
+	case "issuesecurityschemes_members":
+		return "expand", "holder"
 	case "labels_blogposts":
 		return "body-format", "id,authorId,createdAt,spaceId,status,title"
 	case "labels_pages":
 		return "body-format", "id,authorId,createdAt,lastOwnerId,ownerId,parentId,parentType,position,spaceId,status,subtype,title"
-	case "members":
-		return "expand", "holder"
 	case "pages_custom_content":
 		return "body-format", "id,authorId,blogPostId,createdAt,customContentId,pageId,spaceId,status,title,type"
 	case "pages_footer_comments":
@@ -1605,6 +1605,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 	}
 
 	switch resource {
+	case "client_key":
+		return db.UpsertClientKey(data)
 	case "addon-categories":
 		return db.UpsertAddonCategories(data)
 	case "addons":
@@ -1631,8 +1633,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertTokens(data)
 	case "addons_versions":
 		return db.UpsertAddonsVersions(data)
-	case "watch":
-		return db.UpsertWatch(data)
+	case "addons_watch":
+		return db.UpsertAddonsWatch(data)
 	case "admin-control-admin":
 		return db.UpsertAdminControlAdmin(data)
 	case "admin-key":
@@ -1699,6 +1701,34 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertAttachmentsVersions(data)
 	case "system":
 		return db.UpsertSystem(data)
+	case "gpg_keys":
+		return db.UpsertGpgKeys(data)
+	case "bitbucket_users_pipelines_config":
+		return db.UpsertBitbucketUsersPipelinesConfig(data)
+	case "bitbucket_users_properties":
+		return db.UpsertBitbucketUsersProperties(data)
+	case "bitbucket_users_search":
+		return db.UpsertBitbucketUsersSearch(data)
+	case "ssh_keys":
+		return db.UpsertSshKeys(data)
+	case "codesearch":
+		return db.UpsertCodesearch(data)
+	case "bitbucket_workspaces_hooks":
+		return db.UpsertBitbucketWorkspacesHooks(data)
+	case "bitbucket_workspaces_members":
+		return db.UpsertBitbucketWorkspacesMembers(data)
+	case "bitbucket_workspaces_permissions":
+		return db.UpsertBitbucketWorkspacesPermissions(data)
+	case "bitbucket_workspaces_pipelines_config":
+		return db.UpsertBitbucketWorkspacesPipelinesConfig(data)
+	case "bitbucket_workspaces_projects":
+		return db.UpsertBitbucketWorkspacesProjects(data)
+	case "bitbucket_workspaces_pullrequests":
+		return db.UpsertBitbucketWorkspacesPullrequests(data)
+	case "bitbucket_workspaces_search":
+		return db.UpsertBitbucketWorkspacesSearch(data)
+	case "bitbucket_workspaces_settings":
+		return db.UpsertBitbucketWorkspacesSettings(data)
 	case "blogposts":
 		return db.UpsertBlogposts(data)
 	case "blogposts_attachments":
@@ -1957,8 +1987,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertTransitions(data)
 	case "votes":
 		return db.UpsertVotes(data)
-	case "watchers":
-		return db.UpsertWatchers(data)
+	case "issue_watchers":
+		return db.UpsertIssueWatchers(data)
 	case "issue_worklog":
 		return db.UpsertIssueWorklog(data)
 	case "issue-link":
@@ -1971,8 +2001,8 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertIssuesecurityschemes(data)
 	case "level":
 		return db.UpsertLevel(data)
-	case "members":
-		return db.UpsertMembers(data)
+	case "issuesecurityschemes_members":
+		return db.UpsertIssuesecurityschemesMembers(data)
 	case "issuetype":
 		return db.UpsertIssuetype(data)
 	case "alternatives":
@@ -2191,6 +2221,68 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertRedact(data)
 	case "remotelinks":
 		return db.UpsertRemotelinks(data)
+	case "repositories":
+		return db.UpsertRepositories(data)
+	case "branch_restrictions":
+		return db.UpsertBranchRestrictions(data)
+	case "branching_model":
+		return db.UpsertBranchingModel(data)
+	case "commit":
+		return db.UpsertCommit(data)
+	case "repositories_commits":
+		return db.UpsertRepositoriesCommits(data)
+	case "default_reviewers":
+		return db.UpsertDefaultReviewers(data)
+	case "deploy_keys":
+		return db.UpsertDeployKeys(data)
+	case "repositories_deployments":
+		return db.UpsertRepositoriesDeployments(data)
+	case "deployments_config":
+		return db.UpsertDeploymentsConfig(data)
+	case "repositories_diff":
+		return db.UpsertRepositoriesDiff(data)
+	case "diffstat":
+		return db.UpsertDiffstat(data)
+	case "downloads":
+		return db.UpsertDownloads(data)
+	case "effective_branching_model":
+		return db.UpsertEffectiveBranchingModel(data)
+	case "effective_default_reviewers":
+		return db.UpsertEffectiveDefaultReviewers(data)
+	case "environments":
+		return db.UpsertEnvironments(data)
+	case "file_conflicts":
+		return db.UpsertFileConflicts(data)
+	case "filehistory":
+		return db.UpsertFilehistory(data)
+	case "forks":
+		return db.UpsertForks(data)
+	case "repositories_hooks":
+		return db.UpsertRepositoriesHooks(data)
+	case "merge_base":
+		return db.UpsertMergeBase(data)
+	case "merge_queues":
+		return db.UpsertMergeQueues(data)
+	case "override_settings":
+		return db.UpsertOverrideSettings(data)
+	case "repositories_patch":
+		return db.UpsertRepositoriesPatch(data)
+	case "permissions_config":
+		return db.UpsertPermissionsConfig(data)
+	case "pipelines":
+		return db.UpsertPipelines(data)
+	case "repositories_pipelines_config":
+		return db.UpsertRepositoriesPipelinesConfig(data)
+	case "repositories_properties":
+		return db.UpsertRepositoriesProperties(data)
+	case "repositories_pullrequests":
+		return db.UpsertRepositoriesPullrequests(data)
+	case "refs":
+		return db.UpsertRefs(data)
+	case "src":
+		return db.UpsertSrc(data)
+	case "repositories_watchers":
+		return db.UpsertRepositoriesWatchers(data)
 	case "resolution":
 		return db.UpsertResolution(data)
 	case "role":
@@ -2223,6 +2315,20 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertServicedeskapi(data)
 	case "settings":
 		return db.UpsertSettings(data)
+	case "snippets_comments":
+		return db.UpsertSnippetsComments(data)
+	case "snippets_commits":
+		return db.UpsertSnippetsCommits(data)
+	case "snippets_diff":
+		return db.UpsertSnippetsDiff(data)
+	case "files":
+		return db.UpsertFiles(data)
+	case "snippets_patch":
+		return db.UpsertSnippetsPatch(data)
+	case "snippets_watch":
+		return db.UpsertSnippetsWatch(data)
+	case "snippets_watchers":
+		return db.UpsertSnippetsWatchers(data)
 	case "software":
 		return db.UpsertSoftware(data)
 	case "space-permissions":
@@ -2269,6 +2375,10 @@ func upsertSingleObject(db *store.Store, resource string, data json.RawMessage) 
 		return db.UpsertCancel(data)
 	case "tasks":
 		return db.UpsertTasks(data)
+	case "teams_pipelines_config":
+		return db.UpsertTeamsPipelinesConfig(data)
+	case "teams_search":
+		return db.UpsertTeamsSearch(data)
 	case "ui-modifications":
 		return db.UpsertUiModifications(data)
 	case "user":
@@ -2378,6 +2488,9 @@ func defaultSyncResources() []string {
 		"atlassian-connect",
 		"attachments",
 		"auditing",
+		"bitbucket-user",
+		"bitbucket-user-emails",
+		"bitbucket-user-workspaces",
 		"blogposts",
 		"classification-levels",
 		"component",
@@ -2402,6 +2515,7 @@ func defaultSyncResources() []string {
 		"group",
 		"group-member",
 		"groups",
+		"hook-events",
 		"icon",
 		"inline-comments",
 		"invalid-jqls-access-log",
@@ -2505,6 +2619,9 @@ func knownSyncResourceNames() []string {
 		"atlassian-connect",
 		"attachments",
 		"auditing",
+		"bitbucket-user",
+		"bitbucket-user-emails",
+		"bitbucket-user-workspaces",
 		"blogposts",
 		"classification-levels",
 		"component",
@@ -2529,6 +2646,7 @@ func knownSyncResourceNames() []string {
 		"group",
 		"group-member",
 		"groups",
+		"hook-events",
 		"icon",
 		"inline-comments",
 		"invalid-jqls-access-log",
@@ -2636,6 +2754,9 @@ func syncResourcePath(resource string) (string, error) {
 		"atlassian-connect":                        "/rest/atlassian-connect/1/app/module/dynamic",
 		"attachments":                              "/attachments",
 		"auditing":                                 "/rest/api/3/auditing/record",
+		"bitbucket-user":                           "/user",
+		"bitbucket-user-emails":                    "/user/emails",
+		"bitbucket-user-workspaces":                "/user/workspaces",
 		"blogposts":                                "/blogposts",
 		"classification-levels":                    "/rest/api/3/classification-levels",
 		"component":                                "/rest/api/3/component",
@@ -2660,6 +2781,7 @@ func syncResourcePath(resource string) (string, error) {
 		"group":                                    "/rest/api/3/group/bulk",
 		"group-member":                             "/rest/api/3/group/member",
 		"groups":                                   "/rest/api/3/groups/picker",
+		"hook-events":                              "/hook_events",
 		"icon":                                     "/icon/global",
 		"inline-comments":                          "/inline-comments",
 		"invalid-jqls-access-log":                  "/rest/api/3/invalid-jqls-access-log",
@@ -2895,6 +3017,9 @@ func dependentResourceDefs() []dependentResourceDef {
 		{Name: "inline_comments_versions", ParentTable: "inline-comments", ParentIDParam: "id", PathTemplate: "/inline-comments/{id}/versions", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "id", Field: "id"},
 		}},
+		{Name: "issuesecurityschemes_members", ParentTable: "issuesecurityschemes", ParentIDParam: "issueSecuritySchemeId", PathTemplate: "/rest/api/3/issuesecurityschemes/{issueSecuritySchemeId}/members", KeyField: "", PathParams: []dependentPathParamDef{
+			{Param: "issueSecuritySchemeId", Field: "id"},
+		}},
 		{Name: "issuetypescreenscheme_project", ParentTable: "issuetypescreenscheme", ParentIDParam: "issueTypeScreenSchemeId", PathTemplate: "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/project", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "issueTypeScreenSchemeId", Field: "id"},
 		}},
@@ -2909,9 +3034,6 @@ func dependentResourceDefs() []dependentResourceDef {
 		}},
 		{Name: "labels_pages", ParentTable: "labels", ParentIDParam: "id", PathTemplate: "/labels/{id}/pages", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "id", Field: "id"},
-		}},
-		{Name: "members", ParentTable: "issuesecurityschemes", ParentIDParam: "issueSecuritySchemeId", PathTemplate: "/rest/api/3/issuesecurityschemes/{issueSecuritySchemeId}/members", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "issueSecuritySchemeId", Field: "id"},
 		}},
 		{Name: "option", ParentTable: "field", ParentIDParam: "fieldKey", PathTemplate: "/rest/api/3/field/{fieldKey}/option/suggestions/search", KeyField: "", PathParams: []dependentPathParamDef{
 			{Param: "fieldKey", Field: "key"},
@@ -3472,6 +3594,7 @@ var resourceIDFieldOverrides = map[string]string{
 	"issuesecurityschemes":                     "id",
 	"issuesecurityschemes-level":               "id",
 	"issuesecurityschemes-level-member":        "id",
+	"issuesecurityschemes_members":             "id",
 	"issuetype":                                "id",
 	"issuetypescheme":                          "id",
 	"issuetypescheme-mapping":                  "issueTypeId",
@@ -3484,7 +3607,6 @@ var resourceIDFieldOverrides = map[string]string{
 	"labels_attachments":                       "id",
 	"labels_blogposts":                         "id",
 	"labels_pages":                             "id",
-	"members":                                  "id",
 	"notificationscheme":                       "id",
 	"objectschema":                             "id",
 	"option":                                   "id",

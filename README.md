@@ -28,7 +28,7 @@
 
 ---
 
-1,543 API endpoints across Jira, Confluence, Agile, Marketplace, Service Desk, Assets, Compass and Admin — in a single Go binary. SQLite-backed local sync with full-text search. MCP server for AI agents. Built for automation first, humans second.
+1,843 API endpoints across Jira, Confluence, Agile, Marketplace, Service Desk, Assets, Compass, Bitbucket and Admin — in a single Go binary. SQLite-backed local sync with full-text search. MCP server for AI agents. Built for automation first, humans second.
 
 ## What is Keen?
 
@@ -50,6 +50,7 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 | **Service Desk** | 75 | Requests, queues, customers, SLAs, approvals |
 | **Assets** | 64 | Objects, object schemas and types, AQL search, imports (`keen assets-...`). keen finds your cloud and workspace ids from the site |
 | **Compass** | 11 | Events, metric values, attachments and API specs for components |
+| **Bitbucket** | 300 | Repositories, pull requests, pipelines, branches, commits, snippets, workspaces (`keen bitbucket-...`). Public data works without a token; private data needs a Bitbucket-scoped token ([Authentication](docs/Authentication.md)) |
 | **Admin** | 133 | Organizations, directories, groups, domains, policies, user management, user provisioning (SCIM), API tokens and service accounts, data loss prevention. Needs an admin API key ([Authentication](docs/Authentication.md)) |
 
 ## Your First 5 Minutes
@@ -125,7 +126,7 @@ What changed in each release: [CHANGELOG.md](CHANGELOG.md).
 
 ## MCP Server
 
-Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,606 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
+Keen includes an MCP server (`keen-mcp`) that exposes every keen command as a tool (1,920 tools) for AI agents. Works with Claude Code, Cursor, Windsurf, and any MCP-compatible host.
 
 Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cache; writes hit the Atlassian API and update the cache before returning.
 
@@ -291,27 +292,27 @@ keen addons versions get io.example.my-addon --agent
 
 | Feature | Keen | Atlassian Rovo MCP | jira-cli | ACLI (Appfire) |
 |---------|------|--------------------|----------|----------------|
-| Endpoints | 1,543 | 46+ | Jira only | Many |
+| Endpoints | 1,843 | 46+ | Jira only | Many |
 | Local cache | SQLite + FTS5 | No | No | No |
 | MCP server | Yes | Yes (official) | No | No |
-| Products | 8 (Jira, Confluence, Agile, Marketplace, Service Desk, Admin, Assets, Compass) | 5 | 1 | 4 |
+| Products | 9 (Jira, Confluence, Agile, Marketplace, Service Desk, Admin, Assets, Compass, Bitbucket) | 5 | 1 | 4 |
 | Price | Free (Apache-2.0) | Free with Cloud | Free (MIT) | $360-$6,195/yr |
 | Binary | Single Go binary | Remote server | Single Go binary | Requires JVM |
 | Offline search | Yes | No | No | No |
 
 ## Architecture
 
-Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,543 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
+Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,843 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
 
 <p align="center">
-  <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share a Cobra router that splits between a live HTTP client and a local SQLite + FTS5 store, talking to the Atlassian Cloud APIs (Jira Platform, Jira Agile, Confluence v1 and v2, Marketplace, Service Desk, Admin, Assets, Compass)." width="660">
+  <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share a Cobra router that splits between a live HTTP client and a local SQLite + FTS5 store, talking to the Atlassian Cloud APIs (Jira Platform, Jira Agile, Confluence v1 and v2, Marketplace, Service Desk, Admin, Assets, Compass, Bitbucket)." width="660">
 </p>
 
 Source: [`docs/diagrams/architecture.drawio`](docs/diagrams/architecture.drawio) (editable in [draw.io](https://app.diagrams.net/)).
 
 ## Regeneration
 
-keen is generated from 14 official Atlassian OpenAPI specs (in `specs/`) by [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press), then carries its own changes on top. The list of specs lives in one place, `SPECS` in `scripts/regen/config.sh`. One script refreshes keen from Atlassian's current specs without losing those changes:
+keen is generated from 15 official Atlassian OpenAPI specs (in `specs/`) by [CLI Printing Press](https://github.com/mvanhorn/cli-printing-press), then carries its own changes on top. The list of specs lives in one place, `SPECS` in `scripts/regen/config.sh`. One script refreshes keen from Atlassian's current specs without losing those changes:
 
 ```bash
 git switch -c build/refresh-specs

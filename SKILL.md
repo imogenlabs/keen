@@ -30,6 +30,12 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 
 ## Command Reference
 
+**addon** — The addon resource is intended to use used by Bitbucket Cloud Connect
+Apps, and only supports JWT authentication.
+
+- `keen bitbucket-addon delete` — Deletes the application for the user.
+- `keen bitbucket-addon update` — Updates the application installation for the user.
+
 **addon-categories** — Manage addon categories
 
 - `keen addon-categories get` — Get a specific category.
@@ -268,6 +274,30 @@ Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `pa
 
 **avatar** — This resource represents system and custom avatars. Use it to obtain the details of system or custom avatars, add and remove avatars from a project, issue type or priority and obtain avatar images.
 
+
+**bitbucket-user** — The users resource allows you to access public information
+associated with a user account. Most resources in the users
+endpoint have been deprecated in favor of workspaces.
+
+- `keen bitbucket-user get` — Returns details about a specific one of the authenticated user's email addresses.
+- `keen bitbucket-user get-workspaces` — Returns the caller's effective role; as in, the highest level of privilege the caller has for the workspace.
+- `keen bitbucket-user get-workspaces-2` — Returns an object for each repository the caller has explicit access to in the specified workspace and their effective
+- `keen bitbucket-user list` — Returns the currently logged in user.
+- `keen bitbucket-user list-emails` — Returns all the authenticated user's email addresses. Both confirmed and unconfirmed.
+- `keen bitbucket-user list-workspaces` — Returns an object for each workspace accessible to the caller.
+
+**bitbucket-users** — The users resource allows you to access public information
+associated with a user account. Most resources in the users
+endpoint have been deprecated in favor of workspaces.
+
+- `keen bitbucket-users <selected_user>` — Gets the public information associated with a user account.
+
+**bitbucket-workspaces** — A workspace is where you create repositories, collaborate on
+your code, and organize different streams of work in your Bitbucket
+Cloud account. Workspaces replace the use of teams and users in API
+calls.
+
+- `keen bitbucket-workspaces <workspace>` — Returns the requested workspace.
 
 **blogposts** — Manage blogposts
 
@@ -590,6 +620,11 @@ These APIs are available to Forge apps with the `devops:deploymentInfoProvider` 
 **groupuserpicker** — Manage groupuserpicker
 
 - `keen groupuserpicker` — Returns a list of users and groups matching a string.
+
+**bitbucket-hook-events** — Manage bitbucket hook events
+
+- `keen bitbucket-hook-events list` — Returns the webhook resource or subject types on which webhooks can be registered.
+- `keen bitbucket-hook-events list-for-resource` — Returns a paginated list of all valid webhook events for the specified entity.
 
 **assets-icon** — Manage assets icon
 
@@ -1030,6 +1065,17 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen remotelinks get-remote-link-by-id` — Retrieve the currently stored Remote Link data for the given ID.
 - `keen remotelinks submit-remote-links` — Update / insert Remote Link data.
 
+**repositories** — A Git repository is a virtual storage of your project. It
+allows you to save versions of your code, which you can access
+when needed. The repo resource allows you to access public repos,
+or repos that belong to a specific workspace.
+
+- `keen bitbucket-repositories create` — Creates a new repository.
+- `keen bitbucket-repositories delete` — Deletes the repository. This is an irreversible operation. This does not affect its forks.
+- `keen bitbucket-repositories get` — Returns a paginated list of all repositories owned by the specified workspace.
+- `keen bitbucket-repositories get-workspace` — Returns the object describing this repository.
+- `keen bitbucket-repositories update` — Since this endpoint can be used to both update and to create a repository, the request body depends on the intent.
+
 **resolution** — Manage resolution
 
 - `keen resolution create` — Creates an issue resolution.
@@ -1208,6 +1254,25 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen settings get-issue-navigator-default-columns` — Returns the default issue navigator columns.
 - `keen settings set-issue-navigator-default-columns` — Sets the default issue navigator columns.
 
+**snippets** — Snippets allow you share code segments or files with yourself, members of
+your workspace, or the world.
+
+Like pull requests, repositories and workspaces, the full set of snippets
+is defined by what the current user has access to. This includes all
+snippets owned by any of the workspaces the user is a member of, or
+snippets by other users that the current user is either watching or has
+ collaborated on (for instance by commenting on it).
+
+- `keen bitbucket-snippets create` — Creates a new snippet under the authenticated user's account. Snippets can contain multiple files.
+- `keen bitbucket-snippets create-workspace` — Identical to [`/snippets`](/cloud/bitbucket/rest/api-group-snippets/#api-snippets-post)
+- `keen bitbucket-snippets delete` — Deletes a snippet and returns an empty response.
+- `keen bitbucket-snippets delete-workspace` — Deletes the snippet. Note that this only works for versioned URLs that point to the latest commit of the snippet.
+- `keen bitbucket-snippets get` — Returns a paginated list of snippets owned by `{workspace}`. To limit the set of returned snippets, apply the `?
+- `keen bitbucket-snippets get-workspace` — Retrieves a single snippet.
+- `keen bitbucket-snippets get-workspace-2` — Identical to `GET /snippets/encoded_id`
+- `keen bitbucket-snippets update` — Used to update a snippet. Use this to add and delete files and to change a snippet's title.
+- `keen bitbucket-snippets update-workspace` — Identical to `UPDATE /snippets/encoded_id`, except that this endpoint takes an explicit commit revision.
+
 **software** — Manage software
 
 - `keen software get-approximate-issue-count-for-backlog` — Returns the approximate count of all issues from the board's backlog, for the given board ID.
@@ -1276,6 +1341,13 @@ These APIs are available to Atlassian Connect apps. To use these APIs you must h
 - `keen tasks get` — Returns all tasks.
 - `keen tasks get-by-id` — Returns a specific task. **[Permissions](https://confluence.atlassian.
 - `keen tasks update` — Update a task by id. This endpoint currently only supports updating task status. **[Permissions](https://confluence.
+
+**teams** — The teams resource has been deprecated, and the workspaces
+endpoint should be used instead.
+
+The teams resource returns all the teams that the authenticated
+user is associated with.
+
 
 **ui-modifications** — Manage ui modifications
 

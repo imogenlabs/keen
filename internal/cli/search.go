@@ -221,6 +221,8 @@ In local mode: searches locally synced data only.`,
 				results, err = db.SearchProjectCategory(query, limit)
 			case "project-template":
 				results, err = db.SearchProjectTemplate(query, limit)
+			case "repositories":
+				results, err = db.SearchRepositories(query, limit)
 			case "resolution":
 				results, err = db.SearchResolution(query, limit)
 			case "role":
@@ -622,6 +624,19 @@ In local mode: searches locally synced data only.`,
 					partial, searchErr := db.SearchProjectTemplate(query, limit)
 					if searchErr != nil {
 						return fmt.Errorf("search project_template failed: %w", searchErr)
+					}
+					for _, r := range partial {
+						key := string(r)
+						if !seen[key] {
+							seen[key] = true
+							results = append(results, r)
+						}
+					}
+				}
+				{
+					partial, searchErr := db.SearchRepositories(query, limit)
+					if searchErr != nil {
+						return fmt.Errorf("search repositories failed: %w", searchErr)
 					}
 					for _, r := range partial {
 						key := string(r)
