@@ -294,7 +294,7 @@ keen addons versions get io.example.my-addon --agent
 | Endpoints | 1,543 | 46+ | Jira only | Many |
 | Local cache | SQLite + FTS5 | No | No | No |
 | MCP server | Yes | Yes (official) | No | No |
-| Products | 6 (Jira, Confluence, Agile, Marketplace, Service Desk, Admin) | 5 | 1 | 4 |
+| Products | 8 (Jira, Confluence, Agile, Marketplace, Service Desk, Admin, Assets, Compass) | 5 | 1 | 4 |
 | Price | Free (Apache-2.0) | Free with Cloud | Free (MIT) | $360-$6,195/yr |
 | Binary | Single Go binary | Remote server | Single Go binary | Requires JVM |
 | Offline search | Yes | No | No | No |
@@ -304,7 +304,7 @@ keen addons versions get io.example.my-addon --agent
 Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,543 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
 
 <p align="center">
-  <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share a Cobra router that splits between a live HTTP client and a local SQLite + FTS5 store, talking to the Atlassian Cloud APIs (Jira Platform, Jira Agile, Confluence v1 and v2, Marketplace, Service Desk, Admin)." width="660">
+  <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share a Cobra router that splits between a live HTTP client and a local SQLite + FTS5 store, talking to the Atlassian Cloud APIs (Jira Platform, Jira Agile, Confluence v1 and v2, Marketplace, Service Desk, Admin, Assets, Compass)." width="660">
 </p>
 
 Source: [`docs/diagrams/architecture.drawio`](docs/diagrams/architecture.drawio) (editable in [draw.io](https://app.diagrams.net/)).

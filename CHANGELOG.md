@@ -7,13 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-10-30
+
+keen now covers 1,543 Atlassian API endpoints with 1,606 MCP tools, up from 1,130 and 1,183, built from 14 Atlassian specs.
+
 ### Added
-- The Assets and Compass APIs: 75 commands and MCP tools. Assets finds your cloud and workspace ids from the site (or `KEEN_CLOUD_ID` and `KEEN_ASSETS_WORKSPACE_ID`). keen now covers 1,543 endpoints with 1,606 MCP tools
-- Atlassian's admin APIs: user management, user provisioning (SCIM), API tokens and service accounts, admin control policies and data loss prevention. 86 commands and MCP tools; keen now covers 1,468 endpoints with 1,524 MCP tools
+- The Confluence v2 API: 252 commands grouped by resource (`pages`, `blogposts`, `spaces`, `folders`, `databases`, `whiteboards`, comments, attachments, space roles and more). The v1 `wiki` commands are unchanged
+- Atlassian's admin APIs: `admin-control` (policies and resources), `user-management`, `user-provisioning` and `scim`, `api-tokens`, `api-keys`, `service-accounts`, `oauth-clients` and data loss prevention. 86 commands
+- The Assets and Compass APIs: 75 commands. Assets commands start with `assets-` and find your cloud and workspace ids from the site (or `KEEN_CLOUD_ID` and `KEEN_ASSETS_WORKSPACE_ID`)
 - `keen doctor` shows whether the admin and SCIM API keys are set
-- The Confluence v2 API: 252 commands and MCP tools grouped by resource (`pages`, `blogposts`, `spaces`, `folders`, `databases`, `whiteboards`, comments, attachments, space roles and more). keen now covers 1,382 endpoints with 1,438 MCP tools. The v1 `wiki` commands are unchanged
-- `scripts/regen/specdiff.py` lists what Atlassian added, removed or changed in each API spec since keen was last refreshed
-- A weekly workflow runs that check, opens one issue when Atlassian's specs change and closes it once keen is current
+- `scripts/regen/specdiff.py` lists what Atlassian added, removed or changed in each API spec since keen was last refreshed. A weekly workflow runs it, opens one issue when Atlassian's specs change and closes it once keen is current
 
 ### Fixed
 - Admin commands work: keen sends the organization admin API key (`KEEN_ADMIN_API_KEY` or `admin_api_key`) to Atlassian's admin APIs and the directory key (`KEEN_SCIM_API_KEY` or `scim_api_key`) to SCIM. Before, every admin command sent your site login and failed with 401. Without the key, an admin command now stops before calling Atlassian and says which key to set

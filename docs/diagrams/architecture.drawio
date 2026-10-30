@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mxfile host="drawio" version="30.2.4">
   <diagram name="Architecture">
-    <mxGraphModel dx="900" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1020" pageHeight="900" math="0" shadow="0" background="#ffffff">
+    <mxGraphModel dx="900" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1020" pageHeight="980" math="0" shadow="0" background="#ffffff">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
 
-        <mxCell id="actor" value="You&#xa;&#183; AI Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="actor" value="You or your AI agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=14;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="420" y="40" width="180" height="60" as="geometry" />
         </mxCell>
 
@@ -29,7 +29,7 @@
         </mxCell>
 
         <mxCell id="cloud" value="Atlassian Cloud" style="swimlane;startSize=34;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
-          <mxGeometry x="140" y="620" width="740" height="220" as="geometry" />
+          <mxGeometry x="140" y="620" width="740" height="300" as="geometry" />
         </mxCell>
         <mxCell id="c1" value="Jira Platform&#xa;630 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
           <mxGeometry x="30" y="50" width="210" height="60" as="geometry" />
@@ -48,6 +48,12 @@
         </mxCell>
         <mxCell id="c6" value="Admin&#xa;133 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
           <mxGeometry x="500" y="130" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" value="Assets&#xa;64 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
+          <mxGeometry x="148" y="210" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" value="Compass&#xa;11 endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;" vertex="1" parent="cloud">
+          <mxGeometry x="382" y="210" width="210" height="60" as="geometry" />
         </mxCell>
 
         <mxCell id="e_actor_cli" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8b5cf6;exitX=0.4;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor" target="cli">
