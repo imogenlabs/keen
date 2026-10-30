@@ -1,6 +1,8 @@
 # Org Chart and Teamwork Graph
 
-Atlassian's Teamwork Graph links people, teams, projects and work across your site. keen reads it with your normal login: no Rovo credits, no second tool.
+Atlassian's Teamwork Graph links people, teams, projects and work across your site. keen reads it with your normal login.
+
+**These queries can cost Rovo credits.** They run on Atlassian's graph query engine, which Atlassian bills as Teamwork Graph usage (most calls 1 to 10 credits; Standard plans include 25 credits per user per month, and usage over the allowance is billed from December 3, 2026). Run them when you need the answer, not in a loop. Your admin can see the cost under Usage > Meters > Rovo credits.
 
 ```bash
 # Who is my manager, who reports to me, my whole chain up to ten levels
