@@ -48,6 +48,10 @@ STRIP_AUTH=(bitbucket)
 # env var of the same name, the auth.json value, or a lookup on the site.
 TEMPLATE_VARS="cloudId=KEEN_CLOUD_ID workspaceId=KEEN_ASSETS_WORKSPACE_ID"
 
+# GraphQL query fields keen makes commands for (scripts/regen/graphql.py). Org
+# chart and Teamwork Graph exist only on Atlassian's GraphQL gateway.
+GRAPHQL_PREFIXES=(teamworkGraph_)
+
 # Files keen writes by hand: the merge always keeps keen's copy.
 KEEN_OWNED=(README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md
   NOTICE LICENSE .printing-press-patches.json ".github/**" "docs/**" "scripts/**" .gitignore go.sum)

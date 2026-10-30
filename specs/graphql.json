@@ -1,0 +1,368 @@
+[
+ {
+  "name": "teamworkGraph_activitiesLinkedToProject",
+  "summary": "Retrieves development metadata for an Jira project.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "projectId",
+    "type": "ID!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_customerSupportMessages",
+  "summary": "Retrieves the messages linked to a customer360 customer.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "customerId",
+    "type": "ID!"
+   },
+   {
+    "name": "startDate",
+    "type": "DateTime!"
+   },
+   {
+    "name": "endDate",
+    "type": "DateTime!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_getProjectContext",
+  "summary": "Retrieves context information for an Atlas project including followers, contributors, and owners.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "projectId",
+    "type": "ID!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_projectUpdates",
+  "summary": "Retrieves project updates for a specific project within a given date range.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "projectId",
+    "type": "String!"
+   },
+   {
+    "name": "startDate",
+    "type": "DateTime!"
+   },
+   {
+    "name": "endDate",
+    "type": "DateTime!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_teamActiveProjects",
+  "summary": "Retrieves any projects a team is actively working on.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "teamId",
+    "type": "ID!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_teamProjects",
+  "summary": "Retrieves the atlas projects under a team.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "teamId",
+    "type": "ID!"
+   },
+   {
+    "name": "startDate",
+    "type": "DateTime!"
+   },
+   {
+    "name": "endDate",
+    "type": "DateTime!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_teamUsers",
+  "summary": "Retrieves the users under a team.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "teamId",
+    "type": "ID!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userCommented",
+  "summary": "User commented (Teamwork Graph).",
+  "optIn": "TeamworkGraphUserCommented",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userCreated",
+  "summary": "User created (Teamwork Graph).",
+  "optIn": "TeamworkGraphUserCreated",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userDirectReports",
+  "summary": "Retrieves the direct reports for a specific manager.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": true,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "userId",
+    "type": "ID!"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userManager",
+  "summary": "Retrieves the manager for a specific user.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": true,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "userId",
+    "type": "ID!"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userReportChainV2",
+  "summary": "Retrieves the complete management chain (report hierarchy) for a specific user, traversing up to 10 levels of management above the user's position.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "userId",
+    "type": "ID!"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userTaggedIn",
+  "summary": "User tagged in (Teamwork Graph).",
+  "optIn": "TeamworkGraphUserMentioned",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userTeams",
+  "summary": "Retrieves the teams for which the user is a member of.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "userId",
+    "type": "ID!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userTopRecentMentioners",
+  "summary": "User top recent mentioners (Teamwork Graph).",
+  "optIn": "TeamworkGraphUserRecentMentioners",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userTopRecentReferencers",
+  "summary": "User top recent referencers (Teamwork Graph).",
+  "optIn": "TeamworkGraphUserRecentReferencers",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userViewed",
+  "summary": "Retrieves the entities a user viewed.",
+  "optIn": "TeamworkGraphContextAPIs",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "userId",
+    "type": "ID!"
+   },
+   {
+    "name": "startDate",
+    "type": "DateTime!"
+   },
+   {
+    "name": "endDate",
+    "type": "DateTime!"
+   },
+   {
+    "name": "viewedEntityTypes",
+    "type": "[TeamworkGraphUserViewedEntityType!]!"
+   },
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ },
+ {
+  "name": "teamworkGraph_userWorkMentioned",
+  "summary": "User work mentioned (Teamwork Graph).",
+  "optIn": "TeamworkGraphUserWorkMentioned",
+  "forceDynamo": false,
+  "returns": "GraphStoreCypherQueryV2Connection",
+  "args": [
+   {
+    "name": "first",
+    "type": "Int"
+   },
+   {
+    "name": "after",
+    "type": "String"
+   }
+  ]
+ }
+]

@@ -425,6 +425,7 @@ Run 'keen doctor' to verify auth and connectivity.`,
 	addAliasCommands(rootCmd, flags)
 	rejectStrayArgs(rootCmd)
 	addWikiPageCommands(rootCmd, flags)
+	addTeamworkGraphCommands(rootCmd, flags)
 	addCompatCommands(rootCmd, flags)
 	addOutputSummaryFlag(rootCmd, flags)
 
