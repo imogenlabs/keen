@@ -114,6 +114,13 @@ if [[ $merge_status -ne 0 ]]; then
         break
       fi
     done
+    for k in "${GENERATOR_HUNKS[@]}"; do
+      if [[ "$f" == "$k" ]]; then
+        python3 "$HERE/resolve.py" theirs "$WORK/ours/$f" >/dev/null
+        git --git-dir="$M/.git" --work-tree="$WORK/ours" add -f -- "$f"
+        echo "regen: took the generator's hunks in $f"
+      fi
+    done
     for k in "${KEEN_HUNKS[@]}"; do
       if [[ "$f" == "$k" ]]; then
         python3 "$HERE/resolve.py" ours "$WORK/ours/$f" >/dev/null
@@ -139,6 +146,7 @@ fi
 git -C "$REPO" fetch -q "$M" +theirs:refs/regen/theirs +ours:refs/regen/merged
 git -C "$REPO" read-tree -u --reset refs/regen/merged
 python3 "$HERE/postfix.py" "$REPO"
+python3 "$HERE/graphql.py" --write
 echo "regen: merged. Review with git status / git diff, then run scripts/regen/check.sh"
 # Today's generator output, stacked on the base so moving the base is a fast-forward.
 next=$(git -C "$REPO" -c user.name=regen -c user.email=regen@localhost commit-tree "refs/regen/theirs^{tree}" \

@@ -35,6 +35,13 @@ JOB_STATUS = {
        for op in ("submit-delete", "submit-edit", "submit-move", "submit-transition",
                   "submit-watch", "submit-unwatch", "get-operation-progress")},
     "internal/cli/workflows_update.go": ("task", "get", "/rest/api/3/task/{id}"),
+    # Confluence v2 space role changes run as Confluence long tasks.
+    "internal/cli/space-roles_delete.go": ("wiki", "get-task", "/wiki/rest/api/longtask/{id}"),
+    "internal/cli/space-roles_update.go": ("wiki", "get-task", "/wiki/rest/api/longtask/{id}"),
+    "internal/cli/space-permissions_get-transition-task-status.go":
+        ("space-permissions", "get-transition-task-status", "/wiki/api/v2/space-permissions/transition/tasks/{id}"),
+    "internal/cli/wiki_bulk-async-convert-content-body-request.go":
+        ("wiki", "async-convert-content-body-response", "/wiki/rest/api/contentbody/convert/async/{id}"),
     "internal/cli/workflowscheme_read-workflow-schemes.go": ("task", "get", "/rest/api/3/task/{id}"),
     "internal/cli/wiki_async-convert-content-body-request.go":
         ("wiki", "async-convert-content-body-response", "/wiki/rest/api/contentbody/convert/async/{id}"),
@@ -50,6 +57,24 @@ WAIT_PATH = re.compile(r'(WaitForJob\(ctx, c, )"[^"]*"')
 # Bitbucket in the list it picked Bitbucket's /user, which the site does not have.
 DOCTOR_FILE = "internal/cli/doctor.go"
 DOCTOR_PATH = re.compile(r'((?:healthPath|verifyPath) := )"[^"]*"')
+
+
+# sync's default paging style is a profiler guess across every spec; it flipped
+# between runs once Bitbucket and Confluence v2 (cursor paging) were added.
+# Every release so far shipped "offset".
+SYNC_FILE = "internal/cli/sync.go"
+SYNC_CURSOR = re.compile(r'(cursorType:\s+)"[a-z]+"')
+
+
+def pin_sync_paging(root):
+    f = os.path.join(root, SYNC_FILE)
+    if not os.path.exists(f):
+        return 0
+    text = open(f, encoding="utf-8").read()
+    new, n = SYNC_CURSOR.subn(r'\g<1>"offset"', text, count=1)
+    if new != text:
+        open(f, "w", encoding="utf-8").write(new)
+    return n
 
 
 def pin_doctor(root):
@@ -185,4 +210,4 @@ if __name__ == "__main__":
         sys.exit(__doc__)
     print(f"normalized {normalize(sys.argv[1])} files, pinned {pin_job_status(sys.argv[1])} job status endpoints, "
           f"fixed example placeholders in {len(fix_placeholders(sys.argv[1]))} files, "
-          f"renamed command groups in {rename_groups(sys.argv[1])} files, pinned {pin_doctor(sys.argv[1])} doctor paths")
+          f"renamed command groups in {rename_groups(sys.argv[1])} files, pinned {pin_doctor(sys.argv[1])} doctor paths and {pin_sync_paging(sys.argv[1])} sync paging default")

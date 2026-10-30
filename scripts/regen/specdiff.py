@@ -7,7 +7,8 @@
 Prints, per spec, the operations Atlassian added, removed or changed, and exits
 1 when anything differs (0 when keen is current). A spec listed in config.sh
 with no copy under specs/ yet counts as new. Used by the weekly spec-check
-workflow; run it by hand to see what a regen would pick up.
+workflow; run it by hand to see what a regen would pick up. It also compares the
+GraphQL schema behind the Teamwork Graph commands (graphql.py --check).
 """
 import hashlib
 import json
@@ -73,6 +74,9 @@ def main():
             if len(items) > 50:
                 print(f"- ...and {len(items) - 50} more {label}")
         print()
+    # The Teamwork Graph commands come from the GraphQL schema, not an OpenAPI spec.
+    if subprocess.run([sys.executable, str(REPO / "scripts" / "regen" / "graphql.py"), "--check"]).returncode:
+        changed = True
     if not changed:
         print("specdiff: keen is built from Atlassian's current specs")
     sys.exit(1 if changed else 0)

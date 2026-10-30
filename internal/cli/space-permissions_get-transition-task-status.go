@@ -46,15 +46,15 @@ func newSpacePermissionsGetTransitionTaskStatusCmd(flags *rootFlags) *cobra.Comm
 					Resource:       "space-permissions",
 					Endpoint:       "get-transition-task-status",
 					Status:         "submitted",
-					StatusResource: "status",
-					StatusEndpoint: "get-statuses",
+					StatusResource: "space-permissions",
+					StatusEndpoint: "get-transition-task-status",
 				})
 				if flagWait {
 					ctx := cmd.Context()
 					if ctx == nil {
 						ctx = context.Background()
 					}
-					final, werr := WaitForJob(ctx, c, "/rest/api/3/status", asyncJobID, WaitOptions{
+					final, werr := WaitForJob(ctx, c, "/wiki/api/v2/space-permissions/transition/tasks/{id}", asyncJobID, WaitOptions{
 						Interval: flagWaitInterval,
 						Timeout:  flagWaitTimeout,
 					})
