@@ -66,7 +66,9 @@ func addTeamworkGraphCommands(rootCmd *cobra.Command, flags *rootFlags) {
 		Use:   "teamwork-graph",
 		Short: "Org chart and Teamwork Graph: managers, reports, teams, collaborators and a person's work",
 		Long: "Atlassian's Teamwork Graph queries. Users default to you; give an account id or ARI with --user.\n" +
-			"On a site without an org chart or teams the answers are empty, not errors.",
+			"On a site without an org chart or teams the answers are empty, not errors.\n\n" +
+			"These queries can cost Rovo credits: Atlassian bills its graph query engine as Teamwork Graph\n" +
+			"usage (most calls 1 to 10 credits). Run them when you need the answer, not in a loop.",
 	}
 	for _, q := range teamworkGraphQueries {
 		group.AddCommand(newTeamworkGraphCmd(flags, q))
@@ -321,7 +323,8 @@ func newGraphQLCmd(flags *rootFlags) *cobra.Command {
 		Long: "Runs a named GraphQL query on your site's gateway and prints its data. The site is sent as\n" +
 			"the query context. Experimental fields need @optIn(to: \"...\") in the query; the error says which.\n" +
 			"Errors in the response fail the command, even though the gateway answers them with HTTP 200.\n" +
-			"Queries only: mutations are refused, so agents can use this as a read-only tool.",
+			"Queries only: mutations are refused, so agents can use this as a read-only tool.\n" +
+			"Some fields cost Rovo credits (Atlassian marks them \"Consumes Rovo Credits\" in the schema).",
 		Example: "  keen graphql --query 'query Me { me { user { name } } }'\n" +
 			"  keen graphql --file query.graphql --variables '{\"id\":\"...\"}' --header X-Force-Dynamo=true",
 		Args:        cobra.NoArgs,
