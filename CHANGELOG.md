@@ -7,16 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-10-30
+
+keen now covers Jira, Confluence, Service Management, Assets, Compass, Bitbucket, Marketplace and Atlassian Admin, plus the org chart and Teamwork Graph: 1,843 REST endpoints and 18 GraphQL queries, with 1,939 MCP tools, in one binary.
+
 ### Added
-- The Bitbucket Cloud API: 300 commands and MCP tools under `keen bitbucket-...` (repositories, pull requests, pipelines, branches, commits, snippets, workspaces). Public data works with no setup; private data needs an Atlassian API token with Bitbucket scopes (`KEEN_BITBUCKET_TOKEN`). keen now covers 1,843 endpoints with 1,920 MCP tools
-- `keen doctor` shows whether the Bitbucket token is set
-- Org chart and Teamwork Graph: `keen teamwork-graph` with 18 queries (manager, direct reports, report chain, teams, team members and projects, a person's created, commented, mentioned and viewed work). Users default to you. 19 more MCP tools, 1,939 in all
+- The Bitbucket Cloud API: 300 commands under `keen bitbucket-...` (repositories, pull requests, pipelines, branches, commits, snippets, workspaces). Public data works with no setup; private data needs an Atlassian API token with Bitbucket scopes (`KEEN_BITBUCKET_TOKEN`)
+- Org chart and Teamwork Graph: `keen teamwork-graph` with 18 queries (manager, direct reports, report chain, teams, team members and projects, a person's created, commented, mentioned and viewed work). Users default to you
 - `keen graphql` runs any named read query on Atlassian's GraphQL gateway; errors in the response fail the command
+- `keen doctor` shows whether the Bitbucket token is set
+
+### Fixed
+- `--wait` on `space-roles delete`, `space-roles update`, `space-permissions get-transition-task-status` and `wiki bulk-async-convert-content-body-request` polled a Jira endpoint. It now follows the Confluence task
 
 ### Changed
-- The Teamwork Graph commands are built from Atlassian's GraphQL schema (`scripts/regen/graphql.py`); the refresh rebuilds them and the weekly check watches the schema
-- The refresh pins choices the generator made differently on each run: the status endpoints of four Confluence task commands (`--wait` polled Jira endpoints since 1.5.0) and sync's paging default. Its own run metadata no longer stops a refresh
-- The refresh removes auth schemes from specs keen authenticates itself (`STRIP_AUTH`), so adding one never changes keen's login, and pins doctor's health check to Jira
+- The Teamwork Graph commands are built from Atlassian's GraphQL schema (`scripts/regen/graphql.py`); a refresh rebuilds them and the weekly check watches the schema
+- The refresh pins choices the generator made differently on each run (task status endpoints, sync's paging default), removes auth schemes from specs keen authenticates itself (`STRIP_AUTH`), keeps doctor's health check on Jira, and no longer stops on the generator's run metadata
 
 ## [1.5.0] - 2026-10-30
 
