@@ -1,5 +1,15 @@
 # Installation
 
+## Homebrew
+
+On macOS or Linux with [Homebrew](https://brew.sh):
+
+```bash
+brew install imogenlabs/tap/keen
+```
+
+This installs both `keen` and `keen-mcp`. `brew upgrade keen` picks up new releases.
+
 ## Binary Download
 
 Prebuilt binaries for macOS (Apple Silicon) and Linux (x86_64, arm64) are on
