@@ -12,6 +12,7 @@ builds:
       - -s -w -X keen/internal/cli.version={{ .Version }}
     targets:
       - darwin_arm64
+      - darwin_amd64
       - linux_amd64
       - linux_arm64
   - id: keen-mcp
@@ -23,6 +24,7 @@ builds:
       - -s -w -X main.version={{ .Version }}
     targets:
       - darwin_arm64
+      - darwin_amd64
       - linux_amd64
       - linux_arm64
 archives:

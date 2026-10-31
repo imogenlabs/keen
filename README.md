@@ -57,9 +57,8 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 ## Your First 5 Minutes
 
 ```bash
-# 1. Install (macOS Apple Silicon; see Install for Linux)
-curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_arm64.tar.gz | tar xz
-sudo mv keen_darwin_arm64/keen keen_darwin_arm64/keen-mcp /usr/local/bin/
+# 1. Install (macOS or Linux with Homebrew; see Install for other ways)
+brew install imogenlabs/tap/keen
 
 # 2. Save your credentials
 mkdir -p ~/.config/keen
@@ -89,6 +88,14 @@ export JIRA_CLOUD_PLATFORM_URL="https://yoursite.atlassian.net"
 ```
 
 ## Install
+
+### Homebrew (macOS and Linux)
+
+```bash
+brew install imogenlabs/tap/keen
+```
+
+This installs both `keen` and `keen-mcp`. `brew upgrade keen` picks up new releases; the formula follows each release within a day.
 
 ### Binary download
 
