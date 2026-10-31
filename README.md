@@ -329,6 +329,8 @@ If the merge stops on a conflict, the script lists the files. Resolve them in th
 
 To see what Atlassian has changed since the last refresh, without changing anything, run `scripts/regen/specdiff.py`. It lists the operations added, removed or changed in each spec. A weekly GitHub workflow (`.github/workflows/spec-check.yml`) runs the same check, opens one issue when anything differs and closes it once keen is current again, so a change is never missed.
 
+`scripts/mcp-check.py <dir with keen and keen-mcp>` tests the MCP server against a live site the way an AI app uses it: it asks `keen_search` for ten everyday tasks in plain words, runs the tool through `keen_run` and compares the answer with the CLI's. It fails when the right tool is not in the top three, or when a tool ranked above it is one Atlassian has switched off. With `--claude` it also hands Claude Code keen-mcp as its only tools and checks it answers real questions with no failed call. It picks its test data from the site, and `check.sh` runs it alongside the live smoke test.
+
 To add an Atlassian API, add one `name=URL` line to the end of `SPECS` and run the two commands above. Nothing else needs editing.
 
 The org chart and Teamwork Graph commands come from Atlassian's GraphQL schema instead of an OpenAPI spec. `scripts/regen/graphql.py` reads it (no login needed), keeps a snapshot in `specs/graphql.json` and writes the command table; the refresh runs it, and the weekly check compares the live schema with the snapshot.
