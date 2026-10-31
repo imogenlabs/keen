@@ -26,7 +26,8 @@ jobs:
       - uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
         with:
           version: '~> v2'
-          args: release --clean
+          # Two builds at a time: each takes about 2 GB, and four at once got the runner shut down.
+          args: release --clean --parallelism 2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.6.3] - 2026-10-30
+## [1.6.4] - 2026-10-30
+
+The same release as 1.6.3, whose build ran out of resources before anything was published.
 
 ### Added
 - Install with Homebrew on macOS and Linux: `brew install imogenlabs/tap/keen`. The formula follows each release automatically
