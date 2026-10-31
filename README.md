@@ -146,6 +146,10 @@ Tool calls arrive as JSON-RPC over stdio. Finding a tool happens inside keen-mcp
 
 Source: [`docs/diagrams/mcp-flow.drawio`](docs/diagrams/mcp-flow.drawio).
 
+### Claude Desktop, and the MCP registry
+
+On a Mac, download `keen-mcp.mcpb` from the [latest release](https://github.com/imogenlabs/keen/releases/latest) and open it: Claude Desktop installs keen and asks for your Atlassian site, email and API token. keen is also listed in the official [MCP registry](https://registry.modelcontextprotocol.io) as `io.github.imogenlabs/keen`, updated with every release.
+
 `keen-mcp` finds credentials the same way the CLI does: environment variables first, then `~/.config/keen/auth.json` or `config.toml`. If you already set up the CLI, `claude mcp add --transport stdio keen -- keen-mcp` is enough. To pass them explicitly instead:
 
 ### Claude Code

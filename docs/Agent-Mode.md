@@ -31,6 +31,10 @@ The `keen-mcp` binary gives agents every keen command (1,939 tools) through two 
 }
 ```
 
+## Claude Desktop, and the MCP registry
+
+On a Mac, download `keen-mcp.mcpb` from the [latest release](https://github.com/imogenlabs/keen/releases/latest) and open it: Claude Desktop installs keen and asks for your Atlassian site, email and API token. keen is also listed in the official [MCP registry](https://registry.modelcontextprotocol.io) as `io.github.imogenlabs/keen`, updated with every release.
+
 ## Command Discovery
 
 Agents should use `which` to find commands:
