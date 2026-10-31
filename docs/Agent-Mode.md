@@ -14,7 +14,7 @@ Auth: `~/.config/keen/auth.json`, or `export JIRA_CLOUD_PLATFORM_USERNAME=... JI
 
 ## MCP Server
 
-The `keen-mcp` binary gives agents every keen command (1,939 tools) through two MCP tools: `keen_search` (describe the task, get matching tools and their parameters) and `keen_run` (run one by name). The full list would not fit in most models' context; set `KEEN_MCP_TOOLS=all` if you want it anyway. `keen_search` ranks tools for APIs Atlassian has deprecated below the alternatives and leaves out ones it has switched off. Each release is tested this way before it ships: `scripts/mcp-check.py` searches for everyday tasks, runs the tools and checks the answers against the CLI, and a Claude Code session with only keen-mcp answers real questions. Add to your MCP config:
+The `keen-mcp` binary gives agents every keen command (1,939 tools) through two MCP tools: `keen_search` (describe the task, get matching tools and their parameters) and `keen_run` (run one by name). The full list would not fit in most models' context; set `KEEN_MCP_TOOLS=all` if you want it anyway. `keen_search` ranks tools for APIs Atlassian has deprecated below the alternatives and leaves out ones it has switched off. A read repeated within 5 minutes is answered from keen's cache, so agents stay under Atlassian's rate limits; any write clears it, and `KEEN_MCP_CACHE=off` makes every read live. Each release is tested this way before it ships: `scripts/mcp-check.py` searches for everyday tasks, runs the tools and checks the answers against the CLI, and a Claude Code session with only keen-mcp answers real questions. Add to your MCP config:
 
 ```json
 {
