@@ -1,100 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mxfile host="drawio" version="30.2.4">
   <diagram name="MCP-Flow">
-    <mxGraphModel dx="900" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="760" math="0" shadow="0" background="#ffffff">
+    <mxGraphModel dx="900" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="700" math="0" shadow="0" background="#ffffff">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-
-        <mxCell id="ll_agent" value="AI Agent" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;fillColor=#ede7f6;strokeColor=#8b5cf6;fontColor=#4527a0;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="30" y="40" width="160" height="680" as="geometry" />
-        </mxCell>
-        <mxCell id="ll_client" value="MCP Client&#xa;(Claude Code / Cursor)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a3c6e;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="250" y="40" width="160" height="680" as="geometry" />
-        </mxCell>
-        <mxCell id="ll_keen" value="keen-mcp" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;fillColor=#ede7f6;strokeColor=#8b5cf6;fontColor=#4527a0;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="470" y="40" width="160" height="680" as="geometry" />
-        </mxCell>
-        <mxCell id="ll_db" value="SQLite + FTS5" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#2d5b2d;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="690" y="40" width="160" height="680" as="geometry" />
-        </mxCell>
-        <mxCell id="ll_api" value="Atlassian API" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="910" y="40" width="160" height="680" as="geometry" />
-        </mxCell>
-
-        <mxCell id="alt" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9673a6;fontColor=#6a4a86;fontSize=12;fontStyle=1;align=left;verticalAlign=top;width=60;height=24;" vertex="1" parent="1">
-          <mxGeometry x="460" y="250" width="640" height="320" as="geometry" />
-        </mxCell>
-        <mxCell id="altlabel1" value="[ read path — fast, local ]" style="text;html=1;align=left;verticalAlign=middle;fontColor=#6a4a86;fontSize=11;fontStyle=2;" vertex="1" parent="1">
-          <mxGeometry x="540" y="262" width="220" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="altdiv" value="" style="endArrow=none;html=1;dashed=1;strokeColor=#9673a6;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="460" y="410" as="sourcePoint" />
-            <mxPoint x="1100" y="410" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="altlabel2" value="[ else — write path: create / update ]" style="text;html=1;align=left;verticalAlign=middle;fontColor=#6a4a86;fontSize=11;fontStyle=2;" vertex="1" parent="1">
-          <mxGeometry x="540" y="416" width="280" height="20" as="geometry" />
-        </mxCell>
-
-        <mxCell id="m1" value="1. tool call request" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#333333;fontColor=#333333;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="110" y="150" as="sourcePoint" />
-            <mxPoint x="330" y="150" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m2" value="2. JSON-RPC over stdio" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#333333;fontColor=#333333;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="330" y="210" as="sourcePoint" />
-            <mxPoint x="550" y="210" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-
-        <mxCell id="m3" value="3a. local read" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#82b366;fontColor=#2d5b2d;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="550" y="310" as="sourcePoint" />
-            <mxPoint x="770" y="310" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m4" value="cached data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;strokeColor=#82b366;fontColor=#2d5b2d;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="770" y="360" as="sourcePoint" />
-            <mxPoint x="550" y="360" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-
-        <mxCell id="m5" value="3b. REST request" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#d79b00;fontColor=#8a5700;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="550" y="460" as="sourcePoint" />
-            <mxPoint x="990" y="460" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m6" value="response" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;strokeColor=#d79b00;fontColor=#8a5700;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="990" y="510" as="sourcePoint" />
-            <mxPoint x="550" y="510" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m7" value="update cache" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#82b366;fontColor=#2d5b2d;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="550" y="550" as="sourcePoint" />
-            <mxPoint x="770" y="550" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-
-        <mxCell id="m8" value="4. tool result" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;strokeColor=#999999;fontColor=#333333;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="550" y="620" as="sourcePoint" />
-            <mxPoint x="330" y="620" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m9" value="5. structured data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;strokeColor=#999999;fontColor=#333333;fontSize=12;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="330" y="670" as="sourcePoint" />
-            <mxPoint x="110" y="670" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
+        <mxCell id="ll_app" value="AI app&#xa;(Claude Code, Cursor, ...)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;fontSize=13;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a3c6e;" vertex="1" parent="1"><mxGeometry x="40" y="40" width="180" height="620" as="geometry" /></mxCell>
+        <mxCell id="ll_keen" value="keen-mcp&#xa;keen_search · keen_run" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;fontSize=13;fontStyle=1;fillColor=#ede7f6;strokeColor=#8b5cf6;fontColor=#4527a0;" vertex="1" parent="1"><mxGeometry x="410" y="40" width="180" height="620" as="geometry" /></mxCell>
+        <mxCell id="ll_atl" value="Atlassian Cloud&#xa;REST + GraphQL" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;fontSize=13;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#2d5b2d;" vertex="1" parent="1"><mxGeometry x="780" y="40" width="180" height="620" as="geometry" /></mxCell>
+        <mxCell id="f1" value="1 · find the tool" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9673a6;fontColor=#6a4a86;fontSize=12;fontStyle=1;align=left;verticalAlign=top;width=150;height=24;" vertex="1" parent="1"><mxGeometry x="20" y="130" width="960" height="230" as="geometry" /></mxCell>
+        <mxCell id="n1" value="offline: no call to Atlassian" style="text;html=1;align=left;verticalAlign=middle;fontColor=#6a4a86;fontSize=11;fontStyle=2;whiteSpace=wrap;" vertex="1" parent="1"><mxGeometry x="180" y="134" width="260" height="20" as="geometry" /></mxCell>
+        <mxCell id="m1" value="keen_search &quot;move issue to done&quot;" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#333333;fontColor=#333333;fontSize=12;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="130" y="190" as="sourcePoint" /><mxPoint x="500" y="190" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m2" value="" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#333333;fontColor=#333333;fontSize=12;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="500" y="230" as="sourcePoint" /><mxPoint x="500" y="270" as="targetPoint" /><Array as="points"><mxPoint x="620" y="230" /><mxPoint x="620" y="270" /></Array></mxGeometry></mxCell>
+        <mxCell id="n2" value="ranks ~1,900 tools by your words;&#xa;deprecated APIs lower, switched-off left out" style="text;html=1;align=left;verticalAlign=middle;fontColor=#6a4a86;fontSize=11;fontStyle=2;whiteSpace=wrap;" vertex="1" parent="1"><mxGeometry x="630" y="226" width="300" height="40" as="geometry" /></mxCell>
+        <mxCell id="m3" value="best matches + their parameters" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;strokeColor=#999999;fontColor=#333333;fontSize=12;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="500" y="320" as="sourcePoint" /><mxPoint x="130" y="320" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="f2" value="2 · run it" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9673a6;fontColor=#6a4a86;fontSize=12;fontStyle=1;align=left;verticalAlign=top;width=150;height=24;" vertex="1" parent="1"><mxGeometry x="20" y="390" width="960" height="230" as="geometry" /></mxCell>
+        <mxCell id="n3" value="live: every call goes to Atlassian" style="text;html=1;align=left;verticalAlign=middle;fontColor=#6a4a86;fontSize=11;fontStyle=2;whiteSpace=wrap;" vertex="1" parent="1"><mxGeometry x="180" y="394" width="260" height="20" as="geometry" /></mxCell>
+        <mxCell id="m4" value="keen_run issue_transitions_do {…}" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#333333;fontColor=#333333;fontSize=12;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="130" y="450" as="sourcePoint" /><mxPoint x="500" y="450" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m5" value="request with your credentials" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#82b366;fontColor=#2d5b2d;fontSize=12;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="500" y="500" as="sourcePoint" /><mxPoint x="870" y="500" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m6" value="response" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;strokeColor=#82b366;fontColor=#2d5b2d;fontSize=12;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="870" y="550" as="sourcePoint" /><mxPoint x="500" y="550" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m7" value="result (or what to use instead)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;strokeColor=#999999;fontColor=#333333;fontSize=12;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="500" y="590" as="sourcePoint" /><mxPoint x="130" y="590" as="targetPoint" /></mxGeometry></mxCell>
       </root>
     </mxGraphModel>
   </diagram>
