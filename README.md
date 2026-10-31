@@ -1,6 +1,6 @@
 # Keen
 
-<p align="center"><strong>The complete Atlassian platform CLI.</strong></p>
+<p align="center"><strong>The complete Atlassian platform CLI and MCP Server.</strong></p>
 
 <p align="center">
     <a href="https://github.com/imogenlabs/keen/releases/latest">
