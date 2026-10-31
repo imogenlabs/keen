@@ -224,6 +224,13 @@
       "reason": "GET/POST /rest/api/3/search answer 410 Gone but are still in the specs, so keen_search offered the dead tool first for JQL search, and every default sync errored on it.",
       "files": ["scripts/regen/deprecated.py", "scripts/regen/regen.sh", "scripts/regen/finish.sh", "internal/compat/deprecated.go", "internal/compat/deprecated_gen.go", "internal/cli/deprecated.go", "internal/cli/root.go (markDeprecatedCommands)", "internal/cli/sync.go (withoutRemoved)", "internal/mcp/compat.go", "internal/mcp/searchrun.go"],
       "validated_outcome": "128 deprecated operations, 128 tools mapped. Tests: removed endpoints stay in the deprecated list, JQL search leads to the and-reconsile tool, the removed tool errors with the replacement, default sync skips it. Live MCP check: 10 of 10 tasks found and answered the same as the CLI."
+    },
+    {
+      "id": "mcp-read-cache",
+      "summary": "keen-mcp uses the client's 5-minute response cache (it had NoCache = true); KEEN_MCP_CACHE=off restores live reads. Cache files are 0600 in a 0700 directory.",
+      "reason": "Every MCP read went to Atlassian, so agents through MCP missed the rate-limit savings the CLI has. The stale-after-write concern was already handled: every successful non-GET clears the cache in client.do.",
+      "files": ["internal/mcp/tools.go (newMCPClient)", "internal/client/client.go (writeCache)", "internal/mcp/cache_test.go"],
+      "validated_outcome": "cache_test.go: two identical reads = one request; read after a write is fresh; KEEN_MCP_CACHE=off = two requests. The first test fails with the old NoCache = true."
     }
   ]
 }

@@ -22600,12 +22600,10 @@ func newMCPClient() (*client.Client, error) {
 		return nil, fmt.Errorf("loading config: %w", err)
 	}
 	c := client.New(cfg, 30*time.Second, 0)
-	// Agents calling through MCP need fresh data every call. The on-disk
-	// response cache survives across MCP server invocations, so a
-	// DELETE/PATCH followed by a GET would otherwise return the
-	// pre-mutation snapshot for up to the cache TTL. The interactive CLI
-	// constructs its own client and is unaffected.
-	c.NoCache = true
+	// Repeat reads come from the CLI's 5-minute response cache, so an agent
+	// stays under Atlassian's rate limits. Every successful write clears the
+	// cache, so a read after a write is fresh. KEEN_MCP_CACHE=off reads live.
+	c.NoCache = strings.EqualFold(strings.TrimSpace(os.Getenv("KEEN_MCP_CACHE")), "off")
 	return c, nil
 }
 

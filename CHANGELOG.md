@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- `keen-mcp` answers a read repeated within 5 minutes from keen's response cache, as the CLI already did, so AI agents stay under Atlassian's rate limits. Any successful write clears the cache. `KEEN_MCP_CACHE=off` makes every read live
+- The response cache is readable only by your user (it holds Atlassian data)
+
 ## [1.6.4] - 2026-10-30
 
 The same release as 1.6.3, whose build ran out of resources before anything was published.
