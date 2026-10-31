@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.2] - 2026-10-30
+
 ### Fixed
 - JQL search over MCP picked a tool for an API Atlassian has switched off (`/rest/api/3/search`, which answers 410 Gone), so AI apps hit an error before finding the one that works. Switched-off APIs now drop out of `keen_search`, and their commands and tools say what to use instead (`keen find-issues`). `keen sync` no longer tries them
 - Commands and MCP tools for APIs Atlassian has deprecated are labelled "Deprecated by Atlassian", and `keen_search` ranks them below the alternatives. The list comes from Atlassian's specs and refreshes with each regeneration
