@@ -48,6 +48,7 @@ step "deprecated list matches the specs" bash -c "python3 scripts/regen/deprecat
 step "binaries build as keen"        bash -c "go build -o '$BIN/keen' ./cmd/keen && go build -o '$BIN/keen-mcp' ./cmd/keen-mcp && '$BIN/keen' version"
 if [[ -n "${KEEN_LIVE_SMOKE:-}" ]]; then
   step "live smoke test"             bash -c "bash '$KEEN_LIVE_SMOKE' '$BIN' | tee /dev/stderr | grep -q 'failures: 0'"
+  step "MCP works like an AI app uses it" python3 scripts/mcp-check.py "$BIN"
 fi
 [[ $fail -eq 0 ]] && echo "check: all passed" || echo "check: FAILED"
 exit $fail

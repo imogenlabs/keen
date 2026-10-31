@@ -38,6 +38,13 @@ make build-all   # cross-compile for all supported platforms
 make test
 ```
 
+If you change the MCP server or how tools are named, also run it the way an AI app would, against your own Atlassian site (it only reads):
+
+```bash
+go build -o /tmp/k/keen ./cmd/keen && go build -o /tmp/k/keen-mcp ./cmd/keen-mcp
+scripts/mcp-check.py /tmp/k            # add --claude if you have Claude Code installed
+```
+
 ## Linting
 
 ```bash
