@@ -12,7 +12,7 @@ This installs both `keen` and `keen-mcp`. `brew upgrade keen` picks up new relea
 
 ## Binary Download
 
-Prebuilt binaries for macOS (Apple Silicon) and Linux (x86_64, arm64) are on
+Prebuilt binaries for macOS (Apple Silicon and Intel) and Linux (x86_64, arm64) are on
 [GitHub Releases](https://github.com/imogenlabs/keen/releases/latest). Each
 archive holds both `keen` and `keen-mcp`:
 
@@ -21,7 +21,7 @@ curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_
 sudo mv keen_darwin_arm64/keen keen_darwin_arm64/keen-mcp /usr/local/bin/
 ```
 
-Swap `darwin_arm64` for `linux_amd64` or `linux_arm64` on Linux.
+Swap `darwin_arm64` for `darwin_amd64` on an Intel Mac, or `linux_amd64` or `linux_arm64` on Linux.
 
 ## From Source
 

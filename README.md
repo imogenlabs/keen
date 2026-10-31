@@ -107,6 +107,11 @@ curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_
 sudo mv keen_darwin_arm64/keen /usr/local/bin/
 sudo mv keen_darwin_arm64/keen-mcp /usr/local/bin/
 
+# macOS (Intel)
+curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_amd64.tar.gz | tar xz
+sudo mv keen_darwin_amd64/keen /usr/local/bin/
+sudo mv keen_darwin_amd64/keen-mcp /usr/local/bin/
+
 # Linux (x86_64)
 curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.tar.gz | tar xz
 sudo mv keen_linux_amd64/keen /usr/local/bin/
