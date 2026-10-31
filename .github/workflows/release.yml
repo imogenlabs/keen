@@ -29,3 +29,39 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Publish keen to the official MCP registry (registry.modelcontextprotocol.io)
+  # as an MCP bundle on this release. Signs in with GitHub's OIDC token, so no
+  # secret is needed; the io.github.imogenlabs namespace follows from the repo.
+  mcp-registry:
+    needs: release
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: ${{ github.ref_name }}
+      PUBLISHER: v1.8.7
+      PUBLISHER_SHA256: b63dc083beb27e1a44c07c252ac147ff2c34af2f7822f705a17f8d0e1b44d592
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Build the bundle from this release's Mac binaries
+        run: |
+          mkdir -p dist/arm64 dist/amd64
+          gh release download "$TAG" -p keen_darwin_arm64.tar.gz -p keen_darwin_amd64.tar.gz -D dist
+          tar xzf dist/keen_darwin_arm64.tar.gz -C dist/arm64
+          tar xzf dist/keen_darwin_amd64.tar.gz -C dist/amd64
+          lipo -create -output dist/keen-mcp dist/arm64/*/keen-mcp dist/amd64/*/keen-mcp
+          python3 scripts/mcp-registry.py dist/keen-mcp "$TAG" dist/registry
+          gh release upload "$TAG" dist/registry/keen-mcp.mcpb --clobber
+
+      - name: Publish to the MCP registry
+        run: |
+          curl -fsSL -o publisher.tar.gz "https://github.com/modelcontextprotocol/registry/releases/download/$PUBLISHER/mcp-publisher_darwin_arm64.tar.gz"
+          echo "$PUBLISHER_SHA256  publisher.tar.gz" | shasum -a 256 -c
+          tar xzf publisher.tar.gz mcp-publisher
+          cd dist/registry
+          ../../mcp-publisher login github-oidc
+          ../../mcp-publisher publish

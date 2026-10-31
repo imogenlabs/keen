@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Install with Homebrew on macOS and Linux: `brew install imogenlabs/tap/keen`. The formula follows each release automatically
 - Builds for Intel Macs
+- keen-mcp as a one-click bundle for Claude Desktop (`keen-mcp.mcpb` on each release), and keen in the official MCP registry as `io.github.imogenlabs/keen`, published with every release
 
 ## [1.6.2] - 2026-10-30
 
