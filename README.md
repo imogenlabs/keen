@@ -131,10 +131,10 @@ Keen includes an MCP server (`keen-mcp`) that gives AI agents every keen command
 
 It offers two tools: `keen_search` finds the tools for a task ("transition an issue", "list sprints on a board") and returns them with their parameters, and `keen_run` runs one by name. Listing all 1,939 tools one by one would take about half a million tokens, more than most models can hold, so an app connecting to keen would fill up before doing any work. To get the full list anyway, set `KEEN_MCP_TOOLS=all` in the server's environment.
 
-Tool calls arrive as JSON-RPC over stdio. Reads are answered from the local cache; writes hit the Atlassian API and update the cache before returning.
+Tool calls arrive as JSON-RPC over stdio. Finding a tool happens inside keen-mcp with no call to Atlassian; running one always goes to Atlassian live, so the answer is never stale. If a tool's API has been switched off by Atlassian, the result says what to use instead.
 
 <p align="center">
-  <img src="docs/diagrams/mcp-flow.drawio.png" alt="MCP request flow: an AI agent calls a tool through its MCP client, keen-mcp answers reads from SQLite + FTS5 and routes writes to the Atlassian API before refreshing the cache, then returns structured data." width="820">
+  <img src="docs/diagrams/mcp-flow.drawio.png" alt="MCP request flow: the AI app asks keen_search for a task in plain words and gets the best matching tools back without any call to Atlassian, then calls keen_run, which sends the request to Atlassian live and returns the result." width="820">
 </p>
 
 Source: [`docs/diagrams/mcp-flow.drawio`](docs/diagrams/mcp-flow.drawio).
@@ -305,10 +305,10 @@ keen addons versions get io.example.my-addon --agent
 
 ## Architecture
 
-Both the `keen` CLI and the `keen-mcp` server share a single Cobra router over all 1,843 endpoints. Reads are served from the local SQLite + FTS5 cache; writes go straight to the Atlassian REST API and refresh the cache on the way back.
+The `keen` CLI and the `keen-mcp` server share one set of commands over 1,843 REST endpoints and 18 GraphQL queries. Calls go to Atlassian live by default. `keen sync` copies data into a local SQLite + FTS5 store, which `keen search` and offline reads (`--data-source local`, or automatically when Atlassian cannot be reached) use.
 
 <p align="center">
-  <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share a Cobra router that splits between a live HTTP client and a local SQLite + FTS5 store, talking to the Atlassian Cloud APIs (Jira Platform, Jira Agile, Confluence v1 and v2, Marketplace, Service Desk, Admin, Assets, Compass, Bitbucket)." width="660">
+  <img src="docs/diagrams/architecture.drawio.png" alt="Keen architecture: the keen CLI and keen-mcp server share one set of commands that call Atlassian live through an HTTP client (REST and GraphQL), with a local SQLite + FTS5 store filled by sync for search and offline reads. Atlassian Cloud APIs: Jira Platform, Jira Agile, Confluence v1 and v2, Marketplace, Service Desk, Admin, Assets, Compass, Bitbucket, and Teamwork Graph." width="660">
 </p>
 
 Source: [`docs/diagrams/architecture.drawio`](docs/diagrams/architecture.drawio) (editable in [draw.io](https://app.diagrams.net/)).
