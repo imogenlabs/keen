@@ -309,15 +309,18 @@ keen addons versions get io.example.my-addon --agent
 
 ## Comparison
 
-| Feature | Keen | Atlassian Rovo MCP | jira-cli | ACLI (Appfire) |
-|---------|------|--------------------|----------|----------------|
-| Endpoints | 1,843 | 46+ | Jira only | Many |
-| Local cache | SQLite + FTS5 | No | No | No |
-| MCP server | Yes | Yes (official) | No | No |
-| Products | 9 (Jira, Confluence, Agile, Marketplace, Service Desk, Admin, Assets, Compass, Bitbucket) | 5 | 1 | 4 |
-| Price | Free (Apache-2.0) | Free with Cloud | Free (MIT) | $360-$6,195/yr |
-| Binary | Single Go binary | Remote server | Single Go binary | Requires JVM |
-| Offline search | Yes | No | No | No |
+| Feature | Keen | mcp-atlassian | Atlassian Rovo MCP | jira-cli | ACLI (Appfire) |
+|---------|------|---------------|--------------------|----------|----------------|
+| Endpoints | 1,843 | 98 tools | 46+ | Jira only | Many |
+| Local cache | SQLite + FTS5 | No | No | No | No |
+| MCP server | Yes | Yes | Yes (official) | No | No |
+| Products | 9 (Jira, Confluence, Agile, Marketplace, Service Desk, Admin, Assets, Compass, Bitbucket) | 2 (Jira, Confluence) | 5 | 1 | 4 |
+| Server / Data Center | No | Yes | No | Yes | Yes |
+| Price | Free (Apache-2.0) | Free (open source) | Free with Cloud | Free (MIT) | $360-$6,195/yr |
+| Binary | Single Go binary | Python (uvx, pip, Docker) | Remote server | Single Go binary | Requires JVM |
+| Offline search | Yes | No | No | No | No |
+
+More detail, and when to pick something else: [Comparison](docs/Comparison.md).
 
 ## Architecture
 

@@ -12,3 +12,6 @@
 - [[Marketplace]] — Addon management, versions, vendor operations
 - [[Teamwork Graph]] — Org chart, teams, and a person's work across Atlassian
 - [[Agent Mode]] — Using the CLI with AI agents (Claude Code, Codex, etc.)
+- [[Sync and Search]] — Local copy, offline search, and fewer calls to Atlassian
+- [[Release Tracking]] — Record git release tags as Jira versions
+- [[Comparison]] — keen next to mcp-atlassian, Rovo MCP and jira-cli
