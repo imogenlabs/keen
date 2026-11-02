@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-01
+
 ### Fixed
 - `--dry-run` printed the last four characters of your API token. It now shows only the scheme (`Authorization: Basic ****`)
 - `keen which` answered plain-English questions with unrelated commands, sometimes destructive ones ("close a sprint" suggested deleting a Bitbucket app). It now ranks exactly like keen-mcp's `keen_search`, includes keen's own commands (`transition`, `find-issues`, `sprints`, `stale`), and says "no match" instead of guessing
