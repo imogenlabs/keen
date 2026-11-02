@@ -37,12 +37,12 @@ On a Mac, download `keen-mcp.mcpb` from the [latest release](https://github.com/
 
 ## Command Discovery
 
-Agents should use `which` to find commands:
+Agents should use `which` to find commands. It ranks the same way as keen-mcp's `keen_search`, covers keen's own commands (`find-issues`, `transition`, `sprints`, `stale`), and answers "no match" (exit 2) rather than guessing:
 
 ```bash
-keen which "create sprint"
-keen which "search page"
-keen which "addon version"
+keen which "transition an issue"
+keen which "list sprints on a board"
+keen which "create page"
 ```
 
 ## Output Parsing

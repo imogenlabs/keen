@@ -184,8 +184,8 @@ the specified number of days. Useful for identifying forgotten or blocked work.`
   # Find items not updated in 14 days
   keen stale --days 14
 
-  # Filter by team
-  keen stale --days 7 --team backend
+  # Show only the 10 oldest
+  keen stale --days 7 --limit 10
 
   # Output as JSON
   keen stale --days 30 --json`,

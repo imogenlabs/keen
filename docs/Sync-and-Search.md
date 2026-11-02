@@ -30,6 +30,7 @@ keen search "sprint bug" --type issue --data-source local
 
 ```bash
 keen analytics --type issue                        # how many issues are synced
+keen analytics --type issue --group-by status      # issues per status (also assignee, type, priority, project)
 keen stale --days 30                               # items nobody has touched in 30 days
 keen orphans                                       # items missing important fields
 keen load                                          # how much each person has assigned

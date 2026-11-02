@@ -44,6 +44,7 @@ step "govulncheck"                   govulncheck ./...
 step "no old names in the tree"      names
 step "every command's help is clean" help_text
 step "help examples fit their arguments" python3 scripts/regen/placeholders.py --check .
+step "no generator example words in help" bash -c "! grep -nE 'channels,messages|--type (messages|transactions)|group-by (author_id|channel_id)|--team backend' internal/cli/*.go"
 step "deprecated list matches the specs" bash -c "python3 scripts/regen/deprecated.py >/dev/null && git diff --exit-code -- internal/compat/deprecated_gen.go"
 step "binaries build as keen"        bash -c "go build -o '$BIN/keen' ./cmd/keen && go build -o '$BIN/keen-mcp' ./cmd/keen-mcp && '$BIN/keen' version"
 if [[ -n "${KEEN_LIVE_SMOKE:-}" ]]; then

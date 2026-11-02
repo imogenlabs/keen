@@ -15,5 +15,5 @@ func newProjectDeleteCmd(flags *rootFlags) *cobra.Command {
 	}
 
 	cmd.AddCommand(newProjectDeleteProjectAsynchronouslyCmd(flags))
-	return cmd
+	return withProjectDelete(cmd, flags)
 }

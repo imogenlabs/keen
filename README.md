@@ -241,8 +241,8 @@ keen sprints 42 --state active --agent
 ## Command Discovery
 
 ```bash
-keen which "sprint"          # find commands by keyword
-keen which "create page"     # natural language search
+keen which "transition an issue"   # the command for a task, in plain words
+keen which "create page"           # one line per answer; "no match" when nothing fits
 keen api                     # browse all API interfaces
 keen api wiki                # browse Confluence endpoints
 keen api agile               # browse Agile endpoints

@@ -25,14 +25,17 @@ func newAnalyticsCmd(flags *rootFlags) *cobra.Command {
 		Annotations: map[string]string{"mcp:read-only": "true"},
 		Long: `Analyze locally synced data with count, group-by, and summary operations.
 Data must be synced first with the sync command.`,
-		Example: `  # Count records by type
-  keen analytics --type messages
+		Example: `  # Count every synced resource type
+  keen analytics
 
-  # Group by a field
-  keen analytics --type messages --group-by author_id
+  # Count synced issues
+  keen analytics --type issue
 
-  # Top 10 most frequent values
-  keen analytics --type messages --group-by channel_id --limit 10 --json`,
+  # Issues per status (also: assignee, type, priority, project, or any dotted path)
+  keen analytics --type issue --group-by status
+
+  # Top 10 assignees as JSON
+  keen analytics --type issue --group-by fields.assignee.displayName --limit 10 --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			out := cmd.OutOrStdout()
 			if dbPath == "" {
@@ -88,7 +91,7 @@ Data must be synced first with the sync command.`,
 	}
 
 	cmd.Flags().StringVar(&resourceType, "type", "", "Resource type to analyze")
-	cmd.Flags().StringVar(&groupBy, "group-by", "", "Field to group by")
+	cmd.Flags().StringVar(&groupBy, "group-by", "", "Field to group by: a dotted path, or for issues status, assignee, type, priority, project")
 	cmd.Flags().StringVar(&dbPath, "db", "", "Database path")
 	cmd.Flags().IntVar(&limit, "limit", 25, "Max groups to show")
 
@@ -107,8 +110,7 @@ func runGroupBy(out io.Writer, db *store.Store, resourceType, field string, limi
 		if err := json.Unmarshal(item, &obj); err != nil {
 			continue
 		}
-		val := fmt.Sprintf("%v", obj[field])
-		counts[val]++
+		counts[groupByValue(obj, field)]++
 	}
 
 	type kv struct {
