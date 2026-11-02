@@ -98,6 +98,9 @@ func attachFreshness(prov DataProvenance, flags *rootFlags) DataProvenance {
 //     reads on per-endpoint-versioned APIs silently get the wrong response shape
 //     (cal-com retro #334 F1).
 func resolveRead(ctx context.Context, c *client.Client, flags *rootFlags, resourceType string, isList bool, path string, params map[string]string, headers map[string]string, hintWriter io.Writer) (json.RawMessage, DataProvenance, error) {
+	if c.DryRun && flags.dataSource != "local" {
+		return dryRunRead(ctx, c, path, params, headers)
+	}
 	switch flags.dataSource {
 	case "local":
 		data, prov, err := resolveLocal(ctx, flags, hintWriter, resourceType, isList, path, params, "user_requested")
@@ -134,6 +137,9 @@ func resolveRead(ctx context.Context, c *client.Client, flags *rootFlags, resour
 // headers argument carries per-endpoint required headers; pass nil when the
 // endpoint declares no overrides.
 func resolvePaginatedRead(ctx context.Context, c *client.Client, flags *rootFlags, resourceType string, path string, params map[string]string, headers map[string]string, fetchAll bool, cursorParam, paginationType, limitParam, nextCursorPath, hasMoreField string, hintWriter io.Writer) (json.RawMessage, DataProvenance, error) {
+	if c.DryRun && flags.dataSource != "local" {
+		return dryRunRead(ctx, c, path, params, headers)
+	}
 	switch flags.dataSource {
 	case "local":
 		data, prov, err := resolveLocal(ctx, flags, hintWriter, resourceType, true, path, params, "user_requested")

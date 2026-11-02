@@ -1888,7 +1888,7 @@ type DataProvenance struct {
 // already carries meta.source, so the stderr line is redundant and becomes
 // noise in agent flows that merge stderr into stdout.
 func printProvenance(cmd *cobra.Command, count int, prov DataProvenance) {
-	if !isTerminal(cmd.OutOrStdout()) {
+	if !isTerminal(cmd.OutOrStdout()) || prov.Source == dryRunSource {
 		return
 	}
 	if prov.Source == "live" {
@@ -1962,6 +1962,9 @@ func unwrapSingleKeyArray(data json.RawMessage) json.RawMessage {
 // shape is the same regardless of the API's wrapper key.
 func wrapWithProvenance(data json.RawMessage, prov DataProvenance) (json.RawMessage, error) {
 	meta := map[string]any{"source": prov.Source}
+	if prov.Source == dryRunSource {
+		meta["dry_run"] = true
+	}
 	if prov.SyncedAt != nil {
 		meta["synced_at"] = prov.SyncedAt.UTC().Format(time.RFC3339)
 	}

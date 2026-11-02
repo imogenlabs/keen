@@ -924,15 +924,18 @@ func sanitizeJSONResponse(body []byte) []byte {
 	return body
 }
 
-// maskToken redacts all but the last 4 characters of a token for safe display.
+// maskToken redacts a credential for display. It keeps only the auth scheme
+// ("Basic", "Bearer") and never any character of the secret: dry-run output
+// ends up in tickets and screen recordings. Local customization; see
+// .printing-press-patches.json (dry-run-output).
 func maskToken(token string) string {
 	if token == "" {
 		return ""
 	}
-	if len(token) <= 4 {
-		return "****"
+	if scheme, _, ok := strings.Cut(token, " "); ok && scheme != "" && len(scheme) <= 10 {
+		return scheme + " ****"
 	}
-	return "****" + token[len(token)-4:]
+	return "****"
 }
 
 type maskedError struct {
