@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-01
+
+### Fixed
+- `--dry-run` printed the last four characters of your API token. It now shows only the scheme (`Authorization: Basic ****`)
+- `keen which` answered plain-English questions with unrelated commands, sometimes destructive ones ("close a sprint" suggested deleting a Bitbucket app). It now ranks exactly like keen-mcp's `keen_search`, includes keen's own commands (`transition`, `find-issues`, `sprints`, `stale`), and says "no match" instead of guessing
+- `keen which` printed whole API descriptions, several paragraphs each. It now shows one line per command
+- A dry run of a list command went on to print "0 results (live)", a skipped-items warning and `"source": "live"`. It now shows only the request; JSON output carries `"dry_run": true`
+- `keen analytics --group-by` reported every issue as `<nil>` because Jira keeps status, assignee and type under `fields`. Dotted paths work (`fields.status.name`), and for issues so do `status`, `assignee`, `type`, `priority` and `project`
+- Help for `analytics`, `sync`, `search` and `stale` showed example words from another product (`messages`, `author_id`, `channels`, `transactions`). The examples now use Jira's types and run as written
+
+### Added
+- `keen project delete <key>` deletes a project (`--enable-undo` puts it in the recycle bin). It was the one Atlassian operation with no command; `keen project delete project-asynchronously <key>` still works
+
 ### Changed
 - `keen-mcp` answers a read repeated within 5 minutes from keen's response cache, as the CLI already did, so AI agents stay under Atlassian's rate limits. Any successful write clears the cache. `KEEN_MCP_CACHE=off` makes every read live
 - The response cache is readable only by your user (it holds Atlassian data)

@@ -13,6 +13,7 @@ import (
 	"github.com/mark3labs/mcp-go/server"
 
 	"keen/internal/compat"
+	"keen/internal/rank"
 )
 
 // keen has about 1,900 tools. Listed one by one, their names, descriptions and
@@ -88,13 +89,10 @@ func RegisterSearchRun(s, all *server.MCPServer) {
 }
 
 type indexedTool struct {
-	name       string
-	words      map[string]bool // from the name
-	text       string          // lower-case name and description
-	summary    map[string]any
-	readOnly   bool
-	deprecated bool // Atlassian deprecated the API; ranked below the others
-	removed    bool // Atlassian switched the API off; found only by exact name
+	name    string
+	item    rank.Item
+	summary map[string]any
+	removed bool // Atlassian switched the API off; found only by exact name
 }
 
 type toolIndex []indexedTool
@@ -113,19 +111,10 @@ func buildToolIndex(all *server.MCPServer) toolIndex {
 		if len(short) > 300 {
 			short = short[:300] + "..."
 		}
-		words := map[string]bool{}
-		for _, w := range splitWords(name) {
-			if !nameNoise[w] {
-				words[w] = true
-			}
-		}
 		idx = append(idx, indexedTool{
-			name:       name,
-			words:      words,
-			text:       strings.ToLower(name + " " + desc),
-			readOnly:   readOnly,
-			deprecated: deprecated,
-			removed:    removed,
+			name:    name,
+			item:    rank.NewItem(name, desc, deprecated && !removed),
+			removed: removed,
 			summary: map[string]any{
 				"name":        name,
 				"description": short,
@@ -138,49 +127,18 @@ func buildToolIndex(all *server.MCPServer) toolIndex {
 	return idx
 }
 
-// search ranks tools by how many query words appear in their name (weighted)
-// and description, minus the name words the query did not ask for, so the
-// plain tool beats a longer one that merely shares a word. Deprecated tools
-// lose the worth of one name word; removed ones show up only by exact name.
-// An exact tool name comes first.
+// search ranks tools with rank.Item.Score, the same ranking keen which uses.
+// Removed tools show up only by exact name. An exact tool name comes first.
 func (idx toolIndex) search(query string, limit int) []map[string]any {
-	q := strings.TrimSpace(query)
-	words := splitWords(q)
 	type scored struct {
 		t     indexedTool
 		score int
 	}
 	var hits []scored
 	for _, t := range idx {
-		score := 0
-		if strings.EqualFold(t.name, q) {
-			score += 1000
-		} else if t.removed {
+		score, _ := t.item.Score(query)
+		if t.removed && score < rank.Exact {
 			continue
-		}
-		matched := map[string]bool{}
-		for _, w := range words {
-			switch {
-			case t.words[w]:
-				score += 5
-				matched[w] = true
-			case strings.Contains(t.text, w):
-				score++
-			}
-			for _, alt := range actionWords[w] {
-				if t.words[alt] {
-					score += 3
-					matched[alt] = true
-				}
-			}
-		}
-		if len(matched) > 0 {
-			// Name words the query did not ask for cost a little; a tool whose
-			// name matched at all stays in the results.
-			score = max(score-2*(len(t.words)-len(matched)), 1)
-		}
-		if t.deprecated && score > 0 && score < 1000 {
-			score = max(score-5, 1)
 		}
 		if score > 0 {
 			hits = append(hits, scored{t, score})
@@ -195,47 +153,6 @@ func (idx toolIndex) search(query string, limit int) []map[string]any {
 	out := []map[string]any{}
 	for i := 0; i < len(hits) && i < limit; i++ {
 		out = append(out, hits[i].t.summary)
-	}
-	return out
-}
-
-var stopWords = map[string]bool{"a": true, "an": true, "the": true, "to": true, "of": true, "in": true,
-	"for": true, "by": true, "on": true, "my": true, "and": true, "or": true, "with": true,
-	"is": true, "are": true, "who": true, "what": true, "which": true, "how": true, "me": true, "i": true,
-	"do": true, "does": true, "can": true, "show": true}
-
-// Words the generator puts in tool names that say nothing about the action.
-var nameNoise = map[string]bool{"jira": true, "cloud": true, "platform": true, "using": true, "api": true}
-
-// Words people use for an action, mapped to the words keen's tool names use.
-var actionWords = map[string][]string{
-	"list":   {"get", "all", "list"},
-	"show":   {"get"},
-	"find":   {"search"},
-	"move":   {"transition"},
-	"change": {"update", "edit"},
-	"remove": {"delete"},
-	"make":   {"create"},
-	"new":    {"create"},
-	"done":   {"transition"},
-	"close":  {"transition"},
-	"status": {"transition"},
-}
-
-// splitWords lower-cases s, splits it on anything but letters and digits, drops
-// filler words and a plural "s", so "list sprints" matches "sprint".
-func splitWords(s string) []string {
-	var out []string
-	for _, w := range strings.FieldsFunc(strings.ToLower(s), func(r rune) bool {
-		return !(r >= 'a' && r <= 'z' || r >= '0' && r <= '9')
-	}) {
-		if stopWords[w] {
-			continue
-		}
-		if len(w) > 3 && strings.HasSuffix(w, "s") && !strings.HasSuffix(w, "ss") {
-			w = strings.TrimSuffix(w, "s")
-		}
-		out = append(out, w)
 	}
 	return out
 }

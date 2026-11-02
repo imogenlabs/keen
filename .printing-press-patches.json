@@ -231,6 +231,63 @@
       "reason": "Every MCP read went to Atlassian, so agents through MCP missed the rate-limit savings the CLI has. The stale-after-write concern was already handled: every successful non-GET clears the cache in client.do.",
       "files": ["internal/mcp/tools.go (newMCPClient)", "internal/client/client.go (writeCache)", "internal/mcp/cache_test.go"],
       "validated_outcome": "cache_test.go: two identical reads = one request; read after a write is fresh; KEEN_MCP_CACHE=off = two requests. The first test fails with the old NoCache = true."
+    },
+    {
+      "id": "shared-ranking",
+      "summary": "internal/rank scores commands and MCP tools against plain words; keen which (internal/cli/which.go rankWhich, which_index.go) and keen_search (internal/mcp/searchrun.go) both use it. which also indexes keen's own commands, drops removed ones, keeps only matches that hit a name word or a native command's summary, and prints one line per command.",
+      "reason": "which answered 'close a sprint' with bitbucket-addon delete-app and could never suggest find-issues, transition, sprints or stale; its table printed whole API descriptions.",
+      "files": [
+        "internal/rank/rank.go",
+        "internal/cli/which.go (rankWhich, RunE, renderWhich, help)",
+        "internal/cli/which_index.go",
+        "internal/mcp/searchrun.go"
+      ],
+      "validated_outcome": "TestWhichRealQueries: 7 reported queries put the expected command first; nonsense exits 2. MCP tests unchanged and passing."
+    },
+    {
+      "id": "dry-run-output",
+      "summary": "maskToken hides the whole credential and maskAuthHeader keeps only a standard scheme (Basic, Bearer, JWT) for the dry-run Authorization line; project delete reports verify_noop in verify mode; dry-run reads return dry_run provenance (internal/cli/dry_run.go) so they skip the write-through cache, the result count line and source: live.",
+      "reason": "--dry-run printed the token's last four characters, and list dry runs printed '0 results (live)' and a skipped-items warning.",
+      "files": [
+        "internal/client/client.go (maskToken)",
+        "internal/cli/dry_run.go",
+        "internal/cli/data_source.go (resolveRead, resolvePaginatedRead)",
+        "internal/cli/helpers.go (printProvenance, wrapWithProvenance)"
+      ],
+      "validated_outcome": "TestMaskTokenShowsNoPartOfTheSecret, TestDryRunEnvelopeIsNotLive; agile get-all-sprints --dry-run prints only the request."
+    },
+    {
+      "id": "project-delete",
+      "summary": "project delete runs DELETE /rest/api/3/project/{key} when given a project (withProjectDelete in internal/cli/project_delete_direct.go) and keeps its project-asynchronously subcommand.",
+      "reason": "The generator made 'project delete' a group, so the one operation keen-mcp has as project_delete had no CLI command.",
+      "files": [
+        "internal/cli/project_delete.go",
+        "internal/cli/project_delete_direct.go"
+      ],
+      "validated_outcome": "TestProjectDeleteTakesAProject; dry runs of both forms show the right method and path."
+    },
+    {
+      "id": "analytics-group-by",
+      "summary": "analytics --group-by follows dotted paths, knows status/assignee/type/priority/project for issues, and labels nested objects by name (internal/cli/analytics_field.go).",
+      "reason": "Jira keeps those fields under 'fields', so every issue grouped as <nil>.",
+      "files": [
+        "internal/cli/analytics.go (runGroupBy, help)",
+        "internal/cli/analytics_field.go"
+      ],
+      "validated_outcome": "TestGroupByValueReadsIssueFields; --group-by status on 1,362 synced issues gives counts per status."
+    },
+    {
+      "id": "help-examples",
+      "summary": "analytics, sync, search and stale help use Jira's resource types; check.sh fails if the generator's example words come back.",
+      "reason": "The examples named messages, author_id, channels and transactions, which do not exist in keen.",
+      "files": [
+        "internal/cli/analytics.go",
+        "internal/cli/sync.go",
+        "internal/cli/search.go",
+        "internal/cli/pm_stale.go",
+        "scripts/regen/check.sh"
+      ],
+      "validated_outcome": "Every example in analytics, stale, orphans, load and search help ran with exit 0 on a synced site."
     }
   ]
 }

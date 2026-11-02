@@ -96,3 +96,41 @@ func TestWhichIndex_ExistsAndIsWellFormed(t *testing.T) {
 		}
 	}
 }
+
+// Real queries people asked keen which on 2026-11-01; the expected command
+// must come first, and a query with no real match must return nothing.
+func TestWhichRealQueries(t *testing.T) {
+	index := whichIndexFor(newRootCmd(&rootFlags{}))
+	cases := map[string]string{
+		"transition an issue":     "transition",
+		"move an issue to done":   "transition",
+		"list sprints on a board": "sprints",
+		"search issues with jql":  "find-issues",
+		"stale tickets":           "stale",
+		"close a sprint":          "agile update-sprint",
+		"create page":             "pages create",
+	}
+	for q, want := range cases {
+		got := rankWhich(index, q, 3)
+		if len(got) == 0 || got[0].Entry.Command != want {
+			t.Errorf("which %q: want %s first, got %+v", q, want, got)
+		}
+	}
+	if got := rankWhich(index, "xyzzy nonsense", 3); len(got) != 0 {
+		t.Errorf("nonsense query matched %+v", got)
+	}
+}
+
+func TestWhichOneLine(t *testing.T) {
+	desc := "Creates a page in the space.\n\nPages are drafts until published.\n\n**[Permissions](https://example.com) required**: write."
+	if got := whichOneLine(desc, 80); got != "Creates a page in the space." {
+		t.Errorf("got %q", got)
+	}
+	if got := whichOneLine("Returns `all` [boards](#x) visible to the user. More text here.", 80); got != "Returns all boards visible to the user." {
+		t.Errorf("got %q", got)
+	}
+	long := "Returns a very long description that goes on and on without any full stop at all for many words"
+	if got := whichOneLine(long, 30); len([]rune(got)) != 30 {
+		t.Errorf("not cut to width: %q", got)
+	}
+}

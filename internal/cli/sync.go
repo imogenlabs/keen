@@ -88,7 +88,7 @@ Resource scoping:
   keen sync
 
   # Sync specific resources only
-  keen sync --resources channels,messages
+  keen sync --resources issue,comment
 
   # Full resync (ignore previous checkpoint)
   keen sync --full

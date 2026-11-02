@@ -754,7 +754,7 @@ func (c *Client) dryRun(method, targetURL, path string, params map[string]string
 		}
 	}
 	if authHeader != "" {
-		fmt.Fprintf(os.Stderr, "  %s: %s\n", "Authorization", maskToken(authHeader))
+		fmt.Fprintf(os.Stderr, "  %s: %s\n", "Authorization", maskAuthHeader(authHeader))
 	}
 	fmt.Fprintf(os.Stderr, "\n(dry run - no request sent)\n")
 	return json.RawMessage(`{"dry_run": true}`), 0, nil
@@ -924,15 +924,29 @@ func sanitizeJSONResponse(body []byte) []byte {
 	return body
 }
 
-// maskToken redacts all but the last 4 characters of a token for safe display.
+// maskToken redacts a credential for display, showing no character of it:
+// dry-run output ends up in tickets and screen recordings. Local
+// customization; see .printing-press-patches.json (dry-run-output).
 func maskToken(token string) string {
 	if token == "" {
 		return ""
 	}
-	if len(token) <= 4 {
-		return "****"
+	return "****"
+}
+
+// maskAuthHeader redacts an Authorization header, keeping only a standard
+// scheme so the reader can see which kind of auth would be sent.
+func maskAuthHeader(header string) string {
+	if header == "" {
+		return ""
 	}
-	return "****" + token[len(token)-4:]
+	if scheme, _, ok := strings.Cut(header, " "); ok {
+		switch strings.ToLower(scheme) {
+		case "basic", "bearer", "jwt":
+			return scheme + " ****"
+		}
+	}
+	return "****"
 }
 
 type maskedError struct {

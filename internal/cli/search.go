@@ -102,13 +102,13 @@ otherwise searches local data. Falls back to local on network failure.
 In live mode: uses the API search endpoint only.
 In local mode: searches locally synced data only.`,
 		Example: `  # Search (uses API endpoint if available, local FTS otherwise)
-  keen search "error timeout"
+  keen search "login error"
 
   # Force local search only
-  keen search "payment failed" --data-source local
+  keen search "release notes" --data-source local
 
   # Search a specific resource type locally
-  keen search "critical" --type transactions --data-source local
+  keen search "critical" --type issue --data-source local
 
   # JSON output for piping
   keen search "critical" --json --limit 20`,
