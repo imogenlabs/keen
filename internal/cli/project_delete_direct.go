@@ -38,17 +38,28 @@ func withProjectDelete(cmd *cobra.Command, flags *rootFlags) *cobra.Command {
 		if cmd.Flags().Changed("enable-undo") {
 			params["enableUndo"] = fmt.Sprintf("%v", enableUndo)
 		}
-		_, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)
+		data, statusCode, err := c.DeleteWithParams(cmd.Context(), path, params)
 		if err != nil {
 			return classifyDeleteError(err, flags)
 		}
 		if flags.dryRun {
 			return nil
 		}
+		// Verify mode answers with a synthetic body and sends nothing.
+		var raw map[string]any
+		noop := json.Unmarshal(data, &raw) == nil && raw["__pp_verify_synthetic__"] == true
 		if flags.asJSON || !isTerminal(cmd.OutOrStdout()) {
-			return json.NewEncoder(cmd.OutOrStdout()).Encode(map[string]any{
-				"action": "delete", "resource": "project", "path": path, "status": statusCode, "success": true,
-			})
+			envelope := map[string]any{
+				"action": "delete", "resource": "project", "path": path, "status": statusCode, "success": !noop,
+			}
+			if noop {
+				envelope["verify_noop"] = true
+			}
+			return json.NewEncoder(cmd.OutOrStdout()).Encode(envelope)
+		}
+		if noop {
+			fmt.Fprintf(cmd.OutOrStdout(), "Verify mode: project %s was not deleted\n", args[0])
+			return nil
 		}
 		fmt.Fprintf(cmd.OutOrStdout(), "Deleted project %s\n", args[0])
 		return nil

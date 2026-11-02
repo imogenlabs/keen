@@ -25,8 +25,17 @@ func TestMaskTokenShowsNoPartOfTheSecret(t *testing.T) {
 			}
 		}
 	}
-	if got := maskToken("Basic " + secret); got != "Basic ****" {
+	if got := maskAuthHeader("Basic " + secret); got != "Basic ****" {
 		t.Errorf("got %q, want the scheme kept", got)
+	}
+	// A secret with a space in it must not keep its first word.
+	for _, s := range []string{"alpha beta", "hunter2 x"} {
+		if got := maskToken(s); got != "****" {
+			t.Errorf("maskToken(%q) = %q", s, got)
+		}
+		if got := maskAuthHeader(s); got != "****" {
+			t.Errorf("maskAuthHeader(%q) = %q", s, got)
+		}
 	}
 }
 

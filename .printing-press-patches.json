@@ -246,7 +246,7 @@
     },
     {
       "id": "dry-run-output",
-      "summary": "maskToken keeps only the auth scheme; dry-run reads return dry_run provenance (internal/cli/dry_run.go) so they skip the write-through cache, the result count line and source: live.",
+      "summary": "maskToken hides the whole credential and maskAuthHeader keeps only a standard scheme (Basic, Bearer, JWT) for the dry-run Authorization line; project delete reports verify_noop in verify mode; dry-run reads return dry_run provenance (internal/cli/dry_run.go) so they skip the write-through cache, the result count line and source: live.",
       "reason": "--dry-run printed the token's last four characters, and list dry runs printed '0 results (live)' and a skipped-items warning.",
       "files": [
         "internal/client/client.go (maskToken)",
