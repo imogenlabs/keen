@@ -10,6 +10,36 @@ brew install imogenlabs/tap/keen
 
 This installs both `keen` and `keen-mcp`. `brew upgrade keen` picks up new releases.
 
+## Debian, Ubuntu, Fedora, RHEL
+
+Each release has `.deb` and `.rpm` packages for x86_64 (`amd64`) and arm64. They install `keen` and `keen-mcp` in `/usr/bin`:
+
+```bash
+# Debian, Ubuntu
+curl -LO https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.deb
+sudo apt install ./keen_linux_amd64.deb
+
+# Fedora, RHEL
+curl -LO https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.rpm
+sudo dnf install ./keen_linux_amd64.rpm
+```
+
+On arm64, use `keen_linux_arm64.deb` or `keen_linux_arm64.rpm`.
+
+## Docker
+
+`ghcr.io/imogenlabs/keen` (also `smashingtags/keen` on Docker Hub), for amd64 and arm64. It runs `keen-mcp` by default; put `keen` and its arguments after the image name to run the CLI:
+
+```bash
+docker run --rm \
+  -e JIRA_CLOUD_PLATFORM_URL=https://yoursite.atlassian.net \
+  -e JIRA_CLOUD_PLATFORM_USERNAME=you@example.com \
+  -e JIRA_CLOUD_PLATFORM_PASSWORD=your-api-token \
+  ghcr.io/imogenlabs/keen keen get PROJ-42 --agent
+```
+
+Add `-v keen-data:/home/nonroot` to keep `keen sync`'s local copy between runs. For an MCP host, use `docker` as the command with `run -i --rm -e JIRA_CLOUD_PLATFORM_URL -e JIRA_CLOUD_PLATFORM_USERNAME -e JIRA_CLOUD_PLATFORM_PASSWORD ghcr.io/imogenlabs/keen` as its arguments, and set those three variables in the host's `env` block.
+
 ## Binary Download
 
 Prebuilt binaries for macOS (Apple Silicon and Intel) and Linux (x86_64, arm64) are on
