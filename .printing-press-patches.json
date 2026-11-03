@@ -46,6 +46,13 @@
       "validated_outcome": "Unit tests cover key extraction, first-containing-release mapping, add-never-replace, the next rename and re-run idempotence; a backfill dry-run over 82 tags matched git tag --contains on 5 spot-checked keys."
     },
     {
+      "id": "keen-context",
+      "summary": "Add `keen context KEY`: an issue with its parent, comments, linked issues, sub-tasks, GitHub work and linked Confluence pages in one call, ranked and kept under --budget tokens, with what was left out listed.",
+      "reason": "Starting on a ticket took six calls stitched together by hand. Atlassian's equivalent (twg context get) is billed in Rovo credits; this runs on plain REST calls.",
+      "files": ["internal/cli/context.go", "internal/cli/context_test.go", "internal/cli/root.go"],
+      "validated_outcome": "Unit tests cover the full bundle, a 500-token budget (stays under, drops lowest-ranked first, every item kept or listed, description cut reported), an issue with nothing around it, and ADF/storage to text; breaking the refit loop or the omission accounting fails them. Live 3 Nov 2026: KEEN-7 bundled parent KEEN-5, a comment, PR #69 and three commits in 1,910 tokens; budgets of 600, 1,500 and 8,000 all stayed under."
+    },
+    {
       "id": "github-links",
       "summary": "Add `keen github links KEY`: a Jira issue's GitHub pull requests and commits, from Jira's development panel, GitHub search for the key, and web links on the issue.",
       "reason": "Agents had to stitch gh output to keen output to answer which PR closed a ticket. Keys are back in branches, commits and PR titles (Atlassian's convention), so a live lookup answers it without a local copy of GitHub; a source that is not set up is a warning, not a failure.",

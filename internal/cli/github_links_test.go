@@ -47,7 +47,7 @@ func githubServer(t *testing.T, prs, commits string) *httptest.Server {
 
 func TestGithubLinksMergesSources(t *testing.T) {
 	jira := fakeJiraReader{
-		"/rest/api/3/issue/PROJ-42":            `{"id":"1001"}`,
+		"/rest/api/3/issue/PROJ-42":             `{"id":"1001"}`,
 		"/rest/dev-status/latest/issue/summary": `{"summary":{"pullrequest":{"byInstanceType":{"GitHub":{}}}}}`,
 		"/rest/dev-status/latest/issue/detail?pullrequest": `{"detail":[{"pullRequests":[
 			{"url":"https://github.com/acme/api/pull/7","name":"fix: PROJ-42 retry","status":"MERGED","source":{"branch":"fix/PROJ-42-retry"}}]}]}`,
@@ -94,9 +94,9 @@ func TestGithubLinksMergesSources(t *testing.T) {
 
 func TestGithubLinksSourceFailuresAreWarnings(t *testing.T) {
 	jira := fakeJiraReader{
-		"/rest/api/3/issue/PROJ-42":            `{"id":"1001"}`,
+		"/rest/api/3/issue/PROJ-42":             `{"id":"1001"}`,
 		"/rest/dev-status/latest/issue/summary": emptyDevPanel,
-		"/rest/api/3/issue/PROJ-42/remotelink": `[{"object":{"url":"https://github.com/acme/api/pull/7"}}]`,
+		"/rest/api/3/issue/PROJ-42/remotelink":  `[{"object":{"url":"https://github.com/acme/api/pull/7"}}]`,
 	}
 	// No token: GitHub is skipped with a warning; the web link still counts.
 	l := &githubLinker{jira: jira, scopes: []string{"org:acme"}}

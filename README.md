@@ -275,6 +275,18 @@ keen transition PROJ-42 --transition-name "In Progress" --agent   # name resolve
 keen sprints 42 --state active --agent
 ```
 
+To start work on an issue, one call gets everything around it, kept under a token budget:
+
+```bash
+keen context PROJ-42 --org my-org --agent              # default --budget 8000
+```
+
+It returns the issue, its parent, comments, linked issues, sub-tasks, GitHub pull requests and
+commits (see [GitHub Work for an Issue](#github-work-for-an-issue)) and linked Confluence pages.
+The issue comes first, then the parent, GitHub work, linked issues and sub-tasks, the newest
+comments, Confluence pages and older comments. Whatever does not fit is listed under
+`budget.omitted` with its size, never dropped silently.
+
 ## Key Flags
 
 | Flag | What it does |

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `keen context PROJ-42` gives an agent everything it needs to start on an issue in one call: the issue, its parent, comments, linked issues, sub-tasks, GitHub pull requests and commits, and linked Confluence pages, ranked and kept under `--budget` tokens (default 8000). Anything that does not fit is listed under `budget.omitted` with its size, never dropped silently
 - `keen github links PROJ-42` lists a Jira issue's GitHub pull requests and commits, each once, with where it was found: Jira's development panel (when the GitHub for Jira app is connected), GitHub search for the key in PR titles, bodies and commit messages (`--org`, `--repo`, or the current checkout), and web links on the issue. It uses `KEEN_GITHUB_TOKEN`, `GH_TOKEN`, `GITHUB_TOKEN` or the `gh` CLI's login; a source that is not set up is a warning, not a failure
 
 ## [1.8.0] - 2026-11-03
