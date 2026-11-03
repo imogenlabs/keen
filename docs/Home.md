@@ -4,7 +4,7 @@
 
 ## Pages
 
-- [[Installation]] — Install on macOS and Linux
+- [[Installation]] — Install with Homebrew, apt, dnf, Docker or a download
 - [[Authentication]] — Set up API tokens and auth
 - [[Jira Issues]] — Create, search, edit, transition issues
 - [[Sprints & Boards]] — Sprint CRUD, board management, backlog operations
