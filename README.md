@@ -57,7 +57,7 @@ Keen replaces all of that with typed commands, structured output, local SQLite c
 ## Your First 5 Minutes
 
 ```bash
-# 1. Install (macOS or Linux with Homebrew; see Install for other ways)
+# 1. Install (macOS or Linux with Homebrew; see Install for .deb, .rpm and Docker)
 brew install imogenlabs/tap/keen
 
 # 2. Save your credentials
@@ -96,6 +96,36 @@ brew install imogenlabs/tap/keen
 ```
 
 This installs both `keen` and `keen-mcp`. `brew upgrade keen` picks up new releases; the formula follows each release within a day.
+
+### Debian, Ubuntu, Fedora, RHEL
+
+Each release has `.deb` and `.rpm` packages for x86_64 (`amd64`) and arm64. They install `keen` and `keen-mcp` in `/usr/bin`.
+
+```bash
+# Debian, Ubuntu
+curl -LO https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.deb
+sudo apt install ./keen_linux_amd64.deb
+
+# Fedora, RHEL
+curl -LO https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.rpm
+sudo dnf install ./keen_linux_amd64.rpm
+```
+
+On arm64, use `keen_linux_arm64.deb` or `keen_linux_arm64.rpm`. To upgrade, install the new release's package the same way.
+
+### Docker
+
+The image is on GitHub's registry and Docker Hub, for amd64 and arm64: `ghcr.io/imogenlabs/keen` or `smashingtags/keen`. It runs `keen-mcp` by default. To run the CLI, put `keen` and its arguments after the image name:
+
+```bash
+docker run --rm \
+  -e JIRA_CLOUD_PLATFORM_URL=https://yoursite.atlassian.net \
+  -e JIRA_CLOUD_PLATFORM_USERNAME=you@example.com \
+  -e JIRA_CLOUD_PLATFORM_PASSWORD=your-api-token \
+  ghcr.io/imogenlabs/keen keen get PROJ-42 --agent
+```
+
+Add `-v keen-data:/home/nonroot` to keep `keen sync`'s local copy between runs. To use it as an MCP server, see [Docker](#docker-1) under MCP Server.
 
 ### Binary download
 
@@ -189,6 +219,28 @@ Add to `.cursor/mcp.json`:
 ### Windsurf
 
 Add to `~/.codeium/windsurf/mcp_config.json` with the same structure.
+
+### Docker
+
+Any MCP host can run keen-mcp from the image instead of installing it. The `-e NAME` flags pass the values from `env` into the container:
+
+```json
+{
+  "mcpServers": {
+    "keen": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm",
+               "-e", "JIRA_CLOUD_PLATFORM_URL", "-e", "JIRA_CLOUD_PLATFORM_USERNAME", "-e", "JIRA_CLOUD_PLATFORM_PASSWORD",
+               "ghcr.io/imogenlabs/keen"],
+      "env": {
+        "JIRA_CLOUD_PLATFORM_URL": "https://yoursite.atlassian.net",
+        "JIRA_CLOUD_PLATFORM_USERNAME": "you@example.com",
+        "JIRA_CLOUD_PLATFORM_PASSWORD": "your-api-token"
+      }
+    }
+  }
+}
+```
 
 ## Local Sync & Offline Search
 
