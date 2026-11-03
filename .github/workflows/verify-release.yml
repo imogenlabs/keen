@@ -1,0 +1,45 @@
+name: Verify release
+
+# Installs a published release exactly as README and docs/Installation.md say,
+# so a broken download URL, package or image is caught the day it ships.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag (vX.Y.Z)
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.event.release.tag_name }}
+    steps:
+      - name: apt (Debian), as documented
+        run: |
+          docker run --rm debian:stable bash -euc '
+            apt-get update -qq && apt-get install -y -qq curl ca-certificates >/dev/null
+            curl -fsSLO https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.deb
+            apt-get install -y -qq ./keen_linux_amd64.deb >/dev/null
+            keen version && command -v keen-mcp'
+      - name: dnf (Fedora), as documented
+        run: |
+          docker run --rm fedora:latest bash -euc '
+            curl -fsSLO https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.rpm
+            dnf install -y -q ./keen_linux_amd64.rpm >/dev/null
+            keen version && command -v keen-mcp'
+      - name: Both images run the tagged version
+        run: |
+          v=${TAG#v}
+          for img in ghcr.io/imogenlabs/keen smashingtags/keen; do
+            for platform in linux/amd64 linux/arm64; do
+              docker pull -q --platform "$platform" "$img:$v" >/dev/null
+              docker image inspect "$img:$v" --format "$img:$v {{.Architecture}}"
+            done
+            docker run --rm --platform linux/amd64 "$img:$v" keen version | tee /dev/stderr | grep -qx "keen $v"
+          done
