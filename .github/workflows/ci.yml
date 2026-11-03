@@ -42,10 +42,13 @@ jobs:
         with:
           go-version-file: 'go.mod'
 
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+
+      # A snapshot never publishes; it loads one image per platform, tagged -amd64 and -arm64.
       - uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
         with:
           version: '~> v2'
-          args: release --snapshot --clean --skip=publish --parallelism 2
+          args: release --snapshot --clean --parallelism 2
 
       - name: Packages hold keen and keen-mcp
         run: |
@@ -56,3 +59,11 @@ jobs:
             rpm -qlp "dist/keen_linux_$arch.rpm" | tee /dev/stderr | grep -qx /usr/bin/keen-mcp
             rpm -qlp "dist/keen_linux_$arch.rpm" | grep -qx /usr/bin/keen
           done
+
+      - name: Images run keen and keen-mcp
+        run: |
+          docker image ls ghcr.io/imogenlabs/keen
+          img=$(docker image ls ghcr.io/imogenlabs/keen --format '{{.Repository}}:{{.Tag}}' | grep -- '-amd64$' | grep -v latest | head -1)
+          docker run --rm "$img" keen version
+          docker image inspect "$img" --format '{{json .Config.Cmd}}' | grep -q keen-mcp
+          docker image ls smashingtags/keen --format '{{.Tag}}' | grep -q -- '-arm64$'
