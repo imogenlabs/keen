@@ -45,3 +45,20 @@ jobs:
           JIRA_CLOUD_PLATFORM_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_CLOUD_PLATFORM_USERNAME: ${{ secrets.JIRA_USER }}
           JIRA_CLOUD_PLATFORM_PASSWORD: ${{ secrets.JIRA_API_TOKEN }}
+
+## The GitHub work for one issue
+
+`keen release sync` reads keys from commits, so keys belong in branch names, commit messages and
+PR titles (`fix/PROJ-42-retry-uploads`, `fix: PROJ-42 retry failed uploads`). To see the pull
+requests and commits for one issue:
+
+```bash
+keen github links PROJ-42 --org my-org
+keen github links PROJ-42 --repo my-org/api --agent
+```
+
+It merges three sources, each PR and commit once: Jira's development panel (when the GitHub for
+Jira app is connected), GitHub search for the key in PR titles, bodies and commit messages, and
+web links on the issue that point at a PR. GitHub search uses `KEEN_GITHUB_TOKEN`, `GH_TOKEN`,
+`GITHUB_TOKEN` or the `gh` CLI's login; without a token, or without `--org`/`--repo` outside a
+checkout, that source is skipped with a warning and the others still answer.

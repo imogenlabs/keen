@@ -328,6 +328,20 @@ A version is named as the tag, released on the tag's commit date and linked to
 its GitHub release. An issue gets the first release whose commits name its key
 as a Fix Version; existing Fix Versions are added to, never replaced.
 
+### GitHub Work for an Issue
+
+Put the issue key in branch names, commit messages and PR titles, the way Atlassian
+links them (`fix/PROJ-42-retry-uploads`, `fix: PROJ-42 retry failed uploads`). Then:
+
+```bash
+keen github links PROJ-42 --org my-org     # or --repo my-org/api, or run it inside a checkout
+```
+
+lists every pull request and commit for the issue once, with where it was found: Jira's
+development panel (when the GitHub for Jira app is connected), GitHub search for the key, and
+web links on the issue that point at a PR. GitHub search uses `KEEN_GITHUB_TOKEN`, `GH_TOKEN`,
+`GITHUB_TOKEN` or your `gh` login. A source that is not set up is a warning, not a failure.
+
 ### Issue Lifecycle
 
 ```bash
