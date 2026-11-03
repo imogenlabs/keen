@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `scripts/regen/check.sh` left a 160 MB build folder in your temp directory on every run. It now removes it when it finishes, fails or is interrupted. `regen.sh` and `finish.sh` also remove their work folder once the merge is in your checkout
+
 ## [1.7.0] - 2026-11-01
 
 ### Fixed
