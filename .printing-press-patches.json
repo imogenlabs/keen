@@ -46,6 +46,13 @@
       "validated_outcome": "Unit tests cover key extraction, first-containing-release mapping, add-never-replace, the next rename and re-run idempotence; a backfill dry-run over 82 tags matched git tag --contains on 5 spot-checked keys."
     },
     {
+      "id": "github-links",
+      "summary": "Add `keen github links KEY`: a Jira issue's GitHub pull requests and commits, from Jira's development panel, GitHub search for the key, and web links on the issue.",
+      "reason": "Agents had to stitch gh output to keen output to answer which PR closed a ticket. Keys are back in branches, commits and PR titles (Atlassian's convention), so a live lookup answers it without a local copy of GitHub; a source that is not set up is a warning, not a failure.",
+      "files": ["internal/cli/github_links.go", "internal/cli/github_links_test.go", "internal/cli/root.go"],
+      "validated_outcome": "Unit tests cover merging the three sources, exact key matching (PROJ-42 never matches PROJ-420 or PROJ-4) and failures as warnings; mutating either check fails them. Live 3 Nov 2026: KEEN-60 --org imogenlabs listed deploy-pipeline PR #161 and its two commits; KEEN-51 listed keen PR #57 from its web link; no token warned and exited 0."
+    },
+    {
       "id": "keen-identity",
       "summary": "keen-mcp reports itself as keen with the release version; unstamped builds say dev.",
       "reason": "The generator left keen-mcp announcing 'Jira Pp Cli' 1.0.0 to every MCP client, and both binaries defaulted to 1.0.0, so a local build claimed to be the old release.",
