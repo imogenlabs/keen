@@ -34,3 +34,22 @@ archives:
     wrap_in_directory: true
 checksum:
   name_template: checksums.txt
+nfpms:
+  - id: packages
+    ids: [keen, keen-mcp]
+    package_name: keen
+    # Like the archives: no version in the name, so the download URL stays stable.
+    file_name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    formats: [deb, rpm]
+    bindir: /usr/bin
+    vendor: Imogen Labs
+    homepage: https://github.com/imogenlabs/keen
+    maintainer: Imogen Labs <security@imogenlabs.ai>
+    description: The complete Atlassian platform CLI and MCP server.
+    license: Apache-2.0
+    section: utils
+    contents:
+      - src: LICENSE
+        dst: /usr/share/doc/keen/LICENSE
+      - src: README.md
+        dst: /usr/share/doc/keen/README.md

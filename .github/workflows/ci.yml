@@ -30,3 +30,29 @@ jobs:
         run: |
           GOOS=linux GOARCH=arm64 go build -o /dev/null ./cmd/keen/
           GOOS=linux GOARCH=arm64 go build -o /dev/null ./cmd/keen-mcp/
+
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: 'go.mod'
+
+      - uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
+        with:
+          version: '~> v2'
+          args: release --snapshot --clean --skip=publish --parallelism 2
+
+      - name: Packages hold keen and keen-mcp
+        run: |
+          command -v rpm >/dev/null || sudo apt-get install -y -qq rpm
+          for arch in amd64 arm64; do
+            dpkg-deb -c "dist/keen_linux_$arch.deb" | tee /dev/stderr | grep -q ' ./usr/bin/keen-mcp$'
+            dpkg-deb -c "dist/keen_linux_$arch.deb" | grep -q ' ./usr/bin/keen$'
+            rpm -qlp "dist/keen_linux_$arch.rpm" | tee /dev/stderr | grep -qx /usr/bin/keen-mcp
+            rpm -qlp "dist/keen_linux_$arch.rpm" | grep -qx /usr/bin/keen
+          done
