@@ -375,6 +375,7 @@ Run 'keen doctor' to verify auth and connectivity.`,
 	rootCmd.AddCommand(newSearchCmd(flags))
 	rootCmd.AddCommand(newSyncCmd(flags))
 	rootCmd.AddCommand(newReleaseCmd(flags))
+	rootCmd.AddCommand(newGithubCmd(flags))
 	rootCmd.AddCommand(newTailCmd(flags))
 	rootCmd.AddCommand(newAnalyticsCmd(flags))
 	rootCmd.AddCommand(newWorkflowCmd(flags))
