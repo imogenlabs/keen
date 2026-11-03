@@ -35,6 +35,10 @@ sys.exit(1 if bad else 0)
 PY
 }
 BIN=$(mktemp -d "${TMPDIR:-/tmp}/keen-check-XXXX")
+# Each run builds about 160 MB here; remove it however the run ends.
+trap 'rm -rf "$BIN"' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 step "go build"                      go build ./...
 step "go vet"                        go vet ./...
