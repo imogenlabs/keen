@@ -21,19 +21,77 @@ import (
 const defaultSummaryLimit = 4096
 
 // outputSummary holds what one run of keen holds back: its output, the
-// --output-summary limit, and the first --select path that matched nothing.
+// --output-summary limit, the first --select path that matched nothing, and
+// the response that path was matched against.
 var outputSummary struct {
-	limit     int
-	buf       *bytes.Buffer
-	selectErr error
+	limit      int
+	buf        *bytes.Buffer
+	selectErr  error
+	selectData json.RawMessage
 }
 
 // noteSelectPaths is called by filterFields. Generated commands apply
 // --select in about a thousand places, so this is where a bad path is caught.
-func noteSelectPaths(data json.RawMessage, fields string) {
+// It returns the paths to apply to data.
+func noteSelectPaths(data json.RawMessage, fields string) string {
+	fields = stripEnvelopePrefix(data, fields)
 	if outputSummary.selectErr == nil {
-		outputSummary.selectErr = checkSelectPaths(data, fields)
+		if outputSummary.selectErr = checkSelectPaths(data, fields); outputSummary.selectErr != nil {
+			outputSummary.selectData = data
+		}
 	}
+	return fields
+}
+
+// stripEnvelopePrefix drops a leading "data." or "results." from each path.
+// keen prints a response inside one of those, so a path copied from the
+// output starts there, but --select is matched against the response itself.
+func stripEnvelopePrefix(data json.RawMessage, fields string) string {
+	var top map[string]json.RawMessage
+	_ = json.Unmarshal(data, &top)
+	parts := strings.Split(fields, ",")
+	for i, f := range parts {
+		f = strings.TrimSpace(f)
+		for _, env := range []string{"data", "results"} {
+			if len(f) > len(env)+1 && strings.EqualFold(f[:len(env)+1], env+".") && !hasKeyFold(top, env) {
+				f = f[len(env)+1:]
+			}
+		}
+		parts[i] = f
+	}
+	return strings.Join(parts, ",")
+}
+
+func hasKeyFold(m map[string]json.RawMessage, key string) bool {
+	for k := range m {
+		if strings.EqualFold(k, key) {
+			return true
+		}
+	}
+	return false
+}
+
+// unfilteredWrite returns out with its whole response put back when out is
+// the envelope of a write that went through. A --select miss there must not
+// read as a failure: whoever runs keen would make the same change again.
+func unfilteredWrite(out []byte, data json.RawMessage) ([]byte, bool) {
+	var env map[string]json.RawMessage
+	if json.Unmarshal(out, &env) != nil || string(env["success"]) != "true" {
+		return nil, false
+	}
+	switch string(env["action"]) {
+	case `"post"`, `"put"`, `"patch"`, `"delete"`:
+	default:
+		return nil, false
+	}
+	if len(data) > 0 && json.Valid(data) {
+		env["data"] = data
+	}
+	whole, err := json.MarshalIndent(env, "", "  ")
+	if err != nil {
+		return nil, false
+	}
+	return append(whole, '\n'), true
 }
 
 func addOutputSummaryFlag(rootCmd *cobra.Command, flags *rootFlags) {
@@ -71,9 +129,19 @@ func flushOutputSummary(w io.Writer) error {
 	buf := outputSummary.buf
 	outputSummary.buf = nil
 	if err := outputSummary.selectErr; err != nil {
-		outputSummary.selectErr = nil
-		fmt.Fprintln(os.Stderr, "Error:", err)
-		return err
+		data := outputSummary.selectData
+		outputSummary.selectErr, outputSummary.selectData = nil, nil
+		var whole []byte
+		ok := false
+		if buf != nil {
+			whole, ok = unfilteredWrite(buf.Bytes(), data)
+		}
+		if !ok {
+			fmt.Fprintln(os.Stderr, "Error:", err)
+			return err
+		}
+		fmt.Fprintf(os.Stderr, "warning: %v\nThe write succeeded; the whole response is shown.\n", err)
+		buf = bytes.NewBuffer(whole)
 	}
 	if buf == nil || buf.Len() == 0 {
 		return nil
@@ -192,7 +260,7 @@ func checkSelectPaths(data json.RawMessage, fields string) error {
 				fmt.Fprintf(os.Stderr, "warning: --select: %q is not in this response; left out\n", f)
 				continue
 			}
-			where := "at the top level"
+			where := "at the top level of the response, inside data/results"
 			if at > 0 {
 				where = "under " + strings.Join(strings.Split(f, ".")[:at], ".")
 			}

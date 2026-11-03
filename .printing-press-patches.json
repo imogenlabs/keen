@@ -136,10 +136,10 @@
     },
     {
       "id": "agent-output-summary",
-      "summary": "--output-summary writes large output to a private temp file and prints a JSON summary; --select checks its paths and no longer leaks siblings of a missing nested field.",
+      "summary": "--output-summary writes large output to a private temp file and prints a JSON summary; --select checks its paths and no longer leaks siblings of a missing nested field. A --select miss after a successful write warns and prints the whole response instead of failing; data./results. prefixes from the output are accepted.",
       "reason": "Agents pay for every byte keen prints (one issue read is about 25 KB). A mistyped or absent nested --select field used to print the whole object through the list-envelope fallback.",
       "files": ["internal/cli/output_summary.go", "internal/cli/output_summary_test.go", "internal/cli/helpers.go", "internal/cli/root.go"],
-      "validated_outcome": "keen get on a 25,400-byte issue with --output-summary prints a 170-byte summary; --select fields.summery exits 2 with a suggestion; fields.parent on an epic warns and prints 100 bytes."
+      "validated_outcome": "keen get on a 25,400-byte issue with --output-summary prints a 170-byte summary; --select fields.summery exits 2 with a suggestion; fields.parent on an epic warns and prints 100 bytes. 3 Nov 2026: keen issue comment add --select nope posts once, warns and exits 0; --select data.id prints the id; keen get --select nope still exits 2."
     },
     {
       "id": "help-example-placeholders",

@@ -981,7 +981,7 @@ func printJSONFiltered(w io.Writer, v any, flags *rootFlags) error {
 // Supports dotted paths like "events.shortName" to descend into nested structures.
 // Arrays are traversed element-wise: "events.shortName" keeps shortName on each event.
 func filterFields(data json.RawMessage, fields string) json.RawMessage {
-	noteSelectPaths(data, fields)
+	fields = noteSelectPaths(data, fields)
 	var paths [][]string
 	for _, f := range strings.Split(fields, ",") {
 		f = strings.TrimSpace(f)

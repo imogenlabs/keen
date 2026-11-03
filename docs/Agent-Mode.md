@@ -80,6 +80,6 @@ keen find-issues --jql "project = PROJ" --agent --output-summary=20000
 
 `--output-summary` prints small results as usual. The file is created in your temp directory (`TMPDIR`), readable only by you; delete it when you're done.
 
-`--select` checks the fields you ask for. A likely typo fails with exit code 2 and a suggestion (`Did you mean "fields.summary"?`), instead of printing the whole response. A field Jira simply left out of this record, such as `fields.parent` on an issue without a parent, prints a warning and is skipped.
+`--select` checks the fields you ask for. A likely typo fails with exit code 2 and a suggestion (`Did you mean "fields.summary"?`), instead of printing the whole response. A field Jira simply left out of this record, such as `fields.parent` on an issue without a parent, prints a warning and is skipped. Paths start inside the response, but a path copied from the output works too: `data.id` after a write is the same as `id`, and `results.key` after a read is the same as `key`. After a write that went through, a field that is not there never fails the command: keen warns, prints the whole response and exits 0, so you can see the write happened and do not make it again.
 
 `--compact` (part of `--agent`) keeps only the usual key fields when you don't pass `--select`.
