@@ -36,7 +36,7 @@ checksum:
   name_template: checksums.txt
 nfpms:
   - id: packages
-    ids: [keen, keen-mcp]
+    ids: [keen]
     package_name: keen
     # Like the archives: no version in the name, so the download URL stays stable.
     file_name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
