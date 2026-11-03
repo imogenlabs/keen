@@ -62,6 +62,23 @@ Agent mode returns JSON envelopes:
 
 The actual API response is in `data`.
 
+## Starting on an Issue
+
+`keen context PROJ-42` gives an agent what it needs to start on an issue in one call: the issue,
+its parent, comments, linked issues, sub-tasks, GitHub pull requests and commits (as `keen github
+links` finds them) and linked Confluence pages.
+
+```bash
+keen context PROJ-42 --org my-org --agent
+keen context PROJ-42 --budget 4000 --agent --select issue,comments,budget
+```
+
+The bundle stays under `--budget` tokens (default 8000, about four characters each). The issue
+always goes in; its description gets at most half the budget. Then come the parent, GitHub work,
+linked issues and sub-tasks, the three newest comments, Confluence pages and older comments.
+Anything that does not fit is listed under `budget.omitted` with its size and the reason. A part
+that cannot be read (no GitHub token, a page you cannot see) is a warning; the rest still comes back.
+
 ## Keeping Output Small
 
 Every byte keen prints lands in the agent's context. Three ways to cut it:

@@ -24,6 +24,7 @@ keen find-issues --jql "project = PROJ AND status != Done" --agent
 keen transition PROJ-42 --transition-name "In Progress" --agent
 keen issue comment add PROJ-42 --body "Plain text is fine" --agent
 keen wiki get-page PAGE_ID --agent
+keen context PROJ-42 --org my-org --agent        # issue, parent, comments, links, PRs, pages: one call
 keen github links PROJ-42 --org my-org --agent   # the PRs and commits for an issue
 ```
 
