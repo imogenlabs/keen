@@ -37,9 +37,11 @@ jobs:
         run: |
           v=${TAG#v}
           for img in ghcr.io/imogenlabs/keen smashingtags/keen; do
+            # The registry's own index, not the local copy, says which platforms exist.
+            platforms=$(docker buildx imagetools inspect "$img:$v" --format '{{range .Manifest.Manifests}}{{.Platform.OS}}/{{.Platform.Architecture}} {{end}}')
+            echo "$img:$v $platforms"
             for platform in linux/amd64 linux/arm64; do
-              docker pull -q --platform "$platform" "$img:$v" >/dev/null
-              docker image inspect "$img:$v" --format "$img:$v {{.Architecture}}"
+              grep -qw "$platform" <<<"$platforms" || { echo "$img:$v has no $platform" >&2; exit 1; }
             done
             docker run --rm --platform linux/amd64 "$img:$v" keen version | tee /dev/stderr | grep -qx "keen $v"
           done
