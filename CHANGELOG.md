@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-11-03
+
 ### Added
 - `.deb` and `.rpm` packages for Linux (amd64 and arm64) on every release. They install `keen` and `keen-mcp` in `/usr/bin`: `sudo apt install ./keen_linux_amd64.deb` or `sudo dnf install ./keen_linux_amd64.rpm`
 - A Docker image for amd64 and arm64 on every release, at `ghcr.io/imogenlabs/keen` and `smashingtags/keen` on Docker Hub. It runs `keen-mcp` by default; `docker run --rm ghcr.io/imogenlabs/keen keen version` runs the CLI
