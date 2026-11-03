@@ -60,10 +60,10 @@ jobs:
             rpm -qlp "dist/keen_linux_$arch.rpm" | grep -qx /usr/bin/keen
           done
 
-      - name: Images run keen and keen-mcp
+      - name: Both architectures have an image
         run: |
           docker image ls ghcr.io/imogenlabs/keen
-          img=$(docker image ls ghcr.io/imogenlabs/keen --format '{{.Repository}}:{{.Tag}}' | grep -- '-amd64$' | grep -v latest | head -1)
-          docker run --rm "$img" keen version
-          docker image inspect "$img" --format '{{json .Config.Cmd}}' | grep -q keen-mcp
           docker image ls smashingtags/keen --format '{{.Tag}}' | grep -q -- '-arm64$'
+
+      - name: Packages install with apt and dnf, and the image answers MCP
+        run: scripts/ci/install-tests.sh
