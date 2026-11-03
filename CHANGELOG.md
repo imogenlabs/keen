@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `.deb` and `.rpm` packages for Linux (amd64 and arm64) on every release. They install `keen` and `keen-mcp` in `/usr/bin`: `sudo apt install ./keen_linux_amd64.deb` or `sudo dnf install ./keen_linux_amd64.rpm`
+
 ### Fixed
 - `--select` on a write reported failure (exit 2) after the change had already been made, so an agent could make it twice. Now a field that is not in a successful write's response warns, prints the whole response and exits 0. Paths copied from keen's output (`data.id`, `results.key`) work, and the error says the paths start inside `data`/`results`
 - `scripts/regen/check.sh` left a 160 MB build folder in your temp directory on every run. It now removes it when it finishes, fails or is interrupted. `regen.sh` and `finish.sh` also remove their work folder once the merge is in your checkout
