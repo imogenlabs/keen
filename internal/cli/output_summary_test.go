@@ -110,3 +110,51 @@ func TestFlushOutputSummary(t *testing.T) {
 		t.Fatalf("bad --select should print nothing and fail: %q %v", out.String(), err)
 	}
 }
+
+func TestSelectEnvelopePrefix(t *testing.T) {
+	// keen prints a write under "data" and a read under "results"; a path
+	// copied from that output works the same as the bare one.
+	for _, sel := range []string{"data.key", "results.key", "Data.key"} {
+		got := string(filterFields(json.RawMessage(issueJSON), sel))
+		if got != `{"key":"PROJ-1"}` {
+			t.Fatalf("%s: got %s", sel, got)
+		}
+	}
+	// A response that really has a "data" field keeps it.
+	if got := stripEnvelopePrefix(json.RawMessage(`{"data":{"id":1}}`), "data.id"); got != "data.id" {
+		t.Fatalf("real data field was stripped: %s", got)
+	}
+}
+
+func TestSelectMissAfterWrite(t *testing.T) {
+	defer func() {
+		outputSummary.limit, outputSummary.buf, outputSummary.selectErr, outputSummary.selectData = 0, nil, nil, nil
+	}()
+
+	// A write that went through prints the whole response and does not fail.
+	outputSummary.buf = bytes.NewBufferString(`{"action":"post","data":{},"status":201,"success":true}`)
+	filterFields(json.RawMessage(`{"id":"10001","self":"x"}`), "nope")
+	var out bytes.Buffer
+	if err := flushOutputSummary(&out); err != nil {
+		t.Fatalf("successful write should exit 0: %v", err)
+	}
+	var env struct {
+		Data map[string]string `json:"data"`
+	}
+	if json.Unmarshal(out.Bytes(), &env) != nil || env.Data["id"] != "10001" || env.Data["self"] != "x" {
+		t.Fatalf("successful write should print the whole response: %q", out.String())
+	}
+
+	// A dry run (success false) and a read still fail and print nothing.
+	for _, held := range []string{
+		`{"action":"post","data":null,"dry_run":true,"status":0,"success":false}`,
+		`{"meta":{"source":"live"},"results":{}}`,
+	} {
+		outputSummary.buf = bytes.NewBufferString(held)
+		filterFields(json.RawMessage(`{"id":"10001"}`), "nope")
+		out.Reset()
+		if err := flushOutputSummary(&out); err == nil || out.Len() != 0 || ExitCode(err) != 2 {
+			t.Fatalf("%s: should fail with exit 2 and print nothing: %q %v", held, out.String(), err)
+		}
+	}
+}
