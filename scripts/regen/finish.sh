@@ -27,4 +27,5 @@ next=$(git -C "$REPO" -c user.name=regen -c user.email=regen@localhost commit-tr
 git -C "$REPO" update-ref refs/regen/next-base "$next"
 echo "finish: after this lands on main, move the base forward:"
 echo "  git push origin refs/regen/next-base:refs/regen/base"
-rm -rf "$REGEN_WORK"
+# Remove regen.sh's own work folder; keep one you named yourself.
+if [[ $(basename "$REGEN_WORK") == keen-regen-* ]]; then rm -rf "$REGEN_WORK"; fi
