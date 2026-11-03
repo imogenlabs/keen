@@ -18,13 +18,21 @@ metadata:
 
 This skill drives the `keen` binary. Check it is installed before running any command here: `keen version`.
 
-If it is missing, install the latest release (macOS Apple Silicon shown; the Linux archives are `keen_linux_amd64` and `keen_linux_arm64`):
+If it is missing, install the latest release. Each way below installs `keen` and `keen-mcp`:
 
 ```bash
-curl -L https://github.com/imogenlabs/keen/releases/latest/download/keen_darwin_arm64.tar.gz | tar xz
-sudo mv keen_darwin_arm64/keen keen_darwin_arm64/keen-mcp /usr/local/bin/
+brew install imogenlabs/tap/keen                      # macOS or Linux with Homebrew
+
+curl -LO https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.deb
+sudo apt install ./keen_linux_amd64.deb                # Debian, Ubuntu (arm64: keen_linux_arm64.deb)
+
+curl -LO https://github.com/imogenlabs/keen/releases/latest/download/keen_linux_amd64.rpm
+sudo dnf install ./keen_linux_amd64.rpm                # Fedora, RHEL (arm64: keen_linux_arm64.rpm)
+
 keen version
 ```
+
+Without installing anything, run it from the image: `docker run --rm -e JIRA_CLOUD_PLATFORM_URL -e JIRA_CLOUD_PLATFORM_USERNAME -e JIRA_CLOUD_PLATFORM_PASSWORD ghcr.io/imogenlabs/keen keen <command>`.
 
 Credentials go in `~/.config/keen/auth.json` with `base_url`, `username` and `password` (an Atlassian API token). Check them with `keen doctor --agent`.
 
