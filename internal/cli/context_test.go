@@ -25,7 +25,7 @@ func contextJira() fakeJiraReader {
 		"/rest/api/3/issue/PROJ-42/remotelink": `[
 			{"application":{"type":"com.atlassian.confluence"},"object":{"url":"https://x.atlassian.net/wiki/pages/viewpage.action?pageId=777","title":"Upload design"}},
 			{"object":{"url":"https://github.com/acme/api/pull/7","title":"PR 7"}}]`,
-		"/wiki/api/v2/pages/777":                 `{"title":"Upload design","body":{"storage":{"value":"<h1>Design</h1><p>Retry three times &amp; back off.</p>"}}}`,
+		"/wiki/api/v2/pages/777":                `{"title":"Upload design","body":{"storage":{"value":"<h1>Design</h1><p>Retry three times &amp; back off.</p>"}}}`,
 		"/rest/dev-status/latest/issue/summary": emptyDevPanel,
 		"/rest/api/3/issue/PROJ-7":              `{"id":"7","key":"PROJ-7","fields":{"summary":"Lonely","issuetype":{"name":"Task"},"status":{"name":"To Do"}}}`,
 		"/rest/api/3/issue/PROJ-7/comment":      `{"total":0,"comments":[]}`,
