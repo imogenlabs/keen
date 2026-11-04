@@ -1,7 +1,8 @@
 version: 2
 project_name: keen
-changelog:
-  disable: true
+# No changelog block: release.yml passes the CHANGELOG.md section with
+# --release-notes, and `changelog: disable: true` made goreleaser ignore it
+# (v1.8.0 and v1.9.0 shipped with empty notes).
 builds:
   - id: keen
     main: ./cmd/keen
