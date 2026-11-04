@@ -50,6 +50,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  # Install the published release the way the docs say (apt, dnf, both images).
+  verify:
+    needs: release
+    uses: ./.github/workflows/verify-release.yml
+    with:
+      tag: ${{ github.ref_name }}
+
   # Publish keen to the official MCP registry (registry.modelcontextprotocol.io)
   # as an MCP bundle on this release. Signs in with GitHub's OIDC token, so no
   # secret is needed; the io.github.imogenlabs namespace follows from the repo.
