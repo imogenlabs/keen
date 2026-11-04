@@ -89,6 +89,15 @@ func approxTokens(v any) int {
 
 var confluencePageID = regexp.MustCompile(`(?:pageId=|/pages/)([0-9]+)`)
 
+// contextOutputFlags turns --compact off for the bundle. --budget already
+// sized it, and compact's rule for big API objects (drop top-level comments
+// and description) would throw away the comments under --agent.
+func contextOutputFlags(flags *rootFlags) *rootFlags {
+	f := *flags
+	f.compact = false
+	return &f
+}
+
 func newContextCmd(flags *rootFlags) *cobra.Command {
 	var budget int
 	var repos []string
@@ -132,7 +141,7 @@ silently. A part that cannot be read is a warning; the rest is still returned.`,
 				fmt.Fprintln(cmd.ErrOrStderr(), "warning:", w)
 			}
 			if flags.asJSON {
-				return flags.printJSON(cmd, b)
+				return printJSONFiltered(cmd.OutOrStdout(), b, contextOutputFlags(flags))
 			}
 			return printContext(cmd.OutOrStdout(), b)
 		},

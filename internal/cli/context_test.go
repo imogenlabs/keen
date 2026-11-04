@@ -128,3 +128,22 @@ func TestADFText(t *testing.T) {
 		t.Fatal("plain/empty")
 	}
 }
+
+func TestContextAgentOutputKeepsComments(t *testing.T) {
+	jira := contextJira()
+	b, err := buildContext(context.Background(), jira, nil, "PROJ-42", 8000)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var out strings.Builder
+	agent := &rootFlags{asJSON: true, compact: true} // what --agent sets
+	if err := printJSONFiltered(&out, b, contextOutputFlags(agent)); err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(out.String(), `"comments"`) || !strings.Contains(out.String(), "fourth") {
+		t.Fatalf("--agent dropped the comments: %s", out.String()[:200])
+	}
+	if !agent.compact {
+		t.Fatal("the caller's flags must not be changed")
+	}
+}
